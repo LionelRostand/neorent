@@ -15,6 +15,9 @@ import RentManagement from "./pages/RentManagement";
 import RentalCharges from "./pages/RentalCharges";
 import Taxes from "./pages/Taxes";
 import Website from "./pages/Website";
+import PublicHome from "./pages/PublicSite/Home";
+import PublicAbout from "./pages/PublicSite/About";
+import PublicContact from "./pages/PublicSite/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +29,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Admin Routes */}
           <Route path="/" element={<Dashboard />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/tenants" element={<Tenants />} />
@@ -38,6 +42,12 @@ const App = () => (
           <Route path="/taxes" element={<Taxes />} />
           <Route path="/website" element={<Website />} />
           <Route path="/settings" element={<Dashboard />} />
+          
+          {/* Public Site Routes */}
+          <Route path="/site" element={<PublicHome />} />
+          <Route path="/site/about" element={<PublicAbout />} />
+          <Route path="/site/contact" element={<PublicContact />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

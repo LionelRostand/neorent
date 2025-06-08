@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -16,8 +15,10 @@ import {
   Eye,
   Edit,
   Trash2,
-  Plus
+  Plus,
+  ExternalLink
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Website = () => {
   const [activeTab, setActiveTab] = useState('pages');
@@ -26,14 +27,21 @@ const Website = () => {
     {
       id: 1,
       name: 'Accueil',
-      url: '/home',
+      url: '/site',
       status: 'Publié',
       lastModified: '2025-01-08'
     },
     {
       id: 2,
       name: 'À propos',
-      url: '/about',
+      url: '/site/about',
+      status: 'Publié',
+      lastModified: '2025-01-07'
+    },
+    {
+      id: 3,
+      name: 'Contact',
+      url: '/site/contact',
       status: 'Publié',
       lastModified: '2025-01-07'
     }
@@ -56,6 +64,14 @@ const Website = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Gestion du Site Web</h1>
             <p className="text-gray-600 mt-2">Gérez le contenu et l'apparence de votre site web</p>
+          </div>
+          <div className="flex gap-2">
+            <Link to="/site" target="_blank">
+              <Button variant="outline" className="flex items-center gap-2">
+                <ExternalLink className="h-4 w-4" />
+                Voir le site
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -98,10 +114,12 @@ const Website = () => {
                         {page.status}
                       </Badge>
                       <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                          Prévisualiser
-                        </Button>
+                        <Link to={page.url} target="_blank">
+                          <Button variant="ghost" size="sm">
+                            <Eye className="h-4 w-4" />
+                            Prévisualiser
+                          </Button>
+                        </Link>
                         <Button variant="ghost" size="sm">
                           <Edit className="h-4 w-4" />
                           Éditer
