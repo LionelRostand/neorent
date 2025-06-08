@@ -1,39 +1,67 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, Mail, Phone, Home, UserCheck, CheckCircle, Clock, XCircle, Users } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
-
-const roommates = [
-  {
-    id: 1,
-    name: 'Pierre Durand',
-    email: 'pierre.durand@email.com',
-    phone: '06 11 22 33 44',
-    property: 'Appartement Rue des Fleurs',
-    roomNumber: 'Chambre 1',
-    rentAmount: '600€',
-    status: 'Actif',
-    primaryTenant: 'Marie Dubois'
-  },
-  {
-    id: 2,
-    name: 'Julie Martin',
-    email: 'julie.martin@email.com',
-    phone: '06 55 66 77 88',
-    property: 'Appartement Rue des Fleurs',
-    roomNumber: 'Chambre 2',
-    rentAmount: '600€',
-    status: 'Actif',
-    primaryTenant: 'Marie Dubois'
-  }
-];
+import RoommateForm from '@/components/RoommateForm';
 
 const Roommates = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [roommates, setRoommates] = useState([
+    {
+      id: 1,
+      name: 'Pierre Durand',
+      email: 'pierre.durand@email.com',
+      phone: '06 11 22 33 44',
+      property: 'Appartement Rue des Fleurs',
+      roomNumber: 'Chambre 1',
+      rentAmount: '600€',
+      status: 'Actif',
+      primaryTenant: 'Marie Dubois',
+      moveInDate: '2023-09-15',
+      image: null
+    },
+    {
+      id: 2,
+      name: 'Julie Martin',
+      email: 'julie.martin@email.com',
+      phone: '06 55 66 77 88',
+      property: 'Appartement Rue des Fleurs',
+      roomNumber: 'Chambre 2',
+      rentAmount: '600€',
+      status: 'Actif',
+      primaryTenant: 'Marie Dubois',
+      moveInDate: '2023-10-01',
+      image: null
+    }
+  ]);
+
   const activeCount = roommates.filter(r => r.status === 'Actif').length;
   const totalCount = roommates.length;
+
+  const handleAddRoommate = (data: any) => {
+    // Simuler l'ajout à la collection rent_colocataires
+    const newRoommate = {
+      id: roommates.length + 1,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      property: data.property,
+      roomNumber: data.roomNumber,
+      rentAmount: data.rentAmount,
+      status: 'Actif',
+      primaryTenant: data.primaryTenant,
+      moveInDate: data.moveInDate,
+      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
+    };
+
+    setRoommates(prev => [...prev, newRoommate]);
+    console.log('Colocataire ajouté à la collection rent_colocataires:', newRoommate);
+  };
 
   return (
     <MainLayout>
@@ -43,10 +71,18 @@ const Roommates = () => {
             <h1 className="text-3xl font-bold text-gray-900">Colocataires</h1>
             <p className="text-gray-600 mt-2">Gérez les colocataires de vos biens</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="mr-2 h-4 w-4" />
-            Ajouter un colocataire
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="mr-2 h-4 w-4" />
+                Ajouter un colocataire
+              </Button>
+            </DialogTrigger>
+            <RoommateForm
+              onClose={() => setIsDialogOpen(false)}
+              onSubmit={handleAddRoommate}
+            />
+          </Dialog>
         </div>
 
         {/* Métriques */}
@@ -96,9 +132,22 @@ const Roommates = () => {
               <CardContent className="p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-lg text-gray-900">{roommate.name}</h3>
-                      <p className="text-sm text-gray-600 mt-1">{roommate.property}</p>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                        {roommate.image ? (
+                          <img 
+                            src={roommate.image} 
+                            alt={roommate.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <UserCheck className="h-6 w-6 text-gray-400" />
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-900">{roommate.name}</h3>
+                        <p className="text-sm text-gray-600 mt-1">{roommate.property}</p>
+                      </div>
                     </div>
                     <Badge className="bg-green-100 text-green-800">
                       {roommate.status}
