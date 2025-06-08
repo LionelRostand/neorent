@@ -7,9 +7,12 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, Mail, Phone, Home, Calendar, CheckCircle, Clock, XCircle, Users, User } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import TenantForm from '@/components/TenantForm';
+import TenantDetailsModal from '@/components/TenantDetailsModal';
 
 const Tenants = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedTenant, setSelectedTenant] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [tenants, setTenants] = useState([
     {
       id: 1,
@@ -122,6 +125,11 @@ const Tenants = () => {
 
     setTenants(prev => [...prev, newTenant]);
     console.log('Locataire ajouté à la collection rent_locataires:', newTenant);
+  };
+
+  const handleViewDetails = (tenant: any) => {
+    setSelectedTenant(tenant);
+    setIsDetailsModalOpen(true);
   };
 
   return (
@@ -245,7 +253,12 @@ const Tenants = () => {
                   </div>
                   
                   <div className="flex space-x-2 pt-2">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleViewDetails(tenant)}
+                    >
                       Voir détails
                     </Button>
                     <Button variant="outline" size="sm" className="flex-1">
@@ -257,6 +270,12 @@ const Tenants = () => {
             </Card>
           ))}
         </div>
+
+        <TenantDetailsModal
+          tenant={selectedTenant}
+          isOpen={isDetailsModalOpen}
+          onClose={() => setIsDetailsModalOpen(false)}
+        />
       </div>
     </MainLayout>
   );
