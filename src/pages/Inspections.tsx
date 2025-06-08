@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,6 +7,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, ClipboardList, Calendar, User, Building2, CheckCircle, Clock, XCircle, FileCheck } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import InspectionForm from '@/components/InspectionForm';
+import InspectionDetailsModal from '@/components/InspectionDetailsModal';
 
 const inspections = [
   {
@@ -18,7 +18,10 @@ const inspections = [
     property: 'Appartement Rue des Fleurs',
     date: '2023-06-01',
     inspector: 'Pierre Inspection',
-    status: 'Terminé'
+    status: 'Terminé',
+    contractType: 'Bail locatif',
+    description: 'État des lieux d\'entrée complet',
+    observations: 'Quelques petites marques sur les murs'
   },
   {
     id: 2,
@@ -28,23 +31,30 @@ const inspections = [
     property: 'Appartement Boulevard Haussmann',
     date: '2024-01-15',
     inspector: 'Marie Expert',
-    status: 'Planifié'
+    status: 'Planifié',
+    contractType: 'Bail locatif'
   },
   {
     id: 3,
     title: 'Inspection périodique - Villa Montparnasse',
     type: 'Périodique',
-    tenant: 'Jean Martin',
+    tenant: 'Pierre Durand (Colocataire)',
     property: 'Villa Montparnasse',
+    roomNumber: 'Chambre 1',
     date: '2023-12-20',
     inspector: 'Pierre Inspection',
-    status: 'En cours'
+    status: 'En cours',
+    contractType: 'Bail colocatif',
+    description: 'Inspection de routine',
+    observations: 'Bon état général'
   }
 ];
 
 const Inspections = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [inspectionsList, setInspectionsList] = useState(inspections);
+  const [selectedInspection, setSelectedInspection] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
   const completedCount = inspectionsList.filter(i => i.status === 'Terminé').length;
   const inProgressCount = inspectionsList.filter(i => i.status === 'En cours').length;
@@ -53,6 +63,11 @@ const Inspections = () => {
 
   const handleSubmit = (data: any) => {
     setInspectionsList(prev => [...prev, data]);
+  };
+
+  const handleViewDetails = (inspection: any) => {
+    setSelectedInspection(inspection);
+    setIsDetailsModalOpen(true);
   };
 
   return (
@@ -160,7 +175,12 @@ const Inspections = () => {
                   </div>
                   
                   <div className="flex space-x-2 pt-4 border-t">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleViewDetails(inspection)}
+                    >
                       Voir détails
                     </Button>
                     <Button variant="outline" size="sm" className="flex-1">
@@ -172,6 +192,15 @@ const Inspections = () => {
             </Card>
           ))}
         </div>
+
+        <InspectionDetailsModal
+          inspection={selectedInspection}
+          isOpen={isDetailsModalOpen}
+          onClose={() => {
+            setIsDetailsModalOpen(false);
+            setSelectedInspection(null);
+          }}
+        />
       </div>
     </MainLayout>
   );
