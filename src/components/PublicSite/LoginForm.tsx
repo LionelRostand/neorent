@@ -42,19 +42,19 @@ const LoginForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold text-gray-900">
+    <Card className="w-full max-w-md mx-auto bg-white shadow-xl">
+      <CardHeader className="text-center bg-green-500 text-white rounded-t-lg">
+        <CardTitle className="text-2xl font-bold">
           Connexion à Neo Rent
         </CardTitle>
-        <p className="text-gray-600">
+        <p className="text-green-100">
           Accédez à votre espace de gestion immobilière
         </p>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-gray-700">Email</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -63,7 +63,7 @@ const LoginForm = () => {
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                 required
                 disabled={isLoading}
               />
@@ -71,7 +71,7 @@ const LoginForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password">Mot de passe</Label>
+            <Label htmlFor="password" className="text-gray-700">Mot de passe</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -80,7 +80,7 @@ const LoginForm = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10 pr-10"
+                className="pl-10 pr-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                 required
                 disabled={isLoading}
               />
@@ -95,12 +95,12 @@ const LoginForm = () => {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={isLoading}>
             {isLoading ? 'Connexion...' : 'Se connecter'}
           </Button>
           
           <div className="text-center">
-            <a href="#" className="text-sm text-blue-600 hover:underline">
+            <a href="#" className="text-sm text-green-600 hover:underline">
               Mot de passe oublié ?
             </a>
           </div>
