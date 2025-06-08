@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -68,6 +69,15 @@ const Inspections = () => {
   const handleViewDetails = (inspection: any) => {
     setSelectedInspection(inspection);
     setIsDetailsModalOpen(true);
+  };
+
+  const handleUpdateInspection = (updatedInspection: any) => {
+    setInspectionsList(prev => 
+      prev.map(inspection => 
+        inspection.id === updatedInspection.id ? updatedInspection : inspection
+      )
+    );
+    setSelectedInspection(updatedInspection);
   };
 
   return (
@@ -200,6 +210,7 @@ const Inspections = () => {
             setIsDetailsModalOpen(false);
             setSelectedInspection(null);
           }}
+          onUpdate={handleUpdateInspection}
         />
       </div>
     </MainLayout>
