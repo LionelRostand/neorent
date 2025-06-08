@@ -1,11 +1,12 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, MapPin, Home, DollarSign, Users, Building2, CheckCircle, Clock, XCircle } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
+import PropertyForm from '@/components/PropertyForm';
 
 const properties = [
   {
@@ -44,9 +45,64 @@ const properties = [
 ];
 
 const Properties = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [properties, setProperties] = useState([
+    {
+      id: 1,
+      title: 'Appartement Rue des Fleurs',
+      address: '123 Rue des Fleurs, 75001 Paris',
+      type: 'Appartement',
+      surface: '65m²',
+      rent: '1,200€',
+      status: 'Occupé',
+      tenant: 'Marie Dubois',
+      image: '/placeholder.svg'
+    },
+    {
+      id: 2,
+      title: 'Studio Centre-ville',
+      address: '45 Avenue de la République, 75011 Paris',
+      type: 'Studio',
+      surface: '30m²',
+      rent: '800€',
+      status: 'Libre',
+      tenant: null,
+      image: '/placeholder.svg'
+    },
+    {
+      id: 3,
+      title: 'Villa Montparnasse',
+      address: '78 Boulevard Montparnasse, 75014 Paris',
+      type: 'Maison',
+      surface: '120m²',
+      rent: '2,500€',
+      status: 'Occupé',
+      tenant: 'Jean Martin',
+      image: '/placeholder.svg'
+    }
+  ]);
+
   const occupiedCount = properties.filter(p => p.status === 'Occupé').length;
   const availableCount = properties.filter(p => p.status === 'Libre').length;
   const totalCount = properties.length;
+
+  const handleAddProperty = (data: any) => {
+    // Simuler l'ajout à la collection rent_immo
+    const newProperty = {
+      id: properties.length + 1,
+      title: data.title,
+      address: data.address,
+      type: data.type,
+      surface: data.surface,
+      rent: data.rent,
+      status: 'Libre',
+      tenant: null,
+      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg'
+    };
+
+    setProperties(prev => [...prev, newProperty]);
+    console.log('Bien ajouté à la collection rent_immo:', newProperty);
+  };
 
   return (
     <MainLayout>
@@ -56,10 +112,18 @@ const Properties = () => {
             <h1 className="text-3xl font-bold text-gray-900">Biens Immobiliers</h1>
             <p className="text-gray-600 mt-2">Gérez votre portefeuille immobilier</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="mr-2 h-4 w-4" />
-            Ajouter un bien
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="mr-2 h-4 w-4" />
+                Ajouter un bien
+              </Button>
+            </DialogTrigger>
+            <PropertyForm
+              onClose={() => setIsDialogOpen(false)}
+              onSubmit={handleAddProperty}
+            />
+          </Dialog>
         </div>
 
         {/* Métriques */}
@@ -106,8 +170,16 @@ const Properties = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property) => (
             <Card key={property.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-              <div className="aspect-video bg-gray-200 rounded-t-lg flex items-center justify-center">
-                <Home className="h-12 w-12 text-gray-400" />
+              <div className="aspect-video bg-gray-200 rounded-t-lg flex items-center justify-center overflow-hidden">
+                {property.image && property.image !== '/placeholder.svg' ? (
+                  <img 
+                    src={property.image} 
+                    alt={property.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Home className="h-12 w-12 text-gray-400" />
+                )}
               </div>
               <CardContent className="p-6">
                 <div className="space-y-3">
