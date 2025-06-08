@@ -15,9 +15,9 @@ const LoginForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulation de connexion réussie - redirection vers le dashboard
+    // Simulation de connexion réussie - redirection vers l'espace locataire
     console.log('Connexion avec:', { email, password });
-    navigate('/');
+    navigate('/tenant-space');
   };
 
   return (

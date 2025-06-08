@@ -15,6 +15,7 @@ import RentManagement from "./pages/RentManagement";
 import RentalCharges from "./pages/RentalCharges";
 import Taxes from "./pages/Taxes";
 import Website from "./pages/Website";
+import TenantSpace from "./pages/TenantSpace";
 import PublicHome from "./pages/PublicSite/Home";
 import PublicAbout from "./pages/PublicSite/About";
 import PublicContact from "./pages/PublicSite/Contact";
