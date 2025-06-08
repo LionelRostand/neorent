@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,6 +16,8 @@ interface PropertyFormData {
   rent: string;
   description: string;
   image: File | null;
+  locationType: string;
+  roomCount: string;
 }
 
 interface PropertyFormProps {
@@ -33,7 +34,9 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
     surface: '',
     rent: '',
     description: '',
-    image: null
+    image: null,
+    locationType: '',
+    roomCount: ''
   });
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -104,10 +107,21 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
 
     try {
       // Validation
-      if (!formData.title || !formData.address || !formData.type || !formData.surface || !formData.rent) {
+      if (!formData.title || !formData.address || !formData.type || !formData.surface || !formData.rent || !formData.locationType) {
         toast({
           title: "Erreur",
           description: "Veuillez remplir tous les champs obligatoires",
+          variant: "destructive"
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Validation spécifique pour la colocation
+      if (formData.locationType === 'Colocation' && !formData.roomCount) {
+        toast({
+          title: "Erreur",
+          description: "Veuillez indiquer le nombre de chambres pour une colocation",
           variant: "destructive"
         });
         setIsSubmitting(false);
@@ -217,6 +231,36 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
               required
             />
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="locationType">Type de location *</Label>
+            <Select onValueChange={(value) => handleInputChange('locationType', value)} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Sélectionner le type de location" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Location">Location</SelectItem>
+                <SelectItem value="Colocation">Colocation</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {formData.locationType === 'Colocation' && (
+            <div className="space-y-2">
+              <Label htmlFor="roomCount">Nombre de chambres *</Label>
+              <Input
+                id="roomCount"
+                type="number"
+                min="1"
+                value={formData.roomCount}
+                onChange={(e) => handleInputChange('roomCount', e.target.value)}
+                placeholder="Ex: 3"
+                required
+              />
+            </div>
+          )}
         </div>
 
         <div className="space-y-2">
