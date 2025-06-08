@@ -17,16 +17,16 @@ import {
 import { cn } from '@/lib/utils';
 
 const navigation = [
-  { name: 'Tableau de Bord', href: '/', icon: Home },
-  { name: 'Biens Immobiliers', href: '/properties', icon: Building2 },
-  { name: 'Locataires', href: '/tenants', icon: Users },
-  { name: 'Colocataires', href: '/roommates', icon: UserCheck },
-  { name: 'Contrats de Baux', href: '/contracts', icon: FileText },
-  { name: 'Etat des lieux', href: '/inspections', icon: ClipboardList },
-  { name: 'Gestion Loyer', href: '/rent-management', icon: CreditCard },
-  { name: 'Charges locatives', href: '/rental-charges', icon: Receipt },
-  { name: 'Fiscalités', href: '/taxes', icon: Calculator },
-  { name: 'Website', href: '/website', icon: Globe },
+  { name: 'Tableau de Bord', href: '/admin', icon: Home },
+  { name: 'Biens Immobiliers', href: '/admin/properties', icon: Building2 },
+  { name: 'Locataires', href: '/admin/tenants', icon: Users },
+  { name: 'Colocataires', href: '/admin/roommates', icon: UserCheck },
+  { name: 'Contrats de Baux', href: '/admin/contracts', icon: FileText },
+  { name: 'Etat des lieux', href: '/admin/inspections', icon: ClipboardList },
+  { name: 'Gestion Loyer', href: '/admin/rent-management', icon: CreditCard },
+  { name: 'Charges locatives', href: '/admin/rental-charges', icon: Receipt },
+  { name: 'Fiscalités', href: '/admin/taxes', icon: Calculator },
+  { name: 'Website', href: '/admin/website', icon: Globe },
 ];
 
 const Sidebar = () => {
@@ -62,7 +62,7 @@ const Sidebar = () => {
       
       <div className="border-t border-gray-700 p-4 space-y-2">
         <Link
-          to="/settings"
+          to="/admin/settings"
           className="group flex items-center px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors"
         >
           <Settings className="mr-3 h-5 w-5" />
