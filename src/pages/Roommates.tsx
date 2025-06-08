@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,9 +7,12 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, Mail, Phone, Home, UserCheck, CheckCircle, Clock, XCircle, Users } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import RoommateForm from '@/components/RoommateForm';
+import RoommateDetailsModal from '@/components/RoommateDetailsModal';
 
 const Roommates = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedRoommate, setSelectedRoommate] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [roommates, setRoommates] = useState([
     {
       id: 1,
@@ -113,6 +115,11 @@ const Roommates = () => {
 
     setRoommates(prev => [...prev, newRoommate]);
     console.log('Colocataire ajouté à la collection rent_colocataires:', newRoommate);
+  };
+
+  const handleViewDetails = (roommate: any) => {
+    setSelectedRoommate(roommate);
+    setIsDetailsModalOpen(true);
   };
 
   return (
@@ -227,7 +234,12 @@ const Roommates = () => {
                   </div>
                   
                   <div className="flex space-x-2 pt-4 border-t">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleViewDetails(roommate)}
+                    >
                       Voir détails
                     </Button>
                     <Button variant="outline" size="sm" className="flex-1">
@@ -239,6 +251,12 @@ const Roommates = () => {
             </Card>
           ))}
         </div>
+
+        <RoommateDetailsModal
+          roommate={selectedRoommate}
+          isOpen={isDetailsModalOpen}
+          onClose={() => setIsDetailsModalOpen(false)}
+        />
       </div>
     </MainLayout>
   );

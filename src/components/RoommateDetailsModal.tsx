@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
-  User, 
+  UserCheck, 
   Mail, 
   Phone, 
   Home, 
@@ -22,41 +22,43 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  Building
+  User,
+  Bed
 } from 'lucide-react';
 
-interface Tenant {
+interface Roommate {
   id: number;
   name: string;
   email: string;
   phone: string;
   property: string;
+  roomNumber: string;
   rentAmount: string;
-  nextPayment: string;
   status: string;
-  leaseStart: string;
+  primaryTenant: string;
+  moveInDate: string;
   image: string | null;
 }
 
-interface TenantDetailsModalProps {
-  tenant: Tenant | null;
+interface RoommateDetailsModalProps {
+  roommate: Roommate | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({ 
-  tenant, 
+const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({ 
+  roommate, 
   isOpen, 
   onClose 
 }) => {
-  if (!tenant) return null;
+  if (!roommate) return null;
 
   // Simuler les documents (normalement viendraient d'une API)
   const documents = {
     contratBail: {
       exists: true,
-      name: 'Contrat de bail - Marie Dubois.pdf',
-      uploadDate: '2023-06-01'
+      name: `Contrat de bail - ${roommate.name}.pdf`,
+      uploadDate: roommate.moveInDate
     },
     assurance: {
       exists: true,
@@ -72,7 +74,8 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
 
   // Calculer le statut de paiement du mois en cours
   const currentDate = new Date();
-  const nextPaymentDate = new Date(tenant.nextPayment);
+  const moveInDate = new Date(roommate.moveInDate);
+  const nextPaymentDate = new Date(moveInDate.getTime() + 30 * 24 * 60 * 60 * 1000); // +30 jours
   const isLate = nextPaymentDate < currentDate;
   const isUpcoming = nextPaymentDate.getTime() - currentDate.getTime() <= 7 * 24 * 60 * 60 * 1000; // 7 jours
 
@@ -93,7 +96,7 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Détails du locataire</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Détails du colocataire</DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="general" className="w-full">
@@ -103,43 +106,47 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
           </TabsList>
 
           <TabsContent value="general" className="space-y-6">
-            {/* Informations du locataire */}
+            {/* Informations du colocataire */}
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                    {tenant.image ? (
+                    {roommate.image ? (
                       <img 
-                        src={tenant.image} 
-                        alt={tenant.name}
+                        src={roommate.image} 
+                        alt={roommate.name}
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <User className="h-10 w-10 text-gray-400" />
+                      <UserCheck className="h-10 w-10 text-gray-400" />
                     )}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-2">{tenant.name}</h3>
+                    <h3 className="text-2xl font-semibold text-gray-900 mb-2">{roommate.name}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="flex items-center text-gray-600">
                         <Mail className="mr-2 h-4 w-4" />
-                        {tenant.email}
+                        {roommate.email}
                       </div>
                       <div className="flex items-center text-gray-600">
                         <Phone className="mr-2 h-4 w-4" />
-                        {tenant.phone}
-                      </div>
-                      <div className="flex items-center text-gray-600">
-                        <Building className="mr-2 h-4 w-4" />
-                        Appartement: {tenant.property}
+                        {roommate.phone}
                       </div>
                       <div className="flex items-center text-gray-600">
                         <Home className="mr-2 h-4 w-4" />
-                        Type: Location
+                        {roommate.property}
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <Bed className="mr-2 h-4 w-4" />
+                        {roommate.roomNumber}
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <User className="mr-2 h-4 w-4" />
+                        Locataire principal: {roommate.primaryTenant}
                       </div>
                       <div className="flex items-center text-gray-600">
                         <Calendar className="mr-2 h-4 w-4" />
-                        Début bail: {new Date(tenant.leaseStart).toLocaleDateString('fr-FR')}
+                        Emménagement: {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
                       </div>
                     </div>
                   </div>
@@ -157,7 +164,7 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
                       <DollarSign className="mr-2 h-5 w-5 text-blue-600" />
                       <span className="font-medium">Montant du loyer</span>
                     </div>
-                    <span className="text-lg font-bold text-blue-600">{tenant.rentAmount}</span>
+                    <span className="text-lg font-bold text-blue-600">{roommate.rentAmount}</span>
                   </div>
                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
@@ -173,7 +180,7 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
                   <div className="flex items-center text-blue-700">
                     <Calendar className="mr-2 h-4 w-4" />
                     <span className="font-medium">
-                      Prochain paiement: {new Date(tenant.nextPayment).toLocaleDateString('fr-FR')}
+                      Prochain paiement: {nextPaymentDate.toLocaleDateString('fr-FR')}
                     </span>
                   </div>
                 </div>
@@ -265,4 +272,4 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
   );
 };
 
-export default TenantDetailsModal;
+export default RoommateDetailsModal;
