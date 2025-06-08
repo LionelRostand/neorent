@@ -1,4 +1,3 @@
-
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -60,6 +59,11 @@ const Contracts = () => {
             <Plus className="mr-2 h-4 w-4" />
             Nouveau contrat
           </Button>
+        </div>
+
+        {/* Titre Liste */}
+        <div className="pt-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Liste des Contrats</h2>
         </div>
 
         {/* Métriques */}

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -96,6 +95,11 @@ const Leases = () => {
             iconBgColor="bg-blue-500"
             borderColor="border-l-blue-500"
           />
+        </div>
+
+        {/* Titre Liste */}
+        <div className="pt-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Liste des Baux</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
