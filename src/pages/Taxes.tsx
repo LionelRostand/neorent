@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Calculator, Calendar, Building2, DollarSign, CheckCircle, Clock, XCircle, Receipt, TrendingUp, FileText } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
+import TaxDeclarationForm from '@/components/TaxDeclarationForm';
 
 const taxes = [
   {
@@ -71,6 +71,7 @@ const currentYearTaxes = taxes.filter(t => t.year === currentYear);
 
 const Taxes = () => {
   const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [isDeclarationFormOpen, setIsDeclarationFormOpen] = useState(false);
   
   const filteredTaxes = taxes.filter(t => t.year === selectedYear);
   const paidCount = filteredTaxes.filter(t => t.status === 'Payée').length;
@@ -91,6 +92,12 @@ const Taxes = () => {
 
   const remainingCurrentYear = totalCurrentYearAmount - paidCurrentYear;
 
+  const handleNewDeclaration = (declarationData: any) => {
+    console.log('Nouvelle déclaration fiscale:', declarationData);
+    // Ici on pourrait ajouter la déclaration à la liste des taxes
+    // Pour l'instant on log juste les données
+  };
+
   return (
     <MainLayout>
       <div className="space-y-6">
@@ -99,7 +106,10 @@ const Taxes = () => {
             <h1 className="text-3xl font-bold text-gray-900">Fiscalités</h1>
             <p className="text-gray-600 mt-2">Gérez vos obligations fiscales et estimez vos impôts</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button 
+            className="bg-blue-600 hover:bg-blue-700"
+            onClick={() => setIsDeclarationFormOpen(true)}
+          >
             <Plus className="mr-2 h-4 w-4" />
             Nouvelle déclaration
           </Button>
@@ -254,6 +264,12 @@ const Taxes = () => {
             <p className="mt-2 text-gray-500">Aucune obligation fiscale trouvée pour l'année {selectedYear}.</p>
           </div>
         )}
+
+        <TaxDeclarationForm
+          isOpen={isDeclarationFormOpen}
+          onClose={() => setIsDeclarationFormOpen(false)}
+          onSubmit={handleNewDeclaration}
+        />
       </div>
     </MainLayout>
   );
