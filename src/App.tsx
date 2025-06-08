@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
 import Dashboard from "./pages/Dashboard";
 import Properties from "./pages/Properties";
 import Tenants from "./pages/Tenants";
@@ -26,36 +27,41 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* Admin Routes */}
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/properties" element={<Properties />} />
-          <Route path="/tenants" element={<Tenants />} />
-          <Route path="/roommates" element={<Roommates />} />
-          <Route path="/contracts" element={<Contracts />} />
-          <Route path="/leases" element={<Leases />} />
-          <Route path="/inspections" element={<Inspections />} />
-          <Route path="/rent-management" element={<RentManagement />} />
-          <Route path="/rental-charges" element={<RentalCharges />} />
-          <Route path="/taxes" element={<Taxes />} />
-          <Route path="/website" element={<Website />} />
-          <Route path="/settings" element={<Dashboard />} />
-          
-          {/* Public Site Routes */}
-          <Route path="/site" element={<PublicHome />} />
-          <Route path="/site/about" element={<PublicAbout />} />
-          <Route path="/site/contact" element={<PublicContact />} />
-          <Route path="/site/login" element={<PublicLogin />} />
-          
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Admin Routes */}
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/properties" element={<Properties />} />
+            <Route path="/tenants" element={<Tenants />} />
+            <Route path="/roommates" element={<Roommates />} />
+            <Route path="/contracts" element={<Contracts />} />
+            <Route path="/leases" element={<Leases />} />
+            <Route path="/inspections" element={<Inspections />} />
+            <Route path="/rent-management" element={<RentManagement />} />
+            <Route path="/rental-charges" element={<RentalCharges />} />
+            <Route path="/taxes" element={<Taxes />} />
+            <Route path="/website" element={<Website />} />
+            <Route path="/settings" element={<Dashboard />} />
+            
+            {/* Tenant Space */}
+            <Route path="/tenant-space" element={<TenantSpace />} />
+            
+            {/* Public Site Routes */}
+            <Route path="/site" element={<PublicHome />} />
+            <Route path="/site/about" element={<PublicAbout />} />
+            <Route path="/site/contact" element={<PublicContact />} />
+            <Route path="/site/login" element={<PublicLogin />} />
+            
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,6 +14,7 @@ import {
   UserCog
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import TenantProfile from '@/components/TenantSpace/TenantProfile';
 import PropertyInfo from '@/components/TenantSpace/PropertyInfo';
 import TenantDocuments from '@/components/TenantSpace/TenantDocuments';
@@ -23,6 +23,7 @@ import RentHistory from '@/components/TenantSpace/RentHistory';
 const TenantSpace = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   // Données simulées du locataire connecté
   const tenantData = {
@@ -65,9 +66,20 @@ const TenantSpace = () => {
     navigate('/site');
   };
 
-  const handleLogout = () => {
-    navigate('/site/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/site/login');
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion:', error);
+    }
   };
+
+  // Rediriger si l'utilisateur n'est pas connecté
+  if (!user) {
+    navigate('/site/login');
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -82,6 +94,9 @@ const TenantSpace = () => {
             </div>
             
             <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-600">
+                Connecté en tant que: {user.email}
+              </span>
               <Button 
                 variant="outline" 
                 onClick={handleBackToSite}

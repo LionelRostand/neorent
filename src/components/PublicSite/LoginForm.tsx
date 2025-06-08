@@ -6,18 +6,39 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulation de connexion réussie - redirection vers l'espace locataire
-    console.log('Connexion avec:', { email, password });
-    navigate('/tenant-space');
+    setIsLoading(true);
+
+    try {
+      await login(email, password);
+      toast({
+        title: "Connexion réussie",
+        description: "Vous êtes maintenant connecté à votre espace.",
+      });
+      navigate('/tenant-space');
+    } catch (error: any) {
+      console.error('Erreur de connexion:', error);
+      toast({
+        title: "Erreur de connexion",
+        description: "Email ou mot de passe incorrect.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -44,6 +65,7 @@ const LoginForm = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-10"
                 required
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -60,19 +82,21 @@ const LoginForm = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10 pr-10"
                 required
+                disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                disabled={isLoading}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
           </div>
 
-          <Button type="submit" className="w-full">
-            Se connecter
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? 'Connexion...' : 'Se connecter'}
           </Button>
           
           <div className="text-center">
