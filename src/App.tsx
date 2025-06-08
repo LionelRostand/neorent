@@ -12,6 +12,7 @@ import Contracts from "./pages/Contracts";
 import Leases from "./pages/Leases";
 import Inspections from "./pages/Inspections";
 import RentManagement from "./pages/RentManagement";
+import RentalCharges from "./pages/RentalCharges";
 import Taxes from "./pages/Taxes";
 import NotFound from "./pages/NotFound";
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/leases" element={<Leases />} />
           <Route path="/inspections" element={<Inspections />} />
           <Route path="/rent-management" element={<RentManagement />} />
+          <Route path="/rental-charges" element={<RentalCharges />} />
           <Route path="/taxes" element={<Taxes />} />
           <Route path="/maintenance" element={<Dashboard />} />
           <Route path="/reports" element={<Dashboard />} />

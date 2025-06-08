@@ -12,7 +12,8 @@ import {
   UserCheck,
   ClipboardList,
   Calculator,
-  CreditCard
+  CreditCard,
+  Receipt
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -24,6 +25,7 @@ const navigation = [
   { name: 'Contrats de Baux', href: '/contracts', icon: FileText },
   { name: 'Etat des lieux', href: '/inspections', icon: ClipboardList },
   { name: 'Gestion Loyer', href: '/rent-management', icon: CreditCard },
+  { name: 'Charges locatives', href: '/rental-charges', icon: Receipt },
   { name: 'Fiscalités', href: '/taxes', icon: Calculator },
   { name: 'Maintenance', href: '/maintenance', icon: Wrench },
   { name: 'Rapports', href: '/reports', icon: BarChart3 },
