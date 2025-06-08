@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -18,6 +19,7 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     type: '',
     provider: '',
     property: '',
+    roomNumber: '',
     startDate: '',
     endDate: '',
     amount: '',
@@ -26,36 +28,64 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     description: ''
   });
 
-  // Données simulées pour les locataires/colocataires
+  // Données simulées pour les locataires
   const tenants = [
     { id: 1, name: 'Marie Dubois', type: 'Locataire' },
     { id: 2, name: 'Jean Martin', type: 'Locataire' },
-    { id: 3, name: 'Sophie Leroy', type: 'Locataire' },
-    { id: 4, name: 'Pierre Durand', type: 'Colocataire' },
-    { id: 5, name: 'Lisa Chen', type: 'Colocataire' }
+    { id: 3, name: 'Sophie Leroy', type: 'Locataire' }
   ];
 
-  const properties = [
-    'Villa Montparnasse',
+  // Données simulées pour les colocataires
+  const roommates = [
+    { id: 4, name: 'Pierre Durand', type: 'Colocataire', property: 'Villa Montparnasse' },
+    { id: 5, name: 'Lisa Chen', type: 'Colocataire', property: 'Appartement République' }
+  ];
+
+  // Données simulées pour les biens
+  const locationProperties = [
     'Appartement Rue des Fleurs',
     'Studio Centre-ville',
-    'Appartement Boulevard Haussmann',
-    'Résidence Les Jardins'
+    'Appartement Boulevard Haussmann'
   ];
+
+  const colocationProperties = [
+    'Villa Montparnasse',
+    'Appartement République'
+  ];
+
+  // Chambres par bien en colocation
+  const roomsByProperty = {
+    'Villa Montparnasse': ['Chambre 1', 'Chambre 2', 'Chambre 3'],
+    'Appartement République': ['Chambre A', 'Chambre B']
+  };
 
   const contractTypes = [
     'Maintenance',
     'Assurance',
     'Syndic',
     'Bail locatif',
+    'Bail colocatif',
     'Prestations'
   ];
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => {
+      const newData = { ...prev, [field]: value };
+      
+      // Reset dependent fields when type changes
+      if (field === 'type') {
+        newData.property = '';
+        newData.tenant = '';
+        newData.roomNumber = '';
+      }
+      
+      // Reset room when property changes
+      if (field === 'property') {
+        newData.roomNumber = '';
+      }
+      
+      return newData;
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -73,9 +103,44 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     };
 
     console.log('Contrat de bail ajouté à la collection rent_contrats:', contractData);
+    
+    // Simuler la génération et le stockage du PDF
+    const pdfDocument = {
+      id: Date.now(),
+      name: `Contrat_${formData.type.replace(' ', '_')}_${formData.tenant.split(' ')[0]}.pdf`,
+      type: 'contrat_bail',
+      uploadDate: new Date().toISOString(),
+      contractId: contractData.id
+    };
+    
+    console.log('Document PDF généré et stocké:', pdfDocument);
+    
     onSubmit(contractData);
     onClose();
   };
+
+  // Determine which properties and tenants to show based on contract type
+  const getAvailableProperties = () => {
+    if (formData.type === 'Bail locatif') return locationProperties;
+    if (formData.type === 'Bail colocatif') return colocationProperties;
+    return [];
+  };
+
+  const getAvailableTenants = () => {
+    if (formData.type === 'Bail locatif') return tenants;
+    if (formData.type === 'Bail colocatif') return roommates;
+    return [];
+  };
+
+  const getAvailableRooms = () => {
+    if (formData.type === 'Bail colocatif' && formData.property) {
+      return roomsByProperty[formData.property] || [];
+    }
+    return [];
+  };
+
+  const isBailContract = formData.type === 'Bail locatif' || formData.type === 'Bail colocatif';
+  const isColocatifContract = formData.type === 'Bail colocatif';
 
   return (
     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -122,37 +187,97 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
             />
           </div>
 
-          <div>
-            <Label htmlFor="property">Bien immobilier</Label>
-            <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionner un bien" />
-              </SelectTrigger>
-              <SelectContent>
-                {properties.map((property) => (
-                  <SelectItem key={property} value={property}>
-                    {property}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {isBailContract && (
+            <div>
+              <Label htmlFor="property">Bien immobilier</Label>
+              <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionner un bien" />
+                </SelectTrigger>
+                <SelectContent>
+                  {getAvailableProperties().map((property) => (
+                    <SelectItem key={property} value={property}>
+                      {property}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
-          <div>
-            <Label htmlFor="tenant">Locataire/Colocataire *</Label>
-            <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionner un locataire" />
-              </SelectTrigger>
-              <SelectContent>
-                {tenants.map((tenant) => (
-                  <SelectItem key={tenant.id} value={`${tenant.name} (${tenant.type})`}>
-                    {tenant.name} ({tenant.type})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {!isBailContract && (
+            <div>
+              <Label htmlFor="property">Bien immobilier</Label>
+              <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionner un bien" />
+                </SelectTrigger>
+                <SelectContent>
+                  {[...locationProperties, ...colocationProperties].map((property) => (
+                    <SelectItem key={property} value={property}>
+                      {property}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {isBailContract && (
+            <div>
+              <Label htmlFor="tenant">
+                {formData.type === 'Bail locatif' ? 'Locataire *' : 'Colocataire *'}
+              </Label>
+              <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder={`Sélectionner un ${formData.type === 'Bail locatif' ? 'locataire' : 'colocataire'}`} />
+                </SelectTrigger>
+                <SelectContent>
+                  {getAvailableTenants().map((tenant) => (
+                    <SelectItem key={tenant.id} value={`${tenant.name} (${tenant.type})`}>
+                      {tenant.name} ({tenant.type})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {!isBailContract && (
+            <div>
+              <Label htmlFor="tenant">Locataire/Colocataire *</Label>
+              <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionner un locataire" />
+                </SelectTrigger>
+                <SelectContent>
+                  {[...tenants, ...roommates].map((tenant) => (
+                    <SelectItem key={tenant.id} value={`${tenant.name} (${tenant.type})`}>
+                      {tenant.name} ({tenant.type})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {isColocatifContract && formData.property && (
+            <div>
+              <Label htmlFor="roomNumber">Chambre</Label>
+              <Select value={formData.roomNumber} onValueChange={(value) => handleInputChange('roomNumber', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionner une chambre" />
+                </SelectTrigger>
+                <SelectContent>
+                  {getAvailableRooms().map((room) => (
+                    <SelectItem key={room} value={room}>
+                      {room}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           <div>
             <Label htmlFor="jurisdiction">Juridiction *</Label>
