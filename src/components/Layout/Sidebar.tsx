@@ -10,7 +10,10 @@ import {
   Wrench, 
   BarChart3,
   Settings,
-  Bell
+  UserCheck,
+  ClipboardList,
+  Calculator,
+  ScrollText
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -18,8 +21,12 @@ const navigation = [
   { name: 'Tableau de Bord', href: '/', icon: Home },
   { name: 'Biens Immobiliers', href: '/properties', icon: Building2 },
   { name: 'Locataires', href: '/tenants', icon: Users },
-  { name: 'Contrats & Baux', href: '/contracts', icon: FileText },
+  { name: 'Colocataires', href: '/roommates', icon: UserCheck },
+  { name: 'Contrats', href: '/contracts', icon: FileText },
+  { name: 'Baux', href: '/leases', icon: ScrollText },
+  { name: 'Etat des lieux', href: '/inspections', icon: ClipboardList },
   { name: 'Finances', href: '/finances', icon: DollarSign },
+  { name: 'Fiscalités', href: '/taxes', icon: Calculator },
   { name: 'Maintenance', href: '/maintenance', icon: Wrench },
   { name: 'Rapports', href: '/reports', icon: BarChart3 },
 ];
@@ -55,7 +62,7 @@ const Sidebar = () => {
         })}
       </nav>
       
-      <div className="border-t border-gray-700 p-4">
+      <div className="border-t border-gray-700 p-4 space-y-2">
         <Link
           to="/settings"
           className="group flex items-center px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors"
@@ -63,6 +70,10 @@ const Sidebar = () => {
           <Settings className="mr-3 h-5 w-5" />
           Paramètres
         </Link>
+        
+        <div className="px-3 py-2 text-xs text-gray-500">
+          Neotech-Consulting 2025
+        </div>
       </div>
     </div>
   );
