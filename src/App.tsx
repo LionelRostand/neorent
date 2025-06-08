@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,7 +20,6 @@ import PublicAbout from "./pages/PublicSite/About";
 import PublicContact from "./pages/PublicSite/Contact";
 import PublicLogin from "./pages/PublicSite/Login";
 import NotFound from "./pages/NotFound";
-import TenantSpace from "./pages/TenantSpace";
 
 const queryClient = new QueryClient();
 
@@ -43,9 +43,6 @@ const App = () => (
           <Route path="/taxes" element={<Taxes />} />
           <Route path="/website" element={<Website />} />
           <Route path="/settings" element={<Dashboard />} />
-          
-          {/* Tenant Space */}
-          <Route path="/tenant-space" element={<TenantSpace />} />
           
           {/* Public Site Routes */}
           <Route path="/site" element={<PublicHome />} />
