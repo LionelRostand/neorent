@@ -59,17 +59,17 @@ const TenantSpace = () => {
   };
 
   const handleBackendAccess = () => {
-    navigate('/');
+    navigate('/admin');
   };
 
   const handleBackToSite = () => {
-    navigate('/site');
+    navigate('/');
   };
 
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/site/login');
+      navigate('/login');
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
     }
@@ -77,7 +77,7 @@ const TenantSpace = () => {
 
   // Rediriger si l'utilisateur n'est pas connecté
   if (!user) {
-    navigate('/site/login');
+    navigate('/login');
     return null;
   }
 

@@ -33,28 +33,28 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* Admin Routes */}
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/properties" element={<Properties />} />
-            <Route path="/tenants" element={<Tenants />} />
-            <Route path="/roommates" element={<Roommates />} />
-            <Route path="/contracts" element={<Contracts />} />
-            <Route path="/leases" element={<Leases />} />
-            <Route path="/inspections" element={<Inspections />} />
-            <Route path="/rent-management" element={<RentManagement />} />
-            <Route path="/rental-charges" element={<RentalCharges />} />
-            <Route path="/taxes" element={<Taxes />} />
-            <Route path="/website" element={<Website />} />
-            <Route path="/settings" element={<Dashboard />} />
+            {/* Public Site Routes - Now at root */}
+            <Route path="/" element={<PublicHome />} />
+            <Route path="/about" element={<PublicAbout />} />
+            <Route path="/contact" element={<PublicContact />} />
+            <Route path="/login" element={<PublicLogin />} />
             
             {/* Tenant Space */}
             <Route path="/tenant-space" element={<TenantSpace />} />
             
-            {/* Public Site Routes */}
-            <Route path="/site" element={<PublicHome />} />
-            <Route path="/site/about" element={<PublicAbout />} />
-            <Route path="/site/contact" element={<PublicContact />} />
-            <Route path="/site/login" element={<PublicLogin />} />
+            {/* Admin Routes - Now prefixed with /admin */}
+            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin/properties" element={<Properties />} />
+            <Route path="/admin/tenants" element={<Tenants />} />
+            <Route path="/admin/roommates" element={<Roommates />} />
+            <Route path="/admin/contracts" element={<Contracts />} />
+            <Route path="/admin/leases" element={<Leases />} />
+            <Route path="/admin/inspections" element={<Inspections />} />
+            <Route path="/admin/rent-management" element={<RentManagement />} />
+            <Route path="/admin/rental-charges" element={<RentalCharges />} />
+            <Route path="/admin/taxes" element={<Taxes />} />
+            <Route path="/admin/website" element={<Website />} />
+            <Route path="/admin/settings" element={<Dashboard />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

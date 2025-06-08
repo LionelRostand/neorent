@@ -22,24 +22,24 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             
             <div className="hidden md:flex items-center space-x-8">
               <Link
-                to="/site"
+                to="/"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Accueil
               </Link>
               <Link
-                to="/site/about"
+                to="/about"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 À propos
               </Link>
               <Link
-                to="/site/contact"
+                to="/contact"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Contact
               </Link>
-              <Link to="/site/login">
+              <Link to="/login">
                 <Button className="flex items-center gap-2">
                   <LogIn className="h-4 w-4" />
                   Connexion
@@ -73,17 +73,17 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
               <h3 className="text-lg font-semibold mb-4">Liens utiles</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="/site" className="text-gray-400 hover:text-white">
+                  <Link to="/" className="text-gray-400 hover:text-white">
                     Accueil
                   </Link>
                 </li>
                 <li>
-                  <Link to="/site/about" className="text-gray-400 hover:text-white">
+                  <Link to="/about" className="text-gray-400 hover:text-white">
                     À propos
                   </Link>
                 </li>
                 <li>
-                  <Link to="/site/contact" className="text-gray-400 hover:text-white">
+                  <Link to="/contact" className="text-gray-400 hover:text-white">
                     Contact
                   </Link>
                 </li>
