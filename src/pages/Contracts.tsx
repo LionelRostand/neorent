@@ -1,3 +1,4 @@
+
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -61,11 +62,6 @@ const Contracts = () => {
           </Button>
         </div>
 
-        {/* Titre Liste */}
-        <div className="pt-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Liste des Contrats</h2>
-        </div>
-
         {/* Métriques */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
@@ -100,6 +96,11 @@ const Contracts = () => {
             iconBgColor="bg-blue-500"
             borderColor="border-l-blue-500"
           />
+        </div>
+
+        {/* Titre Liste - maintenant après les métriques */}
+        <div className="pt-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Liste des Contrats</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
