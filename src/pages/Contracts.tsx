@@ -73,14 +73,14 @@ const Contracts = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Contrats</h1>
-            <p className="text-gray-600 mt-2">Gérez vos contrats de services et prestataires</p>
+            <h1 className="text-3xl font-bold text-gray-900">Contrats de Baux</h1>
+            <p className="text-gray-600 mt-2">Gérez vos contrats de baux et prestataires</p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button className="bg-blue-600 hover:bg-blue-700">
                 <Plus className="mr-2 h-4 w-4" />
-                Nouveau contrat
+                Nouveau contrat de bail
               </Button>
             </DialogTrigger>
             <ContractForm
@@ -128,7 +128,7 @@ const Contracts = () => {
 
         {/* Titre Liste - maintenant après les métriques */}
         <div className="pt-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Liste des Contrats</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Liste des Contrats de Baux</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

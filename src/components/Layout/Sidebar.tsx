@@ -22,7 +22,7 @@ const navigation = [
   { name: 'Biens Immobiliers', href: '/properties', icon: Building2 },
   { name: 'Locataires', href: '/tenants', icon: Users },
   { name: 'Colocataires', href: '/roommates', icon: UserCheck },
-  { name: 'Contrats', href: '/contracts', icon: FileText },
+  { name: 'Contrats de Baux', href: '/contracts', icon: FileText },
   { name: 'Baux', href: '/leases', icon: ScrollText },
   { name: 'Etat des lieux', href: '/inspections', icon: ClipboardList },
   { name: 'Finances', href: '/finances', icon: DollarSign },

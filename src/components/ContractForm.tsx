@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -73,7 +72,7 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
       status: 'Actif'
     };
 
-    console.log('Contrat ajouté à la collection rent_contrats:', contractData);
+    console.log('Contrat de bail ajouté à la collection rent_contrats:', contractData);
     onSubmit(contractData);
     onClose();
   };
@@ -81,18 +80,18 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
   return (
     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle className="text-xl font-bold">Nouveau Contrat</DialogTitle>
+        <DialogTitle className="text-xl font-bold">Nouveau Contrat de Bail</DialogTitle>
       </DialogHeader>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="title">Titre du contrat *</Label>
+            <Label htmlFor="title">Titre du contrat de bail *</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => handleInputChange('title', e.target.value)}
-              placeholder="Ex: Contrat de maintenance..."
+              placeholder="Ex: Contrat de bail - Villa Montparnasse..."
               required
             />
           </div>
@@ -215,7 +214,7 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
             Annuler
           </Button>
           <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-            Créer le contrat
+            Créer le contrat de bail
           </Button>
         </div>
       </form>
