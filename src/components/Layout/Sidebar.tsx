@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -5,13 +6,13 @@ import {
   Building2, 
   Users, 
   FileText, 
-  DollarSign, 
   Wrench, 
   BarChart3,
   Settings,
   UserCheck,
   ClipboardList,
-  Calculator
+  Calculator,
+  CreditCard
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -22,7 +23,7 @@ const navigation = [
   { name: 'Colocataires', href: '/roommates', icon: UserCheck },
   { name: 'Contrats de Baux', href: '/contracts', icon: FileText },
   { name: 'Etat des lieux', href: '/inspections', icon: ClipboardList },
-  { name: 'Finances', href: '/finances', icon: DollarSign },
+  { name: 'Gestion Loyer', href: '/rent-management', icon: CreditCard },
   { name: 'Fiscalités', href: '/taxes', icon: Calculator },
   { name: 'Maintenance', href: '/maintenance', icon: Wrench },
   { name: 'Rapports', href: '/reports', icon: BarChart3 },

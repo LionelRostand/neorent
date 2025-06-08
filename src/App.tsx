@@ -11,7 +11,7 @@ import Roommates from "./pages/Roommates";
 import Contracts from "./pages/Contracts";
 import Leases from "./pages/Leases";
 import Inspections from "./pages/Inspections";
-import Finances from "./pages/Finances";
+import RentManagement from "./pages/RentManagement";
 import Taxes from "./pages/Taxes";
 import NotFound from "./pages/NotFound";
 
@@ -31,7 +31,7 @@ const App = () => (
           <Route path="/contracts" element={<Contracts />} />
           <Route path="/leases" element={<Leases />} />
           <Route path="/inspections" element={<Inspections />} />
-          <Route path="/finances" element={<Finances />} />
+          <Route path="/rent-management" element={<RentManagement />} />
           <Route path="/taxes" element={<Taxes />} />
           <Route path="/maintenance" element={<Dashboard />} />
           <Route path="/reports" element={<Dashboard />} />
