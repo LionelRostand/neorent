@@ -6,19 +6,28 @@ import { Plus } from 'lucide-react';
 import RentalChargeForm from '@/components/RentalChargeForm';
 import ChargeMetrics from '@/components/RentalCharges/ChargeMetrics';
 import MonthSelector from '@/components/RentalCharges/MonthSelector';
+import YearSelector from '@/components/RentalCharges/YearSelector';
+import ViewSelector from '@/components/RentalCharges/ViewSelector';
 import ChargesList from '@/components/RentalCharges/ChargesList';
+import AnnualChargesList from '@/components/RentalCharges/AnnualChargesList';
 import { useChargesData } from '@/hooks/useChargesData';
 
 const RentalCharges = () => {
   const { charges, addCharge, deleteCharge } = useChargesData();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('2024-12');
+  const [selectedYear, setSelectedYear] = useState('2024');
+  const [selectedView, setSelectedView] = useState<'monthly' | 'annual'>('monthly');
 
-  const filteredCharges = charges.filter(charge => charge.month === selectedMonth);
+  const filteredCharges = selectedView === 'monthly' 
+    ? charges.filter(charge => charge.month === selectedMonth)
+    : charges.filter(charge => charge.month.startsWith(selectedYear));
   
   const totalCharges = filteredCharges.reduce((sum, charge) => sum + charge.total, 0);
   const averageCharges = filteredCharges.length > 0 ? totalCharges / filteredCharges.length : 0;
-  const propertiesCount = filteredCharges.length;
+  const propertiesCount = selectedView === 'monthly' 
+    ? filteredCharges.length 
+    : new Set(filteredCharges.map(c => c.propertyName)).size;
   const highestCharge = filteredCharges.length > 0 ? Math.max(...filteredCharges.map(c => c.total)) : 0;
 
   return (
@@ -38,10 +47,24 @@ const RentalCharges = () => {
           </Button>
         </div>
 
-        <MonthSelector 
-          selectedMonth={selectedMonth}
-          onMonthChange={setSelectedMonth}
-        />
+        <div className="flex justify-between items-center">
+          <ViewSelector 
+            selectedView={selectedView}
+            onViewChange={setSelectedView}
+          />
+          
+          {selectedView === 'monthly' ? (
+            <MonthSelector 
+              selectedMonth={selectedMonth}
+              onMonthChange={setSelectedMonth}
+            />
+          ) : (
+            <YearSelector 
+              selectedYear={selectedYear}
+              onYearChange={setSelectedYear}
+            />
+          )}
+        </div>
 
         <ChargeMetrics
           totalCharges={totalCharges}
@@ -50,11 +73,18 @@ const RentalCharges = () => {
           highestCharge={highestCharge}
         />
 
-        <ChargesList
-          charges={filteredCharges}
-          selectedMonth={selectedMonth}
-          onDeleteCharge={deleteCharge}
-        />
+        {selectedView === 'monthly' ? (
+          <ChargesList
+            charges={filteredCharges}
+            selectedMonth={selectedMonth}
+            onDeleteCharge={deleteCharge}
+          />
+        ) : (
+          <AnnualChargesList
+            charges={filteredCharges}
+            selectedYear={selectedYear}
+          />
+        )}
 
         <RentalChargeForm
           isOpen={isFormOpen}
