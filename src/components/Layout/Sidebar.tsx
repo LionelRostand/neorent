@@ -1,76 +1,71 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  Building2, 
-  Users, 
-  FileText, 
-  Settings,
-  UserCheck,
-  ClipboardList,
-  Calculator,
-  CreditCard,
-  Receipt,
-  Globe
-} from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import {
+  LayoutDashboard,
+  Building2,
+  Users,
+  UserCheck,
+  FileText,
+  ScrollText,
+  ClipboardList,
+  DollarSign,
+  Receipt,
+  Calculator,
+  Globe,
+  Settings,
+  Home,
+  User
+} from 'lucide-react';
 
 const navigation = [
-  { name: 'Tableau de Bord', href: '/', icon: Home },
+  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Biens Immobiliers', href: '/properties', icon: Building2 },
   { name: 'Locataires', href: '/tenants', icon: Users },
   { name: 'Colocataires', href: '/roommates', icon: UserCheck },
-  { name: 'Contrats de Baux', href: '/contracts', icon: FileText },
-  { name: 'Etat des lieux', href: '/inspections', icon: ClipboardList },
-  { name: 'Gestion Loyer', href: '/rent-management', icon: CreditCard },
+  { name: 'Contrats', href: '/contracts', icon: FileText },
+  { name: 'Baux', href: '/leases', icon: ScrollText },
+  { name: 'États des lieux', href: '/inspections', icon: ClipboardList },
+  { name: 'Gestion des loyers', href: '/rent-management', icon: DollarSign },
   { name: 'Charges locatives', href: '/rental-charges', icon: Receipt },
-  { name: 'Fiscalités', href: '/taxes', icon: Calculator },
-  { name: 'Website', href: '/website', icon: Globe },
+  { name: 'Déclarations fiscales', href: '/taxes', icon: Calculator },
+  { name: 'Site Web', href: '/website', icon: Globe },
+  { name: 'Espace Locataire', href: '/tenant-space', icon: User },
+  { name: 'Paramètres', href: '/settings', icon: Settings },
 ];
 
 const Sidebar = () => {
-  const location = useLocation();
-
   return (
-    <div className="flex h-screen w-64 flex-col bg-gray-900">
-      <div className="flex h-16 items-center px-6">
-        <Building2 className="h-8 w-8 text-blue-400" />
-        <span className="ml-3 text-xl font-bold text-white">Neo Rent</span>
-      </div>
-      
-      <nav className="flex-1 space-y-1 px-3 py-4">
-        {navigation.map((item) => {
-          const isActive = location.pathname === item.href;
-          return (
-            <Link
-              key={item.name}
-              to={item.href}
-              className={cn(
-                'group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors',
-                isActive
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-              )}
-            >
-              <item.icon className="mr-3 h-5 w-5" />
-              {item.name}
-            </Link>
-          );
-        })}
-      </nav>
-      
-      <div className="border-t border-gray-700 p-4 space-y-2">
-        <Link
-          to="/settings"
-          className="group flex items-center px-3 py-2 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors"
-        >
-          <Settings className="mr-3 h-5 w-5" />
-          Paramètres
-        </Link>
-        
-        <div className="px-3 py-2 text-xs text-gray-500">
-          Neotech-Consulting 2025
+    <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
+      <div className="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r border-gray-200">
+        <div className="flex items-center flex-shrink-0 px-4">
+          <Home className="h-8 w-8 text-blue-600" />
+          <span className="ml-2 text-xl font-bold text-gray-900">Neo Rent</span>
+        </div>
+        <div className="mt-5 flex-grow flex flex-col">
+          <nav className="flex-1 px-2 pb-4 space-y-1">
+            {navigation.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.href}
+                className={({ isActive }) =>
+                  cn(
+                    isActive
+                      ? 'bg-blue-100 border-blue-500 text-blue-700'
+                      : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                    'group flex items-center px-2 py-2 text-sm font-medium border-l-4 transition-colors duration-200'
+                  )
+                }
+              >
+                <item.icon
+                  className="mr-3 h-5 w-5 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                {item.name}
+              </NavLink>
+            ))}
+          </nav>
         </div>
       </div>
     </div>
