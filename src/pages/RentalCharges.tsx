@@ -69,12 +69,14 @@ const RentalCharges = () => {
   const highestCharge = Math.max(...filteredCharges.map(c => c.total));
 
   const handleAddCharge = (chargeData: any) => {
+    const total = chargeData.electricity + chargeData.water + chargeData.heating + 
+                  chargeData.maintenance + chargeData.insurance + chargeData.garbage + 
+                  chargeData.internet;
+    
     const newCharge = {
       id: charges.length + 1,
       ...chargeData,
-      total: Object.values(chargeData)
-        .filter((value, key) => key !== 'propertyName' && key !== 'propertyType' && key !== 'month' && key !== 'tenant')
-        .reduce((sum: number, value: any) => sum + (parseFloat(value) || 0), 0)
+      total
     };
     
     setCharges(prev => [...prev, newCharge]);
