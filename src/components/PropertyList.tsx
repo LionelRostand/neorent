@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropertyCard from './PropertyCard';
+import PropertyDetailsModal from './PropertyDetailsModal';
 
 interface Property {
   id: number;
@@ -22,6 +23,19 @@ interface PropertyListProps {
 }
 
 const PropertyList: React.FC<PropertyListProps> = ({ properties }) => {
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handlePropertyClick = (property: Property) => {
+    setSelectedProperty(property);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProperty(null);
+  };
+
   return (
     <>
       <div className="pt-4">
@@ -29,9 +43,19 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {properties.map((property) => (
-          <PropertyCard key={property.id} property={property} />
+          <PropertyCard 
+            key={property.id} 
+            property={property} 
+            onClick={handlePropertyClick}
+          />
         ))}
       </div>
+      
+      <PropertyDetailsModal
+        property={selectedProperty}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </>
   );
 };

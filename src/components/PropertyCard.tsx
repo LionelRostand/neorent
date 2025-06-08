@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -21,11 +20,18 @@ interface Property {
 
 interface PropertyCardProps {
   property: Property;
+  onClick?: (property: Property) => void;
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
+  const handleClick = () => {
+    if (onClick) {
+      onClick(property);
+    }
+  };
+
   return (
-    <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+    <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handleClick}>
       <div className="aspect-video bg-gray-200 rounded-t-lg flex items-center justify-center overflow-hidden">
         {property.image && property.image !== '/placeholder.svg' ? (
           <img 
