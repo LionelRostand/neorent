@@ -1,51 +1,77 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Mail, Phone, Home, Calendar, CheckCircle, Clock, XCircle, Users } from 'lucide-react';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Plus, Mail, Phone, Home, Calendar, CheckCircle, Clock, XCircle, Users, User } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
-
-const tenants = [
-  {
-    id: 1,
-    name: 'Marie Dubois',
-    email: 'marie.dubois@email.com',
-    phone: '06 12 34 56 78',
-    property: 'Appartement Rue des Fleurs',
-    rentAmount: '1,200€',
-    nextPayment: '2024-01-01',
-    status: 'À jour',
-    leaseStart: '2023-06-01'
-  },
-  {
-    id: 2,
-    name: 'Jean Martin',
-    email: 'jean.martin@email.com',
-    phone: '06 98 76 54 32',
-    property: 'Villa Montparnasse',
-    rentAmount: '2,500€',
-    nextPayment: '2024-01-01',
-    status: 'À jour',
-    leaseStart: '2023-03-15'
-  },
-  {
-    id: 3,
-    name: 'Sophie Leroy',
-    email: 'sophie.leroy@email.com',
-    phone: '06 11 22 33 44',
-    property: 'Appartement Boulevard Haussmann',
-    rentAmount: '1,800€',
-    nextPayment: '2023-12-28',
-    status: 'En retard',
-    leaseStart: '2023-01-10'
-  }
-];
+import TenantForm from '@/components/TenantForm';
 
 const Tenants = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [tenants, setTenants] = useState([
+    {
+      id: 1,
+      name: 'Marie Dubois',
+      email: 'marie.dubois@email.com',
+      phone: '06 12 34 56 78',
+      property: 'Appartement Rue des Fleurs',
+      rentAmount: '1,200€',
+      nextPayment: '2024-01-01',
+      status: 'À jour',
+      leaseStart: '2023-06-01',
+      image: null
+    },
+    {
+      id: 2,
+      name: 'Jean Martin',
+      email: 'jean.martin@email.com',
+      phone: '06 98 76 54 32',
+      property: 'Villa Montparnasse',
+      rentAmount: '2,500€',
+      nextPayment: '2024-01-01',
+      status: 'À jour',
+      leaseStart: '2023-03-15',
+      image: null
+    },
+    {
+      id: 3,
+      name: 'Sophie Leroy',
+      email: 'sophie.leroy@email.com',
+      phone: '06 11 22 33 44',
+      property: 'Appartement Boulevard Haussmann',
+      rentAmount: '1,800€',
+      nextPayment: '2023-12-28',
+      status: 'En retard',
+      leaseStart: '2023-01-10',
+      image: null
+    }
+  ]);
+
   const activeCount = tenants.filter(t => t.status === 'À jour').length;
   const lateCount = tenants.filter(t => t.status === 'En retard').length;
   const totalCount = tenants.length;
+
+  const handleAddTenant = (data: any) => {
+    // Simuler l'ajout à la collection rent_locataires
+    const newTenant = {
+      id: tenants.length + 1,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      property: data.property,
+      rentAmount: data.rentAmount,
+      status: 'À jour',
+      leaseStart: data.leaseStart,
+      nextPayment: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // +30 jours
+      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
+    };
+
+    setTenants(prev => [...prev, newTenant]);
+    console.log('Locataire ajouté à la collection rent_locataires:', newTenant);
+  };
 
   return (
     <MainLayout>
@@ -55,10 +81,18 @@ const Tenants = () => {
             <h1 className="text-3xl font-bold text-gray-900">Locataires</h1>
             <p className="text-gray-600 mt-2">Gérez vos locataires et leurs informations</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="mr-2 h-4 w-4" />
-            Ajouter un locataire
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="mr-2 h-4 w-4" />
+                Ajouter un locataire
+              </Button>
+            </DialogTrigger>
+            <TenantForm
+              onClose={() => setIsDialogOpen(false)}
+              onSubmit={handleAddTenant}
+            />
+          </Dialog>
         </div>
 
         {/* Métriques */}
@@ -108,9 +142,22 @@ const Tenants = () => {
               <CardContent className="p-6">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-lg text-gray-900">{tenant.name}</h3>
-                      <p className="text-sm text-gray-600 mt-1">{tenant.property}</p>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                        {tenant.image ? (
+                          <img 
+                            src={tenant.image} 
+                            alt={tenant.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <User className="h-6 w-6 text-gray-400" />
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-900">{tenant.name}</h3>
+                        <p className="text-sm text-gray-600 mt-1">{tenant.property}</p>
+                      </div>
                     </div>
                     <Badge 
                       variant={tenant.status === 'À jour' ? 'default' : 'destructive'}
