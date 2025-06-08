@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -88,9 +89,9 @@ const TenantSpace = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Home className="h-8 w-8 text-blue-600" />
+              <Home className="h-8 w-8 text-green-600" />
               <span className="ml-2 text-xl font-bold text-gray-900">Neo Rent</span>
-              <Badge className="ml-3 bg-blue-100 text-blue-800">Espace Locataire</Badge>
+              <Badge className="ml-3 bg-green-100 text-green-800">Espace Locataire</Badge>
             </div>
             
             <div className="flex items-center space-x-4">
@@ -108,7 +109,7 @@ const TenantSpace = () => {
               <Button 
                 variant="outline" 
                 onClick={handleBackendAccess}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 border-green-600 text-green-600 hover:bg-green-50"
               >
                 <UserCog className="h-4 w-4" />
                 Interface Admin

@@ -35,7 +35,7 @@ const Sidebar = () => {
   return (
     <div className="flex h-screen w-64 flex-col bg-gray-900">
       <div className="flex h-16 items-center px-6">
-        <Building2 className="h-8 w-8 text-blue-400" />
+        <Building2 className="h-8 w-8 text-green-400" />
         <span className="ml-3 text-xl font-bold text-white">Neo Rent</span>
       </div>
       
@@ -49,7 +49,7 @@ const Sidebar = () => {
               className={cn(
                 'group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors',
                 isActive
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-green-600 text-white'
                   : 'text-gray-300 hover:bg-gray-800 hover:text-white'
               )}
             >

@@ -16,31 +16,31 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Home className="h-8 w-8 text-blue-600" />
+              <Home className="h-8 w-8 text-green-600" />
               <span className="ml-2 text-xl font-bold text-gray-900">Neo Rent</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-8">
               <Link
                 to="/"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Accueil
               </Link>
               <Link
                 to="/about"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 À propos
               </Link>
               <Link
                 to="/contact"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Contact
               </Link>
               <Link to="/login">
-                <Button className="flex items-center gap-2">
+                <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
                   <LogIn className="h-4 w-4" />
                   Connexion
                 </Button>
@@ -61,7 +61,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center">
-                <Home className="h-6 w-6 text-blue-400" />
+                <Home className="h-6 w-6 text-green-400" />
                 <span className="ml-2 text-lg font-bold">Neo Rent</span>
               </div>
               <p className="mt-4 text-gray-400">
