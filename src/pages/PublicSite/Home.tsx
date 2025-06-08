@@ -47,22 +47,22 @@ const PublicHome = () => {
   return (
     <PublicLayout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <section className="bg-gradient-to-r from-green-500 to-green-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Gérez vos biens immobiliers
-              <span className="block text-blue-200">en toute simplicité</span>
+              <span className="block text-green-100">en toute simplicité</span>
             </h1>
-            <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+            <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
               Neo Rent vous accompagne dans la gestion complète de vos propriétés : 
               locataires, contrats, finances et bien plus encore.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100">
                 Commencer gratuitement
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">
                 Découvrir nos fonctionnalités
               </Button>
             </div>
@@ -86,8 +86,8 @@ const PublicHome = () => {
             {features.map((feature, index) => (
               <Card key={index} className="text-center h-full">
                 <CardHeader>
-                  <div className="mx-auto w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="h-6 w-6 text-blue-600" />
+                  <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <feature.icon className="h-6 w-6 text-green-600" />
                   </div>
                   <CardTitle className="text-lg">{feature.title}</CardTitle>
                 </CardHeader>
@@ -165,15 +165,15 @@ const PublicHome = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600 text-white">
+      <section className="py-20 bg-green-500 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Prêt à optimiser votre gestion immobilière ?
           </h2>
-          <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+          <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
             Rejoignez des centaines de propriétaires qui font confiance à Neo Rent
           </p>
-          <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+          <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100">
             Commencer maintenant
           </Button>
         </div>

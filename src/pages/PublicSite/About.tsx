@@ -92,8 +92,8 @@ const PublicAbout = () => {
             {values.map((value, index) => (
               <Card key={index} className="text-center h-full bg-white">
                 <CardHeader>
-                  <div className="mx-auto w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <value.icon className="h-6 w-6 text-blue-600" />
+                  <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <value.icon className="h-6 w-6 text-green-600" />
                   </div>
                   <CardTitle className="text-lg">{value.title}</CardTitle>
                 </CardHeader>
@@ -117,19 +117,19 @@ const PublicAbout = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
+              <div className="text-4xl font-bold text-green-600 mb-2">500+</div>
               <div className="text-gray-600">Propriétaires</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">2000+</div>
+              <div className="text-4xl font-bold text-green-600 mb-2">2000+</div>
               <div className="text-gray-600">Biens gérés</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">98%</div>
+              <div className="text-4xl font-bold text-green-600 mb-2">98%</div>
               <div className="text-gray-600">Satisfaction client</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">24/7</div>
+              <div className="text-4xl font-bold text-green-600 mb-2">24/7</div>
               <div className="text-gray-600">Support technique</div>
             </div>
           </div>
