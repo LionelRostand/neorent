@@ -3,8 +3,9 @@ import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, TrendingUp, TrendingDown, DollarSign, Calendar } from 'lucide-react';
+import { Plus, TrendingUp, TrendingDown, DollarSign, Calendar, CheckCircle, Clock, XCircle, CreditCard } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import MetricCard from '@/components/MetricCard';
 
 const monthlyData = [
   { month: 'Jan', revenus: 4200, depenses: 800 },
@@ -50,6 +51,11 @@ const recentTransactions = [
 ];
 
 const Finances = () => {
+  const revenus = 5400;
+  const depenses = 950;
+  const benefice = revenus - depenses;
+  const transactionsCount = recentTransactions.length;
+
   return (
     <MainLayout>
       <div className="space-y-6">
@@ -64,52 +70,40 @@ const Finances = () => {
           </Button>
         </div>
 
-        {/* Résumé financier */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Revenus ce mois</p>
-                  <p className="text-3xl font-bold text-green-600 mt-2">5,400€</p>
-                  <p className="text-sm text-green-600 mt-1">+12% vs mois dernier</p>
-                </div>
-                <div className="p-3 rounded-full bg-green-100">
-                  <TrendingUp className="h-6 w-6 text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Dépenses ce mois</p>
-                  <p className="text-3xl font-bold text-red-600 mt-2">950€</p>
-                  <p className="text-sm text-red-600 mt-1">-8% vs mois dernier</p>
-                </div>
-                <div className="p-3 rounded-full bg-red-100">
-                  <TrendingDown className="h-6 w-6 text-red-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Bénéfice net</p>
-                  <p className="text-3xl font-bold text-blue-600 mt-2">4,450€</p>
-                  <p className="text-sm text-blue-600 mt-1">+18% vs mois dernier</p>
-                </div>
-                <div className="p-3 rounded-full bg-blue-100">
-                  <DollarSign className="h-6 w-6 text-blue-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Métriques */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <MetricCard
+            title="Revenus"
+            value={`${revenus}€`}
+            description="Revenus ce mois"
+            icon={TrendingUp}
+            iconBgColor="bg-green-500"
+            borderColor="border-l-green-500"
+          />
+          <MetricCard
+            title="Dépenses"
+            value={`${depenses}€`}
+            description="Dépenses ce mois"
+            icon={TrendingDown}
+            iconBgColor="bg-red-500"
+            borderColor="border-l-red-500"
+          />
+          <MetricCard
+            title="Bénéfice"
+            value={`${benefice}€`}
+            description="Bénéfice net"
+            icon={DollarSign}
+            iconBgColor="bg-blue-500"
+            borderColor="border-l-blue-500"
+          />
+          <MetricCard
+            title="Transactions"
+            value={transactionsCount}
+            description={`${transactionsCount} transaction${transactionsCount > 1 ? 's' : ''} ce mois`}
+            icon={CreditCard}
+            iconBgColor="bg-purple-500"
+            borderColor="border-l-purple-500"
+          />
         </div>
 
         {/* Graphiques */}
