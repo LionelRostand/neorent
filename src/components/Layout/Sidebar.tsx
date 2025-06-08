@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -10,7 +11,8 @@ import {
   ClipboardList,
   Calculator,
   CreditCard,
-  Receipt
+  Receipt,
+  Globe
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -24,6 +26,7 @@ const navigation = [
   { name: 'Gestion Loyer', href: '/rent-management', icon: CreditCard },
   { name: 'Charges locatives', href: '/rental-charges', icon: Receipt },
   { name: 'Fiscalités', href: '/taxes', icon: Calculator },
+  { name: 'Website', href: '/website', icon: Globe },
 ];
 
 const Sidebar = () => {
