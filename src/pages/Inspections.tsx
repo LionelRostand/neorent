@@ -1,10 +1,13 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, ClipboardList, Calendar, User, Building2, CheckCircle, Clock, XCircle, FileCheck } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
+import InspectionForm from '@/components/InspectionForm';
 
 const inspections = [
   {
@@ -40,10 +43,17 @@ const inspections = [
 ];
 
 const Inspections = () => {
-  const completedCount = inspections.filter(i => i.status === 'Terminé').length;
-  const inProgressCount = inspections.filter(i => i.status === 'En cours').length;
-  const plannedCount = inspections.filter(i => i.status === 'Planifié').length;
-  const totalCount = inspections.length;
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [inspectionsList, setInspectionsList] = useState(inspections);
+
+  const completedCount = inspectionsList.filter(i => i.status === 'Terminé').length;
+  const inProgressCount = inspectionsList.filter(i => i.status === 'En cours').length;
+  const plannedCount = inspectionsList.filter(i => i.status === 'Planifié').length;
+  const totalCount = inspectionsList.length;
+
+  const handleSubmit = (data: any) => {
+    setInspectionsList(prev => [...prev, data]);
+  };
 
   return (
     <MainLayout>
@@ -53,10 +63,18 @@ const Inspections = () => {
             <h1 className="text-3xl font-bold text-gray-900">État des lieux</h1>
             <p className="text-gray-600 mt-2">Gérez les états des lieux et inspections</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="mr-2 h-4 w-4" />
-            Nouvel état des lieux
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="mr-2 h-4 w-4" />
+                Nouvel état des lieux
+              </Button>
+            </DialogTrigger>
+            <InspectionForm
+              onClose={() => setIsDialogOpen(false)}
+              onSubmit={handleSubmit}
+            />
+          </Dialog>
         </div>
 
         {/* Métriques */}
@@ -101,7 +119,7 @@ const Inspections = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {inspections.map((inspection) => (
+          {inspectionsList.map((inspection) => (
             <Card key={inspection.id} className="hover:shadow-lg transition-shadow">
               <CardContent className="p-6">
                 <div className="space-y-4">
