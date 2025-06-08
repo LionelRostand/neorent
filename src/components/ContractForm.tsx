@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -60,12 +59,8 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
   };
 
   const contractTypes = [
-    'Maintenance',
-    'Assurance',
-    'Syndic',
     'Bail locatif',
-    'Bail colocatif',
-    'Prestations'
+    'Bail colocatif'
   ];
 
   const handleInputChange = (field: string, value: string) => {
