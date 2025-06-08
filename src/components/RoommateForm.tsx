@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,12 +42,26 @@ const roommateFormSchema = z.object({
 
 type RoommateFormData = z.infer<typeof roommateFormSchema>;
 
+interface Property {
+  id: number;
+  title: string;
+  address: string;
+  type: string;
+  surface: string;
+  rent: string;
+  status: string;
+  tenant: string | null;
+  image: string;
+  locationType: string;
+}
+
 interface RoommateFormProps {
   onClose: () => void;
   onSubmit: (data: RoommateFormData & { imageBase64?: string }) => void;
+  properties: Property[];
 }
 
-const RoommateForm = ({ onClose, onSubmit }: RoommateFormProps) => {
+const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -67,11 +80,8 @@ const RoommateForm = ({ onClose, onSubmit }: RoommateFormProps) => {
     },
   });
 
-  const properties = [
-    'Appartement Rue des Fleurs',
-    'Studio Centre-ville',
-    'Villa Montparnasse',
-  ];
+  // Filtrer les biens immobiliers pour ne garder que ceux de type "Colocation"
+  const availableProperties = properties.filter(property => property.locationType === 'Colocation');
 
   const primaryTenants = [
     'Marie Dubois',
@@ -218,9 +228,9 @@ const RoommateForm = ({ onClose, onSubmit }: RoommateFormProps) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {properties.map((property) => (
-                        <SelectItem key={property} value={property}>
-                          {property}
+                      {availableProperties.map((property) => (
+                        <SelectItem key={property.id} value={property.title}>
+                          {property.title}
                         </SelectItem>
                       ))}
                     </SelectContent>

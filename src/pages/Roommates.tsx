@@ -40,6 +40,58 @@ const Roommates = () => {
     }
   ]);
 
+  // Liste des biens immobiliers (simulée - normalement viendrait d'une API ou du state global)
+  const [properties] = useState([
+    {
+      id: 1,
+      title: 'Appartement Rue des Fleurs',
+      address: '123 Rue des Fleurs, 75001 Paris',
+      type: 'Appartement',
+      surface: '65m²',
+      rent: '1,200€',
+      status: 'Occupé',
+      tenant: 'Marie Dubois',
+      image: '/placeholder.svg',
+      locationType: 'Location'
+    },
+    {
+      id: 2,
+      title: 'Studio Centre-ville',
+      address: '45 Avenue de la République, 75011 Paris',
+      type: 'Studio',
+      surface: '30m²',
+      rent: '800€',
+      status: 'Libre',
+      tenant: null,
+      image: '/placeholder.svg',
+      locationType: 'Location'
+    },
+    {
+      id: 3,
+      title: 'Villa Montparnasse',
+      address: '78 Boulevard Montparnasse, 75014 Paris',
+      type: 'Maison',
+      surface: '120m²',
+      rent: '2,500€',
+      status: 'Occupé',
+      tenant: 'Jean Martin',
+      image: '/placeholder.svg',
+      locationType: 'Colocation'
+    },
+    {
+      id: 4,
+      title: 'Appartement République',
+      address: '56 Place de la République, 75003 Paris',
+      type: 'Appartement',
+      surface: '85m²',
+      rent: '1,800€',
+      status: 'Libre',
+      tenant: null,
+      image: '/placeholder.svg',
+      locationType: 'Colocation'
+    }
+  ]);
+
   const activeCount = roommates.filter(r => r.status === 'Actif').length;
   const totalCount = roommates.length;
 
@@ -81,6 +133,7 @@ const Roommates = () => {
             <RoommateForm
               onClose={() => setIsDialogOpen(false)}
               onSubmit={handleAddRoommate}
+              properties={properties}
             />
           </Dialog>
         </div>
