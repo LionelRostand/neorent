@@ -1,6 +1,5 @@
 
-import React, { useState } from 'react';
-import MainLayout from '@/components/Layout/MainLayout';
+import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import MaintenanceRequestForm from '@/components/Maintenance/MaintenanceRequestForm';
@@ -8,51 +7,52 @@ import ResponsibilityGuide from '@/components/Maintenance/ResponsibilityGuide';
 import InterventionTracking from '@/components/Maintenance/InterventionTracking';
 import MaintenanceHistory from '@/components/Maintenance/MaintenanceHistory';
 import CostManagement from '@/components/Maintenance/CostManagement';
-import { Wrench, ClipboardList, Users, History, Calculator } from 'lucide-react';
+import { Wrench, ClipboardList, Scale, Calendar, Euro } from 'lucide-react';
 
 const Maintenance = () => {
   return (
-    <MainLayout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Maintenance</h1>
-            <p className="text-muted-foreground">
-              Gestion complète de la maintenance des biens immobiliers
-            </p>
-          </div>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto p-6">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Gestion de la Maintenance</h1>
+          <p className="text-muted-foreground mt-2">
+            Gérez toutes les demandes et interventions de maintenance de vos biens immobiliers
+          </p>
         </div>
 
         <Tabs defaultValue="requests" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="requests" className="flex items-center gap-2">
-              <Wrench className="h-4 w-4" />
+              <ClipboardList className="h-4 w-4" />
               Demandes
             </TabsTrigger>
             <TabsTrigger value="responsibilities" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
+              <Scale className="h-4 w-4" />
               Responsabilités
             </TabsTrigger>
-            <TabsTrigger value="tracking" className="flex items-center gap-2">
-              <ClipboardList className="h-4 w-4" />
-              Suivi
+            <TabsTrigger value="interventions" className="flex items-center gap-2">
+              <Wrench className="h-4 w-4" />
+              Interventions
             </TabsTrigger>
             <TabsTrigger value="history" className="flex items-center gap-2">
-              <History className="h-4 w-4" />
+              <Calendar className="h-4 w-4" />
               Historique
             </TabsTrigger>
             <TabsTrigger value="costs" className="flex items-center gap-2">
-              <Calculator className="h-4 w-4" />
+              <Euro className="h-4 w-4" />
               Coûts
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="requests">
+          <TabsContent value="requests" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Demandes de Maintenance</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <ClipboardList className="h-5 w-5" />
+                  Gestion des Demandes de Maintenance
+                </CardTitle>
                 <CardDescription>
-                  Enregistrer et gérer les demandes de maintenance des locataires
+                  Enregistrez et gérez les demandes de maintenance des locataires
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -61,12 +61,15 @@ const Maintenance = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="responsibilities">
+          <TabsContent value="responsibilities" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Répartition des Responsabilités</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Scale className="h-5 w-5" />
+                  Répartition des Responsabilités
+                </CardTitle>
                 <CardDescription>
-                  Classification selon la loi française du 6 juillet 1989
+                  Classification des charges entre propriétaire et locataire selon la loi française
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -75,12 +78,15 @@ const Maintenance = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="tracking">
+          <TabsContent value="interventions" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Suivi des Interventions</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Wrench className="h-5 w-5" />
+                  Suivi des Interventions
+                </CardTitle>
                 <CardDescription>
-                  Planification et suivi des travaux de maintenance
+                  Planifiez et suivez l'avancement des travaux de maintenance
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -89,12 +95,15 @@ const Maintenance = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="history">
+          <TabsContent value="history" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Historique des Maintenances</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5" />
+                  Historique des Maintenances
+                </CardTitle>
                 <CardDescription>
-                  Historique par bien et par type d'intervention
+                  Consultez l'historique complet par bien et par type d'intervention
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -103,12 +112,15 @@ const Maintenance = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="costs">
+          <TabsContent value="costs" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Coûts et Facturation</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Euro className="h-5 w-5" />
+                  Coûts et Facturation
+                </CardTitle>
                 <CardDescription>
-                  Gestion des frais selon la responsabilité
+                  Gérez les frais de maintenance selon la responsabilité
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -118,7 +130,7 @@ const Maintenance = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </MainLayout>
+    </div>
   );
 };
 
