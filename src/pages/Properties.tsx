@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,42 +8,6 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, MapPin, Home, DollarSign, Users, Building2, CheckCircle, Clock, XCircle } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import PropertyForm from '@/components/PropertyForm';
-
-const properties = [
-  {
-    id: 1,
-    title: 'Appartement Rue des Fleurs',
-    address: '123 Rue des Fleurs, 75001 Paris',
-    type: 'Appartement',
-    surface: '65m²',
-    rent: '1,200€',
-    status: 'Occupé',
-    tenant: 'Marie Dubois',
-    image: '/placeholder.svg'
-  },
-  {
-    id: 2,
-    title: 'Studio Centre-ville',
-    address: '45 Avenue de la République, 75011 Paris',
-    type: 'Studio',
-    surface: '30m²',
-    rent: '800€',
-    status: 'Libre',
-    tenant: null,
-    image: '/placeholder.svg'
-  },
-  {
-    id: 3,
-    title: 'Villa Montparnasse',
-    address: '78 Boulevard Montparnasse, 75014 Paris',
-    type: 'Maison',
-    surface: '120m²',
-    rent: '2,500€',
-    status: 'Occupé',
-    tenant: 'Jean Martin',
-    image: '/placeholder.svg'
-  }
-];
 
 const Properties = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -56,7 +21,8 @@ const Properties = () => {
       rent: '1,200€',
       status: 'Occupé',
       tenant: 'Marie Dubois',
-      image: '/placeholder.svg'
+      image: '/placeholder.svg',
+      locationType: 'Location'
     },
     {
       id: 2,
@@ -67,7 +33,8 @@ const Properties = () => {
       rent: '800€',
       status: 'Libre',
       tenant: null,
-      image: '/placeholder.svg'
+      image: '/placeholder.svg',
+      locationType: 'Location'
     },
     {
       id: 3,
@@ -78,7 +45,8 @@ const Properties = () => {
       rent: '2,500€',
       status: 'Occupé',
       tenant: 'Jean Martin',
-      image: '/placeholder.svg'
+      image: '/placeholder.svg',
+      locationType: 'Colocation'
     }
   ]);
 
@@ -97,7 +65,8 @@ const Properties = () => {
       rent: data.rent,
       status: 'Libre',
       tenant: null,
-      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg'
+      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg',
+      locationType: data.locationType
     };
 
     setProperties(prev => [...prev, newProperty]);
@@ -185,12 +154,20 @@ const Properties = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-start">
                     <h3 className="font-semibold text-lg text-gray-900">{property.title}</h3>
-                    <Badge 
-                      variant={property.status === 'Occupé' ? 'default' : 'secondary'}
-                      className={property.status === 'Occupé' ? 'bg-green-100 text-green-800' : ''}
-                    >
-                      {property.status}
-                    </Badge>
+                    <div className="flex gap-2">
+                      <Badge 
+                        variant={property.locationType === 'Colocation' ? 'default' : 'secondary'}
+                        className={property.locationType === 'Colocation' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}
+                      >
+                        {property.locationType}
+                      </Badge>
+                      <Badge 
+                        variant={property.status === 'Occupé' ? 'default' : 'secondary'}
+                        className={property.status === 'Occupé' ? 'bg-green-100 text-green-800' : ''}
+                      >
+                        {property.status}
+                      </Badge>
+                    </div>
                   </div>
                   
                   <div className="flex items-center text-gray-600 text-sm">
