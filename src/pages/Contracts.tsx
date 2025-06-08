@@ -1,52 +1,72 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, FileText, Calendar, User, Building2, CheckCircle, Clock, XCircle, ScrollText } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
-
-const contracts = [
-  {
-    id: 1,
-    title: 'Contrat de maintenance - Villa Montparnasse',
-    type: 'Maintenance',
-    provider: 'Plomberie Express',
-    property: 'Villa Montparnasse',
-    startDate: '2023-01-15',
-    endDate: '2024-01-15',
-    amount: '1,200€',
-    status: 'Actif'
-  },
-  {
-    id: 2,
-    title: 'Contrat assurance - Appartement Rue des Fleurs',
-    type: 'Assurance',
-    provider: 'Assur Immo',
-    property: 'Appartement Rue des Fleurs',
-    startDate: '2023-06-01',
-    endDate: '2024-06-01',
-    amount: '800€',
-    status: 'Actif'
-  },
-  {
-    id: 3,
-    title: 'Contrat syndic - Résidence Les Jardins',
-    type: 'Syndic',
-    provider: 'Syndic Pro',
-    property: 'Studio Centre-ville',
-    startDate: '2023-01-01',
-    endDate: '2023-12-31',
-    amount: '600€',
-    status: 'Expiré'
-  }
-];
+import ContractForm from '@/components/ContractForm';
 
 const Contracts = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [contracts, setContracts] = useState([
+    {
+      id: 1,
+      title: 'Contrat de maintenance - Villa Montparnasse',
+      type: 'Maintenance',
+      provider: 'Plomberie Express',
+      property: 'Villa Montparnasse',
+      startDate: '2023-01-15',
+      endDate: '2024-01-15',
+      amount: '1,200€',
+      status: 'Actif',
+      tenant: 'Jean Martin (Locataire)',
+      jurisdiction: 'française'
+    },
+    {
+      id: 2,
+      title: 'Contrat assurance - Appartement Rue des Fleurs',
+      type: 'Assurance',
+      provider: 'Assur Immo',
+      property: 'Appartement Rue des Fleurs',
+      startDate: '2023-06-01',
+      endDate: '2024-06-01',
+      amount: '800€',
+      status: 'Actif',
+      tenant: 'Marie Dubois (Locataire)',
+      jurisdiction: 'française'
+    },
+    {
+      id: 3,
+      title: 'Contrat syndic - Résidence Les Jardins',
+      type: 'Syndic',
+      provider: 'Syndic Pro',
+      property: 'Studio Centre-ville',
+      startDate: '2023-01-01',
+      endDate: '2023-12-31',
+      amount: '600€',
+      status: 'Expiré',
+      tenant: 'Sophie Leroy (Locataire)',
+      jurisdiction: 'camerounaise'
+    }
+  ]);
+
   const activeCount = contracts.filter(c => c.status === 'Actif').length;
   const expiredCount = contracts.filter(c => c.status === 'Expiré').length;
   const totalCount = contracts.length;
+
+  const handleAddContract = (data: any) => {
+    // Simuler l'ajout à la collection rent_contrats
+    const newContract = {
+      ...data,
+      id: contracts.length + 1
+    };
+
+    setContracts(prev => [...prev, newContract]);
+    console.log('Contrat ajouté à la collection rent_contrats:', newContract);
+  };
 
   return (
     <MainLayout>
@@ -56,10 +76,18 @@ const Contracts = () => {
             <h1 className="text-3xl font-bold text-gray-900">Contrats</h1>
             <p className="text-gray-600 mt-2">Gérez vos contrats de services et prestataires</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="mr-2 h-4 w-4" />
-            Nouveau contrat
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="mr-2 h-4 w-4" />
+                Nouveau contrat
+              </Button>
+            </DialogTrigger>
+            <ContractForm
+              onClose={() => setIsDialogOpen(false)}
+              onSubmit={handleAddContract}
+            />
+          </Dialog>
         </div>
 
         {/* Métriques */}
@@ -131,12 +159,21 @@ const Contracts = () => {
                       {contract.property}
                     </div>
                     <div className="flex items-center text-gray-600 text-sm">
+                      <User className="mr-2 h-4 w-4" />
+                      {contract.tenant}
+                    </div>
+                    <div className="flex items-center text-gray-600 text-sm">
                       <Calendar className="mr-2 h-4 w-4" />
                       Du {new Date(contract.startDate).toLocaleDateString('fr-FR')} au {new Date(contract.endDate).toLocaleDateString('fr-FR')}
                     </div>
                     <div className="flex items-center text-blue-600 font-semibold text-sm">
                       <FileText className="mr-2 h-4 w-4" />
                       {contract.amount}/an
+                    </div>
+                    <div className="flex items-center text-gray-600 text-sm">
+                      <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                        Juridiction {contract.jurisdiction}
+                      </span>
                     </div>
                   </div>
                   
