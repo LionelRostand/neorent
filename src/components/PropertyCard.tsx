@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Home, DollarSign, Users } from 'lucide-react';
+import { MapPin, Home, DollarSign, Users, Bed } from 'lucide-react';
 
 interface Property {
   id: number;
@@ -15,6 +15,8 @@ interface Property {
   tenant: string | null;
   image: string;
   locationType: string;
+  totalRooms?: number | null;
+  availableRooms?: number | null;
 }
 
 interface PropertyCardProps {
@@ -64,6 +66,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             <span className="text-gray-600">Type: {property.type}</span>
             <span className="text-gray-600">Surface: {property.surface}</span>
           </div>
+
+          {property.locationType === 'Colocation' && property.totalRooms && (
+            <div className="flex items-center text-gray-600 text-sm">
+              <Bed className="mr-1 h-4 w-4" />
+              <span className="text-green-600 font-medium">
+                {property.availableRooms} chambre{property.availableRooms > 1 ? 's' : ''} disponible{property.availableRooms > 1 ? 's' : ''}
+              </span>
+              <span className="ml-1">/ {property.totalRooms} total</span>
+            </div>
+          )}
           
           <div className="flex items-center justify-between pt-3 border-t">
             <div className="flex items-center text-blue-600 font-semibold">

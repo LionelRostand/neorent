@@ -14,6 +14,8 @@ interface Property {
   tenant: string | null;
   image: string;
   locationType: string;
+  totalRooms?: number | null;
+  availableRooms?: number | null;
 }
 
 interface PropertyMetricsProps {

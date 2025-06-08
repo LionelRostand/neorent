@@ -21,7 +21,9 @@ const Properties = () => {
       status: 'Occupé',
       tenant: 'Marie Dubois',
       image: '/placeholder.svg',
-      locationType: 'Location'
+      locationType: 'Location',
+      totalRooms: null,
+      availableRooms: null
     },
     {
       id: 2,
@@ -33,7 +35,9 @@ const Properties = () => {
       status: 'Libre',
       tenant: null,
       image: '/placeholder.svg',
-      locationType: 'Location'
+      locationType: 'Location',
+      totalRooms: null,
+      availableRooms: null
     },
     {
       id: 3,
@@ -45,7 +49,9 @@ const Properties = () => {
       status: 'Occupé',
       tenant: 'Jean Martin',
       image: '/placeholder.svg',
-      locationType: 'Colocation'
+      locationType: 'Colocation',
+      totalRooms: 4,
+      availableRooms: 1
     }
   ]);
 
@@ -61,7 +67,9 @@ const Properties = () => {
       status: 'Libre',
       tenant: null,
       image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg',
-      locationType: data.locationType
+      locationType: data.locationType,
+      totalRooms: data.locationType === 'Colocation' ? data.totalRooms : null,
+      availableRooms: data.locationType === 'Colocation' ? data.totalRooms : null
     };
 
     setProperties(prev => [...prev, newProperty]);
