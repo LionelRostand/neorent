@@ -5,6 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus, TrendingUp, TrendingDown, DollarSign, Calendar } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 const monthlyData = [
   { month: 'Jan', revenus: 4200, depenses: 800 },
@@ -22,30 +30,42 @@ const expenseData = [
   { name: 'Frais de gestion', value: 600, color: '#96ceb4' },
 ];
 
-const recentTransactions = [
+const transactions = [
   {
     id: 1,
-    type: 'Revenu',
-    description: 'Loyer - Appartement Rue des Fleurs',
-    amount: 1200,
     date: '2023-12-28',
-    property: 'Appartement Rue des Fleurs'
+    description: 'Loyer - Appartement Rue des Fleurs',
+    property: 'Appartement Rue des Fleurs',
+    category: 'Loyer',
+    amount: 1200,
+    type: 'Revenu'
   },
   {
     id: 2,
-    type: 'Dépense',
-    description: 'Réparation plomberie',
-    amount: -350,
     date: '2023-12-27',
-    property: 'Villa Montparnasse'
+    description: 'Réparation plomberie',
+    property: 'Villa Montparnasse',
+    category: 'Maintenance',
+    amount: -350,
+    type: 'Dépense'
   },
   {
     id: 3,
-    type: 'Revenu',
-    description: 'Loyer - Villa Montparnasse',
-    amount: 2500,
     date: '2023-12-25',
-    property: 'Villa Montparnasse'
+    description: 'Loyer - Villa Montparnasse',
+    property: 'Villa Montparnasse',
+    category: 'Loyer',
+    amount: 2500,
+    type: 'Revenu'
+  },
+  {
+    id: 4,
+    date: '2023-12-20',
+    description: 'Assurance habitation',
+    property: 'Studio République',
+    category: 'Assurance',
+    amount: -120,
+    type: 'Dépense'
   }
 ];
 
@@ -112,6 +132,51 @@ const Finances = () => {
           </Card>
         </div>
 
+        {/* Tableau des transactions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Toutes les Transactions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Bien</TableHead>
+                  <TableHead>Catégorie</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead className="text-right">Montant</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.map((transaction) => (
+                  <TableRow key={transaction.id}>
+                    <TableCell>{new Date(transaction.date).toLocaleDateString('fr-FR')}</TableCell>
+                    <TableCell className="font-medium">{transaction.description}</TableCell>
+                    <TableCell>{transaction.property}</TableCell>
+                    <TableCell>{transaction.category}</TableCell>
+                    <TableCell>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        transaction.type === 'Revenu' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {transaction.type}
+                      </span>
+                    </TableCell>
+                    <TableCell className={`text-right font-semibold ${
+                      transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      {transaction.amount > 0 ? '+' : ''}{transaction.amount}€
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
         {/* Graphiques */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
@@ -161,47 +226,6 @@ const Finances = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Transactions récentes */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Transactions Récentes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentTransactions.map((transaction) => (
-                <div key={transaction.id} className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-2 rounded-full ${
-                      transaction.amount > 0 ? 'bg-green-100' : 'bg-red-100'
-                    }`}>
-                      {transaction.amount > 0 ? (
-                        <TrendingUp className="h-4 w-4 text-green-600" />
-                      ) : (
-                        <TrendingDown className="h-4 w-4 text-red-600" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">{transaction.description}</p>
-                      <p className="text-sm text-gray-600">{transaction.property}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className={`font-semibold ${
-                      transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
-                    }`}>
-                      {transaction.amount > 0 ? '+' : ''}{transaction.amount}€
-                    </p>
-                    <p className="text-sm text-gray-600 flex items-center">
-                      <Calendar className="mr-1 h-3 w-3" />
-                      {new Date(transaction.date).toLocaleDateString('fr-FR')}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </MainLayout>
   );

@@ -7,7 +7,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Properties from "./pages/Properties";
 import Tenants from "./pages/Tenants";
+import Roommates from "./pages/Roommates";
+import Contracts from "./pages/Contracts";
+import Leases from "./pages/Leases";
+import Inspections from "./pages/Inspections";
 import Finances from "./pages/Finances";
+import Taxes from "./pages/Taxes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,12 +27,12 @@ const App = () => (
           <Route path="/" element={<Dashboard />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/tenants" element={<Tenants />} />
-          <Route path="/roommates" element={<Dashboard />} />
-          <Route path="/contracts" element={<Dashboard />} />
-          <Route path="/leases" element={<Dashboard />} />
-          <Route path="/inspections" element={<Dashboard />} />
+          <Route path="/roommates" element={<Roommates />} />
+          <Route path="/contracts" element={<Contracts />} />
+          <Route path="/leases" element={<Leases />} />
+          <Route path="/inspections" element={<Inspections />} />
           <Route path="/finances" element={<Finances />} />
-          <Route path="/taxes" element={<Dashboard />} />
+          <Route path="/taxes" element={<Taxes />} />
           <Route path="/maintenance" element={<Dashboard />} />
           <Route path="/reports" element={<Dashboard />} />
           <Route path="/settings" element={<Dashboard />} />
