@@ -18,6 +18,7 @@ import Website from "./pages/Website";
 import PublicHome from "./pages/PublicSite/Home";
 import PublicAbout from "./pages/PublicSite/About";
 import PublicContact from "./pages/PublicSite/Contact";
+import PublicLogin from "./pages/PublicSite/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/site" element={<PublicHome />} />
           <Route path="/site/about" element={<PublicAbout />} />
           <Route path="/site/contact" element={<PublicContact />} />
+          <Route path="/site/login" element={<PublicLogin />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

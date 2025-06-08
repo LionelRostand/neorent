@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, Info, Phone, Mail } from 'lucide-react';
+import { Home, Info, Phone, Mail, LogIn } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -37,6 +38,12 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Contact
+              </Link>
+              <Link to="/site/login">
+                <Button className="flex items-center gap-2">
+                  <LogIn className="h-4 w-4" />
+                  Connexion
+                </Button>
               </Link>
             </div>
           </div>
