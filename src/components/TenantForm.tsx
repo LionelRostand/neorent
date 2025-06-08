@@ -41,12 +41,26 @@ const tenantFormSchema = z.object({
 
 type TenantFormData = z.infer<typeof tenantFormSchema>;
 
+interface Property {
+  id: number;
+  title: string;
+  address: string;
+  type: string;
+  surface: string;
+  rent: string;
+  status: string;
+  tenant: string | null;
+  image: string;
+  locationType: string;
+}
+
 interface TenantFormProps {
   onClose: () => void;
   onSubmit: (data: TenantFormData & { imageBase64?: string }) => void;
+  properties: Property[];
 }
 
-const TenantForm = ({ onClose, onSubmit }: TenantFormProps) => {
+const TenantForm = ({ onClose, onSubmit, properties }: TenantFormProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -63,12 +77,8 @@ const TenantForm = ({ onClose, onSubmit }: TenantFormProps) => {
     },
   });
 
-  const properties = [
-    'Appartement Rue des Fleurs',
-    'Studio Centre-ville',
-    'Villa Montparnasse',
-    'Appartement Boulevard Haussmann',
-  ];
+  // Filtrer les biens immobiliers pour ne garder que ceux de type "Location"
+  const availableProperties = properties.filter(property => property.locationType === 'Location');
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -209,9 +219,9 @@ const TenantForm = ({ onClose, onSubmit }: TenantFormProps) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {properties.map((property) => (
-                        <SelectItem key={property} value={property}>
-                          {property}
+                      {availableProperties.map((property) => (
+                        <SelectItem key={property.id} value={property.title}>
+                          {property.title}
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -50,6 +49,58 @@ const Tenants = () => {
     }
   ]);
 
+  // Liste des biens immobiliers (simulée - normalement viendrait d'une API ou du state global)
+  const [properties] = useState([
+    {
+      id: 1,
+      title: 'Appartement Rue des Fleurs',
+      address: '123 Rue des Fleurs, 75001 Paris',
+      type: 'Appartement',
+      surface: '65m²',
+      rent: '1,200€',
+      status: 'Occupé',
+      tenant: 'Marie Dubois',
+      image: '/placeholder.svg',
+      locationType: 'Location'
+    },
+    {
+      id: 2,
+      title: 'Studio Centre-ville',
+      address: '45 Avenue de la République, 75011 Paris',
+      type: 'Studio',
+      surface: '30m²',
+      rent: '800€',
+      status: 'Libre',
+      tenant: null,
+      image: '/placeholder.svg',
+      locationType: 'Location'
+    },
+    {
+      id: 3,
+      title: 'Villa Montparnasse',
+      address: '78 Boulevard Montparnasse, 75014 Paris',
+      type: 'Maison',
+      surface: '120m²',
+      rent: '2,500€',
+      status: 'Occupé',
+      tenant: 'Jean Martin',
+      image: '/placeholder.svg',
+      locationType: 'Colocation'
+    },
+    {
+      id: 4,
+      title: 'Appartement Bastille',
+      address: '12 Place de la Bastille, 75011 Paris',
+      type: 'Appartement',
+      surface: '45m²',
+      rent: '1,000€',
+      status: 'Libre',
+      tenant: null,
+      image: '/placeholder.svg',
+      locationType: 'Location'
+    }
+  ]);
+
   const activeCount = tenants.filter(t => t.status === 'À jour').length;
   const lateCount = tenants.filter(t => t.status === 'En retard').length;
   const totalCount = tenants.length;
@@ -91,6 +142,7 @@ const Tenants = () => {
             <TenantForm
               onClose={() => setIsDialogOpen(false)}
               onSubmit={handleAddTenant}
+              properties={properties}
             />
           </Dialog>
         </div>
