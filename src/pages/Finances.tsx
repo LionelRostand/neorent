@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Plus, TrendingUp, TrendingDown, DollarSign, Calendar, CheckCircle, Clock, XCircle, CreditCard } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import MetricCard from '@/components/MetricCard';
+import RentPaymentForm from '@/components/RentPaymentForm';
 
 const monthlyData = [
   { month: 'Jan', revenus: 4200, depenses: 800 },
@@ -63,10 +64,13 @@ const Finances = () => {
             <h1 className="text-3xl font-bold text-gray-900">Finances</h1>
             <p className="text-gray-600 mt-2">Suivi des revenus et dépenses</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="mr-2 h-4 w-4" />
-            Ajouter transaction
-          </Button>
+          <div className="flex gap-2">
+            <RentPaymentForm />
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              <Plus className="mr-2 h-4 w-4" />
+              Ajouter transaction
+            </Button>
+          </div>
         </div>
 
         {/* Métriques */}
