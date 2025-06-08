@@ -5,7 +5,6 @@ import {
   Building2, 
   Users, 
   FileText, 
-  BarChart3,
   Settings,
   UserCheck,
   ClipboardList,
@@ -25,7 +24,6 @@ const navigation = [
   { name: 'Gestion Loyer', href: '/rent-management', icon: CreditCard },
   { name: 'Charges locatives', href: '/rental-charges', icon: Receipt },
   { name: 'Fiscalités', href: '/taxes', icon: Calculator },
-  { name: 'Rapports', href: '/reports', icon: BarChart3 },
 ];
 
 const Sidebar = () => {
