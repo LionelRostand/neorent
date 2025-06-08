@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -6,7 +5,6 @@ import {
   Building2, 
   Users, 
   FileText, 
-  Wrench, 
   BarChart3,
   Settings,
   UserCheck,
@@ -27,7 +25,6 @@ const navigation = [
   { name: 'Gestion Loyer', href: '/rent-management', icon: CreditCard },
   { name: 'Charges locatives', href: '/rental-charges', icon: Receipt },
   { name: 'Fiscalités', href: '/taxes', icon: Calculator },
-  { name: 'Maintenance', href: '/maintenance', icon: Wrench },
   { name: 'Rapports', href: '/reports', icon: BarChart3 },
 ];
 
