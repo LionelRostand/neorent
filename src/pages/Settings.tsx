@@ -2,7 +2,7 @@
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Database, Lock, Mail } from 'lucide-react';
+import { Database, Lock, Mail, CreditCard } from 'lucide-react';
 import CompanyManagementNew from '@/components/Settings/CompanyManagement';
 import EmployeeManagement from '@/components/Settings/EmployeeManagement';
 import EmployeePermissionsTab from '@/components/Settings/EmployeePermissionsTab';
@@ -11,13 +11,9 @@ import SimpleSettingsTab from '@/components/Settings/SimpleSettingsTab';
 import SecurityTab from '@/components/Settings/SecurityTab';
 import EmailTab from '@/components/Settings/EmailTab';
 import DatabaseTab from '@/components/Settings/Database/DatabaseTab';
+import PaymentTab from '@/components/Settings/PaymentTab';
 
 const Settings = () => {
-  const notificationsFields = [
-    { id: 'email-notifications', label: 'Notifications par email', placeholder: 'Configurez vos notifications...' },
-    { id: 'sms-notifications', label: 'Notifications SMS', placeholder: 'Configurez les SMS...' }
-  ];
-
   return (
     <MainLayout>
       <div className="space-y-4 md:space-y-6">
@@ -39,9 +35,9 @@ const Settings = () => {
                 <Database className="h-3 w-3 md:h-4 md:w-4" />
                 <span className="truncate">Firebase</span>
               </TabsTrigger>
-              <TabsTrigger value="notifications" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
-                <span className="hidden sm:inline">🔔</span>
-                <span className="truncate">Notifications</span>
+              <TabsTrigger value="payments" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <CreditCard className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="truncate">Paiements</span>
               </TabsTrigger>
               <TabsTrigger value="security" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
                 <Lock className="h-3 w-3 md:h-4 md:w-4" />
@@ -73,13 +69,8 @@ const Settings = () => {
             <FirebaseTab />
           </TabsContent>
 
-          <TabsContent value="notifications" className="space-y-4 md:space-y-6">
-            <SimpleSettingsTab
-              icon="🔔"
-              title="Configuration des notifications"
-              description="Configurez vos notifications"
-              fields={notificationsFields}
-            />
+          <TabsContent value="payments" className="space-y-4 md:space-y-6">
+            <PaymentTab />
           </TabsContent>
 
           <TabsContent value="security" className="space-y-4 md:space-y-6">
