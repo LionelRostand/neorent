@@ -1,9 +1,8 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import Dashboard from "./pages/Dashboard";
 import Properties from "./pages/Properties";
@@ -22,47 +21,50 @@ import PublicAbout from "./pages/PublicSite/About";
 import PublicContact from "./pages/PublicSite/Contact";
 import PublicLogin from "./pages/PublicSite/Login";
 import NotFound from "./pages/NotFound";
+import Settings from './pages/Settings';
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Public Site Routes - Now at root */}
-            <Route path="/" element={<PublicHome />} />
-            <Route path="/about" element={<PublicAbout />} />
-            <Route path="/contact" element={<PublicContact />} />
-            <Route path="/login" element={<PublicLogin />} />
-            
-            {/* Tenant Space */}
-            <Route path="/tenant-space" element={<TenantSpace />} />
-            
-            {/* Admin Routes - Now prefixed with /admin */}
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/admin/properties" element={<Properties />} />
-            <Route path="/admin/tenants" element={<Tenants />} />
-            <Route path="/admin/roommates" element={<Roommates />} />
-            <Route path="/admin/contracts" element={<Contracts />} />
-            <Route path="/admin/leases" element={<Leases />} />
-            <Route path="/admin/inspections" element={<Inspections />} />
-            <Route path="/admin/rent-management" element={<RentManagement />} />
-            <Route path="/admin/rental-charges" element={<RentalCharges />} />
-            <Route path="/admin/taxes" element={<Taxes />} />
-            <Route path="/admin/website" element={<Website />} />
-            <Route path="/admin/settings" element={<Dashboard />} />
-            
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Router>
+            <Routes>
+              {/* Public Site Routes - Now at root */}
+              <Route path="/" element={<PublicHome />} />
+              <Route path="/about" element={<PublicAbout />} />
+              <Route path="/contact" element={<PublicContact />} />
+              <Route path="/login" element={<PublicLogin />} />
+              
+              {/* Tenant Space */}
+              <Route path="/tenant-space" element={<TenantSpace />} />
+              
+              {/* Admin Routes - Now prefixed with /admin */}
+              <Route path="/admin" element={<Dashboard />} />
+              <Route path="/admin/properties" element={<Properties />} />
+              <Route path="/admin/tenants" element={<Tenants />} />
+              <Route path="/admin/roommates" element={<Roommates />} />
+              <Route path="/admin/contracts" element={<Contracts />} />
+              <Route path="/admin/leases" element={<Leases />} />
+              <Route path="/admin/inspections" element={<Inspections />} />
+              <Route path="/admin/rent-management" element={<RentManagement />} />
+              <Route path="/admin/rental-charges" element={<RentalCharges />} />
+              <Route path="/admin/taxes" element={<Taxes />} />
+              <Route path="/admin/website" element={<Website />} />
+              <Route path="/admin/settings" element={<Settings />} />
+              
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
