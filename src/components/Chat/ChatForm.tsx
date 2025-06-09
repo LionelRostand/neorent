@@ -19,18 +19,27 @@ export const ChatForm: React.FC<ChatFormProps> = ({ onSubmit }) => {
     email: ''
   });
 
+  console.log('ChatForm: Rendu du formulaire avec données:', formData);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('ChatForm: Soumission du formulaire avec:', formData);
+    
     if (formData.name.trim() && formData.email.trim()) {
+      console.log('ChatForm: Formulaire valide, appel de onSubmit');
       onSubmit(formData);
+    } else {
+      console.log('ChatForm: Formulaire invalide - nom ou email manquant');
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
+    const newFormData = {
       ...formData,
       [e.target.name]: e.target.value
-    });
+    };
+    console.log('ChatForm: Changement de champ:', e.target.name, '=', e.target.value);
+    setFormData(newFormData);
   };
 
   return (

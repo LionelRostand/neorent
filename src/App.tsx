@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ChatWidget } from "@/components/Chat/ChatWidget";
 import Dashboard from "./pages/Dashboard";
 import Properties from "./pages/Properties";
 import Tenants from "./pages/Tenants";
@@ -66,6 +67,9 @@ function App() {
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            
+            {/* Chat Widget disponible sur toutes les pages publiques */}
+            <ChatWidget />
           </Router>
         </TooltipProvider>
       </AuthProvider>
