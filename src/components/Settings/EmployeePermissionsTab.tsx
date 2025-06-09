@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
+import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
@@ -75,6 +75,7 @@ const menuLabels = {
 
 const EmployeePermissionsTab: React.FC = () => {
   const { userRoles, loading, refetch } = useFirebaseUserRoles();
+  const { companies, loading: companiesLoading } = useFirebaseCompanies();
   const { toast } = useToast();
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>('');
   const [permissions, setPermissions] = useState<EmployeePermissions>(defaultEmployeePermissions);
@@ -157,8 +158,14 @@ const EmployeePermissionsTab: React.FC = () => {
     setPermissions(newPermissions);
   };
 
-  if (loading) {
-    return <div>Chargement des employés...</div>;
+  const getCompanyName = (companyId?: string): string => {
+    if (!companyId) return 'Non assigné';
+    const company = companies.find(c => c.id === companyId);
+    return company ? company.name : 'Entreprise inconnue';
+  };
+
+  if (loading || companiesLoading) {
+    return <div>Chargement des employés et entreprises...</div>;
   }
 
   return (
@@ -190,12 +197,27 @@ const EmployeePermissionsTab: React.FC = () => {
               <SelectContent>
                 {employees.map((employee) => (
                   <SelectItem key={employee.id} value={employee.id}>
-                    {employee.name} ({employee.email})
+                    {employee.name} ({employee.email}) - {getCompanyName((employee as any).companyId)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
+
+          {selectedEmployee && (
+            <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+              <h3 className="font-medium text-sm mb-2">Informations de l'employé sélectionné:</h3>
+              <p className="text-sm text-gray-600">
+                <strong>Nom:</strong> {selectedEmployee.name}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Email:</strong> {selectedEmployee.email}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Entreprise:</strong> {getCompanyName((selectedEmployee as any).companyId)}
+              </p>
+            </div>
+          )}
 
           {selectedEmployeeId && (
             <div className="flex gap-4">
