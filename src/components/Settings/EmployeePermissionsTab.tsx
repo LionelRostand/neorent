@@ -139,15 +139,21 @@ const EmployeePermissionsTab: React.FC = () => {
   };
 
   const setAllPermissions = (value: boolean) => {
-    const newPermissions: EmployeePermissions = {};
-    Object.keys(defaultEmployeePermissions).forEach(menu => {
-      newPermissions[menu as keyof EmployeePermissions] = {
-        read: value,
-        write: value,
-        view: value,
-        delete: value,
-      };
-    });
+    const newPermissions: EmployeePermissions = {
+      dashboard: { read: value, write: value, view: value, delete: value },
+      properties: { read: value, write: value, view: value, delete: value },
+      tenants: { read: value, write: value, view: value, delete: value },
+      roommates: { read: value, write: value, view: value, delete: value },
+      contracts: { read: value, write: value, view: value, delete: value },
+      inspections: { read: value, write: value, view: value, delete: value },
+      rentManagement: { read: value, write: value, view: value, delete: value },
+      rentalCharges: { read: value, write: value, view: value, delete: value },
+      maintenance: { read: value, write: value, view: value, delete: value },
+      messages: { read: value, write: value, view: value, delete: value },
+      taxes: { read: value, write: value, view: value, delete: value },
+      website: { read: value, write: value, view: value, delete: value },
+      settings: { read: value, write: value, view: value, delete: value },
+    };
     setPermissions(newPermissions);
   };
 
