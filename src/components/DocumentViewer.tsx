@@ -14,7 +14,8 @@ interface DocumentViewerProps {
   onClose: () => void;
   documentName: string;
   documentType: string;
-  documentUrl?: string; // En production, ce serait une URL réelle
+  documentUrl?: string;
+  documentSize?: number;
 }
 
 const DocumentViewer: React.FC<DocumentViewerProps> = ({
@@ -22,16 +23,19 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({
   onClose,
   documentName,
   documentType,
-  documentUrl
+  documentUrl,
+  documentSize
 }) => {
   const handleDownload = () => {
-    // Simuler le téléchargement - en production, utiliser l'URL réelle
-    const link = document.createElement('a');
-    link.href = documentUrl || '/placeholder.svg';
-    link.download = documentName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (documentUrl) {
+      const link = document.createElement('a');
+      link.href = documentUrl;
+      link.download = documentName;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   const getFileExtension = (filename: string) => {
@@ -45,6 +49,13 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({
 
   const isPdfFile = (filename: string) => {
     return getFileExtension(filename) === 'pdf';
+  };
+
+  const formatFileSize = (bytes?: number) => {
+    if (!bytes) return 'Taille inconnue';
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
   };
 
   return (
@@ -67,49 +78,42 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({
         </DialogHeader>
 
         <div className="flex-1 overflow-hidden">
-          {isImageFile(documentName) ? (
-            <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg border">
-              <div className="text-center">
-                <Image className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                <p className="text-gray-600 mb-4">Aperçu de l'image</p>
-                <p className="text-sm text-gray-500">{documentName}</p>
-                {/* En production, afficher l'image réelle :
-                <img 
-                  src={documentUrl} 
-                  alt={documentName}
-                  className="max-w-full max-h-96 object-contain"
-                />
-                */}
-              </div>
+          {isImageFile(documentName) && documentUrl ? (
+            <div className="flex items-center justify-center bg-gray-50 rounded-lg border">
+              <img 
+                src={documentUrl} 
+                alt={documentName}
+                className="max-w-full max-h-96 object-contain rounded"
+                onError={(e) => {
+                  console.error('Error loading image:', e);
+                }}
+              />
             </div>
-          ) : isPdfFile(documentName) ? (
+          ) : isPdfFile(documentName) && documentUrl ? (
+            <div className="h-96 bg-gray-50 rounded-lg border">
+              <iframe
+                src={`${documentUrl}#toolbar=0`}
+                className="w-full h-full rounded-lg"
+                title={documentName}
+              />
+            </div>
+          ) : documentUrl ? (
             <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg border">
               <div className="text-center">
-                <FileText className="h-16 w-16 mx-auto mb-4 text-red-500" />
-                <p className="text-gray-600 mb-4">Aperçu PDF</p>
+                <FileText className="h-16 w-16 mx-auto mb-4 text-gray-400" />
+                <p className="text-gray-600 mb-4">Prévisualisation du document</p>
                 <p className="text-sm text-gray-500 mb-4">{documentName}</p>
                 <p className="text-xs text-gray-400">
-                  Le visualiseur PDF sera intégré en production
+                  Type: {getFileExtension(documentName).toUpperCase()}
                 </p>
-                {/* En production, utiliser un visualiseur PDF comme react-pdf :
-                <embed 
-                  src={documentUrl} 
-                  type="application/pdf"
-                  width="100%" 
-                  height="400px" 
-                />
-                */}
               </div>
             </div>
           ) : (
             <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg border">
               <div className="text-center">
                 <FileText className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                <p className="text-gray-600 mb-4">Aperçu du document</p>
-                <p className="text-sm text-gray-500 mb-4">{documentName}</p>
-                <p className="text-xs text-gray-400">
-                  Type: {getFileExtension(documentName).toUpperCase()}
-                </p>
+                <p className="text-gray-600 mb-4">Document non disponible</p>
+                <p className="text-sm text-gray-500">{documentName}</p>
               </div>
             </div>
           )}
@@ -118,7 +122,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({
         <div className="pt-4 border-t">
           <div className="flex justify-between items-center text-sm text-gray-600">
             <span>Type: {documentType}</span>
-            <span>Taille: {Math.floor(Math.random() * 2000 + 500)} KB</span>
+            <span>Taille: {formatFileSize(documentSize)}</span>
           </div>
         </div>
       </DialogContent>
