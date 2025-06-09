@@ -91,7 +91,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
     onClose();
   };
 
-  const isColocatif = inspection.contractType === 'Bail colocatif' || inspection.tenant.includes('Colocataire');
+  const isColocatif = inspection.contractType === 'Bail colocatif' || (inspection.tenant && inspection.tenant.includes('Colocataire'));
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
