@@ -160,7 +160,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
-            <p>&copy; 2025 Neo Rent. Tous droits réservés.</p>
+            <p>&copy; 2025 Neotech-consulting. Tous droits réservés.</p>
           </div>
         </div>
       </footer>
