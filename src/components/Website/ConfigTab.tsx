@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,12 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Save } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ConfigTab = () => {
   const [seoSettings, setSeoSettings] = useState({
-    title: 'NeoGarage Auto - Garage de confiance à Paris',
-    description: 'Entretien et réparation automobile professionnel à Paris',
-    keywords: 'garage, automobile, réparation, entretien, Paris'
+    title: 'NeoRent - Gestion Immobilière Simplifiée',
+    description: 'NeoRent révolutionne la gestion de vos biens immobiliers avec une plateforme complète, intuitive et performante.',
+    keywords: 'biens immobiliers, locations, colocations'
   });
 
   const [features, setFeatures] = useState({
@@ -21,18 +21,43 @@ const ConfigTab = () => {
     liveChat: true
   });
 
-  const handleSaveSEO = () => {
-    console.log('Sauvegarde des paramètres SEO:', seoSettings);
-    // Ici on sauvegarderait les paramètres SEO
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSaveSEO = async () => {
+    setIsSaving(true);
+    try {
+      // Simulation de la sauvegarde
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      console.log('Sauvegarde des paramètres de configuration:', {
+        seoSettings,
+        features
+      });
+      
+      toast.success('Configuration sauvegardée avec succès !', {
+        description: 'Paramètres SEO et fonctionnalités mis à jour'
+      });
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde:', error);
+      toast.error('Erreur lors de la sauvegarde', {
+        description: 'Veuillez réessayer'
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-xl md:text-2xl font-semibold text-gray-900">⚙️ Configuration générale</h2>
-        <Button onClick={handleSaveSEO} className="flex items-center gap-2 w-full sm:w-auto">
+        <Button 
+          onClick={handleSaveSEO} 
+          disabled={isSaving}
+          className="flex items-center gap-2 w-full sm:w-auto"
+        >
           <Save className="h-4 w-4" />
-          Sauvegarder
+          {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">
