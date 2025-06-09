@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -23,7 +22,7 @@ const RentalCharges = () => {
 
   const filteredCharges = selectedView === 'monthly' 
     ? charges.filter(charge => charge.month === selectedMonth)
-    : charges.filter(charge => charge.month.startsWith(selectedYear));
+    : charges.filter(charge => charge.month && charge.month.startsWith(selectedYear));
   
   const totalCharges = filteredCharges.reduce((sum, charge) => sum + charge.total, 0);
   const averageCharges = filteredCharges.length > 0 ? totalCharges / filteredCharges.length : 0;
