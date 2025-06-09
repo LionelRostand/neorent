@@ -143,6 +143,14 @@ const EmployeeManagement: React.FC = () => {
     setIsEditDialogOpen(true);
   };
 
+  // Helper function to safely get permissions as array
+  const getPermissionsDisplay = (permissions: any): string => {
+    if (Array.isArray(permissions)) {
+      return permissions.join(', ');
+    }
+    return 'Aucune';
+  };
+
   const EmployeeForm = ({ onSubmit, isEdit = false }: { onSubmit: (e: React.FormEvent) => void; isEdit?: boolean }) => (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
@@ -265,7 +273,7 @@ const EmployeeManagement: React.FC = () => {
                     {new Date(employee.createdAt).toLocaleDateString()}
                   </div>
                   <div className="text-sm text-gray-600">
-                    {employee.permissions?.join(', ') || 'Aucune'}
+                    {getPermissionsDisplay(employee.permissions)}
                   </div>
                   <div className="flex gap-2">
                     <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
