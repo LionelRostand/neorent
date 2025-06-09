@@ -27,41 +27,46 @@ const ConfigTab = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">⚙️ Configuration générale</h2>
-        <Button onClick={handleSaveSEO} className="flex items-center gap-2">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">⚙️ Configuration générale</h2>
+        <Button onClick={handleSaveSEO} className="flex items-center gap-2 w-full sm:w-auto">
           <Save className="h-4 w-4" />
           Sauvegarder
         </Button>
       </div>
-      <p className="text-gray-600">Paramètres techniques SEO, fonctionnalités et connexion backend Firebase.</p>
+      <p className="text-gray-600 text-sm md:text-base">
+        Paramètres techniques SEO, fonctionnalités et connexion backend Firebase.
+      </p>
 
       <Card>
         <CardHeader>
-          <CardTitle>Paramètres SEO</CardTitle>
+          <CardTitle className="text-base md:text-lg">Paramètres SEO</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Titre du site</Label>
+            <Label className="text-sm">Titre du site</Label>
             <Input
               value={seoSettings.title}
               onChange={(e) => setSeoSettings({...seoSettings, title: e.target.value})}
+              className="text-sm"
             />
           </div>
           <div className="space-y-2">
-            <Label>Description</Label>
+            <Label className="text-sm">Description</Label>
             <Textarea
               value={seoSettings.description}
               onChange={(e) => setSeoSettings({...seoSettings, description: e.target.value})}
               rows={2}
+              className="text-sm resize-none"
             />
           </div>
           <div className="space-y-2">
-            <Label>Mots-clés</Label>
+            <Label className="text-sm">Mots-clés</Label>
             <Input
               value={seoSettings.keywords}
               onChange={(e) => setSeoSettings({...seoSettings, keywords: e.target.value})}
+              className="text-sm"
             />
           </div>
         </CardContent>
@@ -69,33 +74,33 @@ const ConfigTab = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Fonctionnalités</CardTitle>
+          <CardTitle className="text-base md:text-lg">Fonctionnalités</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <Label>✅ Prise de rendez-vous en ligne</Label>
-              <p className="text-sm text-gray-600">Permettre aux clients de prendre RDV</p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="flex-1">
+              <Label className="text-sm font-medium">✅ Prise de rendez-vous en ligne</Label>
+              <p className="text-xs md:text-sm text-gray-600">Permettre aux clients de prendre RDV</p>
             </div>
             <Switch
               checked={features.onlineBooking}
               onCheckedChange={(checked) => setFeatures({...features, onlineBooking: checked})}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <Label>✅ Devis en ligne</Label>
-              <p className="text-sm text-gray-600">Formulaire de demande de devis</p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="flex-1">
+              <Label className="text-sm font-medium">✅ Devis en ligne</Label>
+              <p className="text-xs md:text-sm text-gray-600">Formulaire de demande de devis</p>
             </div>
             <Switch
               checked={features.onlineQuote}
               onCheckedChange={(checked) => setFeatures({...features, onlineQuote: checked})}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <Label>✅ Chat en direct (ChatWidget)</Label>
-              <p className="text-sm text-gray-600">Support client en temps réel</p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="flex-1">
+              <Label className="text-sm font-medium">✅ Chat en direct (ChatWidget)</Label>
+              <p className="text-xs md:text-sm text-gray-600">Support client en temps réel</p>
             </div>
             <Switch
               checked={features.liveChat}
@@ -107,12 +112,16 @@ const ConfigTab = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Accès rapide</CardTitle>
+          <CardTitle className="text-base md:text-lg">Accès rapide</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4">
-            <Button variant="outline">Accès espace client</Button>
-            <Button variant="outline">Connexion Firebase</Button>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <Button variant="outline" className="w-full sm:w-auto text-sm">
+              Accès espace client
+            </Button>
+            <Button variant="outline" className="w-full sm:w-auto text-sm">
+              Connexion Firebase
+            </Button>
           </div>
         </CardContent>
       </Card>

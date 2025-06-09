@@ -32,14 +32,16 @@ const RentalCharges = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
+      <div className="space-y-4 md:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Charges Locatives</h1>
-            <p className="text-gray-600 mt-2">Gérez les charges de vos biens immobiliers</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Charges Locatives</h1>
+            <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
+              Gérez les charges de vos biens immobiliers
+            </p>
           </div>
           <Button 
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
             onClick={() => setIsFormOpen(true)}
           >
             <Plus className="mr-2 h-4 w-4" />
@@ -47,23 +49,25 @@ const RentalCharges = () => {
           </Button>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <ViewSelector 
             selectedView={selectedView}
             onViewChange={setSelectedView}
           />
           
-          {selectedView === 'monthly' ? (
-            <MonthSelector 
-              selectedMonth={selectedMonth}
-              onMonthChange={setSelectedMonth}
-            />
-          ) : (
-            <YearSelector 
-              selectedYear={selectedYear}
-              onYearChange={setSelectedYear}
-            />
-          )}
+          <div className="w-full sm:w-auto">
+            {selectedView === 'monthly' ? (
+              <MonthSelector 
+                selectedMonth={selectedMonth}
+                onMonthChange={setSelectedMonth}
+              />
+            ) : (
+              <YearSelector 
+                selectedYear={selectedYear}
+                onYearChange={setSelectedYear}
+              />
+            )}
+          </div>
         </div>
 
         <ChargeMetrics

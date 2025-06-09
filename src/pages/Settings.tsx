@@ -1,3 +1,4 @@
+
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -48,48 +49,55 @@ service cloud.firestore {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Paramètres</h1>
-          <p className="text-gray-600 mt-2">Gérez les paramètres de votre application</p>
+      <div className="space-y-4 md:space-y-6">
+        <div className="px-1">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Paramètres</h1>
+          <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
+            Gérez les paramètres de votre application
+          </p>
         </div>
 
-        <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-gray-100">
-            <TabsTrigger value="general" className="flex items-center gap-2 text-sm">
-              <span className="hidden sm:inline">⚙️</span>
-              Général
-            </TabsTrigger>
-            <TabsTrigger value="notifications" className="flex items-center gap-2 text-sm">
-              <span className="hidden sm:inline">🔔</span>
-              Notifications
-            </TabsTrigger>
-            <TabsTrigger value="security" className="flex items-center gap-2 text-sm">
-              <span className="hidden sm:inline">🔐</span>
-              Sécurité
-            </TabsTrigger>
-            <TabsTrigger value="permissions" className="flex items-center gap-2 text-sm">
-              <span className="hidden sm:inline">👥</span>
-              Permissions
-            </TabsTrigger>
-            <TabsTrigger value="database" className="flex items-center gap-2 text-sm">
-              <span className="hidden sm:inline">📊</span>
-              <span className="hidden sm:inline">Base de données</span>
-              <span className="sm:hidden">BDD</span>
-            </TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="general" className="space-y-4 md:space-y-6">
+          <div className="overflow-x-auto">
+            <TabsList className="grid w-full min-w-[500px] grid-cols-5 bg-gray-100 mx-1">
+              <TabsTrigger value="general" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <span className="hidden sm:inline">⚙️</span>
+                <span className="truncate">Général</span>
+              </TabsTrigger>
+              <TabsTrigger value="notifications" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <span className="hidden sm:inline">🔔</span>
+                <span className="truncate">Notifications</span>
+              </TabsTrigger>
+              <TabsTrigger value="security" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <span className="hidden sm:inline">🔐</span>
+                <span className="truncate">Sécurité</span>
+              </TabsTrigger>
+              <TabsTrigger value="permissions" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <span className="hidden sm:inline">👥</span>
+                <span className="truncate">Permissions</span>
+              </TabsTrigger>
+              <TabsTrigger value="database" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <span className="hidden sm:inline">📊</span>
+                <span className="sm:hidden">BDD</span>
+                <span className="hidden sm:inline lg:hidden">Base</span>
+                <span className="hidden lg:inline">Base de données</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-          <TabsContent value="general" className="space-y-6">
+          <TabsContent value="general" className="space-y-4 md:space-y-6">
             {/* Section Compte Employés */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                   👥 Compte Employés
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4 md:space-y-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <p className="text-gray-600">Gérez les comptes employés de votre garage</p>
+                  <p className="text-gray-600 text-sm md:text-base">
+                    Gérez les comptes employés de votre garage
+                  </p>
                   <Button className="flex items-center gap-2 w-full sm:w-auto">
                     <Plus className="h-4 w-4" />
                     Ajouter un employé
@@ -97,33 +105,58 @@ service cloud.firestore {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <div className="min-w-full">
-                    <div className="grid grid-cols-6 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
+                  <div className="min-w-[600px]">
+                    <div className="hidden md:grid grid-cols-6 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
                       <div>Nom</div>
                       <div>Prénom</div>
-                      <div className="hidden md:block">Email</div>
-                      <div className="hidden lg:block">Téléphone</div>
-                      <div className="hidden xl:block">Poste</div>
+                      <div>Email</div>
+                      <div>Téléphone</div>
+                      <div>Poste</div>
                       <div>Actions</div>
                     </div>
                     
                     {employees.map((employee) => (
-                      <div key={employee.id} className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200">
-                        <div className="font-medium">{employee.nom}</div>
-                        <div>{employee.prenom}</div>
-                        <div className="hidden md:block text-sm text-gray-600">{employee.email}</div>
-                        <div className="hidden lg:block text-sm text-gray-600">{employee.telephone}</div>
-                        <div className="hidden xl:block text-sm text-gray-600">{employee.poste}</div>
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="sm">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
+                      <div key={employee.id} className="md:hidden space-y-3 p-4 border border-gray-200 rounded-lg mb-4">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-medium text-lg">{employee.nom} {employee.prenom}</h3>
+                            <p className="text-sm text-gray-600">{employee.poste}</p>
+                          </div>
+                          <div className="flex gap-1">
+                            <Button variant="ghost" size="sm">
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-sm text-gray-600">{employee.email}</p>
+                          <p className="text-sm text-gray-600">{employee.telephone}</p>
                         </div>
                       </div>
                     ))}
+
+                    <div className="hidden md:block">
+                      {employees.map((employee) => (
+                        <div key={employee.id} className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200">
+                          <div className="font-medium">{employee.nom}</div>
+                          <div>{employee.prenom}</div>
+                          <div className="text-sm text-gray-600 truncate">{employee.email}</div>
+                          <div className="text-sm text-gray-600">{employee.telephone}</div>
+                          <div className="text-sm text-gray-600">{employee.poste}</div>
+                          <div className="flex gap-2">
+                            <Button variant="ghost" size="sm">
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -136,7 +169,7 @@ service cloud.firestore {
             {/* Section Règles de sécurité */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                   <Shield className="h-5 w-5" />
                   Règles de sécurité Firestore
                 </CardTitle>
@@ -146,13 +179,13 @@ service cloud.firestore {
                   Copiez et collez ces règles dans votre console Firebase (Firestore Database → Règles) :
                 </p>
                 
-                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <div className="bg-gray-900 text-gray-100 p-3 md:p-4 rounded-lg overflow-x-auto">
                   <pre className="text-xs whitespace-pre-wrap">
                     <code>{securityRules}</code>
                   </pre>
                 </div>
                 
-                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="mt-4 p-3 md:p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <div className="flex items-start gap-2">
                     <span className="text-yellow-600 text-sm">⚠️</span>
                     <div className="text-sm">
@@ -169,13 +202,13 @@ service cloud.firestore {
             </Card>
           </TabsContent>
 
-          <TabsContent value="notifications" className="space-y-6">
+          <TabsContent value="notifications" className="space-y-4 md:space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>🔔 Configuration des notifications</CardTitle>
+                <CardTitle className="text-lg md:text-xl">🔔 Configuration des notifications</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-4">
                     <Label htmlFor="email-notifications">Notifications par email</Label>
                     <Input id="email-notifications" placeholder="Configurez vos notifications..." />
@@ -190,13 +223,13 @@ service cloud.firestore {
             </Card>
           </TabsContent>
 
-          <TabsContent value="security" className="space-y-6">
+          <TabsContent value="security" className="space-y-4 md:space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>🔐 Paramètres de sécurité</CardTitle>
+                <CardTitle className="text-lg md:text-xl">🔐 Paramètres de sécurité</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-4">
                     <Label htmlFor="password-policy">Politique de mot de passe</Label>
                     <Input id="password-policy" placeholder="Configurez la sécurité..." />
@@ -211,10 +244,10 @@ service cloud.firestore {
             </Card>
           </TabsContent>
 
-          <TabsContent value="permissions" className="space-y-6">
+          <TabsContent value="permissions" className="space-y-4 md:space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>👥 Gestion des permissions</CardTitle>
+                <CardTitle className="text-lg md:text-xl">👥 Gestion des permissions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-4">
@@ -226,13 +259,13 @@ service cloud.firestore {
             </Card>
           </TabsContent>
 
-          <TabsContent value="database" className="space-y-6">
+          <TabsContent value="database" className="space-y-4 md:space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>📊 Configuration base de données</CardTitle>
+                <CardTitle className="text-lg md:text-xl">📊 Configuration base de données</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-4">
                     <Label htmlFor="backup-settings">Paramètres de sauvegarde</Label>
                     <Input id="backup-settings" placeholder="Configurez les sauvegardes..." />

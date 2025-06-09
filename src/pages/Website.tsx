@@ -39,52 +39,54 @@ const Website = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         <WebsiteHeader />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-8 mb-6">
-            {tabs.map((tab) => (
-              <TabsTrigger 
-                key={tab.id} 
-                value={tab.id}
-                className="flex items-center gap-2 text-sm"
-              >
-                <tab.icon className="h-4 w-4" />
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="grid w-full min-w-[640px] grid-cols-8 mb-4 md:mb-6 mx-1">
+              {tabs.map((tab) => (
+                <TabsTrigger 
+                  key={tab.id} 
+                  value={tab.id}
+                  className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm p-2 sm:p-3"
+                >
+                  <tab.icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="truncate text-[10px] sm:text-xs lg:text-sm">{tab.label}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
-          <TabsContent value="pages" className="space-y-6">
+          <TabsContent value="pages" className="space-y-4 md:space-y-6">
             <PagesTab />
           </TabsContent>
 
-          <TabsContent value="content" className="space-y-6">
+          <TabsContent value="content" className="space-y-4 md:space-y-6">
             <ContentTab />
           </TabsContent>
 
-          <TabsContent value="medias" className="space-y-6">
+          <TabsContent value="medias" className="space-y-4 md:space-y-6">
             <MediasTab />
           </TabsContent>
 
-          <TabsContent value="theme" className="space-y-6">
+          <TabsContent value="theme" className="space-y-4 md:space-y-6">
             <ThemeTab />
           </TabsContent>
 
-          <TabsContent value="footer" className="space-y-6">
+          <TabsContent value="footer" className="space-y-4 md:space-y-6">
             <FooterTab />
           </TabsContent>
 
-          <TabsContent value="carte" className="space-y-6">
+          <TabsContent value="carte" className="space-y-4 md:space-y-6">
             <MapTab />
           </TabsContent>
 
-          <TabsContent value="analytics" className="space-y-6">
+          <TabsContent value="analytics" className="space-y-4 md:space-y-6">
             <AnalyticsTab />
           </TabsContent>
 
-          <TabsContent value="config" className="space-y-6">
+          <TabsContent value="config" className="space-y-4 md:space-y-6">
             <ConfigTab />
           </TabsContent>
         </Tabs>
