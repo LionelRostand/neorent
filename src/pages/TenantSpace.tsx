@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   User, 
   Home, 
@@ -13,11 +14,14 @@ import {
   ArrowLeft,
   LogOut,
   UserCog,
-  Menu
+  Menu,
+  Users
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import TenantProfile from '@/components/TenantSpace/TenantProfile';
 import PropertyInfo from '@/components/TenantSpace/PropertyInfo';
 import TenantDocuments from '@/components/TenantSpace/TenantDocuments';
@@ -25,12 +29,44 @@ import RentHistory from '@/components/TenantSpace/RentHistory';
 
 const TenantSpace = () => {
   const [activeTab, setActiveTab] = useState('profile');
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const isMobile = useIsMobile();
+  const { tenants } = useFirebaseTenants();
+  const { roommates } = useFirebaseRoommates();
 
-  // Données simulées du locataire connecté
-  const tenantData = {
+  // Vérifier si c'est un admin qui consulte l'espace d'un autre utilisateur
+  const selectedUserId = searchParams.get('userId');
+  const isAdminView = !!selectedUserId;
+
+  // Combiner les locataires et colocataires pour le sélecteur admin
+  const allUsers = [
+    ...tenants.map(t => ({ ...t, type: 'Locataire' })),
+    ...roommates.map(r => ({ ...r, type: 'Colocataire' }))
+  ];
+
+  // Trouver l'utilisateur sélectionné ou utiliser les données par défaut
+  const selectedUser = selectedUserId 
+    ? allUsers.find(u => u.id === selectedUserId)
+    : null;
+
+  // Données du locataire (réelles ou simulées selon le contexte)
+  const tenantData = selectedUser ? {
+    id: selectedUser.id,
+    name: selectedUser.name || 'Utilisateur',
+    email: selectedUser.email || 'email@example.com',
+    phone: selectedUser.phone || 'Non défini',
+    address: selectedUser.property || 'Adresse non définie',
+    leaseStart: selectedUser.leaseStart || '2023-06-01',
+    leaseEnd: '2024-05-31',
+    status: selectedUser.status || 'À jour',
+    emergencyContact: {
+      name: 'Contact d\'urgence',
+      phone: '06 98 76 54 32',
+      relation: 'Famille'
+    }
+  } : {
     id: 1,
     name: 'Marie Dubois',
     email: 'marie.dubois@email.com',
@@ -47,12 +83,12 @@ const TenantSpace = () => {
   };
 
   const propertyData = {
-    title: 'Appartement Rue de la Paix',
-    address: '45 Rue de la Paix, 75001 Paris',
+    title: selectedUser?.property || 'Appartement Rue de la Paix',
+    address: selectedUser?.property || '45 Rue de la Paix, 75001 Paris',
     type: 'Appartement',
     surface: '65m²',
     rooms: '3 pièces',
-    rent: 1200,
+    rent: selectedUser?.rentAmount || 1200,
     charges: 150,
     deposit: 2400,
     furnished: true,
@@ -60,6 +96,14 @@ const TenantSpace = () => {
     elevator: true,
     parking: false,
     features: ['Balcon', 'Cave', 'Interphone', 'Fibre optique']
+  };
+
+  const handleUserSelection = (userId: string) => {
+    if (userId === 'self') {
+      setSearchParams({});
+    } else {
+      setSearchParams({ userId });
+    }
   };
 
   const handleBackendAccess = () => {
@@ -96,6 +140,23 @@ const TenantSpace = () => {
         <div className="flex flex-col space-y-4 mt-8">
           <div className="text-sm text-gray-600 border-b pb-4">
             Connecté en tant que: {user.email}
+          </div>
+          {/* Sélecteur d'utilisateur pour mobile */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Voir l'espace de:</label>
+            <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
+              <SelectTrigger>
+                <SelectValue placeholder="Sélectionner un utilisateur" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="self">Mon espace</SelectItem>
+                {allUsers.map((user) => (
+                  <SelectItem key={user.id} value={user.id}>
+                    {user.name} ({user.type})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <Button 
             variant="outline" 
@@ -138,6 +199,11 @@ const TenantSpace = () => {
               <Badge className="ml-2 md:ml-3 bg-green-100 text-green-800 text-xs md:text-sm">
                 Espace Locataire
               </Badge>
+              {isAdminView && (
+                <Badge className="ml-2 bg-blue-100 text-blue-800 text-xs md:text-sm">
+                  Vue Admin
+                </Badge>
+              )}
             </div>
             
             {/* Desktop Actions */}
@@ -145,6 +211,25 @@ const TenantSpace = () => {
               <span className="text-sm text-gray-600">
                 Connecté en tant que: {user.email}
               </span>
+              
+              {/* Sélecteur d'utilisateur pour desktop */}
+              <div className="flex items-center space-x-2">
+                <Users className="h-4 w-4 text-gray-500" />
+                <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Sélectionner un utilisateur" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="self">Mon espace</SelectItem>
+                    {allUsers.map((user) => (
+                      <SelectItem key={user.id} value={user.id}>
+                        {user.name} ({user.type})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
               <Button 
                 variant="outline" 
                 onClick={handleBackToSite}
@@ -181,16 +266,15 @@ const TenantSpace = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-            Bienvenue, {tenantData.name}
+            {isAdminView ? `Espace de ${tenantData.name}` : `Bienvenue, ${tenantData.name}`}
           </h1>
           <p className="text-gray-600 mt-2 text-sm md:text-base">
-            Gérez votre location et consultez vos documents
+            {isAdminView ? 'Consultation en mode administrateur' : 'Gérez votre location et consultez vos documents'}
           </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {isMobile ? (
-            // Mobile: Dropdown/Select style tabs
             <div className="mb-6">
               <select 
                 value={activeTab} 
@@ -204,7 +288,6 @@ const TenantSpace = () => {
               </select>
             </div>
           ) : (
-            // Desktop: Regular tabs
             <TabsList className="grid w-full grid-cols-4 mb-8">
               <TabsTrigger 
                 value="profile" 

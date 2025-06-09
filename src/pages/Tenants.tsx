@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Phone, Mail, MapPin, Calendar, Euro, Plus, Search } from 'lucide-react';
+import { Phone, Mail, MapPin, Calendar, Euro, Plus, Search, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import TenantForm from '@/components/TenantForm';
 import TenantDetailsModal from '@/components/TenantDetailsModal';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
@@ -124,7 +124,7 @@ const Tenants = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTenants.map((tenant) => (
-            <Card key={tenant.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => handleTenantClick(tenant)}>
+            <Card key={tenant.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="flex justify-between items-center">
                   <div className="flex items-center space-x-4">
@@ -161,6 +161,28 @@ const Tenants = () => {
                 <div className="text-sm text-gray-600 flex items-center">
                   <Calendar className="mr-2 h-4 w-4" />
                   Prochain paiement: {tenant.nextPayment || 'Non défini'}
+                </div>
+                
+                {/* Actions */}
+                <div className="flex space-x-2 pt-3 border-t">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => handleTenantClick(tenant)}
+                    className="flex-1"
+                  >
+                    Détails
+                  </Button>
+                  <Link to={`/tenant-space?userId=${tenant.id}`}>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex items-center gap-1"
+                    >
+                      <Eye className="h-3 w-3" />
+                      Espace
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
