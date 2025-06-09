@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
-import { ConversationList } from '@/components/Messages/ConversationList';
+import { ContactList } from '@/components/Messages/ContactList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
 import { messageService } from '@/services/messageService';
 import type { Conversation, ChatMessage } from '@/types/chat';
@@ -95,7 +95,7 @@ const Messages = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
           <div className="lg:col-span-1">
-            <ConversationList
+            <ContactList
               conversations={conversations}
               selectedConversation={selectedConversation}
               onConversationSelect={handleConversationSelect}
@@ -114,7 +114,7 @@ const Messages = () => {
             ) : (
               <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
                 <div className="text-center">
-                  <p className="text-gray-500">Sélectionnez une conversation pour commencer</p>
+                  <p className="text-gray-500">Sélectionnez un contact pour commencer</p>
                 </div>
               </div>
             )}
