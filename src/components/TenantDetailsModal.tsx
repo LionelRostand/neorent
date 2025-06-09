@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import {
   Dialog,
@@ -6,28 +7,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Home, 
-  Calendar, 
-  DollarSign,
-  FileText,
-  Shield,
-  ClipboardList,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Building,
-  CreditCard,
-  Download,
-  Eye
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import DocumentViewer from './DocumentViewer';
+import TenantGeneralInfo from './TenantDetails/TenantGeneralInfo';
+import TenantDocumentsTab from './TenantDetails/TenantDocumentsTab';
 
 interface Tenant {
   id: number;
@@ -57,69 +39,6 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
 
   if (!tenant) return null;
-
-  // Simuler les documents étendus
-  const documents = {
-    bail: { exists: true, name: 'Contrat de bail - Marie Dubois.pdf', uploadDate: '2023-06-01', status: 'Signé' },
-    assurance: { exists: true, name: 'Assurance habitation.pdf', uploadDate: '2023-05-28', status: 'Valide' },
-    etatLieuxEntree: { exists: true, name: 'État des lieux entrée.pdf', uploadDate: '2023-06-01', status: 'Signé' },
-    revenus: { exists: true, name: 'Bulletins de salaire.pdf', uploadDate: '2023-05-25', status: 'Validé' },
-    identite: { exists: true, name: 'Carte identité.pdf', uploadDate: '2023-05-20', status: 'Validé' },
-    rib: { exists: true, name: 'RIB.pdf', uploadDate: '2023-05-20', status: 'Validé' },
-    garant: { exists: false, name: null, uploadDate: null, status: 'Non requis' },
-    taxeHabitation: { exists: false, name: null, uploadDate: null, status: 'Optionnel' },
-    etatLieuxSortie: { exists: false, name: null, uploadDate: null, status: 'À venir' }
-  };
-
-  const documentTypes = [
-    { key: 'bail', icon: FileText, label: 'Contrat de bail', color: 'text-blue-600', required: true },
-    { key: 'assurance', icon: Shield, label: 'Assurance habitation', color: 'text-green-600', required: true },
-    { key: 'etatLieuxEntree', icon: ClipboardList, label: 'État des lieux d\'entrée', color: 'text-purple-600', required: true },
-    { key: 'revenus', icon: CreditCard, label: 'Justificatifs de revenus', color: 'text-orange-600', required: true },
-    { key: 'identite', icon: User, label: 'Pièce d\'identité', color: 'text-red-600', required: true },
-    { key: 'rib', icon: CreditCard, label: 'RIB', color: 'text-teal-600', required: true },
-    { key: 'garant', icon: User, label: 'Documents garant', color: 'text-indigo-600', required: false },
-    { key: 'taxeHabitation', icon: Home, label: 'Taxe d\'habitation', color: 'text-gray-600', required: false },
-    { key: 'etatLieuxSortie', icon: ClipboardList, label: 'État des lieux de sortie', color: 'text-orange-600', required: false }
-  ];
-
-  // Calculer le statut de paiement du mois en cours
-  const currentDate = new Date();
-  const nextPaymentDate = new Date(tenant.nextPayment);
-  const isLate = nextPaymentDate < currentDate;
-  const isUpcoming = nextPaymentDate.getTime() - currentDate.getTime() <= 7 * 24 * 60 * 60 * 1000; // 7 jours
-
-  const getPaymentStatus = () => {
-    if (isLate) {
-      return { status: 'En retard', color: 'bg-red-100 text-red-800', icon: XCircle };
-    } else if (isUpcoming) {
-      return { status: 'À venir', color: 'bg-yellow-100 text-yellow-800', icon: Clock };
-    } else {
-      return { status: 'À jour', color: 'bg-green-100 text-green-800', icon: CheckCircle };
-    }
-  };
-
-  const paymentStatus = getPaymentStatus();
-  const PaymentIcon = paymentStatus.icon;
-
-  const getDocumentStatusBadge = (status: string, exists: boolean, required: boolean) => {
-    if (exists) {
-      switch (status) {
-        case 'Signé':
-        case 'Valide':
-        case 'Validé':
-          return <Badge className="bg-green-100 text-green-800">✓ {status}</Badge>;
-        default:
-          return <Badge className="bg-blue-100 text-blue-800">{status}</Badge>;
-      }
-    } else {
-      if (required) {
-        return <Badge className="bg-red-100 text-red-800">❌ Manquant</Badge>;
-      } else {
-        return <Badge variant="secondary">{status}</Badge>;
-      }
-    }
-  };
 
   const handleViewDocument = (documentName: string, documentType: string) => {
     setSelectedDocument({ name: documentName, type: documentType });
@@ -151,139 +70,14 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
             </TabsList>
 
             <TabsContent value="general" className="space-y-6">
-              {/* Informations du locataire */}
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                      {tenant.image ? (
-                        <img 
-                          src={tenant.image} 
-                          alt={tenant.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <User className="h-10 w-10 text-gray-400" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-semibold text-gray-900 mb-2">{tenant.name}</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex items-center text-gray-600">
-                          <Mail className="mr-2 h-4 w-4" />
-                          {tenant.email}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Phone className="mr-2 h-4 w-4" />
-                          {tenant.phone}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Building className="mr-2 h-4 w-4" />
-                          Appartement: {tenant.property}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Home className="mr-2 h-4 w-4" />
-                          Type: Location
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Calendar className="mr-2 h-4 w-4" />
-                          Début bail: {new Date(tenant.leaseStart).toLocaleDateString('fr-FR')}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Statut de paiement */}
-              <Card>
-                <CardContent className="p-6">
-                  <h4 className="text-lg font-semibold mb-4">Statut de paiement</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center">
-                        <DollarSign className="mr-2 h-5 w-5 text-blue-600" />
-                        <span className="font-medium">Montant du loyer</span>
-                      </div>
-                      <span className="text-lg font-bold text-blue-600">{tenant.rentAmount}</span>
-                    </div>
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center">
-                        <PaymentIcon className="mr-2 h-5 w-5" />
-                        <span className="font-medium">Statut du mois</span>
-                      </div>
-                      <Badge className={paymentStatus.color}>
-                        {paymentStatus.status}
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                    <div className="flex items-center text-blue-700">
-                      <Calendar className="mr-2 h-4 w-4" />
-                      <span className="font-medium">
-                        Prochain paiement: {new Date(tenant.nextPayment).toLocaleDateString('fr-FR')}
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <TenantGeneralInfo tenant={tenant} />
             </TabsContent>
 
             <TabsContent value="documents" className="space-y-6">
-              <div className="grid gap-4">
-                {documentTypes.map((docType) => {
-                  const document = documents[docType.key as keyof typeof documents];
-                  const Icon = docType.icon;
-                  
-                  return (
-                    <Card key={docType.key}>
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <Icon className={`h-8 w-8 ${docType.color}`} />
-                            <div>
-                              <h4 className="font-semibold flex items-center gap-2">
-                                {docType.label}
-                                {docType.required && <Badge variant="outline" className="text-xs">Requis</Badge>}
-                              </h4>
-                              {document.exists ? (
-                                <p className="text-sm text-gray-600">
-                                  {document.name} • Ajouté le {new Date(document.uploadDate!).toLocaleDateString('fr-FR')}
-                                </p>
-                              ) : (
-                                <p className="text-sm text-gray-500">Aucun document uploadé</p>
-                              )}
-                            </div>
-                          </div>
-                          <div className="flex items-center space-x-3">
-                            {getDocumentStatusBadge(document.status, document.exists, docType.required)}
-                            {document.exists && (
-                              <div className="flex gap-2">
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  onClick={() => handleViewDocument(document.name!, docType.label)}
-                                >
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  Voir
-                                </Button>
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  onClick={() => handleDownloadDocument(document.name!)}
-                                >
-                                  <Download className="h-4 w-4 mr-2" />
-                                  Télécharger
-                                </Button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
+              <TenantDocumentsTab 
+                onViewDocument={handleViewDocument}
+                onDownloadDocument={handleDownloadDocument}
+              />
             </TabsContent>
           </Tabs>
         </DialogContent>
