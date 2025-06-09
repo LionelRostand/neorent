@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -22,9 +23,9 @@ const Tenants = () => {
   const { properties } = useFirebaseProperties();
 
   const filteredTenants = tenants.filter(tenant =>
-    tenant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tenant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tenant.property.toLowerCase().includes(searchTerm.toLowerCase())
+    (tenant.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (tenant.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (tenant.property || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleAddTenant = async (data: any) => {
