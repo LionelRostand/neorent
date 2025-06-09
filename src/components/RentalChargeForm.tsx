@@ -1,41 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calculator, Building2, DollarSign, Wrench } from 'lucide-react';
+import { Calculator, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
-
-const mockProperties = [
-  { 
-    id: 1, 
-    name: 'Appartement Rue des Fleurs', 
-    type: 'Location',
-    tenant: 'Marie Dubois'
-  },
-  { 
-    id: 2, 
-    name: 'Villa Montparnasse', 
-    type: 'Location',
-    tenant: 'Jean Martin'
-  },
-  { 
-    id: 3, 
-    name: 'Appartement Bastille - Chambre 1', 
-    type: 'Colocation',
-    tenant: 'Sophie Leroy'
-  },
-  { 
-    id: 4, 
-    name: 'Appartement Bastille - Chambre 2', 
-    type: 'Colocation',
-    tenant: 'Pierre Durand'
-  },
-];
+import { useMaintenanceCostCalculator } from '@/hooks/useMaintenanceCostCalculator';
+import PropertySelector, { mockProperties } from '@/components/RentalCharges/PropertySelector';
+import ChargeInputs from '@/components/RentalCharges/ChargeInputs';
+import ChargeSummary from '@/components/RentalCharges/ChargeSummary';
 
 interface RentalChargeFormProps {
   isOpen: boolean;
@@ -56,38 +30,20 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     internet: ''
   });
   const { toast } = useToast();
-  const { interventions, loading: maintenanceLoading } = useFirebaseMaintenances();
 
   const selectedPropertyData = mockProperties.find(p => p.id.toString() === selectedProperty);
 
-  // Calculer automatiquement les coûts de maintenance pour le bien et le mois sélectionnés
-  useEffect(() => {
-    if (selectedProperty && month) {
-      const selectedPropertyName = selectedPropertyData?.name;
-      if (selectedPropertyName) {
-        // Filtrer les interventions terminées pour ce bien et ce mois
-        const monthStart = new Date(month + '-01');
-        const monthEnd = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0);
-        
-        const propertyMaintenanceCosts = interventions
-          .filter(intervention => 
-            intervention.property === selectedPropertyName &&
-            intervention.status === 'Terminée' &&
-            intervention.scheduledDate
-          )
-          .filter(intervention => {
-            const interventionDate = new Date(intervention.scheduledDate);
-            return interventionDate >= monthStart && interventionDate <= monthEnd;
-          })
-          .reduce((total, intervention) => total + (intervention.actualCost || intervention.estimatedCost || 0), 0);
-
-        setCharges(prev => ({
-          ...prev,
-          maintenance: propertyMaintenanceCosts.toString()
-        }));
-      }
+  const { maintenanceLoading } = useMaintenanceCostCalculator({
+    selectedProperty,
+    month,
+    selectedPropertyName: selectedPropertyData?.name,
+    onCostCalculated: (cost) => {
+      setCharges(prev => ({
+        ...prev,
+        maintenance: cost
+      }));
     }
-  }, [selectedProperty, month, interventions, selectedPropertyData]);
+  });
 
   const handleChargeChange = (field: string, value: string) => {
     setCharges(prev => ({
@@ -164,32 +120,11 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Sélection du bien */}
-          <div className="space-y-2">
-            <Label htmlFor="property">Bien immobilier</Label>
-            <Select value={selectedProperty} onValueChange={setSelectedProperty}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionner un bien" />
-              </SelectTrigger>
-              <SelectContent>
-                {mockProperties.map((property) => (
-                  <SelectItem key={property.id} value={property.id.toString()}>
-                    <div className="flex items-center gap-2">
-                      <Building2 className="h-4 w-4" />
-                      <span>{property.name} - {property.type}</span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {selectedPropertyData && (
-              <p className="text-sm text-gray-600">
-                Locataire: {selectedPropertyData.tenant}
-              </p>
-            )}
-          </div>
+          <PropertySelector
+            selectedProperty={selectedProperty}
+            onPropertyChange={setSelectedProperty}
+          />
 
-          {/* Sélection du mois */}
           <div className="space-y-2">
             <Label htmlFor="month">Mois</Label>
             <Input
@@ -201,123 +136,14 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
             />
           </div>
 
-          {/* Charges détaillées */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Détail des charges</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="electricity">Électricité (€)</Label>
-                  <Input
-                    id="electricity"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={charges.electricity}
-                    onChange={(e) => handleChargeChange('electricity', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="water">Eau (€)</Label>
-                  <Input
-                    id="water"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={charges.water}
-                    onChange={(e) => handleChargeChange('water', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="heating">Chauffage (€)</Label>
-                  <Input
-                    id="heating"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={charges.heating}
-                    onChange={(e) => handleChargeChange('heating', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="maintenance">
-                    <div className="flex items-center gap-2">
-                      Entretien (€)
-                      <Wrench className="h-3 w-3 text-blue-500" />
-                      {maintenanceLoading && <span className="text-xs text-gray-500">(calcul...)</span>}
-                    </div>
-                  </Label>
-                  <Input
-                    id="maintenance"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={charges.maintenance}
-                    onChange={(e) => handleChargeChange('maintenance', e.target.value)}
-                  />
-                  {selectedProperty && charges.maintenance && parseFloat(charges.maintenance) > 0 && (
-                    <p className="text-xs text-blue-600">
-                      Coût calculé automatiquement depuis les interventions terminées
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="insurance">Assurance (€)</Label>
-                  <Input
-                    id="insurance"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={charges.insurance}
-                    onChange={(e) => handleChargeChange('insurance', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="garbage">Ordures ménagères (€)</Label>
-                  <Input
-                    id="garbage"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={charges.garbage}
-                    onChange={(e) => handleChargeChange('garbage', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="internet">Internet/TV (€)</Label>
-                  <Input
-                    id="internet"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={charges.internet}
-                    onChange={(e) => handleChargeChange('internet', e.target.value)}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <ChargeInputs
+            charges={charges}
+            onChargeChange={handleChargeChange}
+            selectedProperty={selectedProperty}
+            maintenanceLoading={maintenanceLoading}
+          />
 
-          {/* Total calculé */}
-          <Card className="bg-blue-50 border-blue-200">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <span className="text-lg font-medium text-blue-800">Total des charges:</span>
-                <span className="text-2xl font-bold text-blue-600">
-                  {calculateTotal().toFixed(2)}€
-                </span>
-              </div>
-            </CardContent>
-          </Card>
+          <ChargeSummary total={calculateTotal()} />
 
           <div className="flex justify-end space-x-2">
             <Button type="button" variant="outline" onClick={onClose}>
