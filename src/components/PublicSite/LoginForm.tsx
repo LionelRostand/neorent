@@ -15,7 +15,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, userProfile, userType } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,11 +24,32 @@ const LoginForm = () => {
 
     try {
       await login(email, password);
-      toast({
-        title: "Connexion réussie",
-        description: "Vous êtes maintenant connecté à votre espace.",
-      });
-      navigate('/tenant-space');
+      
+      // Attendre un peu pour que les données Firebase se chargent
+      setTimeout(() => {
+        // Vérifier si l'utilisateur a un profil valide
+        if (!userProfile) {
+          toast({
+            title: "Accès refusé",
+            description: "Votre profil n'existe pas dans notre base de données. Contactez l'administrateur.",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        toast({
+          title: "Connexion réussie",
+          description: `Bienvenue ${userProfile.name || 'Utilisateur'}`,
+        });
+
+        // Rediriger selon le type d'utilisateur
+        if (userType === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/tenant-space');
+        }
+      }, 1000);
+      
     } catch (error: any) {
       console.error('Erreur de connexion:', error);
       toast({

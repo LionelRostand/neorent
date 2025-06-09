@@ -37,7 +37,7 @@ const TenantSpace = () => {
   const [userType, setUserType] = useState<'locataire' | 'colocataire'>('locataire');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, userProfile, userType: authUserType } = useAuth();
   const isMobile = useIsMobile();
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
@@ -46,9 +46,8 @@ const TenantSpace = () => {
   const selectedUserId = searchParams.get('userId');
   const isAdminView = !!selectedUserId;
 
-  // Vérifier si l'utilisateur est admin/employé - utiliser l'email comme indicateur
-  // TODO: Adapter cette logique selon votre système d'authentification
-  const isAdminOrEmployee = user?.email === 'admin@example.com' || user?.email?.includes('admin') || user?.email?.includes('employee');
+  // Utiliser le type d'utilisateur de l'authentification
+  const isAdminOrEmployee = authUserType === 'admin';
 
   // Combiner les locataires et colocataires pour le sélecteur admin
   const allUsers = [
@@ -59,7 +58,7 @@ const TenantSpace = () => {
   // Trouver l'utilisateur sélectionné ou utiliser les données par défaut
   const selectedUser = selectedUserId 
     ? allUsers.find(u => u.id === selectedUserId)
-    : null;
+    : userProfile ? userProfile : null;
 
   // Vérifier si l'utilisateur sélectionné existe dans Firebase
   useEffect(() => {
@@ -100,6 +99,20 @@ const TenantSpace = () => {
     leaseStart: selectedUser.type === 'Locataire' ? (selectedUser as any).leaseStart || '2023-06-01' : (selectedUser as any).moveInDate || '2023-06-01',
     leaseEnd: '2024-05-31',
     status: selectedUser.status || 'À jour',
+    emergencyContact: {
+      name: 'Contact d\'urgence',
+      phone: '06 98 76 54 32',
+      relation: 'Famille'
+    }
+  } : userProfile ? {
+    id: 1,
+    name: userProfile.name || 'Utilisateur',
+    email: userProfile.email || 'email@example.com',
+    phone: userProfile.phone || 'Non défini',
+    address: userProfile.property || 'Adresse non définie',
+    leaseStart: userProfile.leaseStart || userProfile.moveInDate || '2023-06-01',
+    leaseEnd: '2024-05-31',
+    status: userProfile.status || 'À jour',
     emergencyContact: {
       name: 'Contact d\'urgence',
       phone: '06 98 76 54 32',
