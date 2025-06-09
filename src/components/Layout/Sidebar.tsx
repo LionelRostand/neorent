@@ -14,6 +14,7 @@ import {
   Globe,
   Calculator
 } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -96,15 +97,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
         <h1 className="text-xl font-bold text-white">NeoRent</h1>
       </div>
       
-      <nav className="mt-6 flex-1">
-        <div className="px-3">
+      <ScrollArea className="flex-1 px-3">
+        <nav className="space-y-2 py-4">
           {menuItems.map((item) => {
             const Icon = item.icon;
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center px-3 py-2 text-sm font-medium rounded-md mb-1 transition-colors ${
+                className={`flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors ${
                   isActive(item.path)
                     ? 'bg-green-400 text-white'
                     : 'text-white/90 hover:text-white hover:bg-green-400/50'
@@ -116,8 +117,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
               </Link>
             );
           })}
-        </div>
-      </nav>
+        </nav>
+      </ScrollArea>
 
       <div className="p-4 border-t border-green-400">
         <div className="text-center">
