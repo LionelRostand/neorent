@@ -10,16 +10,12 @@ import FirebaseTab from '@/components/Settings/FirebaseTab';
 import SimpleSettingsTab from '@/components/Settings/SimpleSettingsTab';
 import SecurityTab from '@/components/Settings/SecurityTab';
 import EmailTab from '@/components/Settings/EmailTab';
+import DatabaseTab from '@/components/Settings/Database/DatabaseTab';
 
 const Settings = () => {
   const notificationsFields = [
     { id: 'email-notifications', label: 'Notifications par email', placeholder: 'Configurez vos notifications...' },
     { id: 'sms-notifications', label: 'Notifications SMS', placeholder: 'Configurez les SMS...' }
-  ];
-
-  const databaseFields = [
-    { id: 'backup-settings', label: 'Paramètres de sauvegarde', placeholder: 'Configurez les sauvegardes...' },
-    { id: 'sync-settings', label: 'Synchronisation', placeholder: 'Configurez la sync...' }
   ];
 
   return (
@@ -99,12 +95,7 @@ const Settings = () => {
           </TabsContent>
 
           <TabsContent value="database" className="space-y-4 md:space-y-6">
-            <SimpleSettingsTab
-              icon="📊"
-              title="Configuration base de données"
-              description="Configurez la base de données"
-              fields={databaseFields}
-            />
+            <DatabaseTab />
           </TabsContent>
         </Tabs>
       </div>

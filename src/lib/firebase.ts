@@ -6,7 +6,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyDInXgSvKg0hvD8b57ts400lah99XjZx34",
   authDomain: "neorent-23d85.firebaseapp.com",
   projectId: "neorent-23d85",
