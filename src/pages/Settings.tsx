@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Shield, Database, Lock, Key, Copy } from 'lucide-react';
-import CompanyManagement from '@/components/Settings/CompanyManagement';
+import CompanyManagementNew from '@/components/Settings/CompanyManagement';
 import EmployeeManagement from '@/components/Settings/EmployeeManagement';
 
 const Settings = () => {
@@ -101,6 +101,13 @@ service cloud.firestore {
     
     // 11. Configuration de l'entreprise - Collection: company_config
     match /company_config/{configId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // 12. Entreprises - Collection: Rent_entreprises
+    match /Rent_entreprises/{entrepriseId} {
       allow read: if request.auth != null;
       allow write: if request.auth != null && 
         get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
@@ -223,16 +230,16 @@ service firebase.storage {
           </p>
         </div>
 
-        <Tabs defaultValue="firebase" className="space-y-4 md:space-y-6">
+        <Tabs defaultValue="general" className="space-y-4 md:space-y-6">
           <div className="overflow-x-auto">
             <TabsList className="grid w-full min-w-[600px] grid-cols-6 bg-gray-100 mx-1">
-              <TabsTrigger value="firebase" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
-                <Database className="h-3 w-3 md:h-4 md:w-4" />
-                <span className="truncate">Firebase</span>
-              </TabsTrigger>
               <TabsTrigger value="general" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
                 <span className="hidden sm:inline">⚙️</span>
                 <span className="truncate">Général</span>
+              </TabsTrigger>
+              <TabsTrigger value="firebase" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <Database className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="truncate">Firebase</span>
               </TabsTrigger>
               <TabsTrigger value="notifications" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
                 <span className="hidden sm:inline">🔔</span>
@@ -254,6 +261,11 @@ service firebase.storage {
               </TabsTrigger>
             </TabsList>
           </div>
+
+          <TabsContent value="general" className="space-y-4 md:space-y-6">
+            <CompanyManagementNew />
+            <EmployeeManagement />
+          </TabsContent>
 
           <TabsContent value="firebase" className="space-y-4 md:space-y-6">
             {/* Section Règles Firestore */}
@@ -369,6 +381,7 @@ service firebase.storage {
                     { name: 'Rent_Inspections', description: 'États des lieux', status: 'Configuré' },
                     { name: 'Rent_Payments', description: 'Paiements des loyers', status: 'Configuré' },
                     { name: 'Rent_Charges', description: 'Charges locatives', status: 'Configuré' },
+                    { name: 'Rent_entreprises', description: 'Entreprises', status: 'Configuré' },
                     { name: 'Rent_employees', description: 'Employés', status: 'À créer' },
                     { name: 'user_roles', description: 'Rôles utilisateurs', status: 'À créer' },
                     { name: 'website_config', description: 'Configuration site web', status: 'À créer' },
@@ -419,11 +432,6 @@ service firebase.storage {
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
-
-          <TabsContent value="general" className="space-y-4 md:space-y-6">
-            <CompanyManagement />
-            <EmployeeManagement />
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-4 md:space-y-6">

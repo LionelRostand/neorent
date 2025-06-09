@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
+import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -17,6 +18,7 @@ interface Employee {
   role: 'admin' | 'employee';
   email: string;
   name: string;
+  companyId?: string;
   createdAt: string;
   permissions?: string[];
 }
@@ -25,10 +27,12 @@ interface EmployeeFormData {
   name: string;
   email: string;
   role: 'admin' | 'employee';
+  companyId: string;
 }
 
 const EmployeeManagement: React.FC = () => {
   const { userRoles, loading, refetch } = useFirebaseUserRoles();
+  const { companies, loading: companiesLoading } = useFirebaseCompanies();
   const { toast } = useToast();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -36,14 +40,16 @@ const EmployeeManagement: React.FC = () => {
   const [formData, setFormData] = useState<EmployeeFormData>({
     name: '',
     email: '',
-    role: 'employee'
+    role: 'employee',
+    companyId: ''
   });
 
   const resetForm = () => {
     setFormData({
       name: '',
       email: '',
-      role: 'employee'
+      role: 'employee',
+      companyId: ''
     });
   };
 
@@ -138,7 +144,8 @@ const EmployeeManagement: React.FC = () => {
     setFormData({
       name: employee.name,
       email: employee.email,
-      role: employee.role
+      role: employee.role,
+      companyId: employee.companyId || ''
     });
     setIsEditDialogOpen(true);
   };
@@ -149,6 +156,12 @@ const EmployeeManagement: React.FC = () => {
       return permissions.join(', ');
     }
     return 'Aucune';
+  };
+
+  const getCompanyName = (companyId?: string): string => {
+    if (!companyId) return 'Non assigné';
+    const company = companies.find(c => c.id === companyId);
+    return company ? company.name : 'Entreprise inconnue';
   };
 
   const EmployeeForm = ({ onSubmit, isEdit = false }: { onSubmit: (e: React.FormEvent) => void; isEdit?: boolean }) => (
@@ -187,13 +200,30 @@ const EmployeeManagement: React.FC = () => {
         </Select>
       </div>
       
+      <div>
+        <Label htmlFor="company">Entreprise</Label>
+        <Select value={formData.companyId} onValueChange={(value: string) => setFormData({ ...formData, companyId: value })}>
+          <SelectTrigger>
+            <SelectValue placeholder="Sélectionner une entreprise" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">Aucune entreprise</SelectItem>
+            {companies.map((company) => (
+              <SelectItem key={company.id} value={company.id}>
+                {company.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      
       <Button type="submit" className="w-full">
         {isEdit ? 'Modifier l\'employé' : 'Ajouter l\'employé'}
       </Button>
     </form>
   );
 
-  if (loading) {
+  if (loading || companiesLoading) {
     return <div>Chargement des employés...</div>;
   }
 
@@ -202,7 +232,7 @@ const EmployeeManagement: React.FC = () => {
       <CardHeader>
         <CardTitle className="flex items-center justify-between text-lg md:text-xl">
           <div className="flex items-center gap-2">
-            👥 Compte Employés
+            👥 Gestion des Employés
           </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
@@ -226,11 +256,12 @@ const EmployeeManagement: React.FC = () => {
         </p>
 
         <div className="overflow-x-auto">
-          <div className="min-w-[600px]">
-            <div className="hidden md:grid grid-cols-6 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
+          <div className="min-w-[700px]">
+            <div className="hidden md:grid grid-cols-7 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
               <div>Nom</div>
               <div>Email</div>
               <div>Rôle</div>
+              <div>Entreprise</div>
               <div>Date création</div>
               <div>Permissions</div>
               <div>Actions</div>
@@ -242,6 +273,7 @@ const EmployeeManagement: React.FC = () => {
                   <div>
                     <h3 className="font-medium text-lg">{employee.name}</h3>
                     <p className="text-sm text-gray-600">{employee.role === 'admin' ? 'Administrateur' : 'Employé'}</p>
+                    <p className="text-sm text-gray-500">{getCompanyName(employee.companyId)}</p>
                   </div>
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
@@ -263,11 +295,14 @@ const EmployeeManagement: React.FC = () => {
 
             <div className="hidden md:block">
               {userRoles.map((employee) => (
-                <div key={employee.id} className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200">
+                <div key={employee.id} className="grid grid-cols-7 gap-4 p-4 border-b border-gray-200">
                   <div className="font-medium">{employee.name}</div>
                   <div className="text-sm text-gray-600 truncate">{employee.email}</div>
                   <div className="text-sm text-gray-600">
                     {employee.role === 'admin' ? 'Administrateur' : 'Employé'}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {getCompanyName(employee.companyId)}
                   </div>
                   <div className="text-sm text-gray-600">
                     {new Date(employee.createdAt).toLocaleDateString()}
