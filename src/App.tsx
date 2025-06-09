@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -45,6 +46,7 @@ function App() {
               
               {/* Admin Routes - Now prefixed with /admin */}
               <Route path="/admin" element={<Dashboard />} />
+              <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/properties" element={<Properties />} />
               <Route path="/admin/tenants" element={<Tenants />} />
               <Route path="/admin/roommates" element={<Roommates />} />
