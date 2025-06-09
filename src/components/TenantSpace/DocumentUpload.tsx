@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -34,6 +34,7 @@ interface Document {
 const DocumentUpload = () => {
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
   
   const [documents, setDocuments] = useState<Document[]>([
     {
@@ -159,6 +160,13 @@ const DocumentUpload = () => {
     });
   };
 
+  const triggerFileInput = (documentType: string) => {
+    const input = fileInputRefs.current[documentType];
+    if (input) {
+      input.click();
+    }
+  };
+
   const getStatusBadge = (status: string, required: boolean) => {
     const className = `text-xs ${isMobile ? 'px-2 py-1' : ''}`;
     switch (status) {
@@ -263,6 +271,7 @@ const DocumentUpload = () => {
                             type="file" 
                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
                             className={`${isMobile ? 'text-xs' : 'w-48'}`}
+                            ref={(el) => (fileInputRefs.current[document.type] = el)}
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (file) handleFileUpload(document.type, file);
@@ -271,7 +280,7 @@ const DocumentUpload = () => {
                           <Button 
                             className={`bg-blue-600 hover:bg-blue-700 ${isMobile ? 'w-full text-xs' : ''}`}
                             size={isMobile ? "sm" : "default"}
-                            onClick={() => document.querySelector(`input[type="file"]`)?.click()}
+                            onClick={() => triggerFileInput(document.type)}
                           >
                             <Upload className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                             Uploader
@@ -342,6 +351,7 @@ const DocumentUpload = () => {
                             type="file" 
                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
                             className={`${isMobile ? 'text-xs' : 'w-48'}`}
+                            ref={(el) => (fileInputRefs.current[document.type] = el)}
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (file) handleFileUpload(document.type, file);
@@ -351,7 +361,7 @@ const DocumentUpload = () => {
                             variant="outline"
                             className={`${isMobile ? 'w-full text-xs' : ''}`}
                             size={isMobile ? "sm" : "default"}
-                            onClick={() => document.querySelector(`input[type="file"]`)?.click()}
+                            onClick={() => triggerFileInput(document.type)}
                           >
                             <Upload className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                             Uploader
