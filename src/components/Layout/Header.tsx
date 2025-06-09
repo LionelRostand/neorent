@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { Bell, Search, User } from 'lucide-react';
+import { Bell, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import UserProfile from './UserProfile';
 
 const Header = () => {
   return (
@@ -26,9 +27,7 @@ const Header = () => {
           </span>
         </Button>
         
-        <Button variant="ghost" size="sm">
-          <User className="h-5 w-5" />
-        </Button>
+        <UserProfile />
       </div>
     </header>
   );
