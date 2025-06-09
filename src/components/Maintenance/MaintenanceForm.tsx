@@ -82,13 +82,15 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
             </SelectTrigger>
             <SelectContent>
               {propertiesLoading ? (
-                <SelectItem value="" disabled>Chargement...</SelectItem>
-              ) : (
+                <SelectItem value="loading" disabled>Chargement...</SelectItem>
+              ) : availableProperties.length > 0 ? (
                 availableProperties.map((property) => (
                   <SelectItem key={property.id} value={property.title}>
                     {property.title} - {property.address}
                   </SelectItem>
                 ))
+              ) : (
+                <SelectItem value="no-properties" disabled>Aucun bien disponible</SelectItem>
               )}
             </SelectContent>
           </Select>
@@ -102,13 +104,15 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
             </SelectTrigger>
             <SelectContent>
               {tenantsLoading ? (
-                <SelectItem value="" disabled>Chargement...</SelectItem>
-              ) : (
+                <SelectItem value="loading" disabled>Chargement...</SelectItem>
+              ) : tenants.length > 0 ? (
                 tenants.map((tenant) => (
                   <SelectItem key={tenant.id} value={tenant.name}>
                     {tenant.name} - {tenant.property}
                   </SelectItem>
                 ))
+              ) : (
+                <SelectItem value="no-tenants" disabled>Aucun locataire disponible</SelectItem>
               )}
             </SelectContent>
           </Select>
