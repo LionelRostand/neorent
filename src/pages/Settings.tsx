@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus, Edit, Trash2, Shield, Database, Lock, Key, Copy } from 'lucide-react';
+import { Shield, Database, Lock, Key, Copy } from 'lucide-react';
+import CompanyManagement from '@/components/Settings/CompanyManagement';
+import EmployeeManagement from '@/components/Settings/EmployeeManagement';
 
 const Settings = () => {
   const employees = [
@@ -93,6 +95,13 @@ service cloud.firestore {
     // 10. Configuration du site web - Collection: website_config
     match /website_config/{configId} {
       allow read: if true; // Public pour le site web
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // 11. Configuration de l'entreprise - Collection: company_config
+    match /company_config/{configId} {
+      allow read: if request.auth != null;
       allow write: if request.auth != null && 
         get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
     }
@@ -413,84 +422,8 @@ service firebase.storage {
           </TabsContent>
 
           <TabsContent value="general" className="space-y-4 md:space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-                  👥 Compte Employés
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4 md:space-y-6">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <p className="text-gray-600 text-sm md:text-base">
-                    Gérez les comptes employés de votre garage
-                  </p>
-                  <Button className="flex items-center gap-2 w-full sm:w-auto">
-                    <Plus className="h-4 w-4" />
-                    Ajouter un employé
-                  </Button>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <div className="min-w-[600px]">
-                    <div className="hidden md:grid grid-cols-6 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
-                      <div>Nom</div>
-                      <div>Prénom</div>
-                      <div>Email</div>
-                      <div>Téléphone</div>
-                      <div>Poste</div>
-                      <div>Actions</div>
-                    </div>
-                    
-                    {employees.map((employee) => (
-                      <div key={employee.id} className="md:hidden space-y-3 p-4 border border-gray-200 rounded-lg mb-4">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-medium text-lg">{employee.nom} {employee.prenom}</h3>
-                            <p className="text-sm text-gray-600">{employee.poste}</p>
-                          </div>
-                          <div className="flex gap-1">
-                            <Button variant="ghost" size="sm">
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-sm text-gray-600">{employee.email}</p>
-                          <p className="text-sm text-gray-600">{employee.telephone}</p>
-                        </div>
-                      </div>
-                    ))}
-
-                    <div className="hidden md:block">
-                      {employees.map((employee) => (
-                        <div key={employee.id} className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200">
-                          <div className="font-medium">{employee.nom}</div>
-                          <div>{employee.prenom}</div>
-                          <div className="text-sm text-gray-600 truncate">{employee.email}</div>
-                          <div className="text-sm text-gray-600">{employee.telephone}</div>
-                          <div className="text-sm text-gray-600">{employee.poste}</div>
-                          <div className="flex gap-2">
-                            <Button variant="ghost" size="sm">
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <Button className="w-full sm:w-auto">
-                  Sauvegarder les employés
-                </Button>
-              </CardContent>
-            </Card>
+            <CompanyManagement />
+            <EmployeeManagement />
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-4 md:space-y-6">

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -19,6 +18,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useCompanyData } from '@/hooks/useCompanyData';
 
 const navigation = [
   { name: 'Tableau de Bord', href: '/admin', icon: Home },
@@ -41,6 +41,9 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle, onMobileClose }) => {
   const location = useLocation();
+  const { company } = useCompanyData();
+
+  const companyName = company?.name || 'Neo Rent';
 
   return (
     <div className={cn(
@@ -53,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle, onMobi
           <>
             <div className="flex items-center">
               <Building2 className="h-8 w-8 text-white" />
-              <span className="ml-3 text-xl font-bold text-white">Neo Rent</span>
+              <span className="ml-3 text-xl font-bold text-white">{companyName}</span>
             </div>
             {/* Mobile close button */}
             <Button
