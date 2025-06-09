@@ -21,6 +21,7 @@ export const ChatWidget: React.FC = () => {
   useEffect(() => {
     if (!conversation) {
       console.log('ChatWidget: Pas de conversation active');
+      setMessages([]);
       return;
     }
 
@@ -44,16 +45,16 @@ export const ChatWidget: React.FC = () => {
       const existingConversation = await messageService.findConversationByEmail(formData.email);
       console.log('ChatWidget: Conversation existante trouvée:', existingConversation);
       
-      let conversationId: string;
+      let conversationToUse: Conversation;
       
       if (existingConversation) {
         console.log('ChatWidget: Utilisation de la conversation existante');
-        conversationId = existingConversation.id;
+        conversationToUse = existingConversation;
         setConversation(existingConversation);
       } else {
         console.log('ChatWidget: Création d\'une nouvelle conversation');
         // Créer une nouvelle conversation
-        conversationId = await messageService.createConversation({
+        const conversationId = await messageService.createConversation({
           clientName: formData.name,
           clientEmail: formData.email
         });
@@ -63,7 +64,7 @@ export const ChatWidget: React.FC = () => {
         await messageService.createSessionWithWelcome(conversationId, formData.name);
         console.log('ChatWidget: Message de bienvenue envoyé');
 
-        setConversation({
+        conversationToUse = {
           id: conversationId,
           clientName: formData.name,
           clientEmail: formData.email,
@@ -72,11 +73,12 @@ export const ChatWidget: React.FC = () => {
           unreadCount: 0,
           status: 'online',
           createdAt: new Date() as any
-        });
+        };
+        setConversation(conversationToUse);
       }
 
       // Sauvegarder dans le localStorage pour cette session seulement
-      localStorage.setItem('chatConversationId', conversationId);
+      localStorage.setItem('chatConversationId', conversationToUse.id);
       localStorage.setItem('chatFormData', JSON.stringify(formData));
       console.log('ChatWidget: Données sauvegardées dans localStorage');
       
@@ -128,7 +130,7 @@ export const ChatWidget: React.FC = () => {
     setIsMinimized(true);
   };
 
-  console.log('ChatWidget: Rendu - isOpen:', isOpen, 'isMinimized:', isMinimized, 'hasStartedChat:', hasStartedChat);
+  console.log('ChatWidget: Rendu - isOpen:', isOpen, 'isMinimized:', isMinimized, 'hasStartedChat:', hasStartedChat, 'messages count:', messages.length);
 
   if (!isOpen) {
     return <ChatWidgetButton onClick={() => {

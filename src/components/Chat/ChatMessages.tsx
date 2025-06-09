@@ -20,16 +20,19 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
   const [newMessage, setNewMessage] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  console.log('ChatMessages: Rendu avec', messages.length, 'messages:', messages);
+
   // Auto-scroll vers le bas lors de nouveaux messages
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newMessage.trim()) {
+      console.log('ChatMessages: Envoi du message:', newMessage.trim());
       onSendMessage(newMessage.trim());
       setNewMessage('');
     }
@@ -37,41 +40,48 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
 
   return (
     <div className="flex-1 flex flex-col">
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+      <ScrollArea className="flex-1 p-4">
         <div className="space-y-3">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${
-                message.sender === 'client' ? 'justify-end' : 'justify-start'
-              }`}
-            >
+          {messages.length === 0 ? (
+            <div className="text-center text-gray-500 py-8">
+              <p>Conversation démarrée ! Envoyez votre premier message.</p>
+            </div>
+          ) : (
+            messages.map((message) => (
               <div
-                className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
-                  message.sender === 'client'
-                    ? 'bg-green-500 text-white'
-                    : 'bg-gray-200 text-gray-900'
+                key={message.id}
+                className={`flex ${
+                  message.sender === 'client' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                <div className="font-medium text-xs mb-1">
-                  {message.senderName}
-                </div>
-                <div>{message.message}</div>
                 <div
-                  className={`text-xs mt-1 ${
+                  className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
                     message.sender === 'client'
-                      ? 'text-green-100'
-                      : 'text-gray-500'
+                      ? 'bg-green-500 text-white'
+                      : 'bg-gray-200 text-gray-900'
                   }`}
                 >
-                  {formatDistanceToNow(message.timestamp.toDate(), {
-                    addSuffix: true,
-                    locale: fr
-                  })}
+                  <div className="font-medium text-xs mb-1">
+                    {message.senderName}
+                  </div>
+                  <div>{message.message}</div>
+                  <div
+                    className={`text-xs mt-1 ${
+                      message.sender === 'client'
+                        ? 'text-green-100'
+                        : 'text-gray-500'
+                    }`}
+                  >
+                    {formatDistanceToNow(message.timestamp.toDate(), {
+                      addSuffix: true,
+                      locale: fr
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
+          <div ref={scrollRef} />
         </div>
       </ScrollArea>
       
