@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -71,6 +70,13 @@ const Inspections = () => {
         description: "Erreur lors de la modification de l'état des lieux.",
         variant: "destructive",
       });
+    }
+  };
+
+  const handleUpdateInspectionFromDetails = async (inspection: any) => {
+    if (inspection && inspection.id) {
+      const { id, ...updates } = inspection;
+      await handleUpdateInspection(id, updates);
     }
   };
 
@@ -266,7 +272,7 @@ const Inspections = () => {
             setIsDetailsModalOpen(false);
             setSelectedInspection(null);
           }}
-          onUpdate={handleUpdateInspection}
+          onUpdate={handleUpdateInspectionFromDetails}
         />
 
         <InspectionEditModal
