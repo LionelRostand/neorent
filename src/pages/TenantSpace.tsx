@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -40,6 +41,9 @@ const TenantSpace = () => {
   const selectedUserId = searchParams.get('userId');
   const isAdminView = !!selectedUserId;
 
+  // Vérifier si l'utilisateur est admin/employé (vous devrez adapter cette logique selon votre système d'authentification)
+  const isAdminOrEmployee = user?.email === 'admin@example.com' || user?.role === 'admin' || user?.role === 'employee';
+
   // Combiner les locataires et colocataires pour le sélecteur admin
   const allUsers = [
     ...tenants.map(t => ({ ...t, type: 'Locataire' })),
@@ -58,7 +62,7 @@ const TenantSpace = () => {
     email: selectedUser.email || 'email@example.com',
     phone: selectedUser.phone || 'Non défini',
     address: selectedUser.property || 'Adresse non définie',
-    leaseStart: selectedUser.leaseStart || '2023-06-01',
+    leaseStart: selectedUser.type === 'Locataire' ? (selectedUser as any).leaseStart || '2023-06-01' : (selectedUser as any).moveInDate || '2023-06-01',
     leaseEnd: '2024-05-31',
     status: selectedUser.status || 'À jour',
     emergencyContact: {
@@ -67,7 +71,7 @@ const TenantSpace = () => {
       relation: 'Famille'
     }
   } : {
-    id: 1,
+    id: '1',
     name: 'Marie Dubois',
     email: 'marie.dubois@email.com',
     phone: '06 12 34 56 78',
@@ -88,7 +92,7 @@ const TenantSpace = () => {
     type: 'Appartement',
     surface: '65m²',
     rooms: '3 pièces',
-    rent: selectedUser?.rentAmount || 1200,
+    rent: typeof selectedUser?.rentAmount === 'string' ? parseInt(selectedUser.rentAmount.replace(/[^0-9]/g, '')) || 1200 : selectedUser?.rentAmount || 1200,
     charges: 150,
     deposit: 2400,
     furnished: true,
@@ -141,23 +145,25 @@ const TenantSpace = () => {
           <div className="text-sm text-gray-600 border-b pb-4">
             Connecté en tant que: {user.email}
           </div>
-          {/* Sélecteur d'utilisateur pour mobile */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Voir l'espace de:</label>
-            <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionner un utilisateur" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="self">Mon espace</SelectItem>
-                {allUsers.map((user) => (
-                  <SelectItem key={user.id} value={user.id}>
-                    {user.name} ({user.type})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Sélecteur d'utilisateur pour mobile - seulement pour admin/employé */}
+          {isAdminOrEmployee && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Voir l'espace de:</label>
+              <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionner un utilisateur" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="self">Mon espace</SelectItem>
+                  {allUsers.map((user) => (
+                    <SelectItem key={user.id} value={user.id}>
+                      {user.name} ({user.type})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           <Button 
             variant="outline" 
             onClick={handleBackToSite}
@@ -212,23 +218,25 @@ const TenantSpace = () => {
                 Connecté en tant que: {user.email}
               </span>
               
-              {/* Sélecteur d'utilisateur pour desktop */}
-              <div className="flex items-center space-x-2">
-                <Users className="h-4 w-4 text-gray-500" />
-                <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Sélectionner un utilisateur" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="self">Mon espace</SelectItem>
-                    {allUsers.map((user) => (
-                      <SelectItem key={user.id} value={user.id}>
-                        {user.name} ({user.type})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {/* Sélecteur d'utilisateur pour desktop - seulement pour admin/employé */}
+              {isAdminOrEmployee && (
+                <div className="flex items-center space-x-2">
+                  <Users className="h-4 w-4 text-gray-500" />
+                  <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue placeholder="Sélectionner un utilisateur" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="self">Mon espace</SelectItem>
+                      {allUsers.map((user) => (
+                        <SelectItem key={user.id} value={user.id}>
+                          {user.name} ({user.type})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
               
               <Button 
                 variant="outline" 
