@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Building2 } from 'lucide-react';
 
 interface ChargeData {
-  id: number;
+  id: string; // Changed from number to string for Firebase compatibility
   propertyName: string;
   propertyType: string;
   month: string;

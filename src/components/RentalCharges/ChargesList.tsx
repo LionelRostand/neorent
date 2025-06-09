@@ -4,7 +4,7 @@ import { Receipt } from 'lucide-react';
 import ChargeCard from './ChargeCard';
 
 interface ChargeData {
-  id: number;
+  id: string; // Changed from number to string for Firebase compatibility
   propertyName: string;
   propertyType: string;
   month: string;
@@ -22,7 +22,7 @@ interface ChargeData {
 interface ChargesListProps {
   charges: ChargeData[];
   selectedMonth: string;
-  onDeleteCharge: (id: number) => void;
+  onDeleteCharge: (id: string) => void; // Changed from number to string
 }
 
 const ChargesList: React.FC<ChargesListProps> = ({

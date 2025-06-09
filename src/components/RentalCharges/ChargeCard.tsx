@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Building2, Edit, Trash2 } from 'lucide-react';
 
 interface ChargeData {
-  id: number;
+  id: string; // Changed from number to string for Firebase compatibility
   propertyName: string;
   propertyType: string;
   month: string;
@@ -23,7 +23,7 @@ interface ChargeData {
 
 interface ChargeCardProps {
   charge: ChargeData;
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void; // Changed from number to string
 }
 
 const ChargeCard: React.FC<ChargeCardProps> = ({ charge, onDelete }) => {
