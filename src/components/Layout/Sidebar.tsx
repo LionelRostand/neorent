@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -97,35 +98,37 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="bg-green-500 w-64 min-h-screen flex flex-col">
-      <div className="p-6">
+    <div className="bg-green-500 w-64 h-screen flex flex-col">
+      <div className="p-6 flex-shrink-0">
         <h1 className="text-xl font-bold text-white">NeoRent</h1>
       </div>
       
-      <ScrollArea className="flex-1 px-3">
-        <nav className="space-y-2 py-4">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors ${
-                  isActive(item.path)
-                    ? 'bg-green-400 text-white'
-                    : 'text-white/90 hover:text-white hover:bg-green-400/50'
-                }`}
-                onClick={onMobileClose}
-              >
-                <Icon className="mr-3 h-5 w-5" />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </ScrollArea>
+      <div className="flex-1 overflow-hidden">
+        <ScrollArea className="h-full">
+          <nav className="space-y-2 py-4 px-3">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors ${
+                    isActive(item.path)
+                      ? 'bg-green-400 text-white'
+                      : 'text-white/90 hover:text-white hover:bg-green-400/50'
+                  }`}
+                  onClick={onMobileClose}
+                >
+                  <Icon className="mr-3 h-5 w-5" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </ScrollArea>
+      </div>
 
-      <div className="p-4 border-t border-green-400">
+      <div className="p-4 border-t border-green-400 flex-shrink-0">
         <div className="text-center">
           <div className="text-white text-sm font-medium animate-pulse">
             NEOTECH-CONSULTING
