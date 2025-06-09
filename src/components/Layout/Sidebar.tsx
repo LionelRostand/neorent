@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -14,7 +15,13 @@ import {
   Calculator
 } from 'lucide-react';
 
-const Sidebar = () => {
+interface SidebarProps {
+  isCollapsed?: boolean;
+  onToggle?: () => void;
+  onMobileClose?: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose }) => {
   const location = useLocation();
 
   const menuItems = [
@@ -101,6 +108,7 @@ const Sidebar = () => {
                     ? 'bg-blue-100 text-blue-700'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                 }`}
+                onClick={onMobileClose}
               >
                 <Icon className="mr-3 h-5 w-5" />
                 {item.label}

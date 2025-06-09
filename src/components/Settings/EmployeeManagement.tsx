@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -206,7 +207,7 @@ const EmployeeManagement: React.FC = () => {
             <SelectValue placeholder="Sélectionner une entreprise" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Aucune entreprise</SelectItem>
+            <SelectItem value="none">Aucune entreprise</SelectItem>
             {companies.map((company) => (
               <SelectItem key={company.id} value={company.id}>
                 {company.name}
