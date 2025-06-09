@@ -17,35 +17,6 @@ export const ChatWidget: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [hasStartedChat, setHasStartedChat] = useState(false);
 
-  // Vérifier s'il y a une conversation existante dans le localStorage
-  useEffect(() => {
-    console.log('ChatWidget: Vérification du localStorage...');
-    const savedConversationId = localStorage.getItem('chatConversationId');
-    const savedFormData = localStorage.getItem('chatFormData');
-    
-    console.log('ChatWidget: savedConversationId:', savedConversationId);
-    console.log('ChatWidget: savedFormData:', savedFormData);
-    
-    if (savedConversationId && savedFormData) {
-      console.log('ChatWidget: Conversation existante trouvée, restauration...');
-      setHasStartedChat(true);
-      // Charger la conversation existante
-      const formData = JSON.parse(savedFormData);
-      setConversation({
-        id: savedConversationId,
-        clientName: formData.name,
-        clientEmail: formData.email,
-        lastMessage: '',
-        lastMessageTime: new Date() as any,
-        unreadCount: 0,
-        status: 'online',
-        createdAt: new Date() as any
-      });
-    } else {
-      console.log('ChatWidget: Aucune conversation existante trouvée');
-    }
-  }, []);
-
   // Abonnement aux messages quand une conversation est active
   useEffect(() => {
     if (!conversation) {
@@ -104,7 +75,7 @@ export const ChatWidget: React.FC = () => {
         });
       }
 
-      // Sauvegarder dans le localStorage
+      // Sauvegarder dans le localStorage pour cette session seulement
       localStorage.setItem('chatConversationId', conversationId);
       localStorage.setItem('chatFormData', JSON.stringify(formData));
       console.log('ChatWidget: Données sauvegardées dans localStorage');
@@ -143,6 +114,13 @@ export const ChatWidget: React.FC = () => {
     console.log('ChatWidget: Fermeture du chat');
     setIsOpen(false);
     setIsMinimized(false);
+    // Réinitialiser l'état pour forcer l'affichage du formulaire à la prochaine ouverture
+    setHasStartedChat(false);
+    setConversation(null);
+    setMessages([]);
+    // Nettoyer le localStorage
+    localStorage.removeItem('chatConversationId');
+    localStorage.removeItem('chatFormData');
   };
 
   const handleMinimize = () => {
