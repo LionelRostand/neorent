@@ -38,7 +38,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
     // Générer le PDF avec toutes les informations de l'état des lieux
     const pdfDocument = {
       id: Date.now(),
-      name: `Etat_lieux_${inspection.type}_${inspection.tenant.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
+      name: `Etat_lieux_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
       type: 'etat_lieux',
       uploadDate: new Date().toISOString(),
       inspectionId: inspection.id,
@@ -89,7 +89,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
 
   if (!inspection) return null;
 
-  const isColocatif = inspection.contractType === 'Bail colocatif' || inspection.tenant.includes('Colocataire');
+  const isColocatif = inspection.contractType === 'Bail colocatif' || (inspection.tenant && inspection.tenant.includes('Colocataire'));
 
   return (
     <>
