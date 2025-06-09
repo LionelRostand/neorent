@@ -70,62 +70,67 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
 
   return (
     <div className="flex-1 flex flex-col h-full">
-      <ScrollArea className="flex-1 px-3 py-2 max-h-64">
-        <div className="space-y-3">
-          {messages.length === 0 ? (
-            <div className="text-center text-gray-500 py-4">
-              <p className="text-sm">Conversation démarrée !</p>
-              <p className="text-xs text-gray-400 mt-1">Envoyez votre premier message.</p>
-            </div>
-          ) : (
-            messages.map((message) => {
-              console.log('💬 ChatMessages: Rendu du message:', message.id);
-              return (
-                <div
-                  key={message.id}
-                  className={`flex ${
-                    message.sender === 'client' ? 'justify-end' : 'justify-start'
-                  }`}
-                >
+      {/* Zone de messages avec scroll */}
+      <div className="flex-1 overflow-hidden">
+        <ScrollArea className="h-full px-3 py-2">
+          <div className="space-y-3 min-h-full">
+            {messages.length === 0 ? (
+              <div className="text-center text-gray-500 py-4">
+                <p className="text-sm">Conversation démarrée !</p>
+                <p className="text-xs text-gray-400 mt-1">Envoyez votre premier message.</p>
+              </div>
+            ) : (
+              messages.map((message) => {
+                console.log('💬 ChatMessages: Rendu du message:', message.id);
+                return (
                   <div
-                    className={`max-w-[85%] px-3 py-2 rounded-lg text-sm shadow-sm ${
-                      message.sender === 'client'
-                        ? 'bg-green-500 text-white rounded-br-sm'
-                        : 'bg-gray-100 text-gray-900 rounded-bl-sm'
+                    key={message.id}
+                    className={`flex ${
+                      message.sender === 'client' ? 'justify-end' : 'justify-start'
                     }`}
                   >
-                    <div className={`font-medium text-xs mb-1 ${
-                      message.sender === 'client' ? 'text-green-100' : 'text-gray-600'
-                    }`}>
-                      {message.senderName}
-                    </div>
-                    <div className="whitespace-pre-wrap leading-relaxed">{message.message}</div>
                     <div
-                      className={`text-xs mt-1 opacity-75 ${
+                      className={`max-w-[85%] px-3 py-2 rounded-lg text-sm shadow-sm ${
                         message.sender === 'client'
-                          ? 'text-green-100'
-                          : 'text-gray-500'
+                          ? 'bg-green-500 text-white rounded-br-sm'
+                          : 'bg-gray-100 text-gray-900 rounded-bl-sm'
                       }`}
                     >
-                      {message.timestamp && typeof message.timestamp.toDate === 'function' ? (
-                        formatDistanceToNow(message.timestamp.toDate(), {
-                          addSuffix: true,
-                          locale: fr
-                        })
-                      ) : (
-                        'Maintenant'
-                      )}
+                      <div className={`font-medium text-xs mb-1 ${
+                        message.sender === 'client' ? 'text-green-100' : 'text-gray-600'
+                      }`}>
+                        {message.senderName}
+                      </div>
+                      <div className="whitespace-pre-wrap leading-relaxed">{message.message}</div>
+                      <div
+                        className={`text-xs mt-1 opacity-75 ${
+                          message.sender === 'client'
+                            ? 'text-green-100'
+                            : 'text-gray-500'
+                        }`}
+                      >
+                        {message.timestamp && typeof message.timestamp.toDate === 'function' ? (
+                          formatDistanceToNow(message.timestamp.toDate(), {
+                            addSuffix: true,
+                            locale: fr
+                          })
+                        ) : (
+                          'Maintenant'
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })
-          )}
-          <div ref={scrollRef} />
-        </div>
-      </ScrollArea>
+                );
+              })
+            )}
+            {/* Élément invisible pour le scroll automatique */}
+            <div ref={scrollRef} className="h-1" />
+          </div>
+        </ScrollArea>
+      </div>
       
-      <div className="p-3 border-t bg-gray-50">
+      {/* Zone de saisie fixe en bas */}
+      <div className="flex-shrink-0 p-3 border-t bg-gray-50">
         <form onSubmit={handleSubmit} className="flex gap-2">
           <Input
             value={newMessage}
@@ -139,7 +144,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
             type="submit"
             disabled={!newMessage.trim() || isSending}
             size="sm"
-            className="bg-green-500 hover:bg-green-600 disabled:opacity-50"
+            className="bg-green-500 hover:bg-green-600 disabled:opacity-50 flex-shrink-0"
           >
             {isSending ? (
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
