@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +19,7 @@ interface Employee {
   name: string;
   companyId?: string;
   createdAt: string;
-  permissions?: string[];
+  permissions?: any;
 }
 
 interface EmployeeFormData {
@@ -139,13 +138,13 @@ const EmployeeManagement: React.FC = () => {
     }
   };
 
-  const openEditDialog = (employee: Employee) => {
+  const openEditDialog = (employee: any) => {
     setSelectedEmployee(employee);
     setFormData({
       name: employee.name,
       email: employee.email,
       role: employee.role,
-      companyId: employee.companyId || ''
+      companyId: (employee as any).companyId || ''
     });
     setIsEditDialogOpen(true);
   };
@@ -273,7 +272,7 @@ const EmployeeManagement: React.FC = () => {
                   <div>
                     <h3 className="font-medium text-lg">{employee.name}</h3>
                     <p className="text-sm text-gray-600">{employee.role === 'admin' ? 'Administrateur' : 'Employé'}</p>
-                    <p className="text-sm text-gray-500">{getCompanyName(employee.companyId)}</p>
+                    <p className="text-sm text-gray-500">{getCompanyName((employee as any).companyId)}</p>
                   </div>
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
@@ -302,7 +301,7 @@ const EmployeeManagement: React.FC = () => {
                     {employee.role === 'admin' ? 'Administrateur' : 'Employé'}
                   </div>
                   <div className="text-sm text-gray-600">
-                    {getCompanyName(employee.companyId)}
+                    {getCompanyName((employee as any).companyId)}
                   </div>
                   <div className="text-sm text-gray-600">
                     {new Date(employee.createdAt).toLocaleDateString()}
