@@ -1,13 +1,14 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calculator, Building2, DollarSign } from 'lucide-react';
+import { Calculator, Building2, DollarSign, Wrench } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
 
 const mockProperties = [
   { 
@@ -55,8 +56,38 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     internet: ''
   });
   const { toast } = useToast();
+  const { interventions, loading: maintenanceLoading } = useFirebaseMaintenances();
 
   const selectedPropertyData = mockProperties.find(p => p.id.toString() === selectedProperty);
+
+  // Calculer automatiquement les coûts de maintenance pour le bien et le mois sélectionnés
+  useEffect(() => {
+    if (selectedProperty && month) {
+      const selectedPropertyName = selectedPropertyData?.name;
+      if (selectedPropertyName) {
+        // Filtrer les interventions terminées pour ce bien et ce mois
+        const monthStart = new Date(month + '-01');
+        const monthEnd = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0);
+        
+        const propertyMaintenanceCosts = interventions
+          .filter(intervention => 
+            intervention.property === selectedPropertyName &&
+            intervention.status === 'Terminée' &&
+            intervention.scheduledDate
+          )
+          .filter(intervention => {
+            const interventionDate = new Date(intervention.scheduledDate);
+            return interventionDate >= monthStart && interventionDate <= monthEnd;
+          })
+          .reduce((total, intervention) => total + (intervention.actualCost || intervention.estimatedCost || 0), 0);
+
+        setCharges(prev => ({
+          ...prev,
+          maintenance: propertyMaintenanceCosts.toString()
+        }));
+      }
+    }
+  }, [selectedProperty, month, interventions, selectedPropertyData]);
 
   const handleChargeChange = (field: string, value: string) => {
     setCharges(prev => ({
@@ -98,6 +129,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
       insurance: parseFloat(charges.insurance) || 0,
       garbage: parseFloat(charges.garbage) || 0,
       internet: parseFloat(charges.internet) || 0,
+      total: calculateTotal(),
     };
 
     onSubmit(chargeData);
@@ -213,7 +245,13 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="maintenance">Entretien (€)</Label>
+                  <Label htmlFor="maintenance">
+                    <div className="flex items-center gap-2">
+                      Entretien (€)
+                      <Wrench className="h-3 w-3 text-blue-500" />
+                      {maintenanceLoading && <span className="text-xs text-gray-500">(calcul...)</span>}
+                    </div>
+                  </Label>
                   <Input
                     id="maintenance"
                     type="number"
@@ -223,6 +261,11 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
                     value={charges.maintenance}
                     onChange={(e) => handleChargeChange('maintenance', e.target.value)}
                   />
+                  {selectedProperty && charges.maintenance && parseFloat(charges.maintenance) > 0 && (
+                    <p className="text-xs text-blue-600">
+                      Coût calculé automatiquement depuis les interventions terminées
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="insurance">Assurance (€)</Label>
