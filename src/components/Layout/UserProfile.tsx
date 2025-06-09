@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { User, Settings, LogOut, Lock, Eye, EyeOff } from 'lucide-react';
+import { User, Settings, LogOut, Lock, Eye, EyeOff, UserCheck, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -25,10 +25,11 @@ import { useNavigate } from 'react-router-dom';
 import { updatePassword } from 'firebase/auth';
 
 const UserProfile = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, userProfile, userType } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -90,7 +91,6 @@ const UserProfile = () => {
         title: "Déconnexion",
         description: "Vous avez été déconnecté avec succès.",
       });
-      // Redirection vers la page de connexion
       navigate('/login');
     } catch (error) {
       toast({
@@ -100,6 +100,12 @@ const UserProfile = () => {
       });
     }
   };
+
+  const handleTenantSpaceAccess = () => {
+    navigate('/tenant-space');
+  };
+
+  const isAdminOrEmployee = userType === 'admin' || userType === 'employee';
 
   if (!user) {
     return null;
@@ -117,14 +123,34 @@ const UserProfile = () => {
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
-                {user.displayName || 'Utilisateur'}
+                {userProfile?.name || user.displayName || 'Utilisateur'}
               </p>
               <p className="text-xs leading-none text-muted-foreground">
                 {user.email}
               </p>
+              {isAdminOrEmployee && (
+                <p className="text-xs leading-none text-blue-600 font-medium">
+                  {userType === 'admin' ? 'Administrateur' : 'Employé'}
+                </p>
+              )}
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          
+          {isAdminOrEmployee && (
+            <>
+              <DropdownMenuItem onClick={() => setIsProfileDialogOpen(true)}>
+                <UserCheck className="mr-2 h-4 w-4" />
+                <span>Mon profil</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleTenantSpaceAccess}>
+                <Home className="mr-2 h-4 w-4" />
+                <span>Espace locataire</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
+          
           <DropdownMenuItem onClick={() => setIsPasswordDialogOpen(true)}>
             <Lock className="mr-2 h-4 w-4" />
             <span>Changer le mot de passe</span>
@@ -137,6 +163,68 @@ const UserProfile = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
+      {/* Profile Dialog */}
+      <Dialog open={isProfileDialogOpen} onOpenChange={setIsProfileDialogOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-white">
+          <DialogHeader>
+            <DialogTitle>Mon profil</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Nom</Label>
+              <Input
+                value={userProfile?.name || 'Non défini'}
+                readOnly
+                className="bg-gray-50"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Email</Label>
+              <Input
+                value={user.email || 'Non défini'}
+                readOnly
+                className="bg-gray-50"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Rôle</Label>
+              <Input
+                value={userType === 'admin' ? 'Administrateur' : 'Employé'}
+                readOnly
+                className="bg-gray-50"
+              />
+            </div>
+            {userProfile?.permissions && (
+              <div className="space-y-2">
+                <Label>Permissions</Label>
+                <div className="bg-gray-50 p-3 rounded-md">
+                  <div className="flex flex-wrap gap-1">
+                    {userProfile.permissions.map((permission: string) => (
+                      <span
+                        key={permission}
+                        className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
+                      >
+                        {permission}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="flex justify-end pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsProfileDialogOpen(false)}
+              >
+                Fermer
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Password Change Dialog */}
       <Dialog open={isPasswordDialogOpen} onOpenChange={setIsPasswordDialogOpen}>
         <DialogContent className="sm:max-w-[425px] bg-white">
           <DialogHeader>
