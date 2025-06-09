@@ -6,7 +6,7 @@ FROM node:18.20.7-alpine AS builder
 RUN corepack enable
 
 # Définir le répertoire de travail
-WORKDIR /neorh
+WORKDIR /neorent
 
 # Copier uniquement les fichiers nécessaires pour l'installation des dépendances
 COPY package*.json ./
@@ -31,7 +31,7 @@ RUN yarn build
 FROM nginx:alpine
 
 # Copier les fichiers buildés vers nginx
-COPY --from=builder /neorh/dist /usr/share/nginx/html
+COPY --from=builder /neorent/dist /usr/share/nginx/html
 
 # Copier la configuration nginx personnalisée
 COPY nginx.conf /etc/nginx/conf.d/default.conf
