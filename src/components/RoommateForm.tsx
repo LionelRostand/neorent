@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,7 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Upload, UserCheck } from 'lucide-react';
+import { Upload, UserCheck, Eye, EyeOff } from 'lucide-react';
 
 const roommateFormSchema = z.object({
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
@@ -37,7 +38,12 @@ const roommateFormSchema = z.object({
   rentAmount: z.string().min(1, 'Le montant du loyer est requis'),
   primaryTenant: z.string().min(1, 'Veuillez sélectionner le locataire principal'),
   moveInDate: z.string().min(1, 'La date d\'emménagement est requise'),
+  password: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
+  confirmPassword: z.string().min(6, 'La confirmation du mot de passe est requise'),
   notes: z.string().optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Les mots de passe ne correspondent pas",
+  path: ["confirmPassword"],
 });
 
 type RoommateFormData = z.infer<typeof roommateFormSchema>;
@@ -64,6 +70,8 @@ interface RoommateFormProps {
 const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<RoommateFormData>({
     resolver: zodResolver(roommateFormSchema),
@@ -76,6 +84,8 @@ const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
       rentAmount: '',
       primaryTenant: '',
       moveInDate: '',
+      password: '',
+      confirmPassword: '',
       notes: '',
     },
   });
@@ -306,6 +316,78 @@ const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
                 </FormItem>
               )}
             />
+          </div>
+
+          {/* Champs mot de passe */}
+          <div className="space-y-4 border-t pt-4">
+            <h3 className="text-lg font-medium text-gray-900">Accès à l'espace locataire</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mot de passe</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input 
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Minimum 6 caractères" 
+                          {...field} 
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4 text-gray-400" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-gray-400" />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirmer le mot de passe</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input 
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Confirmer le mot de passe" 
+                          {...field} 
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff className="h-4 w-4 text-gray-400" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-gray-400" />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           <FormField
