@@ -18,29 +18,29 @@ export const ChatWidget: React.FC = () => {
   const [hasStartedChat, setHasStartedChat] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log('ChatWidget: État actuel - isOpen:', isOpen, 'conversation:', conversation?.id, 'messages:', messages.length);
+  console.log('🎯 ChatWidget: État actuel - isOpen:', isOpen, 'conversation:', conversation?.id, 'messages:', messages.length);
 
   // Abonnement aux messages quand une conversation est active
   useEffect(() => {
     if (!conversation?.id) {
-      console.log('ChatWidget: Pas de conversation active, reset des messages');
+      console.log('🎯 ChatWidget: Pas de conversation active, reset des messages');
       setMessages([]);
       return;
     }
 
-    console.log('ChatWidget: Abonnement aux messages pour la conversation:', conversation.id);
+    console.log('🎯 ChatWidget: Abonnement aux messages pour la conversation:', conversation.id);
     setLoading(true);
     
     const unsubscribe = messageService.subscribeToMessages(
       conversation.id,
       (newMessages) => {
-        console.log('ChatWidget: Messages reçus pour conversation', conversation.id, ':', newMessages.length, 'messages');
+        console.log('🎯 ChatWidget: Callback messages reçu pour conversation', conversation.id);
+        console.log('🎯 ChatWidget: Nombre de messages reçus:', newMessages.length);
         newMessages.forEach((msg, index) => {
-          console.log(`ChatWidget: Message ${index}:`, {
+          console.log(`🎯 ChatWidget: Message ${index}:`, {
             id: msg.id,
             sender: msg.sender,
-            message: msg.message,
-            timestamp: msg.timestamp
+            message: msg.message.substring(0, 50) + '...'
           });
         });
         setMessages(newMessages);
@@ -49,37 +49,39 @@ export const ChatWidget: React.FC = () => {
     );
 
     return () => {
-      console.log('ChatWidget: Désabonnement des messages pour conversation:', conversation.id);
+      console.log('🎯 ChatWidget: Désabonnement des messages pour conversation:', conversation.id);
       unsubscribe();
     };
   }, [conversation?.id]);
 
   const handleStartChat = async (formData: ChatFormData) => {
     try {
-      console.log('ChatWidget: Démarrage du chat avec:', formData);
+      console.log('🎯 ChatWidget: Démarrage du chat avec:', formData);
       setLoading(true);
       
       // Vérifier s'il y a déjà une conversation pour cet email
+      console.log('🎯 ChatWidget: Recherche conversation existante pour email:', formData.email);
       const existingConversation = await messageService.findConversationByEmail(formData.email);
-      console.log('ChatWidget: Conversation existante trouvée:', existingConversation);
+      console.log('🎯 ChatWidget: Conversation existante trouvée:', existingConversation);
       
       let conversationToUse: Conversation;
       
       if (existingConversation) {
-        console.log('ChatWidget: Utilisation de la conversation existante:', existingConversation.id);
+        console.log('🎯 ChatWidget: Utilisation de la conversation existante:', existingConversation.id);
         conversationToUse = existingConversation;
       } else {
-        console.log('ChatWidget: Création d\'une nouvelle conversation');
+        console.log('🎯 ChatWidget: Création d\'une nouvelle conversation');
         // Créer une nouvelle conversation
         const conversationId = await messageService.createConversation({
           clientName: formData.name,
           clientEmail: formData.email
         });
-        console.log('ChatWidget: Nouvelle conversation créée avec ID:', conversationId);
+        console.log('🎯 ChatWidget: Nouvelle conversation créée avec ID:', conversationId);
 
         // Créer une session avec message de bienvenue
+        console.log('🎯 ChatWidget: Envoi du message de bienvenue...');
         await messageService.createSessionWithWelcome(conversationId, formData.name);
-        console.log('ChatWidget: Message de bienvenue envoyé');
+        console.log('🎯 ChatWidget: Message de bienvenue envoyé');
 
         conversationToUse = {
           id: conversationId,
@@ -93,23 +95,24 @@ export const ChatWidget: React.FC = () => {
         };
       }
 
+      console.log('🎯 ChatWidget: Configuration de la conversation:', conversationToUse.id);
       setConversation(conversationToUse);
       setHasStartedChat(true);
-      console.log('ChatWidget: Chat démarré avec succès pour conversation:', conversationToUse.id);
+      console.log('🎯 ChatWidget: Chat démarré avec succès');
     } catch (error) {
-      console.error('ChatWidget: Erreur lors du démarrage du chat:', error);
+      console.error('🎯 ChatWidget: Erreur lors du démarrage du chat:', error);
       setLoading(false);
     }
   };
 
   const handleSendMessage = async (message: string) => {
     if (!conversation) {
-      console.error('ChatWidget: Pas de conversation active pour envoyer le message');
+      console.error('🎯 ChatWidget: Pas de conversation active pour envoyer le message');
       return;
     }
 
     try {
-      console.log('ChatWidget: Envoi du message:', message, 'pour conversation:', conversation.id);
+      console.log('🎯 ChatWidget: Envoi du message:', message, 'pour conversation:', conversation.id);
       
       await messageService.sendMessage({
         conversationId: conversation.id,
@@ -118,14 +121,14 @@ export const ChatWidget: React.FC = () => {
         senderEmail: conversation.clientEmail,
         message
       });
-      console.log('ChatWidget: Message envoyé avec succès');
+      console.log('🎯 ChatWidget: Message envoyé avec succès');
     } catch (error) {
-      console.error('ChatWidget: Erreur lors de l\'envoi du message:', error);
+      console.error('🎯 ChatWidget: Erreur lors de l\'envoi du message:', error);
     }
   };
 
   const handleClose = () => {
-    console.log('ChatWidget: Fermeture du chat');
+    console.log('🎯 ChatWidget: Fermeture du chat');
     setIsOpen(false);
     setIsMinimized(false);
     setHasStartedChat(false);
@@ -134,13 +137,13 @@ export const ChatWidget: React.FC = () => {
   };
 
   const handleMinimize = () => {
-    console.log('ChatWidget: Minimisation du chat');
+    console.log('🎯 ChatWidget: Minimisation du chat');
     setIsMinimized(true);
   };
 
   if (!isOpen) {
     return <ChatWidgetButton onClick={() => {
-      console.log('ChatWidget: Ouverture du chat');
+      console.log('🎯 ChatWidget: Ouverture du chat');
       setIsOpen(true);
     }} />;
   }
@@ -150,7 +153,7 @@ export const ChatWidget: React.FC = () => {
       <div className="fixed bottom-4 right-4 z-50">
         <div className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg cursor-pointer"
              onClick={() => {
-               console.log('ChatWidget: Restauration du chat');
+               console.log('🎯 ChatWidget: Restauration du chat');
                setIsMinimized(false);
              }}>
           Chat NeoRent (minimisé)

@@ -16,6 +16,13 @@ export const messageOperations = {
   // Envoyer un message
   async sendMessage(data: SendMessageData): Promise<void> {
     try {
+      console.log('💬 messageOperations: Envoi du message:', {
+        conversationId: data.conversationId,
+        sender: data.sender,
+        senderName: data.senderName,
+        message: data.message.substring(0, 50) + '...'
+      });
+
       // Ajouter le message dans rent_messages
       const messageData = {
         conversationId: data.conversationId,
@@ -27,7 +34,9 @@ export const messageOperations = {
         read: false
       };
 
-      await addDoc(collection(db, 'rent_messages'), messageData);
+      console.log('💬 messageOperations: Données du message à sauvegarder:', messageData);
+      const docRef = await addDoc(collection(db, 'rent_messages'), messageData);
+      console.log('💬 messageOperations: Message sauvegardé avec ID:', docRef.id);
 
       // Mettre à jour la conversation
       const conversationRef = doc(db, 'conversations', data.conversationId);
@@ -38,6 +47,7 @@ export const messageOperations = {
 
       // Si c'est un message client, incrémenter unreadCount
       if (data.sender === 'client') {
+        console.log('💬 messageOperations: Message client, incrémentation unreadCount');
         // On récupère d'abord le document pour incrémenter
         const conversationQuery = query(
           collection(db, 'conversations'),
@@ -47,12 +57,14 @@ export const messageOperations = {
         if (!snapshot.empty) {
           const currentData = snapshot.docs[0].data();
           updateData.unreadCount = (currentData.unreadCount || 0) + 1;
+          console.log('💬 messageOperations: Nouveau unreadCount:', updateData.unreadCount);
         }
       }
 
       await updateDoc(conversationRef, updateData);
+      console.log('💬 messageOperations: Conversation mise à jour');
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('💬 messageOperations: Erreur lors de l\'envoi du message:', error);
       throw error;
     }
   },
@@ -60,6 +72,8 @@ export const messageOperations = {
   // Créer une session avec message de bienvenue
   async createSessionWithWelcome(conversationId: string, clientName: string): Promise<void> {
     try {
+      console.log('💬 messageOperations: Création du message de bienvenue pour:', clientName, 'conversation:', conversationId);
+      
       // Message de bienvenue automatique du support
       const welcomeMessage = {
         conversationId,
@@ -71,7 +85,9 @@ export const messageOperations = {
         read: false
       };
 
-      await addDoc(collection(db, 'rent_messages'), welcomeMessage);
+      console.log('💬 messageOperations: Données du message de bienvenue:', welcomeMessage);
+      const docRef = await addDoc(collection(db, 'rent_messages'), welcomeMessage);
+      console.log('💬 messageOperations: Message de bienvenue sauvegardé avec ID:', docRef.id);
 
       // Mettre à jour la conversation avec le message de bienvenue
       const conversationRef = doc(db, 'conversations', conversationId);
@@ -79,8 +95,9 @@ export const messageOperations = {
         lastMessage: welcomeMessage.message,
         lastMessageTime: Timestamp.now()
       });
+      console.log('💬 messageOperations: Conversation mise à jour avec le message de bienvenue');
     } catch (error) {
-      console.error('Error creating welcome session:', error);
+      console.error('💬 messageOperations: Erreur lors de la création du message de bienvenue:', error);
       throw error;
     }
   },
