@@ -2,13 +2,14 @@
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Database, Lock } from 'lucide-react';
+import { Database, Lock, Mail } from 'lucide-react';
 import CompanyManagementNew from '@/components/Settings/CompanyManagement';
 import EmployeeManagement from '@/components/Settings/EmployeeManagement';
 import EmployeePermissionsTab from '@/components/Settings/EmployeePermissionsTab';
 import FirebaseTab from '@/components/Settings/FirebaseTab';
 import SimpleSettingsTab from '@/components/Settings/SimpleSettingsTab';
 import SecurityTab from '@/components/Settings/SecurityTab';
+import EmailTab from '@/components/Settings/EmailTab';
 
 const Settings = () => {
   const notificationsFields = [
@@ -33,7 +34,7 @@ const Settings = () => {
 
         <Tabs defaultValue="general" className="space-y-4 md:space-y-6">
           <div className="overflow-x-auto">
-            <TabsList className="grid w-full min-w-[600px] grid-cols-6 bg-gray-100 mx-1">
+            <TabsList className="grid w-full min-w-[700px] grid-cols-7 bg-gray-100 mx-1">
               <TabsTrigger value="general" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
                 <span className="hidden sm:inline">⚙️</span>
                 <span className="truncate">Général</span>
@@ -49,6 +50,10 @@ const Settings = () => {
               <TabsTrigger value="security" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
                 <Lock className="h-3 w-3 md:h-4 md:w-4" />
                 <span className="truncate">Sécurité</span>
+              </TabsTrigger>
+              <TabsTrigger value="email" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <Mail className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="truncate">Email</span>
               </TabsTrigger>
               <TabsTrigger value="permissions" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
                 <span className="hidden sm:inline">👥</span>
@@ -83,6 +88,10 @@ const Settings = () => {
 
           <TabsContent value="security" className="space-y-4 md:space-y-6">
             <SecurityTab />
+          </TabsContent>
+
+          <TabsContent value="email" className="space-y-4 md:space-y-6">
+            <EmailTab />
           </TabsContent>
 
           <TabsContent value="permissions" className="space-y-4 md:space-y-6">
