@@ -1,4 +1,5 @@
 
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,6 +24,7 @@ import PublicContact from "./pages/PublicSite/Contact";
 import PublicLogin from "./pages/PublicSite/Login";
 import NotFound from "./pages/NotFound";
 import Settings from './pages/Settings';
+import Maintenance from './pages/Maintenance';
 
 const queryClient = new QueryClient();
 
@@ -55,6 +57,7 @@ function App() {
               <Route path="/admin/inspections" element={<Inspections />} />
               <Route path="/admin/rent-management" element={<RentManagement />} />
               <Route path="/admin/rental-charges" element={<RentalCharges />} />
+              <Route path="/admin/maintenance" element={<Maintenance />} />
               <Route path="/admin/taxes" element={<Taxes />} />
               <Route path="/admin/website" element={<Website />} />
               <Route path="/admin/settings" element={<Settings />} />
@@ -70,3 +73,4 @@ function App() {
 }
 
 export default App;
+
