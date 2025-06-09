@@ -26,6 +26,7 @@ import PublicLogin from "./pages/PublicSite/Login";
 import NotFound from "./pages/NotFound";
 import Settings from './pages/Settings';
 import Maintenance from './pages/Maintenance';
+import Help from './pages/Help';
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ function App() {
               <Route path="/admin/taxes" element={<Taxes />} />
               <Route path="/admin/website" element={<Website />} />
               <Route path="/admin/settings" element={<Settings />} />
+              <Route path="/admin/help" element={<Help />} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

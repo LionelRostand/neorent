@@ -13,7 +13,8 @@ import {
   UserCheck,
   Globe,
   Calculator,
-  MessageCircle
+  MessageCircle,
+  HelpCircle
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPermissions } from '@/hooks/useUserPermissions';
@@ -108,6 +109,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
       label: 'Paramètres', 
       path: '/admin/settings',
       permission: 'settings' as keyof EmployeePermissions
+    },
+    { 
+      icon: HelpCircle, 
+      label: 'Aide', 
+      path: '/admin/help',
+      permission: 'dashboard' as keyof EmployeePermissions // Accessible à tous ceux qui ont accès au dashboard
     }
   ];
 
