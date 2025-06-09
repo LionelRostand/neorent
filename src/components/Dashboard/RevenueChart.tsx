@@ -1,18 +1,46 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const data = [
-  { month: 'Jan', revenue: 4200 },
-  { month: 'Fév', revenue: 4800 },
-  { month: 'Mar', revenue: 4500 },
-  { month: 'Avr', revenue: 5200 },
-  { month: 'Mai', revenue: 4900 },
-  { month: 'Jun', revenue: 5400 },
-];
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 
 const RevenueChart = () => {
+  const { payments } = useFirebasePayments();
+
+  const chartData = useMemo(() => {
+    const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+    const currentYear = new Date().getFullYear();
+    
+    // Créer un tableau pour les 6 derniers mois
+    const last6Months = [];
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date();
+      date.setMonth(date.getMonth() - i);
+      last6Months.push({
+        month: monthNames[date.getMonth()],
+        year: date.getFullYear(),
+        monthIndex: date.getMonth()
+      });
+    }
+
+    // Calculer les revenus pour chaque mois
+    return last6Months.map(({ month, year, monthIndex }) => {
+      const monthlyRevenue = payments
+        .filter(payment => {
+          if (!payment.paymentDate || payment.status !== 'Payé') return false;
+          const paymentDate = new Date(payment.paymentDate);
+          return paymentDate.getMonth() === monthIndex && 
+                 paymentDate.getFullYear() === year;
+        })
+        .reduce((sum, payment) => sum + payment.rentAmount, 0);
+
+      return {
+        month,
+        revenue: monthlyRevenue
+      };
+    });
+  }, [payments]);
+
   return (
     <Card>
       <CardHeader>
@@ -21,7 +49,7 @@ const RevenueChart = () => {
       <CardContent>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
+            <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />

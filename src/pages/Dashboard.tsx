@@ -7,8 +7,28 @@ import RevenueChart from '@/components/Dashboard/RevenueChart';
 import { Building2, Users, DollarSign, TrendingUp, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useDashboardMetrics } from '@/hooks/useDashboardMetrics';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
+import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 
 const Dashboard = () => {
+  const metrics = useDashboardMetrics();
+  const { payments } = useFirebasePayments();
+  const { contracts } = useFirebaseContracts();
+  const { inspections } = useFirebaseInspections();
+
+  // Alertes importantes
+  const latePayments = payments.filter(p => p.status === 'En retard');
+  const expiringContracts = contracts.filter(c => {
+    if (!c.endDate) return false;
+    const endDate = new Date(c.endDate);
+    const today = new Date();
+    const daysUntilExpiry = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    return daysUntilExpiry <= 30 && daysUntilExpiry > 0;
+  });
+  const urgentInspections = inspections.filter(i => i.status === 'Urgent');
+
   return (
     <MainLayout>
       <div className="space-y-6">
@@ -21,7 +41,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
             title="Revenus ce mois"
-            value="5,400€"
+            value={`${metrics.monthlyRevenue.toLocaleString()}€`}
             change="+12% vs mois dernier"
             changeType="positive"
             icon={DollarSign}
@@ -29,7 +49,7 @@ const Dashboard = () => {
           />
           <MetricCard
             title="Biens gérés"
-            value="24"
+            value={metrics.totalProperties.toString()}
             change="+2 nouveaux ce mois"
             changeType="positive"
             icon={Building2}
@@ -37,15 +57,15 @@ const Dashboard = () => {
           />
           <MetricCard
             title="Locataires actifs"
-            value="22"
-            change="91.7% taux d'occupation"
+            value={metrics.totalActiveTenants.toString()}
+            change={`${metrics.occupancyRate.toFixed(1)}% taux d'occupation`}
             changeType="positive"
             icon={Users}
             iconColor="bg-purple-500"
           />
           <MetricCard
             title="Rendement moyen"
-            value="6.2%"
+            value={`${metrics.averageYield}%`}
             change="+0.3% vs trimestre"
             changeType="positive"
             icon={TrendingUp}
@@ -54,30 +74,41 @@ const Dashboard = () => {
         </div>
 
         {/* Alertes et notifications */}
-        <Card className="border-l-4 border-l-red-500">
-          <CardHeader>
-            <CardTitle className="flex items-center text-red-700">
-              <AlertTriangle className="mr-2 h-5 w-5" />
-              Alertes importantes
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Loyer en retard - Studio Centre-ville</span>
-                <Badge variant="destructive">3 jours</Badge>
+        {(latePayments.length > 0 || expiringContracts.length > 0 || urgentInspections.length > 0) && (
+          <Card className="border-l-4 border-l-red-500">
+            <CardHeader>
+              <CardTitle className="flex items-center text-red-700">
+                <AlertTriangle className="mr-2 h-5 w-5" />
+                Alertes importantes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {latePayments.slice(0, 3).map((payment) => (
+                  <div key={payment.id} className="flex items-center justify-between">
+                    <span className="text-sm">Loyer en retard - {payment.property}</span>
+                    <Badge variant="destructive">En retard</Badge>
+                  </div>
+                ))}
+                {expiringContracts.slice(0, 2).map((contract) => {
+                  const daysUntilExpiry = Math.ceil((new Date(contract.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                  return (
+                    <div key={contract.id} className="flex items-center justify-between">
+                      <span className="text-sm">Bail expirant - {contract.property}</span>
+                      <Badge variant="secondary">{daysUntilExpiry} jours</Badge>
+                    </div>
+                  );
+                })}
+                {urgentInspections.slice(0, 1).map((inspection) => (
+                  <div key={inspection.id} className="flex items-center justify-between">
+                    <span className="text-sm">Inspection urgente - {inspection.property}</span>
+                    <Badge variant="destructive">Urgent</Badge>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Bail expirant - Appartement Rue Voltaire</span>
-                <Badge variant="secondary">30 jours</Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Réparation urgente - Villa Montparnasse</span>
-                <Badge variant="destructive">Urgent</Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Graphiques et activité */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
