@@ -1,9 +1,11 @@
+
 import React, { useState } from 'react';
 import PropertyCard from './PropertyCard';
 import PropertyDetailsModal from './PropertyDetailsModal';
+import PropertyEditModal from './PropertyEditModal';
 
 interface Property {
-  id: string; // Changed from number to string for Firebase compatibility
+  id: string;
   title: string;
   address: string;
   type: string;
@@ -19,20 +21,46 @@ interface Property {
 
 interface PropertyListProps {
   properties: Property[];
+  onUpdateProperty?: (id: string, updates: Partial<Property>) => void;
+  onDeleteProperty?: (id: string) => void;
 }
 
-const PropertyList: React.FC<PropertyListProps> = ({ properties }) => {
+const PropertyList: React.FC<PropertyListProps> = ({ properties, onUpdateProperty, onDeleteProperty }) => {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProperty, setEditingProperty] = useState<Property | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handlePropertyClick = (property: Property) => {
     setSelectedProperty(property);
-    setIsModalOpen(true);
+    setIsDetailsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleEditProperty = (property: Property) => {
+    setEditingProperty(property);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveProperty = (id: string, updates: Partial<Property>) => {
+    if (onUpdateProperty) {
+      onUpdateProperty(id, updates);
+    }
+  };
+
+  const handleDeleteProperty = (id: string) => {
+    if (onDeleteProperty) {
+      onDeleteProperty(id);
+    }
+  };
+
+  const handleCloseDetailsModal = () => {
+    setIsDetailsModalOpen(false);
     setSelectedProperty(null);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditingProperty(null);
   };
 
   return (
@@ -46,14 +74,23 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties }) => {
             key={property.id} 
             property={property} 
             onClick={handlePropertyClick}
+            onEdit={handleEditProperty}
+            onDelete={handleDeleteProperty}
           />
         ))}
       </div>
       
       <PropertyDetailsModal
         property={selectedProperty}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        isOpen={isDetailsModalOpen}
+        onClose={handleCloseDetailsModal}
+      />
+
+      <PropertyEditModal
+        property={editingProperty}
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        onSave={handleSaveProperty}
       />
     </>
   );

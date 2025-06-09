@@ -1,23 +1,27 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Mail, Phone, Home, UserCheck, CheckCircle, Clock, XCircle, Users } from 'lucide-react';
+import { Plus, Mail, Phone, Home, UserCheck, CheckCircle, Clock, XCircle, Users, Edit, Trash2 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import RoommateForm from '@/components/RoommateForm';
 import RoommateDetailsModal from '@/components/RoommateDetailsModal';
+import RoommateEditModal from '@/components/RoommateEditModal';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useToast } from '@/hooks/use-toast';
 
 const Roommates = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRoommate, setSelectedRoommate] = useState(null);
+  const [editingRoommate, setEditingRoommate] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const { roommates, loading, error, addRoommate } = useFirebaseRoommates();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { roommates, loading, error, addRoommate, updateRoommate, deleteRoommate } = useFirebaseRoommates();
   const { properties } = useFirebaseProperties();
+  const { toast } = useToast();
 
   const activeCount = roommates.filter(r => r.status === 'Actif').length;
   const totalCount = roommates.length;
@@ -38,15 +42,67 @@ const Roommates = () => {
       };
 
       await addRoommate(newRoommate);
+      toast({
+        title: "Succès",
+        description: "Le colocataire a été ajouté avec succès.",
+      });
       console.log('Colocataire ajouté à la collection Rent_colocataires:', newRoommate);
     } catch (err) {
       console.error('Erreur lors de l\'ajout du colocataire:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'ajout du colocataire.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdateRoommate = async (id: string, updates: any) => {
+    try {
+      await updateRoommate(id, updates);
+      toast({
+        title: "Succès",
+        description: "Le colocataire a été modifié avec succès.",
+      });
+      console.log('Colocataire modifié dans la collection Rent_colocataires:', { id, updates });
+    } catch (err) {
+      console.error('Erreur lors de la modification du colocataire:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la modification du colocataire.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteRoommate = async (id: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce colocataire ?')) {
+      try {
+        await deleteRoommate(id);
+        toast({
+          title: "Succès",
+          description: "Le colocataire a été supprimé avec succès.",
+        });
+        console.log('Colocataire supprimé de la collection Rent_colocataires:', id);
+      } catch (err) {
+        console.error('Erreur lors de la suppression du colocataire:', err);
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la suppression du colocataire.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
   const handleViewDetails = (roommate: any) => {
     setSelectedRoommate(roommate);
     setIsDetailsModalOpen(true);
+  };
+
+  const handleEditRoommate = (roommate: any) => {
+    setEditingRoommate(roommate);
+    setIsEditModalOpen(true);
   };
 
   if (loading) {
@@ -156,9 +212,26 @@ const Roommates = () => {
                         <p className="text-sm text-gray-600 mt-1">{roommate.property}</p>
                       </div>
                     </div>
-                    <Badge className="bg-green-100 text-green-800">
-                      {roommate.status}
-                    </Badge>
+                    <div className="flex items-center space-x-2">
+                      <Badge className="bg-green-100 text-green-800">
+                        {roommate.status}
+                      </Badge>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditRoommate(roommate)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteRoommate(roommate.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                   
                   <div className="space-y-2">
@@ -203,6 +276,14 @@ const Roommates = () => {
           roommate={selectedRoommate}
           isOpen={isDetailsModalOpen}
           onClose={() => setIsDetailsModalOpen(false)}
+        />
+
+        <RoommateEditModal
+          roommate={editingRoommate}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleUpdateRoommate}
+          properties={properties}
         />
       </div>
     </MainLayout>

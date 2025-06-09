@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -6,21 +7,26 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Phone, Mail, MapPin, Calendar, Euro, Plus, Search, Eye } from 'lucide-react';
+import { Phone, Mail, MapPin, Calendar, Euro, Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TenantForm from '@/components/TenantForm';
 import TenantDetailsModal from '@/components/TenantDetailsModal';
+import TenantEditModal from '@/components/TenantEditModal';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useToast } from '@/hooks/use-toast';
 
 const Tenants = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedTenant, setSelectedTenant] = useState<any>(null);
+  const [editingTenant, setEditingTenant] = useState<any>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   
-  const { tenants, loading, error, addTenant } = useFirebaseTenants();
+  const { tenants, loading, error, addTenant, updateTenant, deleteTenant } = useFirebaseTenants();
   const { properties } = useFirebaseProperties();
+  const { toast } = useToast();
 
   const filteredTenants = tenants.filter(tenant =>
     (tenant.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -42,14 +48,66 @@ const Tenants = () => {
         image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
       });
       setIsDialogOpen(false);
+      toast({
+        title: "Succès",
+        description: "Le locataire a été ajouté avec succès.",
+      });
     } catch (err) {
       console.error('Erreur lors de l\'ajout du locataire:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'ajout du locataire.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdateTenant = async (id: string, updates: any) => {
+    try {
+      await updateTenant(id, updates);
+      toast({
+        title: "Succès",
+        description: "Le locataire a été modifié avec succès.",
+      });
+      console.log('Locataire modifié dans la collection Rent_locataires:', { id, updates });
+    } catch (err) {
+      console.error('Erreur lors de la modification du locataire:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la modification du locataire.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteTenant = async (id: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce locataire ?')) {
+      try {
+        await deleteTenant(id);
+        toast({
+          title: "Succès",
+          description: "Le locataire a été supprimé avec succès.",
+        });
+        console.log('Locataire supprimé de la collection Rent_locataires:', id);
+      } catch (err) {
+        console.error('Erreur lors de la suppression du locataire:', err);
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la suppression du locataire.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
   const handleTenantClick = (tenant: any) => {
     setSelectedTenant(tenant);
     setIsDetailsModalOpen(true);
+  };
+
+  const handleEditTenant = (tenant: any) => {
+    setEditingTenant(tenant);
+    setIsEditModalOpen(true);
   };
 
   if (loading) {
@@ -142,7 +200,24 @@ const Tenants = () => {
                       <p className="text-sm text-gray-500">{tenant.email || 'Email non défini'}</p>
                     </div>
                   </div>
-                  <Badge variant="secondary">{tenant.status || 'Statut inconnu'}</Badge>
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="secondary">{tenant.status || 'Statut inconnu'}</Badge>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEditTenant(tenant)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteTenant(tenant.id)}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -193,6 +268,14 @@ const Tenants = () => {
           tenant={selectedTenant}
           isOpen={isDetailsModalOpen}
           onClose={() => setIsDetailsModalOpen(false)}
+        />
+
+        <TenantEditModal
+          tenant={editingTenant}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleUpdateTenant}
+          properties={properties}
         />
       </div>
     </MainLayout>

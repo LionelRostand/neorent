@@ -1,10 +1,12 @@
+
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Home, DollarSign, Users, Bed } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { MapPin, Home, Euro, Edit, Trash2 } from 'lucide-react';
 
 interface Property {
-  id: string; // Changed from number to string for Firebase compatibility
+  id: string;
   title: string;
   address: string;
   type: string;
@@ -21,80 +23,90 @@ interface Property {
 interface PropertyCardProps {
   property: Property;
   onClick?: (property: Property) => void;
+  onEdit?: (property: Property) => void;
+  onDelete?: (id: string) => void;
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
-  const handleClick = () => {
+const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, onDelete }) => {
+  const handleCardClick = () => {
     if (onClick) {
       onClick(property);
     }
   };
 
-  return (
-    <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handleClick}>
-      <div className="aspect-video bg-gray-200 rounded-t-lg flex items-center justify-center overflow-hidden">
-        {property.image && property.image !== '/placeholder.svg' ? (
-          <img 
-            src={property.image} 
-            alt={property.title}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <Home className="h-12 w-12 text-gray-400" />
-        )}
-      </div>
-      <CardContent className="p-6">
-        <div className="space-y-3">
-          <div className="flex justify-between items-start">
-            <h3 className="font-semibold text-lg text-gray-900">{property.title}</h3>
-            <div className="flex gap-2">
-              <Badge 
-                variant={property.locationType === 'Colocation' ? 'default' : 'secondary'}
-                className={property.locationType === 'Colocation' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}
-              >
-                {property.locationType}
-              </Badge>
-              <Badge 
-                variant={property.status === 'Occupé' ? 'default' : 'secondary'}
-                className={property.status === 'Occupé' ? 'bg-green-100 text-green-800' : ''}
-              >
-                {property.status}
-              </Badge>
-            </div>
-          </div>
-          
-          <div className="flex items-center text-gray-600 text-sm">
-            <MapPin className="mr-1 h-4 w-4" />
-            {property.address}
-          </div>
-          
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-600">Type: {property.type}</span>
-            <span className="text-gray-600">Surface: {property.surface}</span>
-          </div>
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onEdit) {
+      onEdit(property);
+    }
+  };
 
-          {property.locationType === 'Colocation' && property.totalRooms && (
-            <div className="flex items-center text-gray-600 text-sm">
-              <Bed className="mr-1 h-4 w-4" />
-              <span className="text-green-600 font-medium">
-                {property.availableRooms} chambre{property.availableRooms > 1 ? 's' : ''} disponible{property.availableRooms > 1 ? 's' : ''}
-              </span>
-              <span className="ml-1">/ {property.totalRooms} total</span>
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onDelete && window.confirm('Êtes-vous sûr de vouloir supprimer ce bien ?')) {
+      onDelete(property.id);
+    }
+  };
+
+  return (
+    <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handleCardClick}>
+      <div className="relative">
+        <img 
+          src={property.image || '/placeholder.svg'} 
+          alt={property.title}
+          className="w-full h-48 object-cover rounded-t-lg"
+        />
+        <div className="absolute top-2 right-2 flex space-x-1">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleEdit}
+            className="bg-white/90 hover:bg-white"
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDelete}
+            className="bg-white/90 hover:bg-white text-red-600 hover:text-red-700"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+      <CardHeader>
+        <CardTitle className="flex justify-between items-center">
+          <span>{property.title}</span>
+          <Badge variant={property.status === 'Libre' ? 'default' : 'secondary'}>
+            {property.status}
+          </Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-2">
+          <div className="flex items-center text-gray-600">
+            <MapPin className="mr-2 h-4 w-4" />
+            <span className="text-sm truncate">{property.address}</span>
+          </div>
+          <div className="flex items-center text-gray-600">
+            <Home className="mr-2 h-4 w-4" />
+            <span className="text-sm">{property.type} - {property.surface}</span>
+          </div>
+          <div className="flex items-center text-blue-600 font-semibold">
+            <Euro className="mr-2 h-4 w-4" />
+            <span>{property.rent}/mois</span>
+          </div>
+          {property.locationType === 'Colocation' && (
+            <div className="text-sm text-gray-500">
+              Colocation - {property.availableRooms}/{property.totalRooms} chambres disponibles
             </div>
           )}
-          
-          <div className="flex items-center justify-between pt-3 border-t">
-            <div className="flex items-center text-blue-600 font-semibold">
-              <DollarSign className="mr-1 h-4 w-4" />
-              {property.rent}/mois
+          {property.tenant && (
+            <div className="text-sm text-green-600">
+              Locataire: {property.tenant}
             </div>
-            {property.tenant && (
-              <div className="flex items-center text-gray-600 text-sm">
-                <Users className="mr-1 h-4 w-4" />
-                {property.tenant}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </CardContent>
     </Card>

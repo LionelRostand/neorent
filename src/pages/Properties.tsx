@@ -8,10 +8,12 @@ import PropertyForm from '@/components/PropertyForm';
 import PropertyMetrics from '@/components/PropertyMetrics';
 import PropertyList from '@/components/PropertyList';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useToast } from '@/hooks/use-toast';
 
 const Properties = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { properties, loading, error, addProperty } = useFirebaseProperties();
+  const { properties, loading, error, addProperty, updateProperty, deleteProperty } = useFirebaseProperties();
+  const { toast } = useToast();
 
   const handleAddProperty = async (data: any) => {
     try {
@@ -30,9 +32,54 @@ const Properties = () => {
       };
 
       await addProperty(newProperty);
+      toast({
+        title: "Succès",
+        description: "Le bien a été ajouté avec succès.",
+      });
       console.log('Bien ajouté à la collection Rent_properties:', newProperty);
     } catch (err) {
       console.error('Erreur lors de l\'ajout du bien:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'ajout du bien.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdateProperty = async (id: string, updates: any) => {
+    try {
+      await updateProperty(id, updates);
+      toast({
+        title: "Succès",
+        description: "Le bien a été modifié avec succès.",
+      });
+      console.log('Bien modifié dans la collection Rent_properties:', { id, updates });
+    } catch (err) {
+      console.error('Erreur lors de la modification du bien:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la modification du bien.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteProperty = async (id: string) => {
+    try {
+      await deleteProperty(id);
+      toast({
+        title: "Succès",
+        description: "Le bien a été supprimé avec succès.",
+      });
+      console.log('Bien supprimé de la collection Rent_properties:', id);
+    } catch (err) {
+      console.error('Erreur lors de la suppression du bien:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la suppression du bien.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -79,7 +126,11 @@ const Properties = () => {
         </div>
 
         <PropertyMetrics properties={properties} />
-        <PropertyList properties={properties} />
+        <PropertyList 
+          properties={properties} 
+          onUpdateProperty={handleUpdateProperty}
+          onDeleteProperty={handleDeleteProperty}
+        />
       </div>
     </MainLayout>
   );

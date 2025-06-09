@@ -11,6 +11,7 @@ import ViewSelector from '@/components/RentalCharges/ViewSelector';
 import ChargesList from '@/components/RentalCharges/ChargesList';
 import AnnualChargesList from '@/components/RentalCharges/AnnualChargesList';
 import { useFirebaseCharges } from '@/hooks/useFirebaseCharges';
+import { useToast } from '@/hooks/use-toast';
 
 const RentalCharges = () => {
   const { charges, loading, error, addCharge, deleteCharge } = useFirebaseCharges();
@@ -18,6 +19,7 @@ const RentalCharges = () => {
   const [selectedMonth, setSelectedMonth] = useState('2024-12');
   const [selectedYear, setSelectedYear] = useState('2024');
   const [selectedView, setSelectedView] = useState<'monthly' | 'annual'>('monthly');
+  const { toast } = useToast();
 
   const filteredCharges = selectedView === 'monthly' 
     ? charges.filter(charge => charge.month === selectedMonth)
@@ -33,9 +35,38 @@ const RentalCharges = () => {
   const handleAddCharge = async (data: any) => {
     try {
       await addCharge(data);
+      toast({
+        title: "Succès",
+        description: "La charge a été ajoutée avec succès.",
+      });
       console.log('Charge ajoutée à la collection Rent_Charges:', data);
     } catch (err) {
       console.error('Erreur lors de l\'ajout de la charge:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'ajout de la charge.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteCharge = async (id: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette charge ?')) {
+      try {
+        await deleteCharge(id);
+        toast({
+          title: "Succès",
+          description: "La charge a été supprimée avec succès.",
+        });
+        console.log('Charge supprimée de la collection Rent_Charges:', id);
+      } catch (err) {
+        console.error('Erreur lors de la suppression de la charge:', err);
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la suppression de la charge.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -110,7 +141,7 @@ const RentalCharges = () => {
           <ChargesList
             charges={filteredCharges}
             selectedMonth={selectedMonth}
-            onDeleteCharge={deleteCharge}
+            onDeleteCharge={handleDeleteCharge}
           />
         ) : (
           <AnnualChargesList
