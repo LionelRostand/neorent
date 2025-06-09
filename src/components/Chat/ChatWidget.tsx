@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ChatWidgetButton } from './ChatWidgetButton';
 import { ChatWidgetWindow } from './ChatWidgetWindow';
@@ -105,7 +104,7 @@ export const ChatWidget: React.FC = () => {
     }
   };
 
-  const handleSendMessage = async (message: string) => {
+  const handleSendMessage = async (message: string): Promise<void> => {
     if (!conversation) {
       console.error('🎯 ChatWidget: Pas de conversation active pour envoyer le message');
       return;
@@ -124,6 +123,7 @@ export const ChatWidget: React.FC = () => {
       console.log('🎯 ChatWidget: Message envoyé avec succès');
     } catch (error) {
       console.error('🎯 ChatWidget: Erreur lors de l\'envoi du message:', error);
+      throw error; // Rethrow pour que ChatMessages puisse gérer l'erreur
     }
   };
 

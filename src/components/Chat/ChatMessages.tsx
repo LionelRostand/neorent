@@ -21,17 +21,9 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
 }) => {
   const [newMessage, setNewMessage] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isSending, setIsSending] = useState(false);
 
-  console.log('ChatMessages: Rendu avec', messages.length, 'messages');
-  messages.forEach((msg, index) => {
-    console.log(`ChatMessages: Message ${index}:`, {
-      id: msg.id,
-      sender: msg.sender,
-      senderName: msg.senderName,
-      message: msg.message,
-      timestamp: msg.timestamp
-    });
-  });
+  console.log('💬 ChatMessages: Rendu avec', messages.length, 'messages');
 
   // Auto-scroll vers le bas lors de nouveaux messages
   useEffect(() => {
@@ -40,12 +32,26 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
     }
   }, [messages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newMessage.trim()) {
-      console.log('ChatMessages: Envoi du message:', newMessage.trim());
-      onSendMessage(newMessage.trim());
-      setNewMessage('');
+    if (newMessage.trim() && !isSending) {
+      console.log('💬 ChatMessages: Envoi du message:', newMessage.trim());
+      setIsSending(true);
+      try {
+        await onSendMessage(newMessage.trim());
+        setNewMessage('');
+      } catch (error) {
+        console.error('💬 ChatMessages: Erreur envoi message:', error);
+      } finally {
+        setIsSending(false);
+      }
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
     }
   };
 
@@ -55,7 +61,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-2"></div>
-            <p className="text-gray-500">Chargement des messages...</p>
+            <p className="text-gray-500 text-sm">Chargement des messages...</p>
           </div>
         </div>
       </div>
@@ -63,16 +69,17 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
   }
 
   return (
-    <div className="flex-1 flex flex-col">
-      <ScrollArea className="flex-1 p-4">
+    <div className="flex-1 flex flex-col h-full">
+      <ScrollArea className="flex-1 px-3 py-2 max-h-64">
         <div className="space-y-3">
           {messages.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">
-              <p>Conversation démarrée ! Envoyez votre premier message.</p>
+            <div className="text-center text-gray-500 py-4">
+              <p className="text-sm">Conversation démarrée !</p>
+              <p className="text-xs text-gray-400 mt-1">Envoyez votre premier message.</p>
             </div>
           ) : (
             messages.map((message) => {
-              console.log('ChatMessages: Rendu du message:', message.id, message.message);
+              console.log('💬 ChatMessages: Rendu du message:', message.id);
               return (
                 <div
                   key={message.id}
@@ -81,18 +88,20 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+                    className={`max-w-[85%] px-3 py-2 rounded-lg text-sm shadow-sm ${
                       message.sender === 'client'
-                        ? 'bg-green-500 text-white'
-                        : 'bg-gray-200 text-gray-900'
+                        ? 'bg-green-500 text-white rounded-br-sm'
+                        : 'bg-gray-100 text-gray-900 rounded-bl-sm'
                     }`}
                   >
-                    <div className="font-medium text-xs mb-1">
+                    <div className={`font-medium text-xs mb-1 ${
+                      message.sender === 'client' ? 'text-green-100' : 'text-gray-600'
+                    }`}>
                       {message.senderName}
                     </div>
-                    <div className="whitespace-pre-wrap">{message.message}</div>
+                    <div className="whitespace-pre-wrap leading-relaxed">{message.message}</div>
                     <div
-                      className={`text-xs mt-1 ${
+                      className={`text-xs mt-1 opacity-75 ${
                         message.sender === 'client'
                           ? 'text-green-100'
                           : 'text-gray-500'
@@ -116,21 +125,27 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
         </div>
       </ScrollArea>
       
-      <div className="p-4 border-t">
+      <div className="p-3 border-t bg-gray-50">
         <form onSubmit={handleSubmit} className="flex gap-2">
           <Input
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
             placeholder="Tapez votre message..."
-            className="flex-1"
+            className="flex-1 text-sm"
+            disabled={isSending}
           />
           <Button
             type="submit"
-            disabled={!newMessage.trim()}
+            disabled={!newMessage.trim() || isSending}
             size="sm"
-            className="bg-green-500 hover:bg-green-600"
+            className="bg-green-500 hover:bg-green-600 disabled:opacity-50"
           >
-            <Send className="h-4 w-4" />
+            {isSending ? (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            ) : (
+              <Send className="h-4 w-4" />
+            )}
           </Button>
         </form>
       </div>
