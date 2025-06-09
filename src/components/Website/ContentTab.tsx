@@ -6,45 +6,41 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Save } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 const ContentTab = () => {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [garageInfo, setGarageInfo] = useState({
-    name: 'NeoGarage Auto',
-    description: 'Votre garage de confiance pour l\'entretien et la réparation automobile',
-    address: '123 Rue de l\'Automobile, 75000 Paris',
-    phone: '01 23 45 67 89',
-    email: 'contact@neogarage.fr'
+  const [companyInfo, setCompanyInfo] = useState({
+    name: 'NeoRent',
+    description: 'Gestion Immobilière Simplifiée - Votre partenaire de confiance pour la gestion de vos biens immobiliers',
+    address: '123 Rue de la Paix, 75001 Paris',
+    phone: '+33 1 23 45 67 89',
+    email: 'contact@neorent.fr'
   });
 
   const [schedules, setSchedules] = useState({
-    lundi: { start: '08:00', end: '18:00' },
-    mardi: { start: '08:00', end: '18:00' },
-    mercredi: { start: '08:00', end: '18:00' },
-    jeudi: { start: '08:00', end: '18:00' },
-    vendredi: { start: '08:00', end: '18:00' },
-    samedi: { start: '09:00', end: '17:00' }
+    lundi: { start: '09:00', end: '18:00' },
+    mardi: { start: '09:00', end: '18:00' },
+    mercredi: { start: '09:00', end: '18:00' },
+    jeudi: { start: '09:00', end: '18:00' },
+    vendredi: { start: '09:00', end: '18:00' },
+    samedi: { start: '10:00', end: '16:00' }
   });
 
-  const handleSaveGarageInfo = async () => {
+  const handleSaveInfo = async () => {
     setIsLoading(true);
     try {
       // Simulation d'une sauvegarde (ici on sauvegarderait dans Firebase)
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      console.log('Sauvegarde des informations du garage:', { garageInfo, schedules });
+      console.log('Sauvegarde des informations de NeoRent:', { companyInfo, schedules });
       
-      toast({
-        title: "Informations sauvegardées",
-        description: "Les informations du garage ont été sauvegardées avec succès.",
+      toast.success('Informations sauvegardées avec succès !', {
+        description: 'Les informations de NeoRent ont été mises à jour.'
       });
     } catch (error) {
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de la sauvegarde.",
-        variant: "destructive",
+      toast.error('Erreur lors de la sauvegarde', {
+        description: 'Une erreur est survenue lors de la sauvegarde.'
       });
     } finally {
       setIsLoading(false);
@@ -66,7 +62,7 @@ const ContentTab = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">📝 Gestion du contenu</h2>
         <Button 
-          onClick={handleSaveGarageInfo} 
+          onClick={handleSaveInfo} 
           className="flex items-center gap-2"
           disabled={isLoading}
         >
@@ -74,58 +70,58 @@ const ContentTab = () => {
           {isLoading ? 'Sauvegarde...' : 'Sauvegarder'}
         </Button>
       </div>
-      <p className="text-gray-600">Gestion des informations principales du garage avec sauvegarde centralisée.</p>
+      <p className="text-gray-600">Gestion des informations principales de NeoRent avec sauvegarde centralisée.</p>
 
       <Card>
         <CardHeader>
-          <CardTitle>Informations du garage</CardTitle>
+          <CardTitle>Informations de l'entreprise</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="garage-name">Nom du garage</Label>
+              <Label htmlFor="company-name">Nom de l'entreprise</Label>
               <Input
-                id="garage-name"
-                value={garageInfo.name}
-                onChange={(e) => setGarageInfo({...garageInfo, name: e.target.value})}
+                id="company-name"
+                value={companyInfo.name}
+                onChange={(e) => setCompanyInfo({...companyInfo, name: e.target.value})}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="garage-email">Email</Label>
+              <Label htmlFor="company-email">Email</Label>
               <Input
-                id="garage-email"
+                id="company-email"
                 type="email"
-                value={garageInfo.email}
-                onChange={(e) => setGarageInfo({...garageInfo, email: e.target.value})}
+                value={companyInfo.email}
+                onChange={(e) => setCompanyInfo({...companyInfo, email: e.target.value})}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="garage-description">Description</Label>
+            <Label htmlFor="company-description">Description</Label>
             <Textarea
-              id="garage-description"
-              value={garageInfo.description}
-              onChange={(e) => setGarageInfo({...garageInfo, description: e.target.value})}
+              id="company-description"
+              value={companyInfo.description}
+              onChange={(e) => setCompanyInfo({...companyInfo, description: e.target.value})}
               rows={3}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="garage-address">Adresse</Label>
+              <Label htmlFor="company-address">Adresse</Label>
               <Input
-                id="garage-address"
-                value={garageInfo.address}
-                onChange={(e) => setGarageInfo({...garageInfo, address: e.target.value})}
+                id="company-address"
+                value={companyInfo.address}
+                onChange={(e) => setCompanyInfo({...companyInfo, address: e.target.value})}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="garage-phone">Téléphone</Label>
+              <Label htmlFor="company-phone">Téléphone</Label>
               <Input
-                id="garage-phone"
-                value={garageInfo.phone}
-                onChange={(e) => setGarageInfo({...garageInfo, phone: e.target.value})}
+                id="company-phone"
+                value={companyInfo.phone}
+                onChange={(e) => setCompanyInfo({...companyInfo, phone: e.target.value})}
               />
             </div>
           </div>
@@ -137,7 +133,7 @@ const ContentTab = () => {
                 <div key={day} className="flex items-center gap-2">
                   <Label className="w-20 capitalize">{day}</Label>
                   <Input 
-                    placeholder="08:00" 
+                    placeholder="09:00" 
                     className="w-20" 
                     value={schedule.start}
                     onChange={(e) => handleScheduleChange(day, 'start', e.target.value)}
