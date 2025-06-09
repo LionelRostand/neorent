@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield, Copy, Upload, ExternalLink, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { firestoreConfig } from '@/lib/firebase';
+import { firebaseConfig } from '@/lib/firebase';
 import { firestoreRules } from './FirestoreRulesData';
 import { FirestoreRulesDisplay } from './FirestoreRulesDisplay';
 import { FirestoreRulesInfo } from './FirestoreRulesInfo';
