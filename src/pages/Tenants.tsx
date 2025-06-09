@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -198,12 +199,12 @@ const Tenants = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tenants.map((tenant) => (
-            <Card key={tenant.id} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="space-y-4">
+            <Card key={tenant.id} className="hover:shadow-lg transition-shadow h-full flex flex-col">
+              <CardContent className="p-6 flex-1 flex flex-col">
+                <div className="space-y-4 flex-1">
                   <div className="flex justify-between items-start">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                    <div className="flex items-center space-x-3 flex-1 min-w-0">
+                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                         {tenant.image ? (
                           <img 
                             src={tenant.image} 
@@ -214,56 +215,56 @@ const Tenants = () => {
                           <User className="h-6 w-6 text-gray-400" />
                         )}
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-lg text-gray-900">{tenant.name}</h3>
-                        <p className="text-sm text-gray-600 mt-1">{tenant.property}</p>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-semibold text-lg text-gray-900 truncate">{tenant.name}</h3>
+                        <p className="text-sm text-gray-600 mt-1 truncate">{tenant.property}</p>
                       </div>
                     </div>
                     <Badge 
                       variant={tenant.status === 'À jour' ? 'default' : 'destructive'}
-                      className={tenant.status === 'À jour' ? 'bg-green-100 text-green-800' : ''}
+                      className={`${tenant.status === 'À jour' ? 'bg-green-100 text-green-800' : ''} flex-shrink-0 ml-2`}
                     >
                       {tenant.status}
                     </Badge>
                   </div>
                   
-                  <div className="space-y-2">
+                  <div className="space-y-2 flex-1">
                     <div className="flex items-center text-gray-600 text-sm">
-                      <Mail className="mr-2 h-4 w-4" />
-                      {tenant.email}
+                      <Mail className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{tenant.email}</span>
                     </div>
                     <div className="flex items-center text-gray-600 text-sm">
-                      <Phone className="mr-2 h-4 w-4" />
-                      {tenant.phone}
+                      <Phone className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span>{tenant.phone}</span>
                     </div>
                     <div className="flex items-center text-gray-600 text-sm">
-                      <Home className="mr-2 h-4 w-4" />
-                      Loyer: {tenant.rentAmount}
+                      <Home className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">Loyer: {tenant.rentAmount}</span>
                     </div>
                     <div className="flex items-center text-gray-600 text-sm">
-                      <Calendar className="mr-2 h-4 w-4" />
-                      Début bail: {new Date(tenant.leaseStart).toLocaleDateString('fr-FR')}
+                      <Calendar className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span>Début bail: {new Date(tenant.leaseStart).toLocaleDateString('fr-FR')}</span>
                     </div>
                   </div>
                   
-                  <div className="pt-4 border-t">
-                    <p className="text-sm text-gray-600">
+                  <div className="pt-4 border-t mt-auto">
+                    <p className="text-sm text-gray-600 mb-4">
                       Prochain paiement: {new Date(tenant.nextPayment).toLocaleDateString('fr-FR')}
                     </p>
-                  </div>
-                  
-                  <div className="flex space-x-2 pt-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1"
-                      onClick={() => handleViewDetails(tenant)}
-                    >
-                      Voir détails
-                    </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
-                      Contacter
-                    </Button>
+                    
+                    <div className="flex space-x-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1"
+                        onClick={() => handleViewDetails(tenant)}
+                      >
+                        Voir détails
+                      </Button>
+                      <Button variant="outline" size="sm" className="flex-1">
+                        Contacter
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </CardContent>
