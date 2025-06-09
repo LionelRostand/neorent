@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { CheckCircle, Clock, XCircle, Building2 } from 'lucide-react';
-import MetricCard from '@/components/MetricCard';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Building, Home, Users, DollarSign } from 'lucide-react';
 
 interface Property {
-  id: number;
+  id: string; // Changed from number to string for Firebase compatibility
   title: string;
   address: string;
   type: string;
@@ -23,44 +23,73 @@ interface PropertyMetricsProps {
 }
 
 const PropertyMetrics: React.FC<PropertyMetricsProps> = ({ properties }) => {
-  const occupiedCount = properties.filter(p => p.status === 'Occupé').length;
-  const availableCount = properties.filter(p => p.status === 'Libre').length;
-  const totalCount = properties.length;
+  const totalProperties = properties.length;
+  const occupiedProperties = properties.filter(p => p.status === 'Occupé').length;
+  const availableProperties = totalProperties - occupiedProperties;
+  const totalRevenue = properties
+    .filter(p => p.status === 'Occupé')
+    .reduce((sum, p) => sum + parseFloat(p.rent.replace(/[^0-9.-]+/g, '')), 0);
+
+  // Calculate colocation rooms
+  const colocationProperties = properties.filter(p => p.locationType === 'Colocation');
+  const totalColocationRooms = colocationProperties.reduce((sum, p) => sum + (p.totalRooms || 0), 0);
+  const availableColocationRooms = colocationProperties.reduce((sum, p) => sum + (p.availableRooms || 0), 0);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <MetricCard
-        title="Biens occupés"
-        value={occupiedCount}
-        description={`${occupiedCount} bien${occupiedCount > 1 ? 's' : ''} occupé${occupiedCount > 1 ? 's' : ''}`}
-        icon={CheckCircle}
-        iconBgColor="bg-green-500"
-        borderColor="border-l-green-500"
-      />
-      <MetricCard
-        title="Biens libres"
-        value={availableCount}
-        description={`${availableCount} bien${availableCount > 1 ? 's' : ''} libre${availableCount > 1 ? 's' : ''}`}
-        icon={Clock}
-        iconBgColor="bg-yellow-500"
-        borderColor="border-l-yellow-500"
-      />
-      <MetricCard
-        title="En maintenance"
-        value={0}
-        description="0 bien en maintenance"
-        icon={XCircle}
-        iconBgColor="bg-red-500"
-        borderColor="border-l-red-500"
-      />
-      <MetricCard
-        title="Total"
-        value={totalCount}
-        description={`${totalCount} bien${totalCount > 1 ? 's' : ''} au total`}
-        icon={Building2}
-        iconBgColor="bg-blue-500"
-        borderColor="border-l-blue-500"
-      />
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total des Biens</CardTitle>
+          <Building className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalProperties}</div>
+          <p className="text-xs text-muted-foreground">
+            {occupiedProperties} occupés, {availableProperties} libres
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Taux d'Occupation</CardTitle>
+          <Home className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">
+            {totalProperties > 0 ? Math.round((occupiedProperties / totalProperties) * 100) : 0}%
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {occupiedProperties}/{totalProperties} biens occupés
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Chambres Colocation</CardTitle>
+          <Users className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalColocationRooms - availableColocationRooms}/{totalColocationRooms}</div>
+          <p className="text-xs text-muted-foreground">
+            {availableColocationRooms} chambres disponibles
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Revenus Mensuels</CardTitle>
+          <DollarSign className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{totalRevenue.toLocaleString()}€</div>
+          <p className="text-xs text-muted-foreground">
+            Revenus des biens occupés
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 };
