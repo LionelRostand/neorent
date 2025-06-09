@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { determineResponsibility } from './utils/responsibilityUtils';
 
 interface MaintenanceFormData {
@@ -24,6 +26,9 @@ interface MaintenanceFormProps {
 
 const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
   const { toast } = useToast();
+  const { properties, loading: propertiesLoading } = useFirebaseProperties();
+  const { tenants, loading: tenantsLoading } = useFirebaseTenants();
+  
   const [formData, setFormData] = useState<MaintenanceFormData>({
     propertyId: '',
     tenantName: '',
@@ -61,6 +66,11 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
     });
   };
 
+  // Filtrer les biens par type de location
+  const availableProperties = properties.filter(property => 
+    property.locationType === 'location' && property.status === 'Loué'
+  );
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -71,22 +81,37 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
               <SelectValue placeholder="Sélectionner un bien" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Appartement 15 Rue de la Paix">Appartement 15 Rue de la Paix</SelectItem>
-              <SelectItem value="Maison 8 Avenue des Roses">Maison 8 Avenue des Roses</SelectItem>
-              <SelectItem value="Studio 22 Boulevard Victor Hugo">Studio 22 Boulevard Victor Hugo</SelectItem>
+              {propertiesLoading ? (
+                <SelectItem value="" disabled>Chargement...</SelectItem>
+              ) : (
+                availableProperties.map((property) => (
+                  <SelectItem key={property.id} value={property.title}>
+                    {property.title} - {property.address}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="tenantName">Nom du Locataire</Label>
-          <Input
-            id="tenantName"
-            value={formData.tenantName}
-            onChange={(e) => setFormData({...formData, tenantName: e.target.value})}
-            placeholder="Nom du locataire"
-            required
-          />
+          <Select value={formData.tenantName} onValueChange={(value) => setFormData({...formData, tenantName: value})}>
+            <SelectTrigger>
+              <SelectValue placeholder="Sélectionner un locataire" />
+            </SelectTrigger>
+            <SelectContent>
+              {tenantsLoading ? (
+                <SelectItem value="" disabled>Chargement...</SelectItem>
+              ) : (
+                tenants.map((tenant) => (
+                  <SelectItem key={tenant.id} value={tenant.name}>
+                    {tenant.name} - {tenant.property}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">

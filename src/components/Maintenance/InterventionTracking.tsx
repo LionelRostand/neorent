@@ -11,42 +11,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Calendar, Clock, User, Phone, Euro, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
 
 const InterventionTracking = () => {
   const { toast } = useToast();
-  const [interventions, setInterventions] = useState([
-    {
-      id: '1',
-      requestId: '1',
-      property: 'Appartement 15 Rue de la Paix',
-      description: 'Fuite d\'eau dans la salle de bain',
-      status: 'Planifiée',
-      priority: 'urgent',
-      technicianName: 'Jean Plombier',
-      technicianPhone: '06.12.34.56.78',
-      scheduledDate: '2024-01-20',
-      scheduledTime: '14:00',
-      estimatedCost: 150,
-      actualCost: null,
-      completionNotes: ''
-    },
-    {
-      id: '2',
-      requestId: '2',
-      property: 'Maison 8 Avenue des Roses',
-      description: 'Ampoule grillée dans le salon',
-      status: 'Terminée',
-      priority: 'normal',
-      technicianName: 'Marie Électricienne',
-      technicianPhone: '06.87.65.43.21',
-      scheduledDate: '2024-01-18',
-      scheduledTime: '10:30',
-      estimatedCost: 25,
-      actualCost: 20,
-      completionNotes: 'Remplacement ampoule LED, test du circuit électrique OK'
-    }
-  ]);
-
+  const { requests, interventions, updateIntervention, addIntervention, loading } = useFirebaseMaintenances();
   const [selectedIntervention, setSelectedIntervention] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -70,32 +39,67 @@ const InterventionTracking = () => {
     }
   };
 
-  const handleStatusUpdate = (id: string, newStatus: string) => {
-    setInterventions(interventions.map(intervention => 
-      intervention.id === id 
-        ? { ...intervention, status: newStatus }
-        : intervention
-    ));
-    
-    toast({
-      title: "Statut mis à jour",
-      description: `L'intervention a été marquée comme ${newStatus.toLowerCase()}.`,
+  const handleStatusUpdate = async (id: string, newStatus: string) => {
+    try {
+      await updateIntervention(id, { status: newStatus });
+      toast({
+        title: "Statut mis à jour",
+        description: `L'intervention a été marquée comme ${newStatus.toLowerCase()}.`,
+      });
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour:', error);
+    }
+  };
+
+  const handleInterventionUpdate = async (updatedIntervention: any) => {
+    try {
+      await updateIntervention(updatedIntervention.id, updatedIntervention);
+      setIsDialogOpen(false);
+      toast({
+        title: "Intervention mise à jour",
+        description: "Les informations ont été sauvegardées avec succès.",
+      });
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour:', error);
+    }
+  };
+
+  // Créer des interventions depuis les demandes qui n'en ont pas encore
+  const createInterventionsFromRequests = () => {
+    requests.forEach(async (request) => {
+      const existingIntervention = interventions.find(i => i.requestId === request.id);
+      if (!existingIntervention && request.status === 'En attente') {
+        try {
+          await addIntervention({
+            requestId: request.id,
+            property: request.propertyId,
+            description: request.description,
+            status: 'Planifiée',
+            priority: request.priority,
+            technicianName: '',
+            technicianPhone: '',
+            scheduledDate: '',
+            scheduledTime: '',
+            estimatedCost: 0,
+            actualCost: null,
+            completionNotes: ''
+          });
+        } catch (error) {
+          console.error('Erreur lors de la création de l\'intervention:', error);
+        }
+      }
     });
   };
 
-  const handleInterventionUpdate = (updatedIntervention: any) => {
-    setInterventions(interventions.map(intervention => 
-      intervention.id === updatedIntervention.id 
-        ? updatedIntervention
-        : intervention
-    ));
-    setIsDialogOpen(false);
-    
-    toast({
-      title: "Intervention mise à jour",
-      description: "Les informations ont été sauvegardées avec succès.",
-    });
-  };
+  React.useEffect(() => {
+    if (requests.length > 0 && !loading) {
+      createInterventionsFromRequests();
+    }
+  }, [requests, loading]);
+
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -183,24 +187,30 @@ const InterventionTracking = () => {
                     <div className="flex flex-col">
                       <span className="flex items-center gap-1 text-sm">
                         <User className="h-3 w-3" />
-                        {intervention.technicianName}
+                        {intervention.technicianName || 'Non assigné'}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Phone className="h-3 w-3" />
-                        {intervention.technicianPhone}
-                      </span>
+                      {intervention.technicianPhone && (
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Phone className="h-3 w-3" />
+                          {intervention.technicianPhone}
+                        </span>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col">
-                      <span className="flex items-center gap-1 text-sm">
-                        <Calendar className="h-3 w-3" />
-                        {intervention.scheduledDate}
-                      </span>
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Clock className="h-3 w-3" />
-                        {intervention.scheduledTime}
-                      </span>
+                      {intervention.scheduledDate && (
+                        <span className="flex items-center gap-1 text-sm">
+                          <Calendar className="h-3 w-3" />
+                          {intervention.scheduledDate}
+                        </span>
+                      )}
+                      {intervention.scheduledTime && (
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Clock className="h-3 w-3" />
+                          {intervention.scheduledTime}
+                        </span>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell>
@@ -283,6 +293,26 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="technicianName">Nom du technicien</Label>
+          <Input
+            id="technicianName"
+            value={formData.technicianName}
+            onChange={(e) => setFormData({...formData, technicianName: e.target.value})}
+            placeholder="Nom du technicien"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="technicianPhone">Téléphone du technicien</Label>
+          <Input
+            id="technicianPhone"
+            value={formData.technicianPhone}
+            onChange={(e) => setFormData({...formData, technicianPhone: e.target.value})}
+            placeholder="06.12.34.56.78"
+          />
+        </div>
+        
         <div className="space-y-2">
           <Label htmlFor="scheduledDate">Date prévue</Label>
           <Input

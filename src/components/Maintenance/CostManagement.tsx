@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,66 +9,32 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Euro, FileText, Download, Plus, Receipt } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 const CostManagement = () => {
   const { toast } = useToast();
+  const { invoices, addInvoice, loading } = useFirebaseMaintenances();
+  const { properties } = useFirebaseProperties();
   const [selectedPeriod, setSelectedPeriod] = useState('2024');
-  const [invoices, setInvoices] = useState([
-    {
-      id: '1',
-      invoiceNumber: 'MAINT-2024-001',
-      date: '2024-01-18',
-      property: 'Maison 8 Avenue des Roses',
-      description: 'Remplacement ampoule LED salon',
-      technicianName: 'Marie Électricienne',
-      amount: 20,
-      responsibility: 'Locataire',
-      status: 'Payée',
-      tenantNotified: true
-    },
-    {
-      id: '2',
-      invoiceNumber: 'MAINT-2024-002',
-      date: '2024-01-20',
-      property: 'Appartement 15 Rue de la Paix',
-      description: 'Réparation fuite salle de bain',
-      technicianName: 'Jean Plombier',
-      amount: 150,
-      responsibility: 'Propriétaire',
-      status: 'En attente',
-      tenantNotified: false
-    }
-  ]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const totalCosts = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
   const proprietaireCosts = invoices.filter(i => i.responsibility === 'Propriétaire').reduce((sum, i) => sum + i.amount, 0);
   const locataireCosts = invoices.filter(i => i.responsibility === 'Locataire').reduce((sum, i) => sum + i.amount, 0);
   const pendingCosts = invoices.filter(i => i.status === 'En attente').reduce((sum, i) => sum + i.amount, 0);
 
-  const handleStatusUpdate = (id: string, newStatus: string) => {
-    setInvoices(invoices.map(invoice => 
-      invoice.id === id 
-        ? { ...invoice, status: newStatus }
-        : invoice
-    ));
-    
-    toast({
-      title: "Statut mis à jour",
-      description: `La facture a été marquée comme ${newStatus.toLowerCase()}.`,
-    });
-  };
-
-  const handleNotifyTenant = (id: string) => {
-    setInvoices(invoices.map(invoice => 
-      invoice.id === id 
-        ? { ...invoice, tenantNotified: true }
-        : invoice
-    ));
-    
-    toast({
-      title: "Locataire notifié",
-      description: "Le locataire a été informé de la facture.",
-    });
+  const handleNewInvoice = async (invoice: any) => {
+    try {
+      await addInvoice(invoice);
+      setIsDialogOpen(false);
+      toast({
+        title: "Facture créée",
+        description: "La nouvelle facture a été enregistrée.",
+      });
+    } catch (error) {
+      console.error('Erreur lors de la création de la facture:', error);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -80,6 +45,10 @@ const CostManagement = () => {
       default: return 'default';
     }
   };
+
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -101,7 +70,7 @@ const CostManagement = () => {
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">{proprietaireCosts}€</div>
             <p className="text-xs text-muted-foreground">
-              {((proprietaireCosts / totalCosts) * 100).toFixed(1)}% du total
+              {totalCosts > 0 ? ((proprietaireCosts / totalCosts) * 100).toFixed(1) : 0}% du total
             </p>
           </CardContent>
         </Card>
@@ -113,7 +82,7 @@ const CostManagement = () => {
           <CardContent>
             <div className="text-2xl font-bold text-green-600">{locataireCosts}€</div>
             <p className="text-xs text-muted-foreground">
-              {((locataireCosts / totalCosts) * 100).toFixed(1)}% du total
+              {totalCosts > 0 ? ((locataireCosts / totalCosts) * 100).toFixed(1) : 0}% du total
             </p>
           </CardContent>
         </Card>
@@ -128,7 +97,7 @@ const CostManagement = () => {
         </Card>
       </div>
 
-      {/* Filtres et actions */}
+      {/* Gestion des factures */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -148,27 +117,25 @@ const CostManagement = () => {
                 </SelectContent>
               </Select>
               
-              <Dialog>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <Button>
                     <Plus className="h-4 w-4 mr-2" />
                     Nouvelle facture
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>Créer une nouvelle facture</DialogTitle>
                     <DialogDescription>
                       Enregistrer une nouvelle facture de maintenance
                     </DialogDescription>
                   </DialogHeader>
-                  <InvoiceForm onSave={(invoice) => {
-                    setInvoices([{ ...invoice, id: Date.now().toString() }, ...invoices]);
-                    toast({
-                      title: "Facture créée",
-                      description: "La nouvelle facture a été enregistrée.",
-                    });
-                  }} />
+                  <InvoiceForm 
+                    onSave={handleNewInvoice} 
+                    properties={properties}
+                    onCancel={() => setIsDialogOpen(false)}
+                  />
                 </DialogContent>
               </Dialog>
             </div>
@@ -223,28 +190,6 @@ const CostManagement = () => {
                       <Button variant="outline" size="sm">
                         <Download className="h-3 w-3" />
                       </Button>
-                      {invoice.responsibility === 'Locataire' && !invoice.tenantNotified && (
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => handleNotifyTenant(invoice.id)}
-                        >
-                          <Receipt className="h-3 w-3" />
-                        </Button>
-                      )}
-                      <Select 
-                        value={invoice.status} 
-                        onValueChange={(value) => handleStatusUpdate(invoice.id, value)}
-                      >
-                        <SelectTrigger className="w-24">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="En attente">En attente</SelectItem>
-                          <SelectItem value="Payée">Payée</SelectItem>
-                          <SelectItem value="En retard">En retard</SelectItem>
-                        </SelectContent>
-                      </Select>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -293,11 +238,6 @@ const CostManagement = () => {
                   <div>
                     <p className="text-sm font-medium">{invoice.description}</p>
                     <p className="text-xs text-muted-foreground">{invoice.property}</p>
-                    {!invoice.tenantNotified && (
-                      <Badge variant="outline" className="text-xs mt-1">
-                        Non notifié
-                      </Badge>
-                    )}
                   </div>
                   <div className="text-right">
                     <p className="font-semibold">{invoice.amount}€</p>
@@ -315,7 +255,7 @@ const CostManagement = () => {
   );
 };
 
-const InvoiceForm = ({ onSave }: { onSave: (invoice: any) => void }) => {
+const InvoiceForm = ({ onSave, properties, onCancel }: { onSave: (invoice: any) => void, properties: any[], onCancel: () => void }) => {
   const [formData, setFormData] = useState({
     invoiceNumber: `MAINT-${new Date().getFullYear()}-${String(Date.now()).slice(-3)}`,
     date: new Date().toISOString().split('T')[0],
@@ -333,17 +273,6 @@ const InvoiceForm = ({ onSave }: { onSave: (invoice: any) => void }) => {
     onSave({
       ...formData,
       amount: Number(formData.amount)
-    });
-    setFormData({
-      invoiceNumber: `MAINT-${new Date().getFullYear()}-${String(Date.now()).slice(-3)}`,
-      date: new Date().toISOString().split('T')[0],
-      property: '',
-      description: '',
-      technicianName: '',
-      amount: '',
-      responsibility: '',
-      status: 'En attente',
-      tenantNotified: false
     });
   };
 
@@ -378,9 +307,11 @@ const InvoiceForm = ({ onSave }: { onSave: (invoice: any) => void }) => {
               <SelectValue placeholder="Sélectionner un bien" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Appartement 15 Rue de la Paix">Appartement 15 Rue de la Paix</SelectItem>
-              <SelectItem value="Maison 8 Avenue des Roses">Maison 8 Avenue des Roses</SelectItem>
-              <SelectItem value="Studio 22 Boulevard Victor Hugo">Studio 22 Boulevard Victor Hugo</SelectItem>
+              {properties.map((property) => (
+                <SelectItem key={property.id} value={property.title}>
+                  {property.title} - {property.address}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -434,7 +365,10 @@ const InvoiceForm = ({ onSave }: { onSave: (invoice: any) => void }) => {
         </div>
       </div>
       
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={onCancel}>
+          Annuler
+        </Button>
         <Button type="submit">
           Créer la facture
         </Button>
