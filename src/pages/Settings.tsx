@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus, Edit, Trash2, Database, Shield } from 'lucide-react';
+import { Plus, Edit, Trash2, Shield } from 'lucide-react';
 
 const Settings = () => {
   const employees = [
@@ -16,24 +16,6 @@ const Settings = () => {
       email: 'jean.dupont@garage.com',
       telephone: '01 23 45 67 89',
       poste: 'Manager Principal'
-    }
-  ];
-
-  const firebaseCollections = [
-    {
-      name: 'employees',
-      description: 'Stockage des informations des employés',
-      fields: ['nom', 'prenom', 'email', 'telephone', 'poste', 'role', 'createdAt', 'updatedAt']
-    },
-    {
-      name: 'user_roles',
-      description: 'Gestion des rôles et permissions',
-      fields: ['userId', 'role', 'permissions', 'createdAt']
-    },
-    {
-      name: 'audit_logs',
-      description: 'Journal des actions utilisateurs',
-      fields: ['userId', 'action', 'details', 'timestamp', 'ipAddress']
     }
   ];
 
@@ -148,43 +130,6 @@ service cloud.firestore {
                 <Button className="w-full sm:w-auto">
                   Sauvegarder les employés
                 </Button>
-              </CardContent>
-            </Card>
-
-            {/* Section Collections Firebase */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Database className="h-5 w-5" />
-                  Collections Firebase à créer
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-gray-600 text-sm">
-                  Voici les collections Firestore nécessaires pour le bon fonctionnement du module employés :
-                </p>
-                
-                <div className="space-y-4">
-                  {firebaseCollections.map((collection, index) => (
-                    <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Database className="h-4 w-4 text-blue-600" />
-                        <h4 className="font-semibold text-gray-900">{collection.name}</h4>
-                      </div>
-                      <p className="text-sm text-gray-600 mb-2">{collection.description}</p>
-                      <div className="flex flex-wrap gap-1">
-                        {collection.fields.map((field, fieldIndex) => (
-                          <span
-                            key={fieldIndex}
-                            className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
-                          >
-                            {field}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </CardContent>
             </Card>
 
