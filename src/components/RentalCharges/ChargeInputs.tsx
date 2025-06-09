@@ -85,7 +85,7 @@ const ChargeInputs = ({ charges, onChargeChange, selectedProperty, maintenanceLo
             />
             {selectedProperty && charges.maintenance && parseFloat(charges.maintenance) > 0 && (
               <p className="text-xs text-blue-600">
-                Coût calculé automatiquement depuis les interventions terminées
+                Coût calculé automatiquement depuis les interventions terminées à la charge du propriétaire
               </p>
             )}
           </div>

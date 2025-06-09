@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { Calculator, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useMaintenanceCostCalculator } from '@/hooks/useMaintenanceCostCalculator';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
 import PropertySelector from '@/components/RentalCharges/PropertySelector';
 import ChargeInputs from '@/components/RentalCharges/ChargeInputs';
 import ChargeSummary from '@/components/RentalCharges/ChargeSummary';
@@ -32,13 +32,16 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
   });
   const { toast } = useToast();
   const { properties } = useFirebaseProperties();
+  const { interventions, requests, loading: maintenanceLoading } = useFirebaseMaintenances();
 
   const selectedPropertyData = properties.find(p => p.id === selectedProperty);
 
-  const { maintenanceLoading } = useMaintenanceCostCalculator({
+  useMaintenanceCostCalculator({
     selectedProperty,
     month,
     selectedPropertyName: selectedPropertyData?.title,
+    interventions,
+    requests,
     onCostCalculated: (cost) => {
       setCharges(prev => ({
         ...prev,
