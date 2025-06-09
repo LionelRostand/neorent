@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import PropertyCard from './PropertyCard';
 import PropertyDetailsModal from './PropertyDetailsModal';
