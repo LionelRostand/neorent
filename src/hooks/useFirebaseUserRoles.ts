@@ -3,6 +3,29 @@ import { useState, useEffect } from 'react';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
+interface MenuPermission {
+  read: boolean;
+  write: boolean;
+  view: boolean;
+  delete: boolean;
+}
+
+interface EmployeePermissions {
+  dashboard: MenuPermission;
+  properties: MenuPermission;
+  tenants: MenuPermission;
+  roommates: MenuPermission;
+  contracts: MenuPermission;
+  inspections: MenuPermission;
+  rentManagement: MenuPermission;
+  rentalCharges: MenuPermission;
+  maintenance: MenuPermission;
+  messages: MenuPermission;
+  taxes: MenuPermission;
+  website: MenuPermission;
+  settings: MenuPermission;
+}
+
 interface UserRole {
   id: string;
   role: 'admin' | 'employee';
@@ -10,6 +33,7 @@ interface UserRole {
   name: string;
   createdAt: string;
   permissions?: string[];
+  detailedPermissions?: EmployeePermissions;
 }
 
 export const useFirebaseUserRoles = () => {

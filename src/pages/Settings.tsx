@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Database, Lock } from 'lucide-react';
 import CompanyManagementNew from '@/components/Settings/CompanyManagement';
 import EmployeeManagement from '@/components/Settings/EmployeeManagement';
+import EmployeePermissionsTab from '@/components/Settings/EmployeePermissionsTab';
 import FirebaseTab from '@/components/Settings/FirebaseTab';
 import SimpleSettingsTab from '@/components/Settings/SimpleSettingsTab';
 
@@ -17,10 +18,6 @@ const Settings = () => {
   const securityFields = [
     { id: 'password-policy', label: 'Politique de mot de passe', placeholder: 'Configurez la sécurité...' },
     { id: 'two-factor', label: 'Authentification à deux facteurs', placeholder: 'Configurez 2FA...' }
-  ];
-
-  const permissionsFields = [
-    { id: 'user-roles', label: 'Rôles utilisateurs', placeholder: 'Gérez les permissions...' }
   ];
 
   const databaseFields = [
@@ -98,12 +95,7 @@ const Settings = () => {
           </TabsContent>
 
           <TabsContent value="permissions" className="space-y-4 md:space-y-6">
-            <SimpleSettingsTab
-              icon="👥"
-              title="Gestion des permissions"
-              description="Gérez les permissions"
-              fields={permissionsFields}
-            />
+            <EmployeePermissionsTab />
           </TabsContent>
 
           <TabsContent value="database" className="space-y-4 md:space-y-6">

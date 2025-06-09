@@ -16,6 +16,7 @@ import {
   MessageCircle
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useUserPermissions } from '@/hooks/useUserPermissions';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -26,74 +27,96 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose }) => {
   const location = useLocation();
   const currentYear = new Date().getFullYear();
+  const { canAccessMenu, isAdmin } = useUserPermissions();
 
   const menuItems = [
     { 
       icon: Home, 
       label: 'Dashboard', 
-      path: '/admin/dashboard' 
+      path: '/admin/dashboard',
+      permission: 'dashboard' as const
     },
     { 
       icon: Building, 
       label: 'Propriétés', 
-      path: '/admin/properties' 
+      path: '/admin/properties',
+      permission: 'properties' as const
     },
     { 
       icon: Users, 
       label: 'Locataires', 
-      path: '/admin/tenants' 
+      path: '/admin/tenants',
+      permission: 'tenants' as const
     },
     { 
       icon: UserCheck, 
       label: 'Colocataires', 
-      path: '/admin/roommates' 
+      path: '/admin/roommates',
+      permission: 'roommates' as const
     },
     { 
       icon: FileText, 
       label: 'Contrats', 
-      path: '/admin/contracts' 
+      path: '/admin/contracts',
+      permission: 'contracts' as const
     },
     { 
       icon: ClipboardList, 
       label: 'États des lieux', 
-      path: '/admin/inspections' 
+      path: '/admin/inspections',
+      permission: 'inspections' as const
     },
     { 
       icon: DollarSign, 
       label: 'Gestion des loyers', 
-      path: '/admin/rent-management' 
+      path: '/admin/rent-management',
+      permission: 'rentManagement' as const
     },
     { 
       icon: Calculator, 
       label: 'Charges locatives', 
-      path: '/admin/rental-charges' 
+      path: '/admin/rental-charges',
+      permission: 'rentalCharges' as const
     },
     { 
       icon: Wrench, 
       label: 'Maintenance', 
-      path: '/admin/maintenance' 
+      path: '/admin/maintenance',
+      permission: 'maintenance' as const
     },
     { 
       icon: MessageCircle, 
       label: 'Messages', 
-      path: '/admin/messages' 
+      path: '/admin/messages',
+      permission: 'messages' as const
     },
     { 
       icon: FileText, 
       label: 'Déclarations fiscales', 
-      path: '/admin/taxes' 
+      path: '/admin/taxes',
+      permission: 'taxes' as const
     },
     { 
       icon: Globe, 
       label: 'Site Web', 
-      path: '/admin/website' 
+      path: '/admin/website',
+      permission: 'website' as const
     },
     { 
       icon: Settings, 
       label: 'Paramètres', 
-      path: '/admin/settings' 
+      path: '/admin/settings',
+      permission: 'settings' as const
     }
   ];
+
+  // Filtrer les éléments du menu selon les permissions
+  const filteredMenuItems = menuItems.filter(item => {
+    // Les admins voient tout
+    if (isAdmin) return true;
+    // Vérifier les permissions pour les autres utilisateurs
+    return canAccessMenu(item.permission);
+  });
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -106,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
           <nav className="space-y-2 py-4 px-3">
-            {menuItems.map((item) => {
+            {filteredMenuItems.map((item) => {
               const Icon = item.icon;
               return (
                 <Link
