@@ -9,12 +9,13 @@ import {
 import { auth } from '@/lib/firebase';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   userProfile: any | null;
-  userType: 'locataire' | 'colocataire' | 'admin' | null;
+  userType: 'locataire' | 'colocataire' | 'admin' | 'employee' | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -25,26 +26,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<any | null>(null);
-  const [userType, setUserType] = useState<'locataire' | 'colocataire' | 'admin' | null>(null);
+  const [userType, setUserType] = useState<'locataire' | 'colocataire' | 'admin' | 'employee' | null>(null);
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
+  const { getUserRole } = useFirebaseUserRoles();
 
   // Vérifier si l'utilisateur existe dans Firebase
-  const checkUserProfile = (currentUser: User | null) => {
+  const checkUserProfile = async (currentUser: User | null) => {
     if (!currentUser) {
       setUserProfile(null);
       setUserType(null);
       return;
     }
 
-    // Vérifier si c'est un admin/employé
-    const isAdminOrEmployee = currentUser.email === 'admin@example.com' || 
-                             currentUser.email?.includes('admin') || 
-                             currentUser.email?.includes('employee');
-    
-    if (isAdminOrEmployee) {
-      setUserProfile({ email: currentUser.email, name: 'Administrateur' });
-      setUserType('admin');
+    // D'abord vérifier dans user_roles (admin/employee)
+    const userRole = await getUserRole(currentUser.uid);
+    if (userRole) {
+      setUserProfile({
+        id: userRole.id,
+        name: userRole.name,
+        email: userRole.email,
+        role: userRole.role,
+        permissions: userRole.permissions || []
+      });
+      setUserType(userRole.role);
       return;
     }
 
@@ -82,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Vérifier le profil quand l'utilisateur ou les données Firebase changent
   useEffect(() => {
-    if (!loading && (tenants.length > 0 || roommates.length > 0)) {
+    if (!loading && user) {
       checkUserProfile(user);
     }
   }, [user, tenants, roommates, loading]);

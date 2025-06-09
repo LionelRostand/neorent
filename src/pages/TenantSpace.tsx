@@ -25,6 +25,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 import TenantProfile from '@/components/TenantSpace/TenantProfile';
 import PropertyInfo from '@/components/TenantSpace/PropertyInfo';
 import TenantDocuments from '@/components/TenantSpace/TenantDocuments';
@@ -41,18 +42,27 @@ const TenantSpace = () => {
   const isMobile = useIsMobile();
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
+  const { userRoles } = useFirebaseUserRoles();
 
   // Vérifier si c'est un admin qui consulte l'espace d'un autre utilisateur
   const selectedUserId = searchParams.get('userId');
   const isAdminView = !!selectedUserId;
 
   // Utiliser le type d'utilisateur de l'authentification
-  const isAdminOrEmployee = authUserType === 'admin';
+  const isAdminOrEmployee = authUserType === 'admin' || authUserType === 'employee';
 
-  // Combiner les locataires et colocataires pour le sélecteur admin
+  // Combiner tous les utilisateurs pour le sélecteur admin
   const allUsers = [
     ...tenants.map(t => ({ ...t, type: 'Locataire' })),
-    ...roommates.map(r => ({ ...r, type: 'Colocataire' }))
+    ...roommates.map(r => ({ ...r, type: 'Colocataire' })),
+    ...userRoles.map(u => ({ 
+      id: u.id, 
+      name: u.name, 
+      email: u.email, 
+      type: u.role === 'admin' ? 'Administrateur' : 'Employé',
+      status: 'Actif',
+      property: 'Bureau principal'
+    }))
   ];
 
   // Trouver l'utilisateur sélectionné ou utiliser les données par défaut
@@ -385,83 +395,131 @@ const TenantSpace = () => {
           {/* Liste des utilisateurs */}
           <div className="flex-1 overflow-y-auto p-4">
             <div className="space-y-2">
-              {userType === 'locataire' ? (
-                tenants.map((tenant) => (
-                  <div
-                    key={tenant.id}
-                    onClick={() => handleUserSelection(tenant.id)}
-                    className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
-                      selectedUserId === tenant.id ? "bg-green-50 border border-green-200" : ""
-                    )}
-                  >
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={tenant.image || undefined} />
-                      <AvatarFallback>
-                        {tenant.name && tenant.name.length >= 2 
-                          ? tenant.name.substring(0, 2).toUpperCase() 
-                          : 'LO'
-                        }
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {tenant.name || 'Nom non défini'}
-                      </p>
-                      <p className="text-xs text-gray-500 truncate">
-                        {tenant.email || 'Email non défini'}
-                      </p>
-                      <p className="text-xs text-gray-400 truncate">
-                        {tenant.property || 'Propriété non définie'}
-                      </p>
-                    </div>
-                    <Badge 
-                      variant={tenant.status === 'À jour' ? 'default' : 'destructive'}
-                      className="text-xs"
+              {/* Section Administrateurs et Employés */}
+              {userRoles.length > 0 && (
+                <div className="mb-4">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    Administration
+                  </h3>
+                  {userRoles.map((userRole) => (
+                    <div
+                      key={userRole.id}
+                      onClick={() => handleUserSelection(userRole.id)}
+                      className={cn(
+                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
+                        selectedUserId === userRole.id ? "bg-green-50 border border-green-200" : ""
+                      )}
                     >
-                      {tenant.status || 'Statut inconnu'}
-                    </Badge>
-                  </div>
-                ))
-              ) : (
-                roommates.map((roommate) => (
-                  <div
-                    key={roommate.id}
-                    onClick={() => handleUserSelection(roommate.id)}
-                    className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
-                      selectedUserId === roommate.id ? "bg-green-50 border border-green-200" : ""
-                    )}
-                  >
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={roommate.image || undefined} />
-                      <AvatarFallback>
-                        {roommate.name && roommate.name.length >= 2 
-                          ? roommate.name.substring(0, 2).toUpperCase() 
-                          : 'CO'
-                        }
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {roommate.name || 'Nom non défini'}
-                      </p>
-                      <p className="text-xs text-gray-500 truncate">
-                        {roommate.email || 'Email non défini'}
-                      </p>
-                      <p className="text-xs text-gray-400 truncate">
-                        {roommate.property || 'Propriété non définie'}
-                      </p>
+                      <Avatar className="h-10 w-10">
+                        <AvatarFallback className="bg-blue-100 text-blue-600">
+                          {userRole.role === 'admin' ? 'AD' : 'EM'}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {userRole.name}
+                        </p>
+                        <p className="text-xs text-gray-500 truncate">
+                          {userRole.email}
+                        </p>
+                        <p className="text-xs text-gray-400 truncate">
+                          {userRole.role === 'admin' ? 'Administrateur' : 'Employé'}
+                        </p>
+                      </div>
+                      <Badge 
+                        variant="default"
+                        className="text-xs bg-blue-100 text-blue-800"
+                      >
+                        Actif
+                      </Badge>
                     </div>
-                    <Badge 
-                      variant={roommate.status === 'À jour' ? 'default' : 'destructive'}
-                      className="text-xs"
-                    >
-                      {roommate.status || 'Statut inconnu'}
-                    </Badge>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
+
+              {/* Section Locataires/Colocataires */}
+              <div>
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                  {userType === 'locataire' ? 'Locataires' : 'Colocataires'}
+                </h3>
+                {userType === 'locataire' ? (
+                  tenants.map((tenant) => (
+                    <div
+                      key={tenant.id}
+                      onClick={() => handleUserSelection(tenant.id)}
+                      className={cn(
+                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
+                        selectedUserId === tenant.id ? "bg-green-50 border border-green-200" : ""
+                      )}
+                    >
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={tenant.image || undefined} />
+                        <AvatarFallback>
+                          {tenant.name && tenant.name.length >= 2 
+                            ? tenant.name.substring(0, 2).toUpperCase() 
+                            : 'LO'
+                          }
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {tenant.name || 'Nom non défini'}
+                        </p>
+                        <p className="text-xs text-gray-500 truncate">
+                          {tenant.email || 'Email non défini'}
+                        </p>
+                        <p className="text-xs text-gray-400 truncate">
+                          {tenant.property || 'Propriété non définie'}
+                        </p>
+                      </div>
+                      <Badge 
+                        variant={tenant.status === 'À jour' ? 'default' : 'destructive'}
+                        className="text-xs"
+                      >
+                        {tenant.status || 'Statut inconnu'}
+                      </Badge>
+                    </div>
+                  ))
+                ) : (
+                  roommates.map((roommate) => (
+                    <div
+                      key={roommate.id}
+                      onClick={() => handleUserSelection(roommate.id)}
+                      className={cn(
+                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
+                        selectedUserId === roommate.id ? "bg-green-50 border border-green-200" : ""
+                      )}
+                    >
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={roommate.image || undefined} />
+                        <AvatarFallback>
+                          {roommate.name && roommate.name.length >= 2 
+                            ? roommate.name.substring(0, 2).toUpperCase() 
+                            : 'CO'
+                          }
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {roommate.name || 'Nom non défini'}
+                        </p>
+                        <p className="text-xs text-gray-500 truncate">
+                          {roommate.email || 'Email non défini'}
+                        </p>
+                        <p className="text-xs text-gray-400 truncate">
+                          {roommate.property || 'Propriété non définie'}
+                        </p>
+                      </div>
+                      <Badge 
+                        variant={roommate.status === 'À jour' ? 'default' : 'destructive'}
+                        className="text-xs"
+                      >
+                        {roommate.status || 'Statut inconnu'}
+                      </Badge>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </>
