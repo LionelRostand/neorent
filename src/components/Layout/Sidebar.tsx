@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -12,7 +11,8 @@ import {
   Settings, 
   UserCheck,
   Globe,
-  Calculator
+  Calculator,
+  MessageCircle
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -71,6 +71,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
       icon: Wrench, 
       label: 'Maintenance', 
       path: '/admin/maintenance' 
+    },
+    { 
+      icon: MessageCircle, 
+      label: 'Messages', 
+      path: '/admin/messages' 
     },
     { 
       icon: FileText, 

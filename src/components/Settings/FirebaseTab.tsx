@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -95,6 +94,21 @@ service cloud.firestore {
       allow read: if request.auth != null;
       allow write: if request.auth != null && 
         get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // ====== SYSTÈME DE CHAT ======
+    
+    // 13. Conversations - Collection: conversations
+    match /conversations/{conversationId} {
+      allow create: if true; // Visiteurs peuvent créer des conversations
+      allow read, write: if request.auth != null; // Staff authentifié peut tout faire
+    }
+    
+    // 14. Messages du chat - Collection: garage_messages
+    match /garage_messages/{messageId} {
+      allow create: if true; // Visiteurs peuvent envoyer des messages
+      allow read: if request.auth != null; // Staff peut lire tous les messages
+      allow update, delete: if request.auth != null; // Staff peut modifier/supprimer
     }
     
     // ====== COLLECTIONS COMPLÉMENTAIRES ======
@@ -323,6 +337,8 @@ service firebase.storage {
               { name: 'Rent_employees', description: 'Employés', status: 'À créer' },
               { name: 'user_roles', description: 'Rôles utilisateurs', status: 'À créer' },
               { name: 'website_config', description: 'Configuration site web', status: 'À créer' },
+              { name: 'conversations', description: 'Conversations chat', status: 'Nouveau' },
+              { name: 'garage_messages', description: 'Messages chat', status: 'Nouveau' },
               { name: 'audit_logs', description: 'Logs d\'audit', status: 'Optionnel' },
               { name: 'tenant_documents', description: 'Documents locataires', status: 'Optionnel' }
             ].map((collection) => (
@@ -331,6 +347,7 @@ service firebase.storage {
                 <p className="text-xs text-gray-600 mt-1">{collection.description}</p>
                 <span className={`inline-block mt-2 px-2 py-1 text-xs rounded-full ${
                   collection.status === 'Configuré' ? 'bg-green-100 text-green-800' :
+                  collection.status === 'Nouveau' ? 'bg-blue-100 text-blue-800' :
                   collection.status === 'À créer' ? 'bg-yellow-100 text-yellow-800' :
                   'bg-gray-100 text-gray-800'
                 }`}>

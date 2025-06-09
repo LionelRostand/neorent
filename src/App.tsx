@@ -1,5 +1,4 @@
 
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +16,7 @@ import RentManagement from "./pages/RentManagement";
 import RentalCharges from "./pages/RentalCharges";
 import Taxes from "./pages/Taxes";
 import Website from "./pages/Website";
+import Messages from "./pages/Messages";
 import TenantSpace from "./pages/TenantSpace";
 import PublicHome from "./pages/PublicSite/Home";
 import PublicAbout from "./pages/PublicSite/About";
@@ -58,6 +58,7 @@ function App() {
               <Route path="/admin/rent-management" element={<RentManagement />} />
               <Route path="/admin/rental-charges" element={<RentalCharges />} />
               <Route path="/admin/maintenance" element={<Maintenance />} />
+              <Route path="/admin/messages" element={<Messages />} />
               <Route path="/admin/taxes" element={<Taxes />} />
               <Route path="/admin/website" element={<Website />} />
               <Route path="/admin/settings" element={<Settings />} />
@@ -73,4 +74,3 @@ function App() {
 }
 
 export default App;
-
