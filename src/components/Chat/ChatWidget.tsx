@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ChatWidgetButton } from './ChatWidgetButton';
 import { ChatWidgetWindow } from './ChatWidgetWindow';
@@ -57,14 +56,8 @@ export const ChatWidget: React.FC = () => {
           clientEmail: formData.email
         });
 
-        // Envoyer un message de bienvenue automatique
-        await messageService.sendMessage({
-          conversationId,
-          sender: 'staff',
-          senderName: 'Support NeoRent',
-          senderEmail: 'support@neorent.fr',
-          message: `Bonjour ${formData.name} ! Bienvenue sur NeoRent. Comment pouvons-nous vous aider aujourd'hui ?`
-        });
+        // Créer une session avec message de bienvenue
+        await messageService.createSessionWithWelcome(conversationId, formData.name);
 
         setConversation({
           id: conversationId,

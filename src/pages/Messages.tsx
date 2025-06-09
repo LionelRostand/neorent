@@ -4,6 +4,8 @@ import MainLayout from '@/components/Layout/MainLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
 import { ConversationList } from '@/components/Messages/ConversationList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
+import { Button } from '@/components/ui/button';
+import { MessageCircle } from 'lucide-react';
 import { messageService } from '@/services/messageService';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
@@ -83,12 +85,38 @@ const Messages = () => {
     }
   };
 
+  const handleNewSession = async () => {
+    try {
+      // Créer une nouvelle conversation test
+      const conversationId = await messageService.createConversation({
+        clientName: 'Nouveau Client',
+        clientEmail: `client-${Date.now()}@example.com`
+      });
+
+      // Créer une session avec message de bienvenue
+      await messageService.createSessionWithWelcome(conversationId, 'Nouveau Client');
+
+      console.log('Nouvelle session créée avec message de bienvenue');
+    } catch (error) {
+      console.error('Error creating new session:', error);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-          <p className="text-gray-600">Gérez vos conversations avec les clients</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
+            <p className="text-gray-600">Gérez vos conversations avec les clients</p>
+          </div>
+          <Button 
+            onClick={handleNewSession}
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Nouvelle session
+          </Button>
         </div>
 
         <MessageStats conversations={conversations} />

@@ -23,6 +23,7 @@ export const messageService = {
   // Fonctionnalités des messages
   sendMessage: messageOperations.sendMessage,
   deleteMessage: messageOperations.deleteMessage,
+  createSessionWithWelcome: messageOperations.createSessionWithWelcome,
   markMessagesAsRead: async (conversationId: string): Promise<void> => {
     try {
       // Mettre à jour le compteur dans la conversation

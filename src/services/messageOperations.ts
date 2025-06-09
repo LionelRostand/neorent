@@ -1,4 +1,3 @@
-
 import { 
   collection, 
   doc, 
@@ -54,6 +53,34 @@ export const messageOperations = {
       await updateDoc(conversationRef, updateData);
     } catch (error) {
       console.error('Error sending message:', error);
+      throw error;
+    }
+  },
+
+  // Créer une session avec message de bienvenue
+  async createSessionWithWelcome(conversationId: string, clientName: string): Promise<void> {
+    try {
+      // Message de bienvenue automatique du support
+      const welcomeMessage = {
+        conversationId,
+        sender: 'staff' as const,
+        senderName: 'Support NeoRent',
+        senderEmail: 'support@neorent.fr',
+        message: `Bonjour ${clientName} ! Bienvenue sur le chat NeoRent. Notre équipe est là pour vous aider. Comment pouvons-nous vous assister aujourd'hui ?`,
+        timestamp: Timestamp.now(),
+        read: false
+      };
+
+      await addDoc(collection(db, 'rent_messages'), welcomeMessage);
+
+      // Mettre à jour la conversation avec le message de bienvenue
+      const conversationRef = doc(db, 'conversations', conversationId);
+      await updateDoc(conversationRef, {
+        lastMessage: welcomeMessage.message,
+        lastMessageTime: Timestamp.now()
+      });
+    } catch (error) {
+      console.error('Error creating welcome session:', error);
       throw error;
     }
   },
