@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
   User, 
   Home, 
@@ -16,7 +17,9 @@ import {
   LogOut,
   UserCog,
   Menu,
-  Users
+  Users,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -27,10 +30,13 @@ import TenantProfile from '@/components/TenantSpace/TenantProfile';
 import PropertyInfo from '@/components/TenantSpace/PropertyInfo';
 import TenantDocuments from '@/components/TenantSpace/TenantDocuments';
 import RentHistory from '@/components/TenantSpace/RentHistory';
+import { cn } from '@/lib/utils';
 
 const TenantSpace = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [searchParams, setSearchParams] = useSearchParams();
+  const [userType, setUserType] = useState<'locataire' | 'colocataire'>('locataire');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const isMobile = useIsMobile();
@@ -134,6 +140,123 @@ const TenantSpace = () => {
     return null;
   }
 
+  // Ne pas afficher le sidebar pour les utilisateurs normaux
+  if (!isAdminOrEmployee) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center">
+                <Home className="h-6 w-6 md:h-8 md:w-8 text-green-600" />
+                <span className="ml-2 text-lg md:text-xl font-bold text-gray-900">Neo Rent</span>
+                <Badge className="ml-2 md:ml-3 bg-green-100 text-green-800 text-xs md:text-sm">
+                  Espace Locataire
+                </Badge>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <Button 
+                  variant="outline" 
+                  onClick={handleBackToSite}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Retour au site
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Déconnexion
+                </Button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+              Bienvenue, {tenantData.name}
+            </h1>
+            <p className="text-gray-600 mt-2 text-sm md:text-base">
+              Gérez votre location et consultez vos documents
+            </p>
+          </div>
+
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            {isMobile ? (
+              <div className="mb-6">
+                <select 
+                  value={activeTab} 
+                  onChange={(e) => setActiveTab(e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-900"
+                >
+                  <option value="profile">👤 Mon Profil</option>
+                  <option value="property">🏠 Mon Logement</option>
+                  <option value="documents">📄 Documents</option>
+                  <option value="payments">💳 Mes Loyers</option>
+                </select>
+              </div>
+            ) : (
+              <TabsList className="grid w-full grid-cols-4 mb-8">
+                <TabsTrigger 
+                  value="profile" 
+                  className="flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  Mon Profil
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="property" 
+                  className="flex items-center gap-2"
+                >
+                  <Home className="h-4 w-4" />
+                  Mon Logement
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="documents" 
+                  className="flex items-center gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  Documents
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="payments" 
+                  className="flex items-center gap-2"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  Mes Loyers
+                </TabsTrigger>
+              </TabsList>
+            )}
+
+            <TabsContent value="profile">
+              <TenantProfile tenantData={tenantData} />
+            </TabsContent>
+
+            <TabsContent value="property">
+              <PropertyInfo propertyData={propertyData} />
+            </TabsContent>
+
+            <TabsContent value="documents">
+              <TenantDocuments />
+            </TabsContent>
+
+            <TabsContent value="payments">
+              <RentHistory />
+            </TabsContent>
+          </Tabs>
+        </main>
+      </div>
+    );
+  }
+
   const MobileMenu = () => (
     <Sheet>
       <SheetTrigger asChild>
@@ -146,25 +269,6 @@ const TenantSpace = () => {
           <div className="text-sm text-gray-600 border-b pb-4">
             Connecté en tant que: {user.email}
           </div>
-          {/* Sélecteur d'utilisateur pour mobile - seulement pour admin/employé */}
-          {isAdminOrEmployee && (
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Voir l'espace de:</label>
-              <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un utilisateur" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="self">Mon espace</SelectItem>
-                  {allUsers.map((user) => (
-                    <SelectItem key={user.id} value={user.id}>
-                      {user.name} ({user.type})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
           <Button 
             variant="outline" 
             onClick={handleBackToSite}
@@ -194,158 +298,274 @@ const TenantSpace = () => {
     </Sheet>
   );
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Home className="h-6 w-6 md:h-8 md:w-8 text-green-600" />
-              <span className="ml-2 text-lg md:text-xl font-bold text-gray-900">Neo Rent</span>
-              <Badge className="ml-2 md:ml-3 bg-green-100 text-green-800 text-xs md:text-sm">
-                Espace Locataire
-              </Badge>
-              {isAdminView && (
-                <Badge className="ml-2 bg-blue-100 text-blue-800 text-xs md:text-sm">
-                  Vue Admin
-                </Badge>
-              )}
-            </div>
-            
-            {/* Desktop Actions */}
-            <div className="hidden md:flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                Connecté en tant que: {user.email}
-              </span>
-              
-              {/* Sélecteur d'utilisateur pour desktop - seulement pour admin/employé */}
-              {isAdminOrEmployee && (
-                <div className="flex items-center space-x-2">
-                  <Users className="h-4 w-4 text-gray-500" />
-                  <Select value={selectedUserId || 'self'} onValueChange={handleUserSelection}>
-                    <SelectTrigger className="w-48">
-                      <SelectValue placeholder="Sélectionner un utilisateur" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="self">Mon espace</SelectItem>
-                      {allUsers.map((user) => (
-                        <SelectItem key={user.id} value={user.id}>
-                          {user.name} ({user.type})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-              
-              <Button 
-                variant="outline" 
-                onClick={handleBackToSite}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Retour au site
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={handleBackendAccess}
-                className="flex items-center gap-2 border-green-600 text-green-600 hover:bg-green-50"
-              >
-                <UserCog className="h-4 w-4" />
-                Interface Admin
-              </Button>
-              <Button 
-                variant="ghost" 
-                onClick={handleLogout}
-                className="flex items-center gap-2"
-              >
-                <LogOut className="h-4 w-4" />
-                Déconnexion
-              </Button>
-            </div>
-
-            {/* Mobile Menu */}
-            <MobileMenu />
+  // Sidebar pour les admins
+  const Sidebar = () => (
+    <div className={cn(
+      "flex h-screen flex-col bg-white shadow-lg border-r transition-all duration-300",
+      sidebarCollapsed ? "w-16" : "w-80"
+    )}>
+      {/* Header du sidebar */}
+      <div className="flex h-16 items-center justify-between px-4 border-b bg-green-50">
+        {!sidebarCollapsed && (
+          <div className="flex items-center space-x-2">
+            <Users className="h-6 w-6 text-green-600" />
+            <span className="text-lg font-semibold text-gray-900">Utilisateurs</span>
           </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-        <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-            {isAdminView ? `Espace de ${tenantData.name}` : `Bienvenue, ${tenantData.name}`}
-          </h1>
-          <p className="text-gray-600 mt-2 text-sm md:text-base">
-            {isAdminView ? 'Consultation en mode administrateur' : 'Gérez votre location et consultez vos documents'}
-          </p>
-        </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          {isMobile ? (
-            <div className="mb-6">
-              <select 
-                value={activeTab} 
-                onChange={(e) => setActiveTab(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-900"
-              >
-                <option value="profile">👤 Mon Profil</option>
-                <option value="property">🏠 Mon Logement</option>
-                <option value="documents">📄 Documents</option>
-                <option value="payments">💳 Mes Loyers</option>
-              </select>
-            </div>
+        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          className="h-8 w-8"
+        >
+          {sidebarCollapsed ? (
+            <ChevronRight className="h-4 w-4" />
           ) : (
-            <TabsList className="grid w-full grid-cols-4 mb-8">
-              <TabsTrigger 
-                value="profile" 
-                className="flex items-center gap-2"
-              >
-                <User className="h-4 w-4" />
-                Mon Profil
-              </TabsTrigger>
-              <TabsTrigger 
-                value="property" 
-                className="flex items-center gap-2"
-              >
-                <Home className="h-4 w-4" />
-                Mon Logement
-              </TabsTrigger>
-              <TabsTrigger 
-                value="documents" 
-                className="flex items-center gap-2"
-              >
-                <FileText className="h-4 w-4" />
-                Documents
-              </TabsTrigger>
-              <TabsTrigger 
-                value="payments" 
-                className="flex items-center gap-2"
-              >
-                <CreditCard className="h-4 w-4" />
-                Mes Loyers
-              </TabsTrigger>
-            </TabsList>
+            <ChevronLeft className="h-4 w-4" />
           )}
+        </Button>
+      </div>
 
-          <TabsContent value="profile">
-            <TenantProfile tenantData={tenantData} />
-          </TabsContent>
+      {!sidebarCollapsed && (
+        <>
+          {/* Sélecteur de type d'utilisateur */}
+          <div className="p-4 border-b">
+            <Select value={userType} onValueChange={(value: 'locataire' | 'colocataire') => setUserType(value)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="locataire">Locataires</SelectItem>
+                <SelectItem value="colocataire">Colocataires</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-          <TabsContent value="property">
-            <PropertyInfo propertyData={propertyData} />
-          </TabsContent>
+          {/* Liste des utilisateurs */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-2">
+              {userType === 'locataire' ? (
+                tenants.map((tenant) => (
+                  <div
+                    key={tenant.id}
+                    onClick={() => handleUserSelection(tenant.id)}
+                    className={cn(
+                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
+                      selectedUserId === tenant.id ? "bg-green-50 border border-green-200" : ""
+                    )}
+                  >
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={tenant.image || undefined} />
+                      <AvatarFallback>
+                        {tenant.name && tenant.name.length >= 2 
+                          ? tenant.name.substring(0, 2).toUpperCase() 
+                          : 'LO'
+                        }
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {tenant.name || 'Nom non défini'}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {tenant.email || 'Email non défini'}
+                      </p>
+                      <p className="text-xs text-gray-400 truncate">
+                        {tenant.property || 'Propriété non définie'}
+                      </p>
+                    </div>
+                    <Badge 
+                      variant={tenant.status === 'À jour' ? 'default' : 'destructive'}
+                      className="text-xs"
+                    >
+                      {tenant.status || 'Statut inconnu'}
+                    </Badge>
+                  </div>
+                ))
+              ) : (
+                roommates.map((roommate) => (
+                  <div
+                    key={roommate.id}
+                    onClick={() => handleUserSelection(roommate.id)}
+                    className={cn(
+                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
+                      selectedUserId === roommate.id ? "bg-green-50 border border-green-200" : ""
+                    )}
+                  >
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={roommate.image || undefined} />
+                      <AvatarFallback>
+                        {roommate.name && roommate.name.length >= 2 
+                          ? roommate.name.substring(0, 2).toUpperCase() 
+                          : 'CO'
+                        }
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {roommate.name || 'Nom non défini'}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {roommate.email || 'Email non défini'}
+                      </p>
+                      <p className="text-xs text-gray-400 truncate">
+                        {roommate.property || 'Propriété non définie'}
+                      </p>
+                    </div>
+                    <Badge 
+                      variant={roommate.status === 'À jour' ? 'default' : 'destructive'}
+                      className="text-xs"
+                    >
+                      {roommate.status || 'Statut inconnu'}
+                    </Badge>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 
-          <TabsContent value="documents">
-            <TenantDocuments />
-          </TabsContent>
+  return (
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Sidebar - seulement pour admin/employé */}
+      <Sidebar />
 
-          <TabsContent value="payments">
-            <RentHistory />
-          </TabsContent>
-        </Tabs>
-      </main>
+      {/* Contenu principal */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center">
+                <Home className="h-6 w-6 md:h-8 md:w-8 text-green-600" />
+                <span className="ml-2 text-lg md:text-xl font-bold text-gray-900">Neo Rent</span>
+                <Badge className="ml-2 md:ml-3 bg-green-100 text-green-800 text-xs md:text-sm">
+                  Espace Locataire
+                </Badge>
+                {isAdminView && (
+                  <Badge className="ml-2 bg-blue-100 text-blue-800 text-xs md:text-sm">
+                    Vue Admin
+                  </Badge>
+                )}
+              </div>
+              
+              {/* Desktop Actions */}
+              <div className="hidden md:flex items-center space-x-4">
+                <span className="text-sm text-gray-600">
+                  Connecté en tant que: {user.email}
+                </span>
+                
+                <Button 
+                  variant="outline" 
+                  onClick={handleBackToSite}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Retour au site
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleBackendAccess}
+                  className="flex items-center gap-2 border-green-600 text-green-600 hover:bg-green-50"
+                >
+                  <UserCog className="h-4 w-4" />
+                  Interface Admin
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Déconnexion
+                </Button>
+              </div>
+
+              {/* Mobile Menu */}
+              <MobileMenu />
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 w-full">
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+              {isAdminView ? `Espace de ${tenantData.name}` : `Bienvenue, ${tenantData.name}`}
+            </h1>
+            <p className="text-gray-600 mt-2 text-sm md:text-base">
+              {isAdminView ? 'Consultation en mode administrateur' : 'Gérez votre location et consultez vos documents'}
+            </p>
+          </div>
+
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            {isMobile ? (
+              <div className="mb-6">
+                <select 
+                  value={activeTab} 
+                  onChange={(e) => setActiveTab(e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-900"
+                >
+                  <option value="profile">👤 Mon Profil</option>
+                  <option value="property">🏠 Mon Logement</option>
+                  <option value="documents">📄 Documents</option>
+                  <option value="payments">💳 Mes Loyers</option>
+                </select>
+              </div>
+            ) : (
+              <TabsList className="grid w-full grid-cols-4 mb-8">
+                <TabsTrigger 
+                  value="profile" 
+                  className="flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  Mon Profil
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="property" 
+                  className="flex items-center gap-2"
+                >
+                  <Home className="h-4 w-4" />
+                  Mon Logement
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="documents" 
+                  className="flex items-center gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  Documents
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="payments" 
+                  className="flex items-center gap-2"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  Mes Loyers
+                </TabsTrigger>
+              </TabsList>
+            )}
+
+            <TabsContent value="profile">
+              <TenantProfile tenantData={tenantData} />
+            </TabsContent>
+
+            <TabsContent value="property">
+              <PropertyInfo propertyData={propertyData} />
+            </TabsContent>
+
+            <TabsContent value="documents">
+              <TenantDocuments />
+            </TabsContent>
+
+            <TabsContent value="payments">
+              <RentHistory />
+            </TabsContent>
+          </Tabs>
+        </main>
+      </div>
     </div>
   );
 };
