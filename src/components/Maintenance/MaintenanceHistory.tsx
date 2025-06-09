@@ -7,95 +7,69 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Calendar, Euro, Search, Filter } from 'lucide-react';
+import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
 
 const MaintenanceHistory = () => {
+  const { interventions, loading } = useFirebaseMaintenances();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProperty, setSelectedProperty] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedYear, setSelectedYear] = useState('2024');
+  const [selectedYear, setSelectedYear] = useState('2025');
 
-  const historyData = [
-    {
-      id: '1',
-      date: '2024-01-18',
-      property: 'Maison 8 Avenue des Roses',
-      category: 'Électricité',
-      description: 'Remplacement ampoule LED salon',
-      technicianName: 'Marie Électricienne',
-      cost: 20,
-      responsibility: 'Locataire',
-      status: 'Terminée'
-    },
-    {
-      id: '2',
-      date: '2024-01-10',
-      property: 'Appartement 15 Rue de la Paix',
-      category: 'Plomberie',
-      description: 'Réparation robinet cuisine',
-      technicianName: 'Jean Plombier',
-      cost: 75,
-      responsibility: 'Propriétaire',
-      status: 'Terminée'
-    },
-    {
-      id: '3',
-      date: '2023-12-15',
-      property: 'Studio 22 Boulevard Victor Hugo',
-      category: 'Chauffage',
-      description: 'Entretien chaudière annuel',
-      technicianName: 'Pierre Chauffagiste',
-      cost: 120,
-      responsibility: 'Propriétaire',
-      status: 'Terminée'
-    },
-    {
-      id: '4',
-      date: '2023-11-28',
-      property: 'Appartement 15 Rue de la Paix',
-      category: 'Peinture',
-      description: 'Retouche peinture chambre',
-      technicianName: 'Sophie Peintre',
-      cost: 150,
-      responsibility: 'Locataire',
-      status: 'Terminée'
-    },
-    {
-      id: '5',
-      date: '2023-10-05',
-      property: 'Maison 8 Avenue des Roses',
-      category: 'Serrurerie',
-      description: 'Remplacement serrure porte d\'entrée',
-      technicianName: 'Marc Serrurier',
-      cost: 180,
-      responsibility: 'Propriétaire',
-      status: 'Terminée'
+  // Générer les années à partir de 2025
+  const currentYear = new Date().getFullYear();
+  const startYear = 2025;
+  const years = [];
+  for (let year = Math.max(startYear, currentYear); year >= startYear; year--) {
+    years.push(year.toString());
+  }
+  // Ajouter les années futures si nécessaire
+  if (currentYear < startYear) {
+    for (let year = startYear; year <= startYear + 5; year++) {
+      years.push(year.toString());
     }
-  ];
+  }
 
-  const filteredHistory = historyData.filter(item => {
+  // Filtrer seulement les interventions terminées pour l'historique
+  const completedInterventions = interventions.filter(intervention => 
+    intervention.status === 'Terminée'
+  );
+
+  const filteredHistory = completedInterventions.filter(item => {
     const matchesSearch = item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          item.property.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.technicianName.toLowerCase().includes(searchTerm.toLowerCase());
+                         (item.technicianName && item.technicianName.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesProperty = selectedProperty === 'all' || item.property === selectedProperty;
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    const matchesYear = item.date.startsWith(selectedYear);
+    const matchesCategory = selectedCategory === 'all' || item.priority === selectedCategory;
+    
+    // Filtrer par année basé sur la date programmée ou une date par défaut
+    const itemYear = item.scheduledDate ? new Date(item.scheduledDate).getFullYear().toString() : selectedYear;
+    const matchesYear = itemYear === selectedYear;
     
     return matchesSearch && matchesProperty && matchesCategory && matchesYear;
   });
 
-  const totalCost = filteredHistory.reduce((sum, item) => sum + item.cost, 0);
-  const proprietaireCost = filteredHistory.filter(item => item.responsibility === 'Propriétaire').reduce((sum, item) => sum + item.cost, 0);
-  const locataireCost = filteredHistory.filter(item => item.responsibility === 'Locataire').reduce((sum, item) => sum + item.cost, 0);
+  const totalCost = filteredHistory.reduce((sum, item) => sum + (item.actualCost || item.estimatedCost || 0), 0);
+  const proprietaireCost = filteredHistory.reduce((sum, item) => sum + (item.actualCost || item.estimatedCost || 0), 0);
+  const locataireCost = 0; // À implémenter selon la logique de responsabilité
 
   const categoryStats = filteredHistory.reduce((acc, item) => {
-    acc[item.category] = (acc[item.category] || 0) + 1;
+    const category = item.priority || 'Non défini';
+    acc[category] = (acc[category] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   const propertyStats = filteredHistory.reduce((acc, item) => {
-    acc[item.property] = (acc[item.property] || 0) + item.cost;
+    acc[item.property] = (acc[item.property] || 0) + (item.actualCost || item.estimatedCost || 0);
     return acc;
   }, {} as Record<string, number>);
+
+  // Obtenir la liste unique des propriétés
+  const uniqueProperties = [...new Set(completedInterventions.map(item => item.property))];
+
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -131,26 +105,24 @@ const MaintenanceHistory = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Tous les biens</SelectItem>
-                  <SelectItem value="Appartement 15 Rue de la Paix">Appartement 15 Rue de la Paix</SelectItem>
-                  <SelectItem value="Maison 8 Avenue des Roses">Maison 8 Avenue des Roses</SelectItem>
-                  <SelectItem value="Studio 22 Boulevard Victor Hugo">Studio 22 Boulevard Victor Hugo</SelectItem>
+                  {uniqueProperties.map((property) => (
+                    <SelectItem key={property} value={property}>{property}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="category">Catégorie</Label>
+              <Label htmlFor="category">Priorité</Label>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Toutes les catégories</SelectItem>
-                  <SelectItem value="Plomberie">Plomberie</SelectItem>
-                  <SelectItem value="Électricité">Électricité</SelectItem>
-                  <SelectItem value="Chauffage">Chauffage</SelectItem>
-                  <SelectItem value="Peinture">Peinture</SelectItem>
-                  <SelectItem value="Serrurerie">Serrurerie</SelectItem>
+                  <SelectItem value="all">Toutes les priorités</SelectItem>
+                  <SelectItem value="urgent">Urgent</SelectItem>
+                  <SelectItem value="normal">Normal</SelectItem>
+                  <SelectItem value="faible">Faible</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -162,9 +134,9 @@ const MaintenanceHistory = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
+                  {years.map((year) => (
+                    <SelectItem key={year} value={year}>{year}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -215,7 +187,7 @@ const MaintenanceHistory = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Répartition par catégorie</CardTitle>
+            <CardTitle>Répartition par priorité</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -263,11 +235,11 @@ const MaintenanceHistory = () => {
               <TableRow>
                 <TableHead>Date</TableHead>
                 <TableHead>Bien</TableHead>
-                <TableHead>Catégorie</TableHead>
+                <TableHead>Priorité</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead>Technicien</TableHead>
                 <TableHead>Coût</TableHead>
-                <TableHead>Responsabilité</TableHead>
+                <TableHead>Statut</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -276,24 +248,24 @@ const MaintenanceHistory = () => {
                   <TableCell>
                     <div className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
-                      {item.date}
+                      {item.scheduledDate || 'Non définie'}
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">{item.property}</TableCell>
                   <TableCell>
-                    <Badge variant="outline">{item.category}</Badge>
+                    <Badge variant="outline">{item.priority}</Badge>
                   </TableCell>
                   <TableCell>{item.description}</TableCell>
-                  <TableCell>{item.technicianName}</TableCell>
+                  <TableCell>{item.technicianName || 'Non assigné'}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
                       <Euro className="h-3 w-3" />
-                      {item.cost}€
+                      {item.actualCost || item.estimatedCost || 0}€
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={item.responsibility === 'Propriétaire' ? 'default' : 'secondary'}>
-                      {item.responsibility}
+                    <Badge variant="default">
+                      {item.status}
                     </Badge>
                   </TableCell>
                 </TableRow>
