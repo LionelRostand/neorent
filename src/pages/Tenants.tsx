@@ -130,32 +130,37 @@ const Tenants = () => {
                   <div className="flex items-center space-x-4">
                     <Avatar>
                       <AvatarImage src={tenant.image || "https://github.com/shadcn.png"} />
-                      <AvatarFallback>{tenant.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                      <AvatarFallback>
+                        {tenant.name && tenant.name.length >= 2 
+                          ? tenant.name.substring(0, 2).toUpperCase() 
+                          : 'LO'
+                        }
+                      </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h3 className="text-lg font-semibold">{tenant.name}</h3>
-                      <p className="text-sm text-gray-500">{tenant.email}</p>
+                      <h3 className="text-lg font-semibold">{tenant.name || 'Nom non défini'}</h3>
+                      <p className="text-sm text-gray-500">{tenant.email || 'Email non défini'}</p>
                     </div>
                   </div>
-                  <Badge variant="secondary">{tenant.status}</Badge>
+                  <Badge variant="secondary">{tenant.status || 'Statut inconnu'}</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="text-sm text-gray-600 flex items-center">
                   <Phone className="mr-2 h-4 w-4" />
-                  {tenant.phone}
+                  {tenant.phone || 'Téléphone non défini'}
                 </div>
                 <div className="text-sm text-gray-600 flex items-center">
                   <MapPin className="mr-2 h-4 w-4" />
-                  {tenant.property}
+                  {tenant.property || 'Propriété non définie'}
                 </div>
                 <div className="text-sm text-gray-600 flex items-center">
                   <Euro className="mr-2 h-4 w-4" />
-                  {tenant.rentAmount} / mois
+                  {tenant.rentAmount || '0'} / mois
                 </div>
                 <div className="text-sm text-gray-600 flex items-center">
                   <Calendar className="mr-2 h-4 w-4" />
-                  Prochain paiement: {tenant.nextPayment}
+                  Prochain paiement: {tenant.nextPayment || 'Non défini'}
                 </div>
               </CardContent>
             </Card>
