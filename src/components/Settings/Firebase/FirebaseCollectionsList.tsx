@@ -13,11 +13,11 @@ export const FirebaseCollectionsList: React.FC = () => {
     { name: 'Rent_Payments', description: 'Paiements des loyers', status: 'Configuré' },
     { name: 'Rent_Charges', description: 'Charges locatives', status: 'Configuré' },
     { name: 'Rent_entreprises', description: 'Entreprises', status: 'Configuré' },
+    { name: 'conversations', description: 'Conversations chat', status: 'Actif' },
+    { name: 'rent_messages', description: 'Messages chat', status: 'Actif' },
     { name: 'Rent_employees', description: 'Employés', status: 'À créer' },
     { name: 'user_roles', description: 'Rôles utilisateurs', status: 'À créer' },
     { name: 'website_config', description: 'Configuration site web', status: 'À créer' },
-    { name: 'conversations', description: 'Conversations chat', status: 'Nouveau' },
-    { name: 'garage_messages', description: 'Messages chat', status: 'Nouveau' },
     { name: 'audit_logs', description: 'Logs d\'audit', status: 'Optionnel' },
     { name: 'tenant_documents', description: 'Documents locataires', status: 'Optionnel' }
   ];
@@ -26,7 +26,7 @@ export const FirebaseCollectionsList: React.FC = () => {
     switch (status) {
       case 'Configuré':
         return 'bg-green-100 text-green-800';
-      case 'Nouveau':
+      case 'Actif':
         return 'bg-blue-100 text-blue-800';
       case 'À créer':
         return 'bg-yellow-100 text-yellow-800';
