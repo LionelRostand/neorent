@@ -40,7 +40,7 @@ export const messageService = {
   // Envoyer un message
   async sendMessage(data: SendMessageData): Promise<void> {
     try {
-      // Ajouter le message
+      // Ajouter le message dans rent_messages
       const messageData = {
         conversationId: data.conversationId,
         sender: data.sender,
@@ -51,7 +51,7 @@ export const messageService = {
         read: false
       };
 
-      await addDoc(collection(db, 'garage_messages'), messageData);
+      await addDoc(collection(db, 'rent_messages'), messageData);
 
       // Mettre à jour la conversation
       const conversationRef = doc(db, 'conversations', data.conversationId);
@@ -85,8 +85,9 @@ export const messageService = {
   subscribeToMessages(conversationId: string, callback: (messages: ChatMessage[]) => void) {
     try {
       const q = query(
-        collection(db, 'garage_messages'),
-        where('conversationId', '==', conversationId)
+        collection(db, 'rent_messages'),
+        where('conversationId', '==', conversationId),
+        orderBy('timestamp', 'asc')
       );
 
       return onSnapshot(q, (snapshot) => {
@@ -95,8 +96,7 @@ export const messageService = {
           ...doc.data()
         } as ChatMessage));
 
-        // Tri par timestamp côté client
-        messages.sort((a, b) => a.timestamp.toMillis() - b.timestamp.toMillis());
+        console.log(`Messages reçus pour conversation ${conversationId}:`, messages);
         callback(messages);
       }, (error) => {
         console.error('Error listening to messages:', error);
@@ -122,6 +122,7 @@ export const messageService = {
           ...doc.data()
         } as Conversation));
 
+        console.log('Conversations reçues:', conversations);
         callback(conversations);
       }, (error) => {
         console.error('Error listening to conversations:', error);
@@ -144,7 +145,7 @@ export const messageService = {
 
       // Marquer tous les messages non lus comme lus
       const q = query(
-        collection(db, 'garage_messages'),
+        collection(db, 'rent_messages'),
         where('conversationId', '==', conversationId),
         where('read', '==', false)
       );
@@ -164,7 +165,7 @@ export const messageService = {
   // Supprimer un message
   async deleteMessage(messageId: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, 'garage_messages', messageId));
+      await deleteDoc(doc(db, 'rent_messages', messageId));
     } catch (error) {
       console.error('Error deleting message:', error);
       throw error;
@@ -176,7 +177,7 @@ export const messageService = {
     try {
       // Supprimer tous les messages
       const q = query(
-        collection(db, 'garage_messages'),
+        collection(db, 'rent_messages'),
         where('conversationId', '==', conversationId)
       );
       const snapshot = await getDocs(q);
