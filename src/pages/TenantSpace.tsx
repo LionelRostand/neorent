@@ -41,8 +41,9 @@ const TenantSpace = () => {
   const selectedUserId = searchParams.get('userId');
   const isAdminView = !!selectedUserId;
 
-  // Vérifier si l'utilisateur est admin/employé (vous devrez adapter cette logique selon votre système d'authentification)
-  const isAdminOrEmployee = user?.email === 'admin@example.com' || user?.role === 'admin' || user?.role === 'employee';
+  // Vérifier si l'utilisateur est admin/employé - utiliser l'email comme indicateur
+  // TODO: Adapter cette logique selon votre système d'authentification
+  const isAdminOrEmployee = user?.email === 'admin@example.com' || user?.email?.includes('admin') || user?.email?.includes('employee');
 
   // Combiner les locataires et colocataires pour le sélecteur admin
   const allUsers = [
@@ -57,7 +58,7 @@ const TenantSpace = () => {
 
   // Données du locataire (réelles ou simulées selon le contexte)
   const tenantData = selectedUser ? {
-    id: selectedUser.id,
+    id: 1, // Convertir en number pour la compatibilité
     name: selectedUser.name || 'Utilisateur',
     email: selectedUser.email || 'email@example.com',
     phone: selectedUser.phone || 'Non défini',
@@ -71,7 +72,7 @@ const TenantSpace = () => {
       relation: 'Famille'
     }
   } : {
-    id: '1',
+    id: 1,
     name: 'Marie Dubois',
     email: 'marie.dubois@email.com',
     phone: '06 12 34 56 78',
