@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Calculator, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useMaintenanceCostCalculator } from '@/hooks/useMaintenanceCostCalculator';
-import PropertySelector, { mockProperties } from '@/components/RentalCharges/PropertySelector';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import PropertySelector from '@/components/RentalCharges/PropertySelector';
 import ChargeInputs from '@/components/RentalCharges/ChargeInputs';
 import ChargeSummary from '@/components/RentalCharges/ChargeSummary';
 
@@ -30,13 +31,14 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     internet: ''
   });
   const { toast } = useToast();
+  const { properties } = useFirebaseProperties();
 
-  const selectedPropertyData = mockProperties.find(p => p.id.toString() === selectedProperty);
+  const selectedPropertyData = properties.find(p => p.id === selectedProperty);
 
   const { maintenanceLoading } = useMaintenanceCostCalculator({
     selectedProperty,
     month,
-    selectedPropertyName: selectedPropertyData?.name,
+    selectedPropertyName: selectedPropertyData?.title,
     onCostCalculated: (cost) => {
       setCharges(prev => ({
         ...prev,
@@ -70,12 +72,12 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
       return;
     }
 
-    const property = mockProperties.find(p => p.id.toString() === selectedProperty);
+    const property = properties.find(p => p.id === selectedProperty);
     if (!property) return;
 
     const chargeData = {
-      propertyName: property.name,
-      propertyType: property.type,
+      propertyName: property.title,
+      propertyType: property.locationType,
       tenant: property.tenant,
       month,
       electricity: parseFloat(charges.electricity) || 0,
@@ -92,7 +94,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     
     toast({
       title: "Charges ajoutées",
-      description: `Charges pour ${property.name} ajoutées avec succès.`,
+      description: `Charges pour ${property.title} ajoutées avec succès.`,
     });
 
     // Reset form

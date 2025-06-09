@@ -3,33 +3,7 @@ import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Building2 } from 'lucide-react';
-
-const mockProperties = [
-  { 
-    id: 1, 
-    name: 'Appartement Rue des Fleurs', 
-    type: 'Location',
-    tenant: 'Marie Dubois'
-  },
-  { 
-    id: 2, 
-    name: 'Villa Montparnasse', 
-    type: 'Location',
-    tenant: 'Jean Martin'
-  },
-  { 
-    id: 3, 
-    name: 'Appartement Bastille - Chambre 1', 
-    type: 'Colocation',
-    tenant: 'Sophie Leroy'
-  },
-  { 
-    id: 4, 
-    name: 'Appartement Bastille - Chambre 2', 
-    type: 'Colocation',
-    tenant: 'Pierre Durand'
-  },
-];
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface PropertySelectorProps {
   selectedProperty: string;
@@ -37,7 +11,18 @@ interface PropertySelectorProps {
 }
 
 const PropertySelector = ({ selectedProperty, onPropertyChange }: PropertySelectorProps) => {
-  const selectedPropertyData = mockProperties.find(p => p.id.toString() === selectedProperty);
+  const { properties, loading } = useFirebaseProperties();
+
+  const selectedPropertyData = properties.find(p => p.id === selectedProperty);
+
+  if (loading) {
+    return (
+      <div className="space-y-2">
+        <Label htmlFor="property">Bien immobilier</Label>
+        <div className="h-10 bg-gray-100 rounded-md animate-pulse"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-2">
@@ -47,11 +32,11 @@ const PropertySelector = ({ selectedProperty, onPropertyChange }: PropertySelect
           <SelectValue placeholder="Sélectionner un bien" />
         </SelectTrigger>
         <SelectContent>
-          {mockProperties.map((property) => (
-            <SelectItem key={property.id} value={property.id.toString()}>
+          {properties.map((property) => (
+            <SelectItem key={property.id} value={property.id}>
               <div className="flex items-center gap-2">
                 <Building2 className="h-4 w-4" />
-                <span>{property.name} - {property.type}</span>
+                <span>{property.title} - {property.locationType}</span>
               </div>
             </SelectItem>
           ))}
@@ -59,7 +44,7 @@ const PropertySelector = ({ selectedProperty, onPropertyChange }: PropertySelect
       </Select>
       {selectedPropertyData && (
         <p className="text-sm text-gray-600">
-          Locataire: {selectedPropertyData.tenant}
+          Locataire: {selectedPropertyData.tenant || 'Aucun locataire'}
         </p>
       )}
     </div>
@@ -67,4 +52,3 @@ const PropertySelector = ({ selectedProperty, onPropertyChange }: PropertySelect
 };
 
 export default PropertySelector;
-export { mockProperties };
