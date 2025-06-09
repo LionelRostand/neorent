@@ -57,7 +57,7 @@ export const ProfileDialog = ({
               className="bg-gray-50"
             />
           </div>
-          {userProfile?.permissions && (
+          {userProfile?.permissions && Array.isArray(userProfile.permissions) && userProfile.permissions.length > 0 && (
             <div className="space-y-2">
               <Label>Permissions</Label>
               <div className="bg-gray-50 p-3 rounded-md">
