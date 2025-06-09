@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -49,7 +48,7 @@ const roommateFormSchema = z.object({
 type RoommateFormData = z.infer<typeof roommateFormSchema>;
 
 interface Property {
-  id: number;
+  id: string; // Changed from number to string for Firebase compatibility
   title: string;
   address: string;
   type: string;
