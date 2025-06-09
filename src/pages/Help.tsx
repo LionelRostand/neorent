@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,6 +21,7 @@ import {
 
 const Help = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const helpSections = [
     {
@@ -130,13 +130,30 @@ const Help = () => {
     }
   ];
 
-  const filteredSections = helpSections.filter(section =>
-    section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    section.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    section.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredSections = helpSections.filter(section => {
+    const matchesSearch = section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         section.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         section.category.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCategory = selectedCategory ? section.category === selectedCategory : true;
+    
+    return matchesSearch && matchesCategory;
+  });
 
   const categories = [...new Set(helpSections.map(section => section.category))];
+
+  const handleCategoryClick = (category: string) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null); // Désélectionner si déjà sélectionné
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
+  const clearFilters = () => {
+    setSelectedCategory(null);
+    setSearchTerm('');
+  };
 
   return (
     <MainLayout>
@@ -161,12 +178,44 @@ const Help = () => {
 
         {/* Badges des catégories */}
         <div className="flex flex-wrap gap-2">
+          <Badge 
+            variant="outline" 
+            className={`cursor-pointer hover:bg-gray-100 transition-colors ${
+              selectedCategory === null ? 'bg-blue-100 border-blue-300' : ''
+            }`}
+            onClick={clearFilters}
+          >
+            Toutes les catégories
+          </Badge>
           {categories.map(category => (
-            <Badge key={category} variant="outline" className="cursor-pointer hover:bg-gray-100">
+            <Badge 
+              key={category} 
+              variant={selectedCategory === category ? "default" : "outline"}
+              className={`cursor-pointer transition-colors ${
+                selectedCategory === category 
+                  ? 'bg-green-600 text-white hover:bg-green-700' 
+                  : 'hover:bg-gray-100'
+              }`}
+              onClick={() => handleCategoryClick(category)}
+            >
               {category}
             </Badge>
           ))}
         </div>
+
+        {/* Indicateur de filtre actif */}
+        {selectedCategory && (
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            <span>Filtré par :</span>
+            <Badge variant="secondary">{selectedCategory}</Badge>
+            <button
+              onClick={clearFilters}
+              className="text-blue-600 hover:text-blue-800 underline"
+            >
+              Effacer les filtres
+            </button>
+          </div>
+        )}
 
         {/* Sections d'aide */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -217,9 +266,15 @@ const Help = () => {
           <div className="text-center py-12">
             <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Aucun résultat trouvé</h3>
-            <p className="text-gray-600">
-              Essayez avec d'autres mots-clés ou parcourez les catégories disponibles.
+            <p className="text-gray-600 mb-4">
+              Aucune section ne correspond à vos critères de recherche.
             </p>
+            <button
+              onClick={clearFilters}
+              className="text-blue-600 hover:text-blue-800 underline"
+            >
+              Effacer tous les filtres
+            </button>
           </div>
         )}
       </div>
