@@ -1,28 +1,6 @@
 
 import { useAuth } from '@/hooks/useAuth';
-
-interface MenuPermission {
-  read: boolean;
-  write: boolean;
-  view: boolean;
-  delete: boolean;
-}
-
-interface EmployeePermissions {
-  dashboard: MenuPermission;
-  properties: MenuPermission;
-  tenants: MenuPermission;
-  roommates: MenuPermission;
-  contracts: MenuPermission;
-  inspections: MenuPermission;
-  rentManagement: MenuPermission;
-  rentalCharges: MenuPermission;
-  maintenance: MenuPermission;
-  messages: MenuPermission;
-  taxes: MenuPermission;
-  website: MenuPermission;
-  settings: MenuPermission;
-}
+import { EmployeePermissions, MenuPermission } from '@/components/Settings/types/permissions';
 
 export const useUserPermissions = () => {
   const { userProfile, userType } = useAuth();

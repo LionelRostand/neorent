@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPermissions } from '@/hooks/useUserPermissions';
+import { EmployeePermissions } from '@/components/Settings/types/permissions';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -34,79 +35,79 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
       icon: Home, 
       label: 'Dashboard', 
       path: '/admin/dashboard',
-      permission: 'dashboard' as const
+      permission: 'dashboard' as keyof EmployeePermissions
     },
     { 
       icon: Building, 
       label: 'Propriétés', 
       path: '/admin/properties',
-      permission: 'properties' as const
+      permission: 'properties' as keyof EmployeePermissions
     },
     { 
       icon: Users, 
       label: 'Locataires', 
       path: '/admin/tenants',
-      permission: 'tenants' as const
+      permission: 'tenants' as keyof EmployeePermissions
     },
     { 
       icon: UserCheck, 
       label: 'Colocataires', 
       path: '/admin/roommates',
-      permission: 'roommates' as const
+      permission: 'roommates' as keyof EmployeePermissions
     },
     { 
       icon: FileText, 
       label: 'Contrats', 
       path: '/admin/contracts',
-      permission: 'contracts' as const
+      permission: 'contracts' as keyof EmployeePermissions
     },
     { 
       icon: ClipboardList, 
       label: 'États des lieux', 
       path: '/admin/inspections',
-      permission: 'inspections' as const
+      permission: 'inspections' as keyof EmployeePermissions
     },
     { 
       icon: DollarSign, 
       label: 'Gestion des loyers', 
       path: '/admin/rent-management',
-      permission: 'rentManagement' as const
+      permission: 'rentManagement' as keyof EmployeePermissions
     },
     { 
       icon: Calculator, 
       label: 'Charges locatives', 
       path: '/admin/rental-charges',
-      permission: 'rentalCharges' as const
+      permission: 'rentalCharges' as keyof EmployeePermissions
     },
     { 
       icon: Wrench, 
       label: 'Maintenance', 
       path: '/admin/maintenance',
-      permission: 'maintenance' as const
+      permission: 'maintenance' as keyof EmployeePermissions
     },
     { 
       icon: MessageCircle, 
       label: 'Messages', 
       path: '/admin/messages',
-      permission: 'messages' as const
+      permission: 'messages' as keyof EmployeePermissions
     },
     { 
       icon: FileText, 
       label: 'Déclarations fiscales', 
       path: '/admin/taxes',
-      permission: 'taxes' as const
+      permission: 'taxes' as keyof EmployeePermissions
     },
     { 
       icon: Globe, 
       label: 'Site Web', 
       path: '/admin/website',
-      permission: 'website' as const
+      permission: 'website' as keyof EmployeePermissions
     },
     { 
       icon: Settings, 
       label: 'Paramètres', 
       path: '/admin/settings',
-      permission: 'settings' as const
+      permission: 'settings' as keyof EmployeePermissions
     }
   ];
 
