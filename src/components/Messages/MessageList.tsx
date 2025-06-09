@@ -13,7 +13,25 @@ interface MessageListProps {
 export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  console.log('MessageList: Rendu avec', messages.length, 'messages');
+  console.log('📋 MessageList: Rendu avec', messages.length, 'messages');
+  console.log('📋 MessageList: Messages reçus:', messages);
+  
+  if (messages.length > 0) {
+    messages.forEach((msg, index) => {
+      console.log(`📋 MessageList: Message ${index}:`, {
+        id: msg.id,
+        conversationId: msg.conversationId,
+        sender: msg.sender,
+        senderName: msg.senderName,
+        message: msg.message,
+        timestamp: msg.timestamp,
+        timestampType: typeof msg.timestamp,
+        hasToDate: msg.timestamp && typeof msg.timestamp.toDate === 'function'
+      });
+    });
+  } else {
+    console.log('📋 MessageList: Aucun message à afficher');
+  }
   
   // Auto-scroll vers le bas lors de nouveaux messages
   useEffect(() => {
@@ -28,11 +46,12 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
         <div className="space-y-4">
           {messages.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
-              Aucun message dans cette conversation
+              <p>Aucun message dans cette conversation</p>
+              <p className="text-sm mt-2">Debug: {messages.length} messages reçus</p>
             </div>
           ) : (
             messages.map((message) => {
-              console.log('MessageList: Affichage du message:', message.id, message.message);
+              console.log('📋 MessageList: Rendu du message:', message.id, message.message);
               return (
                 <div
                   key={message.id}
