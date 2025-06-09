@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -144,7 +145,7 @@ const Help = () => {
 
   const handleCategoryClick = (category: string) => {
     if (selectedCategory === category) {
-      setSelectedCategory(null); // Désélectionner si déjà sélectionné
+      setSelectedCategory(null);
     } else {
       setSelectedCategory(category);
     }
@@ -157,10 +158,10 @@ const Help = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         <div className="px-1">
-          <h1 className="text-3xl font-bold text-gray-900">Centre d'aide</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Centre d'aide</h1>
+          <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
             Guide complet des fonctionnalités techniques et fonctionnelles de NeoRent
           </p>
         </div>
@@ -172,86 +173,93 @@ const Help = () => {
             placeholder="Rechercher dans l'aide..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 text-sm md:text-base"
           />
         </div>
 
-        {/* Badges des catégories */}
-        <div className="flex flex-wrap gap-2">
+        {/* Badges des catégories - Responsive */}
+        <div className="flex flex-wrap gap-1 md:gap-2">
           <Badge 
             variant="outline" 
-            className={`cursor-pointer hover:bg-gray-100 transition-colors ${
+            className={`cursor-pointer hover:bg-gray-100 transition-colors text-xs md:text-sm px-2 md:px-3 py-1 ${
               selectedCategory === null ? 'bg-blue-100 border-blue-300' : ''
             }`}
             onClick={clearFilters}
           >
-            Toutes les catégories
+            <span className="hidden sm:inline">Toutes les catégories</span>
+            <span className="sm:hidden">Toutes</span>
           </Badge>
           {categories.map(category => (
             <Badge 
               key={category} 
               variant={selectedCategory === category ? "default" : "outline"}
-              className={`cursor-pointer transition-colors ${
+              className={`cursor-pointer transition-colors text-xs md:text-sm px-2 md:px-3 py-1 ${
                 selectedCategory === category 
                   ? 'bg-green-600 text-white hover:bg-green-700' 
                   : 'hover:bg-gray-100'
               }`}
               onClick={() => handleCategoryClick(category)}
             >
-              {category}
+              <span className="truncate max-w-[120px] sm:max-w-none">
+                {category}
+              </span>
             </Badge>
           ))}
         </div>
 
         {/* Indicateur de filtre actif */}
         {selectedCategory && (
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-600 px-1">
             <span>Filtré par :</span>
-            <Badge variant="secondary">{selectedCategory}</Badge>
+            <Badge variant="secondary" className="text-xs">{selectedCategory}</Badge>
             <button
               onClick={clearFilters}
-              className="text-blue-600 hover:text-blue-800 underline"
+              className="text-blue-600 hover:text-blue-800 underline text-xs md:text-sm"
             >
               Effacer les filtres
             </button>
           </div>
         )}
 
-        {/* Sections d'aide */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Sections d'aide - Grid responsive */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
           {filteredSections.map((section, index) => {
             const Icon = section.icon;
             return (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <Icon className="h-6 w-6 text-green-600" />
-                    <div>
-                      <div className="flex items-center gap-2">
-                        {section.title}
-                        <Badge variant="secondary" className="text-xs">
+              <Card key={index} className="hover:shadow-lg transition-shadow h-full">
+                <CardHeader className="pb-3 md:pb-4">
+                  <CardTitle className="flex items-start gap-2 md:gap-3 text-base md:text-lg">
+                    <Icon className="h-5 w-5 md:h-6 md:w-6 text-green-600 flex-shrink-0 mt-0.5" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                        <span className="font-semibold truncate">{section.title}</span>
+                        <Badge variant="secondary" className="text-xs w-fit">
                           {section.category}
                         </Badge>
                       </div>
                     </div>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-gray-600">
+                <CardContent className="space-y-3 md:space-y-4 pt-0">
+                  <p className="text-gray-600 text-sm md:text-base leading-relaxed">
                     {section.description}
                   </p>
                   
                   <div className="space-y-3">
                     <div>
-                      <h4 className="font-semibold text-sm text-blue-700 mb-1">Aspect technique</h4>
-                      <p className="text-sm text-gray-700">
+                      <h4 className="font-semibold text-xs md:text-sm text-blue-700 mb-1">
+                        Aspect technique
+                      </h4>
+                      <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
                         {section.technical}
                       </p>
                     </div>
                     
                     <div>
-                      <h4 className="font-semibold text-sm text-green-700 mb-1">Utilisation fonctionnelle</h4>
-                      <p className="text-sm text-gray-700">
+                      <h4 className="font-semibold text-xs md:text-sm text-green-700 mb-1">
+                        Utilisation fonctionnelle
+                      </h4>
+                      <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
                         {section.functional}
                       </p>
                     </div>
@@ -262,16 +270,19 @@ const Help = () => {
           })}
         </div>
 
+        {/* Message quand aucun résultat */}
         {filteredSections.length === 0 && (
-          <div className="text-center py-12">
-            <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Aucun résultat trouvé</h3>
-            <p className="text-gray-600 mb-4">
+          <div className="text-center py-8 md:py-12">
+            <Search className="h-10 w-10 md:h-12 md:w-12 text-gray-400 mx-auto mb-3 md:mb-4" />
+            <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">
+              Aucun résultat trouvé
+            </h3>
+            <p className="text-gray-600 mb-3 md:mb-4 text-sm md:text-base px-4">
               Aucune section ne correspond à vos critères de recherche.
             </p>
             <button
               onClick={clearFilters}
-              className="text-blue-600 hover:text-blue-800 underline"
+              className="text-blue-600 hover:text-blue-800 underline text-sm md:text-base"
             >
               Effacer tous les filtres
             </button>
