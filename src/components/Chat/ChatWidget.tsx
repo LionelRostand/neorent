@@ -17,10 +17,12 @@ export const ChatWidget: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [hasStartedChat, setHasStartedChat] = useState(false);
 
+  console.log('ChatWidget: État actuel - isOpen:', isOpen, 'conversation:', conversation?.id, 'messages:', messages.length);
+
   // Abonnement aux messages quand une conversation est active
   useEffect(() => {
     if (!conversation) {
-      console.log('ChatWidget: Pas de conversation active');
+      console.log('ChatWidget: Pas de conversation active, reset des messages');
       setMessages([]);
       return;
     }
@@ -29,12 +31,15 @@ export const ChatWidget: React.FC = () => {
     const unsubscribe = messageService.subscribeToMessages(
       conversation.id,
       (newMessages) => {
-        console.log('ChatWidget: Messages reçus:', newMessages);
+        console.log('ChatWidget: Messages reçus pour conversation', conversation.id, ':', newMessages);
         setMessages(newMessages);
       }
     );
 
-    return unsubscribe;
+    return () => {
+      console.log('ChatWidget: Désabonnement des messages pour conversation:', conversation.id);
+      unsubscribe();
+    };
   }, [conversation]);
 
   const handleStartChat = async (formData: ChatFormData) => {
@@ -48,7 +53,7 @@ export const ChatWidget: React.FC = () => {
       let conversationToUse: Conversation;
       
       if (existingConversation) {
-        console.log('ChatWidget: Utilisation de la conversation existante');
+        console.log('ChatWidget: Utilisation de la conversation existante:', existingConversation.id);
         conversationToUse = existingConversation;
         setConversation(existingConversation);
       } else {
@@ -77,13 +82,8 @@ export const ChatWidget: React.FC = () => {
         setConversation(conversationToUse);
       }
 
-      // Sauvegarder dans le localStorage pour cette session seulement
-      localStorage.setItem('chatConversationId', conversationToUse.id);
-      localStorage.setItem('chatFormData', JSON.stringify(formData));
-      console.log('ChatWidget: Données sauvegardées dans localStorage');
-      
       setHasStartedChat(true);
-      console.log('ChatWidget: Chat démarré avec succès');
+      console.log('ChatWidget: Chat démarré avec succès pour conversation:', conversationToUse.id);
     } catch (error) {
       console.error('ChatWidget: Erreur lors du démarrage du chat:', error);
     }
@@ -96,14 +96,13 @@ export const ChatWidget: React.FC = () => {
     }
 
     try {
-      console.log('ChatWidget: Envoi du message:', message);
-      const formData = JSON.parse(localStorage.getItem('chatFormData') || '{}');
+      console.log('ChatWidget: Envoi du message:', message, 'pour conversation:', conversation.id);
       
       await messageService.sendMessage({
         conversationId: conversation.id,
         sender: 'client',
-        senderName: formData.name || 'Client',
-        senderEmail: formData.email || '',
+        senderName: conversation.clientName,
+        senderEmail: conversation.clientEmail,
         message
       });
       console.log('ChatWidget: Message envoyé avec succès');
@@ -116,21 +115,15 @@ export const ChatWidget: React.FC = () => {
     console.log('ChatWidget: Fermeture du chat');
     setIsOpen(false);
     setIsMinimized(false);
-    // Réinitialiser l'état pour forcer l'affichage du formulaire à la prochaine ouverture
     setHasStartedChat(false);
     setConversation(null);
     setMessages([]);
-    // Nettoyer le localStorage
-    localStorage.removeItem('chatConversationId');
-    localStorage.removeItem('chatFormData');
   };
 
   const handleMinimize = () => {
     console.log('ChatWidget: Minimisation du chat');
     setIsMinimized(true);
   };
-
-  console.log('ChatWidget: Rendu - isOpen:', isOpen, 'isMinimized:', isMinimized, 'hasStartedChat:', hasStartedChat, 'messages count:', messages.length);
 
   if (!isOpen) {
     return <ChatWidgetButton onClick={() => {
