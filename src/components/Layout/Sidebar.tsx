@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   Home, 
   Building, 
@@ -97,30 +96,28 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
         <h1 className="text-xl font-bold text-white">NeoRent</h1>
       </div>
       
-      <ScrollArea className="flex-1">
-        <nav className="mt-6">
-          <div className="px-3 space-y-2">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors ${
-                    isActive(item.path)
-                      ? 'bg-green-400 text-white'
-                      : 'text-white/90 hover:text-white hover:bg-green-400/50'
-                  }`}
-                  onClick={onMobileClose}
-                >
-                  <Icon className="mr-3 h-5 w-5" />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
-      </ScrollArea>
+      <nav className="mt-6 flex-1">
+        <div className="px-3">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center px-3 py-2 text-sm font-medium rounded-md mb-1 transition-colors ${
+                  isActive(item.path)
+                    ? 'bg-green-400 text-white'
+                    : 'text-white/90 hover:text-white hover:bg-green-400/50'
+                }`}
+                onClick={onMobileClose}
+              >
+                <Icon className="mr-3 h-5 w-5" />
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
 
       <div className="p-4 border-t border-green-400">
         <div className="text-center">
