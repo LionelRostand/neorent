@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -61,6 +60,35 @@ const TenantSpace = () => {
   const selectedUser = selectedUserId 
     ? allUsers.find(u => u.id === selectedUserId)
     : null;
+
+  // Vérifier si l'utilisateur sélectionné existe dans Firebase
+  useEffect(() => {
+    if (selectedUserId && allUsers.length > 0) {
+      const userExists = allUsers.some(u => u.id === selectedUserId);
+      if (!userExists) {
+        console.log('Utilisateur non trouvé dans Firebase, redirection...');
+        setSearchParams({});
+      }
+    }
+  }, [selectedUserId, allUsers, setSearchParams]);
+
+  // Si un utilisateur est sélectionné mais n'existe pas, ne pas afficher de contenu
+  if (selectedUserId && allUsers.length > 0 && !selectedUser) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Utilisateur non trouvé</h2>
+          <p className="text-gray-600 mb-4">L'utilisateur sélectionné n'existe pas dans la base de données.</p>
+          <button
+            onClick={() => setSearchParams({})}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+            Retour à la liste
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Données du locataire (réelles ou simulées selon le contexte)
   const tenantData = selectedUser ? {
