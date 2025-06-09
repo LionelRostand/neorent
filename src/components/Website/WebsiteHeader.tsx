@@ -14,7 +14,7 @@ const WebsiteHeader = () => {
         </p>
       </div>
       <div className="flex gap-2">
-        <Link to="/site" target="_blank">
+        <Link to="/" target="_blank">
           <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
             <ExternalLink className="h-4 w-4" />
             Voir le site
