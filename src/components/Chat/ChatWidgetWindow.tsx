@@ -19,6 +19,7 @@ interface ChatWidgetWindowProps {
   onSendMessage: (message: string) => void;
   onClose: () => void;
   onMinimize: () => void;
+  loading?: boolean;
 }
 
 export const ChatWidgetWindow: React.FC<ChatWidgetWindowProps> = ({
@@ -27,7 +28,8 @@ export const ChatWidgetWindow: React.FC<ChatWidgetWindowProps> = ({
   onStartChat,
   onSendMessage,
   onClose,
-  onMinimize
+  onMinimize,
+  loading = false
 }) => {
   return (
     <div className="fixed bottom-4 right-4 z-50 w-80 h-96">
@@ -62,7 +64,8 @@ export const ChatWidgetWindow: React.FC<ChatWidgetWindowProps> = ({
           ) : (
             <ChatMessages 
               messages={messages} 
-              onSendMessage={onSendMessage} 
+              onSendMessage={onSendMessage}
+              loading={loading}
             />
           )}
         </CardContent>
