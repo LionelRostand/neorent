@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,13 @@ const CostManagement = () => {
   const { toast } = useToast();
   const { invoices, addInvoice, loading } = useFirebaseMaintenances();
   const { properties } = useFirebaseProperties();
-  const [selectedPeriod, setSelectedPeriod] = useState('2024');
+  
+  // Générer les années à partir de 2025
+  const currentYear = new Date().getFullYear();
+  const startYear = Math.max(2025, currentYear);
+  const years = Array.from({ length: 5 }, (_, index) => startYear + index);
+  
+  const [selectedPeriod, setSelectedPeriod] = useState(startYear.toString());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const totalCosts = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
@@ -111,9 +118,11 @@ const CostManagement = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
+                  {years.map((year) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               
