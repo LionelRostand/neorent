@@ -21,11 +21,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import { updatePassword } from 'firebase/auth';
 
 const UserProfile = () => {
   const { user, logout } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -85,6 +87,8 @@ const UserProfile = () => {
         title: "Déconnexion",
         description: "Vous avez été déconnecté avec succès.",
       });
+      // Redirection vers la page de connexion
+      navigate('/login');
     } catch (error) {
       toast({
         title: "Erreur",
