@@ -1,4 +1,3 @@
-
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -6,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Database, Shield } from 'lucide-react';
 
 const Settings = () => {
-  const managers = [
+  const employees = [
     {
       id: 1,
       nom: 'Dupont',
@@ -19,6 +18,51 @@ const Settings = () => {
       poste: 'Manager Principal'
     }
   ];
+
+  const firebaseCollections = [
+    {
+      name: 'employees',
+      description: 'Stockage des informations des employés',
+      fields: ['nom', 'prenom', 'email', 'telephone', 'poste', 'role', 'createdAt', 'updatedAt']
+    },
+    {
+      name: 'user_roles',
+      description: 'Gestion des rôles et permissions',
+      fields: ['userId', 'role', 'permissions', 'createdAt']
+    },
+    {
+      name: 'audit_logs',
+      description: 'Journal des actions utilisateurs',
+      fields: ['userId', 'action', 'details', 'timestamp', 'ipAddress']
+    }
+  ];
+
+  const securityRules = `rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Employés - Lecture pour tous les authentifiés, écriture pour admins
+    match /employees/{employeeId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Rôles utilisateurs - Lecture limitée, écriture admin uniquement
+    match /user_roles/{userId} {
+      allow read: if request.auth != null && 
+        (request.auth.uid == userId || 
+         get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin');
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Logs d'audit - Lecture admin uniquement
+    match /audit_logs/{logId} {
+      allow read, write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}`;
 
   return (
     <MainLayout>
@@ -54,18 +98,19 @@ const Settings = () => {
           </TabsList>
 
           <TabsContent value="general" className="space-y-6">
+            {/* Section Compte Employés */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  👥 Managers du garage
+                  👥 Compte Employés
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <p className="text-gray-600">Configurez les paramètres généraux de votre application</p>
+                  <p className="text-gray-600">Gérez les comptes employés de votre garage</p>
                   <Button className="flex items-center gap-2 w-full sm:w-auto">
                     <Plus className="h-4 w-4" />
-                    Ajouter un manager
+                    Ajouter un employé
                   </Button>
                 </div>
 
@@ -80,13 +125,13 @@ const Settings = () => {
                       <div>Actions</div>
                     </div>
                     
-                    {managers.map((manager) => (
-                      <div key={manager.id} className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200">
-                        <div className="font-medium">{manager.nom}</div>
-                        <div>{manager.prenom}</div>
-                        <div className="hidden md:block text-sm text-gray-600">{manager.email}</div>
-                        <div className="hidden lg:block text-sm text-gray-600">{manager.telephone}</div>
-                        <div className="hidden xl:block text-sm text-gray-600">{manager.poste}</div>
+                    {employees.map((employee) => (
+                      <div key={employee.id} className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200">
+                        <div className="font-medium">{employee.nom}</div>
+                        <div>{employee.prenom}</div>
+                        <div className="hidden md:block text-sm text-gray-600">{employee.email}</div>
+                        <div className="hidden lg:block text-sm text-gray-600">{employee.telephone}</div>
+                        <div className="hidden xl:block text-sm text-gray-600">{employee.poste}</div>
                         <div className="flex gap-2">
                           <Button variant="ghost" size="sm">
                             <Edit className="h-4 w-4" />
@@ -101,8 +146,80 @@ const Settings = () => {
                 </div>
 
                 <Button className="w-full sm:w-auto">
-                  Sauvegarder les managers
+                  Sauvegarder les employés
                 </Button>
+              </CardContent>
+            </Card>
+
+            {/* Section Collections Firebase */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="h-5 w-5" />
+                  Collections Firebase à créer
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-gray-600 text-sm">
+                  Voici les collections Firestore nécessaires pour le bon fonctionnement du module employés :
+                </p>
+                
+                <div className="space-y-4">
+                  {firebaseCollections.map((collection, index) => (
+                    <div key={index} className="border rounded-lg p-4 bg-gray-50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Database className="h-4 w-4 text-blue-600" />
+                        <h4 className="font-semibold text-gray-900">{collection.name}</h4>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{collection.description}</p>
+                      <div className="flex flex-wrap gap-1">
+                        {collection.fields.map((field, fieldIndex) => (
+                          <span
+                            key={fieldIndex}
+                            className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
+                          >
+                            {field}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Section Règles de sécurité */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  Règles de sécurité Firestore
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-4">
+                  Copiez et collez ces règles dans votre console Firebase (Firestore Database → Règles) :
+                </p>
+                
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                  <pre className="text-xs whitespace-pre-wrap">
+                    <code>{securityRules}</code>
+                  </pre>
+                </div>
+                
+                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <span className="text-yellow-600 text-sm">⚠️</span>
+                    <div className="text-sm">
+                      <p className="font-medium text-yellow-800 mb-1">Important :</p>
+                      <ul className="text-yellow-700 space-y-1">
+                        <li>• Assurez-vous d'avoir activé l'authentification Firebase</li>
+                        <li>• Créez un utilisateur avec le rôle 'admin' dans la collection user_roles</li>
+                        <li>• Testez les règles avant de les déployer en production</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
