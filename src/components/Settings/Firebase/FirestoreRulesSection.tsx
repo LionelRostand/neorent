@@ -101,15 +101,24 @@ service cloud.firestore {
         get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
     }
     
+    // 13. Analytics du site web - Collection: rent_analytics
+    match /rent_analytics/{analyticsId} {
+      allow create: if true; // Écriture anonyme autorisée pour le tracking public
+      allow read: if request.auth != null && 
+        (get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role in ['admin', 'manager']);
+      allow update, delete: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
     // ====== SYSTÈME DE CHAT ======
     
-    // 13. Conversations - Collection: conversations
+    // 14. Conversations - Collection: conversations
     match /conversations/{conversationId} {
       allow create: if true; // Visiteurs peuvent créer des conversations
       allow read, write: if request.auth != null; // Staff authentifié peut tout faire
     }
     
-    // 14. Messages du chat - Collection: garage_messages
+    // 15. Messages du chat - Collection: garage_messages
     match /garage_messages/{messageId} {
       allow create: if true; // Visiteurs peuvent envoyer des messages
       allow read: if request.auth != null; // Staff peut lire tous les messages
@@ -178,6 +187,21 @@ service cloud.firestore {
           </pre>
         </div>
         
+        <div className="mt-4 p-3 md:p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-start gap-2">
+            <span className="text-blue-600 text-sm">🔒</span>
+            <div className="text-sm">
+              <p className="font-medium text-blue-800 mb-1">Collection rent_analytics :</p>
+              <ul className="text-blue-700 space-y-1">
+                <li>• <strong>create:</strong> Accès public (tracking anonyme du site web)</li>
+                <li>• <strong>read:</strong> Admin et managers uniquement</li>
+                <li>• <strong>update/delete:</strong> Admin uniquement</li>
+                <li>• Structure : type, page/contactType, timestamp, userAgent, date</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
         <div className="mt-4 p-3 md:p-4 bg-red-50 border border-red-200 rounded-lg">
           <div className="flex items-start gap-2">
             <span className="text-red-600 text-sm">🚨</span>
@@ -187,7 +211,7 @@ service cloud.firestore {
                 <li>• Activez l'authentification Firebase (Authentication)</li>
                 <li>• Créez la collection <code className="bg-red-100 px-1 rounded">user_roles</code></li>
                 <li>• Ajoutez un document avec votre UID utilisateur et <code className="bg-red-100 px-1 rounded">role: "admin"</code></li>
-                <li>• Créez toutes les collections mentionnées</li>
+                <li>• Créez la collection <code className="bg-red-100 px-1 rounded">rent_analytics</code></li>
                 <li>• Testez les règles avant de publier</li>
               </ul>
             </div>

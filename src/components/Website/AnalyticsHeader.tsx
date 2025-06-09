@@ -14,7 +14,7 @@ export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({ onRefresh, isL
       <div>
         <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📊 Analytics</h2>
         <p className="text-gray-600 text-sm md:text-base">
-          Statistiques de visite avec tracking des interactions et données stockées dans website_analytics.
+          Statistiques de visite avec tracking des interactions et données stockées dans rent_analytics.
         </p>
       </div>
       <Button 

@@ -25,7 +25,7 @@ export const useAnalyticsTracking = () => {
 
   const trackPageView = useCallback(async (page: string, userAgent?: string) => {
     try {
-      await addDoc(collection(db, 'website_analytics'), {
+      await addDoc(collection(db, 'rent_analytics'), {
         type: 'page_view',
         page: page,
         timestamp: Timestamp.now(),
@@ -39,7 +39,7 @@ export const useAnalyticsTracking = () => {
 
   const trackContactRequest = useCallback(async (contactType: string) => {
     try {
-      await addDoc(collection(db, 'website_analytics'), {
+      await addDoc(collection(db, 'rent_analytics'), {
         type: 'contact_request',
         contactType: contactType,
         timestamp: Timestamp.now(),
@@ -57,7 +57,7 @@ export const useAnalyticsTracking = () => {
       
       // Récupération des données d'aujourd'hui
       const todayQuery = query(
-        collection(db, 'website_analytics'),
+        collection(db, 'rent_analytics'),
         where('date', '==', today)
       );
       
@@ -94,7 +94,7 @@ export const useAnalyticsTracking = () => {
       const weeklyVisitors = await Promise.all(
         weekDates.map(async ({ date, name }) => {
           const dayQuery = query(
-            collection(db, 'website_analytics'),
+            collection(db, 'rent_analytics'),
             where('type', '==', 'page_view'),
             where('date', '==', date)
           );
