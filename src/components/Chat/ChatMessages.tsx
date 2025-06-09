@@ -11,11 +11,13 @@ import type { ChatMessage } from '@/types/chat';
 interface ChatMessagesProps {
   messages: ChatMessage[];
   onSendMessage: (message: string) => void;
+  loading?: boolean;
 }
 
 export const ChatMessages: React.FC<ChatMessagesProps> = ({ 
   messages, 
-  onSendMessage 
+  onSendMessage,
+  loading = false
 }) => {
   const [newMessage, setNewMessage] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -25,6 +27,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
     console.log(`ChatMessages: Message ${index}:`, {
       id: msg.id,
       sender: msg.sender,
+      senderName: msg.senderName,
       message: msg.message,
       timestamp: msg.timestamp
     });
@@ -46,6 +49,19 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-2"></div>
+            <p className="text-gray-500">Chargement des messages...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 flex flex-col">
       <ScrollArea className="flex-1 p-4">
@@ -56,7 +72,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
             </div>
           ) : (
             messages.map((message) => {
-              console.log('ChatMessages: Affichage du message:', message);
+              console.log('ChatMessages: Rendu du message:', message.id, message.message);
               return (
                 <div
                   key={message.id}
@@ -74,7 +90,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
                     <div className="font-medium text-xs mb-1">
                       {message.senderName}
                     </div>
-                    <div>{message.message}</div>
+                    <div className="whitespace-pre-wrap">{message.message}</div>
                     <div
                       className={`text-xs mt-1 ${
                         message.sender === 'client'

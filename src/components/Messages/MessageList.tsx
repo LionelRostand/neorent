@@ -13,6 +13,8 @@ interface MessageListProps {
 export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  console.log('MessageList: Rendu avec', messages.length, 'messages');
+  
   // Auto-scroll vers le bas lors de nouveaux messages
   useEffect(() => {
     if (scrollRef.current) {
@@ -29,39 +31,46 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
               Aucun message dans cette conversation
             </div>
           ) : (
-            messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${
-                  message.sender === 'staff' ? 'justify-end' : 'justify-start'
-                }`}
-              >
+            messages.map((message) => {
+              console.log('MessageList: Affichage du message:', message.id, message.message);
+              return (
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                    message.sender === 'staff'
-                      ? 'bg-green-500 text-white'
-                      : 'bg-gray-200 text-gray-900'
+                  key={message.id}
+                  className={`flex ${
+                    message.sender === 'staff' ? 'justify-end' : 'justify-start'
                   }`}
                 >
-                  <div className="text-sm font-medium mb-1">
-                    {message.senderName}
-                  </div>
-                  <div className="text-sm mb-1">{message.message}</div>
                   <div
-                    className={`text-xs ${
+                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       message.sender === 'staff'
-                        ? 'text-green-100'
-                        : 'text-gray-500'
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-200 text-gray-900'
                     }`}
                   >
-                    {formatDistanceToNow(message.timestamp.toDate(), {
-                      addSuffix: true,
-                      locale: fr
-                    })}
+                    <div className="text-sm font-medium mb-1">
+                      {message.senderName}
+                    </div>
+                    <div className="text-sm mb-1 whitespace-pre-wrap">{message.message}</div>
+                    <div
+                      className={`text-xs ${
+                        message.sender === 'staff'
+                          ? 'text-green-100'
+                          : 'text-gray-500'
+                      }`}
+                    >
+                      {message.timestamp && typeof message.timestamp.toDate === 'function' ? (
+                        formatDistanceToNow(message.timestamp.toDate(), {
+                          addSuffix: true,
+                          locale: fr
+                        })
+                      ) : (
+                        'Maintenant'
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </ScrollArea>

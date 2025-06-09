@@ -16,23 +16,35 @@ export const ChatWidget: React.FC = () => {
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [hasStartedChat, setHasStartedChat] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   console.log('ChatWidget: État actuel - isOpen:', isOpen, 'conversation:', conversation?.id, 'messages:', messages.length);
 
   // Abonnement aux messages quand une conversation est active
   useEffect(() => {
-    if (!conversation) {
+    if (!conversation?.id) {
       console.log('ChatWidget: Pas de conversation active, reset des messages');
       setMessages([]);
       return;
     }
 
     console.log('ChatWidget: Abonnement aux messages pour la conversation:', conversation.id);
+    setLoading(true);
+    
     const unsubscribe = messageService.subscribeToMessages(
       conversation.id,
       (newMessages) => {
-        console.log('ChatWidget: Messages reçus pour conversation', conversation.id, ':', newMessages);
+        console.log('ChatWidget: Messages reçus pour conversation', conversation.id, ':', newMessages.length, 'messages');
+        newMessages.forEach((msg, index) => {
+          console.log(`ChatWidget: Message ${index}:`, {
+            id: msg.id,
+            sender: msg.sender,
+            message: msg.message,
+            timestamp: msg.timestamp
+          });
+        });
         setMessages(newMessages);
+        setLoading(false);
       }
     );
 
@@ -40,11 +52,12 @@ export const ChatWidget: React.FC = () => {
       console.log('ChatWidget: Désabonnement des messages pour conversation:', conversation.id);
       unsubscribe();
     };
-  }, [conversation]);
+  }, [conversation?.id]);
 
   const handleStartChat = async (formData: ChatFormData) => {
     try {
       console.log('ChatWidget: Démarrage du chat avec:', formData);
+      setLoading(true);
       
       // Vérifier s'il y a déjà une conversation pour cet email
       const existingConversation = await messageService.findConversationByEmail(formData.email);
@@ -55,7 +68,6 @@ export const ChatWidget: React.FC = () => {
       if (existingConversation) {
         console.log('ChatWidget: Utilisation de la conversation existante:', existingConversation.id);
         conversationToUse = existingConversation;
-        setConversation(existingConversation);
       } else {
         console.log('ChatWidget: Création d\'une nouvelle conversation');
         // Créer une nouvelle conversation
@@ -79,13 +91,14 @@ export const ChatWidget: React.FC = () => {
           status: 'online',
           createdAt: new Date() as any
         };
-        setConversation(conversationToUse);
       }
 
+      setConversation(conversationToUse);
       setHasStartedChat(true);
       console.log('ChatWidget: Chat démarré avec succès pour conversation:', conversationToUse.id);
     } catch (error) {
       console.error('ChatWidget: Erreur lors du démarrage du chat:', error);
+      setLoading(false);
     }
   };
 
@@ -154,6 +167,7 @@ export const ChatWidget: React.FC = () => {
       onSendMessage={handleSendMessage}
       onClose={handleClose}
       onMinimize={handleMinimize}
+      loading={loading}
     />
   );
 };

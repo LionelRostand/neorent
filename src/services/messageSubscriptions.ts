@@ -4,7 +4,8 @@ import {
   query, 
   where, 
   onSnapshot, 
-  orderBy
+  orderBy,
+  getDocs
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import type { Conversation, ChatMessage } from '@/types/chat';
@@ -27,19 +28,52 @@ export const messageSubscriptions = {
           
           const messages = snapshot.docs.map(doc => {
             const data = doc.data();
-            console.log('messageSubscriptions: Message doc data:', data);
+            console.log('messageSubscriptions: Message doc data:', {
+              id: doc.id,
+              conversationId: data.conversationId,
+              sender: data.sender,
+              senderName: data.senderName,
+              message: data.message,
+              timestamp: data.timestamp
+            });
             return {
               id: doc.id,
-              ...data
+              conversationId: data.conversationId,
+              sender: data.sender,
+              senderName: data.senderName,
+              senderEmail: data.senderEmail,
+              message: data.message,
+              timestamp: data.timestamp,
+              read: data.read || false
             } as ChatMessage;
           });
 
-          console.log('messageSubscriptions: Messages traités pour conversation', conversationId, ':', messages);
+          console.log('messageSubscriptions: Messages traités pour conversation', conversationId, ':', messages.length);
           callback(messages);
         }, 
         (error) => {
           console.error('Error listening to messages for conversation', conversationId, ':', error);
-          callback([]);
+          // En cas d'erreur, essayer de récupérer les messages une seule fois
+          getDocs(q).then(snapshot => {
+            const messages = snapshot.docs.map(doc => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                conversationId: data.conversationId,
+                sender: data.sender,
+                senderName: data.senderName,
+                senderEmail: data.senderEmail,
+                message: data.message,
+                timestamp: data.timestamp,
+                read: data.read || false
+              } as ChatMessage;
+            });
+            console.log('messageSubscriptions: Messages récupérés via getDocs:', messages.length);
+            callback(messages);
+          }).catch(err => {
+            console.error('Error getting messages via getDocs:', err);
+            callback([]);
+          });
         }
       );
     } catch (error) {
@@ -64,14 +98,26 @@ export const messageSubscriptions = {
           
           const conversations = snapshot.docs.map(doc => {
             const data = doc.data();
-            console.log('messageSubscriptions: Conversation doc data:', data);
+            console.log('messageSubscriptions: Conversation doc data:', {
+              id: doc.id,
+              clientName: data.clientName,
+              clientEmail: data.clientEmail,
+              lastMessage: data.lastMessage,
+              unreadCount: data.unreadCount
+            });
             return {
               id: doc.id,
-              ...data
+              clientName: data.clientName,
+              clientEmail: data.clientEmail,
+              lastMessage: data.lastMessage || '',
+              lastMessageTime: data.lastMessageTime,
+              unreadCount: data.unreadCount || 0,
+              status: data.status || 'offline',
+              createdAt: data.createdAt
             } as Conversation;
           });
 
-          console.log('messageSubscriptions: Conversations traitées:', conversations);
+          console.log('messageSubscriptions: Conversations traitées:', conversations.length);
           callback(conversations);
         }, 
         (error) => {
