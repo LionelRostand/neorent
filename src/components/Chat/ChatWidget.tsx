@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ChatWidgetButton } from './ChatWidgetButton';
 import { ChatWidgetWindow } from './ChatWidgetWindow';
@@ -23,7 +24,18 @@ export const ChatWidget: React.FC = () => {
     
     if (savedConversationId && savedFormData) {
       setHasStartedChat(true);
-      // Ici on pourrait recharger la conversation existante
+      // Charger la conversation existante
+      const formData = JSON.parse(savedFormData);
+      setConversation({
+        id: savedConversationId,
+        clientName: formData.name,
+        clientEmail: formData.email,
+        lastMessage: '',
+        lastMessageTime: new Date() as any,
+        unreadCount: 0,
+        status: 'online',
+        createdAt: new Date() as any
+      });
     }
   }, []);
 
