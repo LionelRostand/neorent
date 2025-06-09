@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   FileText, 
   Download, 
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 const TenantDocuments = () => {
+  const isMobile = useIsMobile();
   const [documents, setDocuments] = useState([
     {
       id: 1,
@@ -62,57 +64,59 @@ const TenantDocuments = () => {
   };
 
   const getStatusBadge = (status: string) => {
+    const className = `text-xs ${isMobile ? 'px-2 py-1' : ''}`;
     switch (status) {
       case 'Signé':
       case 'Valide':
-        return <Badge className="bg-green-100 text-green-800">✓ {status}</Badge>;
+        return <Badge className={`bg-green-100 text-green-800 ${className}`}>✓ {status}</Badge>;
       case 'En attente':
-        return <Badge className="bg-yellow-100 text-yellow-800">⏳ {status}</Badge>;
+        return <Badge className={`bg-yellow-100 text-yellow-800 ${className}`}>⏳ {status}</Badge>;
       case 'À venir':
-        return <Badge variant="secondary">📅 {status}</Badge>;
+        return <Badge variant="secondary" className={className}>📅 {status}</Badge>;
       case 'Expiré':
-        return <Badge variant="destructive">⚠️ {status}</Badge>;
+        return <Badge variant="destructive" className={className}>⚠️ {status}</Badge>;
       default:
-        return <Badge variant="secondary">{status}</Badge>;
+        return <Badge variant="secondary" className={className}>{status}</Badge>;
     }
   };
 
   const getDocumentIcon = (type: string) => {
+    const iconSize = isMobile ? "h-6 w-6" : "h-8 w-8";
     switch (type) {
       case 'bail':
-        return <FileText className="h-8 w-8 text-blue-500" />;
+        return <FileText className={`${iconSize} text-blue-500`} />;
       case 'assurance':
-        return <Shield className="h-8 w-8 text-green-500" />;
+        return <Shield className={`${iconSize} text-green-500`} />;
       case 'etat_lieux_entree':
       case 'etat_lieux_sortie':
-        return <CheckCircle className="h-8 w-8 text-purple-500" />;
+        return <CheckCircle className={`${iconSize} text-purple-500`} />;
       default:
-        return <FileText className="h-8 w-8 text-gray-500" />;
+        return <FileText className={`${iconSize} text-gray-500`} />;
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Documents contractuels */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+            <FileText className="h-4 w-4 md:h-5 md:w-5" />
             Documents contractuels
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
+          <div className="grid gap-3 md:gap-4">
             {documents.filter(doc => ['bail', 'etat_lieux_entree', 'etat_lieux_sortie'].includes(doc.type)).map((document) => (
-              <div key={document.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
-                <div className="flex items-center space-x-4">
+              <div key={document.id} className={`flex ${isMobile ? 'flex-col space-y-3' : 'items-center justify-between'} p-3 md:p-4 border rounded-lg hover:bg-gray-50`}>
+                <div className="flex items-center space-x-3 md:space-x-4">
                   {getDocumentIcon(document.type)}
-                  <div>
-                    <h3 className="font-medium">{document.name}</h3>
-                    <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-medium text-sm md:text-base">{document.name}</h3>
+                    <div className={`flex ${isMobile ? 'flex-col space-y-1' : 'items-center gap-4'} text-xs md:text-sm text-gray-600 mt-1`}>
                       {document.date && (
                         <span className="flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
+                          <Calendar className="h-3 w-3 md:h-4 md:w-4" />
                           {new Date(document.date).toLocaleDateString('fr-FR')}
                         </span>
                       )}
@@ -120,21 +124,21 @@ const TenantDocuments = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className={`flex ${isMobile ? 'justify-between items-center' : 'items-center space-x-3'}`}>
                   {getStatusBadge(document.status)}
                   {document.downloadUrl ? (
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4 mr-2" />
+                    <div className={`flex ${isMobile ? 'space-x-2' : 'gap-2'}`}>
+                      <Button variant="outline" size="sm" className={isMobile ? 'text-xs px-2' : ''}>
+                        <Eye className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                         Voir
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <Download className="h-4 w-4 mr-2" />
+                      <Button variant="outline" size="sm" className={isMobile ? 'text-xs px-2' : ''}>
+                        <Download className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                         Télécharger
                       </Button>
                     </div>
                   ) : (
-                    <Button variant="outline" size="sm" disabled>
+                    <Button variant="outline" size="sm" disabled className={isMobile ? 'text-xs px-2' : ''}>
                       Non disponible
                     </Button>
                   )}
@@ -148,8 +152,8 @@ const TenantDocuments = () => {
       {/* Assurance */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+            <Shield className="h-4 w-4 md:h-5 md:w-5" />
             Assurance habitation
           </CardTitle>
         </CardHeader>
@@ -157,29 +161,29 @@ const TenantDocuments = () => {
           <div className="space-y-4">
             {documents.filter(doc => doc.type === 'assurance').map((document) => (
               <div key={document.id} className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
-                  <div className="flex items-center space-x-4">
+                <div className={`flex ${isMobile ? 'flex-col space-y-3' : 'items-center justify-between'} p-3 md:p-4 border rounded-lg hover:bg-gray-50`}>
+                  <div className="flex items-center space-x-3 md:space-x-4">
                     {getDocumentIcon(document.type)}
-                    <div>
-                      <h3 className="font-medium">{document.name}</h3>
-                      <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-medium text-sm md:text-base">{document.name}</h3>
+                      <div className={`flex ${isMobile ? 'flex-col space-y-1' : 'items-center gap-4'} text-xs md:text-sm text-gray-600 mt-1`}>
                         <span className="flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
+                          <Calendar className="h-3 w-3 md:h-4 md:w-4" />
                           Expire le {new Date(document.expiryDate!).toLocaleDateString('fr-FR')}
                         </span>
                         <span>{document.size}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3">
+                  <div className={`flex ${isMobile ? 'justify-between items-center' : 'items-center space-x-3'}`}>
                     {getStatusBadge(document.status)}
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4 mr-2" />
+                    <div className={`flex ${isMobile ? 'space-x-2' : 'gap-2'}`}>
+                      <Button variant="outline" size="sm" className={isMobile ? 'text-xs px-2' : ''}>
+                        <Eye className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                         Voir
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <Download className="h-4 w-4 mr-2" />
+                      <Button variant="outline" size="sm" className={isMobile ? 'text-xs px-2' : ''}>
+                        <Download className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                         Télécharger
                       </Button>
                     </div>
@@ -187,19 +191,24 @@ const TenantDocuments = () => {
                 </div>
                 
                 {/* Section de mise à jour de l'assurance */}
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-medium text-blue-900 mb-2">Mettre à jour votre assurance</h4>
-                  <p className="text-sm text-blue-700 mb-3">
+                <div className="p-3 md:p-4 bg-blue-50 rounded-lg">
+                  <h4 className="font-medium text-blue-900 mb-2 text-sm md:text-base">Mettre à jour votre assurance</h4>
+                  <p className="text-xs md:text-sm text-blue-700 mb-3">
                     Votre assurance expire le {new Date(document.expiryDate!).toLocaleDateString('fr-FR')}. 
                     Pensez à télécharger votre nouvelle attestation.
                   </p>
-                  <div className="flex items-center gap-3">
-                    <Input type="file" accept=".pdf,.jpg,.jpeg,.png" className="flex-1" />
+                  <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'items-center gap-3'}`}>
+                    <Input 
+                      type="file" 
+                      accept=".pdf,.jpg,.jpeg,.png" 
+                      className={`${isMobile ? 'text-xs' : 'flex-1'}`} 
+                    />
                     <Button 
                       onClick={() => handleFileUpload('assurance')}
-                      className="bg-blue-600 hover:bg-blue-700"
+                      className={`bg-blue-600 hover:bg-blue-700 ${isMobile ? 'w-full text-xs' : ''}`}
+                      size={isMobile ? "sm" : "default"}
                     >
-                      <Upload className="h-4 w-4 mr-2" />
+                      <Upload className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                       Télécharger
                     </Button>
                   </div>
@@ -213,13 +222,13 @@ const TenantDocuments = () => {
       {/* Informations importantes */}
       <Card className="border-yellow-200 bg-yellow-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-yellow-800">
-            <AlertTriangle className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-yellow-800 text-lg md:text-xl">
+            <AlertTriangle className="h-4 w-4 md:h-5 md:w-5" />
             Informations importantes
           </CardTitle>
         </CardHeader>
         <CardContent className="text-yellow-700">
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-2 text-xs md:text-sm">
             <li>• L'assurance habitation doit être maintenue pendant toute la durée du bail</li>
             <li>• Toute modification de votre situation doit être signalée au propriétaire</li>
             <li>• Les documents peuvent être consultés et téléchargés à tout moment</li>
