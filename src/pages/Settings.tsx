@@ -8,16 +8,12 @@ import EmployeeManagement from '@/components/Settings/EmployeeManagement';
 import EmployeePermissionsTab from '@/components/Settings/EmployeePermissionsTab';
 import FirebaseTab from '@/components/Settings/FirebaseTab';
 import SimpleSettingsTab from '@/components/Settings/SimpleSettingsTab';
+import SecurityTab from '@/components/Settings/SecurityTab';
 
 const Settings = () => {
   const notificationsFields = [
     { id: 'email-notifications', label: 'Notifications par email', placeholder: 'Configurez vos notifications...' },
     { id: 'sms-notifications', label: 'Notifications SMS', placeholder: 'Configurez les SMS...' }
-  ];
-
-  const securityFields = [
-    { id: 'password-policy', label: 'Politique de mot de passe', placeholder: 'Configurez la sécurité...' },
-    { id: 'two-factor', label: 'Authentification à deux facteurs', placeholder: 'Configurez 2FA...' }
   ];
 
   const databaseFields = [
@@ -86,12 +82,7 @@ const Settings = () => {
           </TabsContent>
 
           <TabsContent value="security" className="space-y-4 md:space-y-6">
-            <SimpleSettingsTab
-              icon="🔐"
-              title="Paramètres de sécurité"
-              description="Configurez la sécurité"
-              fields={securityFields}
-            />
+            <SecurityTab />
           </TabsContent>
 
           <TabsContent value="permissions" className="space-y-4 md:space-y-6">
