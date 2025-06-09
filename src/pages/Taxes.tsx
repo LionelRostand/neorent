@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Calculator, Calendar, Building2, DollarSign, CheckCircle, Clock, XCircle, Receipt, TrendingUp, FileText } from 'lucide-react';
+import { Plus, Calculator, Calendar, Building2, DollarSign, CheckCircle, Clock, XCircle, Receipt, TrendingUp, FileText, Edit, Trash2 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import TaxDeclarationForm from '@/components/TaxDeclarationForm';
 
@@ -72,8 +73,9 @@ const currentYearTaxes = taxes.filter(t => t.year === currentYear);
 const Taxes = () => {
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [isDeclarationFormOpen, setIsDeclarationFormOpen] = useState(false);
+  const [taxList, setTaxList] = useState(taxes);
   
-  const filteredTaxes = taxes.filter(t => t.year === selectedYear);
+  const filteredTaxes = taxList.filter(t => t.year === selectedYear);
   const paidCount = filteredTaxes.filter(t => t.status === 'Payée').length;
   const pendingCount = filteredTaxes.filter(t => t.status === 'À payer').length;
   const todeclareCount = filteredTaxes.filter(t => t.status === 'À déclarer').length;
@@ -96,6 +98,25 @@ const Taxes = () => {
     console.log('Nouvelle déclaration fiscale:', declarationData);
     // Ici on pourrait ajouter la déclaration à la liste des taxes
     // Pour l'instant on log juste les données
+  };
+
+  const handleEditTax = (taxId: number) => {
+    console.log('Modifier la fiscalité:', taxId);
+    // Ici on pourrait ouvrir une modale d'édition
+  };
+
+  const handleDeleteTax = (taxId: number) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette fiscalité ?')) {
+      setTaxList(prev => prev.filter(tax => tax.id !== taxId));
+      console.log('Fiscalité supprimée:', taxId);
+    }
+  };
+
+  const handleMarkAsPaid = (taxId: number) => {
+    setTaxList(prev => prev.map(tax => 
+      tax.id === taxId ? { ...tax, status: 'Payée' } : tax
+    ));
+    console.log('Fiscalité marquée comme payée:', taxId);
   };
 
   return (
@@ -211,16 +232,33 @@ const Taxes = () => {
                       <p className="text-sm text-gray-600 mt-1">{tax.type}</p>
                       <p className="text-xs text-gray-500 mt-1">{tax.description}</p>
                     </div>
-                    <Badge 
-                      variant={tax.status === 'Payée' ? 'default' : tax.status === 'À déclarer' ? 'secondary' : 'destructive'}
-                      className={
-                        tax.status === 'Payée' ? 'bg-green-100 text-green-800' : 
-                        tax.status === 'À déclarer' ? 'bg-yellow-100 text-yellow-800' : 
-                        'bg-red-100 text-red-800'
-                      }
-                    >
-                      {tax.status}
-                    </Badge>
+                    <div className="flex items-center space-x-2">
+                      <Badge 
+                        variant={tax.status === 'Payée' ? 'default' : tax.status === 'À déclarer' ? 'secondary' : 'destructive'}
+                        className={
+                          tax.status === 'Payée' ? 'bg-green-100 text-green-800' : 
+                          tax.status === 'À déclarer' ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-red-100 text-red-800'
+                        }
+                      >
+                        {tax.status}
+                      </Badge>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditTax(tax.id)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteTax(tax.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                   
                   <div className="space-y-2">
@@ -247,9 +285,16 @@ const Taxes = () => {
                       <FileText className="mr-1 h-3 w-3" />
                       Détails
                     </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
-                      Actions
-                    </Button>
+                    {tax.status !== 'Payée' && (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1 bg-green-50 text-green-600 hover:bg-green-100"
+                        onClick={() => handleMarkAsPaid(tax.id)}
+                      >
+                        Marquer payé
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardContent>

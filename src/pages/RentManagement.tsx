@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,19 +12,65 @@ import {
   Home, 
   Calendar,
   DollarSign,
-  AlertTriangle
+  AlertTriangle,
+  Edit,
+  Trash2
 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import RentPaymentForm from '@/components/RentPaymentForm';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useToast } from '@/hooks/use-toast';
 
 const RentManagement = () => {
-  const { payments, loading, error } = useFirebasePayments();
+  const { payments, loading, error, updatePayment, deletePayment } = useFirebasePayments();
+  const { toast } = useToast();
 
   const paidCount = payments.filter(p => p.status === 'Payé').length;
   const lateCount = payments.filter(p => p.status === 'En retard').length;
   const pendingCount = payments.filter(p => p.status === 'En attente').length;
   const totalAmount = payments.reduce((sum, p) => sum + p.rentAmount, 0);
+
+  const handleMarkAsPaid = async (paymentId: string) => {
+    try {
+      await updatePayment(paymentId, {
+        status: 'Payé',
+        paymentDate: new Date().toISOString().split('T')[0],
+        paymentMethod: 'Virement'
+      });
+      toast({
+        title: "Succès",
+        description: "Le paiement a été marqué comme payé.",
+      });
+      console.log('Paiement marqué comme payé dans Rent_Payments:', paymentId);
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour du paiement:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la mise à jour du paiement.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeletePayment = async (paymentId: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce paiement ?')) {
+      try {
+        await deletePayment(paymentId);
+        toast({
+          title: "Succès",
+          description: "Le paiement a été supprimé avec succès.",
+        });
+        console.log('Paiement supprimé de Rent_Payments:', paymentId);
+      } catch (err) {
+        console.error('Erreur lors de la suppression du paiement:', err);
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la suppression du paiement.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -165,6 +211,16 @@ const RentManagement = () => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-red-600 hover:text-red-700"
+                        onClick={() => handleDeletePayment(payment.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                     {getStatusBadge(payment.status)}
                     <div className="text-right">
                       <p className="text-2xl font-bold text-gray-900">{payment.rentAmount}€</p>
@@ -177,7 +233,11 @@ const RentManagement = () => {
                     <Button variant="outline" size="sm">
                       Envoyer rappel
                     </Button>
-                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                    <Button 
+                      size="sm" 
+                      className="bg-green-600 hover:bg-green-700"
+                      onClick={() => handleMarkAsPaid(payment.id)}
+                    >
                       Marquer comme payé
                     </Button>
                   </div>

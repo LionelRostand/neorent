@@ -5,14 +5,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, FileText, Calendar, User, Building2, CheckCircle, Clock, XCircle, ScrollText } from 'lucide-react';
+import { Plus, FileText, Calendar, User, Building2, CheckCircle, Clock, XCircle, ScrollText, Edit, Trash2 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import ContractForm from '@/components/ContractForm';
+import ContractEditModal from '@/components/ContractEditModal';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
+import { useToast } from '@/hooks/use-toast';
 
 const Contracts = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { contracts, loading, error, addContract } = useFirebaseContracts();
+  const [editingContract, setEditingContract] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { contracts, loading, error, addContract, updateContract, deleteContract } = useFirebaseContracts();
+  const { toast } = useToast();
 
   const activeCount = contracts.filter(c => c.status === 'Actif').length;
   const expiredCount = contracts.filter(c => c.status === 'Expiré').length;
@@ -21,9 +26,61 @@ const Contracts = () => {
   const handleAddContract = async (data: any) => {
     try {
       await addContract(data);
+      toast({
+        title: "Succès",
+        description: "Le contrat a été ajouté avec succès.",
+      });
       console.log('Contrat ajouté à la collection Rent_contracts:', data);
     } catch (err) {
       console.error('Erreur lors de l\'ajout du contrat:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'ajout du contrat.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleEditContract = (contract: any) => {
+    setEditingContract(contract);
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateContract = async (id: string, updates: any) => {
+    try {
+      await updateContract(id, updates);
+      toast({
+        title: "Succès",
+        description: "Le contrat a été modifié avec succès.",
+      });
+      console.log('Contrat modifié dans la collection Rent_contracts:', { id, updates });
+    } catch (err) {
+      console.error('Erreur lors de la modification du contrat:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la modification du contrat.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteContract = async (id: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce contrat ?')) {
+      try {
+        await deleteContract(id);
+        toast({
+          title: "Succès",
+          description: "Le contrat a été supprimé avec succès.",
+        });
+        console.log('Contrat supprimé de la collection Rent_contracts:', id);
+      } catch (err) {
+        console.error('Erreur lors de la suppression du contrat:', err);
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la suppression du contrat.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -120,12 +177,29 @@ const Contracts = () => {
                       <h3 className="font-semibold text-lg text-gray-900">{contract.title}</h3>
                       <p className="text-sm text-gray-600 mt-1">{contract.type}</p>
                     </div>
-                    <Badge 
-                      variant={contract.status === 'Actif' ? 'default' : 'destructive'}
-                      className={contract.status === 'Actif' ? 'bg-green-100 text-green-800' : ''}
-                    >
-                      {contract.status}
-                    </Badge>
+                    <div className="flex items-center space-x-2">
+                      <Badge 
+                        variant={contract.status === 'Actif' ? 'default' : 'destructive'}
+                        className={contract.status === 'Actif' ? 'bg-green-100 text-green-800' : ''}
+                      >
+                        {contract.status}
+                      </Badge>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditContract(contract)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteContract(contract.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                   
                   <div className="space-y-2">
@@ -160,7 +234,12 @@ const Contracts = () => {
                     <Button variant="outline" size="sm" className="flex-1">
                       Voir détails
                     </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleEditContract(contract)}
+                    >
                       Modifier
                     </Button>
                   </div>
@@ -169,6 +248,13 @@ const Contracts = () => {
             </Card>
           ))}
         </div>
+
+        <ContractEditModal
+          contract={editingContract}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleUpdateContract}
+        />
       </div>
     </MainLayout>
   );

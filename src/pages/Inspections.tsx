@@ -5,17 +5,22 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, ClipboardList, Calendar, User, Building2, CheckCircle, Clock, XCircle, FileCheck } from 'lucide-react';
+import { Plus, ClipboardList, Calendar, User, Building2, CheckCircle, Clock, XCircle, FileCheck, Edit, Trash2 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import InspectionForm from '@/components/InspectionForm';
 import InspectionDetailsModal from '@/components/InspectionDetailsModal';
+import InspectionEditModal from '@/components/InspectionEditModal';
 import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
+import { useToast } from '@/hooks/use-toast';
 
 const Inspections = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { inspections, loading, error, addInspection, updateInspection } = useFirebaseInspections();
+  const { inspections, loading, error, addInspection, updateInspection, deleteInspection } = useFirebaseInspections();
   const [selectedInspection, setSelectedInspection] = useState(null);
+  const [editingInspection, setEditingInspection] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { toast } = useToast();
 
   const completedCount = inspections.filter(i => i.status === 'Terminé').length;
   const inProgressCount = inspections.filter(i => i.status === 'En cours').length;
@@ -25,9 +30,18 @@ const Inspections = () => {
   const handleSubmit = async (data: any) => {
     try {
       await addInspection(data);
+      toast({
+        title: "Succès",
+        description: "L'état des lieux a été ajouté avec succès.",
+      });
       console.log('État des lieux ajouté à la collection Rent_Inspections:', data);
     } catch (err) {
       console.error('Erreur lors de l\'ajout de l\'état des lieux:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'ajout de l'état des lieux.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -36,12 +50,47 @@ const Inspections = () => {
     setIsDetailsModalOpen(true);
   };
 
-  const handleUpdateInspection = async (updatedInspection: any) => {
+  const handleEditInspection = (inspection: any) => {
+    setEditingInspection(inspection);
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateInspection = async (id: string, updates: any) => {
     try {
-      await updateInspection(updatedInspection.id, updatedInspection);
-      setSelectedInspection(updatedInspection);
+      await updateInspection(id, updates);
+      toast({
+        title: "Succès",
+        description: "L'état des lieux a été modifié avec succès.",
+      });
+      console.log('État des lieux modifié dans la collection Rent_Inspections:', { id, updates });
+      setSelectedInspection({ ...selectedInspection, ...updates });
     } catch (err) {
       console.error('Erreur lors de la mise à jour de l\'état des lieux:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la modification de l'état des lieux.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteInspection = async (id: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer cet état des lieux ?')) {
+      try {
+        await deleteInspection(id);
+        toast({
+          title: "Succès",
+          description: "L'état des lieux a été supprimé avec succès.",
+        });
+        console.log('État des lieux supprimé de la collection Rent_Inspections:', id);
+      } catch (err) {
+        console.error('Erreur lors de la suppression de l\'état des lieux:', err);
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la suppression de l'état des lieux.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -138,16 +187,33 @@ const Inspections = () => {
                       <h3 className="font-semibold text-lg text-gray-900">{inspection.title}</h3>
                       <p className="text-sm text-gray-600 mt-1">{inspection.type}</p>
                     </div>
-                    <Badge 
-                      variant={inspection.status === 'Terminé' ? 'default' : inspection.status === 'En cours' ? 'secondary' : 'outline'}
-                      className={
-                        inspection.status === 'Terminé' ? 'bg-green-100 text-green-800' : 
-                        inspection.status === 'En cours' ? 'bg-yellow-100 text-yellow-800' : 
-                        'bg-blue-100 text-blue-800'
-                      }
-                    >
-                      {inspection.status}
-                    </Badge>
+                    <div className="flex items-center space-x-2">
+                      <Badge 
+                        variant={inspection.status === 'Terminé' ? 'default' : inspection.status === 'En cours' ? 'secondary' : 'outline'}
+                        className={
+                          inspection.status === 'Terminé' ? 'bg-green-100 text-green-800' : 
+                          inspection.status === 'En cours' ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-blue-100 text-blue-800'
+                        }
+                      >
+                        {inspection.status}
+                      </Badge>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditInspection(inspection)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteInspection(inspection.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                   
                   <div className="space-y-2">
@@ -178,7 +244,12 @@ const Inspections = () => {
                     >
                       Voir détails
                     </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleEditInspection(inspection)}
+                    >
                       Modifier
                     </Button>
                   </div>
@@ -196,6 +267,13 @@ const Inspections = () => {
             setSelectedInspection(null);
           }}
           onUpdate={handleUpdateInspection}
+        />
+
+        <InspectionEditModal
+          inspection={editingInspection}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleUpdateInspection}
         />
       </div>
     </MainLayout>
