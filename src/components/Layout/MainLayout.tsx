@@ -2,68 +2,53 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { MessageToast } from '@/components/Messages/MessageToast';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={toggleMobileMenu}
-          className="bg-white shadow-md"
-        >
-          {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-        </Button>
-      </div>
-
+    <div className="flex h-screen bg-gray-100">
       {/* Mobile overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
-          onClick={toggleMobileMenu}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={closeSidebar}
         />
       )}
 
       {/* Sidebar */}
       <div className={`
-        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:translate-x-0 
-        ${isSidebarOpen ? 'lg:w-64' : 'lg:w-16'} 
-        fixed lg:static inset-y-0 left-0 z-40 transition-all duration-300 ease-in-out
+        fixed lg:static inset-y-0 left-0 z-50 lg:z-auto
+        transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+        lg:translate-x-0 transition-transform duration-300 ease-in-out
       `}>
-        <Sidebar 
-          isCollapsed={!isSidebarOpen} 
-          onToggle={toggleSidebar}
-          onMobileClose={() => setIsMobileMenuOpen(false)}
-        />
+        <Sidebar onMobileClose={closeSidebar} />
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
-        <Header />
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Header onToggleSidebar={toggleSidebar} />
+        
+        <main className="flex-1 overflow-y-auto p-6">
           {children}
         </main>
       </div>
+
+      {/* Message notifications */}
+      <MessageToast />
     </div>
   );
 };
