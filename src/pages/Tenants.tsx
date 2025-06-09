@@ -5,133 +5,67 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Mail, Phone, Home, Calendar, CheckCircle, Clock, XCircle, Users, User } from 'lucide-react';
+import { Plus, Mail, Phone, Home, User, CheckCircle, Clock, XCircle, Users } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import TenantForm from '@/components/TenantForm';
 import TenantDetailsModal from '@/components/TenantDetailsModal';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 
 const Tenants = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedTenant, setSelectedTenant] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const [tenants, setTenants] = useState([
-    {
-      id: 1,
-      name: 'Marie Dubois',
-      email: 'marie.dubois@email.com',
-      phone: '06 12 34 56 78',
-      property: 'Appartement Rue des Fleurs',
-      rentAmount: '1,200€',
-      nextPayment: '2024-01-01',
-      status: 'À jour',
-      leaseStart: '2023-06-01',
-      image: null
-    },
-    {
-      id: 2,
-      name: 'Jean Martin',
-      email: 'jean.martin@email.com',
-      phone: '06 98 76 54 32',
-      property: 'Villa Montparnasse',
-      rentAmount: '2,500€',
-      nextPayment: '2024-01-01',
-      status: 'À jour',
-      leaseStart: '2023-03-15',
-      image: null
-    },
-    {
-      id: 3,
-      name: 'Sophie Leroy',
-      email: 'sophie.leroy@email.com',
-      phone: '06 11 22 33 44',
-      property: 'Appartement Boulevard Haussmann',
-      rentAmount: '1,800€',
-      nextPayment: '2023-12-28',
-      status: 'En retard',
-      leaseStart: '2023-01-10',
-      image: null
-    }
-  ]);
+  const { tenants, loading, error, addTenant } = useFirebaseTenants();
 
-  // Liste des biens immobiliers (simulée - normalement viendrait d'une API ou du state global)
-  const [properties] = useState([
-    {
-      id: 1,
-      title: 'Appartement Rue des Fleurs',
-      address: '123 Rue des Fleurs, 75001 Paris',
-      type: 'Appartement',
-      surface: '65m²',
-      rent: '1,200€',
-      status: 'Occupé',
-      tenant: 'Marie Dubois',
-      image: '/placeholder.svg',
-      locationType: 'Location'
-    },
-    {
-      id: 2,
-      title: 'Studio Centre-ville',
-      address: '45 Avenue de la République, 75011 Paris',
-      type: 'Studio',
-      surface: '30m²',
-      rent: '800€',
-      status: 'Libre',
-      tenant: null,
-      image: '/placeholder.svg',
-      locationType: 'Location'
-    },
-    {
-      id: 3,
-      title: 'Villa Montparnasse',
-      address: '78 Boulevard Montparnasse, 75014 Paris',
-      type: 'Maison',
-      surface: '120m²',
-      rent: '2,500€',
-      status: 'Occupé',
-      tenant: 'Jean Martin',
-      image: '/placeholder.svg',
-      locationType: 'Colocation'
-    },
-    {
-      id: 4,
-      title: 'Appartement Bastille',
-      address: '12 Place de la Bastille, 75011 Paris',
-      type: 'Appartement',
-      surface: '45m²',
-      rent: '1,000€',
-      status: 'Libre',
-      tenant: null,
-      image: '/placeholder.svg',
-      locationType: 'Location'
-    }
-  ]);
-
-  const activeCount = tenants.filter(t => t.status === 'À jour').length;
+  const activeCount = tenants.filter(t => t.status === 'Actif').length;
   const lateCount = tenants.filter(t => t.status === 'En retard').length;
   const totalCount = tenants.length;
 
-  const handleAddTenant = (data: any) => {
-    // Simuler l'ajout à la collection rent_locataires
-    const newTenant = {
-      id: tenants.length + 1,
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      property: data.property,
-      rentAmount: data.rentAmount,
-      status: 'À jour',
-      leaseStart: data.leaseStart,
-      nextPayment: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // +30 jours
-      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
-    };
+  const handleAddTenant = async (data: any) => {
+    try {
+      const newTenant = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        property: data.property,
+        rentAmount: data.rentAmount,
+        nextPayment: data.nextPayment,
+        status: 'Actif',
+        leaseStart: data.leaseStart,
+        image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
+      };
 
-    setTenants(prev => [...prev, newTenant]);
-    console.log('Locataire ajouté à la collection rent_locataires:', newTenant);
+      await addTenant(newTenant);
+      console.log('Locataire ajouté à la collection Rent_locataires:', newTenant);
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout du locataire:', err);
+    }
   };
 
   const handleViewDetails = (tenant: any) => {
     setSelectedTenant(tenant);
     setIsDetailsModalOpen(true);
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Chargement des locataires...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -151,7 +85,6 @@ const Tenants = () => {
             <TenantForm
               onClose={() => setIsDialogOpen(false)}
               onSubmit={handleAddTenant}
-              properties={properties}
             />
           </Dialog>
         </div>
@@ -161,23 +94,23 @@ const Tenants = () => {
           <MetricCard
             title="Locataires actifs"
             value={activeCount}
-            description={`${activeCount} locataire${activeCount > 1 ? 's' : ''} à jour`}
+            description={`${activeCount} locataire${activeCount > 1 ? 's' : ''} actif${activeCount > 1 ? 's' : ''}`}
             icon={CheckCircle}
             iconBgColor="bg-green-500"
             borderColor="border-l-green-500"
           />
           <MetricCard
-            title="En attente"
-            value={0}
-            description="0 locataire en attente"
+            title="En retard"
+            value={lateCount}
+            description={`${lateCount} locataire${lateCount > 1 ? 's' : ''} en retard`}
             icon={Clock}
             iconBgColor="bg-yellow-500"
             borderColor="border-l-yellow-500"
           />
           <MetricCard
-            title="En retard"
-            value={lateCount}
-            description={`${lateCount} locataire${lateCount > 1 ? 's' : ''} en retard`}
+            title="Inactifs"
+            value={0}
+            description="0 locataire inactif"
             icon={XCircle}
             iconBgColor="bg-red-500"
             borderColor="border-l-red-500"
@@ -199,12 +132,12 @@ const Tenants = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tenants.map((tenant) => (
-            <Card key={tenant.id} className="hover:shadow-lg transition-shadow h-full flex flex-col">
-              <CardContent className="p-6 flex-1 flex flex-col">
-                <div className="space-y-4 flex-1">
+            <Card key={tenant.id} className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="space-y-4">
                   <div className="flex justify-between items-start">
-                    <div className="flex items-center space-x-3 flex-1 min-w-0">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                         {tenant.image ? (
                           <img 
                             src={tenant.image} 
@@ -215,56 +148,49 @@ const Tenants = () => {
                           <User className="h-6 w-6 text-gray-400" />
                         )}
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-semibold text-lg text-gray-900 truncate">{tenant.name}</h3>
-                        <p className="text-sm text-gray-600 mt-1 truncate">{tenant.property}</p>
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-900">{tenant.name}</h3>
+                        <p className="text-sm text-gray-600 mt-1">{tenant.property}</p>
                       </div>
                     </div>
                     <Badge 
-                      variant={tenant.status === 'À jour' ? 'default' : 'destructive'}
-                      className={`${tenant.status === 'À jour' ? 'bg-green-100 text-green-800' : ''} flex-shrink-0 ml-2`}
+                      className={
+                        tenant.status === 'Actif' ? 'bg-green-100 text-green-800' :
+                        tenant.status === 'En retard' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }
                     >
                       {tenant.status}
                     </Badge>
                   </div>
                   
-                  <div className="space-y-2 flex-1">
+                  <div className="space-y-2">
                     <div className="flex items-center text-gray-600 text-sm">
-                      <Mail className="mr-2 h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">{tenant.email}</span>
+                      <Mail className="mr-2 h-4 w-4" />
+                      {tenant.email}
                     </div>
                     <div className="flex items-center text-gray-600 text-sm">
-                      <Phone className="mr-2 h-4 w-4 flex-shrink-0" />
-                      <span>{tenant.phone}</span>
+                      <Phone className="mr-2 h-4 w-4" />
+                      {tenant.phone}
                     </div>
                     <div className="flex items-center text-gray-600 text-sm">
-                      <Home className="mr-2 h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">Loyer: {tenant.rentAmount}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600 text-sm">
-                      <Calendar className="mr-2 h-4 w-4 flex-shrink-0" />
-                      <span>Début bail: {new Date(tenant.leaseStart).toLocaleDateString('fr-FR')}</span>
+                      <Home className="mr-2 h-4 w-4" />
+                      Loyer: {tenant.rentAmount}/mois
                     </div>
                   </div>
                   
-                  <div className="pt-4 border-t mt-auto">
-                    <p className="text-sm text-gray-600 mb-4">
-                      Prochain paiement: {new Date(tenant.nextPayment).toLocaleDateString('fr-FR')}
-                    </p>
-                    
-                    <div className="flex space-x-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="flex-1"
-                        onClick={() => handleViewDetails(tenant)}
-                      >
-                        Voir détails
-                      </Button>
-                      <Button variant="outline" size="sm" className="flex-1">
-                        Contacter
-                      </Button>
-                    </div>
+                  <div className="flex space-x-2 pt-4 border-t">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleViewDetails(tenant)}
+                    >
+                      Voir détails
+                    </Button>
+                    <Button variant="outline" size="sm" className="flex-1">
+                      Contacter
+                    </Button>
                   </div>
                 </div>
               </CardContent>

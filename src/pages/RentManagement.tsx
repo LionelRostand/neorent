@@ -1,14 +1,13 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   CheckCircle, 
   XCircle, 
   Clock, 
-  Users, 
   User, 
   Home, 
   Calendar,
@@ -17,60 +16,15 @@ import {
 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import RentPaymentForm from '@/components/RentPaymentForm';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 
 const RentManagement = () => {
-  // Mock data pour les paiements de loyer
-  const [rentPayments] = useState([
-    {
-      id: 1,
-      tenantName: 'Marie Dubois',
-      tenantType: 'Locataire',
-      property: 'Appartement Rue des Fleurs',
-      rentAmount: 1200,
-      dueDate: '2024-01-01',
-      status: 'Payé',
-      paymentDate: '2023-12-28',
-      paymentMethod: 'Virement'
-    },
-    {
-      id: 2,
-      tenantName: 'Jean Martin',
-      tenantType: 'Locataire',
-      property: 'Villa Montparnasse',
-      rentAmount: 2500,
-      dueDate: '2024-01-01',
-      status: 'Payé',
-      paymentDate: '2023-12-30',
-      paymentMethod: 'Prélèvement'
-    },
-    {
-      id: 3,
-      tenantName: 'Sophie Leroy',
-      tenantType: 'Colocataire',
-      property: 'Appartement Bastille - Chambre 1',
-      rentAmount: 800,
-      dueDate: '2024-01-01',
-      status: 'En retard',
-      paymentDate: null,
-      paymentMethod: null
-    },
-    {
-      id: 4,
-      tenantName: 'Pierre Durand',
-      tenantType: 'Colocataire',
-      property: 'Appartement Bastille - Chambre 2',
-      rentAmount: 850,
-      dueDate: '2024-01-01',
-      status: 'En attente',
-      paymentDate: null,
-      paymentMethod: null
-    }
-  ]);
+  const { payments, loading, error } = useFirebasePayments();
 
-  const paidCount = rentPayments.filter(p => p.status === 'Payé').length;
-  const lateCount = rentPayments.filter(p => p.status === 'En retard').length;
-  const pendingCount = rentPayments.filter(p => p.status === 'En attente').length;
-  const totalAmount = rentPayments.reduce((sum, p) => sum + p.rentAmount, 0);
+  const paidCount = payments.filter(p => p.status === 'Payé').length;
+  const lateCount = payments.filter(p => p.status === 'En retard').length;
+  const pendingCount = payments.filter(p => p.status === 'En attente').length;
+  const totalAmount = payments.reduce((sum, p) => sum + p.rentAmount, 0);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -97,6 +51,26 @@ const RentManagement = () => {
         return <AlertTriangle className="h-5 w-5 text-gray-600" />;
     }
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Chargement des paiements...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -152,7 +126,7 @@ const RentManagement = () => {
 
         {/* Liste des paiements */}
         <div className="grid grid-cols-1 gap-4">
-          {rentPayments.map((payment) => (
+          {payments.map((payment) => (
             <Card key={payment.id} className="hover:shadow-md transition-shadow">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">

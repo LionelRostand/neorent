@@ -7,74 +7,54 @@ import { Plus } from 'lucide-react';
 import PropertyForm from '@/components/PropertyForm';
 import PropertyMetrics from '@/components/PropertyMetrics';
 import PropertyList from '@/components/PropertyList';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 const Properties = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [properties, setProperties] = useState([
-    {
-      id: 1,
-      title: 'Appartement Rue des Fleurs',
-      address: '123 Rue des Fleurs, 75001 Paris',
-      type: 'Appartement',
-      surface: '65m²',
-      rent: '1,200€',
-      status: 'Occupé',
-      tenant: 'Marie Dubois',
-      image: '/placeholder.svg',
-      locationType: 'Location',
-      totalRooms: null,
-      availableRooms: null
-    },
-    {
-      id: 2,
-      title: 'Studio Centre-ville',
-      address: '45 Avenue de la République, 75011 Paris',
-      type: 'Studio',
-      surface: '30m²',
-      rent: '800€',
-      status: 'Libre',
-      tenant: null,
-      image: '/placeholder.svg',
-      locationType: 'Location',
-      totalRooms: null,
-      availableRooms: null
-    },
-    {
-      id: 3,
-      title: 'Villa Montparnasse',
-      address: '78 Boulevard Montparnasse, 75014 Paris',
-      type: 'Maison',
-      surface: '120m²',
-      rent: '2,500€',
-      status: 'Occupé',
-      tenant: 'Jean Martin',
-      image: '/placeholder.svg',
-      locationType: 'Colocation',
-      totalRooms: 4,
-      availableRooms: 1
+  const { properties, loading, error, addProperty } = useFirebaseProperties();
+
+  const handleAddProperty = async (data: any) => {
+    try {
+      const newProperty = {
+        title: data.title,
+        address: data.address,
+        type: data.type,
+        surface: data.surface,
+        rent: data.rent,
+        status: 'Libre',
+        tenant: null,
+        image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg',
+        locationType: data.locationType,
+        totalRooms: data.locationType === 'Colocation' ? data.totalRooms : null,
+        availableRooms: data.locationType === 'Colocation' ? data.totalRooms : null
+      };
+
+      await addProperty(newProperty);
+      console.log('Bien ajouté à la collection Rent_properties:', newProperty);
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout du bien:', err);
     }
-  ]);
-
-  const handleAddProperty = (data: any) => {
-    // Simuler l'ajout à la collection rent_immo
-    const newProperty = {
-      id: properties.length + 1,
-      title: data.title,
-      address: data.address,
-      type: data.type,
-      surface: data.surface,
-      rent: data.rent,
-      status: 'Libre',
-      tenant: null,
-      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg',
-      locationType: data.locationType,
-      totalRooms: data.locationType === 'Colocation' ? data.totalRooms : null,
-      availableRooms: data.locationType === 'Colocation' ? data.totalRooms : null
-    };
-
-    setProperties(prev => [...prev, newProperty]);
-    console.log('Bien ajouté à la collection rent_immo:', newProperty);
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Chargement des biens immobiliers...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>

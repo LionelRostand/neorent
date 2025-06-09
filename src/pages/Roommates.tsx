@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,119 +9,65 @@ import { Plus, Mail, Phone, Home, UserCheck, CheckCircle, Clock, XCircle, Users 
 import MetricCard from '@/components/MetricCard';
 import RoommateForm from '@/components/RoommateForm';
 import RoommateDetailsModal from '@/components/RoommateDetailsModal';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 const Roommates = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRoommate, setSelectedRoommate] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const [roommates, setRoommates] = useState([
-    {
-      id: 1,
-      name: 'Pierre Durand',
-      email: 'pierre.durand@email.com',
-      phone: '06 11 22 33 44',
-      property: 'Appartement Rue des Fleurs',
-      roomNumber: 'Chambre 1',
-      rentAmount: '600€',
-      status: 'Actif',
-      primaryTenant: 'Marie Dubois',
-      moveInDate: '2023-09-15',
-      image: null
-    },
-    {
-      id: 2,
-      name: 'Julie Martin',
-      email: 'julie.martin@email.com',
-      phone: '06 55 66 77 88',
-      property: 'Appartement Rue des Fleurs',
-      roomNumber: 'Chambre 2',
-      rentAmount: '600€',
-      status: 'Actif',
-      primaryTenant: 'Marie Dubois',
-      moveInDate: '2023-10-01',
-      image: null
-    }
-  ]);
-
-  // Liste des biens immobiliers (simulée - normalement viendrait d'une API ou du state global)
-  const [properties] = useState([
-    {
-      id: 1,
-      title: 'Appartement Rue des Fleurs',
-      address: '123 Rue des Fleurs, 75001 Paris',
-      type: 'Appartement',
-      surface: '65m²',
-      rent: '1,200€',
-      status: 'Occupé',
-      tenant: 'Marie Dubois',
-      image: '/placeholder.svg',
-      locationType: 'Location'
-    },
-    {
-      id: 2,
-      title: 'Studio Centre-ville',
-      address: '45 Avenue de la République, 75011 Paris',
-      type: 'Studio',
-      surface: '30m²',
-      rent: '800€',
-      status: 'Libre',
-      tenant: null,
-      image: '/placeholder.svg',
-      locationType: 'Location'
-    },
-    {
-      id: 3,
-      title: 'Villa Montparnasse',
-      address: '78 Boulevard Montparnasse, 75014 Paris',
-      type: 'Maison',
-      surface: '120m²',
-      rent: '2,500€',
-      status: 'Occupé',
-      tenant: 'Jean Martin',
-      image: '/placeholder.svg',
-      locationType: 'Colocation'
-    },
-    {
-      id: 4,
-      title: 'Appartement République',
-      address: '56 Place de la République, 75003 Paris',
-      type: 'Appartement',
-      surface: '85m²',
-      rent: '1,800€',
-      status: 'Libre',
-      tenant: null,
-      image: '/placeholder.svg',
-      locationType: 'Colocation'
-    }
-  ]);
+  const { roommates, loading, error, addRoommate } = useFirebaseRoommates();
+  const { properties } = useFirebaseProperties();
 
   const activeCount = roommates.filter(r => r.status === 'Actif').length;
   const totalCount = roommates.length;
 
-  const handleAddRoommate = (data: any) => {
-    // Simuler l'ajout à la collection rent_colocataires
-    const newRoommate = {
-      id: roommates.length + 1,
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      property: data.property,
-      roomNumber: data.roomNumber,
-      rentAmount: data.rentAmount,
-      status: 'Actif',
-      primaryTenant: data.primaryTenant,
-      moveInDate: data.moveInDate,
-      image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
-    };
+  const handleAddRoommate = async (data: any) => {
+    try {
+      const newRoommate = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        property: data.property,
+        roomNumber: data.roomNumber,
+        rentAmount: data.rentAmount,
+        status: 'Actif',
+        primaryTenant: data.primaryTenant,
+        moveInDate: data.moveInDate,
+        image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
+      };
 
-    setRoommates(prev => [...prev, newRoommate]);
-    console.log('Colocataire ajouté à la collection rent_colocataires:', newRoommate);
+      await addRoommate(newRoommate);
+      console.log('Colocataire ajouté à la collection Rent_colocataires:', newRoommate);
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout du colocataire:', err);
+    }
   };
 
   const handleViewDetails = (roommate: any) => {
     setSelectedRoommate(roommate);
     setIsDetailsModalOpen(true);
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Chargement des colocataires...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>

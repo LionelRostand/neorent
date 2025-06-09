@@ -8,65 +8,44 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, FileText, Calendar, User, Building2, CheckCircle, Clock, XCircle, ScrollText } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import ContractForm from '@/components/ContractForm';
+import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 
 const Contracts = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [contracts, setContracts] = useState([
-    {
-      id: 1,
-      title: 'Contrat de maintenance - Villa Montparnasse',
-      type: 'Maintenance',
-      provider: 'Plomberie Express',
-      property: 'Villa Montparnasse',
-      startDate: '2023-01-15',
-      endDate: '2024-01-15',
-      amount: '1,200€',
-      status: 'Actif',
-      tenant: 'Jean Martin (Locataire)',
-      jurisdiction: 'française'
-    },
-    {
-      id: 2,
-      title: 'Contrat assurance - Appartement Rue des Fleurs',
-      type: 'Assurance',
-      provider: 'Assur Immo',
-      property: 'Appartement Rue des Fleurs',
-      startDate: '2023-06-01',
-      endDate: '2024-06-01',
-      amount: '800€',
-      status: 'Actif',
-      tenant: 'Marie Dubois (Locataire)',
-      jurisdiction: 'française'
-    },
-    {
-      id: 3,
-      title: 'Contrat syndic - Résidence Les Jardins',
-      type: 'Syndic',
-      provider: 'Syndic Pro',
-      property: 'Studio Centre-ville',
-      startDate: '2023-01-01',
-      endDate: '2023-12-31',
-      amount: '600€',
-      status: 'Expiré',
-      tenant: 'Sophie Leroy (Locataire)',
-      jurisdiction: 'camerounaise'
-    }
-  ]);
+  const { contracts, loading, error, addContract } = useFirebaseContracts();
 
   const activeCount = contracts.filter(c => c.status === 'Actif').length;
   const expiredCount = contracts.filter(c => c.status === 'Expiré').length;
   const totalCount = contracts.length;
 
-  const handleAddContract = (data: any) => {
-    // Simuler l'ajout à la collection rent_contrats
-    const newContract = {
-      ...data,
-      id: contracts.length + 1
-    };
-
-    setContracts(prev => [...prev, newContract]);
-    console.log('Contrat ajouté à la collection rent_contrats:', newContract);
+  const handleAddContract = async (data: any) => {
+    try {
+      await addContract(data);
+      console.log('Contrat ajouté à la collection Rent_contracts:', data);
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout du contrat:', err);
+    }
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Chargement des contrats...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>

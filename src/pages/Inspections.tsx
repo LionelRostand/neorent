@@ -9,61 +9,26 @@ import { Plus, ClipboardList, Calendar, User, Building2, CheckCircle, Clock, XCi
 import MetricCard from '@/components/MetricCard';
 import InspectionForm from '@/components/InspectionForm';
 import InspectionDetailsModal from '@/components/InspectionDetailsModal';
-
-const inspections = [
-  {
-    id: 1,
-    title: 'État des lieux d\'entrée - Marie Dubois',
-    type: 'Entrée',
-    tenant: 'Marie Dubois',
-    property: 'Appartement Rue des Fleurs',
-    date: '2023-06-01',
-    inspector: 'Pierre Inspection',
-    status: 'Terminé',
-    contractType: 'Bail locatif',
-    description: 'État des lieux d\'entrée complet',
-    observations: 'Quelques petites marques sur les murs'
-  },
-  {
-    id: 2,
-    title: 'État des lieux de sortie - Sophie Leroy',
-    type: 'Sortie',
-    tenant: 'Sophie Leroy',
-    property: 'Appartement Boulevard Haussmann',
-    date: '2024-01-15',
-    inspector: 'Marie Expert',
-    status: 'Planifié',
-    contractType: 'Bail locatif'
-  },
-  {
-    id: 3,
-    title: 'Inspection périodique - Villa Montparnasse',
-    type: 'Périodique',
-    tenant: 'Pierre Durand (Colocataire)',
-    property: 'Villa Montparnasse',
-    roomNumber: 'Chambre 1',
-    date: '2023-12-20',
-    inspector: 'Pierre Inspection',
-    status: 'En cours',
-    contractType: 'Bail colocatif',
-    description: 'Inspection de routine',
-    observations: 'Bon état général'
-  }
-];
+import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 
 const Inspections = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [inspectionsList, setInspectionsList] = useState(inspections);
+  const { inspections, loading, error, addInspection, updateInspection } = useFirebaseInspections();
   const [selectedInspection, setSelectedInspection] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
-  const completedCount = inspectionsList.filter(i => i.status === 'Terminé').length;
-  const inProgressCount = inspectionsList.filter(i => i.status === 'En cours').length;
-  const plannedCount = inspectionsList.filter(i => i.status === 'Planifié').length;
-  const totalCount = inspectionsList.length;
+  const completedCount = inspections.filter(i => i.status === 'Terminé').length;
+  const inProgressCount = inspections.filter(i => i.status === 'En cours').length;
+  const plannedCount = inspections.filter(i => i.status === 'Planifié').length;
+  const totalCount = inspections.length;
 
-  const handleSubmit = (data: any) => {
-    setInspectionsList(prev => [...prev, data]);
+  const handleSubmit = async (data: any) => {
+    try {
+      await addInspection(data);
+      console.log('État des lieux ajouté à la collection Rent_Inspections:', data);
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout de l\'état des lieux:', err);
+    }
   };
 
   const handleViewDetails = (inspection: any) => {
@@ -71,14 +36,34 @@ const Inspections = () => {
     setIsDetailsModalOpen(true);
   };
 
-  const handleUpdateInspection = (updatedInspection: any) => {
-    setInspectionsList(prev => 
-      prev.map(inspection => 
-        inspection.id === updatedInspection.id ? updatedInspection : inspection
-      )
-    );
-    setSelectedInspection(updatedInspection);
+  const handleUpdateInspection = async (updatedInspection: any) => {
+    try {
+      await updateInspection(updatedInspection.id, updatedInspection);
+      setSelectedInspection(updatedInspection);
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour de l\'état des lieux:', err);
+    }
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Chargement des états des lieux...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -144,7 +129,7 @@ const Inspections = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {inspectionsList.map((inspection) => (
+          {inspections.map((inspection) => (
             <Card key={inspection.id} className="hover:shadow-lg transition-shadow">
               <CardContent className="p-6">
                 <div className="space-y-4">

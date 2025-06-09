@@ -10,10 +10,10 @@ import YearSelector from '@/components/RentalCharges/YearSelector';
 import ViewSelector from '@/components/RentalCharges/ViewSelector';
 import ChargesList from '@/components/RentalCharges/ChargesList';
 import AnnualChargesList from '@/components/RentalCharges/AnnualChargesList';
-import { useChargesData } from '@/hooks/useChargesData';
+import { useFirebaseCharges } from '@/hooks/useFirebaseCharges';
 
 const RentalCharges = () => {
-  const { charges, addCharge, deleteCharge } = useChargesData();
+  const { charges, loading, error, addCharge, deleteCharge } = useFirebaseCharges();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('2024-12');
   const [selectedYear, setSelectedYear] = useState('2024');
@@ -29,6 +29,35 @@ const RentalCharges = () => {
     ? filteredCharges.length 
     : new Set(filteredCharges.map(c => c.propertyName)).size;
   const highestCharge = filteredCharges.length > 0 ? Math.max(...filteredCharges.map(c => c.total)) : 0;
+
+  const handleAddCharge = async (data: any) => {
+    try {
+      await addCharge(data);
+      console.log('Charge ajoutée à la collection Rent_Charges:', data);
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout de la charge:', err);
+    }
+  };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Chargement des charges...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -93,7 +122,7 @@ const RentalCharges = () => {
         <RentalChargeForm
           isOpen={isFormOpen}
           onClose={() => setIsFormOpen(false)}
-          onSubmit={addCharge}
+          onSubmit={handleAddCharge}
         />
       </div>
     </MainLayout>
