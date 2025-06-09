@@ -4,7 +4,7 @@ import PropertyCard from './PropertyCard';
 import PropertyDetailsModal from './PropertyDetailsModal';
 
 interface Property {
-  id: number;
+  id: string; // Changed from number to string for Firebase compatibility
   title: string;
   address: string;
   type: string;

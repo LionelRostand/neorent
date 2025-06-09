@@ -1,4 +1,3 @@
-
 import React from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -6,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus, Edit, Trash2, Shield } from 'lucide-react';
+import { Plus, Edit, Trash2, Shield, Database, Lock, Key } from 'lucide-react';
 
 const Settings = () => {
   const employees = [
@@ -23,6 +22,57 @@ const Settings = () => {
   const securityRules = `rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Collections de l'application de gestion locative
+    
+    // Biens immobiliers - Lecture pour tous les authentifiés, écriture pour admins
+    match /Rent_properties/{propertyId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Locataires - Lecture pour tous les authentifiés, écriture pour admins
+    match /Rent_locataires/{tenantId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Colocataires - Lecture pour tous les authentifiés, écriture pour admins  
+    match /Rent_colocataires/{roommateId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Contrats de bail - Lecture pour tous les authentifiés, écriture pour admins
+    match /Rent_contracts/{contractId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // État des lieux - Lecture pour tous les authentifiés, écriture pour admins
+    match /Rent_Inspections/{inspectionId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Paiements des loyers - Lecture pour tous les authentifiés, écriture pour admins
+    match /Rent_Payments/{paymentId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Charges locatives - Lecture pour tous les authentifiés, écriture pour admins
+    match /Rent_Charges/{chargeId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
     // Employés - Lecture pour tous les authentifiés, écriture pour admins
     match /employees/{employeeId} {
       allow read: if request.auth != null;
@@ -44,6 +94,45 @@ service cloud.firestore {
       allow read, write: if request.auth != null && 
         get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
     }
+    
+    // Documents des locataires - Accès restreint aux propriétaires et locataires concernés
+    match /tenant_documents/{documentId} {
+      allow read, write: if request.auth != null && 
+        (get(/databases/$(database)/documents/user_roles/$(request.auth.uid)).data.role == 'admin' ||
+         resource.data.tenantId == request.auth.uid);
+    }
+  }
+}`;
+
+  const authRules = `rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Images des biens immobiliers
+    match /properties/{propertyId}/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        firestore.get(/databases/(default)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Documents des locataires
+    match /tenant_documents/{tenantId}/{allPaths=**} {
+      allow read, write: if request.auth != null && 
+        (firestore.get(/databases/(default)/documents/user_roles/$(request.auth.uid)).data.role == 'admin' ||
+         request.auth.uid == tenantId);
+    }
+    
+    // Documents des contrats
+    match /contracts/{contractId}/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        firestore.get(/databases/(default)/documents/user_roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Images de profil
+    match /profile_images/{userId}/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
   }
 }`;
 
@@ -57,9 +146,13 @@ service cloud.firestore {
           </p>
         </div>
 
-        <Tabs defaultValue="general" className="space-y-4 md:space-y-6">
+        <Tabs defaultValue="firebase" className="space-y-4 md:space-y-6">
           <div className="overflow-x-auto">
-            <TabsList className="grid w-full min-w-[500px] grid-cols-5 bg-gray-100 mx-1">
+            <TabsList className="grid w-full min-w-[600px] grid-cols-6 bg-gray-100 mx-1">
+              <TabsTrigger value="firebase" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+                <Database className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="truncate">Firebase</span>
+              </TabsTrigger>
               <TabsTrigger value="general" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
                 <span className="hidden sm:inline">⚙️</span>
                 <span className="truncate">Général</span>
@@ -69,7 +162,7 @@ service cloud.firestore {
                 <span className="truncate">Notifications</span>
               </TabsTrigger>
               <TabsTrigger value="security" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
-                <span className="hidden sm:inline">🔐</span>
+                <Lock className="h-3 w-3 md:h-4 md:w-4" />
                 <span className="truncate">Sécurité</span>
               </TabsTrigger>
               <TabsTrigger value="permissions" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
@@ -84,6 +177,110 @@ service cloud.firestore {
               </TabsTrigger>
             </TabsList>
           </div>
+
+          <TabsContent value="firebase" className="space-y-4 md:space-y-6">
+            {/* Section Règles Firestore */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                  <Shield className="h-5 w-5 text-red-600" />
+                  Règles de sécurité Firestore
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-4">
+                  Copiez et collez ces règles dans votre console Firebase (Firestore Database → Règles) :
+                </p>
+                
+                <div className="bg-gray-900 text-gray-100 p-3 md:p-4 rounded-lg overflow-x-auto">
+                  <pre className="text-xs whitespace-pre-wrap">
+                    <code>{securityRules}</code>
+                  </pre>
+                </div>
+                
+                <div className="mt-4 p-3 md:p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <span className="text-red-600 text-sm">🚨</span>
+                    <div className="text-sm">
+                      <p className="font-medium text-red-800 mb-1">IMPORTANT - Configuration requise :</p>
+                      <ul className="text-red-700 space-y-1">
+                        <li>• Activez l'authentification Firebase (Authentication)</li>
+                        <li>• Créez la collection <code className="bg-red-100 px-1 rounded">user_roles</code></li>
+                        <li>• Ajoutez un document avec votre UID utilisateur et <code className="bg-red-100 px-1 rounded">role: "admin"</code></li>
+                        <li>• Testez les règles avant de publier</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Section Règles Storage */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                  <Key className="h-5 w-5 text-orange-600" />
+                  Règles de sécurité Storage
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-4">
+                  Copiez et collez ces règles dans votre console Firebase (Storage → Règles) :
+                </p>
+                
+                <div className="bg-gray-900 text-gray-100 p-3 md:p-4 rounded-lg overflow-x-auto">
+                  <pre className="text-xs whitespace-pre-wrap">
+                    <code>{authRules}</code>
+                  </pre>
+                </div>
+                
+                <div className="mt-4 p-3 md:p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <span className="text-orange-600 text-sm">⚠️</span>
+                    <div className="text-sm">
+                      <p className="font-medium text-orange-800 mb-1">Configuration Storage :</p>
+                      <ul className="text-orange-700 space-y-1">
+                        <li>• Activez Firebase Storage</li>
+                        <li>• Créez les dossiers nécessaires dans Storage</li>
+                        <li>• Configurez les CORS si nécessaire</li>
+                        <li>• Vérifiez les quotas de stockage</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Section Collections Firebase */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                  <Database className="h-5 w-5 text-blue-600" />
+                  Collections Firebase configurées
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { name: 'Rent_properties', description: 'Biens immobiliers' },
+                    { name: 'Rent_locataires', description: 'Locataires' },
+                    { name: 'Rent_colocataires', description: 'Colocataires' },
+                    { name: 'Rent_contracts', description: 'Contrats de bail' },
+                    { name: 'Rent_Inspections', description: 'États des lieux' },
+                    { name: 'Rent_Payments', description: 'Paiements des loyers' },
+                    { name: 'Rent_Charges', description: 'Charges locatives' },
+                    { name: 'user_roles', description: 'Rôles utilisateurs' },
+                    { name: 'audit_logs', description: 'Logs d\'audit' }
+                  ].map((collection) => (
+                    <div key={collection.name} className="p-3 border border-gray-200 rounded-lg">
+                      <h4 className="font-medium text-sm text-gray-900">{collection.name}</h4>
+                      <p className="text-xs text-gray-600 mt-1">{collection.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="general" className="space-y-4 md:space-y-6">
             {/* Section Compte Employés */}

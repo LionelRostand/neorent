@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Home, DollarSign, Users, Bed } from 'lucide-react';
 
 interface Property {
-  id: number;
+  id: string; // Changed from number to string for Firebase compatibility
   title: string;
   address: string;
   type: string;
