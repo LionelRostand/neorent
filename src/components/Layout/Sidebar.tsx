@@ -91,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="bg-emerald-500 w-64 min-h-screen flex flex-col">
+    <div className="bg-green-500 w-64 min-h-screen flex flex-col">
       <div className="p-6">
         <h1 className="text-xl font-bold text-white">NeoRent</h1>
       </div>
@@ -106,8 +106,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
                 to={item.path}
                 className={`flex items-center px-3 py-2 text-sm font-medium rounded-md mb-1 transition-colors ${
                   isActive(item.path)
-                    ? 'bg-emerald-400 text-white'
-                    : 'text-white/90 hover:text-white hover:bg-emerald-400/50'
+                    ? 'bg-green-400 text-white'
+                    : 'text-white/90 hover:text-white hover:bg-green-400/50'
                 }`}
                 onClick={onMobileClose}
               >
@@ -119,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
         </div>
       </nav>
 
-      <div className="p-4 border-t border-emerald-400">
+      <div className="p-4 border-t border-green-400">
         <div className="text-center">
           <div className="text-white text-sm font-medium animate-pulse">
             NEOTECH-CONSULTING
