@@ -90,9 +90,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="bg-white border-r border-gray-200 w-64 min-h-screen">
+    <div className="bg-green-50 border-r border-green-200 w-64 min-h-screen">
       <div className="p-6">
-        <h1 className="text-xl font-bold text-gray-900">Neo Rent</h1>
+        <h1 className="text-xl font-bold text-green-800">NeoRent</h1>
       </div>
       
       <nav className="mt-6">
@@ -106,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
                 className={`flex items-center px-3 py-2 text-sm font-medium rounded-md mb-1 transition-colors ${
                   isActive(item.path)
                     ? 'bg-green-100 text-green-700'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    : 'text-green-600 hover:text-green-800 hover:bg-green-50'
                 }`}
                 onClick={onMobileClose}
               >
