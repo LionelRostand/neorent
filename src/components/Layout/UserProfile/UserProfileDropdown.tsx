@@ -82,6 +82,10 @@ export const UserProfileDropdown = () => {
                 <UserCheck className="mr-2 h-4 w-4" />
                 <span>Mon profil</span>
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setIsPasswordDialogOpen(true)}>
+                <Lock className="mr-2 h-4 w-4" />
+                <span>Changer le mot de passe</span>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleTenantSpaceAccess}>
                 <Home className="mr-2 h-4 w-4" />
                 <span>Espace locataire</span>
@@ -90,11 +94,6 @@ export const UserProfileDropdown = () => {
             </>
           )}
           
-          <DropdownMenuItem onClick={() => setIsPasswordDialogOpen(true)}>
-            <Lock className="mr-2 h-4 w-4" />
-            <span>Changer le mot de passe</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Se déconnecter</span>
