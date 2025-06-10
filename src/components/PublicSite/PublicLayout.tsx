@@ -21,10 +21,10 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
       <header className="bg-white shadow-sm border-b">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
+            <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
               <Home className="h-8 w-8 text-green-600" />
               <span className="ml-2 text-xl font-bold text-gray-900">Neo Rent</span>
-            </div>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
@@ -114,10 +114,10 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <div className="flex items-center">
+              <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
                 <Home className="h-6 w-6 text-green-400" />
                 <span className="ml-2 text-lg font-bold">Neo Rent</span>
-              </div>
+              </Link>
               <p className="mt-4 text-gray-400 text-sm lg:text-base">
                 Votre partenaire de confiance pour la gestion immobilière.
               </p>

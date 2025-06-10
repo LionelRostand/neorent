@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { UserProfileDropdown } from './UserProfile/UserProfileDropdown';
 import { MessageNotification } from '@/components/Messages/MessageNotification';
 
@@ -22,7 +23,10 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           >
             <Menu className="h-5 w-5" />
           </Button>
-          <h1 className="text-xl font-semibold text-gray-800">NeoRent Admin</h1>
+          <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <Home className="h-6 w-6 text-green-600 mr-2" />
+            <h1 className="text-xl font-semibold text-gray-800">NeoRent Admin</h1>
+          </Link>
         </div>
         
         <div className="flex items-center space-x-4">
