@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import { 
   CreditCard, 
   Download, 
@@ -11,12 +12,28 @@ import {
   Clock, 
   Euro,
   Receipt,
-  TrendingUp
+  TrendingUp,
+  FileText
 } from 'lucide-react';
 
 const RentHistory = () => {
   const [selectedYear, setSelectedYear] = useState('2024');
   const isMobile = useIsMobile();
+  
+  // Données simulées - à remplacer par les vraies données
+  const tenantData = {
+    name: 'Marie Dubois',
+    type: 'Locataire' as 'Locataire' | 'Colocataire',
+    propertyAddress: '45 Rue de la Paix, 75001 Paris',
+    propertyType: 'Appartement'
+  };
+  
+  const { generateReceipt } = useReceiptGeneration({
+    tenantName: tenantData.name,
+    tenantType: tenantData.type,
+    propertyAddress: tenantData.propertyAddress,
+    propertyType: tenantData.propertyType
+  });
   
   const rentPayments = [
     {
@@ -68,6 +85,20 @@ const RentHistory = () => {
       receiptUrl: null
     }
   ];
+
+  const handleDownloadReceipt = (payment: typeof rentPayments[0]) => {
+    if (payment.status !== 'Payé' || !payment.paymentDate) {
+      return;
+    }
+    
+    generateReceipt({
+      month: payment.month,
+      rentAmount: payment.rent,
+      charges: payment.charges,
+      paymentDate: payment.paymentDate,
+      paymentMethod: payment.method || 'Non spécifié'
+    });
+  };
 
   const getStatusBadge = (status: string) => {
     const className = `text-xs ${isMobile ? 'px-2 py-1' : ''}`;
@@ -193,10 +224,15 @@ const RentHistory = () => {
                   <div className={`flex ${isMobile ? 'justify-between items-center' : 'items-center gap-3'}`}>
                     {getStatusBadge(payment.status)}
                     
-                    {payment.receiptUrl ? (
-                      <Button variant="outline" size="sm" className={isMobile ? 'text-xs px-3 py-1' : ''}>
-                        <Download className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
-                        Quittance
+                    {payment.status === 'Payé' ? (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className={isMobile ? 'text-xs px-3 py-1' : ''}
+                        onClick={() => handleDownloadReceipt(payment)}
+                      >
+                        <FileText className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+                        Quittance PDF
                       </Button>
                     ) : (
                       <Button variant="outline" size="sm" disabled className={isMobile ? 'text-xs px-3 py-1' : ''}>
@@ -243,3 +279,5 @@ const RentHistory = () => {
 };
 
 export default RentHistory;
+
+</edits_to_apply>
