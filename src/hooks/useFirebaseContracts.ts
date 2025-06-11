@@ -15,6 +15,25 @@ interface Contract {
   status: string;
   tenant: string;
   jurisdiction: string;
+  signatures?: {
+    owner?: {
+      signatureDataUrl: string;
+      signerInfo: {
+        name: string;
+        role: string;
+        date: string;
+      };
+    };
+    tenant?: {
+      signatureDataUrl: string;
+      signerInfo: {
+        name: string;
+        role: string;
+        date: string;
+      };
+    };
+  };
+  signedDate?: string;
 }
 
 export const useFirebaseContracts = () => {

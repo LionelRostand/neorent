@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   Dialog,
@@ -11,7 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import SignaturePad from './SignaturePad';
-import { FileText, CheckCircle, Clock, User, Building2 } from 'lucide-react';
+import { generateContractPDF } from '@/services/contractPdfService';
+import { FileText, CheckCircle, Clock, User, Building2, Download } from 'lucide-react';
 
 interface ContractSigningModalProps {
   isOpen: boolean;
@@ -64,6 +64,27 @@ const ContractSigningModal = ({ isOpen, onClose, contract, onSigningComplete }: 
     }
   };
 
+  const handleDownloadContract = () => {
+    const contractData = {
+      title: contract.title,
+      type: contract.type,
+      tenant: contract.tenant,
+      property: contract.property,
+      startDate: contract.startDate,
+      endDate: contract.endDate,
+      amount: contract.amount,
+      jurisdiction: contract.jurisdiction,
+      signatures: signatures
+    };
+    
+    generateContractPDF(contractData);
+    
+    toast({
+      title: "Contrat téléchargé",
+      description: "Le contrat de bail a été téléchargé en PDF.",
+    });
+  };
+
   const isFullySigned = signatures.owner && signatures.tenant;
   const ownerSigned = !!signatures.owner;
   const tenantSigned = !!signatures.tenant;
@@ -101,6 +122,10 @@ const ContractSigningModal = ({ isOpen, onClose, contract, onSigningComplete }: 
                 <div className="flex items-center gap-2">
                   <span className="font-medium">Montant:</span>
                   <span>{contract.amount}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Juridiction:</span>
+                  <span>{contract.jurisdiction === 'francaise' ? 'Française' : 'Camerounaise'}</span>
                 </div>
               </div>
             </CardContent>
@@ -193,22 +218,26 @@ const ContractSigningModal = ({ isOpen, onClose, contract, onSigningComplete }: 
               Fermer
             </Button>
             
-            {isFullySigned && (
-              <div className="flex gap-2">
+            <div className="flex gap-2">
+              <Button 
+                variant="outline"
+                onClick={handleDownloadContract}
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Télécharger PDF
+              </Button>
+              
+              {isFullySigned && (
                 <Button 
                   className="bg-green-600 hover:bg-green-700"
-                  onClick={() => {
-                    toast({
-                      title: "Contrat téléchargé",
-                      description: "Le contrat signé a été téléchargé.",
-                    });
-                  }}
+                  onClick={handleDownloadContract}
                 >
                   <FileText className="h-4 w-4 mr-2" />
-                  Télécharger le contrat signé
+                  Contrat signé complet
                 </Button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </DialogContent>
