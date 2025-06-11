@@ -74,6 +74,13 @@ export const useFirebaseContracts = () => {
 
   const updateContract = async (id: string, updates: Partial<Contract>) => {
     try {
+      // Validation de l'ID
+      if (!id || typeof id !== 'string' || id.trim() === '') {
+        throw new Error('ID du contrat invalide');
+      }
+
+      console.log('Updating contract with ID:', id, 'Updates:', updates);
+      
       await updateDoc(doc(db, 'Rent_contracts', id), updates);
       setContracts(prev => prev.map(contract => 
         contract.id === id ? { ...contract, ...updates } : contract
@@ -87,6 +94,10 @@ export const useFirebaseContracts = () => {
 
   const deleteContract = async (id: string) => {
     try {
+      if (!id || typeof id !== 'string' || id.trim() === '') {
+        throw new Error('ID du contrat invalide');
+      }
+
       await deleteDoc(doc(db, 'Rent_contracts', id));
       setContracts(prev => prev.filter(contract => contract.id !== id));
     } catch (err) {

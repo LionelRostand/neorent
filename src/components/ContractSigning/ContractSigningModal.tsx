@@ -56,6 +56,18 @@ const ContractSigningModal = ({ isOpen, onClose, contract, onSigningComplete }: 
 
     // Vérifier si toutes les signatures sont complètes
     if (newSignatures.owner && newSignatures.tenant) {
+      // Validation de l'ID du contrat avant de procéder
+      if (!contract.id || typeof contract.id !== 'string') {
+        console.error('Contract ID is invalid:', contract.id);
+        toast({
+          title: "Erreur",
+          description: "Erreur: ID du contrat invalide",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log('Contract being signed:', contract);
       onSigningComplete(contract.id, newSignatures);
       toast({
         title: "Contrat signé",
