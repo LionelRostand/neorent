@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { X } from 'lucide-react';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface ContractFormProps {
   onClose: () => void;
@@ -27,6 +28,8 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     description: ''
   });
 
+  const { properties, loading } = useFirebaseProperties();
+
   // Données simulées pour les locataires
   const tenants = [
     { id: 1, name: 'Marie Dubois', type: 'Locataire' },
@@ -40,16 +43,9 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     { id: 5, name: 'Lisa Chen', type: 'Colocataire', property: 'Appartement République' }
   ];
 
-  // Données simulées pour les biens
-  const locationProperties = [
-    'Appartement Rue des Fleurs',
-    'Studio Centre-ville',
-    'Appartement Boulevard Haussmann'
-  ];
-
-  const colocationProperties = [
-    'Villa Montparnasse',
-    'Appartement République'
+  const contractTypes = [
+    'Bail locatif',
+    'Bail colocatif'
   ];
 
   // Chambres par bien en colocation
@@ -57,11 +53,6 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     'Villa Montparnasse': ['Chambre 1', 'Chambre 2', 'Chambre 3'],
     'Appartement République': ['Chambre A', 'Chambre B']
   };
-
-  const contractTypes = [
-    'Bail locatif',
-    'Bail colocatif'
-  ];
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => {
@@ -114,11 +105,17 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     onClose();
   };
 
-  // Determine which properties and tenants to show based on contract type
+  // Filtrer les propriétés selon le type de contrat
   const getAvailableProperties = () => {
-    if (formData.type === 'Bail locatif') return locationProperties;
-    if (formData.type === 'Bail colocatif') return colocationProperties;
-    return [];
+    if (loading) return [];
+    
+    if (formData.type === 'Bail locatif') {
+      return properties.filter(property => property.locationType === 'Location');
+    }
+    if (formData.type === 'Bail colocatif') {
+      return properties.filter(property => property.locationType === 'Colocation');
+    }
+    return properties;
   };
 
   const getAvailableTenants = () => {
@@ -187,12 +184,12 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
               <Label htmlFor="property">Bien immobilier</Label>
               <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un bien" />
+                  <SelectValue placeholder={loading ? "Chargement..." : "Sélectionner un bien"} />
                 </SelectTrigger>
                 <SelectContent>
                   {getAvailableProperties().map((property) => (
-                    <SelectItem key={property} value={property}>
-                      {property}
+                    <SelectItem key={property.id} value={property.title}>
+                      {property.title} - {property.address}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -205,12 +202,12 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
               <Label htmlFor="property">Bien immobilier</Label>
               <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un bien" />
+                  <SelectValue placeholder={loading ? "Chargement..." : "Sélectionner un bien"} />
                 </SelectTrigger>
                 <SelectContent>
-                  {[...locationProperties, ...colocationProperties].map((property) => (
-                    <SelectItem key={property} value={property}>
-                      {property}
+                  {properties.map((property) => (
+                    <SelectItem key={property.id} value={property.title}>
+                      {property.title} - {property.address}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -333,7 +330,7 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
           <Button type="button" variant="outline" onClick={onClose}>
             Annuler
           </Button>
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={loading}>
             Créer le contrat de bail
           </Button>
         </div>
