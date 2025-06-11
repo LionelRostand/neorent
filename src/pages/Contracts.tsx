@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,6 +8,7 @@ import { Plus, FileText, Calendar, User, Building2, CheckCircle, Clock, XCircle,
 import MetricCard from '@/components/MetricCard';
 import ContractForm from '@/components/ContractForm';
 import ContractEditModal from '@/components/ContractEditModal';
+import ContractSigningModal from '@/components/ContractSigning/ContractSigningModal';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useToast } from '@/hooks/use-toast';
 
@@ -16,6 +16,8 @@ const Contracts = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingContract, setEditingContract] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [signingContract, setSigningContract] = useState(null);
+  const [isSigningModalOpen, setIsSigningModalOpen] = useState(false);
   const { contracts, loading, error, addContract, updateContract, deleteContract } = useFirebaseContracts();
   const { toast } = useToast();
 
@@ -59,6 +61,34 @@ const Contracts = () => {
       toast({
         title: "Erreur",
         description: "Erreur lors de la modification du contrat.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSignContract = (contract: any) => {
+    setSigningContract(contract);
+    setIsSigningModalOpen(true);
+  };
+
+  const handleSigningComplete = async (contractId: string, signatures: any) => {
+    try {
+      await updateContract(contractId, { 
+        signatures,
+        signedDate: new Date().toISOString(),
+        status: 'Signé'
+      });
+      toast({
+        title: "Succès",
+        description: "Le contrat a été signé par toutes les parties.",
+      });
+      setIsSigningModalOpen(false);
+      console.log('Contrat signé dans la collection Rent_contracts:', { contractId, signatures });
+    } catch (err) {
+      console.error('Erreur lors de la signature du contrat:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la signature du contrat.",
         variant: "destructive",
       });
     }
@@ -179,8 +209,11 @@ const Contracts = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Badge 
-                        variant={contract.status === 'Actif' ? 'default' : 'destructive'}
-                        className={contract.status === 'Actif' ? 'bg-green-100 text-green-800' : ''}
+                        variant={contract.status === 'Actif' ? 'default' : contract.status === 'Signé' ? 'default' : 'destructive'}
+                        className={
+                          contract.status === 'Actif' ? 'bg-green-100 text-green-800' : 
+                          contract.status === 'Signé' ? 'bg-blue-100 text-blue-800' : ''
+                        }
                       >
                         {contract.status}
                       </Badge>
@@ -234,14 +267,24 @@ const Contracts = () => {
                     <Button variant="outline" size="sm" className="flex-1">
                       Voir détails
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1"
-                      onClick={() => handleEditContract(contract)}
-                    >
-                      Modifier
-                    </Button>
+                    {contract.status !== 'Signé' ? (
+                      <Button 
+                        className="flex-1 bg-blue-600 hover:bg-blue-700"
+                        size="sm"
+                        onClick={() => handleSignContract(contract)}
+                      >
+                        Signer
+                      </Button>
+                    ) : (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1"
+                        onClick={() => handleEditContract(contract)}
+                      >
+                        Modifier
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -254,6 +297,13 @@ const Contracts = () => {
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
           onSave={handleUpdateContract}
+        />
+
+        <ContractSigningModal
+          contract={signingContract}
+          isOpen={isSigningModalOpen}
+          onClose={() => setIsSigningModalOpen(false)}
+          onSigningComplete={handleSigningComplete}
         />
       </div>
     </MainLayout>
