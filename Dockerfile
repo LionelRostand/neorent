@@ -34,7 +34,7 @@ FROM nginx:alpine
 COPY --from=builder /neorent/dist /usr/share/nginx/html
 
 # Copier la configuration nginx personnalisée
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY config/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Créer le répertoire pour les certificats SSL
 RUN mkdir -p /etc/nginx/ssl
