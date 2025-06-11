@@ -24,25 +24,25 @@ const Maintenance = () => {
 
           <Tabs defaultValue="requests" className="space-y-6">
             <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="requests" className="flex items-center gap-2">
-                <ClipboardList className="h-4 w-4" />
-                <span className="hidden sm:inline">Demandes</span>
+              <TabsTrigger value="requests" className="flex items-center justify-center gap-1 px-2 py-2">
+                <ClipboardList className="h-5 w-5 flex-shrink-0" />
+                <span className="hidden sm:inline text-xs">Demandes</span>
               </TabsTrigger>
-              <TabsTrigger value="responsibilities" className="flex items-center gap-2">
-                <Scale className="h-4 w-4" />
-                <span className="hidden sm:inline">Responsabilités</span>
+              <TabsTrigger value="responsibilities" className="flex items-center justify-center gap-1 px-2 py-2">
+                <Scale className="h-5 w-5 flex-shrink-0" />
+                <span className="hidden sm:inline text-xs">Responsabilités</span>
               </TabsTrigger>
-              <TabsTrigger value="interventions" className="flex items-center gap-2">
-                <Wrench className="h-4 w-4" />
-                <span className="hidden sm:inline">Interventions</span>
+              <TabsTrigger value="interventions" className="flex items-center justify-center gap-1 px-2 py-2">
+                <Wrench className="h-5 w-5 flex-shrink-0" />
+                <span className="hidden sm:inline text-xs">Interventions</span>
               </TabsTrigger>
-              <TabsTrigger value="history" className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span className="hidden sm:inline">Historique</span>
+              <TabsTrigger value="history" className="flex items-center justify-center gap-1 px-2 py-2">
+                <Calendar className="h-5 w-5 flex-shrink-0" />
+                <span className="hidden sm:inline text-xs">Historique</span>
               </TabsTrigger>
-              <TabsTrigger value="costs" className="flex items-center gap-2">
-                <Euro className="h-4 w-4" />
-                <span className="hidden sm:inline">Coûts</span>
+              <TabsTrigger value="costs" className="flex items-center justify-center gap-1 px-2 py-2">
+                <Euro className="h-5 w-5 flex-shrink-0" />
+                <span className="hidden sm:inline text-xs">Coûts</span>
               </TabsTrigger>
             </TabsList>
 
