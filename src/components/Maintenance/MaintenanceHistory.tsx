@@ -1,13 +1,10 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Calendar, Euro, Search, Filter } from 'lucide-react';
 import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
+import FilterSection from './History/FilterSection';
+import StatsCards from './History/StatsCards';
+import CategoryStats from './History/CategoryStats';
+import HistoryTable from './History/HistoryTable';
 
 const MaintenanceHistory = () => {
   const { interventions, loading } = useFirebaseMaintenances();
@@ -73,207 +70,32 @@ const MaintenanceHistory = () => {
 
   return (
     <div className="space-y-6">
-      {/* Filtres */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filtres
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="search">Recherche</Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  id="search"
-                  placeholder="Rechercher..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="property">Bien immobilier</Label>
-              <Select value={selectedProperty} onValueChange={setSelectedProperty}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tous les biens</SelectItem>
-                  {uniqueProperties.map((property) => (
-                    <SelectItem key={property} value={property}>{property}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="category">Priorité</Label>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Toutes les priorités</SelectItem>
-                  <SelectItem value="urgent">Urgent</SelectItem>
-                  <SelectItem value="normal">Normal</SelectItem>
-                  <SelectItem value="faible">Faible</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="year">Année</Label>
-              <Select value={selectedYear} onValueChange={setSelectedYear}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {years.map((year) => (
-                    <SelectItem key={year} value={year}>{year}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <FilterSection
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        selectedProperty={selectedProperty}
+        setSelectedProperty={setSelectedProperty}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+        uniqueProperties={uniqueProperties}
+        years={years}
+      />
 
-      {/* Statistiques */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">Total interventions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{filteredHistory.length}</div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">Coût total</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalCost}€</div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">Charge propriétaire</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{proprietaireCost}€</div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">Charge locataire</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">{locataireCost}€</div>
-          </CardContent>
-        </Card>
-      </div>
+      <StatsCards
+        totalInterventions={filteredHistory.length}
+        totalCost={totalCost}
+        proprietaireCost={proprietaireCost}
+        locataireCost={locataireCost}
+      />
 
-      {/* Répartition par catégorie et par bien */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Répartition par priorité</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {Object.entries(categoryStats).map(([category, count]) => (
-                <div key={category} className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{category}</span>
-                  <Badge variant="secondary">{count} intervention{count > 1 ? 's' : ''}</Badge>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Coûts par bien</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {Object.entries(propertyStats).map(([property, cost]) => (
-                <div key={property} className="flex items-center justify-between">
-                  <span className="text-sm font-medium truncate">{property}</span>
-                  <div className="flex items-center gap-1">
-                    <Euro className="h-3 w-3" />
-                    <span className="font-semibold">{cost}€</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <CategoryStats
+        categoryStats={categoryStats}
+        propertyStats={propertyStats}
+      />
 
-      {/* Historique détaillé */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Historique détaillé</CardTitle>
-          <CardDescription>
-            {filteredHistory.length} intervention{filteredHistory.length > 1 ? 's' : ''} trouvée{filteredHistory.length > 1 ? 's' : ''}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Bien</TableHead>
-                <TableHead>Priorité</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Technicien</TableHead>
-                <TableHead>Coût</TableHead>
-                <TableHead>Statut</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredHistory.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {item.scheduledDate || 'Non définie'}
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium">{item.property}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{item.priority}</Badge>
-                  </TableCell>
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell>{item.technicianName || 'Non assigné'}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      <Euro className="h-3 w-3" />
-                      {item.actualCost || item.estimatedCost || 0}€
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="default">
-                      {item.status}
-                    </Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <HistoryTable filteredHistory={filteredHistory} />
     </div>
   );
 };
