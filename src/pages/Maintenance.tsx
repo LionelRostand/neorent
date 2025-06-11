@@ -26,23 +26,23 @@ const Maintenance = () => {
             <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="requests" className="flex items-center gap-2">
                 <ClipboardList className="h-4 w-4" />
-                Demandes
+                <span className="hidden sm:inline">Demandes</span>
               </TabsTrigger>
               <TabsTrigger value="responsibilities" className="flex items-center gap-2">
                 <Scale className="h-4 w-4" />
-                Responsabilités
+                <span className="hidden sm:inline">Responsabilités</span>
               </TabsTrigger>
               <TabsTrigger value="interventions" className="flex items-center gap-2">
                 <Wrench className="h-4 w-4" />
-                Interventions
+                <span className="hidden sm:inline">Interventions</span>
               </TabsTrigger>
               <TabsTrigger value="history" className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                Historique
+                <span className="hidden sm:inline">Historique</span>
               </TabsTrigger>
               <TabsTrigger value="costs" className="flex items-center gap-2">
                 <Euro className="h-4 w-4" />
-                Coûts
+                <span className="hidden sm:inline">Coûts</span>
               </TabsTrigger>
             </TabsList>
 
