@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -107,14 +106,14 @@ const CostManagement = () => {
       {/* Gestion des factures */}
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
             <div>
               <CardTitle>Gestion des Coûts</CardTitle>
               <CardDescription>Facturation et suivi des paiements</CardDescription>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
               <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-full sm:w-32">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -128,7 +127,7 @@ const CostManagement = () => {
               
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button className="w-full sm:w-auto">
                     <Plus className="h-4 w-4 mr-2" />
                     Nouvelle facture
                   </Button>
@@ -151,60 +150,62 @@ const CostManagement = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Facture N°</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Bien</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Montant</TableHead>
-                <TableHead>Responsabilité</TableHead>
-                <TableHead>Statut</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {invoices.map((invoice) => (
-                <TableRow key={invoice.id}>
-                  <TableCell className="font-mono text-sm">
-                    {invoice.invoiceNumber}
-                  </TableCell>
-                  <TableCell>{invoice.date}</TableCell>
-                  <TableCell className="max-w-xs truncate">
-                    {invoice.property}
-                  </TableCell>
-                  <TableCell>{invoice.description}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1 font-semibold">
-                      <Euro className="h-3 w-3" />
-                      {invoice.amount}€
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={invoice.responsibility === 'Propriétaire' ? 'default' : 'secondary'}>
-                      {invoice.responsibility}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={getStatusColor(invoice.status)}>
-                      {invoice.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-1">
-                      <Button variant="outline" size="sm">
-                        <FileText className="h-3 w-3" />
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Download className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[120px]">Facture N°</TableHead>
+                  <TableHead className="min-w-[100px]">Date</TableHead>
+                  <TableHead className="min-w-[150px]">Bien</TableHead>
+                  <TableHead className="min-w-[200px]">Description</TableHead>
+                  <TableHead className="min-w-[100px]">Montant</TableHead>
+                  <TableHead className="min-w-[120px]">Responsabilité</TableHead>
+                  <TableHead className="min-w-[100px]">Statut</TableHead>
+                  <TableHead className="min-w-[100px]">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {invoices.map((invoice) => (
+                  <TableRow key={invoice.id}>
+                    <TableCell className="font-mono text-sm">
+                      {invoice.invoiceNumber}
+                    </TableCell>
+                    <TableCell>{invoice.date}</TableCell>
+                    <TableCell className="max-w-xs truncate">
+                      {invoice.property}
+                    </TableCell>
+                    <TableCell>{invoice.description}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1 font-semibold">
+                        <Euro className="h-3 w-3" />
+                        {invoice.amount}€
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={invoice.responsibility === 'Propriétaire' ? 'default' : 'secondary'}>
+                        {invoice.responsibility}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={getStatusColor(invoice.status)}>
+                        {invoice.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <Button variant="outline" size="sm">
+                          <FileText className="h-3 w-3" />
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Download className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 
@@ -374,11 +375,11 @@ const InvoiceForm = ({ onSave, properties, onCancel }: { onSave: (invoice: any) 
         </div>
       </div>
       
-      <div className="flex justify-end gap-2">
-        <Button type="button" variant="outline" onClick={onCancel}>
+      <div className="flex flex-col space-y-2 sm:flex-row sm:justify-end sm:space-y-0 sm:space-x-2">
+        <Button type="button" variant="outline" onClick={onCancel} className="w-full sm:w-auto">
           Annuler
         </Button>
-        <Button type="submit">
+        <Button type="submit" className="w-full sm:w-auto">
           Créer la facture
         </Button>
       </div>
