@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 
 interface ContractFormProps {
   onClose: () => void;
@@ -29,19 +32,8 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
   });
 
   const { properties, loading } = useFirebaseProperties();
-
-  // Données simulées pour les locataires
-  const tenants = [
-    { id: 1, name: 'Marie Dubois', type: 'Locataire' },
-    { id: 2, name: 'Jean Martin', type: 'Locataire' },
-    { id: 3, name: 'Sophie Leroy', type: 'Locataire' }
-  ];
-
-  // Données simulées pour les colocataires
-  const roommates = [
-    { id: 4, name: 'Pierre Durand', type: 'Colocataire', property: 'Villa Montparnasse' },
-    { id: 5, name: 'Lisa Chen', type: 'Colocataire', property: 'Appartement République' }
-  ];
+  const { tenants, loading: tenantsLoading } = useFirebaseTenants();
+  const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
 
   const contractTypes = [
     'Bail locatif',
@@ -119,8 +111,20 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
   };
 
   const getAvailableTenants = () => {
-    if (formData.type === 'Bail locatif') return tenants;
-    if (formData.type === 'Bail colocatif') return roommates;
+    if (formData.type === 'Bail locatif') {
+      return tenants.map(tenant => ({
+        id: tenant.id,
+        name: tenant.name,
+        type: 'Locataire'
+      }));
+    }
+    if (formData.type === 'Bail colocatif') {
+      return roommates.map(roommate => ({
+        id: roommate.id,
+        name: roommate.name,
+        type: 'Colocataire'
+      }));
+    }
     return [];
   };
 
@@ -133,6 +137,7 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
 
   const isBailContract = formData.type === 'Bail locatif' || formData.type === 'Bail colocatif';
   const isColocatifContract = formData.type === 'Bail colocatif';
+  const isDataLoading = loading || tenantsLoading || roommatesLoading;
 
   return (
     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -222,7 +227,10 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
               </Label>
               <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={`Sélectionner un ${formData.type === 'Bail locatif' ? 'locataire' : 'colocataire'}`} />
+                  <SelectValue placeholder={
+                    isDataLoading ? "Chargement..." : 
+                    `Sélectionner un ${formData.type === 'Bail locatif' ? 'locataire' : 'colocataire'}`
+                  } />
                 </SelectTrigger>
                 <SelectContent>
                   {getAvailableTenants().map((tenant) => (
@@ -240,10 +248,11 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
               <Label htmlFor="tenant">Locataire/Colocataire *</Label>
               <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un locataire" />
+                  <SelectValue placeholder={isDataLoading ? "Chargement..." : "Sélectionner un locataire"} />
                 </SelectTrigger>
                 <SelectContent>
-                  {[...tenants, ...roommates].map((tenant) => (
+                  {[...tenants.map(t => ({ id: t.id, name: t.name, type: 'Locataire' })), 
+                    ...roommates.map(r => ({ id: r.id, name: r.name, type: 'Colocataire' }))].map((tenant) => (
                     <SelectItem key={tenant.id} value={`${tenant.name} (${tenant.type})`}>
                       {tenant.name} ({tenant.type})
                     </SelectItem>
@@ -330,7 +339,7 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
           <Button type="button" variant="outline" onClick={onClose}>
             Annuler
           </Button>
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={loading}>
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={isDataLoading}>
             Créer le contrat de bail
           </Button>
         </div>
@@ -340,3 +349,4 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
 };
 
 export default ContractForm;
+
