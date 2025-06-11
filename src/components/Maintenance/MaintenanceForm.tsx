@@ -77,7 +77,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         <div className="space-y-2">
           <Label htmlFor="propertyId">Bien Immobilier</Label>
           <Select value={formData.propertyId} onValueChange={(value) => setFormData({...formData, propertyId: value})}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Sélectionner un bien" />
             </SelectTrigger>
             <SelectContent>
@@ -99,7 +99,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         <div className="space-y-2">
           <Label htmlFor="tenantName">Nom du Locataire</Label>
           <Select value={formData.tenantName} onValueChange={(value) => setFormData({...formData, tenantName: value})}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Sélectionner un locataire" />
             </SelectTrigger>
             <SelectContent>
@@ -121,7 +121,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         <div className="space-y-2">
           <Label htmlFor="category">Catégorie</Label>
           <Select value={formData.category} onValueChange={(value) => setFormData({...formData, category: value})}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Type de maintenance" />
             </SelectTrigger>
             <SelectContent>
@@ -139,7 +139,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         <div className="space-y-2">
           <Label htmlFor="priority">Priorité</Label>
           <Select value={formData.priority} onValueChange={(value) => setFormData({...formData, priority: value})}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Niveau de priorité" />
             </SelectTrigger>
             <SelectContent>
@@ -157,6 +157,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
             value={formData.location}
             onChange={(e) => setFormData({...formData, location: e.target.value})}
             placeholder="Ex: Cuisine, Salon, Salle de bain..."
+            className="w-full"
             required
           />
         </div>
@@ -168,6 +169,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
             type="date"
             value={formData.requestDate}
             onChange={(e) => setFormData({...formData, requestDate: e.target.value})}
+            className="w-full"
             required
           />
         </div>
@@ -180,13 +182,13 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
           value={formData.description}
           onChange={(e) => setFormData({...formData, description: e.target.value})}
           placeholder="Décrivez le problème en détail..."
-          className="min-h-[100px]"
+          className="min-h-[100px] w-full resize-none"
           required
         />
       </div>
 
-      <Button type="submit" className="w-full">
-        Enregistrer la demande
+      <Button type="submit" className="w-full sm:w-auto sm:min-w-[200px]">
+        <span className="truncate">Enregistrer la demande</span>
       </Button>
     </form>
   );
