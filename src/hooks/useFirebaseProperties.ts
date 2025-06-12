@@ -14,8 +14,10 @@ interface Property {
   tenant: string | null;
   image: string;
   locationType: string;
-  totalRooms?: number | null;
-  availableRooms?: number | null;
+  totalRooms: number;
+  availableRooms: number;
+  creditImmobilier?: string;
+  charges?: any;
 }
 
 export const useFirebaseProperties = () => {
@@ -43,8 +45,17 @@ export const useFirebaseProperties = () => {
 
   const addProperty = async (propertyData: Omit<Property, 'id'>) => {
     try {
-      const docRef = await addDoc(collection(db, 'Rent_properties'), propertyData);
-      const newProperty = { id: docRef.id, ...propertyData };
+      // S'assurer qu'aucune valeur n'est undefined
+      const cleanedData = {
+        ...propertyData,
+        totalRooms: propertyData.totalRooms || 0,
+        availableRooms: propertyData.availableRooms || 0,
+        creditImmobilier: propertyData.creditImmobilier || '',
+        charges: propertyData.charges || {}
+      };
+
+      const docRef = await addDoc(collection(db, 'Rent_properties'), cleanedData);
+      const newProperty = { id: docRef.id, ...cleanedData };
       setProperties(prev => [...prev, newProperty]);
       return newProperty;
     } catch (err) {

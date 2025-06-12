@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -28,8 +29,8 @@ const Properties = () => {
         tenant: null,
         image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg',
         locationType: data.locationType,
-        totalRooms: data.locationType === 'Colocation' ? data.totalRooms : null,
-        availableRooms: data.locationType === 'Colocation' ? data.totalRooms : null
+        totalRooms: data.locationType === 'Colocation' ? parseInt(data.roomCount) || 0 : 0,
+        availableRooms: data.locationType === 'Colocation' ? parseInt(data.roomCount) || 0 : 0
       };
 
       await addProperty(newProperty);
@@ -38,6 +39,7 @@ const Properties = () => {
         description: "Le bien a été ajouté avec succès.",
       });
       console.log('Bien ajouté à la collection Rent_properties:', newProperty);
+      setIsDialogOpen(false);
     } catch (err) {
       console.error('Erreur lors de l\'ajout du bien:', err);
       toast({
