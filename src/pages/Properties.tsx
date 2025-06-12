@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
@@ -22,7 +21,9 @@ const Properties = () => {
         address: data.address,
         type: data.type,
         surface: data.surface,
-        rent: data.rent,
+        rent: data.creditImmobilier, // Map creditImmobilier to rent field for backwards compatibility
+        creditImmobilier: data.creditImmobilier,
+        charges: data.charges,
         status: 'Libre',
         tenant: null,
         image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg',
