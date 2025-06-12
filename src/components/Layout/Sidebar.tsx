@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -165,7 +164,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
             NEOTECH-CONSULTING
           </div>
           <div className="text-white/80 text-xs mt-1">
-            {currentYear}
+            Version 1.0 • {currentYear}
           </div>
         </div>
       </div>
