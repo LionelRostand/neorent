@@ -8,42 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calculator, Building2, Users, DollarSign, Receipt, Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
-// Mock data des biens et locataires
-const mockProperties = [
-  { 
-    id: 1, 
-    name: 'Appartement Rue des Fleurs', 
-    type: 'location', 
-    monthlyRent: 1200,
-    tenant: 'Marie Dubois',
-    startDate: '2023-01-01'
-  },
-  { 
-    id: 2, 
-    name: 'Villa Montparnasse', 
-    type: 'location', 
-    monthlyRent: 2500,
-    tenant: 'Jean Martin',
-    startDate: '2023-03-01'
-  },
-  { 
-    id: 3, 
-    name: 'Appartement Bastille - Chambre 1', 
-    type: 'colocation', 
-    monthlyRent: 800,
-    tenant: 'Sophie Leroy',
-    startDate: '2023-02-01'
-  },
-  { 
-    id: 4, 
-    name: 'Appartement Bastille - Chambre 2', 
-    type: 'colocation', 
-    monthlyRent: 850,
-    tenant: 'Pierre Durand',
-    startDate: '2023-06-01'
-  },
-];
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface TaxDeclarationFormProps {
   isOpen: boolean;
@@ -52,30 +17,24 @@ interface TaxDeclarationFormProps {
 }
 
 const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormProps) => {
-  const [declarationYear, setDeclarationYear] = useState(new Date().getFullYear() - 1);
+  const currentYear = new Date().getFullYear();
+  const [declarationYear, setDeclarationYear] = useState(currentYear + 1); // Commence en 2025
   const [taxBracket, setTaxBracket] = useState('');
-  const [selectedProperties, setSelectedProperties] = useState<number[]>([]);
+  const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
   const [charges, setCharges] = useState('');
   const { toast } = useToast();
+  const { properties, loading } = useFirebaseProperties();
 
   // Calcul des revenus locatifs pour l'année sélectionnée
   const calculateRentalIncome = () => {
     let totalIncome = 0;
     
     selectedProperties.forEach(propertyId => {
-      const property = mockProperties.find(p => p.id === propertyId);
+      const property = properties.find(p => p.id === propertyId);
       if (property) {
-        const startDate = new Date(property.startDate);
-        const startYear = startDate.getFullYear();
-        const startMonth = startDate.getMonth();
-        
-        // Calcul du nombre de mois de location dans l'année
-        let monthsInYear = 12;
-        if (startYear === declarationYear) {
-          monthsInYear = 12 - startMonth;
-        }
-        
-        totalIncome += property.monthlyRent * monthsInYear;
+        // Utilise le loyer mensuel ou creditImmobilier selon ce qui est disponible
+        const monthlyRent = parseFloat(property.rent) || parseFloat(property.creditImmobilier) || 0;
+        totalIncome += monthlyRent * 12; // Calcul annuel simplifié
       }
     });
     
@@ -104,7 +63,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
   const estimatedTax = calculateEstimatedTax(totalRentalIncome, taxBracket);
   const netIncome = totalRentalIncome - (parseFloat(charges) || 0);
 
-  const handlePropertyToggle = (propertyId: number) => {
+  const handlePropertyToggle = (propertyId: string) => {
     setSelectedProperties(prev => 
       prev.includes(propertyId) 
         ? prev.filter(id => id !== propertyId)
@@ -154,6 +113,36 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     onClose();
   };
 
+  // Générer les années (à partir de 2025)
+  const generateYears = () => {
+    const years = [];
+    const startYear = 2025;
+    const endYear = currentYear + 5; // 5 années futures
+    
+    for (let year = startYear; year <= endYear; year++) {
+      years.push(year);
+    }
+    return years;
+  };
+
+  if (loading) {
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Calculator className="h-5 w-5" />
+              Nouvelle Déclaration Fiscale
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex items-center justify-center h-32">
+            <div className="text-lg">Chargement des biens immobiliers...</div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
@@ -173,9 +162,9 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={(new Date().getFullYear() - 1).toString()}>{new Date().getFullYear() - 1}</SelectItem>
-                <SelectItem value={(new Date().getFullYear() - 2).toString()}>{new Date().getFullYear() - 2}</SelectItem>
-                <SelectItem value={(new Date().getFullYear() - 3).toString()}>{new Date().getFullYear() - 3}</SelectItem>
+                {generateYears().map((year) => (
+                  <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -183,39 +172,64 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
           {/* Sélection des biens */}
           <div className="space-y-4">
             <Label>Sélection des biens immobiliers</Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {mockProperties.map((property) => (
-                <Card 
-                  key={property.id} 
-                  className={`cursor-pointer border-2 transition-colors ${
-                    selectedProperties.includes(property.id) 
-                      ? 'border-blue-500 bg-blue-50' 
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                  onClick={() => handlePropertyToggle(property.id)}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          {property.type === 'colocation' ? <Users className="h-4 w-4" /> : <Building2 className="h-4 w-4" />}
-                          <h4 className="font-medium text-sm">{property.name}</h4>
+            {properties.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <Building2 className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <p>Aucun bien immobilier trouvé</p>
+                <p className="text-sm">Ajoutez d'abord des biens dans le menu Propriétés</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {properties.map((property) => {
+                  const monthlyRent = parseFloat(property.rent) || parseFloat(property.creditImmobilier) || 0;
+                  const isColocation = property.locationType === 'Colocation';
+                  
+                  return (
+                    <Card 
+                      key={property.id} 
+                      className={`cursor-pointer border-2 transition-colors ${
+                        selectedProperties.includes(property.id) 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                      onClick={() => handlePropertyToggle(property.id)}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              {isColocation ? <Users className="h-4 w-4" /> : <Building2 className="h-4 w-4" />}
+                              <h4 className="font-medium text-sm">{property.title}</h4>
+                            </div>
+                            <p className="text-sm text-gray-600">{property.address}</p>
+                            <p className="text-sm text-gray-600">
+                              Type: {property.type} - {property.surface}m²
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              Locataire: {property.tenant || 'Libre'}
+                            </p>
+                            <p className="text-sm font-semibold text-blue-600">
+                              {monthlyRent.toLocaleString('fr-FR')}€/mois
+                            </p>
+                            {isColocation && (
+                              <p className="text-xs text-gray-500">
+                                Colocation: {property.availableRooms}/{property.totalRooms} chambres disponibles
+                              </p>
+                            )}
+                          </div>
+                          <input 
+                            type="checkbox" 
+                            checked={selectedProperties.includes(property.id)}
+                            onChange={() => handlePropertyToggle(property.id)}
+                            className="mt-1"
+                          />
                         </div>
-                        <p className="text-sm text-gray-600">Locataire: {property.tenant}</p>
-                        <p className="text-sm font-semibold text-blue-600">{property.monthlyRent}€/mois</p>
-                        <p className="text-xs text-gray-500">Depuis: {new Date(property.startDate).toLocaleDateString('fr-FR')}</p>
-                      </div>
-                      <input 
-                        type="checkbox" 
-                        checked={selectedProperties.includes(property.id)}
-                        onChange={() => handlePropertyToggle(property.id)}
-                        className="mt-1"
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Charges déductibles */}
@@ -293,7 +307,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
             <Button type="button" variant="outline" onClick={onClose}>
               Annuler
             </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+            <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={properties.length === 0}>
               <DollarSign className="mr-2 h-4 w-4" />
               Créer la Déclaration
             </Button>
