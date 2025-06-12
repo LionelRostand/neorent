@@ -9,6 +9,7 @@ interface TaxSummaryProps {
   totalCharges: number;
   netIncome: number;
   estimatedTax: number;
+  taxBracket: string;
 }
 
 const TaxSummary = ({ 
@@ -16,7 +17,8 @@ const TaxSummary = ({
   totalRentalIncome, 
   totalCharges, 
   netIncome, 
-  estimatedTax 
+  estimatedTax,
+  taxBracket
 }: TaxSummaryProps) => {
   return (
     <div className="space-y-6">

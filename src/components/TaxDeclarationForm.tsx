@@ -118,6 +118,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
                 totalCharges={calculations.totalCharges}
                 netIncome={calculations.netIncome}
                 estimatedTax={calculations.estimatedTax}
+                taxBracket={taxBracket}
               />
             )}
 
