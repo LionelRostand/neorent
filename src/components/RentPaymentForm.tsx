@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -150,10 +149,7 @@ const RentPaymentForm = () => {
                           <div className="p-1.5 bg-blue-100 rounded-full">
                             <User className="h-3 w-3 text-blue-600" />
                           </div>
-                          <div>
-                            <div className="font-medium text-gray-900">{tenant.name}</div>
-                            <div className="text-sm text-gray-500">{tenant.type} - {tenant.property}</div>
-                          </div>
+                          <div className="font-medium text-gray-900">{tenant.name}</div>
                         </div>
                       </SelectItem>
                     ))}
