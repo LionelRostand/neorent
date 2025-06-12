@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -130,7 +131,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
   return (
     <div className="bg-green-500 w-64 h-screen flex flex-col">
       <div className="p-6 flex-shrink-0">
-        <h1 className="text-xl font-bold text-white">NeoRent</h1>
+        <div className="flex items-center">
+          <Building className="h-6 w-6 text-white mr-2" />
+          <h1 className="text-xl font-bold text-white">NeoRent</h1>
+        </div>
       </div>
       
       <div className="flex-1 overflow-hidden">
