@@ -8,7 +8,7 @@ import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useTaxCalculations } from '@/hooks/useTaxCalculations';
 import TaxDeclarationHeader from './TaxDeclaration/TaxDeclarationHeader';
 import YearSelector from './TaxDeclaration/YearSelector';
-import PropertySelector from './TaxDeclaration/PropertySelector';
+import PropertyOccupantSelector from './TaxDeclaration/PropertyOccupantSelector';
 import ChargesInput from './TaxDeclaration/ChargesInput';
 import TaxBracketSelector from './TaxDeclaration/TaxBracketSelector';
 import TaxSummary from './TaxDeclaration/TaxSummary';
@@ -22,11 +22,9 @@ interface TaxDeclarationFormProps {
 const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormProps) => {
   const currentYear = new Date().getFullYear();
   
-  // États du formulaire
+  // États du formulaire - simplifié
   const [declarationYear, setDeclarationYear] = useState(currentYear);
   const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
-  const [selectedTenants, setSelectedTenants] = useState<string[]>([]);
-  const [selectedRoommates, setSelectedRoommates] = useState<string[]>([]);
   const [deductibleCharges, setDeductibleCharges] = useState('');
   const [taxBracket, setTaxBracket] = useState('');
 
@@ -35,14 +33,14 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
   const { tenants, loading: tenantsLoading } = useFirebaseTenants();
   const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
 
-  // Calculs fiscaux
+  // Calculs fiscaux avec les sélections automatiques des occupants
   const calculations = useTaxCalculations({
     properties,
     tenants,
     roommates,
     selectedProperties,
-    selectedTenants,
-    selectedRoommates,
+    selectedTenants: [], // Géré automatiquement via les biens
+    selectedRoommates: [], // Géré automatiquement via les biens
     deductibleCharges,
     taxBracket
   });
@@ -55,30 +53,12 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     );
   };
 
-  const handleTenantChange = (tenantId: string, checked: boolean) => {
-    setSelectedTenants(prev => 
-      checked 
-        ? [...prev, tenantId]
-        : prev.filter(id => id !== tenantId)
-    );
-  };
-
-  const handleRoommateChange = (roommateId: string, checked: boolean) => {
-    setSelectedRoommates(prev => 
-      checked 
-        ? [...prev, roommateId]
-        : prev.filter(id => id !== roommateId)
-    );
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     const declarationData = {
       declarationYear,
       selectedProperties,
-      selectedTenants,
-      selectedRoommates,
       deductibleCharges: parseFloat(deductibleCharges) || 0,
       taxBracket,
       calculations
@@ -89,8 +69,6 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     
     // Reset form
     setSelectedProperties([]);
-    setSelectedTenants([]);
-    setSelectedRoommates([]);
     setDeductibleCharges('');
     setTaxBracket('');
   };
@@ -114,16 +92,12 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
               onYearChange={setDeclarationYear}
             />
 
-            <PropertySelector
+            <PropertyOccupantSelector
               properties={properties}
               tenants={tenants}
               roommates={roommates}
               selectedProperties={selectedProperties}
-              selectedTenants={selectedTenants}
-              selectedRoommates={selectedRoommates}
               onPropertyChange={handlePropertyChange}
-              onTenantChange={handleTenantChange}
-              onRoommateChange={handleRoommateChange}
             />
 
             <ChargesInput
@@ -137,7 +111,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
               onTaxBracketChange={setTaxBracket}
             />
 
-            {(selectedProperties.length > 0 || selectedTenants.length > 0 || selectedRoommates.length > 0) && taxBracket && (
+            {selectedProperties.length > 0 && taxBracket && (
               <TaxSummary
                 declarationYear={declarationYear}
                 totalRentalIncome={calculations.totalRentalIncome}
@@ -153,7 +127,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
               </Button>
               <Button 
                 type="submit" 
-                disabled={selectedProperties.length === 0 && selectedTenants.length === 0 && selectedRoommates.length === 0 || !taxBracket}
+                disabled={selectedProperties.length === 0 || !taxBracket}
               >
                 Créer la déclaration
               </Button>

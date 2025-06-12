@@ -5,16 +5,19 @@ interface Property {
   id: string;
   rent: string;
   charges?: Record<string, any>;
+  tenant?: string | null;
 }
 
 interface Tenant {
   id: string;
   rentAmount: string;
+  property: string;
 }
 
 interface Roommate {
   id: string;
-  rentAmount: string; // Harmonisé avec useFirebaseRoommates
+  rentAmount: string;
+  property: string;
 }
 
 interface UseTaxCalculationsProps {
@@ -42,34 +45,34 @@ export const useTaxCalculations = ({
   const calculations = useMemo(() => {
     let totalRentalIncome = 0;
 
-    // Calcul des revenus des biens immobiliers
+    // Calcul des revenus des biens immobiliers (annualisé automatiquement)
     selectedProperties.forEach(propertyId => {
       const property = properties.find(p => p.id === propertyId);
       if (property) {
         const monthlyRent = parseFloat(property.rent) || 0;
-        totalRentalIncome += monthlyRent * 12;
+        totalRentalIncome += monthlyRent * 12; // Calcul annuel automatique
       }
     });
 
-    // Calcul des revenus des locataires
+    // Calcul des revenus des locataires (annualisé automatiquement)
     selectedTenants.forEach(tenantId => {
       const tenant = tenants.find(t => t.id === tenantId);
       if (tenant) {
         const monthlyRent = parseFloat(tenant.rentAmount) || 0;
-        totalRentalIncome += monthlyRent * 12;
+        totalRentalIncome += monthlyRent * 12; // Calcul annuel automatique
       }
     });
 
-    // Calcul des revenus des colocataires
+    // Calcul des revenus des colocataires (annualisé automatiquement)
     selectedRoommates.forEach(roommateId => {
       const roommate = roommates.find(r => r.id === roommateId);
       if (roommate) {
-        const monthlyRent = parseFloat(roommate.rentAmount) || 0; // Utilisé rentAmount
-        totalRentalIncome += monthlyRent * 12;
+        const monthlyRent = parseFloat(roommate.rentAmount) || 0;
+        totalRentalIncome += monthlyRent * 12; // Calcul annuel automatique
       }
     });
 
-    // Calcul des charges liées aux biens
+    // Calcul des charges liées aux biens (annualisé automatiquement)
     let propertyCharges = 0;
     selectedProperties.forEach(propertyId => {
       const property = properties.find(p => p.id === propertyId);
@@ -78,7 +81,7 @@ export const useTaxCalculations = ({
           const chargeValue = parseFloat(String(charge)) || 0;
           return sum + chargeValue;
         }, 0);
-        propertyCharges += monthlyCharges * 12;
+        propertyCharges += monthlyCharges * 12; // Calcul annuel automatique
       }
     });
 
@@ -86,7 +89,7 @@ export const useTaxCalculations = ({
     const totalCharges = propertyCharges + additionalCharges;
     const netIncome = Math.max(0, totalRentalIncome - totalCharges);
 
-    // Calcul de l'impôt estimé
+    // Calcul de l'impôt estimé selon la tranche
     let estimatedTax = 0;
     switch (taxBracket) {
       case '11':
