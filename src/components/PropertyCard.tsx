@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Home, Euro, Edit, Trash2 } from 'lucide-react';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 
 interface Property {
   id: string;
@@ -28,6 +29,8 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, onDelete }) => {
+  const { roommates } = useFirebaseRoommates();
+
   const handleCardClick = () => {
     if (onClick) {
       onClick(property);
@@ -50,6 +53,60 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
 
   const getLocationTypeColor = (locationType: string) => {
     return locationType === 'Colocation' ? 'text-red-600' : 'text-blue-600';
+  };
+
+  // Calculer le statut réel basé sur les occupants
+  const getRealStatus = () => {
+    const activeRoommates = roommates.filter(roommate => 
+      roommate.property === property.title && roommate.status === 'Actif'
+    );
+
+    if (property.locationType === 'Colocation') {
+      const totalRooms = property.totalRooms || 0;
+      const occupiedRooms = activeRoommates.length;
+      const availableRooms = Math.max(0, totalRooms - occupiedRooms);
+      
+      if (availableRooms > 0) {
+        return 'Partiellement occupé';
+      } else if (occupiedRooms > 0) {
+        return 'Complet';
+      } else {
+        return 'Libre';
+      }
+    } else {
+      // Location classique
+      return activeRoommates.length > 0 ? 'Occupé' : 'Libre';
+    }
+  };
+
+  // Calculer les chambres disponibles réelles
+  const getRealAvailableRooms = () => {
+    if (property.locationType === 'Colocation') {
+      const activeRoommates = roommates.filter(roommate => 
+        roommate.property === property.title && roommate.status === 'Actif'
+      );
+      const totalRooms = property.totalRooms || 0;
+      const occupiedRooms = activeRoommates.length;
+      return Math.max(0, totalRooms - occupiedRooms);
+    }
+    return 0;
+  };
+
+  const realStatus = getRealStatus();
+  const realAvailableRooms = getRealAvailableRooms();
+
+  const getStatusBadgeColor = (status: string) => {
+    switch (status) {
+      case 'Libre':
+        return 'bg-gray-100 text-gray-800';
+      case 'Occupé':
+      case 'Complet':
+        return 'bg-green-100 text-green-800';
+      case 'Partiellement occupé':
+        return 'bg-yellow-100 text-yellow-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
   };
 
   return (
@@ -82,8 +139,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
           <span>{property.title}</span>
-          <Badge variant={property.status === 'Libre' ? 'default' : 'secondary'}>
-            {property.status}
+          <Badge variant="outline" className={getStatusBadgeColor(realStatus)}>
+            {realStatus}
           </Badge>
         </CardTitle>
       </CardHeader>
@@ -108,7 +165,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
           </div>
           {property.locationType === 'Colocation' && (
             <div className="text-sm text-gray-500">
-              {property.availableRooms}/{property.totalRooms} chambres disponibles
+              {realAvailableRooms}/{property.totalRooms} chambres disponibles
             </div>
           )}
           {property.tenant && (
