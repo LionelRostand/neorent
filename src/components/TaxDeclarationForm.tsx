@@ -21,7 +21,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
   const [declarationYear, setDeclarationYear] = useState(currentYear + 1); // Commence en 2025
   const [taxBracket, setTaxBracket] = useState('');
   const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
-  const [charges, setCharges] = useState('');
+  const [deductibleCharges, setDeductibleCharges] = useState('');
   const { toast } = useToast();
   const { properties, loading } = useFirebaseProperties();
 
@@ -32,19 +32,36 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     selectedProperties.forEach(propertyId => {
       const property = properties.find(p => p.id === propertyId);
       if (property) {
-        // Utilise le loyer mensuel ou creditImmobilier selon ce qui est disponible
-        const monthlyRent = parseFloat(property.rent) || parseFloat(property.creditImmobilier) || 0;
-        totalIncome += monthlyRent * 12; // Calcul annuel simplifié
+        // Utilise le loyer mensuel
+        const monthlyRent = parseFloat(property.rent) || 0;
+        totalIncome += monthlyRent * 12; // Calcul annuel
       }
     });
     
     return totalIncome;
   };
 
-  // Estimation de l'impôt (calcul simplifié)
-  const calculateEstimatedTax = (income: number, bracket: string) => {
-    const netIncome = income - (parseFloat(charges) || 0);
+  // Calcul des charges liées aux biens sélectionnés
+  const calculatePropertyCharges = () => {
+    let totalCharges = 0;
     
+    selectedProperties.forEach(propertyId => {
+      const property = properties.find(p => p.id === propertyId);
+      if (property && property.charges) {
+        // Somme toutes les charges du bien (électricité, eau, chauffage, etc.)
+        const propertyCharges = Object.values(property.charges).reduce((sum: number, charge: any) => {
+          const chargeValue = parseFloat(charge) || 0;
+          return sum + chargeValue;
+        }, 0);
+        totalCharges += propertyCharges * 12; // Annualisation
+      }
+    });
+    
+    return totalCharges;
+  };
+
+  // Estimation de l'impôt (calcul simplifié)
+  const calculateEstimatedTax = (netIncome: number, bracket: string) => {
     switch (bracket) {
       case '11':
         return netIncome * 0.11;
@@ -60,8 +77,11 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
   };
 
   const totalRentalIncome = calculateRentalIncome();
-  const estimatedTax = calculateEstimatedTax(totalRentalIncome, taxBracket);
-  const netIncome = totalRentalIncome - (parseFloat(charges) || 0);
+  const propertyCharges = calculatePropertyCharges();
+  const additionalCharges = parseFloat(deductibleCharges) || 0;
+  const totalCharges = propertyCharges + additionalCharges;
+  const netIncome = Math.max(0, totalRentalIncome - totalCharges);
+  const estimatedTax = calculateEstimatedTax(netIncome, taxBracket);
 
   const handlePropertyToggle = (propertyId: string) => {
     setSelectedProperties(prev => 
@@ -96,7 +116,9 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
       year: declarationYear,
       selectedProperties,
       totalRentalIncome,
-      charges: parseFloat(charges) || 0,
+      propertyCharges,
+      additionalCharges,
+      totalCharges,
       netIncome,
       taxBracket,
       estimatedTax,
@@ -181,8 +203,12 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {properties.map((property) => {
-                  const monthlyRent = parseFloat(property.rent) || parseFloat(property.creditImmobilier) || 0;
+                  const monthlyRent = parseFloat(property.rent) || 0;
                   const isColocation = property.locationType === 'Colocation';
+                  const propertyMonthlyCharges = property.charges ? 
+                    Object.values(property.charges).reduce((sum: number, charge: any) => {
+                      return sum + (parseFloat(charge) || 0);
+                    }, 0) : 0;
                   
                   return (
                     <Card 
@@ -208,9 +234,19 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
                             <p className="text-sm text-gray-600">
                               Locataire: {property.tenant || 'Libre'}
                             </p>
-                            <p className="text-sm font-semibold text-blue-600">
-                              {monthlyRent.toLocaleString('fr-FR')}€/mois
-                            </p>
+                            <div className="space-y-1">
+                              <p className="text-sm font-semibold text-blue-600">
+                                Loyer: {monthlyRent.toLocaleString('fr-FR')}€/mois
+                              </p>
+                              {propertyMonthlyCharges > 0 && (
+                                <p className="text-sm text-orange-600">
+                                  Charges: {propertyMonthlyCharges.toLocaleString('fr-FR')}€/mois
+                                </p>
+                              )}
+                              <p className="text-sm font-semibold text-green-600">
+                                Net: {(monthlyRent - propertyMonthlyCharges).toLocaleString('fr-FR')}€/mois
+                              </p>
+                            </div>
                             {isColocation && (
                               <p className="text-xs text-gray-500">
                                 Colocation: {property.availableRooms}/{property.totalRooms} chambres disponibles
@@ -232,21 +268,26 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
             )}
           </div>
 
-          {/* Charges déductibles */}
+          {/* Charges déductibles supplémentaires */}
           <div className="space-y-2">
-            <Label htmlFor="charges">Charges déductibles (€)</Label>
+            <Label htmlFor="charges">Charges déductibles supplémentaires (€)</Label>
             <Input
               id="charges"
               type="number"
               step="0.01"
               min="0"
               placeholder="0.00"
-              value={charges}
-              onChange={(e) => setCharges(e.target.value)}
+              value={deductibleCharges}
+              onChange={(e) => setDeductibleCharges(e.target.value)}
             />
             <p className="text-xs text-gray-500">
-              Frais de gestion, travaux, assurances, etc.
+              Frais de gestion, travaux, assurances, intérêts d'emprunt, etc. (en plus des charges automatiques des biens)
             </p>
+            {propertyCharges > 0 && (
+              <p className="text-xs text-blue-600">
+                Charges automatiques des biens sélectionnés: {propertyCharges.toLocaleString('fr-FR')}€/an
+              </p>
+            )}
           </div>
 
           {/* Tranche d'imposition */}
@@ -275,14 +316,18 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="text-center">
                     <p className="text-sm text-gray-600">Revenus Locatifs Bruts</p>
-                    <p className="text-xl font-bold text-green-600">{totalRentalIncome.toLocaleString('fr-FR')}€</p>
+                    <p className="text-xl font-bold text-blue-600">{totalRentalIncome.toLocaleString('fr-FR')}€</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600">Total Charges</p>
+                    <p className="text-xl font-bold text-orange-600">{totalCharges.toLocaleString('fr-FR')}€</p>
                   </div>
                   <div className="text-center">
                     <p className="text-sm text-gray-600">Revenus Nets</p>
-                    <p className="text-xl font-bold text-blue-600">{netIncome.toLocaleString('fr-FR')}€</p>
+                    <p className="text-xl font-bold text-green-600">{netIncome.toLocaleString('fr-FR')}€</p>
                   </div>
                   <div className="text-center">
                     <p className="text-sm text-gray-600">Impôt Estimé</p>
@@ -294,8 +339,9 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
                   <div className="flex items-start gap-2">
                     <Info className="h-4 w-4 text-yellow-800 mt-0.5" />
                     <p className="text-sm text-yellow-800">
-                      <strong>Note:</strong> Cette estimation est indicative et basée sur votre tranche marginale. 
-                      Le calcul réel peut varier selon votre situation fiscale globale.
+                      <strong>Calcul:</strong> Revenus locatifs ({totalRentalIncome.toLocaleString('fr-FR')}€) 
+                      - Charges ({totalCharges.toLocaleString('fr-FR')}€) 
+                      = Revenus nets imposables ({netIncome.toLocaleString('fr-FR')}€)
                     </p>
                   </div>
                 </div>
