@@ -199,7 +199,7 @@ const Roommates = () => {
               <p className="text-gray-600 mt-1 text-sm sm:text-base">Consultez et gérez tous vos colocataires</p>
             </div>
             
-            <div className="p-4 sm:p-6">
+            <div className="p-3 sm:p-4 lg:p-6">
               {roommates.length === 0 ? (
                 <div className="text-center py-12">
                   <Users className="mx-auto h-12 w-12 text-gray-400" />
@@ -207,14 +207,15 @@ const Roommates = () => {
                   <p className="mt-2 text-gray-500">Commencez par ajouter votre premier colocataire.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
                   {roommates.map((roommate) => (
-                    <Card key={roommate.id} className="hover:shadow-lg transition-all duration-200 border-l-4 border-l-blue-500">
-                      <CardContent className="p-4 sm:p-6">
-                        <div className="space-y-3 sm:space-y-4">
-                          <div className="flex justify-between items-start">
-                            <div className="flex items-center space-x-3 min-w-0 flex-1">
-                              <div className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <Card key={roommate.id} className="hover:shadow-lg transition-all duration-200 border-l-4 border-l-blue-500 bg-white">
+                      <CardContent className="p-3 sm:p-4">
+                        <div className="space-y-3">
+                          {/* Header with avatar, name, and actions */}
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-center space-x-2 min-w-0 flex-1">
+                              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                                 {roommate.image ? (
                                   <img 
                                     src={roommate.image} 
@@ -222,16 +223,16 @@ const Roommates = () => {
                                     className="w-full h-full object-cover"
                                   />
                                 ) : (
-                                  <UserCheck className="h-5 w-5 sm:h-8 sm:w-8 text-blue-600" />
+                                  <UserCheck className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                                 )}
                               </div>
                               <div className="min-w-0 flex-1">
-                                <h3 className="font-semibold text-sm sm:text-lg text-gray-900 truncate">{roommate.name}</h3>
-                                <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate">{roommate.property}</p>
+                                <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate">{roommate.name}</h3>
+                                <p className="text-xs text-gray-500 truncate">{roommate.property}</p>
                               </div>
                             </div>
                             <div className="flex flex-col items-end space-y-1 ml-2">
-                              <Badge className="bg-blue-100 text-blue-800 border-blue-200 text-xs">
+                              <Badge className="bg-blue-100 text-blue-800 border-blue-200 text-xs px-2 py-0.5">
                                 {roommate.status}
                               </Badge>
                               <div className="flex space-x-1">
@@ -239,46 +240,50 @@ const Roommates = () => {
                                   variant="outline"
                                   size="sm"
                                   onClick={() => handleEditRoommate(roommate)}
-                                  className="h-6 w-6 sm:h-8 sm:w-8 p-0"
+                                  className="h-6 w-6 p-0 border-gray-200 hover:border-gray-300"
                                 >
-                                  <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
+                                  <Edit className="h-3 w-3" />
                                 </Button>
                                 <Button
                                   variant="outline"
                                   size="sm"
                                   onClick={() => handleDeleteRoommate(roommate.id)}
-                                  className="h-6 w-6 sm:h-8 sm:w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                  className="h-6 w-6 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 border-gray-200 hover:border-red-300"
                                 >
-                                  <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                                  <Trash2 className="h-3 w-3" />
                                 </Button>
                               </div>
                             </div>
                           </div>
                           
+                          {/* Contact info */}
                           <div className="space-y-2">
-                            <div className="flex items-center text-gray-600 text-xs sm:text-sm">
-                              <Mail className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
+                            <div className="flex items-center text-gray-600 text-xs">
+                              <Mail className="mr-2 h-3 w-3 text-blue-500 flex-shrink-0" />
                               <span className="truncate">{roommate.email}</span>
                             </div>
-                            <div className="flex items-center text-gray-600 text-xs sm:text-sm">
-                              <Phone className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <div className="flex items-center text-gray-600 text-xs">
+                              <Phone className="mr-2 h-3 w-3 text-green-500 flex-shrink-0" />
                               <span className="truncate">{roommate.phone}</span>
                             </div>
-                            <div className="flex items-center text-gray-600 text-xs sm:text-sm">
-                              <Home className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-orange-500 flex-shrink-0" />
-                              <span className="truncate">Chambre {roommate.roomNumber} - <span className="font-medium text-blue-600">{roommate.rentAmount}€/mois</span></span>
+                            <div className="flex items-center text-gray-600 text-xs">
+                              <Home className="mr-2 h-3 w-3 text-orange-500 flex-shrink-0" />
+                              <span className="truncate">
+                                Chambre {roommate.roomNumber} - <span className="font-medium text-blue-600">{roommate.rentAmount}€/mois</span>
+                              </span>
                             </div>
-                            <div className="flex items-center text-gray-600 text-xs sm:text-sm">
-                              <UserCheck className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-purple-500 flex-shrink-0" />
+                            <div className="flex items-center text-gray-600 text-xs">
+                              <UserCheck className="mr-2 h-3 w-3 text-purple-500 flex-shrink-0" />
                               <span className="truncate">Locataire principal: {roommate.primaryTenant}</span>
                             </div>
                           </div>
                           
-                          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 pt-3 sm:pt-4 border-t border-gray-100">
+                          {/* Action buttons */}
+                          <div className="flex flex-col space-y-1.5 pt-2 border-t border-gray-100">
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="flex-1 hover:bg-blue-50 hover:border-blue-300 text-xs sm:text-sm"
+                              className="w-full h-7 text-xs hover:bg-blue-50 hover:border-blue-300"
                               onClick={() => handleViewDetails(roommate)}
                             >
                               Voir détails
@@ -286,7 +291,7 @@ const Roommates = () => {
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="flex-1 hover:bg-blue-50 hover:border-blue-300 text-xs sm:text-sm"
+                              className="w-full h-7 text-xs hover:bg-blue-50 hover:border-blue-300"
                             >
                               Contacter
                             </Button>
