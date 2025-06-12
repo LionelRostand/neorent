@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
@@ -79,6 +78,32 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
 
   const occupants = getOccupants(property);
 
+  // Calculer le statut d'occupation et les chambres disponibles
+  const getOccupancyInfo = () => {
+    if (property.locationType === 'Colocation') {
+      const totalRooms = property.totalRooms || 0;
+      const occupiedRooms = occupants.length;
+      const availableRooms = Math.max(0, totalRooms - occupiedRooms);
+      
+      return {
+        status: availableRooms > 0 ? 'Partiellement occupé' : 'Complet',
+        availableRooms,
+        totalRooms,
+        occupiedRooms
+      };
+    } else {
+      // Location classique
+      return {
+        status: occupants.length > 0 ? 'Occupé' : 'Libre',
+        availableRooms: 0,
+        totalRooms: 1,
+        occupiedRooms: occupants.length
+      };
+    }
+  };
+
+  const occupancyInfo = getOccupancyInfo();
+
   // Calculer les revenus totaux de cette propriété
   const calculateTotalRevenue = () => {
     return occupants.reduce((total, occupant) => {
@@ -142,10 +167,14 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                   {property.locationType}
                 </Badge>
                 <Badge 
-                  variant={property.status === 'Occupé' ? 'default' : 'secondary'}
-                  className={property.status === 'Occupé' ? 'bg-green-100 text-green-800' : ''}
+                  variant={occupancyInfo.status === 'Libre' ? 'secondary' : 'default'}
+                  className={
+                    occupancyInfo.status === 'Libre' ? 'bg-gray-100 text-gray-800' :
+                    occupancyInfo.status === 'Occupé' || occupancyInfo.status === 'Complet' ? 'bg-green-100 text-green-800' :
+                    'bg-yellow-100 text-yellow-800'
+                  }
                 >
-                  {property.status}
+                  {occupancyInfo.status}
                 </Badge>
               </div>
 
@@ -164,13 +193,26 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                   </div>
                 </div>
 
-                {property.locationType === 'Colocation' && property.totalRooms && (
+                {property.locationType === 'Colocation' && (
                   <div className="flex items-center text-gray-600">
                     <Bed className="mr-2 h-5 w-5" />
-                    <span className="text-green-600 font-medium">
-                      {property.availableRooms} chambre{property.availableRooms !== 1 ? 's' : ''} disponible{property.availableRooms !== 1 ? 's' : ''}
-                    </span>
-                    <span className="ml-1">/ {property.totalRooms} total</span>
+                    {occupancyInfo.availableRooms > 0 ? (
+                      <span className="text-green-600 font-medium">
+                        {occupancyInfo.availableRooms} chambre{occupancyInfo.availableRooms !== 1 ? 's' : ''} disponible{occupancyInfo.availableRooms !== 1 ? 's' : ''}
+                      </span>
+                    ) : (
+                      <span className="text-red-600 font-medium">
+                        Toutes les chambres sont occupées
+                      </span>
+                    )}
+                    <span className="ml-1">/ {occupancyInfo.totalRooms} total</span>
+                  </div>
+                )}
+
+                {property.locationType === 'Location' && occupants.length > 0 && (
+                  <div className="flex items-center text-green-600 font-medium">
+                    <User className="mr-2 h-5 w-5" />
+                    Appartement occupé
                   </div>
                 )}
               </div>
@@ -246,12 +288,12 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                     <div className="text-sm text-gray-600">{property.surface}</div>
                   </div>
                   
-                  {property.locationType === 'Colocation' && property.totalRooms && (
+                  {property.locationType === 'Colocation' && (
                     <div className="text-center p-4 bg-gray-50 rounded-lg">
                       <Bed className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                      <div className="font-medium">{property.totalRooms} chambres</div>
+                      <div className="font-medium">{occupancyInfo.totalRooms} chambres</div>
                       <div className="text-sm text-gray-600">
-                        {property.availableRooms} disponible{property.availableRooms !== 1 ? 's' : ''}
+                        {occupancyInfo.availableRooms} disponible{occupancyInfo.availableRooms !== 1 ? 's' : ''}
                       </div>
                     </div>
                   )}
