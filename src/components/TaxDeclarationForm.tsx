@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,9 @@ import PropertyOccupantSelector from './TaxDeclaration/PropertyOccupantSelector'
 import ChargesInput from './TaxDeclaration/ChargesInput';
 import TaxBracketSelector from './TaxDeclaration/TaxBracketSelector';
 import TaxSummary from './TaxDeclaration/TaxSummary';
+import { generateTaxDeclarationPDF } from '@/services/taxDeclarationPdfService';
+import { useCompanyInfo } from '@/hooks/useCompanyInfo';
+import { useToast } from '@/hooks/use-toast';
 
 interface TaxDeclarationFormProps {
   isOpen: boolean;
@@ -53,8 +55,29 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     );
   };
 
+  const { companyInfo } = useCompanyInfo();
+  const { toast } = useToast();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (selectedProperties.length === 0) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez sélectionner au moins un bien immobilier.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!taxBracket) {
+      toast({
+        title: "Erreur", 
+        description: "Veuillez sélectionner une tranche d'imposition.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     const declarationData = {
       declarationYear,
@@ -64,13 +87,34 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
       calculations
     };
 
-    onSubmit(declarationData);
-    onClose();
-    
-    // Reset form
-    setSelectedProperties([]);
-    setDeductibleCharges('');
-    setTaxBracket('');
+    try {
+      // Générer et télécharger le PDF
+      const fileName = generateTaxDeclarationPDF(declarationData, companyInfo);
+      
+      toast({
+        title: "Succès",
+        description: `Déclaration fiscale générée: ${fileName}`,
+      });
+
+      // Appeler la fonction onSubmit du parent
+      onSubmit(declarationData);
+      
+      // Fermer le modal
+      onClose();
+      
+      // Reset form
+      setSelectedProperties([]);
+      setDeductibleCharges('');
+      setTaxBracket('');
+      
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de générer la déclaration fiscale.",
+        variant: "destructive",
+      });
+    }
   };
 
   const isLoading = propertiesLoading || tenantsLoading || roommatesLoading;
