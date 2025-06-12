@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -112,7 +113,6 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
                 disabled={loading}
               />
             </div>
@@ -124,7 +124,6 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
                 disabled={loading}
               />
             </div>
@@ -137,9 +136,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  required
                   disabled={loading}
-                  minLength={6}
                 />
                 <button
                   type="button"
