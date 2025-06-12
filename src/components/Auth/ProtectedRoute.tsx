@@ -32,18 +32,26 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Vérifier le type d'utilisateur si spécifié
-  if (requiredUserTypes && userType && !requiredUserTypes.includes(userType)) {
-    // Rediriger selon le type d'utilisateur
-    if (userType === 'admin' || userType === 'employee') {
-      return <Navigate to="/admin" replace />;
-    } else if (userType === 'locataire' || userType === 'colocataire') {
-      return <Navigate to="/tenant-space" replace />;
-    } else {
+  // Si des types d'utilisateur sont requis, vérifier les permissions
+  if (requiredUserTypes && requiredUserTypes.length > 0) {
+    if (!userType) {
+      // Si pas de type d'utilisateur défini, rediriger vers login
       return <Navigate to="/login" replace />;
+    }
+    
+    if (!requiredUserTypes.includes(userType)) {
+      // Rediriger selon le type d'utilisateur
+      if (userType === 'admin' || userType === 'employee') {
+        return <Navigate to="/admin" replace />;
+      } else if (userType === 'locataire' || userType === 'colocataire') {
+        return <Navigate to="/tenant-space" replace />;
+      } else {
+        return <Navigate to="/login" replace />;
+      }
     }
   }
 
+  // Rendre les enfants si tout est OK
   return <>{children}</>;
 };
 
