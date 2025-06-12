@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -95,67 +94,74 @@ const CompanyManagementNew: React.FC = () => {
   const CompanyForm = ({ onSubmit, isEdit = false }: { onSubmit: (e: React.FormEvent) => void; isEdit?: boolean }) => (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="name">Nom de l'entreprise</Label>
+        <Label htmlFor="name" className="text-sm">Nom de l'entreprise</Label>
         <Input
           id="name"
           value={formData.name}
           onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
           required
+          className="text-sm"
         />
       </div>
       
       <div>
-        <Label htmlFor="address">Adresse</Label>
+        <Label htmlFor="address" className="text-sm">Adresse</Label>
         <Input
           id="address"
           value={formData.address}
           onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
+          className="text-sm"
         />
       </div>
       
       <div>
-        <Label htmlFor="phone">Téléphone</Label>
+        <Label htmlFor="phone" className="text-sm">Téléphone</Label>
         <Input
           id="phone"
           value={formData.phone}
           onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+          className="text-sm"
         />
       </div>
       
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email" className="text-sm">Email</Label>
         <Input
           id="email"
           type="email"
           value={formData.email}
           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+          className="text-sm"
         />
       </div>
       
       <div>
-        <Label>Filiales</Label>
+        <Label className="text-sm">Filiales</Label>
         <div className="space-y-2">
-          <div className="flex gap-2">
+          <div className="flex flex-col xs:flex-row gap-2">
             <Input
               value={newSubsidiary}
               onChange={(e) => setNewSubsidiary(e.target.value)}
               placeholder="Nom de la filiale"
               onKeyPress={(e) => e.key === 'Enter' && addSubsidiary()}
+              className="text-sm flex-1"
             />
-            <Button type="button" onClick={addSubsidiary} size="sm">
+            <Button type="button" onClick={addSubsidiary} size="sm" className="w-full xs:w-auto">
               <Plus className="h-4 w-4" />
+              <span className="xs:hidden ml-2">Ajouter</span>
             </Button>
           </div>
           
           <div className="space-y-2">
             {formData.subsidiaries.map((subsidiary, index) => (
-              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                <span>{subsidiary}</span>
+              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded text-sm">
+                <span className="flex-1 truncate">{subsidiary}</span>
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={() => removeSubsidiary(index)}
+                  className="ml-2 flex-shrink-0"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -165,34 +171,35 @@ const CompanyManagementNew: React.FC = () => {
         </div>
       </div>
       
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full text-sm">
         {isEdit ? 'Modifier l\'entreprise' : 'Ajouter l\'entreprise'}
       </Button>
     </form>
   );
 
   if (loading) {
-    return <div>Chargement des entreprises...</div>;
+    return <div className="text-center py-4 text-sm">Chargement des entreprises...</div>;
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between text-lg md:text-xl">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-base sm:text-lg md:text-xl">
           <div className="flex items-center gap-2">
-            <Building2 className="h-5 w-5" />
-            Gestion des Entreprises
+            <Building2 className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="text-sm sm:text-base md:text-lg">Gestion des Entreprises</span>
           </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                Ajouter une entreprise
+              <Button className="flex items-center gap-2 text-xs sm:text-sm w-full sm:w-auto">
+                <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline">Ajouter une entreprise</span>
+                <span className="xs:hidden">Ajouter</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto mx-4">
               <DialogHeader>
-                <DialogTitle>Ajouter une entreprise</DialogTitle>
+                <DialogTitle className="text-base sm:text-lg">Ajouter une entreprise</DialogTitle>
               </DialogHeader>
               <CompanyForm onSubmit={handleAddCompany} />
             </DialogContent>
@@ -200,32 +207,32 @@ const CompanyManagementNew: React.FC = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid gap-4">
+        <div className="grid gap-3 sm:gap-4">
           {companies.map((company) => (
-            <div key={company.id} className="p-4 border border-gray-200 rounded-lg">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <h3 className="font-medium text-lg">{company.name}</h3>
-                  {company.address && <p className="text-sm text-gray-600">{company.address}</p>}
-                  {company.phone && <p className="text-sm text-gray-600">📞 {company.phone}</p>}
-                  {company.email && <p className="text-sm text-gray-600">✉️ {company.email}</p>}
+            <div key={company.id} className="p-3 sm:p-4 border border-gray-200 rounded-lg">
+              <div className="flex flex-col xs:flex-row xs:justify-between xs:items-start gap-3 mb-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-sm sm:text-base lg:text-lg truncate">{company.name}</h3>
+                  {company.address && <p className="text-xs sm:text-sm text-gray-600 mt-1 break-words">{company.address}</p>}
+                  {company.phone && <p className="text-xs sm:text-sm text-gray-600 mt-1">📞 {company.phone}</p>}
+                  {company.email && <p className="text-xs sm:text-sm text-gray-600 mt-1 break-all">✉️ {company.email}</p>}
                 </div>
-                <div className="flex gap-1">
-                  <Button variant="ghost" size="sm" onClick={() => openEditDialog(company)}>
-                    <Edit className="h-4 w-4" />
+                <div className="flex gap-1 flex-shrink-0">
+                  <Button variant="ghost" size="sm" onClick={() => openEditDialog(company)} className="h-8 w-8 p-0">
+                    <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => handleDeleteCompany(company.id)}>
-                    <Trash2 className="h-4 w-4" />
+                  <Button variant="ghost" size="sm" onClick={() => handleDeleteCompany(company.id)} className="h-8 w-8 p-0">
+                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                 </div>
               </div>
               
               {company.subsidiaries && company.subsidiaries.length > 0 && (
-                <div className="mt-2">
-                  <p className="text-sm font-medium text-gray-700">Filiales:</p>
-                  <div className="flex flex-wrap gap-1 mt-1">
+                <div className="mt-3">
+                  <p className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Filiales:</p>
+                  <div className="flex flex-wrap gap-1">
                     {company.subsidiaries.map((subsidiary, index) => (
-                      <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                      <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded truncate max-w-full">
                         {subsidiary}
                       </span>
                     ))}
@@ -233,24 +240,24 @@ const CompanyManagementNew: React.FC = () => {
                 </div>
               )}
               
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-3">
                 Créée le: {new Date(company.createdAt).toLocaleDateString()}
               </p>
             </div>
           ))}
           
           {companies.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              Aucune entreprise enregistrée
+            <div className="text-center py-6 sm:py-8 text-gray-500">
+              <p className="text-sm sm:text-base">Aucune entreprise enregistrée</p>
             </div>
           )}
         </div>
 
         {/* Dialog de modification */}
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto mx-4">
             <DialogHeader>
-              <DialogTitle>Modifier l'entreprise</DialogTitle>
+              <DialogTitle className="text-base sm:text-lg">Modifier l'entreprise</DialogTitle>
             </DialogHeader>
             <CompanyForm onSubmit={handleEditCompany} isEdit />
           </DialogContent>
