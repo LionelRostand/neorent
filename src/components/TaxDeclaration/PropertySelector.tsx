@@ -24,7 +24,7 @@ interface Roommate {
   id: string;
   name: string;
   property: string;
-  rent: string;
+  rentAmount: string; // Harmonisé avec useFirebaseRoommates
 }
 
 interface PropertySelectorProps {
@@ -143,7 +143,7 @@ const PropertySelector = ({
                   {roommate.name}
                 </label>
                 <p className="text-xs text-gray-500">
-                  Loyer: {roommate.rent}€/mois • Bien: {roommate.property}
+                  Loyer: {roommate.rentAmount}€/mois • Bien: {roommate.property}
                 </p>
               </div>
             </div>

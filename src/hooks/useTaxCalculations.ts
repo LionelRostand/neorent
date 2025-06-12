@@ -14,7 +14,7 @@ interface Tenant {
 
 interface Roommate {
   id: string;
-  rent: string;
+  rentAmount: string; // Harmonisé avec useFirebaseRoommates
 }
 
 interface UseTaxCalculationsProps {
@@ -64,7 +64,7 @@ export const useTaxCalculations = ({
     selectedRoommates.forEach(roommateId => {
       const roommate = roommates.find(r => r.id === roommateId);
       if (roommate) {
-        const monthlyRent = parseFloat(roommate.rent) || 0;
+        const monthlyRent = parseFloat(roommate.rentAmount) || 0; // Utilisé rentAmount
         totalRentalIncome += monthlyRent * 12;
       }
     });
