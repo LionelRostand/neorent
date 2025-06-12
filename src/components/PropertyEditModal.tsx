@@ -75,7 +75,13 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
 
   const calculateTotalCharges = () => {
     if (!formData.charges) return 0;
-    return Object.values(formData.charges).reduce((sum, value) => sum + (value || 0), 0);
+    
+    const total = Object.values(formData.charges).reduce((sum, value) => {
+      const numValue = typeof value === 'number' ? value : parseFloat(String(value)) || 0;
+      return sum + numValue;
+    }, 0);
+    
+    return isNaN(total) ? 0 : total;
   };
 
   const calculateTotalCost = () => {
