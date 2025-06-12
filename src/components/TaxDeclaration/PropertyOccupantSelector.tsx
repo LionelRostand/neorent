@@ -19,6 +19,7 @@ interface Tenant {
   name: string;
   property: string;
   rentAmount: string;
+  leaseStart?: string;
 }
 
 interface Roommate {
@@ -56,106 +57,114 @@ const PropertyOccupantSelector = ({
     };
   };
 
-  // Calculer le revenu annuel total d'un bien
-  const getPropertyAnnualIncome = (property: Property) => {
-    const monthlyRent = parseFloat(property.rent) || 0;
-    const occupants = getPropertyOccupants(property.title);
+  // Créer une liste de tous les éléments sélectionnables (propriétés + locataires/colocataires)
+  const createSelectableItems = () => {
+    const items: any[] = [];
     
-    let totalMonthlyIncome = monthlyRent;
-    
-    // Ajouter les revenus des locataires
-    occupants.tenants.forEach(tenant => {
-      totalMonthlyIncome += parseFloat(tenant.rentAmount) || 0;
+    // Ajouter les propriétés
+    properties.forEach(property => {
+      items.push({
+        type: 'property',
+        id: property.id,
+        title: property.title,
+        rent: property.rent,
+        icon: '🏢'
+      });
     });
-    
-    // Ajouter les revenus des colocataires
-    occupants.roommates.forEach(roommate => {
-      totalMonthlyIncome += parseFloat(roommate.rentAmount) || 0;
+
+    // Ajouter les locataires comme éléments séparés
+    tenants.forEach(tenant => {
+      items.push({
+        type: 'tenant',
+        id: `tenant-${tenant.id}`,
+        title: tenant.property,
+        subtitle: `Locataire: ${tenant.name}`,
+        rent: tenant.rentAmount,
+        icon: '👤',
+        leaseStart: tenant.leaseStart
+      });
     });
-    
-    return totalMonthlyIncome * 12; // Calcul annuel
+
+    // Ajouter les colocataires comme éléments séparés
+    roommates.forEach(roommate => {
+      items.push({
+        type: 'roommate',
+        id: `roommate-${roommate.id}`,
+        title: roommate.property,
+        subtitle: `Locataire: ${roommate.name}`,
+        rent: roommate.rentAmount,
+        icon: '👥'
+      });
+    });
+
+    return items;
+  };
+
+  const selectableItems = createSelectableItems();
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '';
+    try {
+      return new Date(dateString).toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit', 
+        year: 'numeric'
+      });
+    } catch {
+      return dateString;
+    }
   };
 
   return (
     <div className="space-y-4">
-      <Label>Sélectionner les biens et leurs occupants pour la déclaration</Label>
+      <Label>Sélection des biens immobiliers</Label>
       
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Building2 className="h-5 w-5" />
-            Appartements et Occupants
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {properties.map((property) => {
-            const occupants = getPropertyOccupants(property.title);
-            const annualIncome = getPropertyAnnualIncome(property);
-            
-            return (
-              <div key={property.id} className="border rounded-lg p-4 bg-gray-50">
-                <div className="flex items-start space-x-3">
-                  <Checkbox
-                    id={`property-${property.id}`}
-                    checked={selectedProperties.includes(property.id)}
-                    onCheckedChange={(checked) => onPropertyChange(property.id, checked as boolean)}
-                    className="mt-1"
-                  />
-                  <div className="flex-1 space-y-3">
-                    <div>
-                      <label htmlFor={`property-${property.id}`} className="text-base font-semibold cursor-pointer text-blue-800">
-                        {property.title}
-                      </label>
-                      <p className="text-sm text-gray-600">
-                        Type: {property.locationType || 'Location'} • Loyer base: {property.rent}€/mois
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {selectableItems.map((item, index) => (
+          <Card key={item.id} className="border-2 hover:border-blue-300 transition-colors">
+            <CardContent className="p-4">
+              <div className="flex items-start space-x-3">
+                <Checkbox
+                  id={item.id}
+                  checked={selectedProperties.includes(item.id)}
+                  onCheckedChange={(checked) => onPropertyChange(item.id, checked as boolean)}
+                  className="mt-1"
+                />
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{item.icon}</span>
+                    <label htmlFor={item.id} className="font-semibold text-gray-900 cursor-pointer">
+                      {item.title}
+                    </label>
+                  </div>
+                  
+                  {item.subtitle && (
+                    <p className="text-sm text-gray-600">{item.subtitle}</p>
+                  )}
+                  
+                  <div className="space-y-1">
+                    <p className="text-lg font-bold text-blue-600">{item.rent}€/mois</p>
+                    {item.leaseStart && (
+                      <p className="text-xs text-gray-500">
+                        Depuis: {formatDate(item.leaseStart)}
                       </p>
-                      <p className="text-sm font-medium text-green-600">
-                        Revenu annuel total: {annualIncome.toLocaleString('fr-FR')}€
-                      </p>
-                    </div>
-                    
-                    {/* Affichage des occupants */}
-                    {occupants.hasOccupants && (
-                      <div className="bg-white rounded-md p-3 border">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Users className="h-4 w-4 text-blue-600" />
-                          <span className="text-sm font-medium text-blue-800">Occupants :</span>
-                        </div>
-                        <div className="space-y-1">
-                          {occupants.tenants.map((tenant) => (
-                            <div key={tenant.id} className="flex justify-between items-center text-sm">
-                              <span className="text-gray-700">📍 {tenant.name} (Locataire)</span>
-                              <span className="text-green-600 font-medium">{tenant.rentAmount}€/mois</span>
-                            </div>
-                          ))}
-                          {occupants.roommates.map((roommate) => (
-                            <div key={roommate.id} className="flex justify-between items-center text-sm">
-                              <span className="text-gray-700">🏠 {roommate.name} (Colocataire)</span>
-                              <span className="text-green-600 font-medium">{roommate.rentAmount}€/mois</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {!occupants.hasOccupants && (
-                      <div className="bg-yellow-50 rounded-md p-2 border border-yellow-200">
-                        <p className="text-sm text-yellow-700">Aucun occupant déclaré pour ce bien</p>
-                      </div>
                     )}
                   </div>
                 </div>
               </div>
-            );
-          })}
-          
-          {properties.length === 0 && (
-            <p className="text-sm text-gray-500 text-center py-4">
-              Aucun bien immobilier disponible
-            </p>
-          )}
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      
+      {selectableItems.length === 0 && (
+        <div className="text-center py-8">
+          <Building2 className="mx-auto h-12 w-12 text-gray-400" />
+          <p className="text-sm text-gray-500 mt-2">
+            Aucun bien immobilier ou locataire disponible
+          </p>
+        </div>
+      )}
     </div>
   );
 };
