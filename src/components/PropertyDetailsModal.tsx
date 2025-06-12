@@ -1,11 +1,14 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone } from 'lucide-react';
+import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone, TrendingUp, TrendingDown } from 'lucide-react';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseCharges } from '@/hooks/useFirebaseCharges';
 
 interface Property {
-  id: string; // Changed from number to string for Firebase compatibility
+  id: string;
   title: string;
   address: string;
   type: string;
@@ -20,7 +23,7 @@ interface Property {
 }
 
 interface Occupant {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: string;
@@ -36,45 +39,60 @@ interface PropertyDetailsModalProps {
 }
 
 const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, isOpen, onClose }) => {
+  const { roommates } = useFirebaseRoommates();
+  const { charges } = useFirebaseCharges();
+
   if (!property) return null;
 
-  // Simulation des occupants basée sur les données existantes
+  // Récupérer les vrais occupants de cette propriété
   const getOccupants = (property: Property): Occupant[] => {
     const occupants: Occupant[] = [];
     
-    if (property.tenant) {
-      occupants.push({
-        id: 1,
-        name: property.tenant,
-        email: `${property.tenant.toLowerCase().replace(' ', '.')}@email.com`,
-        phone: '06 12 34 56 78',
-        type: 'Locataire principal'
-      });
-    }
+    // Récupérer les colocataires de cette propriété
+    const propertyRoommates = roommates.filter(roommate => 
+      roommate.property === property.title && roommate.status === 'Actif'
+    );
 
-    // Si c'est une colocation, ajouter des colocataires simulés
-    if (property.locationType === 'Colocation' && property.totalRooms) {
-      const occupiedRooms = (property.totalRooms - (property.availableRooms || 0));
-      
-      if (occupiedRooms > 1) {
-        for (let i = 2; i <= occupiedRooms; i++) {
-          occupants.push({
-            id: i,
-            name: `Colocataire ${i - 1}`,
-            email: `colocataire${i - 1}@email.com`,
-            phone: `06 ${(i + 10)} ${(i + 20)} ${(i + 30)} ${(i + 40)}`,
-            type: 'Colocataire',
-            roomNumber: `Chambre ${i}`,
-            rentAmount: '600€'
-          });
-        }
-      }
-    }
+    propertyRoommates.forEach(roommate => {
+      occupants.push({
+        id: roommate.id,
+        name: roommate.name,
+        email: roommate.email,
+        phone: roommate.phone,
+        type: roommate.primaryTenant ? 'Locataire principal' : 'Colocataire',
+        roomNumber: roommate.roomNumber,
+        rentAmount: roommate.rentAmount
+      });
+    });
 
     return occupants;
   };
 
   const occupants = getOccupants(property);
+
+  // Calculer les revenus totaux de cette propriété
+  const calculateTotalRevenue = () => {
+    return occupants.reduce((total, occupant) => {
+      if (occupant.rentAmount) {
+        const amount = parseFloat(occupant.rentAmount.replace(/[^0-9.-]+/g, ''));
+        return total + (isNaN(amount) ? 0 : amount);
+      }
+      return total;
+    }, 0);
+  };
+
+  // Récupérer les charges de cette propriété pour le mois actuel
+  const getCurrentMonthCharges = () => {
+    const currentMonth = new Date().toISOString().slice(0, 7); // Format YYYY-MM
+    const propertyCharges = charges.find(charge => 
+      charge.propertyName === property.title && charge.month === currentMonth
+    );
+    return propertyCharges ? propertyCharges.total : 0;
+  };
+
+  const totalRevenue = calculateTotalRevenue();
+  const totalCharges = getCurrentMonthCharges();
+  const profit = totalRevenue - totalCharges;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -102,7 +120,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
               <div className="flex gap-2 flex-wrap">
                 <Badge 
                   variant={property.locationType === 'Colocation' ? 'default' : 'secondary'}
-                  className={property.locationType === 'Colocation' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}
+                  className={property.locationType === 'Colocation' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}
                 >
                   {property.locationType}
                 </Badge>
@@ -138,12 +156,64 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                     <span className="ml-1">/ {property.totalRooms} total</span>
                   </div>
                 )}
-                
-                <div className="flex items-center text-blue-600 font-semibold text-lg">
-                  <DollarSign className="mr-2 h-5 w-5" />
-                  {property.rent}/mois
-                </div>
               </div>
+            </div>
+          </div>
+
+          {/* Rentabilité et bénéfices */}
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Rentabilité du bien</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <DollarSign className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                  <div className="font-medium text-green-600">Revenus</div>
+                  <div className="text-xl font-bold">{totalRevenue}€</div>
+                  <div className="text-sm text-gray-600">Ce mois</div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <DollarSign className="h-8 w-8 mx-auto mb-2 text-red-600" />
+                  <div className="font-medium text-red-600">Charges</div>
+                  <div className="text-xl font-bold">{totalCharges}€</div>
+                  <div className="text-sm text-gray-600">Ce mois</div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4 text-center">
+                  {profit >= 0 ? (
+                    <TrendingUp className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                  ) : (
+                    <TrendingDown className="h-8 w-8 mx-auto mb-2 text-red-600" />
+                  )}
+                  <div className={`font-medium ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {profit >= 0 ? 'Bénéfice' : 'Perte'}
+                  </div>
+                  <div className={`text-xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {Math.abs(profit)}€
+                  </div>
+                  <div className="text-sm text-gray-600">Ce mois</div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <Users className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                  <div className="font-medium text-blue-600">Taux d'occupation</div>
+                  <div className="text-xl font-bold">
+                    {property.totalRooms ? 
+                      Math.round(((property.totalRooms - (property.availableRooms || 0)) / property.totalRooms) * 100) 
+                      : (occupants.length > 0 ? 100 : 0)
+                    }%
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {occupants.length} occupant{occupants.length !== 1 ? 's' : ''}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
@@ -234,6 +304,9 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                 <CardContent className="p-8 text-center">
                   <Users className="h-12 w-12 mx-auto mb-3 text-gray-400" />
                   <p className="text-gray-600">Aucun occupant pour ce bien</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Les occupants apparaîtront automatiquement une fois ajoutés dans la section Colocataires
+                  </p>
                 </CardContent>
               </Card>
             )}
