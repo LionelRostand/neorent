@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,77 +10,91 @@ import TaxDeclarationForm from '@/components/TaxDeclarationForm';
 const taxes = [
   {
     id: 1,
-    title: 'Taxe foncière 2024',
+    title: 'Taxe foncière 2025',
     type: 'Taxe foncière',
     property: 'Appartement Rue des Fleurs',
     amount: '1,350€',
-    dueDate: '2024-10-15',
+    dueDate: '2025-10-15',
     status: 'À payer',
-    year: 2024,
+    year: 2025,
     description: 'Taxe sur la propriété foncière'
   },
   {
     id: 2,
-    title: 'Revenus fonciers 2024',
+    title: 'Revenus fonciers 2025',
     type: 'Revenus fonciers',
     property: 'Villa Montparnasse',
     amount: '4,200€',
-    dueDate: '2025-04-30',
+    dueDate: '2026-04-30',
     status: 'À déclarer',
-    year: 2024,
+    year: 2025,
     description: 'Déclaration des revenus locatifs'
   },
   {
     id: 3,
-    title: 'CFE 2024',
+    title: 'CFE 2025',
     type: 'CFE',
     property: 'Studio Centre-ville',
     amount: '520€',
-    dueDate: '2024-12-15',
+    dueDate: '2025-12-15',
     status: 'À payer',
-    year: 2024,
+    year: 2025,
     description: 'Cotisation foncière des entreprises'
   },
   {
     id: 4,
-    title: 'Taxe foncière 2023',
+    title: 'Taxe foncière 2024',
     type: 'Taxe foncière',
     property: 'Appartement Rue des Fleurs',
     amount: '1,200€',
-    dueDate: '2023-10-15',
+    dueDate: '2024-10-15',
     status: 'Payée',
-    year: 2023,
+    year: 2024,
     description: 'Taxe sur la propriété foncière'
   },
   {
     id: 5,
-    title: 'IFI 2024',
+    title: 'IFI 2025',
     type: 'IFI',
     property: 'Ensemble du patrimoine',
     amount: '2,800€',
-    dueDate: '2024-06-15',
+    dueDate: '2025-06-15',
     status: 'Payée',
-    year: 2024,
+    year: 2025,
     description: 'Impôt sur la fortune immobilière'
   }
 ];
 
-// Calcul approximatif des impôts pour l'année courante
-const currentYear = new Date().getFullYear();
-const currentYearTaxes = taxes.filter(t => t.year === currentYear);
+// Génération dynamique des années à partir de 2025
+const generateYears = () => {
+  const years = [];
+  const currentYear = new Date().getFullYear();
+  const startYear = 2025;
+  const endYear = Math.max(currentYear + 2, startYear + 5); // Au moins 5 ans à partir de 2025 ou 2 ans après l'année courante
+  
+  for (let year = startYear; year <= endYear; year++) {
+    years.push(year);
+  }
+  return years;
+};
+
+// Calcul approximatif des impôts pour l'année par défaut (2025 ou année courante si supérieure)
+const defaultYear = Math.max(new Date().getFullYear(), 2025);
+const currentYearTaxes = taxes.filter(t => t.year === defaultYear);
 
 const Taxes = () => {
-  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [isDeclarationFormOpen, setIsDeclarationFormOpen] = useState(false);
   const [taxList, setTaxList] = useState(taxes);
   
+  const availableYears = generateYears();
   const filteredTaxes = taxList.filter(t => t.year === selectedYear);
   const paidCount = filteredTaxes.filter(t => t.status === 'Payée').length;
   const pendingCount = filteredTaxes.filter(t => t.status === 'À payer').length;
   const todeclareCount = filteredTaxes.filter(t => t.status === 'À déclarer').length;
   const totalCount = filteredTaxes.length;
 
-  // Calcul du montant total approximatif pour l'année courante
+  // Calcul du montant total approximatif pour l'année par défaut
   const totalCurrentYearAmount = currentYearTaxes.reduce((sum, tax) => {
     const amount = parseFloat(tax.amount.replace('€', '').replace(',', ''));
     return sum + amount;
@@ -136,12 +149,12 @@ const Taxes = () => {
           </Button>
         </div>
 
-        {/* Estimation fiscale pour l'année courante */}
+        {/* Estimation fiscale pour l'année par défaut */}
         <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
           <CardHeader>
             <CardTitle className="flex items-center text-blue-800">
               <TrendingUp className="mr-2 h-5 w-5" />
-              Estimation Fiscale {currentYear}
+              Estimation Fiscale {defaultYear}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -167,7 +180,7 @@ const Taxes = () => {
           </CardContent>
         </Card>
 
-        {/* Sélecteur d'année */}
+        {/* Sélecteur d'année dynamique */}
         <div className="flex items-center space-x-4">
           <label className="text-sm font-medium text-gray-700">Filtrer par année:</label>
           <select 
@@ -175,8 +188,9 @@ const Taxes = () => {
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
             className="border border-gray-300 rounded-md px-3 py-1 text-sm"
           >
-            <option value={2024}>2024</option>
-            <option value={2023}>2023</option>
+            {availableYears.map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
           </select>
         </div>
 
