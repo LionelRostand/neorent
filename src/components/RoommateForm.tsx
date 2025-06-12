@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,11 +9,31 @@ import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { Eye, EyeOff } from 'lucide-react';
 
-interface RoommateFormProps {
-  onSuccess?: () => void;
+interface Property {
+  id: string;
+  title: string;
+  address: string;
+  type: string;
+  surface: string;
+  rent: string;
+  status: string;
+  tenant: string | null;
+  image: string;
+  locationType: string;
+  totalRooms: number;
+  availableRooms: number;
+  creditImmobilier?: string;
+  charges?: any;
 }
 
-const RoommateForm = ({ onSuccess }: RoommateFormProps) => {
+interface RoommateFormProps {
+  onSuccess?: () => void;
+  onClose?: () => void;
+  onSubmit?: (data: any) => Promise<void>;
+  properties?: Property[];
+}
+
+const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateFormProps) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -40,17 +59,20 @@ const RoommateForm = ({ onSuccess }: RoommateFormProps) => {
     setLoading(true);
 
     try {
-      // Créer le compte Firebase Auth
-      await createUserAccount(formData.email, formData.password);
+      if (onSubmit) {
+        // Utiliser le onSubmit personnalisé si fourni
+        await onSubmit(formData);
+      } else {
+        // Comportement par défaut
+        await createUserAccount(formData.email, formData.password);
+        const { password, ...roommateData } = formData;
+        await addRoommate(roommateData);
 
-      // Créer le profil colocataire (sans le mot de passe)
-      const { password, ...roommateData } = formData;
-      await addRoommate(roommateData);
-
-      toast({
-        title: "Colocataire ajouté",
-        description: "Le colocataire a été ajouté avec succès et peut maintenant se connecter.",
-      });
+        toast({
+          title: "Colocataire ajouté",
+          description: "Le colocataire a été ajouté avec succès et peut maintenant se connecter.",
+        });
+      }
 
       // Reset form
       setFormData({
@@ -68,6 +90,7 @@ const RoommateForm = ({ onSuccess }: RoommateFormProps) => {
       });
 
       onSuccess?.();
+      onClose?.();
     } catch (error: any) {
       console.error('Erreur:', error);
       toast({
@@ -147,12 +170,31 @@ const RoommateForm = ({ onSuccess }: RoommateFormProps) => {
             
             <div>
               <Label htmlFor="property">Propriété</Label>
-              <Input
-                id="property"
-                value={formData.property}
-                onChange={(e) => setFormData({ ...formData, property: e.target.value })}
-                disabled={loading}
-              />
+              {properties ? (
+                <Select 
+                  value={formData.property} 
+                  onValueChange={(value) => setFormData({ ...formData, property: value })}
+                  disabled={loading}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner une propriété" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {properties.map((property) => (
+                      <SelectItem key={property.id} value={property.title}>
+                        {property.title} - {property.address}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <Input
+                  id="property"
+                  value={formData.property}
+                  onChange={(e) => setFormData({ ...formData, property: e.target.value })}
+                  disabled={loading}
+                />
+              )}
             </div>
             
             <div>

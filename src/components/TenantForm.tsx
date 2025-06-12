@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,11 +9,31 @@ import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { Eye, EyeOff } from 'lucide-react';
 
-interface TenantFormProps {
-  onSuccess?: () => void;
+interface Property {
+  id: string;
+  title: string;
+  address: string;
+  type: string;
+  surface: string;
+  rent: string;
+  status: string;
+  tenant: string | null;
+  image: string;
+  locationType: string;
+  totalRooms: number;
+  availableRooms: number;
+  creditImmobilier?: string;
+  charges?: any;
 }
 
-const TenantForm = ({ onSuccess }: TenantFormProps) => {
+interface TenantFormProps {
+  onSuccess?: () => void;
+  onClose?: () => void;
+  onSubmit?: (data: any) => Promise<void>;
+  properties?: Property[];
+}
+
+const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProps) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,17 +58,20 @@ const TenantForm = ({ onSuccess }: TenantFormProps) => {
     setLoading(true);
 
     try {
-      // Créer le compte Firebase Auth
-      await createUserAccount(formData.email, formData.password);
+      if (onSubmit) {
+        // Utiliser le onSubmit personnalisé si fourni
+        await onSubmit(formData);
+      } else {
+        // Comportement par défaut
+        await createUserAccount(formData.email, formData.password);
+        const { password, ...tenantData } = formData;
+        await addTenant(tenantData);
 
-      // Créer le profil locataire (sans le mot de passe)
-      const { password, ...tenantData } = formData;
-      await addTenant(tenantData);
-
-      toast({
-        title: "Locataire ajouté",
-        description: "Le locataire a été ajouté avec succès et peut maintenant se connecter.",
-      });
+        toast({
+          title: "Locataire ajouté",
+          description: "Le locataire a été ajouté avec succès et peut maintenant se connecter.",
+        });
+      }
 
       // Reset form
       setFormData({
@@ -66,6 +88,7 @@ const TenantForm = ({ onSuccess }: TenantFormProps) => {
       });
 
       onSuccess?.();
+      onClose?.();
     } catch (error: any) {
       console.error('Erreur:', error);
       toast({
@@ -145,12 +168,31 @@ const TenantForm = ({ onSuccess }: TenantFormProps) => {
             
             <div>
               <Label htmlFor="property">Propriété</Label>
-              <Input
-                id="property"
-                value={formData.property}
-                onChange={(e) => setFormData({ ...formData, property: e.target.value })}
-                disabled={loading}
-              />
+              {properties ? (
+                <Select 
+                  value={formData.property} 
+                  onValueChange={(value) => setFormData({ ...formData, property: value })}
+                  disabled={loading}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner une propriété" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {properties.map((property) => (
+                      <SelectItem key={property.id} value={property.title}>
+                        {property.title} - {property.address}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <Input
+                  id="property"
+                  value={formData.property}
+                  onChange={(e) => setFormData({ ...formData, property: e.target.value })}
+                  disabled={loading}
+                />
+              )}
             </div>
             
             <div>
