@@ -2,16 +2,16 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { DollarSign } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useTaxCalculations } from '@/hooks/useTaxCalculations';
-import TaxDeclarationHeader from '@/components/TaxDeclaration/TaxDeclarationHeader';
-import YearSelector from '@/components/TaxDeclaration/YearSelector';
-import PropertySelector from '@/components/TaxDeclaration/PropertySelector';
-import ChargesInput from '@/components/TaxDeclaration/ChargesInput';
-import TaxBracketSelector from '@/components/TaxDeclaration/TaxBracketSelector';
-import TaxSummary from '@/components/TaxDeclaration/TaxSummary';
+import TaxDeclarationHeader from './TaxDeclaration/TaxDeclarationHeader';
+import YearSelector from './TaxDeclaration/YearSelector';
+import PropertySelector from './TaxDeclaration/PropertySelector';
+import ChargesInput from './TaxDeclaration/ChargesInput';
+import TaxBracketSelector from './TaxDeclaration/TaxBracketSelector';
+import TaxSummary from './TaxDeclaration/TaxSummary';
 
 interface TaxDeclarationFormProps {
   isOpen: boolean;
@@ -21,140 +21,145 @@ interface TaxDeclarationFormProps {
 
 const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormProps) => {
   const currentYear = new Date().getFullYear();
-  const [declarationYear, setDeclarationYear] = useState(currentYear + 1);
-  const [taxBracket, setTaxBracket] = useState('');
+  
+  // États du formulaire
+  const [declarationYear, setDeclarationYear] = useState(currentYear);
   const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
+  const [selectedTenants, setSelectedTenants] = useState<string[]>([]);
+  const [selectedRoommates, setSelectedRoommates] = useState<string[]>([]);
   const [deductibleCharges, setDeductibleCharges] = useState('');
-  const { toast } = useToast();
-  const { properties, loading } = useFirebaseProperties();
+  const [taxBracket, setTaxBracket] = useState('');
 
-  const {
-    totalRentalIncome,
-    propertyCharges,
-    additionalCharges,
-    totalCharges,
-    netIncome,
-    estimatedTax
-  } = useTaxCalculations({
+  // Récupération des données
+  const { properties, loading: propertiesLoading } = useFirebaseProperties();
+  const { tenants, loading: tenantsLoading } = useFirebaseTenants();
+  const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
+
+  // Calculs fiscaux
+  const calculations = useTaxCalculations({
     properties,
+    tenants,
+    roommates,
     selectedProperties,
+    selectedTenants,
+    selectedRoommates,
     deductibleCharges,
     taxBracket
   });
 
-  const handlePropertyToggle = (propertyId: string) => {
+  const handlePropertyChange = (propertyId: string, checked: boolean) => {
     setSelectedProperties(prev => 
-      prev.includes(propertyId) 
-        ? prev.filter(id => id !== propertyId)
-        : [...prev, propertyId]
+      checked 
+        ? [...prev, propertyId]
+        : prev.filter(id => id !== propertyId)
+    );
+  };
+
+  const handleTenantChange = (tenantId: string, checked: boolean) => {
+    setSelectedTenants(prev => 
+      checked 
+        ? [...prev, tenantId]
+        : prev.filter(id => id !== tenantId)
+    );
+  };
+
+  const handleRoommateChange = (roommateId: string, checked: boolean) => {
+    setSelectedRoommates(prev => 
+      checked 
+        ? [...prev, roommateId]
+        : prev.filter(id => id !== roommateId)
     );
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (selectedProperties.length === 0) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner au moins un bien immobilier.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!taxBracket) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner votre tranche d'imposition.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const declarationData = {
-      year: declarationYear,
+      declarationYear,
       selectedProperties,
-      totalRentalIncome,
-      propertyCharges,
-      additionalCharges,
-      totalCharges,
-      netIncome,
+      selectedTenants,
+      selectedRoommates,
+      deductibleCharges: parseFloat(deductibleCharges) || 0,
       taxBracket,
-      estimatedTax,
-      createdAt: new Date().toISOString()
+      calculations
     };
 
     onSubmit(declarationData);
-    
-    toast({
-      title: "Déclaration créée",
-      description: `Déclaration fiscale pour ${declarationYear} créée avec succès.`,
-    });
-
     onClose();
+    
+    // Reset form
+    setSelectedProperties([]);
+    setSelectedTenants([]);
+    setSelectedRoommates([]);
+    setDeductibleCharges('');
+    setTaxBracket('');
   };
 
-  if (loading) {
-    return (
-      <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
-          <TaxDeclarationHeader declarationYear={declarationYear} />
-          <div className="flex items-center justify-center h-32">
-            <div className="text-lg">Chargement des biens immobiliers...</div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
+  const isLoading = propertiesLoading || tenantsLoading || roommatesLoading;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <TaxDeclarationHeader declarationYear={declarationYear} />
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <YearSelector 
-            declarationYear={declarationYear} 
-            onYearChange={setDeclarationYear} 
-          />
-
-          <PropertySelector
-            properties={properties}
-            selectedProperties={selectedProperties}
-            onPropertyToggle={handlePropertyToggle}
-          />
-
-          <ChargesInput
-            deductibleCharges={deductibleCharges}
-            onChargesChange={setDeductibleCharges}
-            propertyCharges={propertyCharges}
-          />
-
-          <TaxBracketSelector
-            taxBracket={taxBracket}
-            onTaxBracketChange={setTaxBracket}
-          />
-
-          {selectedProperties.length > 0 && (
-            <TaxSummary
-              declarationYear={declarationYear}
-              totalRentalIncome={totalRentalIncome}
-              totalCharges={totalCharges}
-              netIncome={netIncome}
-              estimatedTax={estimatedTax}
-            />
-          )}
-
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={onClose}>
-              Annuler
-            </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={properties.length === 0}>
-              <DollarSign className="mr-2 h-4 w-4" />
-              Créer la Déclaration
-            </Button>
+        
+        {isLoading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+            <p className="mt-2 text-gray-600">Chargement des données...</p>
           </div>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <YearSelector 
+              declarationYear={declarationYear}
+              onYearChange={setDeclarationYear}
+            />
+
+            <PropertySelector
+              properties={properties}
+              tenants={tenants}
+              roommates={roommates}
+              selectedProperties={selectedProperties}
+              selectedTenants={selectedTenants}
+              selectedRoommates={selectedRoommates}
+              onPropertyChange={handlePropertyChange}
+              onTenantChange={handleTenantChange}
+              onRoommateChange={handleRoommateChange}
+            />
+
+            <ChargesInput
+              deductibleCharges={deductibleCharges}
+              onChargesChange={setDeductibleCharges}
+              propertyCharges={calculations.propertyCharges}
+            />
+
+            <TaxBracketSelector
+              taxBracket={taxBracket}
+              onTaxBracketChange={setTaxBracket}
+            />
+
+            {(selectedProperties.length > 0 || selectedTenants.length > 0 || selectedRoommates.length > 0) && taxBracket && (
+              <TaxSummary
+                declarationYear={declarationYear}
+                totalRentalIncome={calculations.totalRentalIncome}
+                totalCharges={calculations.totalCharges}
+                netIncome={calculations.netIncome}
+                estimatedTax={calculations.estimatedTax}
+              />
+            )}
+
+            <div className="flex justify-end space-x-4 pt-6 border-t">
+              <Button type="button" variant="outline" onClick={onClose}>
+                Annuler
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={selectedProperties.length === 0 && selectedTenants.length === 0 && selectedRoommates.length === 0 || !taxBracket}
+              >
+                Créer la déclaration
+              </Button>
+            </div>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );

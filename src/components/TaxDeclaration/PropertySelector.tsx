@@ -1,110 +1,160 @@
 
 import React from 'react';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent } from '@/components/ui/card';
-import { Building2, Users } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Building2, Users, User } from 'lucide-react';
 
 interface Property {
   id: string;
   title: string;
-  address: string;
-  type: string;
-  surface: string;
   rent: string;
-  tenant: string | null;
-  locationType: string;
-  totalRooms?: number;
-  availableRooms?: number;
   charges?: Record<string, any>;
+  locationType?: string;
+}
+
+interface Tenant {
+  id: string;
+  name: string;
+  property: string;
+  rentAmount: string;
+}
+
+interface Roommate {
+  id: string;
+  name: string;
+  property: string;
+  rent: string;
 }
 
 interface PropertySelectorProps {
   properties: Property[];
+  tenants: Tenant[];
+  roommates: Roommate[];
   selectedProperties: string[];
-  onPropertyToggle: (propertyId: string) => void;
+  selectedTenants: string[];
+  selectedRoommates: string[];
+  onPropertyChange: (propertyId: string, checked: boolean) => void;
+  onTenantChange: (tenantId: string, checked: boolean) => void;
+  onRoommateChange: (roommateId: string, checked: boolean) => void;
 }
 
-const PropertySelector = ({ properties, selectedProperties, onPropertyToggle }: PropertySelectorProps) => {
-  if (properties.length === 0) {
-    return (
-      <div className="space-y-4">
-        <Label>Sélection des biens immobiliers</Label>
-        <div className="text-center py-8 text-gray-500">
-          <Building2 className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <p>Aucun bien immobilier trouvé</p>
-          <p className="text-sm">Ajoutez d'abord des biens dans le menu Propriétés</p>
-        </div>
-      </div>
-    );
-  }
-
+const PropertySelector = ({ 
+  properties, 
+  tenants, 
+  roommates, 
+  selectedProperties, 
+  selectedTenants, 
+  selectedRoommates, 
+  onPropertyChange, 
+  onTenantChange, 
+  onRoommateChange 
+}: PropertySelectorProps) => {
   return (
     <div className="space-y-4">
-      <Label>Sélection des biens immobiliers</Label>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {properties.map((property) => {
-          const monthlyRent = parseFloat(property.rent) || 0;
-          const isColocation = property.locationType === 'Colocation';
-          const propertyMonthlyCharges = property.charges ? 
-            Object.values(property.charges).reduce((sum: number, charge: any) => {
-              return sum + (parseFloat(String(charge)) || 0);
-            }, 0) : 0;
-          
-          return (
-            <Card 
-              key={property.id} 
-              className={`cursor-pointer border-2 transition-colors ${
-                selectedProperties.includes(property.id) 
-                  ? 'border-blue-500 bg-blue-50' 
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              onClick={() => onPropertyToggle(property.id)}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      {isColocation ? <Users className="h-4 w-4" /> : <Building2 className="h-4 w-4" />}
-                      <h4 className="font-medium text-sm">{property.title}</h4>
-                    </div>
-                    <p className="text-sm text-gray-600">{property.address}</p>
-                    <p className="text-sm text-gray-600">
-                      Type: {property.type} - {property.surface}m²
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Locataire: {property.tenant || 'Libre'}
-                    </p>
-                    <div className="space-y-1">
-                      <p className="text-sm font-semibold text-blue-600">
-                        Loyer: {monthlyRent.toLocaleString('fr-FR')}€/mois
-                      </p>
-                      {propertyMonthlyCharges > 0 && (
-                        <p className="text-sm text-orange-600">
-                          Charges: {propertyMonthlyCharges.toLocaleString('fr-FR')}€/mois
-                        </p>
-                      )}
-                      <p className="text-sm font-semibold text-green-600">
-                        Net: {(monthlyRent - propertyMonthlyCharges).toLocaleString('fr-FR')}€/mois
-                      </p>
-                    </div>
-                    {isColocation && (
-                      <p className="text-xs text-gray-500">
-                        Colocation: {property.availableRooms}/{property.totalRooms} chambres disponibles
-                      </p>
-                    )}
-                  </div>
-                  <input 
-                    type="checkbox" 
-                    checked={selectedProperties.includes(property.id)}
-                    onChange={() => onPropertyToggle(property.id)}
-                    className="mt-1"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+      <Label>Sélectionner les sources de revenus locatifs</Label>
+      
+      {/* Biens immobiliers */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Building2 className="h-5 w-5" />
+            Biens Immobiliers
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {properties.map((property) => (
+            <div key={property.id} className="flex items-center space-x-2 p-3 border rounded-lg">
+              <Checkbox
+                id={`property-${property.id}`}
+                checked={selectedProperties.includes(property.id)}
+                onCheckedChange={(checked) => onPropertyChange(property.id, checked as boolean)}
+              />
+              <div className="flex-1">
+                <label htmlFor={`property-${property.id}`} className="text-sm font-medium cursor-pointer">
+                  {property.title}
+                </label>
+                <p className="text-xs text-gray-500">
+                  Loyer: {property.rent}€/mois • Type: {property.locationType || 'Location'}
+                </p>
+              </div>
+            </div>
+          ))}
+          {properties.length === 0 && (
+            <p className="text-sm text-gray-500 text-center py-4">
+              Aucun bien immobilier disponible
+            </p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Locataires */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <User className="h-5 w-5" />
+            Locataires
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {tenants.map((tenant) => (
+            <div key={tenant.id} className="flex items-center space-x-2 p-3 border rounded-lg">
+              <Checkbox
+                id={`tenant-${tenant.id}`}
+                checked={selectedTenants.includes(tenant.id)}
+                onCheckedChange={(checked) => onTenantChange(tenant.id, checked as boolean)}
+              />
+              <div className="flex-1">
+                <label htmlFor={`tenant-${tenant.id}`} className="text-sm font-medium cursor-pointer">
+                  {tenant.name}
+                </label>
+                <p className="text-xs text-gray-500">
+                  Loyer: {tenant.rentAmount}€/mois • Bien: {tenant.property}
+                </p>
+              </div>
+            </div>
+          ))}
+          {tenants.length === 0 && (
+            <p className="text-sm text-gray-500 text-center py-4">
+              Aucun locataire disponible
+            </p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Colocataires */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            Colocataires
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {roommates.map((roommate) => (
+            <div key={roommate.id} className="flex items-center space-x-2 p-3 border rounded-lg">
+              <Checkbox
+                id={`roommate-${roommate.id}`}
+                checked={selectedRoommates.includes(roommate.id)}
+                onCheckedChange={(checked) => onRoommateChange(roommate.id, checked as boolean)}
+              />
+              <div className="flex-1">
+                <label htmlFor={`roommate-${roommate.id}`} className="text-sm font-medium cursor-pointer">
+                  {roommate.name}
+                </label>
+                <p className="text-xs text-gray-500">
+                  Loyer: {roommate.rent}€/mois • Bien: {roommate.property}
+                </p>
+              </div>
+            </div>
+          ))}
+          {roommates.length === 0 && (
+            <p className="text-sm text-gray-500 text-center py-4">
+              Aucun colocataire disponible
+            </p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };
