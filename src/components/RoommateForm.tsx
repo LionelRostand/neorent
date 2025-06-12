@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
@@ -105,166 +104,164 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Ajouter un nouveau colocataire</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="name">Nom complet *</Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                disabled={loading}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="email">Email *</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                disabled={loading}
-              />
-            </div>
+    <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogHeader>
+        <DialogTitle>Ajouter un nouveau colocataire</DialogTitle>
+      </DialogHeader>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="name">Nom complet *</Label>
+            <Input
+              id="name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+              disabled={loading}
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="email">Email *</Label>
+            <Input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              required
+              disabled={loading}
+            />
+          </div>
 
-            <div>
-              <Label htmlFor="password">Mot de passe *</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  required
-                  minLength={6}
-                  disabled={loading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  disabled={loading}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 mt-1">Minimum 6 caractères</p>
-            </div>
-            
-            <div>
-              <Label htmlFor="phone">Téléphone</Label>
+          <div>
+            <Label htmlFor="password">Mot de passe *</Label>
+            <div className="relative">
               <Input
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+                minLength={6}
                 disabled={loading}
               />
-            </div>
-            
-            <div>
-              <Label htmlFor="property">Propriété</Label>
-              {properties ? (
-                <Select 
-                  value={formData.property} 
-                  onValueChange={(value) => setFormData({ ...formData, property: value })}
-                  disabled={loading}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Sélectionner une propriété" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {properties.map((property) => (
-                      <SelectItem key={property.id} value={property.title}>
-                        {property.title} - {property.address}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : (
-                <Input
-                  id="property"
-                  value={formData.property}
-                  onChange={(e) => setFormData({ ...formData, property: e.target.value })}
-                  disabled={loading}
-                />
-              )}
-            </div>
-            
-            <div>
-              <Label htmlFor="roomNumber">Numéro de chambre</Label>
-              <Input
-                id="roomNumber"
-                value={formData.roomNumber}
-                onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 disabled={loading}
-              />
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
             </div>
-            
-            <div>
-              <Label htmlFor="rentAmount">Montant du loyer (€)</Label>
-              <Input
-                id="rentAmount"
-                type="number"
-                value={formData.rentAmount}
-                onChange={(e) => setFormData({ ...formData, rentAmount: e.target.value })}
-                disabled={loading}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="primaryTenant">Locataire principal</Label>
-              <Input
-                id="primaryTenant"
-                value={formData.primaryTenant}
-                onChange={(e) => setFormData({ ...formData, primaryTenant: e.target.value })}
-                disabled={loading}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="moveInDate">Date d'emménagement</Label>
-              <Input
-                id="moveInDate"
-                type="date"
-                value={formData.moveInDate}
-                onChange={(e) => setFormData({ ...formData, moveInDate: e.target.value })}
-                disabled={loading}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="status">Statut</Label>
+            <p className="text-xs text-gray-500 mt-1">Minimum 6 caractères</p>
+          </div>
+          
+          <div>
+            <Label htmlFor="phone">Téléphone</Label>
+            <Input
+              id="phone"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              disabled={loading}
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="property">Propriété</Label>
+            {properties ? (
               <Select 
-                value={formData.status} 
-                onValueChange={(value) => setFormData({ ...formData, status: value })}
+                value={formData.property} 
+                onValueChange={(value) => setFormData({ ...formData, property: value })}
                 disabled={loading}
               >
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Sélectionner une propriété" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Actif">Actif</SelectItem>
-                  <SelectItem value="Inactif">Inactif</SelectItem>
-                  <SelectItem value="En retard">En retard</SelectItem>
+                  {properties.map((property) => (
+                    <SelectItem key={property.id} value={property.title}>
+                      {property.title} - {property.address}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-            </div>
+            ) : (
+              <Input
+                id="property"
+                value={formData.property}
+                onChange={(e) => setFormData({ ...formData, property: e.target.value })}
+                disabled={loading}
+              />
+            )}
           </div>
           
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Création en cours...' : 'Ajouter le colocataire'}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+          <div>
+            <Label htmlFor="roomNumber">Numéro de chambre</Label>
+            <Input
+              id="roomNumber"
+              value={formData.roomNumber}
+              onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
+              disabled={loading}
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="rentAmount">Montant du loyer (€)</Label>
+            <Input
+              id="rentAmount"
+              type="number"
+              value={formData.rentAmount}
+              onChange={(e) => setFormData({ ...formData, rentAmount: e.target.value })}
+              disabled={loading}
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="primaryTenant">Locataire principal</Label>
+            <Input
+              id="primaryTenant"
+              value={formData.primaryTenant}
+              onChange={(e) => setFormData({ ...formData, primaryTenant: e.target.value })}
+              disabled={loading}
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="moveInDate">Date d'emménagement</Label>
+            <Input
+              id="moveInDate"
+              type="date"
+              value={formData.moveInDate}
+              onChange={(e) => setFormData({ ...formData, moveInDate: e.target.value })}
+              disabled={loading}
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="status">Statut</Label>
+            <Select 
+              value={formData.status} 
+              onValueChange={(value) => setFormData({ ...formData, status: value })}
+              disabled={loading}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Actif">Actif</SelectItem>
+                <SelectItem value="Inactif">Inactif</SelectItem>
+                <SelectItem value="En retard">En retard</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? 'Création en cours...' : 'Ajouter le colocataire'}
+        </Button>
+      </form>
+    </DialogContent>
   );
 };
 
