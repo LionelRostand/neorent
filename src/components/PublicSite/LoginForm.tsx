@@ -31,7 +31,7 @@ const LoginForm = () => {
         if (!userProfile) {
           toast({
             title: "Accès refusé",
-            description: "Votre profil n'existe pas dans notre base de données. Contactez l'administrateur.",
+            description: "Votre compte n'est pas encore configuré. Contactez votre gestionnaire immobilier.",
             variant: "destructive",
           });
           return;
@@ -43,7 +43,7 @@ const LoginForm = () => {
         });
 
         // Rediriger selon le type d'utilisateur
-        if (userType === 'admin') {
+        if (userType === 'admin' || userType === 'employee') {
           navigate('/admin');
         } else {
           navigate('/tenant-space');
@@ -52,9 +52,24 @@ const LoginForm = () => {
       
     } catch (error: any) {
       console.error('Erreur de connexion:', error);
+      
+      let errorMessage = "Email ou mot de passe incorrect.";
+      
+      if (error.code === 'auth/user-not-found') {
+        errorMessage = "Aucun compte trouvé avec cette adresse email.";
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = "Mot de passe incorrect.";
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = "Adresse email invalide.";
+      } else if (error.code === 'auth/user-disabled') {
+        errorMessage = "Ce compte a été désactivé.";
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
+      }
+      
       toast({
         title: "Erreur de connexion",
-        description: "Email ou mot de passe incorrect.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -124,6 +139,11 @@ const LoginForm = () => {
             <a href="#" className="text-sm text-green-600 hover:underline">
               Mot de passe oublié ?
             </a>
+          </div>
+          
+          <div className="text-center text-sm text-gray-600 mt-4">
+            <p>Vous êtes locataire ou colocataire ?</p>
+            <p>Utilisez l'email et le mot de passe fournis par votre gestionnaire.</p>
           </div>
         </form>
       </CardContent>

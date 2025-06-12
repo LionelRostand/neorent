@@ -1,4 +1,3 @@
-
 import { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -39,41 +38,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    // D'abord vérifier dans user_roles (admin/employee)
-    const userRole = await getUserRole(currentUser.uid);
-    if (userRole) {
-      setUserProfile({
-        id: userRole.id,
-        name: userRole.name,
-        email: userRole.email,
-        role: userRole.role,
-        permissions: userRole.permissions || []
-      });
-      setUserType(userRole.role);
-      return;
-    }
+    try {
+      // D'abord vérifier dans user_roles (admin/employee)
+      const userRole = await getUserRole(currentUser.uid);
+      if (userRole) {
+        setUserProfile({
+          id: userRole.id,
+          name: userRole.name,
+          email: userRole.email,
+          role: userRole.role,
+          permissions: userRole.permissions || []
+        });
+        setUserType(userRole.role);
+        return;
+      }
 
-    // Chercher dans les locataires
-    const tenantProfile = tenants.find(t => t.email === currentUser.email);
-    if (tenantProfile) {
-      setUserProfile(tenantProfile);
-      setUserType('locataire');
-      return;
-    }
+      // Chercher dans les locataires
+      const tenantProfile = tenants.find(t => t.email === currentUser.email);
+      if (tenantProfile) {
+        setUserProfile(tenantProfile);
+        setUserType('locataire');
+        return;
+      }
 
-    // Chercher dans les colocataires
-    const roommateProfile = roommates.find(r => r.email === currentUser.email);
-    if (roommateProfile) {
-      setUserProfile(roommateProfile);
-      setUserType('colocataire');
-      return;
-    }
+      // Chercher dans les colocataires
+      const roommateProfile = roommates.find(r => r.email === currentUser.email);
+      if (roommateProfile) {
+        setUserProfile(roommateProfile);
+        setUserType('colocataire');
+        return;
+      }
 
-    // Si aucun profil trouvé, déconnecter l'utilisateur
-    console.log('Aucun profil trouvé pour:', currentUser.email);
-    signOut(auth);
-    setUserProfile(null);
-    setUserType(null);
+      // Si aucun profil trouvé, laisser l'utilisateur connecté mais sans profil
+      console.log('Aucun profil trouvé pour:', currentUser.email);
+      setUserProfile(null);
+      setUserType(null);
+    } catch (error) {
+      console.error('Erreur lors de la vérification du profil:', error);
+      setUserProfile(null);
+      setUserType(null);
+    }
   };
 
   useEffect(() => {

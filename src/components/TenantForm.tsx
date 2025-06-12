@@ -1,374 +1,216 @@
+
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import {
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Upload, User, Eye, EyeOff } from 'lucide-react';
-
-const tenantFormSchema = z.object({
-  name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-  email: z.string().email('Email invalide'),
-  phone: z.string().min(10, 'Le numéro de téléphone doit contenir au moins 10 caractères'),
-  property: z.string().min(1, 'Veuillez sélectionner un bien'),
-  rentAmount: z.string().min(1, 'Le montant du loyer est requis'),
-  leaseStart: z.string().min(1, 'La date de début de bail est requise'),
-  password: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
-  confirmPassword: z.string().min(6, 'La confirmation du mot de passe est requise'),
-  notes: z.string().optional(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Les mots de passe ne correspondent pas",
-  path: ["confirmPassword"],
-});
-
-type TenantFormData = z.infer<typeof tenantFormSchema>;
-
-interface Property {
-  id: string; // Changed from number to string for Firebase compatibility
-  title: string;
-  address: string;
-  type: string;
-  surface: string;
-  rent: string;
-  status: string;
-  tenant: string | null;
-  image: string;
-  locationType: string;
-}
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface TenantFormProps {
-  onClose: () => void;
-  onSubmit: (data: TenantFormData & { imageBase64?: string }) => void;
-  properties: Property[];
+  onSuccess?: () => void;
 }
 
-const TenantForm = ({ onClose, onSubmit, properties }: TenantFormProps) => {
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const form = useForm<TenantFormData>({
-    resolver: zodResolver(tenantFormSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      property: '',
-      rentAmount: '',
-      leaseStart: '',
-      password: '',
-      confirmPassword: '',
-      notes: '',
-    },
+const TenantForm = ({ onSuccess }: TenantFormProps) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    property: '',
+    rentAmount: '',
+    nextPayment: '',
+    status: 'Actif',
+    leaseStart: '',
+    image: null as string | null
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+  const { toast } = useToast();
+  const { addTenant } = useFirebaseTenants();
+  const { createUserAccount } = useFirebaseAuth();
 
-  // Filtrer les biens immobiliers pour ne garder que ceux de type "Location"
-  const availableProperties = properties.filter(property => property.locationType === 'Location');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+    try {
+      // Créer le compte Firebase Auth
+      await createUserAccount(formData.email, formData.password);
 
-  const handleSubmit = async (data: TenantFormData) => {
-    let imageBase64: string | undefined;
+      // Créer le profil locataire (sans le mot de passe)
+      const { password, ...tenantData } = formData;
+      await addTenant(tenantData);
 
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64 = reader.result as string;
-        imageBase64 = base64.split(',')[1]; // Enlever le préfixe data:image/...;base64,
-        
-        const tenantData = {
-          ...data,
-          imageBase64,
-        };
+      toast({
+        title: "Locataire ajouté",
+        description: "Le locataire a été ajouté avec succès et peut maintenant se connecter.",
+      });
 
-        console.log('Données du locataire à enregistrer dans rent_locataires:', tenantData);
-        onSubmit(tenantData);
-        onClose();
-      };
-      reader.readAsDataURL(imageFile);
-    } else {
-      console.log('Données du locataire à enregistrer dans rent_locataires:', data);
-      onSubmit(data);
-      onClose();
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        phone: '',
+        property: '',
+        rentAmount: '',
+        nextPayment: '',
+        status: 'Actif',
+        leaseStart: '',
+        image: null
+      });
+
+      onSuccess?.();
+    } catch (error: any) {
+      console.error('Erreur:', error);
+      toast({
+        title: "Erreur",
+        description: error.message || "Erreur lors de l'ajout du locataire.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-      <DialogHeader>
-        <DialogTitle>Ajouter un Locataire</DialogTitle>
-        <DialogDescription>
-          Remplissez les informations du nouveau locataire
-        </DialogDescription>
-      </DialogHeader>
-
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-          {/* Upload de photo */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Photo du locataire</label>
-            <div className="flex items-center space-x-4">
-              <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
-                {imagePreview ? (
-                  <img 
-                    src={imagePreview} 
-                    alt="Aperçu" 
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <User className="h-8 w-8 text-gray-400" />
-                )}
-              </div>
-              <div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                  id="tenant-image"
-                />
-                <label
-                  htmlFor="tenant-image"
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
-                >
-                  <Upload className="mr-2 h-4 w-4" />
-                  Choisir une photo
-                </label>
-              </div>
-            </div>
-          </div>
-
+    <Card>
+      <CardHeader>
+        <CardTitle>Ajouter un nouveau locataire</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nom complet</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Marie Dubois" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="marie.dubois@email.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Téléphone</FormLabel>
-                  <FormControl>
-                    <Input placeholder="06 12 34 56 78" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="property"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bien immobilier</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sélectionner un bien" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {availableProperties.map((property) => (
-                        <SelectItem key={property.id} value={property.title}>
-                          {property.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="rentAmount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Montant du loyer</FormLabel>
-                  <FormControl>
-                    <Input placeholder="1,200€" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="leaseStart"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Date de début de bail</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          {/* Champs mot de passe */}
-          <div className="space-y-4 border-t pt-4">
-            <h3 className="text-lg font-medium text-gray-900">Accès à l'espace locataire</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Mot de passe</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input 
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Minimum 6 caractères" 
-                          {...field} 
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-4 w-4 text-gray-400" />
-                          ) : (
-                            <Eye className="h-4 w-4 text-gray-400" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirmer le mot de passe</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input 
-                          type={showConfirmPassword ? "text" : "password"}
-                          placeholder="Confirmer le mot de passe" 
-                          {...field} 
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        >
-                          {showConfirmPassword ? (
-                            <EyeOff className="h-4 w-4 text-gray-400" />
-                          ) : (
-                            <Eye className="h-4 w-4 text-gray-400" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+            <div>
+              <Label htmlFor="name">Nom complet *</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+                disabled={loading}
               />
             </div>
-          </div>
+            
+            <div>
+              <Label htmlFor="email">Email *</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+                disabled={loading}
+              />
+            </div>
 
-          <FormField
-            control={form.control}
-            name="notes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Notes (optionnel)</FormLabel>
-                <FormControl>
-                  <Textarea 
-                    placeholder="Informations complémentaires sur le locataire..."
-                    className="min-h-[100px]"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
-              Annuler
-            </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-              Ajouter le locataire
-            </Button>
+            <div>
+              <Label htmlFor="password">Mot de passe *</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  disabled={loading}
+                  minLength={6}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  disabled={loading}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Minimum 6 caractères</p>
+            </div>
+            
+            <div>
+              <Label htmlFor="phone">Téléphone</Label>
+              <Input
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                disabled={loading}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="property">Propriété</Label>
+              <Input
+                id="property"
+                value={formData.property}
+                onChange={(e) => setFormData({ ...formData, property: e.target.value })}
+                disabled={loading}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="rentAmount">Montant du loyer (€)</Label>
+              <Input
+                id="rentAmount"
+                type="number"
+                value={formData.rentAmount}
+                onChange={(e) => setFormData({ ...formData, rentAmount: e.target.value })}
+                disabled={loading}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="nextPayment">Prochain paiement</Label>
+              <Input
+                id="nextPayment"
+                type="date"
+                value={formData.nextPayment}
+                onChange={(e) => setFormData({ ...formData, nextPayment: e.target.value })}
+                disabled={loading}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="leaseStart">Début du bail</Label>
+              <Input
+                id="leaseStart"
+                type="date"
+                value={formData.leaseStart}
+                onChange={(e) => setFormData({ ...formData, leaseStart: e.target.value })}
+                disabled={loading}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="status">Statut</Label>
+              <Select 
+                value={formData.status} 
+                onValueChange={(value) => setFormData({ ...formData, status: value })}
+                disabled={loading}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Actif">Actif</SelectItem>
+                  <SelectItem value="Inactif">Inactif</SelectItem>
+                  <SelectItem value="En retard">En retard</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
+          
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? 'Création en cours...' : 'Ajouter le locataire'}
+          </Button>
         </form>
-      </Form>
-    </DialogContent>
+      </CardContent>
+    </Card>
   );
 };
 
