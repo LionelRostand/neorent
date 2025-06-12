@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
+import RentPayment from './RentPayment';
 import { 
   CreditCard, 
   Download, 
@@ -28,6 +28,22 @@ const RentHistory = () => {
     propertyAddress: '45 Rue de la Paix, 75001 Paris',
     propertyType: 'Appartement'
   };
+
+  const propertyData = {
+    title: 'Appartement Rue de la Paix',
+    address: '45 Rue de la Paix, 75001 Paris',
+    type: 'Appartement',
+    surface: '65m²',
+    rooms: '3 pièces',
+    rent: 1200,
+    charges: 150,
+    deposit: 2400,
+    furnished: true,
+    floor: '3ème étage',
+    elevator: true,
+    parking: false,
+    features: ['Balcon', 'Cave', 'Interphone', 'Fibre optique']
+  };
   
   const { generateReceipt } = useReceiptGeneration({
     tenantName: tenantData.name,
@@ -36,6 +52,7 @@ const RentHistory = () => {
     propertyType: tenantData.propertyType
   });
   
+  // Données simulées - à remplacer par les vraies données
   const rentPayments = [
     {
       id: 1,
@@ -134,8 +151,12 @@ const RentHistory = () => {
 
   return (
     <div className="space-y-4 md:space-y-6">
+      {/* Composant de paiement */}
+      <RentPayment tenantData={tenantData} propertyData={propertyData} />
+
       {/* Résumé financier */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+        {/* MetricCard components */}
         <Card>
           <CardContent className="pt-4 md:pt-6">
             <div className="flex items-center justify-between">
