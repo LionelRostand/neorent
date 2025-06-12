@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone, TrendingUp, TrendingDown } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useFirebaseCharges } from '@/hooks/useFirebaseCharges';
 
 interface Property {
   id: string;
@@ -20,6 +19,17 @@ interface Property {
   locationType: string;
   totalRooms?: number | null;
   availableRooms?: number | null;
+  creditImmobilier?: string;
+  charges?: {
+    electricity?: number;
+    water?: number;
+    heating?: number;
+    maintenance?: number;
+    insurance?: number;
+    garbage?: number;
+    internet?: number;
+    taxes?: number;
+  };
 }
 
 interface Occupant {
@@ -40,7 +50,6 @@ interface PropertyDetailsModalProps {
 
 const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, isOpen, onClose }) => {
   const { roommates } = useFirebaseRoommates();
-  const { charges } = useFirebaseCharges();
 
   if (!property) return null;
 
@@ -81,17 +90,14 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
     }, 0);
   };
 
-  // Récupérer les charges de cette propriété pour le mois actuel
-  const getCurrentMonthCharges = () => {
-    const currentMonth = new Date().toISOString().slice(0, 7); // Format YYYY-MM
-    const propertyCharges = charges.find(charge => 
-      charge.propertyName === property.title && charge.month === currentMonth
-    );
-    return propertyCharges ? propertyCharges.total : 0;
+  // Calculer les charges totales à partir des données de la propriété
+  const calculateTotalCharges = () => {
+    if (!property.charges) return 0;
+    return Object.values(property.charges).reduce((sum, value) => sum + (value || 0), 0);
   };
 
   const totalRevenue = calculateTotalRevenue();
-  const totalCharges = getCurrentMonthCharges();
+  const totalCharges = calculateTotalCharges();
   const profit = totalRevenue - totalCharges;
 
   return (
@@ -177,7 +183,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                 <CardContent className="p-4 text-center">
                   <DollarSign className="h-8 w-8 mx-auto mb-2 text-red-600" />
                   <div className="font-medium text-red-600">Charges</div>
-                  <div className="text-xl font-bold">{totalCharges}€</div>
+                  <div className="text-xl font-bold">{totalCharges.toFixed(0)}€</div>
                   <div className="text-sm text-gray-600">Ce mois</div>
                 </CardContent>
               </Card>
@@ -193,7 +199,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                     {profit >= 0 ? 'Bénéfice' : 'Perte'}
                   </div>
                   <div className={`text-xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {Math.abs(profit)}€
+                    {Math.abs(profit).toFixed(0)}€
                   </div>
                   <div className="text-sm text-gray-600">Ce mois</div>
                 </CardContent>
