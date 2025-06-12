@@ -93,12 +93,23 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
   // Calculer les charges totales à partir des données de la propriété
   const calculateTotalCharges = () => {
     if (!property.charges) return 0;
-    return Object.values(property.charges).reduce((sum, value) => sum + (value || 0), 0);
+    
+    const total = Object.values(property.charges).reduce((sum, value) => {
+      const numValue = typeof value === 'number' ? value : parseFloat(String(value)) || 0;
+      return sum + numValue;
+    }, 0);
+    
+    return isNaN(total) ? 0 : total;
   };
 
   const totalRevenue = calculateTotalRevenue();
   const totalCharges = calculateTotalCharges();
   const profit = totalRevenue - totalCharges;
+
+  // Fonction utilitaire pour formater les nombres
+  const formatNumber = (value: number) => {
+    return isNaN(value) ? '0' : value.toFixed(0);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -174,7 +185,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                 <CardContent className="p-4 text-center">
                   <DollarSign className="h-8 w-8 mx-auto mb-2 text-green-600" />
                   <div className="font-medium text-green-600">Revenus</div>
-                  <div className="text-xl font-bold">{totalRevenue}€</div>
+                  <div className="text-xl font-bold">{formatNumber(totalRevenue)}€</div>
                   <div className="text-sm text-gray-600">Ce mois</div>
                 </CardContent>
               </Card>
@@ -183,7 +194,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                 <CardContent className="p-4 text-center">
                   <DollarSign className="h-8 w-8 mx-auto mb-2 text-red-600" />
                   <div className="font-medium text-red-600">Charges</div>
-                  <div className="text-xl font-bold">{totalCharges.toFixed(0)}€</div>
+                  <div className="text-xl font-bold">{formatNumber(totalCharges)}€</div>
                   <div className="text-sm text-gray-600">Ce mois</div>
                 </CardContent>
               </Card>
@@ -199,7 +210,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                     {profit >= 0 ? 'Bénéfice' : 'Perte'}
                   </div>
                   <div className={`text-xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {Math.abs(profit).toFixed(0)}€
+                    {formatNumber(Math.abs(profit))}€
                   </div>
                   <div className="text-sm text-gray-600">Ce mois</div>
                 </CardContent>
