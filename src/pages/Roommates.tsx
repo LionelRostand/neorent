@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -155,8 +156,8 @@ const Roommates = () => {
             </div>
           </div>
 
-          {/* Métriques */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          {/* Métriques responsives */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             <MetricCard
               title="Colocataires actifs"
               value={activeCount}

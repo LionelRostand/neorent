@@ -21,19 +21,21 @@ const MetricCard: React.FC<MetricCardProps> = ({
   borderColor
 }) => {
   return (
-    <Card className={`border-l-4 ${borderColor} bg-white`}>
-      <CardContent className="p-6">
-        <div className="flex items-center space-x-4">
-          <div className={`p-3 rounded-full ${iconBgColor}`}>
-            <Icon className="h-6 w-6 text-white" />
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center space-x-2 mb-2">
-              <Icon className="h-5 w-5 text-gray-500" />
-              <h3 className="text-sm font-medium text-gray-700">{title}</h3>
+    <Card className={`border-l-4 ${borderColor} bg-white hover:shadow-md transition-shadow`}>
+      <CardContent className="p-3 sm:p-4 lg:p-6">
+        <div className="flex flex-col space-y-2 sm:space-y-3">
+          {/* Icon and title row */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className={`p-2 sm:p-2.5 lg:p-3 rounded-full ${iconBgColor} flex-shrink-0`}>
+              <Icon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
             </div>
-            <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
-            <p className="text-sm text-gray-600">{description}</p>
+            <h3 className="text-xs sm:text-sm lg:text-base font-medium text-gray-700 truncate flex-1">{title}</h3>
+          </div>
+          
+          {/* Value */}
+          <div className="text-center sm:text-left">
+            <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1">{value}</p>
+            <p className="text-xs sm:text-sm text-gray-600 leading-tight">{description}</p>
           </div>
         </div>
       </CardContent>
