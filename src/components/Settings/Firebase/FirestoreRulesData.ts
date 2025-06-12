@@ -170,16 +170,9 @@ service cloud.firestore {
       }
     }
     
-    // 18. Messages du chat - Collection: garage_messages (legacy)
-    match /garage_messages/{messageId} {
-      allow create: if true; // Visiteurs peuvent envoyer des messages
-      allow read: if isAuthenticated(); // Staff peut lire tous les messages
-      allow update, delete: if isAuthenticated(); // Staff peut modifier/supprimer
-    }
-    
     // ====== SYSTÈME DE MAINTENANCE ======
     
-    // 19. Demandes de maintenance - Collection: maintenance_requests
+    // 18. Demandes de maintenance - Collection: maintenance_requests
     match /maintenance_requests/{requestId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated(); // Locataires peuvent créer des demandes
@@ -188,7 +181,7 @@ service cloud.firestore {
       allow delete: if isManagerOrAdmin();
     }
     
-    // 20. Interventions de maintenance - Collection: maintenance_interventions
+    // 19. Interventions de maintenance - Collection: maintenance_interventions
     match /maintenance_interventions/{interventionId} {
       allow read: if isAuthenticated();
       allow write: if hasAnyRole(['admin', 'manager', 'employee']);
@@ -196,19 +189,19 @@ service cloud.firestore {
     
     // ====== COLLECTIONS COMPLÉMENTAIRES ======
     
-    // 21. Logs d'audit - Collection: audit_logs
+    // 20. Logs d'audit - Collection: audit_logs
     match /audit_logs/{logId} {
       allow read: if isAdmin();
       allow create: if isAuthenticated();
     }
     
-    // 22. Documents des locataires - Collection: tenant_documents
+    // 21. Documents des locataires - Collection: tenant_documents
     match /tenant_documents/{documentId} {
       allow read, write: if isManagerOrAdmin() ||
         (isAuthenticated() && resource.data.tenantId == request.auth.uid);
     }
     
-    // 23. Notifications - Collection: notifications
+    // 22. Notifications - Collection: notifications
     match /notifications/{notificationId} {
       allow read: if isAuthenticated() && 
         resource.data.userId == request.auth.uid;
@@ -216,19 +209,19 @@ service cloud.firestore {
       allow create: if isAuthenticated();
     }
     
-    // 24. Sessions utilisateur - Collection: user_sessions
+    // 23. Sessions utilisateur - Collection: user_sessions
     match /user_sessions/{sessionId} {
       allow read, write: if isAuthenticated() && 
         resource.data.userId == request.auth.uid;
     }
     
-    // 25. Configuration des permissions - Collection: employee_permissions
+    // 24. Configuration des permissions - Collection: employee_permissions
     match /employee_permissions/{permissionId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
     
-    // 26. Fichiers uploadés - Collection: uploaded_files
+    // 25. Fichiers uploadés - Collection: uploaded_files
     match /uploaded_files/{fileId} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() && 
