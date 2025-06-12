@@ -131,6 +131,21 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
   const totalCharges = calculateTotalCharges();
   const profit = totalRevenue - totalCharges;
 
+  // Fonction pour calculer le taux d'occupation en pourcentage
+  const calculateOccupancyRate = () => {
+    if (property.locationType === 'Colocation') {
+      const totalRooms = property.totalRooms || 0;
+      const occupiedRooms = occupants.length;
+      if (totalRooms === 0) return 0;
+      return Math.round((occupiedRooms / totalRooms) * 100);
+    } else {
+      // Location classique: 100% si occupé, 0% si libre
+      return occupants.length > 0 ? 100 : 0;
+    }
+  };
+
+  const occupancyRate = calculateOccupancyRate();
+
   // Fonction utilitaire pour formater les nombres
   const formatNumber = (value: number) => {
     return isNaN(value) ? '0' : value.toFixed(0);
@@ -262,12 +277,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                 <CardContent className="p-4 text-center">
                   <Users className="h-8 w-8 mx-auto mb-2 text-blue-600" />
                   <div className="font-medium text-blue-600">Taux d'occupation</div>
-                  <div className="text-xl font-bold">
-                    {property.totalRooms ? 
-                      Math.round(((property.totalRooms - (property.availableRooms || 0)) / property.totalRooms) * 100) 
-                      : (occupants.length > 0 ? 100 : 0)
-                    }%
-                  </div>
+                  <div className="text-xl font-bold">{occupancyRate}%</div>
                   <div className="text-sm text-gray-600">
                     {occupants.length} occupant{occupants.length !== 1 ? 's' : ''}
                   </div>
