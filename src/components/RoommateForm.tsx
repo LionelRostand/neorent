@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Upload, UserCheck, Eye, EyeOff } from 'lucide-react';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 
 const roommateFormSchema = z.object({
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
@@ -35,7 +36,7 @@ const roommateFormSchema = z.object({
   property: z.string().min(1, 'Veuillez sélectionner un bien'),
   roomNumber: z.string().min(1, 'Le numéro de chambre est requis'),
   rentAmount: z.string().min(1, 'Le montant du loyer est requis'),
-  primaryTenant: z.string().min(1, 'Veuillez sélectionner le locataire principal'),
+  primaryTenant: z.string().optional(),
   moveInDate: z.string().min(1, 'La date d\'emménagement est requise'),
   password: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
   confirmPassword: z.string().min(6, 'La confirmation du mot de passe est requise'),
@@ -71,6 +72,7 @@ const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { roommates } = useFirebaseRoommates();
 
   const form = useForm<RoommateFormData>({
     resolver: zodResolver(roommateFormSchema),
@@ -92,11 +94,8 @@ const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
   // Filtrer les biens immobiliers pour ne garder que ceux de type "Colocation"
   const availableProperties = properties.filter(property => property.locationType === 'Colocation');
 
-  const primaryTenants = [
-    'Marie Dubois',
-    'Jean Martin',
-    'Sophie Leroy',
-  ];
+  // Récupérer la liste des colocataires existants
+  const availableRoommates = roommates.map(roommate => roommate.name);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -282,7 +281,7 @@ const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
               name="primaryTenant"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Locataire principal</FormLabel>
+                  <FormLabel>Locataire principal (optionnel)</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -290,9 +289,9 @@ const RoommateForm = ({ onClose, onSubmit, properties }: RoommateFormProps) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {primaryTenants.map((tenant) => (
-                        <SelectItem key={tenant} value={tenant}>
-                          {tenant}
+                      {availableRoommates.map((roommate) => (
+                        <SelectItem key={roommate} value={roommate}>
+                          {roommate}
                         </SelectItem>
                       ))}
                     </SelectContent>
