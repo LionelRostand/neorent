@@ -94,16 +94,42 @@ export const useFirebaseContracts = () => {
 
   const deleteContract = async (id: string) => {
     try {
+      // Validation stricte de l'ID
       if (!id || typeof id !== 'string' || id.trim() === '') {
-        throw new Error('ID du contrat invalide');
+        const errorMsg = 'ID du contrat invalide pour la suppression';
+        console.error(errorMsg, { id, type: typeof id });
+        throw new Error(errorMsg);
       }
 
-      await deleteDoc(doc(db, 'Rent_contracts', id));
-      setContracts(prev => prev.filter(contract => contract.id !== id));
+      console.log('Attempting to delete contract with ID:', id);
+      
+      // Vérifier d'abord que le document existe dans Firestore
+      const docRef = doc(db, 'Rent_contracts', id);
+      
+      // Supprimer le document
+      await deleteDoc(docRef);
+      
+      // Mettre à jour l'état local seulement après succès de la suppression
+      setContracts(prev => {
+        const filtered = prev.filter(contract => contract.id !== id);
+        console.log('Contract deleted successfully. Remaining contracts:', filtered.length);
+        return filtered;
+      });
+      
+      console.log('Contract deleted successfully from Firestore and local state');
+      
     } catch (err) {
-      console.error('Error deleting contract:', err);
-      setError('Erreur lors de la suppression du contrat');
-      throw err;
+      console.error('Detailed error during contract deletion:', {
+        error: err,
+        contractId: id,
+        errorMessage: err instanceof Error ? err.message : 'Unknown error',
+        errorName: err instanceof Error ? err.name : 'Unknown'
+      });
+      
+      // Relancer l'erreur avec un message plus explicite
+      const errorMessage = err instanceof Error ? err.message : 'Erreur inconnue lors de la suppression';
+      setError(`Erreur lors de la suppression du contrat: ${errorMessage}`);
+      throw new Error(`Erreur lors de la suppression du contrat: ${errorMessage}`);
     }
   };
 

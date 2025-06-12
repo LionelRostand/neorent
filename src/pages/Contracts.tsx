@@ -95,8 +95,32 @@ const Contracts = () => {
   };
 
   const handleDeleteContract = async (id: string) => {
+    // Validation de l'ID avant de procéder
+    if (!id || typeof id !== 'string' || id.trim() === '') {
+      console.error('ID du contrat invalide:', id);
+      toast({
+        title: "Erreur",
+        description: "ID du contrat invalide. Impossible de supprimer.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Vérifier que le contrat existe dans la liste locale
+    const contractExists = contracts.find(contract => contract.id === id);
+    if (!contractExists) {
+      console.error('Contrat non trouvé dans la liste locale:', id);
+      toast({
+        title: "Erreur",
+        description: "Contrat non trouvé. Veuillez actualiser la page.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce contrat ?')) {
       try {
+        console.log('Tentative de suppression du contrat avec ID:', id);
         await deleteContract(id);
         toast({
           title: "Succès",
@@ -104,10 +128,10 @@ const Contracts = () => {
         });
         console.log('Contrat supprimé de la collection Rent_contracts:', id);
       } catch (err) {
-        console.error('Erreur lors de la suppression du contrat:', err);
+        console.error('Erreur détaillée lors de la suppression du contrat:', err);
         toast({
           title: "Erreur",
-          description: "Erreur lors de la suppression du contrat.",
+          description: `Erreur lors de la suppression du contrat: ${err instanceof Error ? err.message : 'Erreur inconnue'}`,
           variant: "destructive",
         });
       }
