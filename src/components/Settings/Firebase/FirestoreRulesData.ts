@@ -91,13 +91,22 @@ service cloud.firestore {
       allow write: if isManagerOrAdmin();
     }
     
-    // 8. Employés - Collection: Rent_employees
+    // 8. Fiscalités et déclarations - Collection: rent_fiscality
+    match /rent_fiscality/{fiscalityId} {
+      allow read: if isAuthenticated();
+      allow write: if isManagerOrAdmin();
+      allow create: if isAuthenticated() && 
+        request.resource.data.keys().hasAll(['title', 'type', 'property', 'amount', 'dueDate', 'status', 'year']) &&
+        request.resource.data.status in ['À payer', 'Payée', 'À déclarer'];
+    }
+    
+    // 9. Employés - Collection: Rent_employees
     match /Rent_employees/{employeeId} {
       allow read: if isManagerOrAdmin();
       allow write: if isAdmin();
     }
     
-    // 9. Rôles utilisateurs - Collection: user_roles
+    // 10. Rôles utilisateurs - Collection: user_roles
     match /user_roles/{userId} {
       allow read: if isAuthenticated() && 
         (request.auth.uid == userId || isAdmin());
@@ -107,25 +116,25 @@ service cloud.firestore {
         request.resource.data.role in ['admin', 'manager', 'employee', 'tenant'];
     }
     
-    // 10. Configuration du site web - Collection: website_config
+    // 11. Configuration du site web - Collection: website_config
     match /website_config/{configId} {
       allow read: if true; // Public pour le site web
       allow write: if isAdmin();
     }
     
-    // 11. Configuration de l'entreprise - Collection: company_config
+    // 12. Configuration de l'entreprise - Collection: company_config
     match /company_config/{configId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
     
-    // 12. Entreprises - Collection: Rent_entreprises
+    // 13. Entreprises - Collection: Rent_entreprises
     match /Rent_entreprises/{entrepriseId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
     
-    // 13. Analytics du site web - Collection: rent_analytics
+    // 14. Analytics du site web - Collection: rent_analytics
     match /rent_analytics/{analyticsId} {
       allow create: if true; // Écriture anonyme autorisée pour le tracking public
       allow read: if isManagerOrAdmin();
@@ -134,13 +143,13 @@ service cloud.firestore {
     
     // ====== PARAMÈTRES ET CONFIGURATION ======
     
-    // 14. Paramètres de sécurité - Collection: security_settings
+    // 15. Paramètres de sécurité - Collection: security_settings
     match /security_settings/{settingId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
     
-    // 15. Paramètres email - Collection: email_settings
+    // 16. Paramètres email - Collection: email_settings
     match /email_settings/{settingId} {
       allow read: if isManagerOrAdmin();
       allow write: if isAdmin();
@@ -148,7 +157,7 @@ service cloud.firestore {
     
     // ====== SYSTÈME DE CHAT ET MESSAGES ======
     
-    // 16. Conversations - Collection: conversations
+    // 17. Conversations - Collection: conversations
     match /conversations/{conversationId} {
       allow create: if true; // Visiteurs peuvent créer des conversations
       allow read: if isAuthenticated(); // Staff authentifié peut lire
@@ -161,7 +170,7 @@ service cloud.firestore {
       }
     }
     
-    // 17. Messages du chat - Collection: garage_messages (legacy)
+    // 18. Messages du chat - Collection: garage_messages (legacy)
     match /garage_messages/{messageId} {
       allow create: if true; // Visiteurs peuvent envoyer des messages
       allow read: if isAuthenticated(); // Staff peut lire tous les messages
@@ -170,7 +179,7 @@ service cloud.firestore {
     
     // ====== SYSTÈME DE MAINTENANCE ======
     
-    // 18. Demandes de maintenance - Collection: maintenance_requests
+    // 19. Demandes de maintenance - Collection: maintenance_requests
     match /maintenance_requests/{requestId} {
       allow read: if isAuthenticated();
       allow create: if isAuthenticated(); // Locataires peuvent créer des demandes
@@ -179,7 +188,7 @@ service cloud.firestore {
       allow delete: if isManagerOrAdmin();
     }
     
-    // 19. Interventions de maintenance - Collection: maintenance_interventions
+    // 20. Interventions de maintenance - Collection: maintenance_interventions
     match /maintenance_interventions/{interventionId} {
       allow read: if isAuthenticated();
       allow write: if hasAnyRole(['admin', 'manager', 'employee']);
@@ -187,19 +196,19 @@ service cloud.firestore {
     
     // ====== COLLECTIONS COMPLÉMENTAIRES ======
     
-    // 20. Logs d'audit - Collection: audit_logs
+    // 21. Logs d'audit - Collection: audit_logs
     match /audit_logs/{logId} {
       allow read: if isAdmin();
       allow create: if isAuthenticated();
     }
     
-    // 21. Documents des locataires - Collection: tenant_documents
+    // 22. Documents des locataires - Collection: tenant_documents
     match /tenant_documents/{documentId} {
       allow read, write: if isManagerOrAdmin() ||
         (isAuthenticated() && resource.data.tenantId == request.auth.uid);
     }
     
-    // 22. Notifications - Collection: notifications
+    // 23. Notifications - Collection: notifications
     match /notifications/{notificationId} {
       allow read: if isAuthenticated() && 
         resource.data.userId == request.auth.uid;
@@ -207,19 +216,19 @@ service cloud.firestore {
       allow create: if isAuthenticated();
     }
     
-    // 23. Sessions utilisateur - Collection: user_sessions
+    // 24. Sessions utilisateur - Collection: user_sessions
     match /user_sessions/{sessionId} {
       allow read, write: if isAuthenticated() && 
         resource.data.userId == request.auth.uid;
     }
     
-    // 24. Configuration des permissions - Collection: employee_permissions
+    // 25. Configuration des permissions - Collection: employee_permissions
     match /employee_permissions/{permissionId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
     
-    // 25. Fichiers uploadés - Collection: uploaded_files
+    // 26. Fichiers uploadés - Collection: uploaded_files
     match /uploaded_files/{fileId} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() && 
