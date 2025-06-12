@@ -11,6 +11,7 @@ export interface Company {
   address?: string;
   phone?: string;
   email?: string;
+  siret?: string;
   createdAt: string;
   updatedAt: string;
 }
