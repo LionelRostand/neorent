@@ -26,7 +26,6 @@ interface UseTaxCalculationsProps {
   selectedRoommates: string[];
   deductibleCharges: string;
   taxBracket: string;
-  calculationMode: 'monthly' | 'annual';
 }
 
 export const useTaxCalculations = ({
@@ -37,20 +36,18 @@ export const useTaxCalculations = ({
   selectedTenants,
   selectedRoommates,
   deductibleCharges,
-  taxBracket,
-  calculationMode
+  taxBracket
 }: UseTaxCalculationsProps) => {
   
   const calculations = useMemo(() => {
     let totalRentalIncome = 0;
-    const multiplier = calculationMode === 'annual' ? 12 : 1;
 
     // Calcul des revenus des biens immobiliers
     selectedProperties.forEach(propertyId => {
       const property = properties.find(p => p.id === propertyId);
       if (property) {
         const monthlyRent = parseFloat(property.rent) || 0;
-        totalRentalIncome += monthlyRent * multiplier;
+        totalRentalIncome += monthlyRent * 12;
       }
     });
 
@@ -59,7 +56,7 @@ export const useTaxCalculations = ({
       const tenant = tenants.find(t => t.id === tenantId);
       if (tenant) {
         const monthlyRent = parseFloat(tenant.rentAmount) || 0;
-        totalRentalIncome += monthlyRent * multiplier;
+        totalRentalIncome += monthlyRent * 12;
       }
     });
 
@@ -67,8 +64,8 @@ export const useTaxCalculations = ({
     selectedRoommates.forEach(roommateId => {
       const roommate = roommates.find(r => r.id === roommateId);
       if (roommate) {
-        const monthlyRent = parseFloat(roommate.rentAmount) || 0;
-        totalRentalIncome += monthlyRent * multiplier;
+        const monthlyRent = parseFloat(roommate.rentAmount) || 0; // Utilisé rentAmount
+        totalRentalIncome += monthlyRent * 12;
       }
     });
 
@@ -81,7 +78,7 @@ export const useTaxCalculations = ({
           const chargeValue = parseFloat(String(charge)) || 0;
           return sum + chargeValue;
         }, 0);
-        propertyCharges += monthlyCharges * multiplier;
+        propertyCharges += monthlyCharges * 12;
       }
     });
 
@@ -116,7 +113,7 @@ export const useTaxCalculations = ({
       netIncome,
       estimatedTax
     };
-  }, [properties, tenants, roommates, selectedProperties, selectedTenants, selectedRoommates, deductibleCharges, taxBracket, calculationMode]);
+  }, [properties, tenants, roommates, selectedProperties, selectedTenants, selectedRoommates, deductibleCharges, taxBracket]);
 
   return calculations;
 };

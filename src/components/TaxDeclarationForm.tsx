@@ -8,7 +8,6 @@ import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useTaxCalculations } from '@/hooks/useTaxCalculations';
 import TaxDeclarationHeader from './TaxDeclaration/TaxDeclarationHeader';
 import YearSelector from './TaxDeclaration/YearSelector';
-import CalculationModeSelector from './TaxDeclaration/CalculationModeSelector';
 import PropertySelector from './TaxDeclaration/PropertySelector';
 import ChargesInput from './TaxDeclaration/ChargesInput';
 import TaxBracketSelector from './TaxDeclaration/TaxBracketSelector';
@@ -25,7 +24,6 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
   
   // États du formulaire
   const [declarationYear, setDeclarationYear] = useState(currentYear);
-  const [calculationMode, setCalculationMode] = useState<'monthly' | 'annual'>('annual');
   const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
   const [selectedTenants, setSelectedTenants] = useState<string[]>([]);
   const [selectedRoommates, setSelectedRoommates] = useState<string[]>([]);
@@ -46,8 +44,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     selectedTenants,
     selectedRoommates,
     deductibleCharges,
-    taxBracket,
-    calculationMode
+    taxBracket
   });
 
   const handlePropertyChange = (propertyId: string, checked: boolean) => {
@@ -79,7 +76,6 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     
     const declarationData = {
       declarationYear,
-      calculationMode,
       selectedProperties,
       selectedTenants,
       selectedRoommates,
@@ -97,7 +93,6 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     setSelectedRoommates([]);
     setDeductibleCharges('');
     setTaxBracket('');
-    setCalculationMode('annual');
   };
 
   const isLoading = propertiesLoading || tenantsLoading || roommatesLoading;
@@ -117,11 +112,6 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
             <YearSelector 
               declarationYear={declarationYear}
               onYearChange={setDeclarationYear}
-            />
-
-            <CalculationModeSelector
-              calculationMode={calculationMode}
-              onModeChange={setCalculationMode}
             />
 
             <PropertySelector
