@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -143,8 +144,8 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
-                  disabled={loading}
                   minLength={6}
+                  disabled={loading}
                 />
                 <button
                   type="button"

@@ -105,7 +105,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
   return (
     <Card>
       <CardContent className="pt-6">
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="name">Nom complet *</Label>
@@ -113,6 +113,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
                 disabled={loading}
               />
             </div>
@@ -124,6 +125,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
                 disabled={loading}
               />
             </div>
@@ -136,6 +138,8 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  minLength={6}
                   disabled={loading}
                 />
                 <button
