@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
@@ -103,10 +104,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Ajouter un nouveau locataire</CardTitle>
-      </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
