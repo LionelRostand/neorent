@@ -7,14 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, User, Home, Calendar, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
-// Mock data - à remplacer par des données réelles
-const mockTenants = [
-  { id: 1, name: 'Marie Dubois', type: 'Locataire', property: 'Appartement Rue des Fleurs', rentAmount: 1200 },
-  { id: 2, name: 'Jean Martin', type: 'Locataire', property: 'Villa Montparnasse', rentAmount: 2500 },
-  { id: 3, name: 'Sophie Leroy', type: 'Colocataire', property: 'Appartement Bastille - Chambre 1', rentAmount: 800 },
-  { id: 4, name: 'Pierre Durand', type: 'Colocataire', property: 'Appartement Bastille - Chambre 2', rentAmount: 850 },
-];
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 
 const RentPaymentForm = () => {
   const [open, setOpen] = useState(false);
@@ -24,8 +19,30 @@ const RentPaymentForm = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [notes, setNotes] = useState('');
   const { toast } = useToast();
+  
+  const { tenants } = useFirebaseTenants();
+  const { roommates } = useFirebaseRoommates();
+  const { addPayment } = useFirebasePayments();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Combiner les locataires et colocataires avec leur type
+  const allTenants = [
+    ...tenants.filter(tenant => tenant.status === 'Actif').map(tenant => ({
+      id: tenant.id,
+      name: tenant.name,
+      type: 'Locataire',
+      property: tenant.property,
+      rentAmount: parseFloat(tenant.rentAmount) || 0
+    })),
+    ...roommates.filter(roommate => roommate.status === 'Actif').map(roommate => ({
+      id: roommate.id,
+      name: roommate.name,
+      type: 'Colocataire',
+      property: `${roommate.property} - Chambre ${roommate.roomNumber}`,
+      rentAmount: parseFloat(roommate.rentAmount) || 0
+    }))
+  ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!selectedTenant || !paymentDate || !amount || !paymentMethod) {
@@ -37,31 +54,56 @@ const RentPaymentForm = () => {
       return;
     }
 
-    // Simulation de l'enregistrement du règlement
-    console.log('Nouveau règlement de loyer:', {
-      tenantId: selectedTenant,
-      paymentDate,
-      amount: parseFloat(amount),
-      paymentMethod,
-      notes,
-      createdAt: new Date().toISOString()
-    });
+    const selectedTenantData = allTenants.find(t => t.id === selectedTenant);
+    if (!selectedTenantData) {
+      toast({
+        title: "Erreur",
+        description: "Locataire/Colocataire non trouvé.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    toast({
-      title: "Règlement enregistré",
-      description: "Le règlement de loyer a été enregistré avec succès.",
-    });
+    try {
+      const paymentData = {
+        tenantName: selectedTenantData.name,
+        tenantType: selectedTenantData.type,
+        property: selectedTenantData.property,
+        rentAmount: parseFloat(amount),
+        dueDate: paymentDate,
+        status: 'Payé',
+        paymentDate: paymentDate,
+        paymentMethod,
+        notes: notes || null
+      };
 
-    // Reset form
-    setSelectedTenant('');
-    setPaymentDate('');
-    setAmount('');
-    setPaymentMethod('');
-    setNotes('');
-    setOpen(false);
+      await addPayment(paymentData);
+
+      toast({
+        title: "Règlement enregistré",
+        description: "Le règlement de loyer a été enregistré avec succès.",
+      });
+
+      console.log('Nouveau règlement de loyer ajouté à Rent_Payments:', paymentData);
+
+      // Reset form
+      setSelectedTenant('');
+      setPaymentDate('');
+      setAmount('');
+      setPaymentMethod('');
+      setNotes('');
+      setOpen(false);
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout du paiement:', err);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'enregistrement du règlement.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const selectedTenantData = mockTenants.find(t => t.id.toString() === selectedTenant);
+  const selectedTenantData = allTenants.find(t => t.id === selectedTenant);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -81,14 +123,22 @@ const RentPaymentForm = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="tenant">Locataire/Colocataire *</Label>
-              <Select value={selectedTenant} onValueChange={setSelectedTenant}>
+              <Label htmlFor="tenant">
+                {selectedTenantData?.type === 'Colocataire' ? 'Colocataire' : 'Locataire'} *
+              </Label>
+              <Select value={selectedTenant} onValueChange={(value) => {
+                setSelectedTenant(value);
+                const tenant = allTenants.find(t => t.id === value);
+                if (tenant) {
+                  setAmount(tenant.rentAmount.toString());
+                }
+              }}>
                 <SelectTrigger>
                   <SelectValue placeholder="Sélectionner un locataire/colocataire" />
                 </SelectTrigger>
                 <SelectContent>
-                  {mockTenants.map((tenant) => (
-                    <SelectItem key={tenant.id} value={tenant.id.toString()}>
+                  {allTenants.map((tenant) => (
+                    <SelectItem key={tenant.id} value={tenant.id}>
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4" />
                         <div>
@@ -120,8 +170,15 @@ const RentPaymentForm = () => {
                 <Home className="h-4 w-4 text-gray-600" />
                 <span className="font-medium">Informations du bien</span>
               </div>
-              <p className="text-sm text-gray-600">Propriété: {selectedTenantData.property}</p>
-              <p className="text-sm text-gray-600">Loyer mensuel: {selectedTenantData.rentAmount}€</p>
+              <p className="text-sm text-gray-600">
+                Type: {selectedTenantData.type}
+              </p>
+              <p className="text-sm text-gray-600">
+                Propriété: {selectedTenantData.property}
+              </p>
+              <p className="text-sm text-gray-600">
+                Loyer mensuel: {selectedTenantData.rentAmount}€
+              </p>
             </div>
           )}
 
