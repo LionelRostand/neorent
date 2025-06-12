@@ -130,20 +130,20 @@ const Tenants = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="space-y-6 sm:space-y-8">
           {/* En-tête avec titre et bouton d'ajout */}
-          <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Gestion des Locataires</h1>
-                <p className="text-gray-600 mt-2">Gérez et suivez tous vos locataires en un seul endroit</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Gestion des Locataires</h1>
+                <p className="text-gray-600 mt-2 text-sm sm:text-base">Gérez et suivez tous vos locataires en un seul endroit</p>
               </div>
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
-                    <Plus className="mr-2 h-5 w-5" />
-                    Ajouter un locataire
+                  <Button className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto">
+                    <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-sm sm:text-base">Ajouter un locataire</span>
                   </Button>
                 </DialogTrigger>
                 <TenantForm
@@ -155,8 +155,8 @@ const Tenants = () => {
             </div>
           </div>
 
-          {/* Métriques */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Métriques responsives */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             <MetricCard
               title="Locataires actifs"
               value={activeCount}
@@ -193,12 +193,12 @@ const Tenants = () => {
 
           {/* Section Liste des Locataires */}
           <div className="bg-white rounded-lg shadow-sm border">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900">Liste des Locataires</h2>
-              <p className="text-gray-600 mt-1">Consultez et gérez tous vos locataires</p>
+            <div className="p-4 sm:p-6 border-b border-gray-200">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Liste des Locataires</h2>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">Consultez et gérez tous vos locataires</p>
             </div>
             
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               {tenants.length === 0 ? (
                 <div className="text-center py-12">
                   <Users className="mx-auto h-12 w-12 text-gray-400" />
@@ -206,14 +206,14 @@ const Tenants = () => {
                   <p className="mt-2 text-gray-500">Commencez par ajouter votre premier locataire.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                   {tenants.map((tenant) => (
                     <Card key={tenant.id} className="hover:shadow-lg transition-all duration-200 border-l-4 border-l-green-500">
-                      <CardContent className="p-6">
-                        <div className="space-y-4">
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="space-y-3 sm:space-y-4">
                           <div className="flex justify-between items-start">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-14 h-14 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center overflow-hidden">
+                            <div className="flex items-center space-x-3 min-w-0 flex-1">
+                              <div className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                                 {tenant.image ? (
                                   <img 
                                     src={tenant.image} 
@@ -221,16 +221,16 @@ const Tenants = () => {
                                     className="w-full h-full object-cover"
                                   />
                                 ) : (
-                                  <UserCheck className="h-8 w-8 text-green-600" />
+                                  <UserCheck className="h-5 w-5 sm:h-8 sm:w-8 text-green-600" />
                                 )}
                               </div>
-                              <div>
-                                <h3 className="font-semibold text-lg text-gray-900">{tenant.name}</h3>
-                                <p className="text-sm text-gray-600 mt-1">{tenant.property}</p>
+                              <div className="min-w-0 flex-1">
+                                <h3 className="font-semibold text-sm sm:text-lg text-gray-900 truncate">{tenant.name}</h3>
+                                <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate">{tenant.property}</p>
                               </div>
                             </div>
-                            <div className="flex items-center space-x-2">
-                              <Badge className="bg-green-100 text-green-800 border-green-200">
+                            <div className="flex flex-col items-end space-y-1 ml-2">
+                              <Badge className="bg-green-100 text-green-800 border-green-200 text-xs">
                                 {tenant.status}
                               </Badge>
                               <div className="flex space-x-1">
@@ -238,42 +238,42 @@ const Tenants = () => {
                                   variant="outline"
                                   size="sm"
                                   onClick={() => handleEditTenant(tenant)}
-                                  className="h-8 w-8 p-0"
+                                  className="h-6 w-6 sm:h-8 sm:w-8 p-0"
                                 >
-                                  <Edit className="h-4 w-4" />
+                                  <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
                                 <Button
                                   variant="outline"
                                   size="sm"
                                   onClick={() => handleDeleteTenant(tenant.id)}
-                                  className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                  className="h-6 w-6 sm:h-8 sm:w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
                                 >
-                                  <Trash2 className="h-4 w-4" />
+                                  <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
                               </div>
                             </div>
                           </div>
                           
                           <div className="space-y-2">
-                            <div className="flex items-center text-gray-600 text-sm">
-                              <Mail className="mr-2 h-4 w-4 text-blue-500" />
+                            <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                              <Mail className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
                               <span className="truncate">{tenant.email}</span>
                             </div>
-                            <div className="flex items-center text-gray-600 text-sm">
-                              <Phone className="mr-2 h-4 w-4 text-green-500" />
-                              {tenant.phone}
+                            <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                              <Phone className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                              <span className="truncate">{tenant.phone}</span>
                             </div>
-                            <div className="flex items-center text-gray-600 text-sm">
-                              <Home className="mr-2 h-4 w-4 text-orange-500" />
-                              <span className="font-medium text-blue-600">{tenant.rentAmount}/mois</span>
+                            <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                              <Home className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-orange-500 flex-shrink-0" />
+                              <span className="truncate font-medium text-blue-600">{tenant.rentAmount}/mois</span>
                             </div>
                           </div>
                           
-                          <div className="flex space-x-2 pt-4 border-t border-gray-100">
+                          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 pt-3 sm:pt-4 border-t border-gray-100">
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="flex-1 hover:bg-blue-50 hover:border-blue-300"
+                              className="flex-1 hover:bg-blue-50 hover:border-blue-300 text-xs sm:text-sm"
                               onClick={() => handleViewDetails(tenant)}
                             >
                               Voir détails
@@ -281,7 +281,7 @@ const Tenants = () => {
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="flex-1 hover:bg-green-50 hover:border-green-300"
+                              className="flex-1 hover:bg-green-50 hover:border-green-300 text-xs sm:text-sm"
                             >
                               Contacter
                             </Button>
