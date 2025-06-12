@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,64 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Calculator, Calendar, Building2, DollarSign, CheckCircle, Clock, XCircle, Receipt, TrendingUp, FileText, Edit, Trash2 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import TaxDeclarationForm from '@/components/TaxDeclarationForm';
-
-const taxes = [
-  {
-    id: 1,
-    title: 'Taxe foncière 2025',
-    type: 'Taxe foncière',
-    property: 'Appartement Rue des Fleurs',
-    amount: '1,350€',
-    dueDate: '2025-10-15',
-    status: 'À payer',
-    year: 2025,
-    description: 'Taxe sur la propriété foncière'
-  },
-  {
-    id: 2,
-    title: 'Revenus fonciers 2025',
-    type: 'Revenus fonciers',
-    property: 'Villa Montparnasse',
-    amount: '4,200€',
-    dueDate: '2026-04-30',
-    status: 'À déclarer',
-    year: 2025,
-    description: 'Déclaration des revenus locatifs'
-  },
-  {
-    id: 3,
-    title: 'CFE 2025',
-    type: 'CFE',
-    property: 'Studio Centre-ville',
-    amount: '520€',
-    dueDate: '2025-12-15',
-    status: 'À payer',
-    year: 2025,
-    description: 'Cotisation foncière des entreprises'
-  },
-  {
-    id: 4,
-    title: 'Taxe foncière 2024',
-    type: 'Taxe foncière',
-    property: 'Appartement Rue des Fleurs',
-    amount: '1,200€',
-    dueDate: '2024-10-15',
-    status: 'Payée',
-    year: 2024,
-    description: 'Taxe sur la propriété foncière'
-  },
-  {
-    id: 5,
-    title: 'IFI 2025',
-    type: 'IFI',
-    property: 'Ensemble du patrimoine',
-    amount: '2,800€',
-    dueDate: '2025-06-15',
-    status: 'Payée',
-    year: 2025,
-    description: 'Impôt sur la fortune immobilière'
-  }
-];
+import { useFirebaseFiscality } from '@/hooks/useFirebaseFiscality';
 
 // Génération dynamique des années à partir de 2025
 const generateYears = () => {
@@ -80,15 +24,17 @@ const generateYears = () => {
 
 // Calcul approximatif des impôts pour l'année par défaut (2025 ou année courante si supérieure)
 const defaultYear = Math.max(new Date().getFullYear(), 2025);
-const currentYearTaxes = taxes.filter(t => t.year === defaultYear);
 
 const Taxes = () => {
   const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [isDeclarationFormOpen, setIsDeclarationFormOpen] = useState(false);
-  const [taxList, setTaxList] = useState(taxes);
+  
+  const { fiscalities, loading, addFiscality, updateFiscality, deleteFiscality } = useFirebaseFiscality();
   
   const availableYears = generateYears();
-  const filteredTaxes = taxList.filter(t => t.year === selectedYear);
+  const filteredTaxes = fiscalities.filter(t => t.year === selectedYear);
+  const currentYearTaxes = fiscalities.filter(t => t.year === defaultYear);
+  
   const paidCount = filteredTaxes.filter(t => t.status === 'Payée').length;
   const pendingCount = filteredTaxes.filter(t => t.status === 'À payer').length;
   const todeclareCount = filteredTaxes.filter(t => t.status === 'À déclarer').length;
@@ -107,30 +53,64 @@ const Taxes = () => {
 
   const remainingCurrentYear = totalCurrentYearAmount - paidCurrentYear;
 
-  const handleNewDeclaration = (declarationData: any) => {
-    console.log('Nouvelle déclaration fiscale:', declarationData);
-    // Ici on pourrait ajouter la déclaration à la liste des taxes
-    // Pour l'instant on log juste les données
+  const handleNewDeclaration = async (declarationData: any) => {
+    try {
+      console.log('Nouvelle déclaration fiscale:', declarationData);
+      
+      // Créer une nouvelle entrée de fiscalité basée sur la déclaration
+      const newFiscality = {
+        title: `Déclaration revenus fonciers ${declarationData.declarationYear}`,
+        type: 'Revenus fonciers',
+        property: `${declarationData.selectedProperties.length} bien(s) sélectionné(s)`,
+        amount: `${declarationData.calculations.estimatedTax.toLocaleString('fr-FR')}€`,
+        dueDate: `${declarationData.declarationYear + 1}-04-30`,
+        status: 'À déclarer' as const,
+        year: declarationData.declarationYear,
+        description: `Déclaration générée automatiquement - Revenus nets: ${declarationData.calculations.netIncome.toLocaleString('fr-FR')}€`
+      };
+
+      await addFiscality(newFiscality);
+      console.log('Déclaration fiscale ajoutée à Firebase');
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout de la déclaration:', error);
+    }
   };
 
-  const handleEditTax = (taxId: number) => {
+  const handleEditTax = (taxId: string) => {
     console.log('Modifier la fiscalité:', taxId);
     // Ici on pourrait ouvrir une modale d'édition
   };
 
-  const handleDeleteTax = (taxId: number) => {
+  const handleDeleteTax = async (taxId: string) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cette fiscalité ?')) {
-      setTaxList(prev => prev.filter(tax => tax.id !== taxId));
-      console.log('Fiscalité supprimée:', taxId);
+      try {
+        await deleteFiscality(taxId);
+        console.log('Fiscalité supprimée:', taxId);
+      } catch (error) {
+        console.error('Erreur lors de la suppression:', error);
+      }
     }
   };
 
-  const handleMarkAsPaid = (taxId: number) => {
-    setTaxList(prev => prev.map(tax => 
-      tax.id === taxId ? { ...tax, status: 'Payée' } : tax
-    ));
-    console.log('Fiscalité marquée comme payée:', taxId);
+  const handleMarkAsPaid = async (taxId: string) => {
+    try {
+      await updateFiscality(taxId, { status: 'Payée' });
+      console.log('Fiscalité marquée comme payée:', taxId);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour:', error);
+    }
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+          <p className="ml-4">Chargement des données fiscales...</p>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
