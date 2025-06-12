@@ -48,6 +48,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
     }
   };
 
+  const getLocationTypeColor = (locationType: string) => {
+    return locationType === 'Colocation' ? 'text-red-600' : 'text-blue-600';
+  };
+
   return (
     <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handleCardClick}>
       <div className="relative">
@@ -93,13 +97,18 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
             <Home className="mr-2 h-4 w-4" />
             <span className="text-sm">{property.type} - {property.surface}</span>
           </div>
-          <div className="flex items-center text-blue-600 font-semibold">
-            <Euro className="mr-2 h-4 w-4" />
-            <span>{property.rent}/mois</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-blue-600 font-semibold">
+              <Euro className="mr-2 h-4 w-4" />
+              <span>{property.rent}/mois</span>
+            </div>
+            <div className={`text-sm font-semibold ${getLocationTypeColor(property.locationType)}`}>
+              {property.locationType}
+            </div>
           </div>
           {property.locationType === 'Colocation' && (
             <div className="text-sm text-gray-500">
-              Colocation - {property.availableRooms}/{property.totalRooms} chambres disponibles
+              {property.availableRooms}/{property.totalRooms} chambres disponibles
             </div>
           )}
           {property.tenant && (
