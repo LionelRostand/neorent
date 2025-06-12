@@ -9,6 +9,7 @@ import MetricCard from '@/components/MetricCard';
 import ContractForm from '@/components/ContractForm';
 import ContractEditModal from '@/components/ContractEditModal';
 import ContractSigningModal from '@/components/ContractSigning/ContractSigningModal';
+import ContractDetailsModal from '@/components/ContractDetailsModal';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useToast } from '@/hooks/use-toast';
 
@@ -18,6 +19,8 @@ const Contracts = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [signingContract, setSigningContract] = useState(null);
   const [isSigningModalOpen, setIsSigningModalOpen] = useState(false);
+  const [detailsContract, setDetailsContract] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const { contracts, loading, error, addContract, updateContract, deleteContract } = useFirebaseContracts();
   const { toast } = useToast();
 
@@ -136,6 +139,11 @@ const Contracts = () => {
         });
       }
     }
+  };
+
+  const handleViewDetails = (contract: any) => {
+    setDetailsContract(contract);
+    setIsDetailsModalOpen(true);
   };
 
   if (loading) {
@@ -288,7 +296,12 @@ const Contracts = () => {
                   </div>
                   
                   <div className="flex space-x-2 pt-4 border-t">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleViewDetails(contract)}
+                    >
                       Voir détails
                     </Button>
                     {contract.status !== 'Signé' ? (
@@ -328,6 +341,12 @@ const Contracts = () => {
           isOpen={isSigningModalOpen}
           onClose={() => setIsSigningModalOpen(false)}
           onSigningComplete={handleSigningComplete}
+        />
+
+        <ContractDetailsModal
+          contract={detailsContract}
+          isOpen={isDetailsModalOpen}
+          onClose={() => setIsDetailsModalOpen(false)}
         />
       </div>
     </MainLayout>
