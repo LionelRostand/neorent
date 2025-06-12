@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 
@@ -15,6 +15,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, userProfile, userType } = useAuth();
   const { toast } = useToast();
 
@@ -42,11 +43,24 @@ const LoginForm = () => {
           description: `Bienvenue ${userProfile.name || 'Utilisateur'}`,
         });
 
-        // Rediriger selon le type d'utilisateur
+        // Récupérer l'URL de redirection depuis l'état de navigation
+        const from = location.state?.from?.pathname || null;
+        
+        // Rediriger selon le type d'utilisateur et l'URL demandée
         if (userType === 'admin' || userType === 'employee') {
-          navigate('/admin');
+          // Si l'utilisateur venait d'une page admin, le rediriger là-bas
+          if (from && from.startsWith('/admin')) {
+            navigate(from);
+          } else {
+            navigate('/admin');
+          }
         } else {
-          navigate('/tenant-space');
+          // Si l'utilisateur venait de tenant-space, le rediriger là-bas
+          if (from && from.startsWith('/tenant-space')) {
+            navigate(from);
+          } else {
+            navigate('/tenant-space');
+          }
         }
       }, 1000);
       
