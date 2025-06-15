@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface Tenant {
   id: string;
@@ -17,6 +18,7 @@ interface Tenant {
   status: string;
   leaseStart: string;
   image: string | null;
+  password?: string; // Ajout du mot de passe (optionnel pour ne pas casser)
 }
 
 interface Property {
@@ -32,19 +34,29 @@ interface TenantEditModalProps {
   properties: Property[];
 }
 
-const TenantEditModal: React.FC<TenantEditModalProps> = ({ tenant, isOpen, onClose, onSave, properties }) => {
+const TenantEditModal: React.FC<TenantEditModalProps> = ({
+  tenant, isOpen, onClose, onSave, properties,
+}) => {
   const [formData, setFormData] = useState<Partial<Tenant>>({});
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (tenant) {
       setFormData(tenant);
+      setPassword(''); // Toujours vide à l'ouverture pour la sécurité
     }
   }, [tenant]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (tenant && formData) {
-      onSave(tenant.id, formData);
+      // On passe le mot de passe seulement s'il est rempli
+      const updates = { ...formData } as Partial<Tenant>;
+      if (password.trim().length > 0) {
+        updates.password = password;
+      }
+      onSave(tenant.id, updates);
       onClose();
     }
   };
@@ -55,7 +67,7 @@ const TenantEditModal: React.FC<TenantEditModalProps> = ({ tenant, isOpen, onClo
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Modifier le locataire</DialogTitle>
+          <DialogTitle>Modifier le colocataire</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -129,6 +141,34 @@ const TenantEditModal: React.FC<TenantEditModalProps> = ({ tenant, isOpen, onClo
               </Select>
             </div>
           </div>
+          {/* --- Ajout du champ mot de passe comme sur la maquette RoommateForm --- */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="password">Mot de passe {tenant ? "(laisser vide pour ne pas changer)" : "*"}</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  minLength={6}
+                  placeholder="Nouveau mot de passe"
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Min. 6 caractères. Laisser vide pour garder le mot de passe actuel.</p>
+            </div>
+            <div></div>
+          </div>
+          {/* --- Fin ajout mot de passe --- */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="leaseStart">Début du bail</Label>
