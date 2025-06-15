@@ -60,16 +60,14 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
 
   if (!roommate) return null;
 
-  // Simulation du montant payé ce mois (à remplacer plus tard si besoin par la vraie donnée)
-  // Supposons que le colocataire n’a payé qu’une partie ou la totalité
-  // Vous pouvez remplacer cette ligne par la récupération réelle du paiement depuis la base de données.
+  // Montant attendu et montant payé (éditable)
   const montantAttendu = roommate.rentAmount ? Number(roommate.rentAmount) : 0;
-  // Simu pour la démo : payé une partie (ex: 600€ sur 750€)
-  const montantPayé = 600; // Valeur à modifier pour simuler différents cas
+  // Montant payé éditable
+  const [montantPaye, setMontantPaye] = useState<number>(600);
 
-  // Calcul du reste à payer
-  const resteAPayer = Math.max(montantAttendu - montantPayé, 0);
-  const aToutPayé = resteAPayer === 0;
+  // Calcul dynamique
+  const resteAPayer = Math.max(montantAttendu - montantPaye, 0);
+  const aToutPaye = resteAPayer === 0;
 
   // Simuler les documents étendus pour le colocataire
   const documents = {
@@ -150,7 +148,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     document.body.removeChild(link);
   };
 
-  // Statut visuel paiement (ajout d'une alerte si pas tout payé)
+  // Statut visuel paiement (modifié pour input montant payé)
   const StatutPaiementDetail = () => (
     <div className="flex flex-col space-y-2 mt-2">
       <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
@@ -158,11 +156,23 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
         <span className="font-semibold text-blue-700">{montantAttendu.toLocaleString()}€</span>
       </div>
       <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
-        <span>Montant payé :</span>
-        <span className={`font-semibold ${aToutPayé ? 'text-green-700' : 'text-yellow-700'}`}>{montantPayé.toLocaleString()}€</span>
+        <label htmlFor="montant-paye" className="flex-1">
+          Montant payé :
+        </label>
+        <input
+          id="montant-paye"
+          type="number"
+          min={0}
+          max={montantAttendu}
+          value={montantPaye}
+          onChange={e => setMontantPaye(Number(e.target.value))}
+          className="w-28 px-2 py-1 border border-gray-300 rounded text-right font-semibold focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-green-700"
+          aria-label="Montant payé"
+        />
+        <span className="ml-2 font-semibold text-green-700">{Number(montantPaye).toLocaleString()}€</span>
       </div>
-      <div className={`flex items-center justify-between rounded-lg p-3 ${aToutPayé ? 'bg-green-50' : 'bg-red-50'}`}>
-        {aToutPayé ? (
+      <div className={`flex items-center justify-between rounded-lg p-3 ${aToutPaye ? 'bg-green-50' : 'bg-red-50'}`}>
+        {aToutPaye ? (
           <>
             <span className="flex items-center text-green-700">
               <CheckCircle className="h-4 w-4 mr-1" />
@@ -246,7 +256,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                 </CardContent>
               </Card>
 
-              {/* Statut de paiement (amélioré avec détail montant) */}
+              {/* Statut de paiement (editable montant payé) */}
               <Card>
                 <CardContent className="p-6">
                   <h4 className="text-lg font-semibold mb-4">Statut de paiement</h4>
@@ -268,7 +278,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                       </Badge>
                     </div>
                   </div>
-                  {/* Affichage du détail paiement : montant payé vs attendu */}
+                  {/* Affichage du détail paiement : montant payé (éditable) vs attendu */}
                   <StatutPaiementDetail />
                   <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                     <div className="flex items-center text-blue-700">
