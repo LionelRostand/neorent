@@ -309,6 +309,7 @@ const Roommates = () => {
             roommate={selectedRoommate}
             isOpen={isDetailsModalOpen}
             onClose={() => setIsDetailsModalOpen(false)}
+            onUpdateRoommate={handleUpdateRoommate} // ← on passe bien la fonction
           />
 
           <RoommateEditModal
