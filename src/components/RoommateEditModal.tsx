@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface Roommate {
   id: string;
@@ -18,6 +19,7 @@ interface Roommate {
   primaryTenant: string;
   moveInDate: string;
   image: string | null;
+  password?: string; // Ajout optionnel pour type
 }
 
 interface Property {
@@ -35,17 +37,24 @@ interface RoommateEditModalProps {
 
 const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen, onClose, onSave, properties }) => {
   const [formData, setFormData] = useState<Partial<Roommate>>({});
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (roommate) {
       setFormData(roommate);
+      setPassword('');
     }
   }, [roommate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (roommate && formData) {
-      onSave(roommate.id, formData);
+      const updates = { ...formData };
+      if (password.trim().length > 0) {
+        (updates as Partial<Roommate>).password = password;
+      }
+      onSave(roommate.id, updates);
       onClose();
     }
   };
@@ -106,6 +115,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
               </Select>
             </div>
           </div>
+          {/* LIGNE avec numéro de chambre et mot de passe */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="roomNumber">Numéro de chambre</Label>
@@ -117,6 +127,33 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
               />
             </div>
             <div>
+              <Label htmlFor="password">Mot de passe (laisser vide pour ne pas changer)</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  minLength={6}
+                  placeholder="Nouveau mot de passe"
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Min. 6 caractères. Laisser vide pour garder le mot de passe actuel.
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
               <Label htmlFor="rentAmount">Montant du loyer (€)</Label>
               <Input
                 id="rentAmount"
@@ -125,8 +162,6 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                 required
               />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="primaryTenant">Locataire principal</Label>
               <Input
@@ -136,6 +171,8 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                 required
               />
             </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="status">Statut</Label>
               <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
@@ -149,6 +186,8 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                 </SelectContent>
               </Select>
             </div>
+            {/* Place vide pour alignement */}
+            <div></div>
           </div>
           <div>
             <Label htmlFor="moveInDate">Date d'emménagement</Label>
