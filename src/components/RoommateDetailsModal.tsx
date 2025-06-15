@@ -58,18 +58,15 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
   onClose,
   onUpdateRoommate
 }) => {
+  // Move all hooks before ANY conditional return!
   const [selectedDocument, setSelectedDocument] = useState<{name: string, type: string} | null>(null);
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
 
-  if (!roommate) return null;
-
-  // Montant attendu et montant payé (éditable)
-  const montantAttendu = roommate.rentAmount ? Number(roommate.rentAmount) : 0;
-  // Initialiser à la valeur en BDD ou 0 ou la valeur simulée
+  // Use montantAttendu and payment state only if roommate exists
+  const montantAttendu = roommate?.rentAmount ? Number(roommate.rentAmount) : 0;
   const [montantPaye, setMontantPaye] = useState<number>(
-    typeof roommate.paidAmount === 'number' ? roommate.paidAmount : 600
+    typeof roommate?.paidAmount === 'number' ? roommate.paidAmount : 600
   );
-  // Pour détecter la modification (et afficher bouton utiliser l'état initial)
   const [initialMontantPaye, setInitialMontantPaye] = useState(montantPaye);
 
   useEffect(() => {
@@ -80,27 +77,24 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     }
   }, [roommate]);
 
-  // State pour le feedback de sauvegarde
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const isModified = montantPaye !== initialMontantPaye;
 
-  // Calcul dynamique
-  const resteAPayer = Math.max(montantAttendu - montantPaye, 0);
-  const aToutPaye = resteAPayer === 0;
-
-  // Simuler les documents étendus pour le colocataire
-  const documents = {
-    bail: { exists: true, name: `Contrat de bail - ${roommate.name}.pdf`, uploadDate: roommate.moveInDate, status: 'Signé' },
-    assurance: { exists: true, name: 'Assurance habitation.pdf', uploadDate: '2023-05-28', status: 'Valide' },
-    etatLieuxEntree: { exists: true, name: 'État des lieux entrée chambre.pdf', uploadDate: roommate.moveInDate, status: 'Signé' },
-    revenus: { exists: true, name: 'Bulletins de salaire.pdf', uploadDate: '2023-05-25', status: 'Validé' },
-    identite: { exists: true, name: 'Carte identité.pdf', uploadDate: '2023-05-20', status: 'Validé' },
-    rib: { exists: true, name: 'RIB.pdf', uploadDate: '2023-05-20', status: 'Validé' },
-    garant: { exists: false, name: null, uploadDate: null, status: 'Non requis' },
-    taxeHabitation: { exists: false, name: null, uploadDate: null, status: 'Optionnel' },
-    etatLieuxSortie: { exists: false, name: null, uploadDate: null, status: 'À venir' }
-  };
+  // Only set up documents if roommate exists
+  const documents = roommate
+    ? {
+        bail: { exists: true, name: `Contrat de bail - ${roommate.name}.pdf`, uploadDate: roommate.moveInDate, status: 'Signé' },
+        assurance: { exists: true, name: 'Assurance habitation.pdf', uploadDate: '2023-05-28', status: 'Valide' },
+        etatLieuxEntree: { exists: true, name: 'État des lieux entrée chambre.pdf', uploadDate: roommate.moveInDate, status: 'Signé' },
+        revenus: { exists: true, name: 'Bulletins de salaire.pdf', uploadDate: '2023-05-25', status: 'Validé' },
+        identite: { exists: true, name: 'Carte identité.pdf', uploadDate: '2023-05-20', status: 'Validé' },
+        rib: { exists: true, name: 'RIB.pdf', uploadDate: '2023-05-20', status: 'Validé' },
+        garant: { exists: false, name: null, uploadDate: null, status: 'Non requis' },
+        taxeHabitation: { exists: false, name: null, uploadDate: null, status: 'Optionnel' },
+        etatLieuxSortie: { exists: false, name: null, uploadDate: null, status: 'À venir' }
+      }
+    : {};
 
   const documentTypes = [
     { key: 'bail', icon: FileText, label: 'Contrat de colocation', color: 'text-blue-600', required: true },
@@ -114,14 +108,14 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     { key: 'etatLieuxSortie', icon: ClipboardList, label: 'État des lieux sortie chambre', color: 'text-orange-600', required: false }
   ];
 
-  // Calculer le statut de paiement du mois en cours
+  // Statut paiement du mois en cours, only if roommate exists
   const currentDate = new Date();
-  const moveInDate = new Date(roommate.moveInDate);
+  const moveInDate = roommate ? new Date(roommate.moveInDate) : new Date();
   const nextPaymentDate = new Date(moveInDate.getTime() + 30 * 24 * 60 * 60 * 1000); // +30 jours
   const isLate = nextPaymentDate < currentDate;
-  const isUpcoming = nextPaymentDate.getTime() - currentDate.getTime() <= 7 * 24 * 60 * 60 * 1000; // 7 jours
-
+  const isUpcoming = nextPaymentDate.getTime() - currentDate.getTime() <= 7 * 24 * 60 * 60 * 1000;
   const getPaymentStatus = () => {
+    if (!roommate) return { status: '', color: '', icon: CheckCircle };
     if (isLate) {
       return { status: 'En retard', color: 'bg-red-100 text-red-800', icon: XCircle };
     } else if (isUpcoming) {
@@ -130,7 +124,6 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
       return { status: 'À jour', color: 'bg-green-100 text-green-800', icon: CheckCircle };
     }
   };
-
   const paymentStatus = getPaymentStatus();
   const PaymentIcon = paymentStatus.icon;
 
@@ -159,16 +152,14 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
   };
 
   const handleDownloadDocument = (documentName: string) => {
-    // Simuler le téléchargement
     const link = document.createElement('a');
-    link.href = '/placeholder.svg'; // En production, utiliser l'URL réelle du document
+    link.href = '/placeholder.svg';
     link.download = documentName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  // Handler de sauvegarde du montant payé
   const handleSaveMontantPaye = async () => {
     if (!roommate || !onUpdateRoommate) return;
     setIsSaving(true);
@@ -184,7 +175,6 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     }
   };
 
-  // Statut visuel paiement (modifié pour input montant payé)
   const StatutPaiementDetail = () => (
     <div className="flex flex-col space-y-2 mt-2">
       <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
@@ -245,6 +235,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     </div>
   );
 
+  // No early return! Render nothing if not open, but all hooks above this point.
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -252,13 +243,13 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Détails du colocataire</DialogTitle>
           </DialogHeader>
-
+          {/* Don't render details if no roommate */}
+          {!roommate ? null : (
           <Tabs defaultValue="general" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="general">Informations générales</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
             </TabsList>
-
             <TabsContent value="general" className="space-y-6">
               {/* Informations du colocataire */}
               <Card>
@@ -347,7 +338,8 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
             <TabsContent value="documents" className="space-y-6">
               <div className="grid gap-4">
                 {documentTypes.map((docType) => {
-                  const document = documents[docType.key as keyof typeof documents];
+                  // Each document type may be missing if no roommate
+                  const document = roommate ? documents[docType.key as keyof typeof documents] : undefined;
                   const Icon = docType.icon;
                   
                   return (
@@ -361,7 +353,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                                 {docType.label}
                                 {docType.required && <Badge variant="outline" className="text-xs">Requis</Badge>}
                               </h4>
-                              {document.exists ? (
+                              {document?.exists ? (
                                 <p className="text-sm text-gray-600">
                                   {document.name} • Ajouté le {new Date(document.uploadDate!).toLocaleDateString('fr-FR')}
                                 </p>
@@ -371,8 +363,8 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                             </div>
                           </div>
                           <div className="flex items-center space-x-3">
-                            {getDocumentStatusBadge(document.status, document.exists, docType.required)}
-                            {document.exists && (
+                            {document && getDocumentStatusBadge(document.status, document.exists, docType.required)}
+                            {document?.exists && (
                               <div className="flex gap-2">
                                 <Button 
                                   variant="outline" 
@@ -401,6 +393,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
               </div>
             </TabsContent>
           </Tabs>
+          )}
         </DialogContent>
       </Dialog>
 
