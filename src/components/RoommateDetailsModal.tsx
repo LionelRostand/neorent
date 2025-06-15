@@ -175,65 +175,69 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     }
   };
 
-  const StatutPaiementDetail = () => (
-    <div className="flex flex-col space-y-2 mt-2">
-      <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
-        <span>Montant attendu :</span>
-        <span className="font-semibold text-blue-700">{montantAttendu.toLocaleString()}€</span>
-      </div>
-      <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
-        <label htmlFor="montant-paye" className="flex-1">
-          Montant payé :
-        </label>
-        <input
-          id="montant-paye"
-          type="number"
-          min={0}
-          max={montantAttendu}
-          value={montantPaye}
-          onChange={e => setMontantPaye(Number(e.target.value))}
-          className="w-28 px-2 py-1 border border-gray-300 rounded text-right font-semibold focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-green-700"
-          aria-label="Montant payé"
-          disabled={isSaving}
-        />
-        <span className="ml-2 font-semibold text-green-700">{Number(montantPaye).toLocaleString()}€</span>
-      </div>
-      <div className={`flex items-center justify-between rounded-lg p-3 ${aToutPaye ? 'bg-green-50' : 'bg-red-50'}`}>
-        {aToutPaye ? (
-          <>
-            <span className="flex items-center text-green-700">
-              <CheckCircle className="h-4 w-4 mr-1" />
-              Payé en totalité
-            </span>
-            <span className="text-green-700 font-semibold">✔️</span>
-          </>
-        ) : (
-          <>
-            <span className="flex items-center text-red-700">
-              <XCircle className="h-4 w-4 mr-1" />
-              Reste à verser
-            </span>
-            <span className="text-red-700 font-semibold">{resteAPayer.toLocaleString()}€</span>
-          </>
-        )}
-      </div>
-      <div className="flex items-center mt-2 gap-2">
-        {isModified && (
-          <button
-            className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none transition"
-            onClick={handleSaveMontantPaye}
+  const StatutPaiementDetail = () => {
+    const aToutPaye = montantPaye >= montantAttendu;
+    const resteAPayer = Math.max(montantAttendu - montantPaye, 0);
+    return (
+      <div className="flex flex-col space-y-2 mt-2">
+        <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
+          <span>Montant attendu :</span>
+          <span className="font-semibold text-blue-700">{montantAttendu.toLocaleString()}€</span>
+        </div>
+        <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
+          <label htmlFor="montant-paye" className="flex-1">
+            Montant payé :
+          </label>
+          <input
+            id="montant-paye"
+            type="number"
+            min={0}
+            max={montantAttendu}
+            value={montantPaye}
+            onChange={e => setMontantPaye(Number(e.target.value))}
+            className="w-28 px-2 py-1 border border-gray-300 rounded text-right font-semibold focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-green-700"
+            aria-label="Montant payé"
             disabled={isSaving}
-            type="button"
-          >
-            {isSaving ? "Enregistrement..." : "Enregistrer"}
-          </button>
-        )}
-        {saveSuccess && (
-          <span className="text-green-600 font-medium text-sm ml-2">Enregistré !</span>
-        )}
+          />
+          <span className="ml-2 font-semibold text-green-700">{Number(montantPaye).toLocaleString()}€</span>
+        </div>
+        <div className={`flex items-center justify-between rounded-lg p-3 ${aToutPaye ? 'bg-green-50' : 'bg-red-50'}`}>
+          {aToutPaye ? (
+            <>
+              <span className="flex items-center text-green-700">
+                <CheckCircle className="h-4 w-4 mr-1" />
+                Payé en totalité
+              </span>
+              <span className="text-green-700 font-semibold">✔️</span>
+            </>
+          ) : (
+            <>
+              <span className="flex items-center text-red-700">
+                <XCircle className="h-4 w-4 mr-1" />
+                Reste à verser
+              </span>
+              <span className="text-red-700 font-semibold">{resteAPayer.toLocaleString()}€</span>
+            </>
+          )}
+        </div>
+        <div className="flex items-center mt-2 gap-2">
+          {isModified && (
+            <button
+              className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none transition"
+              onClick={handleSaveMontantPaye}
+              disabled={isSaving}
+              type="button"
+            >
+              {isSaving ? "Enregistrement..." : "Enregistrer"}
+            </button>
+          )}
+          {saveSuccess && (
+            <span className="text-green-600 font-medium text-sm ml-2">Enregistré !</span>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   // No early return! Render nothing if not open, but all hooks above this point.
   return (
