@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +12,7 @@ import RoommateEditModal from '@/components/RoommateEditModal';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useToast } from '@/hooks/use-toast';
+import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 
 const Roommates = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -23,6 +23,7 @@ const Roommates = () => {
   const { roommates, loading, error, addRoommate, updateRoommate, deleteRoommate } = useFirebaseRoommates();
   const { properties } = useFirebaseProperties();
   const { toast } = useToast();
+  const { createUserAccount } = useFirebaseAuth();
 
   const activeCount = roommates.filter(r => r.status === 'Actif').length;
   const inactiveCount = roommates.filter(r => r.status === 'Inactif').length;
@@ -41,8 +42,13 @@ const Roommates = () => {
         status: 'Actif',
         primaryTenant: data.primaryTenant,
         moveInDate: data.moveInDate,
-        image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null
+        image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : null,
       };
+
+      // Création du compte Auth si mot de passe fourni
+      if (data.password && data.password.trim().length >= 6) {
+        await createUserAccount(data.email, data.password);
+      }
 
       await addRoommate(newRoommate);
       toast({
@@ -62,6 +68,23 @@ const Roommates = () => {
 
   const handleUpdateRoommate = async (id: string, updates: any) => {
     try {
+      // Si password présent pour update, faire appel à une méthode à implémenter
+      if (updates.password && updates.password.trim().length >= 6) {
+        // Ici il faudrait faire une méthode d'update du mot de passe.
+        // Firebase Auth exige que l'utilisateur soit connecté pour ce type d'action
+        // sinon il faut passer par une réinitialisation (email de reset, etc).
+        // Pour cette demo, on laisse le champ mais on ne peut update password
+        // que pour l'utilisateur connecté, donc on affiche une alerte :
+        toast({
+          title: "Mot de passe",
+          description: "La mise à jour du mot de passe nécessite une interface de réinitialisation ou que l'utilisateur soit connecté.",
+          variant: "destructive",
+        });
+        // Vous pouvez faire un reset password en envoyant un mail ici si besoin.
+        // delete updates.password pour ne pas casser la structure backend :
+        delete updates.password;
+      }
+
       await updateRoommate(id, updates);
       toast({
         title: "Succès",
