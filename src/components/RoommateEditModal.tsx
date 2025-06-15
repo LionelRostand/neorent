@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -168,7 +167,6 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                 id="primaryTenant"
                 value={formData.primaryTenant || ''}
                 onChange={(e) => setFormData({...formData, primaryTenant: e.target.value})}
-                required
               />
             </div>
           </div>
