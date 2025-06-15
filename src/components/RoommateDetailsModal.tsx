@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -31,7 +31,7 @@ import { Button } from '@/components/ui/button';
 import DocumentViewer from './DocumentViewer';
 
 interface Roommate {
-  id: number;
+  id: number | string;
   name: string;
   email: string;
   phone: string;
@@ -42,18 +42,21 @@ interface Roommate {
   primaryTenant: string;
   moveInDate: string;
   image: string | null;
+  paidAmount?: number; // Nouvelle propriété pour enregistrer le montant payé
 }
 
 interface RoommateDetailsModalProps {
   roommate: Roommate | null;
   isOpen: boolean;
   onClose: () => void;
+  onUpdateRoommate?: (id: string | number, updates: Partial<Roommate>) => Promise<void>; // Ajout de la fonction de sauvegarde
 }
 
 const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({ 
   roommate, 
   isOpen, 
-  onClose 
+  onClose,
+  onUpdateRoommate
 }) => {
   const [selectedDocument, setSelectedDocument] = useState<{name: string, type: string} | null>(null);
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
@@ -62,8 +65,25 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
 
   // Montant attendu et montant payé (éditable)
   const montantAttendu = roommate.rentAmount ? Number(roommate.rentAmount) : 0;
-  // Montant payé éditable
-  const [montantPaye, setMontantPaye] = useState<number>(600);
+  // Initialiser à la valeur en BDD ou 0 ou la valeur simulée
+  const [montantPaye, setMontantPaye] = useState<number>(
+    typeof roommate.paidAmount === 'number' ? roommate.paidAmount : 600
+  );
+  // Pour détecter la modification (et afficher bouton utiliser l'état initial)
+  const [initialMontantPaye, setInitialMontantPaye] = useState(montantPaye);
+
+  useEffect(() => {
+    // Sync si on affiche un nouveau colocataire
+    if (roommate) {
+      setMontantPaye(typeof roommate.paidAmount === 'number' ? roommate.paidAmount : 600);
+      setInitialMontantPaye(typeof roommate.paidAmount === 'number' ? roommate.paidAmount : 600);
+    }
+  }, [roommate]);
+
+  // State pour le feedback de sauvegarde
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const isModified = montantPaye !== initialMontantPaye;
 
   // Calcul dynamique
   const resteAPayer = Math.max(montantAttendu - montantPaye, 0);
@@ -148,6 +168,22 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     document.body.removeChild(link);
   };
 
+  // Handler de sauvegarde du montant payé
+  const handleSaveMontantPaye = async () => {
+    if (!roommate || !onUpdateRoommate) return;
+    setIsSaving(true);
+    try {
+      await onUpdateRoommate(roommate.id, { paidAmount: montantPaye });
+      setInitialMontantPaye(montantPaye);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2000);
+    } catch (error) {
+      alert("Erreur lors de l'enregistrement.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   // Statut visuel paiement (modifié pour input montant payé)
   const StatutPaiementDetail = () => (
     <div className="flex flex-col space-y-2 mt-2">
@@ -168,6 +204,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
           onChange={e => setMontantPaye(Number(e.target.value))}
           className="w-28 px-2 py-1 border border-gray-300 rounded text-right font-semibold focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-green-700"
           aria-label="Montant payé"
+          disabled={isSaving}
         />
         <span className="ml-2 font-semibold text-green-700">{Number(montantPaye).toLocaleString()}€</span>
       </div>
@@ -188,6 +225,21 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
             </span>
             <span className="text-red-700 font-semibold">{resteAPayer.toLocaleString()}€</span>
           </>
+        )}
+      </div>
+      <div className="flex items-center mt-2 gap-2">
+        {isModified && (
+          <button
+            className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none transition"
+            onClick={handleSaveMontantPaye}
+            disabled={isSaving}
+            type="button"
+          >
+            {isSaving ? "Enregistrement..." : "Enregistrer"}
+          </button>
+        )}
+        {saveSuccess && (
+          <span className="text-green-600 font-medium text-sm ml-2">Enregistré !</span>
         )}
       </div>
     </div>
