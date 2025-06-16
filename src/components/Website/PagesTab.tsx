@@ -1,108 +1,59 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Eye, Edit, Trash2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { PageEditModal } from './PageEditModal';
-import { PageDeleteModal } from './PageDeleteModal';
-import { useToast } from '@/hooks/use-toast';
-
-interface Page {
-  id: number;
-  name: string;
-  url: string;
-  status: string;
-  lastModified: string;
-  content?: string;
-}
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Save, Plus, Edit, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const PagesTab = () => {
-  const { toast } = useToast();
-  const [pages, setPages] = useState<Page[]>([
-    {
-      id: 1,
-      name: 'Accueil',
-      url: '/',
-      status: 'Publié',
-      lastModified: '2025-01-08',
-      content: 'Page d\'accueil du site'
-    },
-    {
-      id: 2,
-      name: 'À propos',
-      url: '/about',
-      status: 'Publié',
-      lastModified: '2025-01-07',
-      content: 'Page à propos de notre entreprise'
-    },
-    {
-      id: 3,
-      name: 'Contact',
-      url: '/contact',
-      status: 'Publié',
-      lastModified: '2025-01-07',
-      content: 'Page de contact'
-    }
+  const [isSaving, setIsSaving] = useState(false);
+  const [pages, setPages] = useState([
+    { id: '1', title: 'Accueil', url: '/', status: 'Publiée' },
+    { id: '2', title: 'À propos', url: '/about', status: 'Publiée' },
+    { id: '3', title: 'Contact', url: '/contact', status: 'Publiée' },
+    { id: '4', title: 'Services', url: '/services', status: 'Brouillon' }
   ]);
 
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedPage, setSelectedPage] = useState<Page | undefined>();
+  const [newPage, setNewPage] = useState({
+    title: '',
+    url: '',
+    content: '',
+    metaDescription: ''
+  });
 
-  const handleCreatePage = () => {
-    setSelectedPage(undefined);
-    setEditModalOpen(true);
-  };
-
-  const handleEditPage = (page: Page) => {
-    setSelectedPage(page);
-    setEditModalOpen(true);
-  };
-
-  const handleDeletePage = (page: Page) => {
-    setSelectedPage(page);
-    setDeleteModalOpen(true);
-  };
-
-  const handleSavePage = (pageData: Omit<Page, 'id' | 'lastModified'>) => {
-    const currentDate = new Date().toISOString().split('T')[0];
-    
-    if (selectedPage) {
-      // Modification d'une page existante
-      setPages(prev => prev.map(page => 
-        page.id === selectedPage.id 
-          ? { ...page, ...pageData, lastModified: currentDate }
-          : page
-      ));
-      toast({
-        title: "Page mise à jour",
-        description: `La page "${pageData.name}" a été mise à jour avec succès.`,
+  const handleSavePages = async () => {
+    setIsSaving(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      console.log('Sauvegarde des pages:', { pages, newPage });
+      
+      toast.success('Pages sauvegardées avec succès !', {
+        description: 'Configuration des pages mise à jour'
       });
-    } else {
-      // Création d'une nouvelle page
-      const newPage: Page = {
-        ...pageData,
-        id: Math.max(...pages.map(p => p.id)) + 1,
-        lastModified: currentDate
-      };
-      setPages(prev => [...prev, newPage]);
-      toast({
-        title: "Page créée",
-        description: `La page "${pageData.name}" a été créée avec succès.`,
+    } catch (error) {
+      toast.error('Erreur lors de la sauvegarde', {
+        description: 'Veuillez réessayer'
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handleConfirmDelete = () => {
-    if (selectedPage) {
-      setPages(prev => prev.filter(page => page.id !== selectedPage.id));
-      toast({
-        title: "Page supprimée",
-        description: `La page "${selectedPage.name}" a été supprimée.`,
-        variant: "destructive",
-      });
+  const addNewPage = () => {
+    if (newPage.title && newPage.url) {
+      const page = {
+        id: String(pages.length + 1),
+        title: newPage.title,
+        url: newPage.url,
+        status: 'Brouillon'
+      };
+      setPages([...pages, page]);
+      setNewPage({ title: '', url: '', content: '', metaDescription: '' });
+      toast.success('Page ajoutée avec succès !');
     }
   };
 
@@ -111,85 +62,89 @@ const PagesTab = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📄 Gestion des pages</h2>
         <Button 
-          onClick={handleCreatePage}
+          onClick={handleSavePages} 
+          disabled={isSaving}
           className="flex items-center gap-2 w-full sm:w-auto"
         >
-          <Plus className="h-4 w-4" />
-          Nouvelle page
+          <Save className="h-4 w-4" />
+          {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">
-        Créer et gérer les pages de votre site web avec titre, slug (URL) et contenu.
+        Créez et gérez les pages de votre site web NeoRent.
       </p>
 
-      <div className="space-y-4">
-        {pages.map((page) => (
-          <Card key={page.id} className="p-4 md:p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                <h3 className="text-base md:text-lg font-semibold text-gray-900 truncate">
-                  {page.name}
-                </h3>
-                <p className="text-gray-600 text-xs md:text-sm mt-1 truncate">{page.url}</p>
-                <p className="text-gray-500 text-xs mt-1">
-                  Dernière modification: {page.lastModified}
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-                <Badge 
-                  variant={page.status === 'Publié' ? 'default' : 'secondary'}
-                  className={page.status === 'Publié' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}
-                >
-                  {page.status}
-                </Badge>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Link to={page.url} target="_blank">
-                    <Button variant="ghost" size="sm" className="text-xs">
-                      <Eye className="h-3 w-3 md:h-4 md:w-4 mr-1" />
-                      <span className="hidden sm:inline">Prévisualiser</span>
-                      <span className="sm:hidden">Voir</span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base md:text-lg">Pages existantes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {pages.map((page) => (
+                <div key={page.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <h4 className="font-medium">{page.title}</h4>
+                    <p className="text-sm text-gray-500">{page.url}</p>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      page.status === 'Publiée' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {page.status}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm">
+                      <Edit className="h-4 w-4" />
                     </Button>
-                  </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-xs"
-                    onClick={() => handleEditPage(page)}
-                  >
-                    <Edit className="h-3 w-3 md:h-4 md:w-4 mr-1" />
-                    <span className="hidden sm:inline">Éditer</span>
-                    <span className="sm:hidden">Édit</span>
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-xs text-red-600 hover:text-red-700"
-                    onClick={() => handleDeletePage(page)}
-                  >
-                    <Trash2 className="h-3 w-3 md:h-4 md:w-4 mr-1" />
-                    <span className="hidden sm:inline">Supprimer</span>
-                    <span className="sm:hidden">Supp</span>
-                  </Button>
+                    <Button variant="outline" size="sm" className="text-red-600">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          </Card>
-        ))}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base md:text-lg">Ajouter une nouvelle page</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label>Titre de la page</Label>
+              <Input 
+                placeholder="Ex: Nos services"
+                value={newPage.title}
+                onChange={(e) => setNewPage({...newPage, title: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>URL</Label>
+              <Input 
+                placeholder="Ex: /services"
+                value={newPage.url}
+                onChange={(e) => setNewPage({...newPage, url: e.target.value})}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Description META</Label>
+              <Textarea 
+                placeholder="Description pour le SEO..."
+                rows={2}
+                value={newPage.metaDescription}
+                onChange={(e) => setNewPage({...newPage, metaDescription: e.target.value})}
+              />
+            </div>
+            <Button onClick={addNewPage} className="w-full">
+              <Plus className="h-4 w-4 mr-2" />
+              Ajouter la page
+            </Button>
+          </CardContent>
+        </Card>
       </div>
-
-      <PageEditModal
-        isOpen={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        page={selectedPage}
-        onSave={handleSavePage}
-      />
-
-      <PageDeleteModal
-        isOpen={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        page={selectedPage}
-        onConfirm={handleConfirmDelete}
-      />
     </div>
   );
 };
