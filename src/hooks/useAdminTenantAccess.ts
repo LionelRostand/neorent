@@ -16,10 +16,24 @@ export const useAdminTenantAccess = () => {
 
   const getAllTenantProfiles = () => {
     const allProfiles = [
-      ...tenants.map(t => ({ ...t, type: 'locataire' })),
-      ...roommates.map(r => ({ ...r, type: 'colocataire' }))
+      ...tenants.map(t => ({ 
+        ...t, 
+        type: 'locataire',
+        address: t.property || "Adresse non spécifiée",
+        rentAmount: Number(t.rentAmount) || 0,
+        leaseStart: t.leaseStart || new Date().toISOString().split('T')[0],
+        leaseEnd: t.nextPayment || new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]
+      })),
+      ...roommates.map(r => ({ 
+        ...r, 
+        type: 'colocataire',
+        address: r.property || "Adresse non spécifiée",
+        rentAmount: Number(r.rentAmount) || 0,
+        leaseStart: r.moveInDate || new Date().toISOString().split('T')[0],
+        leaseEnd: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]
+      }))
     ];
-    console.log('All tenant profiles:', allProfiles);
+    console.log('All tenant profiles with enhanced data:', allProfiles);
     return allProfiles;
   };
 
@@ -29,7 +43,20 @@ export const useAdminTenantAccess = () => {
       return false;
     }
     console.log('Switching to tenant profile:', tenantProfile);
-    setSelectedTenantProfile(tenantProfile);
+    
+    // Enrichir le profil avec toutes les données nécessaires
+    const enrichedProfile = {
+      ...tenantProfile,
+      address: tenantProfile.address || tenantProfile.property || "Adresse non spécifiée",
+      rentAmount: Number(tenantProfile.rentAmount) || 0,
+      leaseStart: tenantProfile.leaseStart || tenantProfile.moveInDate || new Date().toISOString().split('T')[0],
+      leaseEnd: tenantProfile.leaseEnd || new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
+      phone: tenantProfile.phone || "Non spécifié",
+      status: tenantProfile.status || "Actif"
+    };
+    
+    setSelectedTenantProfile(enrichedProfile);
+    console.log('Enhanced profile set:', enrichedProfile);
     return true;
   };
 

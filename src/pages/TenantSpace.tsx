@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,9 +40,17 @@ const TenantSpace = () => {
   const currentProfile = getCurrentProfile();
   const currentType = getCurrentUserType();
 
+  // Debug logs
+  useEffect(() => {
+    console.log('TenantSpace - Current profile:', currentProfile);
+    console.log('TenantSpace - Current type:', currentType);
+    console.log('TenantSpace - Is impersonating:', isImpersonating);
+    console.log('TenantSpace - Is admin:', isAuthorizedAdmin);
+  }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin]);
+
   const handleBackToAdmin = () => {
     switchBackToAdmin();
-    navigate('/admin');
+    navigate('/admin/settings');
   };
 
   const tabs = [
@@ -61,19 +69,24 @@ const TenantSpace = () => {
           <div className="text-center">
             <p className="text-lg text-gray-600">Aucun profil trouvé</p>
             <p className="text-gray-500">Contactez l'administrateur pour résoudre ce problème.</p>
+            {isAuthorizedAdmin && (
+              <Button onClick={() => navigate('/admin/settings')} className="mt-4">
+                Retour à l'administration
+              </Button>
+            )}
           </div>
         </div>
       </MainLayout>
     );
   }
 
-  // Mock property data based on current profile
+  // Construire les données du bien en utilisant les informations du profil actuel
   const mockPropertyData = {
-    title: `Appartement ${currentProfile.property || 'T2'}`,
-    address: currentProfile.address || "123 Rue de la Paix, 75001 Paris",
-    type: "Appartement",
-    surface: "45 m²",
-    rooms: "2 pièces",
+    title: `${currentType === 'colocataire' ? 'Chambre' : 'Appartement'} ${currentProfile.property || currentProfile.roomNumber || 'T2'}`,
+    address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
+    type: currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement',
+    surface: currentType === 'colocataire' ? '15 m²' : '45 m²',
+    rooms: currentType === 'colocataire' ? '1 chambre' : '2 pièces',
     rent: currentProfile.rentAmount || 1200,
     charges: 150,
     deposit: (currentProfile.rentAmount || 1200) * 2,
@@ -81,19 +94,21 @@ const TenantSpace = () => {
     floor: "3ème étage",
     elevator: true,
     parking: false,
-    features: ["Balcon", "Cuisine équipée", "Parquet", "Lumineux"]
+    features: currentType === 'colocataire' 
+      ? ["Chambre meublée", "Cuisine partagée", "Salle de bain partagée", "Lumineux"]
+      : ["Balcon", "Cuisine équipée", "Parquet", "Lumineux"]
   };
 
-  // Mock tenant data for components that need it - ensuring type is literal
+  // Données du locataire/colocataire pour les composants
   const mockTenantData = {
     id: currentProfile.id || 1,
     name: currentProfile.name,
     email: currentProfile.email,
     phone: currentProfile.phone || "0123456789",
-    address: currentProfile.address || "123 Rue de la Paix, 75001 Paris",
-    leaseStart: currentProfile.leaseStart || "2024-01-01",
+    address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
+    leaseStart: currentProfile.leaseStart || currentProfile.moveInDate || "2024-01-01",
     leaseEnd: currentProfile.leaseEnd || "2024-12-31",
-    status: "À jour",
+    status: currentProfile.status || "À jour",
     type: (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire',
     emergencyContact: {
       name: "Contact Urgence",
@@ -118,6 +133,9 @@ const TenantSpace = () => {
                     </p>
                     <p className="text-sm text-blue-700">
                       Vous consultez l'espace en tant qu'administrateur
+                    </p>
+                    <p className="text-sm text-blue-600">
+                      Type: {currentType} | Email: {currentProfile.email}
                     </p>
                   </div>
                 </div>
@@ -145,6 +163,11 @@ const TenantSpace = () => {
               <p className="text-gray-600 mt-2 text-sm sm:text-base">
                 Bienvenue {currentProfile.name}
               </p>
+              {currentType === 'colocataire' && currentProfile.roomNumber && (
+                <p className="text-gray-500 mt-1 text-sm">
+                  Chambre {currentProfile.roomNumber}
+                </p>
+              )}
             </div>
             <Badge 
               variant="secondary" 

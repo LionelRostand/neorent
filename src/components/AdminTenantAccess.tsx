@@ -30,18 +30,16 @@ const AdminTenantAccess: React.FC = () => {
 
   const handleSwitchToTenant = () => {
     const tenant = tenantProfiles.find(t => t.id === selectedTenantId);
-    console.log('Selected tenant:', tenant);
+    console.log('Selected tenant for switch:', tenant);
     
     if (tenant && switchToTenantProfile(tenant)) {
       toast.success(`Accès à l'espace de ${tenant.name}`, {
         description: `Vous consultez maintenant l'espace ${tenant.type}`
       });
       
-      // Navigation avec un petit délai pour s'assurer que l'état est mis à jour
-      setTimeout(() => {
-        console.log('Navigating to tenant space...');
-        navigate('/tenant-space');
-      }, 100);
+      // Navigation directe vers l'espace locataire
+      console.log('Navigating to tenant space with profile:', tenant);
+      navigate('/tenant-space');
     } else {
       toast.error('Erreur lors de l\'accès à l\'espace locataire');
     }
@@ -51,6 +49,11 @@ const AdminTenantAccess: React.FC = () => {
     switchBackToAdmin();
     toast.info('Retour à l\'espace administrateur');
     navigate('/admin/settings');
+  };
+
+  const handleViewTenantSpace = () => {
+    console.log('Viewing tenant space with current profile:', selectedTenantProfile);
+    navigate('/tenant-space');
   };
 
   return (
@@ -74,6 +77,9 @@ const AdminTenantAccess: React.FC = () => {
                   <p className="text-sm text-blue-700">
                     Type: {selectedTenantProfile?.type}
                   </p>
+                  <p className="text-sm text-blue-600">
+                    Email: {selectedTenantProfile?.email}
+                  </p>
                 </div>
               </div>
               <Badge variant="secondary" className="bg-blue-100 text-blue-800">
@@ -90,7 +96,7 @@ const AdminTenantAccess: React.FC = () => {
                 Retour à l'administration
               </Button>
               <Button 
-                onClick={() => navigate('/tenant-space')}
+                onClick={handleViewTenantSpace}
                 className="flex-1 flex items-center gap-2"
               >
                 <Users className="h-4 w-4" />
