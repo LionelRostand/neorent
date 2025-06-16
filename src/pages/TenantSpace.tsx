@@ -84,7 +84,7 @@ const TenantSpace = () => {
     features: ["Balcon", "Cuisine équipée", "Parquet", "Lumineux"]
   };
 
-  // Mock tenant data for components that need it
+  // Mock tenant data for components that need it - ensuring type is literal
   const mockTenantData = {
     id: currentProfile.id || 1,
     name: currentProfile.name,
@@ -94,7 +94,7 @@ const TenantSpace = () => {
     leaseStart: currentProfile.leaseStart || "2024-01-01",
     leaseEnd: currentProfile.leaseEnd || "2024-12-31",
     status: "À jour",
-    type: currentType === 'colocataire' ? 'Colocataire' : 'Locataire',
+    type: (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire',
     emergencyContact: {
       name: "Contact Urgence",
       phone: "0987654321",
@@ -181,15 +181,15 @@ const TenantSpace = () => {
           </TabsContent>
 
           <TabsContent value="history" className="space-y-4 md:space-y-6">
-            <RentHistory tenant={currentProfile} />
+            <RentHistory />
           </TabsContent>
 
           <TabsContent value="documents" className="space-y-4 md:space-y-6">
-            <TenantDocuments tenant={currentProfile} />
+            <TenantDocuments />
           </TabsContent>
 
           <TabsContent value="upload" className="space-y-4 md:space-y-6">
-            <DocumentUpload tenant={currentProfile} />
+            <DocumentUpload />
           </TabsContent>
 
           <TabsContent value="profile" className="space-y-4 md:space-y-6">
