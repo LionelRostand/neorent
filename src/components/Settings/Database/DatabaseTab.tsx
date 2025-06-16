@@ -2,7 +2,7 @@
 import React from 'react';
 import { FirebaseConfig } from './FirebaseConfig';
 import { DatabaseStats } from './DatabaseStats';
-import { FirebaseCollectionsList } from '../Firebase/FirebaseCollectionsList';
+import FirebaseCollectionsList from '../Firebase/FirebaseCollectionsList';
 
 const DatabaseTab: React.FC = () => {
   const copyToClipboard = (text: string, type: string) => {

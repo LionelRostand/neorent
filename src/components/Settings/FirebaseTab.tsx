@@ -2,7 +2,7 @@
 import React from 'react';
 import { FirestoreRulesSection } from './Firebase/FirestoreRulesSection';
 import { StorageRulesSection } from './Firebase/StorageRulesSection';
-import { FirebaseCollectionsList } from './Firebase/FirebaseCollectionsList';
+import FirebaseCollectionsList from './Firebase/FirebaseCollectionsList';
 import { UserRolesList } from './Firebase/UserRolesList';
 
 const FirebaseTab: React.FC = () => {

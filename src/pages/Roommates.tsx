@@ -36,7 +36,7 @@ const Roommates = () => {
     .filter(r => r.status === 'Actif')
     .map(r => {
       const expected = Number(r.rentAmount) || 0;
-      const paid = typeof r.paidAmount === 'number' ? r.paidAmount : 600;
+      const paid = r.paidAmount || 0; // Utilise 0 si paidAmount n'est pas défini
       return { roommate: r, expected, paid, hasIssue: paid !== expected };
     })
     .filter(alert => alert.hasIssue);

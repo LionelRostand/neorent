@@ -15,6 +15,7 @@ interface Roommate {
   primaryTenant: string;
   moveInDate: string;
   image: string | null;
+  paidAmount?: number;
 }
 
 export const useFirebaseRoommates = () => {
