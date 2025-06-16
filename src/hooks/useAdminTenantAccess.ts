@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
@@ -8,7 +8,22 @@ export const useAdminTenantAccess = () => {
   const { user, userProfile } = useAuth();
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
-  const [selectedTenantProfile, setSelectedTenantProfile] = useState(null);
+  const [selectedTenantProfile, setSelectedTenantProfile] = useState(() => {
+    // Restore from sessionStorage on initialization
+    const stored = sessionStorage.getItem('adminSelectedProfile');
+    return stored ? JSON.parse(stored) : null;
+  });
+
+  // Persist selected profile to sessionStorage
+  useEffect(() => {
+    if (selectedTenantProfile) {
+      sessionStorage.setItem('adminSelectedProfile', JSON.stringify(selectedTenantProfile));
+      console.log('Persisted selected profile to storage:', selectedTenantProfile);
+    } else {
+      sessionStorage.removeItem('adminSelectedProfile');
+      console.log('Removed selected profile from storage');
+    }
+  }, [selectedTenantProfile]);
 
   const isAuthorizedAdmin = () => {
     return user?.email === 'admin@neotech-consulting.com';
@@ -33,41 +48,53 @@ export const useAdminTenantAccess = () => {
         leaseEnd: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]
       }))
     ];
-    console.log('All tenant profiles with enhanced data:', allProfiles);
+    console.log('Available tenant profiles:', allProfiles);
     return allProfiles;
   };
 
   const switchToTenantProfile = (tenantProfile: any) => {
     if (!isAuthorizedAdmin()) {
-      console.error('Accès non autorisé');
+      console.error('Accès non autorisé - utilisateur non admin');
       return false;
     }
+    
     console.log('Switching to tenant profile:', tenantProfile);
     
     // Enrichir le profil avec toutes les données nécessaires
     const enrichedProfile = {
       ...tenantProfile,
+      id: tenantProfile.id,
+      name: tenantProfile.name,
+      email: tenantProfile.email,
       address: tenantProfile.address || tenantProfile.property || "Adresse non spécifiée",
       rentAmount: Number(tenantProfile.rentAmount) || 0,
       leaseStart: tenantProfile.leaseStart || tenantProfile.moveInDate || new Date().toISOString().split('T')[0],
       leaseEnd: tenantProfile.leaseEnd || new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
       phone: tenantProfile.phone || "Non spécifié",
-      status: tenantProfile.status || "Actif"
+      status: tenantProfile.status || "Actif",
+      type: tenantProfile.type,
+      // For roommates
+      roomNumber: tenantProfile.roomNumber || null,
+      primaryTenant: tenantProfile.primaryTenant || null,
+      moveInDate: tenantProfile.moveInDate || null,
+      // For tenants
+      property: tenantProfile.property || null,
+      nextPayment: tenantProfile.nextPayment || null
     };
     
+    console.log('Setting enriched profile:', enrichedProfile);
     setSelectedTenantProfile(enrichedProfile);
-    console.log('Enhanced profile set:', enrichedProfile);
     return true;
   };
 
   const switchBackToAdmin = () => {
-    console.log('Switching back to admin');
+    console.log('Switching back to admin - clearing selected profile');
     setSelectedTenantProfile(null);
   };
 
   const getCurrentProfile = () => {
     if (selectedTenantProfile && isAuthorizedAdmin()) {
-      console.log('Returning selected profile:', selectedTenantProfile);
+      console.log('Returning selected admin profile:', selectedTenantProfile);
       return selectedTenantProfile;
     }
     console.log('Returning user profile:', userProfile);
@@ -76,13 +103,24 @@ export const useAdminTenantAccess = () => {
 
   const getCurrentUserType = () => {
     if (selectedTenantProfile && isAuthorizedAdmin()) {
-      console.log('Returning selected type:', selectedTenantProfile.type);
+      console.log('Returning selected profile type:', selectedTenantProfile.type);
       return selectedTenantProfile.type;
     }
     const type = user?.email === 'admin@neotech-consulting.com' ? 'admin' : userProfile?.role || 'locataire';
     console.log('Returning user type:', type);
     return type;
   };
+
+  // Debug current state
+  useEffect(() => {
+    console.log('Admin tenant access state:', {
+      isAuthorizedAdmin: isAuthorizedAdmin(),
+      selectedTenantProfile,
+      currentProfile: getCurrentProfile(),
+      currentUserType: getCurrentUserType(),
+      isImpersonating: !!selectedTenantProfile
+    });
+  }, [selectedTenantProfile, user, userProfile]);
 
   return {
     isAuthorizedAdmin: isAuthorizedAdmin(),

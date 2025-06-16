@@ -22,30 +22,41 @@ const AdminTenantAccess: React.FC = () => {
   const [selectedTenantId, setSelectedTenantId] = useState('');
 
   if (!isAuthorizedAdmin) {
+    console.log('User not authorized for admin access');
     return null;
   }
 
   const tenantProfiles = getAllTenantProfiles();
-  console.log('Available tenant profiles:', tenantProfiles);
+  console.log('Available tenant profiles for selection:', tenantProfiles);
 
   const handleSwitchToTenant = () => {
     const tenant = tenantProfiles.find(t => t.id === selectedTenantId);
-    console.log('Selected tenant for switch:', tenant);
+    console.log('Selected tenant for switch:', { selectedTenantId, tenant });
     
-    if (tenant && switchToTenantProfile(tenant)) {
+    if (!tenant) {
+      console.error('Tenant not found for ID:', selectedTenantId);
+      toast.error('Locataire introuvable');
+      return;
+    }
+
+    if (switchToTenantProfile(tenant)) {
+      console.log('Successfully switched to tenant profile, navigating to tenant space');
       toast.success(`Accès à l'espace de ${tenant.name}`, {
         description: `Vous consultez maintenant l'espace ${tenant.type}`
       });
       
-      // Navigation directe vers l'espace locataire
-      console.log('Navigating to tenant space with profile:', tenant);
-      navigate('/tenant-space');
+      // Small delay to ensure state is updated before navigation
+      setTimeout(() => {
+        navigate('/tenant-space');
+      }, 100);
     } else {
+      console.error('Failed to switch to tenant profile');
       toast.error('Erreur lors de l\'accès à l\'espace locataire');
     }
   };
 
   const handleSwitchBack = () => {
+    console.log('Switching back to admin');
     switchBackToAdmin();
     toast.info('Retour à l\'espace administrateur');
     navigate('/admin/settings');
@@ -80,6 +91,9 @@ const AdminTenantAccess: React.FC = () => {
                   <p className="text-sm text-blue-600">
                     Email: {selectedTenantProfile?.email}
                   </p>
+                  <p className="text-sm text-blue-600">
+                    Adresse: {selectedTenantProfile?.address}
+                  </p>
                 </div>
               </div>
               <Badge variant="secondary" className="bg-blue-100 text-blue-800">
@@ -97,7 +111,7 @@ const AdminTenantAccess: React.FC = () => {
               </Button>
               <Button 
                 onClick={handleViewTenantSpace}
-                className="flex-1 flex items-center gap-2"
+                className="flex-1 flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
               >
                 <Users className="h-4 w-4" />
                 Voir l'espace locataire
@@ -133,7 +147,7 @@ const AdminTenantAccess: React.FC = () => {
             <Button 
               onClick={handleSwitchToTenant}
               disabled={!selectedTenantId}
-              className="w-full flex items-center gap-2"
+              className="w-full flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
             >
               <Users className="h-4 w-4" />
               Accéder à l'espace locataire

@@ -42,13 +42,18 @@ const TenantSpace = () => {
 
   // Debug logs
   useEffect(() => {
-    console.log('TenantSpace - Current profile:', currentProfile);
-    console.log('TenantSpace - Current type:', currentType);
-    console.log('TenantSpace - Is impersonating:', isImpersonating);
-    console.log('TenantSpace - Is admin:', isAuthorizedAdmin);
-  }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin]);
+    console.log('=== TenantSpace Debug ===');
+    console.log('Current profile:', currentProfile);
+    console.log('Current type:', currentType);
+    console.log('Is impersonating:', isImpersonating);
+    console.log('Is admin:', isAuthorizedAdmin);
+    console.log('User profile:', userProfile);
+    console.log('User type:', userType);
+    console.log('========================');
+  }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType]);
 
   const handleBackToAdmin = () => {
+    console.log('Returning to admin settings');
     switchBackToAdmin();
     navigate('/admin/settings');
   };
@@ -63,6 +68,7 @@ const TenantSpace = () => {
   ];
 
   if (!currentProfile) {
+    console.error('No current profile found');
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
@@ -117,6 +123,8 @@ const TenantSpace = () => {
     }
   };
 
+  console.log('Rendered data:', { mockPropertyData, mockTenantData });
+
   return (
     <MainLayout>
       <div className="space-y-4 md:space-y-6">
@@ -136,6 +144,9 @@ const TenantSpace = () => {
                     </p>
                     <p className="text-sm text-blue-600">
                       Type: {currentType} | Email: {currentProfile.email}
+                    </p>
+                    <p className="text-sm text-blue-600">
+                      Adresse: {currentProfile.address}
                     </p>
                   </div>
                 </div>
