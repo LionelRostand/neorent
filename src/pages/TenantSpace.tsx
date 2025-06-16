@@ -67,6 +67,41 @@ const TenantSpace = () => {
     );
   }
 
+  // Mock property data based on current profile
+  const mockPropertyData = {
+    title: `Appartement ${currentProfile.property || 'T2'}`,
+    address: currentProfile.address || "123 Rue de la Paix, 75001 Paris",
+    type: "Appartement",
+    surface: "45 m²",
+    rooms: "2 pièces",
+    rent: currentProfile.rentAmount || 1200,
+    charges: 150,
+    deposit: (currentProfile.rentAmount || 1200) * 2,
+    furnished: true,
+    floor: "3ème étage",
+    elevator: true,
+    parking: false,
+    features: ["Balcon", "Cuisine équipée", "Parquet", "Lumineux"]
+  };
+
+  // Mock tenant data for components that need it
+  const mockTenantData = {
+    id: currentProfile.id || 1,
+    name: currentProfile.name,
+    email: currentProfile.email,
+    phone: currentProfile.phone || "0123456789",
+    address: currentProfile.address || "123 Rue de la Paix, 75001 Paris",
+    leaseStart: currentProfile.leaseStart || "2024-01-01",
+    leaseEnd: currentProfile.leaseEnd || "2024-12-31",
+    status: "À jour",
+    type: currentType === 'colocataire' ? 'Colocataire' : 'Locataire',
+    emergencyContact: {
+      name: "Contact Urgence",
+      phone: "0987654321",
+      relation: "Famille"
+    }
+  };
+
   return (
     <MainLayout>
       <div className="space-y-4 md:space-y-6">
@@ -138,11 +173,11 @@ const TenantSpace = () => {
           </div>
 
           <TabsContent value="overview" className="space-y-4 md:space-y-6">
-            <PropertyInfo tenant={currentProfile} />
+            <PropertyInfo propertyData={mockPropertyData} />
           </TabsContent>
 
           <TabsContent value="payment" className="space-y-4 md:space-y-6">
-            <RentPayment tenant={currentProfile} />
+            <RentPayment tenantData={mockTenantData} propertyData={mockPropertyData} />
           </TabsContent>
 
           <TabsContent value="history" className="space-y-4 md:space-y-6">
@@ -158,7 +193,7 @@ const TenantSpace = () => {
           </TabsContent>
 
           <TabsContent value="profile" className="space-y-4 md:space-y-6">
-            <TenantProfile tenant={currentProfile} />
+            <TenantProfile tenantData={mockTenantData} />
           </TabsContent>
         </Tabs>
       </div>
