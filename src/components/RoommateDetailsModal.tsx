@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import DocumentViewer from './DocumentViewer';
+import RentAlert from './RentAlert';
 
 interface Roommate {
   id: number | string;
@@ -42,14 +43,14 @@ interface Roommate {
   primaryTenant: string;
   moveInDate: string;
   image: string | null;
-  paidAmount?: number; // Nouvelle propriété pour enregistrer le montant payé
+  paidAmount?: number;
 }
 
 interface RoommateDetailsModalProps {
   roommate: Roommate | null;
   isOpen: boolean;
   onClose: () => void;
-  onUpdateRoommate?: (id: string | number, updates: Partial<Roommate>) => Promise<void>; // Ajout de la fonction de sauvegarde
+  onUpdateRoommate?: (id: string | number, updates: Partial<Roommate>) => Promise<void>;
 }
 
 const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({ 
@@ -249,154 +250,176 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
           </DialogHeader>
           {/* Don't render details if no roommate */}
           {!roommate ? null : (
-          <Tabs defaultValue="general" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="general">Informations générales</TabsTrigger>
-              <TabsTrigger value="documents">Documents</TabsTrigger>
-            </TabsList>
-            <TabsContent value="general" className="space-y-6">
-              {/* Informations du colocataire */}
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                      {roommate.image ? (
-                        <img 
-                          src={roommate.image} 
-                          alt={roommate.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <UserCheck className="h-10 w-10 text-gray-400" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-semibold text-gray-900 mb-2">{roommate.name}</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex items-center text-gray-600">
-                          <Mail className="mr-2 h-4 w-4" />
-                          {roommate.email}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Phone className="mr-2 h-4 w-4" />
-                          {roommate.phone}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Home className="mr-2 h-4 w-4" />
-                          {roommate.property}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Bed className="mr-2 h-4 w-4" />
-                          {roommate.roomNumber}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <User className="mr-2 h-4 w-4" />
-                          Locataire principal: {roommate.primaryTenant}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <Calendar className="mr-2 h-4 w-4" />
-                          Emménagement: {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
+          <>
+            {/* Rent Alert */}
+            <RentAlert 
+              expectedAmount={montantAttendu}
+              paidAmount={montantPaye}
+              tenantName={roommate.name}
+              className="mb-4"
+            />
+            
+            <Tabs defaultValue="general" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="general">Informations générales</TabsTrigger>
+                <TabsTrigger value="documents">Documents</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="general" className="space-y-6">
+                {/* Informations du colocataire */}
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                        {roommate.image ? (
+                          <img 
+                            src={roommate.image} 
+                            alt={roommate.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <UserCheck className="h-10 w-10 text-gray-400" />
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-semibold text-gray-900 mb-2">{roommate.name}</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="flex items-center text-gray-600">
+                            <Mail className="mr-2 h-4 w-4" />
+                            {roommate.email}
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <Phone className="mr-2 h-4 w-4" />
+                            {roommate.phone}
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <Home className="mr-2 h-4 w-4" />
+                            {roommate.property}
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <Bed className="mr-2 h-4 w-4" />
+                            {roommate.roomNumber}
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <User className="mr-2 h-4 w-4" />
+                            Locataire principal: {roommate.primaryTenant}
+                          </div>
+                          <div className="flex items-center text-gray-600">
+                            <Calendar className="mr-2 h-4 w-4" />
+                            Emménagement: {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
 
-              {/* Statut de paiement (editable montant payé) */}
-              <Card>
-                <CardContent className="p-6">
-                  <h4 className="text-lg font-semibold mb-4">Statut de paiement</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center">
-                        <DollarSign className="mr-2 h-5 w-5 text-blue-600" />
-                        <span className="font-medium">Montant du loyer</span>
+                {/* Statut de paiement (editable montant payé) */}
+                <Card>
+                  <CardContent className="p-6">
+                    <h4 className="text-lg font-semibold mb-4">Statut de paiement</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center">
+                          <DollarSign className="mr-2 h-5 w-5 text-blue-600" />
+                          <span className="font-medium">Montant du loyer</span>
+                        </div>
+                        <span className="text-lg font-bold text-blue-600">{roommate.rentAmount}</span>
                       </div>
-                      <span className="text-lg font-bold text-blue-600">{roommate.rentAmount}</span>
-                    </div>
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center">
-                        <PaymentIcon className="mr-2 h-5 w-5" />
-                        <span className="font-medium">Statut du mois</span>
+                      <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center">
+                          <PaymentIcon className="mr-2 h-5 w-5" />
+                          <span className="font-medium">Statut du mois</span>
+                        </div>
+                        <Badge className={paymentStatus.color}>
+                          {paymentStatus.status}
+                        </Badge>
                       </div>
-                      <Badge className={paymentStatus.color}>
-                        {paymentStatus.status}
-                      </Badge>
                     </div>
-                  </div>
-                  {/* Affichage du détail paiement : montant payé (éditable) vs attendu */}
-                  <StatutPaiementDetail />
-                  <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                    <div className="flex items-center text-blue-700">
-                      <Calendar className="mr-2 h-4 w-4" />
-                      <span className="font-medium">
-                        Prochain paiement: {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
-                      </span>
+                    {/* Affichage du détail paiement : montant payé (éditable) vs attendu */}
+                    <StatutPaiementDetail />
+                    <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                      <div className="flex items-center text-blue-700">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        <span className="font-medium">
+                          Prochain paiement: {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  </CardContent>
+                </Card>
+              </TabsContent>
 
-            <TabsContent value="documents" className="space-y-6">
-              <div className="grid gap-4">
-                {documentTypes.map((docType) => {
-                  // Each document type may be missing if no roommate
-                  const document = roommate ? documents[docType.key as keyof typeof documents] : undefined;
-                  const Icon = docType.icon;
-                  
-                  return (
-                    <Card key={docType.key}>
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <Icon className={`h-8 w-8 ${docType.color}`} />
-                            <div>
-                              <h4 className="font-semibold flex items-center gap-2">
-                                {docType.label}
-                                {docType.required && <Badge variant="outline" className="text-xs">Requis</Badge>}
-                              </h4>
-                              {document?.exists ? (
-                                <p className="text-sm text-gray-600">
-                                  {document.name} • Ajouté le {new Date(document.uploadDate!).toLocaleDateString('fr-FR')}
-                                </p>
-                              ) : (
-                                <p className="text-sm text-gray-500">Aucun document uploadé</p>
+              <TabsContent value="documents" className="space-y-4 sm:space-y-6">
+                <div className="grid gap-3 sm:gap-4">
+                  {documentTypes.map((docType) => {
+                    const document = roommate ? documents[docType.key as keyof typeof documents] : undefined;
+                    const Icon = docType.icon;
+                    
+                    return (
+                      <Card key={docType.key} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-3 sm:p-4 lg:p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                            <div className="flex items-start sm:items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+                              <Icon className={`h-6 w-6 sm:h-8 sm:w-8 ${docType.color} flex-shrink-0 mt-1 sm:mt-0`} />
+                              <div className="min-w-0 flex-1">
+                                <h4 className="font-semibold text-sm sm:text-base flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                                  <span className="truncate">{docType.label}</span>
+                                  {docType.required && (
+                                    <Badge variant="outline" className="text-xs w-fit">
+                                      Requis
+                                    </Badge>
+                                  )}
+                                </h4>
+                                {document?.exists ? (
+                                  <p className="text-xs sm:text-sm text-gray-600 mt-1 break-words">
+                                    <span className="font-medium">{document.name}</span>
+                                    <br className="sm:hidden" />
+                                    <span className="sm:ml-2">• Ajouté le {new Date(document.uploadDate!).toLocaleDateString('fr-FR')}</span>
+                                  </p>
+                                ) : (
+                                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Aucun document uploadé</p>
+                                )}
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                              {document && getDocumentStatusBadge(document.status, document.exists, docType.required)}
+                              
+                              {document?.exists && (
+                                <div className="flex gap-1 sm:gap-2 w-full sm:w-auto">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => handleViewDocument(document.name!, docType.label)}
+                                    className="flex-1 sm:flex-none text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 h-auto"
+                                  >
+                                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                                    <span className="hidden sm:inline">Voir</span>
+                                    <span className="sm:hidden">👁</span>
+                                  </Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => handleDownloadDocument(document.name!)}
+                                    className="flex-1 sm:flex-none text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 h-auto"
+                                  >
+                                    <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                                    <span className="hidden sm:inline">Télécharger</span>
+                                    <span className="sm:hidden">⬇</span>
+                                  </Button>
+                                </div>
                               )}
                             </div>
                           </div>
-                          <div className="flex items-center space-x-3">
-                            {document && getDocumentStatusBadge(document.status, document.exists, docType.required)}
-                            {document?.exists && (
-                              <div className="flex gap-2">
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  onClick={() => handleViewDocument(document.name!, docType.label)}
-                                >
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  Voir
-                                </Button>
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  onClick={() => handleDownloadDocument(document.name!)}
-                                >
-                                  <Download className="h-4 w-4 mr-2" />
-                                  Télécharger
-                                </Button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
-            </TabsContent>
-          </Tabs>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </>
           )}
         </DialogContent>
       </Dialog>

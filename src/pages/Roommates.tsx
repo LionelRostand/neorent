@@ -9,6 +9,7 @@ import MetricCard from '@/components/MetricCard';
 import RoommateForm from '@/components/RoommateForm';
 import RoommateDetailsModal from '@/components/RoommateDetailsModal';
 import RoommateEditModal from '@/components/RoommateEditModal';
+import RentAlert from '@/components/RentAlert';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useToast } from '@/hooks/use-toast';
@@ -29,6 +30,16 @@ const Roommates = () => {
   const inactiveCount = roommates.filter(r => r.status === 'Inactif').length;
   const searchingCount = roommates.filter(r => r.status === 'En recherche').length;
   const totalCount = roommates.length;
+
+  // Calculer les alertes de paiement
+  const paymentAlerts = roommates
+    .filter(r => r.status === 'Actif')
+    .map(r => {
+      const expected = Number(r.rentAmount) || 0;
+      const paid = typeof r.paidAmount === 'number' ? r.paidAmount : 600;
+      return { roommate: r, expected, paid, hasIssue: paid !== expected };
+    })
+    .filter(alert => alert.hasIssue);
 
   const handleAddRoommate = async (data: any) => {
     try {
@@ -156,6 +167,21 @@ const Roommates = () => {
     <MainLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <div className="space-y-6 sm:space-y-8">
+          {/* Payment Alerts */}
+          {paymentAlerts.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-gray-900">🚨 Alertes de paiement</h3>
+              {paymentAlerts.map(alert => (
+                <RentAlert
+                  key={alert.roommate.id}
+                  expectedAmount={alert.expected}
+                  paidAmount={alert.paid}
+                  tenantName={alert.roommate.name}
+                />
+              ))}
+            </div>
+          )}
+
           {/* En-tête avec titre et bouton d'ajout */}
           <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -332,7 +358,7 @@ const Roommates = () => {
             roommate={selectedRoommate}
             isOpen={isDetailsModalOpen}
             onClose={() => setIsDetailsModalOpen(false)}
-            onUpdateRoommate={handleUpdateRoommate} // ← on passe bien la fonction
+            onUpdateRoommate={handleUpdateRoommate}
           />
 
           <RoommateEditModal
