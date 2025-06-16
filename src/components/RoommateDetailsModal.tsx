@@ -82,6 +82,24 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
   const [saveSuccess, setSaveSuccess] = useState(false);
   const isModified = montantPaye !== initialMontantPaye;
 
+  // Calculate next payment date dynamically based on move-in date
+  const calculateNextPaymentDate = (moveInDate: string): Date => {
+    const moveIn = new Date(moveInDate);
+    const currentDate = new Date();
+    
+    // Calculate next payment date (monthly cycle)
+    const nextPayment = new Date(moveIn);
+    nextPayment.setMonth(currentDate.getMonth());
+    nextPayment.setFullYear(currentDate.getFullYear());
+    
+    // If the payment date has passed this month, move to next month
+    if (nextPayment < currentDate) {
+      nextPayment.setMonth(nextPayment.getMonth() + 1);
+    }
+    
+    return nextPayment;
+  };
+
   // Only set up documents if roommate exists
   const documents = roommate
     ? {
@@ -111,10 +129,10 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
 
   // Statut paiement du mois en cours, only if roommate exists
   const currentDate = new Date();
-  const moveInDate = roommate ? new Date(roommate.moveInDate) : new Date();
-  const nextPaymentDate = new Date(moveInDate.getTime() + 30 * 24 * 60 * 60 * 1000); // +30 jours
+  const nextPaymentDate = roommate ? calculateNextPaymentDate(roommate.moveInDate) : new Date();
   const isLate = nextPaymentDate < currentDate;
   const isUpcoming = nextPaymentDate.getTime() - currentDate.getTime() <= 7 * 24 * 60 * 60 * 1000;
+  
   const getPaymentStatus = () => {
     if (!roommate) return { status: '', color: '', icon: CheckCircle };
     if (isLate) {
@@ -336,13 +354,13 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                         </Badge>
                       </div>
                     </div>
-                    {/* Affichage du détail paiement : montant payé (éditable) vs attendu */}
+                    {/* Affichage du détail paiement : montant payé (éditable) vs attendu */}
                     <StatutPaiementDetail />
                     <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                       <div className="flex items-center text-blue-700">
                         <Calendar className="mr-2 h-4 w-4" />
                         <span className="font-medium">
-                          Prochain paiement: {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
+                          Prochain paiement: {nextPaymentDate.toLocaleDateString('fr-FR')}
                         </span>
                       </div>
                     </div>
