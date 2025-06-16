@@ -26,21 +26,31 @@ const AdminTenantAccess: React.FC = () => {
   }
 
   const tenantProfiles = getAllTenantProfiles();
+  console.log('Available tenant profiles:', tenantProfiles);
 
   const handleSwitchToTenant = () => {
     const tenant = tenantProfiles.find(t => t.id === selectedTenantId);
+    console.log('Selected tenant:', tenant);
+    
     if (tenant && switchToTenantProfile(tenant)) {
       toast.success(`Accès à l'espace de ${tenant.name}`, {
         description: `Vous consultez maintenant l'espace ${tenant.type}`
       });
-      navigate('/tenant-space');
+      
+      // Navigation avec un petit délai pour s'assurer que l'état est mis à jour
+      setTimeout(() => {
+        console.log('Navigating to tenant space...');
+        navigate('/tenant-space');
+      }, 100);
+    } else {
+      toast.error('Erreur lors de l\'accès à l\'espace locataire');
     }
   };
 
   const handleSwitchBack = () => {
     switchBackToAdmin();
     toast.info('Retour à l\'espace administrateur');
-    navigate('/admin');
+    navigate('/admin/settings');
   };
 
   return (
@@ -59,10 +69,10 @@ const AdminTenantAccess: React.FC = () => {
                 <UserCheck className="h-5 w-5 text-blue-600" />
                 <div>
                   <p className="font-medium text-blue-900">
-                    Consultation de l'espace de {selectedTenantProfile.name}
+                    Consultation de l'espace de {selectedTenantProfile?.name}
                   </p>
                   <p className="text-sm text-blue-700">
-                    Type: {selectedTenantProfile.type}
+                    Type: {selectedTenantProfile?.type}
                   </p>
                 </div>
               </div>
@@ -70,14 +80,23 @@ const AdminTenantAccess: React.FC = () => {
                 Mode Admin
               </Badge>
             </div>
-            <Button 
-              onClick={handleSwitchBack}
-              variant="outline"
-              className="w-full flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Retour à l'administration
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                onClick={handleSwitchBack}
+                variant="outline"
+                className="flex-1 flex items-center gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Retour à l'administration
+              </Button>
+              <Button 
+                onClick={() => navigate('/tenant-space')}
+                className="flex-1 flex items-center gap-2"
+              >
+                <Users className="h-4 w-4" />
+                Voir l'espace locataire
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
@@ -91,12 +110,13 @@ const AdminTenantAccess: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent>
                   {tenantProfiles.map((tenant) => (
-                    <SelectItem key={tenant.id} value={tenant.id}>
+                    <SelectItem key={tenant.id} value={tenant.id.toString()}>
                       <div className="flex items-center gap-2">
                         <span>{tenant.name}</span>
                         <Badge variant="outline" className="text-xs">
                           {tenant.type}
                         </Badge>
+                        <span className="text-xs text-gray-500">({tenant.email})</span>
                       </div>
                     </SelectItem>
                   ))}

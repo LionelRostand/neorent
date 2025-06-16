@@ -19,6 +19,7 @@ export const useAdminTenantAccess = () => {
       ...tenants.map(t => ({ ...t, type: 'locataire' })),
       ...roommates.map(r => ({ ...r, type: 'colocataire' }))
     ];
+    console.log('All tenant profiles:', allProfiles);
     return allProfiles;
   };
 
@@ -27,26 +28,33 @@ export const useAdminTenantAccess = () => {
       console.error('Accès non autorisé');
       return false;
     }
+    console.log('Switching to tenant profile:', tenantProfile);
     setSelectedTenantProfile(tenantProfile);
     return true;
   };
 
   const switchBackToAdmin = () => {
+    console.log('Switching back to admin');
     setSelectedTenantProfile(null);
   };
 
   const getCurrentProfile = () => {
     if (selectedTenantProfile && isAuthorizedAdmin()) {
+      console.log('Returning selected profile:', selectedTenantProfile);
       return selectedTenantProfile;
     }
+    console.log('Returning user profile:', userProfile);
     return userProfile;
   };
 
   const getCurrentUserType = () => {
     if (selectedTenantProfile && isAuthorizedAdmin()) {
+      console.log('Returning selected type:', selectedTenantProfile.type);
       return selectedTenantProfile.type;
     }
-    return user?.email === 'admin@neotech-consulting.com' ? 'admin' : userProfile?.role || 'locataire';
+    const type = user?.email === 'admin@neotech-consulting.com' ? 'admin' : userProfile?.role || 'locataire';
+    console.log('Returning user type:', type);
+    return type;
   };
 
   return {
