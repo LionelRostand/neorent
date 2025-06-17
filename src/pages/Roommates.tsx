@@ -58,7 +58,15 @@ const Roommates = () => {
 
       // Création du compte Auth si mot de passe fourni
       if (data.password && data.password.trim().length >= 6) {
-        await createUserAccount(data.email, data.password);
+        try {
+          const result = await createUserAccount(data.email, data.password);
+          if (result.emailAlreadyExists) {
+            console.warn('Email déjà utilisé, mais continuation de l\'ajout du colocataire');
+          }
+        } catch (authError: any) {
+          console.warn('Erreur Auth ignorée:', authError);
+          // Continuer même si la création du compte échoue
+        }
       }
 
       await addRoommate(newRoommate);

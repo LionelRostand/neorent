@@ -6,13 +6,13 @@ export const useFirebaseAuth = () => {
   const createUserAccount = async (email: string, password: string) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      return userCredential.user;
+      return { user: userCredential.user, emailAlreadyExists: false };
     } catch (error: any) {
       console.error('Erreur lors de la création du compte:', error);
       
       // Gérer l'erreur spécifique d'email déjà utilisé
       if (error.code === 'auth/email-already-in-use') {
-        throw new Error('Cet email est déjà utilisé. Veuillez utiliser un autre email ou connecter l\'utilisateur existant.');
+        return { user: null, emailAlreadyExists: true };
       }
       
       // Autres erreurs d'authentification Firebase

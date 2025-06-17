@@ -65,29 +65,34 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
         await onSubmit(formData);
       } else {
         // Comportement par défaut avec gestion d'erreur email existant
-        try {
-          await createUserAccount(formData.email, formData.password);
-        } catch (authError: any) {
-          // Si l'email existe déjà, continuer quand même avec l'ajout du colocataire
-          if (authError.message?.includes('déjà utilisé')) {
-            console.warn('Email déjà utilisé, mais continuation de l\'ajout du colocataire');
-            toast({
-              title: "Attention",
-              description: "L'email est déjà utilisé, mais le colocataire a été ajouté avec succès.",
-              variant: "default",
-            });
-          } else {
-            throw authError;
+        let emailAlreadyExists = false;
+        
+        if (formData.password && formData.password.trim().length >= 6) {
+          try {
+            const result = await createUserAccount(formData.email, formData.password);
+            emailAlreadyExists = result.emailAlreadyExists;
+          } catch (authError: any) {
+            console.error('Erreur lors de la création du compte Auth:', authError);
+            // Continuer même si la création du compte échoue
+            emailAlreadyExists = true;
           }
         }
         
         const { password, ...roommateData } = formData;
         await addRoommate(roommateData);
 
-        toast({
-          title: "Colocataire ajouté",
-          description: "Le colocataire a été ajouté avec succès.",
-        });
+        if (emailAlreadyExists) {
+          toast({
+            title: "Colocataire ajouté",
+            description: "Le colocataire a été ajouté avec succès. Note: L'email existe déjà dans le système d'authentification.",
+            variant: "default",
+          });
+        } else {
+          toast({
+            title: "Colocataire ajouté",
+            description: "Le colocataire a été ajouté avec succès.",
+          });
+        }
       }
 
       // Reset form
