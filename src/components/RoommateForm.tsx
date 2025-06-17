@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,14 +64,29 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
         // Utiliser le onSubmit personnalisé si fourni
         await onSubmit(formData);
       } else {
-        // Comportement par défaut
-        await createUserAccount(formData.email, formData.password);
+        // Comportement par défaut avec gestion d'erreur email existant
+        try {
+          await createUserAccount(formData.email, formData.password);
+        } catch (authError: any) {
+          // Si l'email existe déjà, continuer quand même avec l'ajout du colocataire
+          if (authError.message?.includes('déjà utilisé')) {
+            console.warn('Email déjà utilisé, mais continuation de l\'ajout du colocataire');
+            toast({
+              title: "Attention",
+              description: "L'email est déjà utilisé, mais le colocataire a été ajouté avec succès.",
+              variant: "default",
+            });
+          } else {
+            throw authError;
+          }
+        }
+        
         const { password, ...roommateData } = formData;
         await addRoommate(roommateData);
 
         toast({
           title: "Colocataire ajouté",
-          description: "Le colocataire a été ajouté avec succès et peut maintenant se connecter.",
+          description: "Le colocataire a été ajouté avec succès.",
         });
       }
 
@@ -214,7 +230,9 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
               value={formData.rentAmount}
               onChange={(e) => setFormData({ ...formData, rentAmount: e.target.value })}
               disabled={loading}
+              placeholder="Ex: 70"
             />
+            <p className="text-xs text-gray-500 mt-1">Montant incluant les charges</p>
           </div>
           
           <div>

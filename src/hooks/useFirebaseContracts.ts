@@ -72,18 +72,21 @@ export const useFirebaseContracts = () => {
     }
   };
 
-  const updateContract = async (id: string, updates: Partial<Contract>) => {
+  const updateContract = async (id: string | number, updates: Partial<Contract>) => {
     try {
+      // Convertir l'ID en string si nécessaire
+      const contractId = String(id);
+      
       // Validation de l'ID
-      if (!id || typeof id !== 'string' || id.trim() === '') {
+      if (!contractId || contractId.trim() === '') {
         throw new Error('ID du contrat invalide');
       }
 
-      console.log('Updating contract with ID:', id, 'Updates:', updates);
+      console.log('Updating contract with ID:', contractId, 'Updates:', updates);
       
-      await updateDoc(doc(db, 'Rent_contracts', id), updates);
+      await updateDoc(doc(db, 'Rent_contracts', contractId), updates);
       setContracts(prev => prev.map(contract => 
-        contract.id === id ? { ...contract, ...updates } : contract
+        contract.id === contractId ? { ...contract, ...updates } : contract
       ));
     } catch (err) {
       console.error('Error updating contract:', err);
@@ -92,26 +95,29 @@ export const useFirebaseContracts = () => {
     }
   };
 
-  const deleteContract = async (id: string) => {
+  const deleteContract = async (id: string | number) => {
     try {
+      // Convertir l'ID en string si nécessaire
+      const contractId = String(id);
+      
       // Validation stricte de l'ID
-      if (!id || typeof id !== 'string' || id.trim() === '') {
+      if (!contractId || contractId.trim() === '') {
         const errorMsg = 'ID du contrat invalide pour la suppression';
         console.error(errorMsg, { id, type: typeof id });
         throw new Error(errorMsg);
       }
 
-      console.log('Attempting to delete contract with ID:', id);
+      console.log('Attempting to delete contract with ID:', contractId);
       
       // Vérifier d'abord que le document existe dans Firestore
-      const docRef = doc(db, 'Rent_contracts', id);
+      const docRef = doc(db, 'Rent_contracts', contractId);
       
       // Supprimer le document
       await deleteDoc(docRef);
       
       // Mettre à jour l'état local seulement après succès de la suppression
       setContracts(prev => {
-        const filtered = prev.filter(contract => contract.id !== id);
+        const filtered = prev.filter(contract => contract.id !== contractId);
         console.log('Contract deleted successfully. Remaining contracts:', filtered.length);
         return filtered;
       });

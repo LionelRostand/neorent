@@ -63,14 +63,29 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
         // Utiliser le onSubmit personnalisé si fourni
         await onSubmit(formData);
       } else {
-        // Comportement par défaut
-        await createUserAccount(formData.email, formData.password);
+        // Comportement par défaut avec gestion d'erreur email existant
+        try {
+          await createUserAccount(formData.email, formData.password);
+        } catch (authError: any) {
+          // Si l'email existe déjà, continuer quand même avec l'ajout du locataire
+          if (authError.message?.includes('déjà utilisé')) {
+            console.warn('Email déjà utilisé, mais continuation de l\'ajout du locataire');
+            toast({
+              title: "Attention",
+              description: "L'email est déjà utilisé, mais le locataire a été ajouté avec succès.",
+              variant: "default",
+            });
+          } else {
+            throw authError;
+          }
+        }
+        
         const { password, ...tenantData } = formData;
         await addTenant(tenantData);
 
         toast({
           title: "Locataire ajouté",
-          description: "Le locataire a été ajouté avec succès et peut maintenant se connecter.",
+          description: "Le locataire a été ajouté avec succès.",
         });
       }
 
