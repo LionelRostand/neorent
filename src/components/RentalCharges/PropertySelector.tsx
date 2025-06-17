@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Building2 } from 'lucide-react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 
 interface PropertySelectorProps {
   selectedProperty: string;
@@ -12,8 +13,26 @@ interface PropertySelectorProps {
 
 const PropertySelector = ({ selectedProperty, onPropertyChange }: PropertySelectorProps) => {
   const { properties, loading } = useFirebaseProperties();
+  const { roommates } = useFirebaseRoommates();
 
   const selectedPropertyData = properties.find(p => p.id === selectedProperty);
+
+  // Fonction pour obtenir les locataires/colocataires d'un bien
+  const getTenantInfo = (property: any) => {
+    if (!property) return 'Aucun locataire';
+    
+    if (property.locationType === 'Colocation') {
+      // Pour une colocation, chercher les colocataires
+      const propertyRoommates = roommates.filter(r => r.property === property.title);
+      if (propertyRoommates.length > 0) {
+        return `Colocataires: ${propertyRoommates.map(r => r.name).join(', ')}`;
+      }
+      return 'Aucun colocataire';
+    } else {
+      // Pour un appartement/maison, utiliser le champ tenant
+      return property.tenant ? `Locataire: ${property.tenant}` : 'Aucun locataire';
+    }
+  };
 
   if (loading) {
     return (
@@ -44,7 +63,7 @@ const PropertySelector = ({ selectedProperty, onPropertyChange }: PropertySelect
       </Select>
       {selectedPropertyData && (
         <p className="text-sm text-gray-600">
-          Locataire: {selectedPropertyData.tenant || 'Aucun locataire'}
+          {getTenantInfo(selectedPropertyData)}
         </p>
       )}
     </div>
