@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { determineResponsibility } from './utils/responsibilityUtils';
 
 interface MaintenanceFormData {
@@ -28,6 +28,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
   const { toast } = useToast();
   const { properties, loading: propertiesLoading } = useFirebaseProperties();
   const { tenants, loading: tenantsLoading } = useFirebaseTenants();
+  const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
   
   const [formData, setFormData] = useState<MaintenanceFormData>({
     propertyId: '',
@@ -38,6 +39,48 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
     location: '',
     requestDate: new Date().toISOString().split('T')[0]
   });
+
+  const [availableTenants, setAvailableTenants] = useState<Array<{id: string, name: string, type: string}>>([]);
+
+  // Mettre à jour la liste des locataires/colocataires quand la propriété change
+  useEffect(() => {
+    if (formData.propertyId) {
+      const selectedProperty = properties.find(p => p.title === formData.propertyId);
+      
+      if (selectedProperty) {
+        let propertyTenants: Array<{id: string, name: string, type: string}> = [];
+        
+        if (selectedProperty.locationType === 'Location') {
+          // Pour les locations classiques, chercher les locataires
+          const propertyTenantsList = tenants.filter(tenant => 
+            tenant.property === selectedProperty.title
+          );
+          propertyTenants = propertyTenantsList.map(tenant => ({
+            id: tenant.id,
+            name: tenant.name,
+            type: 'Locataire'
+          }));
+        } else if (selectedProperty.locationType === 'Colocation') {
+          // Pour les colocations, chercher les colocataires
+          const propertyRoommatesList = roommates.filter(roommate => 
+            roommate.property === selectedProperty.title
+          );
+          propertyTenants = propertyRoommatesList.map(roommate => ({
+            id: roommate.id,
+            name: roommate.name,
+            type: 'Colocataire'
+          }));
+        }
+        
+        setAvailableTenants(propertyTenants);
+      }
+    } else {
+      setAvailableTenants([]);
+    }
+    
+    // Reset du locataire sélectionné quand la propriété change
+    setFormData(prev => ({ ...prev, tenantName: '' }));
+  }, [formData.propertyId, properties, tenants, roommates]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,7 +111,8 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
 
   // Filtrer les biens par type de location
   const availableProperties = properties.filter(property => 
-    property.locationType === 'location' && property.status === 'Loué'
+    property.locationType === 'Location' && property.status === 'Loué' ||
+    property.locationType === 'Colocation' && property.availableRooms < property.totalRooms
   );
 
   return (
@@ -98,21 +142,31 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
 
         <div className="space-y-2">
           <Label htmlFor="tenantName">Nom du Locataire</Label>
-          <Select value={formData.tenantName} onValueChange={(value) => setFormData({...formData, tenantName: value})}>
+          <Select 
+            value={formData.tenantName} 
+            onValueChange={(value) => setFormData({...formData, tenantName: value})}
+            disabled={!formData.propertyId}
+          >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Sélectionner un locataire" />
+              <SelectValue placeholder={
+                !formData.propertyId 
+                  ? "Sélectionner d'abord un bien" 
+                  : "Sélectionner un locataire"
+              } />
             </SelectTrigger>
             <SelectContent>
-              {tenantsLoading ? (
+              {(tenantsLoading || roommatesLoading) ? (
                 <SelectItem value="loading" disabled>Chargement...</SelectItem>
-              ) : tenants.length > 0 ? (
-                tenants.map((tenant) => (
+              ) : availableTenants.length > 0 ? (
+                availableTenants.map((tenant) => (
                   <SelectItem key={tenant.id} value={tenant.name}>
-                    {tenant.name} - {tenant.property}
+                    {tenant.name} ({tenant.type})
                   </SelectItem>
                 ))
               ) : (
-                <SelectItem value="no-tenants" disabled>Aucun locataire disponible</SelectItem>
+                <SelectItem value="no-tenants" disabled>
+                  {formData.propertyId ? "Aucun locataire pour ce bien" : "Sélectionner d'abord un bien"}
+                </SelectItem>
               )}
             </SelectContent>
           </Select>
