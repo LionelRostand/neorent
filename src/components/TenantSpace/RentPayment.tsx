@@ -13,11 +13,13 @@ import {
   Calendar, 
   CheckCircle, 
   AlertCircle,
-  Euro
+  Euro,
+  Download
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 
 interface RentPaymentProps {
   tenantData: {
@@ -26,6 +28,7 @@ interface RentPaymentProps {
   };
   propertyData: {
     title: string;
+    address: string;
     rent: number;
     charges: number;
   };
@@ -41,6 +44,13 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   const { toast } = useToast();
   const { userProfile } = useAuth();
   const { addPayment } = useFirebasePayments();
+  
+  const { generateReceipt } = useReceiptGeneration({
+    tenantName: tenantData.name,
+    tenantType: tenantData.type || 'Locataire',
+    propertyAddress: propertyData.address,
+    propertyType: tenantData.type === 'Colocataire' ? 'Chambre en colocation' : 'Appartement'
+  });
 
   const totalAmount = propertyData.rent + propertyData.charges;
 
@@ -73,9 +83,23 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
 
       await addPayment(paymentData);
 
+      // Générer automatiquement le reçu PDF
+      const currentDate = new Date(paymentDate);
+      const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      const monthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+      generateReceipt({
+        month: monthYear,
+        rentAmount: propertyData.rent,
+        charges: propertyData.charges,
+        paymentDate: paymentDate,
+        paymentMethod: paymentMethod
+      });
+
       toast({
         title: "Paiement enregistré",
-        description: "Votre paiement de loyer a été enregistré avec succès.",
+        description: "Votre paiement de loyer a été enregistré et le reçu a été téléchargé automatiquement.",
       });
 
       // Reset form
@@ -207,6 +231,16 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                   </div>
                 </div>
 
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                  <div className="flex items-start gap-2">
+                    <Download className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                    <div className="text-sm text-yellow-800">
+                      <p className="font-medium mb-1">Reçu de paiement :</p>
+                      <p className="text-xs">Un reçu PDF sera automatiquement téléchargé après validation du paiement.</p>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="flex justify-end space-x-3">
                   <Button 
                     type="button" 
@@ -237,6 +271,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                 <ul className="space-y-1 text-xs">
                   <li>• Le paiement doit être effectué avant le 5 de chaque mois</li>
                   <li>• Conservez vos justificatifs de paiement</li>
+                  <li>• Un reçu PDF sera généré automatiquement</li>
                   <li>• En cas de problème, contactez votre gestionnaire</li>
                 </ul>
               </div>

@@ -59,40 +59,38 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
   onClose,
   onUpdateRoommate
 }) => {
-  // Move all hooks before ANY conditional return!
   const [selectedDocument, setSelectedDocument] = useState<{name: string, type: string} | null>(null);
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
 
-  // Use montantAttendu and payment state only if roommate exists
   const montantAttendu = roommate?.rentAmount ? Number(roommate.rentAmount) : 0;
   const [montantPaye, setMontantPaye] = useState<number>(
-    typeof roommate?.paidAmount === 'number' ? roommate.paidAmount : 600
+    typeof roommate?.paidAmount === 'number' ? roommate.paidAmount : montantAttendu
   );
   const [initialMontantPaye, setInitialMontantPaye] = useState(montantPaye);
 
   useEffect(() => {
-    // Sync si on affiche un nouveau colocataire
     if (roommate) {
-      setMontantPaye(typeof roommate.paidAmount === 'number' ? roommate.paidAmount : 600);
-      setInitialMontantPaye(typeof roommate.paidAmount === 'number' ? roommate.paidAmount : 600);
+      const initialPaid = typeof roommate.paidAmount === 'number' ? roommate.paidAmount : montantAttendu;
+      setMontantPaye(initialPaid);
+      setInitialMontantPaye(initialPaid);
     }
-  }, [roommate]);
+  }, [roommate, montantAttendu]);
 
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const isModified = montantPaye !== initialMontantPaye;
 
-  // Calculate next payment date dynamically based on move-in date
+  // Vérifier s'il y a une différence entre le montant attendu et payé
+  const hasPaymentDifference = montantPaye !== montantAttendu;
+
   const calculateNextPaymentDate = (moveInDate: string): Date => {
     const moveIn = new Date(moveInDate);
     const currentDate = new Date();
     
-    // Calculate next payment date (monthly cycle)
     const nextPayment = new Date(moveIn);
     nextPayment.setMonth(currentDate.getMonth());
     nextPayment.setFullYear(currentDate.getFullYear());
     
-    // If the payment date has passed this month, move to next month
     if (nextPayment < currentDate) {
       nextPayment.setMonth(nextPayment.getMonth() + 1);
     }
@@ -100,7 +98,6 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     return nextPayment;
   };
 
-  // Only set up documents if roommate exists
   const documents = roommate
     ? {
         bail: { exists: true, name: `Contrat de bail - ${roommate.name}.pdf`, uploadDate: roommate.moveInDate, status: 'Signé' },
@@ -127,7 +124,6 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     { key: 'etatLieuxSortie', icon: ClipboardList, label: 'État des lieux sortie chambre', color: 'text-orange-600', required: false }
   ];
 
-  // Statut paiement du mois en cours, only if roommate exists
   const currentDate = new Date();
   const nextPaymentDate = roommate ? calculateNextPaymentDate(roommate.moveInDate) : new Date();
   const isLate = nextPaymentDate < currentDate;
@@ -197,6 +193,22 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
   const StatutPaiementDetail = () => {
     const aToutPaye = montantPaye >= montantAttendu;
     const resteAPayer = Math.max(montantAttendu - montantPaye, 0);
+    
+    // N'afficher le détail du montant payé que s'il y a une différence
+    if (!hasPaymentDifference) {
+      return (
+        <div className="flex flex-col space-y-2 mt-2">
+          <div className="flex items-center justify-between bg-green-50 rounded-lg p-3">
+            <span className="flex items-center text-green-700">
+              <CheckCircle className="h-4 w-4 mr-1" />
+              Paiement complet
+            </span>
+            <span className="text-green-700 font-semibold">{montantAttendu.toLocaleString()}€</span>
+          </div>
+        </div>
+      );
+    }
+    
     return (
       <div className="flex flex-col space-y-2 mt-2">
         <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
@@ -258,7 +270,6 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     );
   };
 
-  // No early return! Render nothing if not open, but all hooks above this point.
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -266,16 +277,17 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Détails du colocataire</DialogTitle>
           </DialogHeader>
-          {/* Don't render details if no roommate */}
           {!roommate ? null : (
           <>
-            {/* Rent Alert */}
-            <RentAlert 
-              expectedAmount={montantAttendu}
-              paidAmount={montantPaye}
-              tenantName={roommate.name}
-              className="mb-4"
-            />
+            {/* Rent Alert - seulement si il y a une différence de paiement */}
+            {hasPaymentDifference && (
+              <RentAlert 
+                expectedAmount={montantAttendu}
+                paidAmount={montantPaye}
+                tenantName={roommate.name}
+                className="mb-4"
+              />
+            )}
             
             <Tabs defaultValue="general" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
@@ -332,7 +344,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                   </CardContent>
                 </Card>
 
-                {/* Statut de paiement (editable montant payé) */}
+                {/* Statut de paiement */}
                 <Card>
                   <CardContent className="p-6">
                     <h4 className="text-lg font-semibold mb-4">Statut de paiement</h4>
@@ -354,7 +366,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                         </Badge>
                       </div>
                     </div>
-                    {/* Affichage du détail paiement : montant payé (éditable) vs attendu */}
+                    {/* Affichage conditionnel du détail paiement */}
                     <StatutPaiementDetail />
                     <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                       <div className="flex items-center text-blue-700">
@@ -369,6 +381,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
               </TabsContent>
 
               <TabsContent value="documents" className="space-y-4 sm:space-y-6">
+                {/* Documents section */}
                 <div className="grid gap-3 sm:gap-4">
                   {documentTypes.map((docType) => {
                     const document = roommate ? documents[docType.key as keyof typeof documents] : undefined;
