@@ -28,7 +28,7 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
   onMarkAsPaid,
   onDeletePayment
 }) => {
-  // Détection des incohérences de paiement - logique simplifiée et robuste
+  // Détection RENFORCÉE des incohérences de paiement
   const paymentsWithDiscrepancies = payments.filter(payment => {
     // Vérifier si un montant a été payé
     const hasPaidAmount = payment.paidAmount !== undefined && 
@@ -42,7 +42,7 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
     const expectedAmount = Number(payment.rentAmount) || 0;
     const actualPaidAmount = Number(payment.paidAmount) || 0;
     
-    // Il y a incohérence si le montant payé est différent du montant attendu
+    // Il y a incohérence si le montant payé est différent du montant attendu (même de 1€)
     const hasDiscrepancy = actualPaidAmount !== expectedAmount;
     
     if (hasDiscrepancy) {
@@ -50,18 +50,20 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
         attendu: expectedAmount,
         payé: actualPaidAmount,
         différence: expectedAmount - actualPaidAmount,
-        statut: payment.status
+        statut: payment.status,
+        type: actualPaidAmount < expectedAmount ? 'SOUS-PAIEMENT' : 'TROP-PERÇU'
       });
     }
     
     return hasDiscrepancy;
   });
 
-  console.log(`📊 Total paiements: ${payments.length}, Incohérences: ${paymentsWithDiscrepancies.length}`);
-  console.log('Paiements avec incohérences:', paymentsWithDiscrepancies.map(p => ({
+  console.log(`📊 Total paiements: ${payments.length}, Incohérences détectées: ${paymentsWithDiscrepancies.length}`);
+  console.log('🔍 Paiements avec incohérences:', paymentsWithDiscrepancies.map(p => ({
     nom: p.tenantName,
     attendu: p.rentAmount,
-    payé: p.paidAmount
+    payé: p.paidAmount,
+    écart: (p.paidAmount || 0) - p.rentAmount
   })));
 
   return (
@@ -81,7 +83,7 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
               🚨 <span className="ml-2">Alertes de Paiement ({paymentsWithDiscrepancies.length})</span>
             </h3>
             <p className="text-sm text-red-700 mt-1">
-              Des incohérences de paiement ont été détectées
+              Des incohérences de paiement ont été détectées entre les montants contractuels et les montants payés
             </p>
           </div>
           <div className="space-y-3">
