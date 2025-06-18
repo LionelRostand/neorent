@@ -1,5 +1,22 @@
 
 {
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "properties": "Propriétés",
+    "tenants": "Locataires",
+    "roommates": "Colocataires",
+    "contracts": "Contrats",
+    "inspections": "Inspections",
+    "rentManagement": "Gestion des loyers",
+    "rentalCharges": "Charges locatives",
+    "forecasting": "Prévisions",
+    "maintenance": "Maintenance",
+    "messages": "Messages",
+    "taxes": "Fiscalité",
+    "website": "Site web",
+    "settings": "Paramètres",
+    "help": "Aide"
+  },
   "common": {
     "save": "Sauvegarder",
     "cancel": "Annuler", 
