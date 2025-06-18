@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -9,7 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Lock, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
+import { Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useEmployeePassword } from '@/hooks/useEmployeePassword';
 
@@ -31,6 +32,7 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
   employee,
   onPasswordSet
 }) => {
+  const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -44,8 +46,8 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
     
     if (password.length < 6) {
       toast({
-        title: "Mot de passe trop court",
-        description: "Le mot de passe doit contenir au moins 6 caractères.",
+        title: t('employees.passwordTooShort'),
+        description: t('employees.passwordMinLength'),
         variant: "destructive",
       });
       return;
@@ -53,8 +55,8 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
     
     if (password !== confirmPassword) {
       toast({
-        title: "Mots de passe différents",
-        description: "Les mots de passe ne correspondent pas.",
+        title: t('employees.passwordMismatch'),
+        description: t('employees.passwordMismatchDescription'),
         variant: "destructive",
       });
       return;
@@ -66,8 +68,8 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
     
     if (result.success) {
       toast({
-        title: "Succès",
-        description: result.message || `Le mot de passe a été ${employee.hasPassword ? 'mis à jour' : 'défini'} avec succès.`,
+        title: t('common.success'),
+        description: result.message || t(employee.hasPassword ? 'employees.passwordUpdatedSuccess' : 'employees.passwordSetSuccess'),
       });
       onPasswordSet();
       onOpenChange(false);
@@ -75,8 +77,8 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
       setConfirmPassword('');
     } else {
       toast({
-        title: "Erreur",
-        description: result.error || "Erreur lors de la définition du mot de passe.",
+        title: t('common.error'),
+        description: result.error || t('employees.passwordError'),
         variant: "destructive",
       });
     }
@@ -88,36 +90,36 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Lock className="h-5 w-5" />
-            {employee.hasPassword ? 'Modifier le mot de passe' : 'Définir le mot de passe'}
+            {employee.hasPassword ? t('employees.updatePassword') : t('employees.setPasswordTitle')}
           </DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label>Employé: {employee.name}</Label>
-            <Label>Email: {employee.email}</Label>
+            <Label>{t('employees.employeeLabel')}: {employee.name}</Label>
+            <Label>{t('profile.email')}: {employee.email}</Label>
           </div>
 
           {/* Information sur l'email existant */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
             <div className="flex items-center gap-2 text-blue-700">
               <AlertCircle className="h-4 w-4" />
-              <span className="text-sm font-medium">Information</span>
+              <span className="text-sm font-medium">{t('employees.information')}</span>
             </div>
             <p className="text-sm text-blue-600 mt-1">
-              Si cet email existe déjà dans Firebase Auth, le système mettra simplement à jour le statut du mot de passe.
+              {t('employees.emailExistsInfo')}
             </p>
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password">Nouveau mot de passe</Label>
+            <Label htmlFor="password">{t('employees.newPassword')}</Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimum 6 caractères"
+                placeholder={t('employees.passwordPlaceholder')}
                 required
                 disabled={loading}
               />
@@ -133,14 +135,14 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
+            <Label htmlFor="confirmPassword">{t('employees.confirmPassword')}</Label>
             <div className="relative">
               <Input
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirmer le mot de passe"
+                placeholder={t('employees.confirmPasswordPlaceholder')}
                 required
                 disabled={loading}
               />
@@ -162,10 +164,10 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
-              Annuler
+              {t('common.cancel')}
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? 'Enregistrement...' : (employee.hasPassword ? 'Modifier' : 'Définir')}
+              {loading ? t('employees.saving') : (employee.hasPassword ? t('employees.update') : t('employees.define'))}
             </Button>
           </div>
         </form>
