@@ -44,6 +44,11 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       }
     }, 0);
 
+  // Calculer le total des paiements reçus ce mois
+  const totalPaidAmount = payments
+    .filter(p => p.status === 'Payé')
+    .reduce((sum, payment) => sum + (Number(payment.rentAmount) || 0), 0);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <MetricCard
@@ -72,8 +77,8 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       />
       <MetricCard
         title="Total Mensuel"
-        value={`${totalAmount}€`}
-        description="Total des loyers mensuels"
+        value={`${totalAmount.toLocaleString()}€`}
+        description={`Attendu: ${totalAmount.toLocaleString()}€ | Reçu: ${totalPaidAmount.toLocaleString()}€`}
         icon={DollarSign}
         iconBgColor="bg-blue-500"
         borderColor="border-l-blue-500"

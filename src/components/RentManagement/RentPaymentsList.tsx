@@ -2,6 +2,7 @@
 import React from 'react';
 import { DollarSign } from 'lucide-react';
 import RentPaymentCard from './RentPaymentCard';
+import PaymentAlert from './PaymentAlert';
 
 interface Payment {
   id: string;
@@ -26,6 +27,16 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
   onMarkAsPaid,
   onDeletePayment
 }) => {
+  // Filtrer les paiements avec des incohérences (pour la démo, on simule des montants payés différents)
+  const paymentsWithDiscrepancies = payments.filter(payment => {
+    // Simuler des montants payés différents pour certains paiements
+    const paidAmount = payment.status === 'Payé' ? payment.rentAmount : 
+                     payment.id.endsWith('1') ? payment.rentAmount - 200 :
+                     payment.id.endsWith('2') ? payment.rentAmount + 100 : 
+                     payment.rentAmount;
+    return paidAmount !== payment.rentAmount && payment.status === 'Payé';
+  });
+
   return (
     <div className="bg-white rounded-lg shadow-sm border">
       <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200">
@@ -34,6 +45,28 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
         </h2>
         <p className="text-sm sm:text-base text-gray-600 mt-1">Vue d'ensemble des paiements de loyers</p>
       </div>
+
+      {/* Alertes pour les incohérences de paiement */}
+      {paymentsWithDiscrepancies.length > 0 && (
+        <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-100">
+          <h3 className="text-sm font-medium text-gray-900 mb-3">⚠️ Alertes de paiement</h3>
+          <div className="space-y-3">
+            {paymentsWithDiscrepancies.map((payment) => {
+              const paidAmount = payment.id.endsWith('1') ? payment.rentAmount - 200 :
+                               payment.id.endsWith('2') ? payment.rentAmount + 100 : 
+                               payment.rentAmount;
+              return (
+                <PaymentAlert
+                  key={`alert-${payment.id}`}
+                  expectedAmount={payment.rentAmount}
+                  paidAmount={paidAmount}
+                  tenantName={payment.tenantName}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="p-3 sm:p-4 lg:p-6">
         {payments.length === 0 ? (
