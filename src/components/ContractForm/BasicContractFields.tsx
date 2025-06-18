@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -11,24 +12,26 @@ interface BasicContractFieldsProps {
 }
 
 const BasicContractFields = ({ formData, handleInputChange, contractTypes }: BasicContractFieldsProps) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div>
-        <Label htmlFor="title">Lease Contract Title *</Label>
+        <Label htmlFor="title">{t('contractForm.title')} *</Label>
         <Input
           id="title"
           value={formData.title}
           onChange={(e) => handleInputChange('title', e.target.value)}
-          placeholder="Ex: Lease Contract - Villa Montparnasse..."
+          placeholder={t('contractForm.titlePlaceholder')}
           required
         />
       </div>
 
       <div>
-        <Label htmlFor="type">Contract Type *</Label>
+        <Label htmlFor="type">{t('contractForm.type')} *</Label>
         <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
           <SelectTrigger>
-            <SelectValue placeholder="Select type" />
+            <SelectValue placeholder={t('contractForm.selectType')} />
           </SelectTrigger>
           <SelectContent>
             {contractTypes.map((type) => (
@@ -41,24 +44,24 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
       </div>
 
       <div>
-        <Label htmlFor="provider">Service Provider</Label>
+        <Label htmlFor="provider">{t('contractForm.provider')}</Label>
         <Input
           id="provider"
           value={formData.provider}
           onChange={(e) => handleInputChange('provider', e.target.value)}
-          placeholder="Service provider name"
+          placeholder={t('contractForm.providerPlaceholder')}
         />
       </div>
 
       <div>
-        <Label htmlFor="jurisdiction">Jurisdiction *</Label>
+        <Label htmlFor="jurisdiction">{t('contractForm.jurisdiction')} *</Label>
         <Select value={formData.jurisdiction} onValueChange={(value) => handleInputChange('jurisdiction', value)}>
           <SelectTrigger>
-            <SelectValue placeholder="Choose jurisdiction" />
+            <SelectValue placeholder={t('contractForm.selectJurisdiction')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="francaise">French</SelectItem>
-            <SelectItem value="camerounaise">Cameroonian</SelectItem>
+            <SelectItem value="francaise">{t('contractForm.french')}</SelectItem>
+            <SelectItem value="camerounaise">{t('contractForm.cameroonian')}</SelectItem>
           </SelectContent>
         </Select>
       </div>

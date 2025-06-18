@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,10 +11,12 @@ interface DateAmountFieldsProps {
 }
 
 const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div>
-        <Label htmlFor="startDate">Start Date</Label>
+        <Label htmlFor="startDate">{t('contractForm.startDate')}</Label>
         <Input
           id="startDate"
           type="date"
@@ -23,7 +26,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
       </div>
 
       <div>
-        <Label htmlFor="endDate">End Date</Label>
+        <Label htmlFor="endDate">{t('contractForm.endDate')}</Label>
         <Input
           id="endDate"
           type="date"
@@ -33,22 +36,22 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
       </div>
 
       <div>
-        <Label htmlFor="amount">Amount</Label>
+        <Label htmlFor="amount">{t('contractForm.amount')}</Label>
         <Input
           id="amount"
           value={formData.amount}
           onChange={(e) => handleInputChange('amount', e.target.value)}
-          placeholder="Ex: 1,200€"
+          placeholder={t('contractForm.amountPlaceholder')}
         />
       </div>
 
       <div className="md:col-span-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">{t('contractForm.description')}</Label>
         <Textarea
           id="description"
           value={formData.description}
           onChange={(e) => handleInputChange('description', e.target.value)}
-          placeholder="Detailed contract description..."
+          placeholder={t('contractForm.descriptionPlaceholder')}
           className="min-h-[100px]"
         />
       </div>
