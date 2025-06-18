@@ -51,9 +51,18 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       return sum + (Number(actualPaidAmount) || 0);
     }, 0);
 
+  // Calculer le montant total en retard
+  const totalLateAmount = payments
+    .filter(p => p.status === 'En retard')
+    .reduce((sum, payment) => {
+      const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+      return sum + (Number(expectedAmount) || 0);
+    }, 0);
+
   console.log('💰 Calcul des métriques CORRIGÉ:', {
     totalExpectedAmount,
     totalPaidAmount,
+    totalLateAmount,
     currentMonth,
     payments: payments.map(p => ({ 
       id: p.id, 
@@ -79,7 +88,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title="En Retard"
         value={lateCount}
-        description={`${lateCount} paiement${lateCount > 1 ? 's' : ''} en retard`}
+        description={`${totalLateAmount.toLocaleString()}€ en retard (${lateCount} paiement${lateCount > 1 ? 's' : ''})`}
         icon={XCircle}
         iconBgColor="bg-red-500"
         borderColor="border-l-red-500"
@@ -95,7 +104,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title={`Total ${currentMonth}`}
         value={`${totalExpectedAmount.toLocaleString()}€`}
-        description={`Attendu: ${totalExpectedAmount.toLocaleString()}€ | Reçu: ${totalPaidAmount.toLocaleString()}€`}
+        description={`Total attendu ce mois | Reçu: ${totalPaidAmount.toLocaleString()}€`}
         icon={DollarSign}
         iconBgColor="bg-blue-500"
         borderColor="border-l-blue-500"
