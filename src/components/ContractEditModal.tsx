@@ -128,7 +128,7 @@ const ContractEditModal: React.FC<ContractEditModalProps> = ({
               />
             </div>
             <div>
-              <Label htmlFor="amount">Montant annuel</Label>
+              <Label htmlFor="amount">Montant mensuel</Label>
               <Input
                 id="amount"
                 value={formData.amount}
