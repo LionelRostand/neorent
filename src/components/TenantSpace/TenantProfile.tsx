@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTenantProfileUpdate } from '@/hooks/useTenantProfileUpdate';
 import { 
   User, 
   Mail, 
@@ -15,7 +15,9 @@ import {
   Edit,
   Save,
   X,
-  Contact
+  Contact,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react';
 
 interface TenantProfileProps {
@@ -39,6 +41,8 @@ interface TenantProfileProps {
 const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const isMobile = useIsMobile();
+  const { updateProfile, isUpdating, updateSuccess, updateError, clearError } = useTenantProfileUpdate();
+  
   const [formData, setFormData] = useState({
     phone: tenantData.phone,
     emergencyName: tenantData.emergencyContact.name,
@@ -46,9 +50,34 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
     emergencyRelation: tenantData.emergencyContact.relation
   });
 
-  const handleSave = () => {
-    console.log('Mise à jour du profil:', formData);
-    setIsEditing(false);
+  const hasChanges = () => {
+    return formData.phone !== tenantData.phone ||
+           formData.emergencyName !== tenantData.emergencyContact.name ||
+           formData.emergencyPhone !== tenantData.emergencyContact.phone ||
+           formData.emergencyRelation !== tenantData.emergencyContact.relation;
+  };
+
+  const handleSave = async () => {
+    if (!hasChanges()) {
+      setIsEditing(false);
+      return;
+    }
+
+    const updates = {
+      phone: formData.phone,
+      emergencyContact: {
+        name: formData.emergencyName,
+        phone: formData.emergencyPhone,
+        relation: formData.emergencyRelation
+      }
+    };
+
+    const success = await updateProfile(tenantData.id, updates);
+    if (success) {
+      setIsEditing(false);
+      // Mettre à jour les données locales si la sauvegarde réussit
+      // Dans un vrai projet, on rechargerait les données depuis l'API
+    }
   };
 
   const handleCancel = () => {
@@ -59,10 +88,26 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
       emergencyRelation: tenantData.emergencyContact.relation
     });
     setIsEditing(false);
+    clearError();
   };
 
   return (
     <div className="space-y-4 md:space-y-6">
+      {/* Messages de statut */}
+      {updateSuccess && (
+        <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg text-green-800">
+          <CheckCircle className="h-4 w-4" />
+          <span className="text-sm font-medium">Profil mis à jour avec succès</span>
+        </div>
+      )}
+      
+      {updateError && (
+        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-800">
+          <AlertCircle className="h-4 w-4" />
+          <span className="text-sm font-medium">{updateError}</span>
+        </div>
+      )}
+
       {/* Informations principales */}
       <Card>
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
@@ -86,6 +131,7 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
                 variant="outline" 
                 size={isMobile ? "sm" : "sm"}
                 onClick={handleCancel}
+                disabled={isUpdating}
                 className="w-full sm:w-auto"
               >
                 <X className="h-4 w-4 mr-2" />
@@ -94,10 +140,11 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
               <Button 
                 size={isMobile ? "sm" : "sm"}
                 onClick={handleSave}
+                disabled={isUpdating || !hasChanges()}
                 className="w-full sm:w-auto"
               >
                 <Save className="h-4 w-4 mr-2" />
-                Sauvegarder
+                {isUpdating ? 'Sauvegarde...' : 'Sauvegarder'}
               </Button>
             </div>
           )}
@@ -136,6 +183,7 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         className="mt-1 text-sm md:text-base"
                         placeholder="Numéro de téléphone"
+                        disabled={isUpdating}
                       />
                     ) : (
                       <p className="font-medium text-sm md:text-base">{tenantData.phone}</p>
@@ -206,6 +254,7 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
                   onChange={(e) => setFormData({...formData, emergencyName: e.target.value})}
                   className="mt-1 text-sm md:text-base"
                   placeholder="Nom du contact"
+                  disabled={isUpdating}
                 />
               ) : (
                 <p className="font-medium mt-1 text-sm md:text-base">{tenantData.emergencyContact.name}</p>
@@ -220,6 +269,7 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
                   onChange={(e) => setFormData({...formData, emergencyPhone: e.target.value})}
                   className="mt-1 text-sm md:text-base"
                   placeholder="Numéro de téléphone"
+                  disabled={isUpdating}
                 />
               ) : (
                 <p className="font-medium mt-1 text-sm md:text-base">{tenantData.emergencyContact.phone}</p>
@@ -234,6 +284,7 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
                   onChange={(e) => setFormData({...formData, emergencyRelation: e.target.value})}
                   className="mt-1 text-sm md:text-base"
                   placeholder="Relation (ex: Conjoint)"
+                  disabled={isUpdating}
                 />
               ) : (
                 <p className="font-medium mt-1 text-sm md:text-base">{tenantData.emergencyContact.relation}</p>
