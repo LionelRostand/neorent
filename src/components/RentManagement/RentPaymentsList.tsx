@@ -30,14 +30,32 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
 }) => {
   // Filtrer les paiements avec des incohérences réelles
   const paymentsWithDiscrepancies = payments.filter(payment => {
+    console.log('Analyse du paiement:', {
+      id: payment.id,
+      tenantName: payment.tenantName,
+      status: payment.status,
+      rentAmount: payment.rentAmount,
+      paidAmount: payment.paidAmount,
+      hasDiscrepancy: payment.status === 'Payé' && payment.paidAmount !== undefined && payment.paidAmount !== payment.rentAmount
+    });
+
     // Vérifier s'il y a une incohérence entre le montant attendu et le montant payé
-    if (payment.status === 'Payé' && payment.paidAmount !== undefined) {
+    if (payment.status === 'Payé') {
+      // Si paidAmount n'est pas défini, considérer qu'il n'y a pas d'incohérence
+      if (payment.paidAmount === undefined || payment.paidAmount === null) {
+        return false;
+      }
+      // Si paidAmount est défini et différent du montant du loyer, c'est une incohérence
       return payment.paidAmount !== payment.rentAmount;
     }
     return false;
   });
 
-  console.log('Paiements avec incohérences:', paymentsWithDiscrepancies);
+  console.log('Paiements avec incohérences détectées:', paymentsWithDiscrepancies.map(p => ({
+    tenantName: p.tenantName,
+    rentAmount: p.rentAmount,
+    paidAmount: p.paidAmount
+  })));
 
   return (
     <div className="bg-white rounded-lg shadow-sm border">
@@ -64,6 +82,11 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
           </div>
         </div>
       )}
+
+      {/* Message de debug pour développement */}
+      <div className="p-3 bg-gray-50 border-b text-xs text-gray-600">
+        Debug: {payments.length} paiements total, {paymentsWithDiscrepancies.length} avec incohérences
+      </div>
 
       <div className="p-3 sm:p-4 lg:p-6">
         {payments.length === 0 ? (
