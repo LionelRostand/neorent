@@ -3,9 +3,11 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Building, Home, Users, DollarSign } from 'lucide-react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 
 const PropertyMetrics: React.FC = () => {
   const { properties, loading } = useFirebaseProperties();
+  const { roommates } = useFirebaseRoommates();
 
   if (loading) {
     return (
@@ -26,26 +28,65 @@ const PropertyMetrics: React.FC = () => {
   }
 
   const totalProperties = properties.length;
-  const occupiedProperties = properties.filter(p => p.status === 'Occupé').length;
+
+  // Calculer le statut réel basé sur les colocataires actifs (même logique que PropertyCard)
+  const getPropertyStatus = (property: any) => {
+    const activeRoommates = roommates.filter(roommate => 
+      roommate.property === property.title && roommate.status === 'Actif'
+    );
+
+    if (property.locationType === 'Colocation') {
+      const totalRooms = property.totalRooms || 0;
+      const occupiedRooms = activeRoommates.length;
+      const availableRooms = Math.max(0, totalRooms - occupiedRooms);
+      
+      if (availableRooms > 0 && occupiedRooms > 0) {
+        return 'Partiellement occupé';
+      } else if (occupiedRooms > 0) {
+        return 'Complet';
+      } else {
+        return 'Libre';
+      }
+    } else {
+      // Location classique
+      return activeRoommates.length > 0 ? 'Occupé' : 'Libre';
+    }
+  };
+
+  // Calculer les propriétés occupées avec le statut réel
+  const occupiedProperties = properties.filter(p => {
+    const realStatus = getPropertyStatus(p);
+    return realStatus === 'Occupé' || realStatus === 'Complet' || realStatus === 'Partiellement occupé';
+  }).length;
+  
   const availableProperties = totalProperties - occupiedProperties;
   
-  // Calculer les revenus à partir des biens occupés uniquement
-  const totalRevenue = properties
-    .filter(p => p.status === 'Occupé')
-    .reduce((sum, p) => {
-      // Utiliser creditImmobilier en priorité, sinon rent
+  // Calculer les revenus des biens ayant des colocataires actifs
+  const totalRevenue = properties.reduce((sum, p) => {
+    const activeRoommates = roommates.filter(roommate => 
+      roommate.property === p.title && roommate.status === 'Actif'
+    );
+    
+    if (activeRoommates.length > 0) {
       const rentValue = p.creditImmobilier || p.rent || '0';
       const numericRent = parseFloat(rentValue.toString().replace(/[^0-9.-]+/g, ''));
       return sum + (isNaN(numericRent) ? 0 : numericRent);
-    }, 0);
+    }
+    return sum;
+  }, 0);
 
-  // Calculer les statistiques de colocation correctement
+  // Calculer les statistiques de colocation avec les vraies données
   const colocationProperties = properties.filter(p => p.locationType === 'Colocation');
   const totalColocationRooms = colocationProperties.reduce((sum, p) => sum + (p.totalRooms || 0), 0);
+  
+  // Compter les chambres réellement occupées par des colocataires actifs
   const occupiedColocationRooms = colocationProperties.reduce((sum, p) => {
-    const occupiedRooms = (p.totalRooms || 0) - (p.availableRooms || 0);
-    return sum + occupiedRooms;
+    const activeRoommates = roommates.filter(roommate => 
+      roommate.property === p.title && roommate.status === 'Actif'
+    );
+    return sum + activeRoommates.length;
   }, 0);
+  
   const availableColocationRooms = totalColocationRooms - occupiedColocationRooms;
 
   // Calculer le taux d'occupation global
