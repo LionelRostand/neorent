@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -290,8 +291,8 @@
     "creating": "Creating..."
   },
   "contracts": {
-    "title": "Contracts",
-    "subtitle": "Manage your rental contracts",
+    "title": "Lease Contracts",
+    "subtitle": "Manage your lease contracts and service providers",
     "management": "Contract Management",
     "description": "Manage and track all your rental contracts",
     "addContract": "Add Contract",
@@ -302,6 +303,40 @@
     "updateError": "Error updating contract",
     "deleteSuccess": "Contract deleted successfully",
     "deleteError": "Error deleting contract"
+  },
+  "contractForm": {
+    "newContract": "New Lease Contract",
+    "title": "Lease Contract Title",
+    "titlePlaceholder": "e.g. Lease Contract - Villa Montparnasse...",
+    "type": "Contract Type",
+    "selectType": "Select type",
+    "provider": "Service Provider",
+    "providerPlaceholder": "Service provider name",
+    "jurisdiction": "Jurisdiction",
+    "selectJurisdiction": "Choose jurisdiction",
+    "french": "French",
+    "cameroonian": "Cameroonian",
+    "property": "Property",
+    "selectProperty": "Select a property",
+    "tenant": "Tenant",
+    "roommate": "Roommate",
+    "selectTenant": "Select a tenant",
+    "selectRoommate": "Select a roommate",
+    "room": "Room",
+    "selectRoom": "Select a room",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "amount": "Amount",
+    "amountPlaceholder": "e.g. 1,200€",
+    "description": "Description",
+    "descriptionPlaceholder": "Detailed contract description...",
+    "createContract": "Create Contract",
+    "requiredFieldsError": "Please fill in all required fields",
+    "loading": "Loading...",
+    "contractTypes": {
+      "residentialLease": "Residential Lease",
+      "sharedAccommodationLease": "Shared Accommodation Lease"
+    }
   },
   "inspections": {
     "title": "Inspections",
