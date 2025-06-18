@@ -66,7 +66,22 @@ const ContractDetailsModal: React.FC<ContractDetailsModalProps> = ({
     }
   };
 
+  // Translate contract type to English
+  const getTypeInEnglish = (type: string) => {
+    switch (type) {
+      case 'Colocation':
+        return 'Shared Housing';
+      case 'Location':
+        return 'Rental';
+      case 'Bail':
+        return 'Lease';
+      default:
+        return type;
+    }
+  };
+
   const englishStatus = getStatusInEnglish(contract.status);
+  const englishType = getTypeInEnglish(contract.type);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -99,7 +114,7 @@ const ContractDetailsModal: React.FC<ContractDetailsModalProps> = ({
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900">{contract.title}</h3>
-                    <p className="text-gray-600 mt-1">{contract.type}</p>
+                    <p className="text-gray-600 mt-1">{englishType}</p>
                   </div>
                   <Badge className={getStatusColor(englishStatus)}>
                     {englishStatus}
