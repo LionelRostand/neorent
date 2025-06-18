@@ -11,6 +11,7 @@ export interface Payment {
   status: string;
   paymentDate: string | null;
   paymentMethod: string | null;
+  notes?: string | null;
 }
 
 export interface Contract {
