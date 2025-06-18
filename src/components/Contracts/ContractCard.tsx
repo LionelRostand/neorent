@@ -45,7 +45,22 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
     }
   };
 
+  // Translate contract type to English
+  const getTypeInEnglish = (type: string) => {
+    switch (type) {
+      case 'Colocation':
+        return 'Shared Housing';
+      case 'Location':
+        return 'Rental';
+      case 'Bail':
+        return 'Lease';
+      default:
+        return type;
+    }
+  };
+
   const englishStatus = getStatusInEnglish(contract.status);
+  const englishType = getTypeInEnglish(contract.type);
 
   return (
     <Card className="hover:shadow-lg transition-shadow">
@@ -54,7 +69,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
           <div className="flex justify-between items-start">
             <div>
               <h3 className="font-semibold text-lg text-gray-900">{contract.title}</h3>
-              <p className="text-sm text-gray-600 mt-1">{contract.type}</p>
+              <p className="text-sm text-gray-600 mt-1">{englishType}</p>
             </div>
             <div className="flex items-center space-x-2">
               <Badge 
