@@ -34,7 +34,36 @@ export const useDashboardMetrics = () => {
 
     // Nombre total de biens
     const totalProperties = properties.length;
-    const occupiedProperties = properties.filter(p => p.status === 'Occupé').length;
+
+    // Fonction pour calculer le statut réel d'une propriété
+    const getPropertyStatus = (property: any) => {
+      const activeRoommates = roommates.filter(roommate => 
+        roommate.property === property.title && roommate.status === 'Actif'
+      );
+
+      if (property.locationType === 'Colocation') {
+        const totalRooms = property.totalRooms || 0;
+        const occupiedRooms = activeRoommates.length;
+        const availableRooms = Math.max(0, totalRooms - occupiedRooms);
+        
+        if (availableRooms > 0 && occupiedRooms > 0) {
+          return 'Partiellement occupé';
+        } else if (occupiedRooms > 0) {
+          return 'Complet';
+        } else {
+          return 'Libre';
+        }
+      } else {
+        // Location classique
+        return activeRoommates.length > 0 ? 'Occupé' : 'Libre';
+      }
+    };
+
+    // Calculer les propriétés occupées avec le statut réel
+    const occupiedProperties = properties.filter(p => {
+      const realStatus = getPropertyStatus(p);
+      return realStatus === 'Occupé' || realStatus === 'Complet' || realStatus === 'Partiellement occupé';
+    }).length;
 
     // Nombre total de locataires actifs (locataires + colocataires)
     const activeTenants = tenants.filter(t => t.status === 'Actif').length;
