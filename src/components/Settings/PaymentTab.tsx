@@ -8,9 +8,11 @@ import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { CreditCard, Building, Smartphone, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 const PaymentTab: React.FC = () => {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [showStripeKey, setShowStripeKey] = useState(false);
   const [showPayPalKey, setShowPayPalKey] = useState(false);
   
@@ -45,32 +47,32 @@ const PaymentTab: React.FC = () => {
 
   const handleSaveStripe = () => {
     toast({
-      title: "Configuration Stripe",
-      description: "Configuration Stripe sauvegardée avec succès.",
+      title: t('settings.payment.stripe.title'),
+      description: t('settings.payment.stripe.saveSuccess'),
     });
     console.log('Configuration Stripe:', stripeConfig);
   };
 
   const handleSavePayPal = () => {
     toast({
-      title: "Configuration PayPal",
-      description: "Configuration PayPal sauvegardée avec succès.",
+      title: t('settings.payment.paypal.title'),
+      description: t('settings.payment.paypal.saveSuccess'),
     });
     console.log('Configuration PayPal:', paypalConfig);
   };
 
   const handleSaveBank = () => {
     toast({
-      title: "Configuration Bancaire",
-      description: "Configuration bancaire sauvegardée avec succès.",
+      title: t('settings.payment.bank.title'),
+      description: t('settings.payment.bank.saveSuccess'),
     });
     console.log('Configuration Bancaire:', bankConfig);
   };
 
   const handleSaveMobile = () => {
     toast({
-      title: "Paiement Mobile",
-      description: "Configuration paiement mobile sauvegardée avec succès.",
+      title: t('settings.payment.mobile.title'),
+      description: t('settings.payment.mobile.saveSuccess'),
     });
     console.log('Configuration Mobile:', mobileConfig);
   };
@@ -82,12 +84,12 @@ const PaymentTab: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CreditCard className="h-5 w-5 text-blue-600" />
-            Configuration Stripe
+            {t('settings.payment.stripe.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="stripe-enabled">Activer Stripe</Label>
+            <Label htmlFor="stripe-enabled">{t('settings.payment.stripe.enable')}</Label>
             <Switch 
               id="stripe-enabled"
               checked={stripeConfig.enabled}
@@ -98,7 +100,7 @@ const PaymentTab: React.FC = () => {
           {stripeConfig.enabled && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="stripe-public-key">Clé publique Stripe</Label>
+                <Label htmlFor="stripe-public-key">{t('settings.payment.stripe.publicKey')}</Label>
                 <Input
                   id="stripe-public-key"
                   placeholder="pk_live_..."
@@ -108,7 +110,7 @@ const PaymentTab: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="stripe-secret-key">Clé secrète Stripe</Label>
+                <Label htmlFor="stripe-secret-key">{t('settings.payment.stripe.secretKey')}</Label>
                 <div className="relative">
                   <Input
                     id="stripe-secret-key"
@@ -130,7 +132,7 @@ const PaymentTab: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="stripe-webhook">Webhook Secret</Label>
+                <Label htmlFor="stripe-webhook">{t('settings.payment.stripe.webhookSecret')}</Label>
                 <Input
                   id="stripe-webhook"
                   placeholder="whsec_..."
@@ -140,7 +142,7 @@ const PaymentTab: React.FC = () => {
               </div>
 
               <Button onClick={handleSaveStripe} className="w-full">
-                Sauvegarder Configuration Stripe
+                {t('settings.payment.stripe.save')}
               </Button>
             </>
           )}
@@ -152,12 +154,12 @@ const PaymentTab: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <div className="h-5 w-5 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold">P</div>
-            Configuration PayPal
+            {t('settings.payment.paypal.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="paypal-enabled">Activer PayPal</Label>
+            <Label htmlFor="paypal-enabled">{t('settings.payment.paypal.enable')}</Label>
             <Switch 
               id="paypal-enabled"
               checked={paypalConfig.enabled}
@@ -168,22 +170,22 @@ const PaymentTab: React.FC = () => {
           {paypalConfig.enabled && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="paypal-client-id">Client ID PayPal</Label>
+                <Label htmlFor="paypal-client-id">{t('settings.payment.paypal.clientId')}</Label>
                 <Input
                   id="paypal-client-id"
-                  placeholder="Votre Client ID PayPal"
+                  placeholder={t('settings.payment.paypal.clientIdPlaceholder')}
                   value={paypalConfig.clientId}
                   onChange={(e) => setPaypalConfig(prev => ({ ...prev, clientId: e.target.value }))}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="paypal-client-secret">Client Secret PayPal</Label>
+                <Label htmlFor="paypal-client-secret">{t('settings.payment.paypal.clientSecret')}</Label>
                 <div className="relative">
                   <Input
                     id="paypal-client-secret"
                     type={showPayPalKey ? "text" : "password"}
-                    placeholder="Votre Client Secret PayPal"
+                    placeholder={t('settings.payment.paypal.clientSecretPlaceholder')}
                     value={paypalConfig.clientSecret}
                     onChange={(e) => setPaypalConfig(prev => ({ ...prev, clientSecret: e.target.value }))}
                   />
@@ -200,7 +202,7 @@ const PaymentTab: React.FC = () => {
               </div>
 
               <Button onClick={handleSavePayPal} className="w-full">
-                Sauvegarder Configuration PayPal
+                {t('settings.payment.paypal.save')}
               </Button>
             </>
           )}
@@ -212,12 +214,12 @@ const PaymentTab: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Building className="h-5 w-5 text-green-600" />
-            Virement Bancaire
+            {t('settings.payment.bank.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="bank-enabled">Activer Virement Bancaire</Label>
+            <Label htmlFor="bank-enabled">{t('settings.payment.bank.enable')}</Label>
             <Switch 
               id="bank-enabled"
               checked={bankConfig.enabled}
@@ -229,20 +231,20 @@ const PaymentTab: React.FC = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="bank-iban">IBAN</Label>
+                  <Label htmlFor="bank-iban">{t('settings.payment.bank.iban')}</Label>
                   <Input
                     id="bank-iban"
-                    placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX"
+                    placeholder={t('settings.payment.bank.ibanPlaceholder')}
                     value={bankConfig.iban}
                     onChange={(e) => setBankConfig(prev => ({ ...prev, iban: e.target.value }))}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="bank-bic">BIC/SWIFT</Label>
+                  <Label htmlFor="bank-bic">{t('settings.payment.bank.bic')}</Label>
                   <Input
                     id="bank-bic"
-                    placeholder="BNPAFRPPXXX"
+                    placeholder={t('settings.payment.bank.bicPlaceholder')}
                     value={bankConfig.bic}
                     onChange={(e) => setBankConfig(prev => ({ ...prev, bic: e.target.value }))}
                   />
@@ -250,27 +252,27 @@ const PaymentTab: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="bank-name">Nom de la Banque</Label>
+                <Label htmlFor="bank-name">{t('settings.payment.bank.bankName')}</Label>
                 <Input
                   id="bank-name"
-                  placeholder="Nom de votre banque"
+                  placeholder={t('settings.payment.bank.bankNamePlaceholder')}
                   value={bankConfig.bankName}
                   onChange={(e) => setBankConfig(prev => ({ ...prev, bankName: e.target.value }))}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="account-holder">Titulaire du Compte</Label>
+                <Label htmlFor="account-holder">{t('settings.payment.bank.accountHolder')}</Label>
                 <Input
                   id="account-holder"
-                  placeholder="Nom du titulaire du compte"
+                  placeholder={t('settings.payment.bank.accountHolderPlaceholder')}
                   value={bankConfig.accountHolder}
                   onChange={(e) => setBankConfig(prev => ({ ...prev, accountHolder: e.target.value }))}
                 />
               </div>
 
               <Button onClick={handleSaveBank} className="w-full">
-                Sauvegarder Configuration Bancaire
+                {t('settings.payment.bank.save')}
               </Button>
             </>
           )}
@@ -282,12 +284,12 @@ const PaymentTab: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Smartphone className="h-5 w-5 text-orange-600" />
-            Paiement Mobile
+            {t('settings.payment.mobile.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="mobile-enabled">Activer Paiement Mobile</Label>
+            <Label htmlFor="mobile-enabled">{t('settings.payment.mobile.enable')}</Label>
             <Switch 
               id="mobile-enabled"
               checked={mobileConfig.enabled}
@@ -300,7 +302,7 @@ const PaymentTab: React.FC = () => {
               <Separator />
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="orange-money">Orange Money</Label>
+                  <Label htmlFor="orange-money">{t('settings.payment.mobile.orangeMoney')}</Label>
                   <Switch 
                     id="orange-money"
                     checked={mobileConfig.orangeMoney}
@@ -309,7 +311,7 @@ const PaymentTab: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="mtn-money">MTN Mobile Money</Label>
+                  <Label htmlFor="mtn-money">{t('settings.payment.mobile.mtnMoney')}</Label>
                   <Switch 
                     id="mtn-money"
                     checked={mobileConfig.mtnMoney}
@@ -318,7 +320,7 @@ const PaymentTab: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="moov-money">Moov Money</Label>
+                  <Label htmlFor="moov-money">{t('settings.payment.mobile.moovMoney')}</Label>
                   <Switch 
                     id="moov-money"
                     checked={mobileConfig.moovMoney}
@@ -328,7 +330,7 @@ const PaymentTab: React.FC = () => {
               </div>
 
               <Button onClick={handleSaveMobile} className="w-full">
-                Sauvegarder Configuration Mobile
+                {t('settings.payment.mobile.save')}
               </Button>
             </>
           )}
