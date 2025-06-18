@@ -10,6 +10,7 @@ interface Payment {
   tenantType: string;
   property: string;
   rentAmount: number;
+  contractRentAmount?: number;
   paidAmount?: number;
   dueDate: string;
   status: string;
@@ -28,33 +29,41 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
   const lateCount = payments.filter(p => p.status === 'En retard').length;
   const pendingCount = payments.filter(p => p.status === 'En attente').length;
   
-  // Calculer le total mensuel attendu à partir des propriétés occupées
-  const totalExpectedAmount = properties
-    .filter(property => property.status === 'Occupé')
-    .reduce((sum, property) => {
-      const rent = Number(property.rent) || 0;
-      if (property.locationType === 'Colocation') {
-        const totalRooms = Number(property.totalRooms) || 0;
-        const availableRooms = Number(property.availableRooms) || 0;
-        const occupiedRooms = totalRooms - availableRooms;
-        return sum + (rent * occupiedRooms);
-      } else {
-        return sum + rent;
-      }
-    }, 0);
+  // Obtenir le mois en cours en français
+  const currentDate = new Date();
+  const currentMonth = currentDate.toLocaleDateString('fr-FR', { 
+    month: 'long',
+    year: 'numeric' 
+  });
+  
+  // Calculer le total mensuel attendu à partir des PAIEMENTS ACTUELS (qui incluent déjà les contrats)
+  const totalExpectedAmount = payments.reduce((sum, payment) => {
+    // Utiliser le contractRentAmount s'il existe, sinon rentAmount
+    const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+    return sum + (Number(expectedAmount) || 0);
+  }, 0);
 
-  // Calculer le total des paiements reçus ce mois (utiliser paidAmount si disponible, sinon rentAmount)
+  // Calculer le total des paiements reçus ce mois
   const totalPaidAmount = payments
     .filter(p => p.status === 'Payé')
     .reduce((sum, payment) => {
-      const actualPaidAmount = payment.paidAmount !== undefined ? payment.paidAmount : payment.rentAmount;
+      const actualPaidAmount = payment.paidAmount !== undefined ? payment.paidAmount : (payment.contractRentAmount || payment.rentAmount);
       return sum + (Number(actualPaidAmount) || 0);
     }, 0);
 
-  console.log('Calcul des métriques:', {
+  console.log('💰 Calcul des métriques CORRIGÉ:', {
     totalExpectedAmount,
     totalPaidAmount,
-    payments: payments.map(p => ({ id: p.id, rentAmount: p.rentAmount, paidAmount: p.paidAmount, status: p.status }))
+    currentMonth,
+    payments: payments.map(p => ({ 
+      id: p.id, 
+      nom: p.tenantName,
+      rentAmount: p.rentAmount, 
+      contractRentAmount: p.contractRentAmount,
+      montantUtilisé: p.contractRentAmount || p.rentAmount,
+      paidAmount: p.paidAmount, 
+      status: p.status 
+    }))
   });
 
   return (
@@ -84,7 +93,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
         borderColor="border-l-yellow-500"
       />
       <MetricCard
-        title="Total Mensuel"
+        title={`Total ${currentMonth}`}
         value={`${totalExpectedAmount.toLocaleString()}€`}
         description={`Attendu: ${totalExpectedAmount.toLocaleString()}€ | Reçu: ${totalPaidAmount.toLocaleString()}€`}
         icon={DollarSign}
