@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -71,6 +72,101 @@
       "days": "{{days}}d ago",
       "weeks": "{{weeks}}w ago"
     }
+  },
+  "tenants": {
+    "title": "Tenants",
+    "subtitle": "Manage your tenants and their information",
+    "addTenant": "Add Tenant",
+    "loading": "Loading tenants...",
+    "addSuccess": "Tenant added successfully",
+    "addError": "Error adding tenant",
+    "updateSuccess": "Tenant updated successfully",
+    "updateError": "Error updating tenant",
+    "deleteSuccess": "Tenant deleted successfully",
+    "deleteError": "Error deleting tenant"
+  },
+  "roommates": {
+    "title": "Roommates",
+    "subtitle": "Manage roommates and their information",
+    "addRoommate": "Add Roommate",
+    "loading": "Loading roommates...",
+    "addSuccess": "Roommate added successfully",
+    "addError": "Error adding roommate",
+    "updateSuccess": "Roommate updated successfully",
+    "updateError": "Error updating roommate",
+    "deleteSuccess": "Roommate deleted successfully",
+    "deleteError": "Error deleting roommate"
+  },
+  "contracts": {
+    "title": "Contracts",
+    "subtitle": "Manage your rental contracts",
+    "addContract": "Add Contract",
+    "loading": "Loading contracts...",
+    "addSuccess": "Contract added successfully",
+    "addError": "Error adding contract",
+    "updateSuccess": "Contract updated successfully",
+    "updateError": "Error updating contract",
+    "deleteSuccess": "Contract deleted successfully",
+    "deleteError": "Error deleting contract"
+  },
+  "inspections": {
+    "title": "Inspections",
+    "subtitle": "Schedule and manage property inspections",
+    "addInspection": "Add Inspection",
+    "loading": "Loading inspections...",
+    "addSuccess": "Inspection added successfully",
+    "addError": "Error adding inspection",
+    "updateSuccess": "Inspection updated successfully",
+    "updateError": "Error updating inspection",
+    "deleteSuccess": "Inspection deleted successfully",
+    "deleteError": "Error deleting inspection"
+  },
+  "rentManagement": {
+    "title": "Rent Management",
+    "subtitle": "Track and manage rent payments",
+    "loading": "Loading payments...",
+    "addSuccess": "Payment added successfully",
+    "addError": "Error adding payment",
+    "updateSuccess": "Payment updated successfully",
+    "updateError": "Error updating payment"
+  },
+  "rentalCharges": {
+    "title": "Rental Charges",
+    "subtitle": "Manage charges and provisions for your properties",
+    "loading": "Loading charges...",
+    "addSuccess": "Charge added successfully",
+    "addError": "Error adding charge",
+    "updateSuccess": "Charge updated successfully",
+    "updateError": "Error updating charge"
+  },
+  "maintenance": {
+    "title": "Maintenance",
+    "subtitle": "Manage maintenance requests and interventions",
+    "loading": "Loading requests...",
+    "addSuccess": "Request added successfully",
+    "addError": "Error adding request",
+    "updateSuccess": "Request updated successfully",
+    "updateError": "Error updating request"
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communication with your tenants and partners",
+    "loading": "Loading messages...",
+    "sendSuccess": "Message sent successfully",
+    "sendError": "Error sending message"
+  },
+  "taxes": {
+    "title": "Taxes",
+    "subtitle": "Manage your real estate tax declarations",
+    "loading": "Loading tax data...",
+    "saveSuccess": "Tax data saved",
+    "saveError": "Error saving data"
+  },
+  "help": {
+    "title": "Help",
+    "subtitle": "Documentation and technical support",
+    "searchPlaceholder": "Search in help...",
+    "noResults": "No results found"
   },
   "forecasting": {
     "title": "Forecasting",

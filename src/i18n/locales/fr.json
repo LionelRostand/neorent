@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Tableau de bord",
@@ -71,6 +72,101 @@
       "days": "Il y a {{days}}j",
       "weeks": "Il y a {{weeks}}sem"
     }
+  },
+  "tenants": {
+    "title": "Locataires",
+    "subtitle": "Gérez vos locataires et leurs informations",
+    "addTenant": "Ajouter un locataire",
+    "loading": "Chargement des locataires...",
+    "addSuccess": "Locataire ajouté avec succès",
+    "addError": "Erreur lors de l'ajout du locataire",
+    "updateSuccess": "Locataire mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du locataire",
+    "deleteSuccess": "Locataire supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du locataire"
+  },
+  "roommates": {
+    "title": "Colocataires",
+    "subtitle": "Gérez les colocataires et leurs informations",
+    "addRoommate": "Ajouter un colocataire",
+    "loading": "Chargement des colocataires...",
+    "addSuccess": "Colocataire ajouté avec succès",
+    "addError": "Erreur lors de l'ajout du colocataire",
+    "updateSuccess": "Colocataire mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du colocataire",
+    "deleteSuccess": "Colocataire supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du colocataire"
+  },
+  "contracts": {
+    "title": "Contrats",
+    "subtitle": "Gérez vos contrats de location",
+    "addContract": "Ajouter un contrat",
+    "loading": "Chargement des contrats...",
+    "addSuccess": "Contrat ajouté avec succès",
+    "addError": "Erreur lors de l'ajout du contrat",
+    "updateSuccess": "Contrat mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du contrat",
+    "deleteSuccess": "Contrat supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du contrat"
+  },
+  "inspections": {
+    "title": "Inspections",
+    "subtitle": "Planifiez et gérez les inspections de vos biens",
+    "addInspection": "Ajouter une inspection",
+    "loading": "Chargement des inspections...",
+    "addSuccess": "Inspection ajoutée avec succès",
+    "addError": "Erreur lors de l'ajout de l'inspection",
+    "updateSuccess": "Inspection mise à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour de l'inspection",
+    "deleteSuccess": "Inspection supprimée avec succès",
+    "deleteError": "Erreur lors de la suppression de l'inspection"
+  },
+  "rentManagement": {
+    "title": "Gestion des loyers",
+    "subtitle": "Suivez et gérez les paiements de loyer",
+    "loading": "Chargement des paiements...",
+    "addSuccess": "Paiement ajouté avec succès",
+    "addError": "Erreur lors de l'ajout du paiement",
+    "updateSuccess": "Paiement mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du paiement"
+  },
+  "rentalCharges": {
+    "title": "Charges locatives",
+    "subtitle": "Gérez les charges et provisions de vos propriétés",
+    "loading": "Chargement des charges...",
+    "addSuccess": "Charge ajoutée avec succès",
+    "addError": "Erreur lors de l'ajout de la charge",
+    "updateSuccess": "Charge mise à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour de la charge"
+  },
+  "maintenance": {
+    "title": "Maintenance",
+    "subtitle": "Gérez les demandes et interventions de maintenance",
+    "loading": "Chargement des demandes...",
+    "addSuccess": "Demande ajoutée avec succès",
+    "addError": "Erreur lors de l'ajout de la demande",
+    "updateSuccess": "Demande mise à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour de la demande"
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communication avec vos locataires et partenaires",
+    "loading": "Chargement des messages...",
+    "sendSuccess": "Message envoyé avec succès",
+    "sendError": "Erreur lors de l'envoi du message"
+  },
+  "taxes": {
+    "title": "Fiscalité",
+    "subtitle": "Gérez vos déclarations fiscales immobilières",
+    "loading": "Chargement des données fiscales...",
+    "saveSuccess": "Données fiscales sauvegardées",
+    "saveError": "Erreur lors de la sauvegarde"
+  },
+  "help": {
+    "title": "Aide",
+    "subtitle": "Documentation et support technique",
+    "searchPlaceholder": "Rechercher dans l'aide...",
+    "noResults": "Aucun résultat trouvé"
   },
   "forecasting": {
     "title": "Prévisions",
