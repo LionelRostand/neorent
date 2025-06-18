@@ -9,7 +9,7 @@ export const UserRolesList: React.FC = () => {
   const roles = [
     {
       role: 'admin',
-      description: 'Accès complet à toutes les fonctionnalités',
+      description: 'Full access to all features',
       bgColor: 'bg-red-50',
       borderColor: 'border-red-200',
       textColor: 'text-red-800',
@@ -17,7 +17,7 @@ export const UserRolesList: React.FC = () => {
     },
     {
       role: 'manager',
-      description: 'Gestion des biens, locataires, contrats et paiements',
+      description: 'Property, tenant, contract and payment management',
       bgColor: 'bg-blue-50',
       borderColor: 'border-blue-200',
       textColor: 'text-blue-800',
@@ -25,7 +25,7 @@ export const UserRolesList: React.FC = () => {
     },
     {
       role: 'inspector',
-      description: 'Création et modification des états des lieux uniquement',
+      description: 'Creation and modification of inspection reports only',
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200',
       textColor: 'text-green-800',
@@ -33,7 +33,7 @@ export const UserRolesList: React.FC = () => {
     },
     {
       role: 'tenant',
-      description: 'Accès limité à ses propres informations',
+      description: 'Limited access to their own information',
       bgColor: 'bg-gray-50',
       borderColor: 'border-gray-200',
       textColor: 'text-gray-800',
