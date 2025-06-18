@@ -83,10 +83,23 @@ export const useDocumentStorage = () => {
       }
 
       const querySnapshot = await getDocs(q);
-      const documents = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as DocumentData[];
+      const documents: DocumentData[] = [];
+      
+      querySnapshot.docs.forEach(doc => {
+        const data = doc.data();
+        documents.push({
+          id: doc.id,
+          fileName: data.fileName,
+          fileType: data.fileType,
+          fileSize: data.fileSize,
+          fileContent: data.fileContent,
+          documentType: data.documentType,
+          tenantId: data.tenantId,
+          roommateId: data.roommateId,
+          uploadDate: data.uploadDate,
+          status: data.status
+        });
+      });
       
       return documents;
     } catch (error) {

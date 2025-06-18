@@ -148,8 +148,38 @@ const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({
                   </CardContent>
                 </Card>
 
-                {/* Statut de paiement */}
-                <PaymentStatusCard tenant={tenant} paymentStatus={paymentStatus} />
+                {/* Statut de paiement - utilisez PaymentStatusCard directement */}
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="flex items-center space-x-3">
+                        <DollarSign className="h-8 w-8 text-blue-600" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Loyer mensuel</p>
+                          <p className="text-2xl font-semibold text-gray-900">{tenant.rentAmount}€</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <Calendar className="h-8 w-8 text-orange-600" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Prochaine échéance</p>
+                          <p className="text-lg font-semibold text-gray-900">
+                            {new Date(tenant.nextPayment).toLocaleDateString('fr-FR')}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <paymentStatus.icon className="h-8 w-8 text-gray-600" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Statut</p>
+                          <Badge className={paymentStatus.color}>
+                            {paymentStatus.status}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </TabsContent>
 
               <TabsContent value="documents" className="space-y-4">

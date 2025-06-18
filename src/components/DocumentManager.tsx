@@ -46,16 +46,23 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
     updateDocumentStatus 
   } = useDocumentStorage();
 
+  // Documents générés automatiquement par l'application (ne doivent pas être uploadés)
+  const systemGeneratedDocuments = ['contract', 'receipt', 'invoice'];
+
   const documentTypes = [
-    { value: 'bail', label: 'Contrat de bail', icon: FileText, required: true },
-    { value: 'assurance', label: 'Assurance habitation', icon: Shield, required: true },
-    { value: 'etatLieuxEntree', label: 'État des lieux d\'entrée', icon: ClipboardList, required: true },
-    { value: 'revenus', label: 'Justificatifs de revenus', icon: CreditCard, required: true },
-    { value: 'identite', label: 'Pièce d\'identité', icon: User, required: true },
-    { value: 'rib', label: 'RIB', icon: CreditCard, required: true },
-    { value: 'garant', label: 'Documents garant', icon: User, required: false },
-    { value: 'taxeHabitation', label: 'Taxe d\'habitation', icon: Home, required: false },
-    { value: 'etatLieuxSortie', label: 'État des lieux de sortie', icon: ClipboardList, required: false }
+    { value: 'bail', label: 'Contrat de bail', icon: FileText, required: true, systemGenerated: false },
+    { value: 'assurance', label: 'Assurance habitation', icon: Shield, required: true, systemGenerated: false },
+    { value: 'etatLieuxEntree', label: 'État des lieux d\'entrée', icon: ClipboardList, required: true, systemGenerated: false },
+    { value: 'revenus', label: 'Justificatifs de revenus', icon: CreditCard, required: true, systemGenerated: false },
+    { value: 'identite', label: 'Pièce d\'identité', icon: User, required: true, systemGenerated: false },
+    { value: 'rib', label: 'RIB', icon: CreditCard, required: true, systemGenerated: false },
+    { value: 'garant', label: 'Documents garant', icon: User, required: false, systemGenerated: false },
+    { value: 'taxeHabitation', label: 'Taxe d\'habitation', icon: Home, required: false, systemGenerated: false },
+    { value: 'etatLieuxSortie', label: 'État des lieux de sortie', icon: ClipboardList, required: false, systemGenerated: false },
+    // Documents générés par le système (affichage seulement)
+    { value: 'contract', label: 'Contrat généré', icon: FileText, required: false, systemGenerated: true },
+    { value: 'receipt', label: 'Quittances de loyer', icon: FileText, required: false, systemGenerated: true },
+    { value: 'invoice', label: 'Factures générées', icon: FileText, required: false, systemGenerated: true }
   ];
 
   useEffect(() => {
@@ -92,6 +99,16 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
       toast({
         title: "Informations manquantes",
         description: "Veuillez sélectionner un fichier et un type de document.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Vérifier si c'est un document généré par le système
+    if (systemGeneratedDocuments.includes(selectedDocumentType)) {
+      toast({
+        title: "Document généré automatiquement",
+        description: "Ce type de document est généré automatiquement par l'application.",
         variant: "destructive",
       });
       return;
@@ -156,6 +173,9 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
     return documents.find(doc => doc.documentType === type);
   };
 
+  // Filtrer les types de documents pour l'upload (exclure les documents générés par le système)
+  const uploadableDocumentTypes = documentTypes.filter(type => !type.systemGenerated);
+
   return (
     <div className="space-y-6">
       {/* Section d'upload */}
@@ -175,7 +195,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
               className="w-full p-2 border border-gray-300 rounded-md"
             >
               <option value="">Sélectionner un type</option>
-              {documentTypes.map((type) => (
+              {uploadableDocumentTypes.map((type) => (
                 <option key={type.value} value={type.value}>
                   {type.label}
                 </option>
@@ -231,6 +251,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
                       <h4 className="font-medium flex items-center gap-2">
                         {docType.label}
                         {docType.required && <Badge variant="outline" className="text-xs">Requis</Badge>}
+                        {docType.systemGenerated && <Badge variant="secondary" className="text-xs">Généré auto</Badge>}
                       </h4>
                       {document ? (
                         <p className="text-sm text-gray-600">
@@ -238,6 +259,8 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
                           <br />
                           Uploadé le {new Date(document.uploadDate).toLocaleDateString('fr-FR')}
                         </p>
+                      ) : docType.systemGenerated ? (
+                        <p className="text-sm text-gray-500">Document généré automatiquement par l'application</p>
                       ) : (
                         <p className="text-sm text-gray-500">Aucun document uploadé</p>
                       )}
@@ -258,17 +281,19 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
                           <Download className="h-4 w-4 mr-1" />
                           Télécharger
                         </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(document.id!, document.fileName)}
-                        >
-                          <Trash2 className="h-4 w-4 mr-1" />
-                          Supprimer
-                        </Button>
+                        {!docType.systemGenerated && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(document.id!, document.fileName)}
+                          >
+                            <Trash2 className="h-4 w-4 mr-1" />
+                            Supprimer
+                          </Button>
+                        )}
                       </>
                     ) : (
-                      docType.required && (
+                      !docType.systemGenerated && docType.required && (
                         <Badge className="bg-red-100 text-red-800">
                           ❌ Manquant
                         </Badge>

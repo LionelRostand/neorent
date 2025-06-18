@@ -128,7 +128,7 @@ const Properties = () => {
           </Dialog>
         </div>
 
-        <PropertyMetrics properties={properties} />
+        <PropertyMetrics />
         <PropertyList 
           properties={properties} 
           onUpdateProperty={handleUpdateProperty}
