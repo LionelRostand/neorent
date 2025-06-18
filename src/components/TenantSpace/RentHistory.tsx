@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import RentPayment from './RentPayment';
 import { 
   CreditCard, 
@@ -21,19 +21,32 @@ import {
 const RentHistory = () => {
   const [selectedYear, setSelectedYear] = useState('2024');
   const isMobile = useIsMobile();
+  const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
   
-  // Données du locataire
+  // Obtenir le profil actuel et le type d'utilisateur
+  const currentProfile = getCurrentProfile();
+  const currentUserType = getCurrentUserType();
+  const actualTenantName = currentProfile?.name || 'Marie Dubois';
+  const actualTenantType = (currentUserType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Locataire' | 'Colocataire';
+  
+  console.log('RentHistory - Données du locataire:', {
+    actualTenantName,
+    actualTenantType,
+    currentProfile
+  });
+  
+  // Données du locataire avec le nom réel
   const tenantData = {
-    name: 'Marie Dubois',
-    type: 'Locataire' as 'Locataire' | 'Colocataire',
-    propertyAddress: '45 Rue de la Paix, 75001 Paris',
-    propertyType: 'Appartement'
+    name: actualTenantName,
+    type: actualTenantType,
+    propertyAddress: currentProfile?.address || '45 Rue de la Paix, 75001 Paris',
+    propertyType: actualTenantType === 'Colocataire' ? 'Chambre en colocation' : 'Appartement'
   };
 
   const propertyData = {
-    title: 'Appartement Rue de la Paix',
-    address: '45 Rue de la Paix, 75001 Paris',
-    type: 'Appartement',
+    title: actualTenantType === 'Colocataire' ? 'Chambre Rue de la Paix' : 'Appartement Rue de la Paix',
+    address: currentProfile?.address || '45 Rue de la Paix, 75001 Paris',
+    type: actualTenantType === 'Colocataire' ? 'Chambre en colocation' : 'Appartement',
     surface: '65m²',
     rooms: '3 pièces',
     rent: 400, // Valeur corrigée
@@ -47,8 +60,8 @@ const RentHistory = () => {
   };
   
   const { generateReceipt } = useReceiptGeneration({
-    tenantName: tenantData.name,
-    tenantType: tenantData.type,
+    tenantName: actualTenantName,
+    tenantType: actualTenantType,
     propertyAddress: tenantData.propertyAddress,
     propertyType: tenantData.propertyType
   });
@@ -200,6 +213,8 @@ const RentHistory = () => {
     if (payment.status !== 'Payé' || !payment.paymentDate) {
       return;
     }
+    
+    console.log('Téléchargement de la quittance pour:', actualTenantName);
     
     generateReceipt({
       month: payment.month,

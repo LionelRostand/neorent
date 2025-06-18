@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
 interface RentPaymentProps {
   tenantData: {
@@ -43,12 +44,25 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   const { toast } = useToast();
   const { userProfile } = useAuth();
   const { addPayment } = useFirebasePayments();
+  const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
+  
+  // Obtenir le profil actuel (soit utilisateur connecté, soit profil en mode admin)
+  const currentProfile = getCurrentProfile();
+  const currentUserType = getCurrentUserType();
+  const actualTenantName = currentProfile?.name || tenantData.name;
+  const actualTenantType = (currentUserType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Locataire' | 'Colocataire';
+  
+  console.log('Données du locataire pour PDF:', {
+    actualTenantName,
+    actualTenantType,
+    currentProfile
+  });
   
   const { generateReceipt } = useReceiptGeneration({
-    tenantName: tenantData.name,
-    tenantType: tenantData.type || 'Locataire',
+    tenantName: actualTenantName,
+    tenantType: actualTenantType,
     propertyAddress: propertyData.address,
-    propertyType: tenantData.type === 'Colocataire' ? 'Chambre en colocation' : 'Appartement'
+    propertyType: actualTenantType === 'Colocataire' ? 'Chambre en colocation' : 'Appartement'
   });
 
   // Valeurs corrigées selon la demande
@@ -72,8 +86,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
 
     try {
       const paymentData = {
-        tenantName: tenantData.name,
-        tenantType: tenantData.type || 'Locataire',
+        tenantName: actualTenantName,
+        tenantType: actualTenantType,
         property: propertyData.title,
         rentAmount: totalAmount,
         dueDate: paymentDate,
@@ -85,11 +99,13 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
 
       await addPayment(paymentData);
 
-      // Générer automatiquement le reçu PDF
+      // Générer automatiquement le reçu PDF avec le bon nom
       const currentDate = new Date(paymentDate);
       const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
         'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       const monthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+      console.log('Génération du reçu PDF pour:', actualTenantName);
 
       generateReceipt({
         month: monthYear,
@@ -172,8 +188,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                   <h4 className="font-semibold text-blue-800 mb-2">Détails du paiement</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span>Locataire:</span>
-                      <span className="font-medium">{tenantData.name}</span>
+                      <span>{actualTenantType}:</span>
+                      <span className="font-medium">{actualTenantName}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Propriété:</span>
