@@ -144,19 +144,23 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
           )}
         </div>
 
-        {/* Statut et montant */}
-        <div className="flex items-center justify-between mb-3 sm:mb-4">
-          {getStatusBadge(payment.status)}
-          <div className="text-right">
+        {/* Montant du loyer mensuel */}
+        <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-1" />
-              <span className="text-lg sm:text-2xl font-bold text-gray-900">{payment.rentAmount}€</span>
+              <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mr-2" />
+              <span className="text-sm font-medium text-gray-700">Loyer mensuel à payer</span>
             </div>
-            <p className="text-xs text-gray-500">Loyer mensuel</p>
+            <span className="text-xl sm:text-2xl font-bold text-blue-600">{payment.rentAmount}€</span>
+          </div>
+          
+          {/* Affichage du statut de paiement */}
+          <div className="mt-2 flex items-center justify-between">
+            {getStatusBadge(payment.status)}
             {payment.paidAmount !== undefined && payment.paidAmount !== payment.rentAmount && payment.status === 'Payé' && (
-              <p className="text-xs text-red-600 mt-1">
+              <span className="text-sm text-red-600 font-medium">
                 Payé: {payment.paidAmount}€
-              </p>
+              </span>
             )}
           </div>
         </div>
