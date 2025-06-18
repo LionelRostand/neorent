@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -530,7 +531,79 @@
       "title": "Security Configuration",
       "subtitle": "Configure security policies and authentication settings",
       "loadingSettings": "Loading security settings...",
-      "saving": "Saving security settings..."
+      "saving": "Saving security settings...",
+      "passwordPolicy": "Password Policy",
+      "minLength": "Minimum length",
+      "passwordExpiry": "Password expiry",
+      "complexityRequirements": "Complexity requirements",
+      "requireUppercase": "Require uppercase letters",
+      "requireLowercase": "Require lowercase letters",
+      "requireNumbers": "Require numbers",
+      "requireSpecialChars": "Require special characters",
+      "preventCommonPasswords": "Prevent common passwords",
+      "preventCommonPasswordsDescription": "Block commonly used passwords for better security",
+      "expiryOptions": {
+        "30days": "30 days",
+        "60days": "60 days",
+        "90days": "90 days",
+        "120days": "120 days",
+        "never": "Never"
+      },
+      "twoFactor": {
+        "title": "Two-Factor Authentication",
+        "enable": "Enable 2FA",
+        "enableDescription": "Add an extra layer of security to your account",
+        "verificationMethod": "Verification method",
+        "methods": {
+          "email": "Email",
+          "sms": "SMS",
+          "authenticator": "Authenticator app"
+        },
+        "backupCodes": "Backup codes",
+        "backupCodesDescription": "Save these codes in a secure place. Each can only be used once.",
+        "copy": "Copy",
+        "generateNewCodes": "Generate new backup codes",
+        "enableTitle": "Enable Two-Factor Authentication",
+        "emailDescription": "We'll send a verification code to your email address.",
+        "smsDescription": "We'll send a verification code to your phone number.",
+        "authenticatorDescription": "Scan this QR code with your authenticator app.",
+        "qrCodeDescription": "Scan this QR code with Google Authenticator, Authy, or similar apps.",
+        "verificationCode": "Verification code",
+        "enable2FA": "Enable 2FA",
+        "enabled": "Two-factor authentication enabled",
+        "enabledDescription": "Your account is now protected with 2FA.",
+        "disabled": "Two-factor authentication disabled",
+        "disabledDescription": "2FA has been disabled for your account.",
+        "codesCopied": "Backup codes copied",
+        "codesCopiedDescription": "Save these codes in a secure place.",
+        "enableError": "Error enabling two-factor authentication"
+      },
+      "sessionSecurity": "Session Security",
+      "sessionTimeout": "Session timeout",
+      "maxLoginAttempts": "Maximum login attempts",
+      "lockoutDuration": "Account lockout duration",
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours",
+        "8hours": "8 hours",
+        "never": "Never"
+      },
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours"
+      },
+      "recommendations": {
+        "title": "Security Recommendations",
+        "sessionTimeout": "Set session timeout to 30 minutes for office environments",
+        "loginAttempts": "Limit login attempts to prevent brute force attacks",
+        "twoFactor": "Enable two-factor authentication for all administrators",
+        "checkLogs": "Regularly check access logs for suspicious activity"
+      }
     },
     "payment": {
       "title": "Payment Configuration",
@@ -591,6 +664,9 @@
       }
     }
   },
+  "forms": {
+    "cancel": "Cancel"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
@@ -604,6 +680,7 @@
     "filter": "Filter",
     "all": "All",
     "none": "None",
-    "actions": "Actions"
+    "actions": "Actions",
+    "save": "Save"
   }
 }
