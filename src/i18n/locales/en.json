@@ -81,7 +81,11 @@
       "roomsAvailable": "rooms available",
       "allRoomsOccupied": "All rooms are occupied",
       "apartmentOccupied": "Apartment occupied",
-      "total": "total"
+      "total": "total",
+      "rentability": "Property Profitability",
+      "benefit": "Benefit",
+      "configuration": "Property Configuration",
+      "occupantList": "Occupants List"
     }
   },
   "propertyForm": {
