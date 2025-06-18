@@ -6,7 +6,7 @@ import FirebaseCollectionsList from './Firebase/FirebaseCollectionsList';
 import { UserRolesList } from './Firebase/UserRolesList';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Database, Shield, Copy, ExternalLink } from 'lucide-react';
+import { Database, Shield, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
@@ -16,10 +16,6 @@ const FirebaseTab: React.FC = () => {
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
     console.log(`${type} ${t('settings.firebase.config.copy')}`);
-  };
-
-  const openFirebaseConsole = () => {
-    window.open('https://console.firebase.google.com/', '_blank');
   };
 
   return (
@@ -32,20 +28,9 @@ const FirebaseTab: React.FC = () => {
               <Database className="h-6 w-6 text-orange-600" />
               <span>🔥 {t('settings.firebase.title')}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
-                {t('settings.firebase.config.connectionStatus.connected')}
-              </Badge>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={openFirebaseConsole}
-                className="flex items-center gap-2"
-              >
-                <ExternalLink className="h-4 w-4" />
-                {t('settings.firebase.config.console')}
-              </Button>
-            </div>
+            <Badge variant="secondary" className="bg-green-100 text-green-800">
+              {t('settings.firebase.config.connectionStatus.connected')}
+            </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent>
