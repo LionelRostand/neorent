@@ -58,46 +58,61 @@ const EmployeePermissionsTab: React.FC = () => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between text-lg md:text-xl">
-          <div className="flex items-center gap-2">
-            <UserCheck className="h-5 w-5" />
-            {t('settings.permissions.title')}
-          </div>
-          <Button 
-            onClick={handleSavePermissions}
-            disabled={!selectedEmployeeId || isSaving}
-            className="flex items-center gap-2"
-          >
-            <Save className="h-4 w-4" />
-            {isSaving ? t('settings.permissions.saving') : t('settings.permissions.save')}
-          </Button>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <EmployeeSelection
-          employees={employees}
-          selectedEmployeeId={selectedEmployeeId}
-          selectedEmployee={selectedEmployee}
-          companies={companies}
-          onEmployeeSelect={setSelectedEmployeeId}
-        />
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
+            🔐 {t('settings.permissions.title')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-600 mb-6">
+            {t('settings.permissions.subtitle')}
+          </p>
+        </CardContent>
+      </Card>
 
-        <PermissionManager
-          permissions={permissions}
-          selectedEmployeeId={selectedEmployeeId}
-          onPermissionChange={handlePermissionChange}
-          onSetAllPermissions={handleSetAllPermissions}
-        />
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between text-lg md:text-xl">
+            <div className="flex items-center gap-2">
+              <UserCheck className="h-5 w-5" />
+              {t('settings.permissions.title')}
+            </div>
+            <Button 
+              onClick={handleSavePermissions}
+              disabled={!selectedEmployeeId || isSaving}
+              className="flex items-center gap-2"
+            >
+              <Save className="h-4 w-4" />
+              {isSaving ? t('settings.permissions.saving') : t('settings.permissions.save')}
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <EmployeeSelection
+            employees={employees}
+            selectedEmployeeId={selectedEmployeeId}
+            selectedEmployee={selectedEmployee}
+            companies={companies}
+            onEmployeeSelect={setSelectedEmployeeId}
+          />
 
-        {employees.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            {t('settings.permissions.noEmployees')}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          <PermissionManager
+            permissions={permissions}
+            selectedEmployeeId={selectedEmployeeId}
+            onPermissionChange={handlePermissionChange}
+            onSetAllPermissions={handleSetAllPermissions}
+          />
+
+          {employees.length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              {t('settings.permissions.noEmployees')}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
