@@ -1,9 +1,10 @@
 
 import React from 'react';
-import EmployeeRow from './EmployeeRow';
-import { Company } from '@/hooks/useFirebaseCompanies';
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Edit, Trash2, Lock, CheckCircle, XCircle, UserPlus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Company } from '@/hooks/useFirebaseCompanies';
 
 interface Employee {
   id: string;
@@ -22,6 +23,7 @@ interface EmployeeTableProps {
   onEdit: (employee: Employee) => void;
   onDelete: (employeeId: string) => void;
   onPasswordClick: (employee: Employee) => void;
+  onActivateAccess?: (employee: Employee) => void;
   getPermissionsDisplay: (permissions: any) => string;
   getCompanyName: (companyId?: string) => string;
 }
@@ -32,48 +34,103 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
   onEdit,
   onDelete,
   onPasswordClick,
+  onActivateAccess,
   getPermissionsDisplay,
   getCompanyName
 }) => {
   const { t } = useTranslation();
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg md:text-xl">
-          📋 {t('employees.description')}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto">
-          <div className="min-w-[700px]">
-            <div className="hidden md:grid grid-cols-8 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
-              <div>{t('employees.name')}</div>
-              <div>{t('profile.email')}</div>
-              <div>{t('employees.role')}</div>
-              <div>{t('employees.company')}</div>
-              <div>{t('employees.creationDate')}</div>
-              <div>{t('employees.permissions')}</div>
-              <div>{t('employees.passwordStatus')}</div>
-              <div>{t('employees.actions')}</div>
-            </div>
-            
-            {employees.map((employee) => (
-              <EmployeeRow
-                key={employee.id}
-                employee={employee}
-                companies={companies}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                onPasswordClick={onPasswordClick}
-                getPermissionsDisplay={getPermissionsDisplay}
-                getCompanyName={getCompanyName}
-              />
-            ))}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="overflow-x-auto">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>{t('employees.fullName')}</TableHead>
+            <TableHead>{t('profile.email')}</TableHead>
+            <TableHead>{t('employees.role')}</TableHead>
+            <TableHead>{t('employees.company')}</TableHead>
+            <TableHead>{t('employees.creationDate')}</TableHead>
+            <TableHead>{t('employees.permissions')}</TableHead>
+            <TableHead>{t('employees.passwordStatus')}</TableHead>
+            <TableHead>{t('employees.actions')}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {employees.map((employee) => (
+            <TableRow key={employee.id}>
+              <TableCell className="font-medium">{employee.name}</TableCell>
+              <TableCell>{employee.email}</TableCell>
+              <TableCell>
+                <span className={`px-2 py-1 rounded-full text-xs ${
+                  employee.role === 'admin' 
+                    ? 'bg-red-100 text-red-800' 
+                    : 'bg-blue-100 text-blue-800'
+                }`}>
+                  {employee.role === 'admin' ? t('employees.administrator') : t('employees.employee')}
+                </span>
+              </TableCell>
+              <TableCell>{getCompanyName(employee.companyId)}</TableCell>
+              <TableCell>{new Date(employee.createdAt).toLocaleDateString()}</TableCell>
+              <TableCell>{getPermissionsDisplay(employee.permissions)}</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  {employee.hasPassword ? (
+                    <div className="flex items-center gap-1 text-green-600">
+                      <CheckCircle className="h-4 w-4" />
+                      <span className="text-sm">{t('employees.defined')}</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 text-red-600">
+                      <XCircle className="h-4 w-4" />
+                      <span className="text-sm">{t('employees.notDefined')}</span>
+                    </div>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onEdit(employee)}
+                    className="h-8 w-8 p-0"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onPasswordClick(employee)}
+                    className="h-8 w-8 p-0"
+                  >
+                    <Lock className="h-4 w-4" />
+                  </Button>
+                  {!employee.hasPassword && onActivateAccess && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onActivateAccess(employee)}
+                      className="h-8 w-8 p-0 text-green-600 hover:text-green-700"
+                      title={t('employees.activateAccess')}
+                    >
+                      <UserPlus className="h-4 w-4" />
+                    </Button>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onDelete(employee.id)}
+                    className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

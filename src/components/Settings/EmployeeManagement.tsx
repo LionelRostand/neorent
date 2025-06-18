@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
+import { useEmployeePassword } from '@/hooks/useEmployeePassword';
 import { Plus } from 'lucide-react';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -36,6 +36,7 @@ const EmployeeManagement: React.FC = () => {
   const { t } = useTranslation();
   const { userRoles, loading, refetch } = useFirebaseUserRoles();
   const { companies, loading: companiesLoading } = useFirebaseCompanies();
+  const { ensureEmployeeCanLogin } = useEmployeePassword();
   const { toast } = useToast();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -143,6 +144,33 @@ const EmployeeManagement: React.FC = () => {
     }
   };
 
+  const handleActivateAccess = async (employee: Employee) => {
+    try {
+      const result = await ensureEmployeeCanLogin(employee.id, employee.email);
+      
+      if (result.success) {
+        toast({
+          title: t('common.success'),
+          description: result.message + (result.tempPassword ? ` Mot de passe temporaire: ${result.tempPassword}` : ''),
+        });
+        refetch();
+      } else {
+        toast({
+          title: t('common.error'),
+          description: result.error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error activating access:', error);
+      toast({
+        title: t('common.error'),
+        description: 'Erreur lors de l\'activation de l\'accès',
+        variant: "destructive",
+      });
+    }
+  };
+
   const openEditDialog = (employee: any) => {
     setSelectedEmployee(employee);
     setFormData({
@@ -220,6 +248,7 @@ const EmployeeManagement: React.FC = () => {
             onEdit={openEditDialog}
             onDelete={handleDeleteEmployee}
             onPasswordClick={openPasswordDialog}
+            onActivateAccess={handleActivateAccess}
             getPermissionsDisplay={getPermissionsDisplay}
             getCompanyName={getCompanyName}
           />
