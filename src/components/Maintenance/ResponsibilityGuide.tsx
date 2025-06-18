@@ -1,108 +1,111 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Home, User, AlertCircle } from 'lucide-react';
 
 const ResponsibilityGuide = () => {
+  const { t } = useTranslation();
+
   const proprietaireResponsibilities = [
     {
-      category: 'Gros œuvre et structure',
+      category: t('maintenance.majorWork'),
       items: [
-        'Réparation des murs porteurs',
-        'Étanchéité de la toiture',
-        'Isolation thermique',
-        'Fondations et structure du bâtiment'
+        t('maintenance.structuralWallRepairs'),
+        t('maintenance.roofWaterproofing'),
+        t('maintenance.thermalInsulation'),
+        t('maintenance.foundationsAndStructure')
       ]
     },
     {
-      category: 'Installations principales',
+      category: t('maintenance.mainInstallations'),
       items: [
-        'Plomberie générale et canalisations',
-        'Installation électrique',
-        'Système de chauffage collectif',
-        'Ascenseur',
-        'Interphone et digicode'
+        t('maintenance.generalPlumbingAndPipes'),
+        t('maintenance.electricalInstallation'),
+        t('maintenance.collectiveHeatingSystem'),
+        t('maintenance.elevator'),
+        t('maintenance.intercomAndDigicode')
       ]
     },
     {
-      category: 'Équipements de sécurité',
+      category: t('maintenance.securityEquipment'),
       items: [
-        'Détecteurs de fumée (fourniture)',
-        'Garde-corps et rampes',
-        'Éclairage des parties communes',
-        'Système de sécurité incendie'
+        t('maintenance.smokeDetectorsSupply'),
+        t('maintenance.guardrailsAndRamps'),
+        t('maintenance.commonAreasLighting'),
+        t('maintenance.fireSecuritySystem')
       ]
     },
     {
-      category: 'Menuiseries extérieures',
+      category: t('maintenance.exteriorJoinery'),
       items: [
-        'Fenêtres et volets',
-        'Porte d\'entrée du logement',
-        'Serrure de la porte d\'entrée (remplacement)',
-        'Joints d\'étanchéité'
+        t('maintenance.windowsAndShutters'),
+        t('maintenance.apartmentEntranceDoor'),
+        t('maintenance.entranceDoorLockReplacement'),
+        t('maintenance.sealingJoints')
       ]
     }
   ];
 
   const locataireResponsibilities = [
     {
-      category: 'Entretien courant',
+      category: t('maintenance.currentMaintenance'),
       items: [
-        'Nettoyage régulier du logement',
-        'Entretien des joints silicone',
-        'Nettoyage des vitres',
-        'Entretien des espaces verts privatifs'
+        t('maintenance.regularHouseholdCleaning'),
+        t('maintenance.siliconeJointsMaintenance'),
+        t('maintenance.windowCleaning'),
+        t('maintenance.privateGreenSpacesMaintenance')
       ]
     },
     {
-      category: 'Petites réparations',
+      category: t('maintenance.minorRepairs'),
       items: [
-        'Remplacement des ampoules',
-        'Débouchage des évacuations',
-        'Réparation des robinets qui gouttent',
-        'Remplacement des joints de robinetterie'
+        t('maintenance.lightBulbReplacement'),
+        t('maintenance.drainUnblocking'),
+        t('maintenance.leakyFaucetRepair'),
+        t('maintenance.plumbingJointsReplacement')
       ]
     },
     {
-      category: 'Équipements et installations',
+      category: t('maintenance.equipmentInstallations'),
       items: [
-        'Entretien de la chaudière individuelle',
-        'Ramonage (si cheminée)',
-        'Entretien des VMC',
-        'Pile des détecteurs de fumée'
+        t('maintenance.individualBoilerMaintenance'),
+        t('maintenance.chimneySweeping'),
+        t('maintenance.vmcMaintenance'),
+        t('maintenance.smokeDetectorBattery')
       ]
     },
     {
-      category: 'Usure normale',
+      category: t('maintenance.normalWear'),
       items: [
-        'Peinture et tapisserie',
-        'Moquette et revêtements de sol',
-        'Poignées de portes et fenêtres',
-        'Interrupteurs et prises'
+        t('maintenance.paintAndWallpaper'),
+        t('maintenance.carpetAndFloorCoverings'),
+        t('maintenance.doorAndWindowHandles'),
+        t('maintenance.switchesAndOutlets')
       ]
     }
   ];
 
   const specialCases = [
     {
-      title: 'Vices cachés',
-      description: 'Défauts non apparents lors de la remise des clés',
-      responsibility: 'Propriétaire',
-      details: 'Le propriétaire doit réparer tous les vices cachés découverts après l\'entrée du locataire.'
+      title: t('maintenance.hiddenDefects'),
+      description: t('maintenance.hiddenDefectsDescription'),
+      responsibility: t('maintenance.ownerTag'),
+      details: t('maintenance.ownerDefectsDetail')
     },
     {
-      title: 'Dégradations locatives',
-      description: 'Dommages causés par le locataire ou ses invités',
-      responsibility: 'Locataire',
-      details: 'Le locataire est responsable des réparations liées aux dégradations qu\'il a causées.'
+      title: t('maintenance.tenantDegradations'),
+      description: t('maintenance.tenantDegradationsDescription'),
+      responsibility: t('maintenance.tenantTag'),
+      details: t('maintenance.tenantDegradationsDetail')
     },
     {
-      title: 'Urgences',
-      description: 'Interventions urgentes en cas de danger',
-      responsibility: 'Propriétaire',
-      details: 'En cas d\'urgence (fuite, panne électrique dangereuse), le propriétaire doit intervenir rapidement.'
+      title: t('maintenance.urgencies'),
+      description: t('maintenance.urgenciesDescription'),
+      responsibility: t('maintenance.ownerTag'),
+      details: t('maintenance.urgenciesDetail')
     }
   ];
 
@@ -113,10 +116,10 @@ const ResponsibilityGuide = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Home className="h-5 w-5 text-blue-600" />
-              Responsabilité Propriétaire
+              {t('maintenance.ownerResponsibility')}
             </CardTitle>
             <CardDescription>
-              Travaux et réparations à la charge du bailleur
+              {t('maintenance.ownerResponsibilityDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -146,10 +149,10 @@ const ResponsibilityGuide = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5 text-green-600" />
-              Responsabilité Locataire
+              {t('maintenance.tenantResponsibility')}
             </CardTitle>
             <CardDescription>
-              Entretien et réparations à la charge du locataire
+              {t('maintenance.tenantResponsibilityDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -180,10 +183,10 @@ const ResponsibilityGuide = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-orange-600" />
-            Cas Particuliers
+            {t('maintenance.specialCases')}
           </CardTitle>
           <CardDescription>
-            Situations spéciales et exceptions à connaître
+            {t('maintenance.specialSituationsDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -195,7 +198,7 @@ const ResponsibilityGuide = () => {
                     {specialCase.title}
                   </CardTitle>
                   <Badge 
-                    variant={specialCase.responsibility === 'Propriétaire' ? 'default' : 'secondary'}
+                    variant={specialCase.responsibility === t('maintenance.ownerTag') ? 'default' : 'secondary'}
                     className="w-fit"
                   >
                     {specialCase.responsibility}
@@ -217,17 +220,17 @@ const ResponsibilityGuide = () => {
 
       <Card className="bg-blue-50 border-blue-200">
         <CardHeader>
-          <CardTitle className="text-blue-800">Référence Légale</CardTitle>
+          <CardTitle className="text-blue-800">{t('maintenance.legalReference')}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-blue-700">
-            La répartition des charges de maintenance est encadrée par :
+            {t('maintenance.maintenanceChargesFramework')}
           </p>
           <ul className="mt-2 space-y-1 text-sm text-blue-700">
-            <li>• <strong>Loi du 6 juillet 1989</strong> - Rapports locatifs</li>
-            <li>• <strong>Décret n°87-712 du 26 août 1987</strong> - Réparations locatives</li>
-            <li>• <strong>Article 1724 du Code Civil</strong> - Obligations du bailleur</li>
-            <li>• <strong>Article 1728 du Code Civil</strong> - Obligations du locataire</li>
+            <li>• <strong>{t('maintenance.law1989')}</strong> {t('maintenance.rentalReports')}</li>
+            <li>• <strong>{t('maintenance.decree1987')}</strong> {t('maintenance.tenantRepairs')}</li>
+            <li>• <strong>{t('maintenance.article1724')}</strong> {t('maintenance.landlordObligations')}</li>
+            <li>• <strong>{t('maintenance.article1728')}</strong> {t('maintenance.tenantObligations')}</li>
           </ul>
         </CardContent>
       </Card>
