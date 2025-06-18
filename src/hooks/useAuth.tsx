@@ -1,3 +1,4 @@
+
 import { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -81,20 +82,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      console.log('🔐 Auth state changed:', firebaseUser?.email);
+      setUser(firebaseUser);
+      
+      if (firebaseUser) {
+        // Utilisateur connecté, vérifier son profil
+        await checkUserProfile(firebaseUser);
+      } else {
+        // Utilisateur déconnecté
+        setUserProfile(null);
+        setUserType(null);
+      }
+      
       setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
-  // Vérifier le profil quand l'utilisateur ou les données Firebase changent
+  // Vérifier le profil quand les données Firebase changent (mais seulement si l'utilisateur est connecté)
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && (tenants.length > 0 || roommates.length > 0)) {
       checkUserProfile(user);
     }
-  }, [user, tenants, roommates, loading]);
+  }, [tenants, roommates, user, loading]);
 
   const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
