@@ -1,24 +1,11 @@
+
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { Card, CardContent } from '@/components/ui/card';
 import { useTenantProfileUpdate } from '@/hooks/useTenantProfileUpdate';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  Edit,
-  Save,
-  X,
-  Contact,
-  CheckCircle,
-  AlertCircle
-} from 'lucide-react';
+import ProfileStatusMessages from './ProfileStatusMessages';
+import ProfileHeader from './ProfileHeader';
+import ProfileFormFields from './ProfileFormFields';
+import EmergencyContactCard from './EmergencyContactCard';
 
 interface TenantProfileProps {
   tenantData: {
@@ -40,7 +27,6 @@ interface TenantProfileProps {
 
 const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const isMobile = useIsMobile();
   const { updateProfile, isUpdating, updateSuccess, updateError, clearError } = useTenantProfileUpdate();
   
   const [formData, setFormData] = useState({
@@ -55,6 +41,10 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
            formData.emergencyName !== tenantData.emergencyContact.name ||
            formData.emergencyPhone !== tenantData.emergencyContact.phone ||
            formData.emergencyRelation !== tenantData.emergencyContact.relation;
+  };
+
+  const handleFormDataChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
@@ -75,8 +65,6 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
     const success = await updateProfile(tenantData.id, updates);
     if (success) {
       setIsEditing(false);
-      // Mettre à jour les données locales si la sauvegarde réussit
-      // Dans un vrai projet, on rechargerait les données depuis l'API
     }
   };
 
@@ -91,208 +79,48 @@ const TenantProfile: React.FC<TenantProfileProps> = ({ tenantData }) => {
     clearError();
   };
 
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
   return (
     <div className="space-y-4 md:space-y-6">
-      {/* Messages de statut */}
-      {updateSuccess && (
-        <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg text-green-800">
-          <CheckCircle className="h-4 w-4" />
-          <span className="text-sm font-medium">Profil mis à jour avec succès</span>
-        </div>
-      )}
-      
-      {updateError && (
-        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-800">
-          <AlertCircle className="h-4 w-4" />
-          <span className="text-sm font-medium">{updateError}</span>
-        </div>
-      )}
+      <ProfileStatusMessages 
+        updateSuccess={updateSuccess}
+        updateError={updateError}
+      />
 
-      {/* Informations principales */}
       <Card>
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-            <User className="h-4 w-4 md:h-5 md:w-5" />
-            Informations personnelles
-          </CardTitle>
-          {!isEditing ? (
-            <Button 
-              variant="outline" 
-              size={isMobile ? "sm" : "sm"}
-              onClick={() => setIsEditing(true)}
-              className="w-full sm:w-auto"
-            >
-              <Edit className="h-4 w-4 mr-2" />
-              Modifier
-            </Button>
-          ) : (
-            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-              <Button 
-                variant="outline" 
-                size={isMobile ? "sm" : "sm"}
-                onClick={handleCancel}
-                disabled={isUpdating}
-                className="w-full sm:w-auto"
-              >
-                <X className="h-4 w-4 mr-2" />
-                Annuler
-              </Button>
-              <Button 
-                size={isMobile ? "sm" : "sm"}
-                onClick={handleSave}
-                disabled={isUpdating || !hasChanges()}
-                className="w-full sm:w-auto"
-              >
-                <Save className="h-4 w-4 mr-2" />
-                {isUpdating ? 'Sauvegarde...' : 'Sauvegarder'}
-              </Button>
-            </div>
-          )}
-        </CardHeader>
+        <ProfileHeader
+          isEditing={isEditing}
+          isUpdating={isUpdating}
+          hasChanges={hasChanges()}
+          onEdit={handleEdit}
+          onSave={handleSave}
+          onCancel={handleCancel}
+        />
         <CardContent className="space-y-4 md:space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
-                <div className="flex items-center space-x-3">
-                  <User className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0" />
-                  <div className="min-w-0">
-                    <p className="text-xs md:text-sm text-gray-600">Nom complet</p>
-                    <p className="font-medium text-sm md:text-base truncate">{tenantData.name}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
-                <div className="flex items-center space-x-3">
-                  <Mail className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0" />
-                  <div className="min-w-0">
-                    <p className="text-xs md:text-sm text-gray-600">Email</p>
-                    <p className="font-medium text-sm md:text-base truncate">{tenantData.email}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
-                <div className="flex items-center space-x-3 flex-1">
-                  <Phone className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs md:text-sm text-gray-600">Téléphone</p>
-                    {isEditing ? (
-                      <Input
-                        value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="mt-1 text-sm md:text-base"
-                        placeholder="Numéro de téléphone"
-                        disabled={isUpdating}
-                      />
-                    ) : (
-                      <p className="font-medium text-sm md:text-base">{tenantData.phone}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-start space-y-2 sm:space-y-0 sm:space-x-3">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0 mt-1" />
-                  <div className="min-w-0">
-                    <p className="text-xs md:text-sm text-gray-600">Adresse du logement</p>
-                    <p className="font-medium text-sm md:text-base">{tenantData.address}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-start space-y-2 sm:space-y-0 sm:space-x-3">
-                <div className="flex items-start space-x-3">
-                  <Calendar className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0 mt-1" />
-                  <div className="min-w-0">
-                    <p className="text-xs md:text-sm text-gray-600">Période de bail</p>
-                    <p className="font-medium text-sm md:text-base">
-                      Du {new Date(tenantData.leaseStart).toLocaleDateString('fr-FR')} au {new Date(tenantData.leaseEnd).toLocaleDateString('fr-FR')}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">
-                    <Badge 
-                      variant={tenantData.status === 'À jour' ? 'default' : 'destructive'}
-                      className={`${tenantData.status === 'À jour' ? 'bg-green-100 text-green-800' : ''} text-xs`}
-                    >
-                      {tenantData.status}
-                    </Badge>
-                  </div>
-                  <div>
-                    <p className="text-xs md:text-sm text-gray-600">Statut du compte</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ProfileFormFields
+            tenantData={tenantData}
+            formData={{ phone: formData.phone }}
+            isEditing={isEditing}
+            isUpdating={isUpdating}
+            onFormDataChange={handleFormDataChange}
+          />
         </CardContent>
       </Card>
 
-      {/* Contact d'urgence */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-            <Contact className="h-4 w-4 md:h-5 md:w-5" />
-            Contact d'urgence
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <Label className="text-xs md:text-sm">Nom</Label>
-              {isEditing ? (
-                <Input
-                  value={formData.emergencyName}
-                  onChange={(e) => setFormData({...formData, emergencyName: e.target.value})}
-                  className="mt-1 text-sm md:text-base"
-                  placeholder="Nom du contact"
-                  disabled={isUpdating}
-                />
-              ) : (
-                <p className="font-medium mt-1 text-sm md:text-base">{tenantData.emergencyContact.name}</p>
-              )}
-            </div>
-            
-            <div>
-              <Label className="text-xs md:text-sm">Téléphone</Label>
-              {isEditing ? (
-                <Input
-                  value={formData.emergencyPhone}
-                  onChange={(e) => setFormData({...formData, emergencyPhone: e.target.value})}
-                  className="mt-1 text-sm md:text-base"
-                  placeholder="Numéro de téléphone"
-                  disabled={isUpdating}
-                />
-              ) : (
-                <p className="font-medium mt-1 text-sm md:text-base">{tenantData.emergencyContact.phone}</p>
-              )}
-            </div>
-            
-            <div>
-              <Label className="text-xs md:text-sm">Relation</Label>
-              {isEditing ? (
-                <Input
-                  value={formData.emergencyRelation}
-                  onChange={(e) => setFormData({...formData, emergencyRelation: e.target.value})}
-                  className="mt-1 text-sm md:text-base"
-                  placeholder="Relation (ex: Conjoint)"
-                  disabled={isUpdating}
-                />
-              ) : (
-                <p className="font-medium mt-1 text-sm md:text-base">{tenantData.emergencyContact.relation}</p>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <EmergencyContactCard
+        tenantData={tenantData}
+        formData={{
+          emergencyName: formData.emergencyName,
+          emergencyPhone: formData.emergencyPhone,
+          emergencyRelation: formData.emergencyRelation
+        }}
+        isEditing={isEditing}
+        isUpdating={isUpdating}
+        onFormDataChange={handleFormDataChange}
+      />
     </div>
   );
 };
