@@ -6,8 +6,10 @@ import { useSecuritySettings } from '@/hooks/useSecuritySettings';
 import PasswordPolicyConfig from './Security/PasswordPolicyConfig';
 import TwoFactorConfig from './Security/TwoFactorConfig';
 import SessionSecurityConfig from './Security/SessionSecurityConfig';
+import { useTranslation } from 'react-i18next';
 
 const SecurityTab: React.FC = () => {
+  const { t } = useTranslation();
   const { settings, loading, saving, saveSettings, updateSettings } = useSecuritySettings();
 
   const handleSave = () => {
@@ -19,7 +21,7 @@ const SecurityTab: React.FC = () => {
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Chargement des paramètres...</p>
+          <p className="mt-2 text-gray-600">{t('settings.security.loadingSettings')}</p>
         </div>
       </div>
     );
@@ -29,14 +31,14 @@ const SecurityTab: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold">Paramètres de sécurité</h2>
+          <h2 className="text-2xl font-bold">{t('settings.security.title')}</h2>
           <p className="text-gray-600">
-            Configurez la sécurité et les politiques d'accès de votre application
+            {t('settings.security.subtitle')}
           </p>
         </div>
         <Button onClick={handleSave} disabled={saving}>
           <Save className="h-4 w-4 mr-2" />
-          {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+          {saving ? t('settings.security.saving') : t('common.save')}
         </Button>
       </div>
 

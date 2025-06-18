@@ -9,8 +9,10 @@ import { EmployeePermissions, MenuPermission, defaultEmployeePermissions } from 
 import EmployeeSelection from './EmployeePermissions/EmployeeSelection';
 import PermissionManager from './EmployeePermissions/PermissionManager';
 import { usePermissionOperations } from './EmployeePermissions/usePermissionOperations';
+import { useTranslation } from 'react-i18next';
 
 const EmployeePermissionsTab: React.FC = () => {
+  const { t } = useTranslation();
   const { userRoles, loading, refetch } = useFirebaseUserRoles();
   const { companies, loading: companiesLoading } = useFirebaseCompanies();
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>('');
@@ -52,7 +54,7 @@ const EmployeePermissionsTab: React.FC = () => {
   };
 
   if (loading || companiesLoading) {
-    return <div>Chargement des employés et entreprises...</div>;
+    return <div>{t('settings.permissions.loading')}</div>;
   }
 
   return (
@@ -61,7 +63,7 @@ const EmployeePermissionsTab: React.FC = () => {
         <CardTitle className="flex items-center justify-between text-lg md:text-xl">
           <div className="flex items-center gap-2">
             <UserCheck className="h-5 w-5" />
-            Gestion des permissions détaillées
+            {t('settings.permissions.title')}
           </div>
           <Button 
             onClick={handleSavePermissions}
@@ -69,7 +71,7 @@ const EmployeePermissionsTab: React.FC = () => {
             className="flex items-center gap-2"
           >
             <Save className="h-4 w-4" />
-            {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
+            {isSaving ? t('settings.permissions.saving') : t('settings.permissions.save')}
           </Button>
         </CardTitle>
       </CardHeader>
@@ -91,7 +93,7 @@ const EmployeePermissionsTab: React.FC = () => {
 
         {employees.length === 0 && (
           <div className="text-center py-8 text-gray-500">
-            Aucun employé trouvé. Ajoutez d'abord des employés dans l'onglet Général.
+            {t('settings.permissions.noEmployees')}
           </div>
         )}
       </CardContent>

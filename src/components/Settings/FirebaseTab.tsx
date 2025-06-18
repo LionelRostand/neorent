@@ -4,11 +4,14 @@ import { FirestoreRulesSection } from './Firebase/FirestoreRulesSection';
 import { StorageRulesSection } from './Firebase/StorageRulesSection';
 import FirebaseCollectionsList from './Firebase/FirebaseCollectionsList';
 import { UserRolesList } from './Firebase/UserRolesList';
+import { useTranslation } from 'react-i18next';
 
 const FirebaseTab: React.FC = () => {
+  const { t } = useTranslation();
+  
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
-    console.log(`Règles ${type} copiées dans le presse-papier`);
+    console.log(`${type} ${t('settings.firebase.copiedToClipboard')}`);
   };
 
   return (

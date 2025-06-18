@@ -786,14 +786,54 @@
     "systemSettings": "System Settings",
     "adminAccess": "Admin Tenant Access",
     "adminAccessDescription": "As an administrator, you can access tenant accounts to provide support and assistance.",
+    "permissions": {
+      "title": "Detailed Permissions Management",
+      "subtitle": "Manage access permissions for employees",
+      "selectEmployee": "Select an employee to manage permissions",
+      "noEmployeeSelected": "No employee selected",
+      "save": "Save Permissions",
+      "saving": "Saving...",
+      "saved": "Permissions saved successfully",
+      "menuPermissions": "Menu Permissions",
+      "view": "View",
+      "read": "Read",
+      "write": "Write",
+      "delete": "Delete",
+      "allowAll": "Allow All",
+      "denyAll": "Deny All",
+      "loading": "Loading employees and companies...",
+      "noEmployees": "No employees found. Add employees first in the General tab."
+    },
     "firebase": {
       "title": "Firebase Configuration",
       "subtitle": "Manage Firebase settings and database rules",
-      "firestoreRules": "Firestore Rules",
+      "firestoreRules": "Firestore Security Rules",
       "storageRules": "Storage Rules",
       "copyRules": "Copy Rules",
       "databaseCollections": "Database Collections",
-      "userRoles": "User Roles"
+      "userRoles": "User Roles",
+      "copy": "Copy",
+      "applyAuto": "Apply auto",
+      "manualUpdate": "Manual update",
+      "updating": "Updating...",
+      "copyInstructions": "Copy and paste these rules into your Firebase console or use automatic update:",
+      "updateOptions": "Update options",
+      "automatic": "Automatic",
+      "manual": "Manual",
+      "automaticDescription": "Applies rules directly (requires configuration)",
+      "manualDescription": "Generates instructions for update via Firebase console",
+      "copyDescription": "Only copies rules to clipboard",
+      "important": "Important",
+      "automaticRequirements": "Automatic update requires advanced configuration with Firebase Admin permissions. In case of failure, use manual update.",
+      "openConsole": "Open Firebase Console - Rules",
+      "rulesUpdated": "Rules updated!",
+      "rulesAppliedSuccess": "Firestore rules have been applied successfully.",
+      "automaticUpdateUnavailable": "Automatic update unavailable",
+      "useManualUpdate": "Use manual update or contact administrator.",
+      "instructionsCopied": "Instructions copied!",
+      "followInstructions": "Follow the instructions to update manually.",
+      "manualUpdateInstructions": "Manual update instructions",
+      "copiedToClipboard": "copied to clipboard"
     },
     "database": {
       "title": "Database Management",
@@ -856,7 +896,9 @@
       "sessionSecurity": "Session Security",
       "sessionTimeout": "Session Timeout (minutes)",
       "maxLoginAttempts": "Max Login Attempts",
-      "lockoutDuration": "Lockout Duration (minutes)"
+      "lockoutDuration": "Lockout Duration (minutes)",
+      "loadingSettings": "Loading settings...",
+      "saving": "Saving..."
     },
     "payment": {
       "title": "Payment Settings",
@@ -869,20 +911,6 @@
       "currency": "Default Currency",
       "taxSettings": "Tax Settings",
       "vatRate": "VAT Rate (%)"
-    },
-    "permissions": {
-      "title": "Employee Permissions",
-      "subtitle": "Manage access permissions for employees",
-      "selectEmployee": "Select an employee to manage permissions",
-      "noEmployeeSelected": "No employee selected",
-      "save": "Save Permissions",
-      "saving": "Saving...",
-      "saved": "Permissions saved successfully",
-      "menuPermissions": "Menu Permissions",
-      "view": "View",
-      "read": "Read",
-      "write": "Write",
-      "delete": "Delete"
     },
     "company": {
       "title": "Company Management",
@@ -939,6 +967,7 @@
     "filter": "Filter",
     "all": "All",
     "none": "None",
-    "actions": "Actions"
+    "actions": "Actions",
+    "save": "Save"
   }
 }

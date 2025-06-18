@@ -9,12 +9,14 @@ import { firestoreRules } from './FirestoreRulesData';
 import { FirestoreRulesDisplay } from './FirestoreRulesDisplay';
 import { FirestoreRulesInfo } from './FirestoreRulesInfo';
 import { firestoreRulesService } from '@/services/firestoreRulesService';
+import { useTranslation } from 'react-i18next';
 
 interface FirestoreRulesSectionProps {
   onCopy: (text: string, type: string) => void;
 }
 
 export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ onCopy }) => {
+  const { t } = useTranslation();
   const [isUpdating, setIsUpdating] = useState(false);
   const { toast } = useToast();
 
@@ -28,15 +30,15 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
       
       if (success) {
         toast({
-          title: "Règles mises à jour !",
-          description: "Les règles Firestore ont été appliquées avec succès.",
+          title: t('settings.firebase.rulesUpdated'),
+          description: t('settings.firebase.rulesAppliedSuccess'),
         });
       }
     } catch (error) {
       console.error('Erreur mise à jour automatique:', error);
       toast({
-        title: "Mise à jour automatique indisponible",
-        description: "Utilisez la mise à jour manuelle ou contactez l'administrateur.",
+        title: t('settings.firebase.automaticUpdateUnavailable'),
+        description: t('settings.firebase.useManualUpdate'),
         variant: "destructive",
       });
     } finally {
@@ -50,11 +52,11 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
       firebaseConfig.projectId
     );
     
-    onCopy(instructions, 'Instructions de mise à jour manuelle');
+    onCopy(instructions, t('settings.firebase.manualUpdateInstructions'));
     
     toast({
-      title: "Instructions copiées !",
-      description: "Suivez les instructions pour mettre à jour manuellement.",
+      title: t('settings.firebase.instructionsCopied'),
+      description: t('settings.firebase.followInstructions'),
     });
   };
 
@@ -68,7 +70,7 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
         <CardTitle className="flex items-center justify-between text-lg md:text-xl">
           <div className="flex items-center gap-2">
             <Shield className="h-5 w-5 text-red-600" />
-            Règles de sécurité Firestore
+            {t('settings.firebase.firestoreRules')}
           </div>
           <div className="flex gap-2 flex-wrap">
             <Button 
@@ -78,7 +80,7 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
               className="flex items-center gap-2"
             >
               <Copy className="h-4 w-4" />
-              Copier
+              {t('settings.firebase.copy')}
             </Button>
             <Button 
               variant="default" 
@@ -92,7 +94,7 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
               ) : (
                 <Upload className="h-4 w-4" />
               )}
-              {isUpdating ? 'Mise à jour...' : 'Appliquer auto'}
+              {isUpdating ? t('settings.firebase.updating') : t('settings.firebase.applyAuto')}
             </Button>
             <Button 
               variant="secondary" 
@@ -101,7 +103,7 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
               className="flex items-center gap-2"
             >
               <ExternalLink className="h-4 w-4" />
-              Mise à jour manuelle
+              {t('settings.firebase.manualUpdate')}
             </Button>
           </div>
         </CardTitle>
@@ -109,20 +111,20 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
       <CardContent>
         <div className="space-y-4">
           <p className="text-gray-600 text-sm">
-            Copiez et collez ces règles dans votre console Firebase ou utilisez la mise à jour automatique :
+            {t('settings.firebase.copyInstructions')}
           </p>
 
-          {/* Alertes de statut */}
+          {/* Status alerts */}
           <div className="space-y-2">
             <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-start gap-2">
                 <span className="text-blue-600 text-sm">ℹ️</span>
                 <div className="text-sm">
-                  <p className="font-medium text-blue-800 mb-1">Options de mise à jour :</p>
+                  <p className="font-medium text-blue-800 mb-1">{t('settings.firebase.updateOptions')}:</p>
                   <ul className="text-blue-700 space-y-1">
-                    <li>• <strong>Automatique :</strong> Applique directement les règles (nécessite configuration)</li>
-                    <li>• <strong>Manuelle :</strong> Génère les instructions pour mise à jour via console Firebase</li>
-                    <li>• <strong>Copier :</strong> Copie uniquement les règles dans le presse-papier</li>
+                    <li>• <strong>{t('settings.firebase.automatic')}:</strong> {t('settings.firebase.automaticDescription')}</li>
+                    <li>• <strong>{t('settings.firebase.manual')}:</strong> {t('settings.firebase.manualDescription')}</li>
+                    <li>• <strong>{t('settings.firebase.copy')}:</strong> {t('settings.firebase.copyDescription')}</li>
                   </ul>
                 </div>
               </div>
@@ -132,10 +134,9 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
               <div className="flex items-start gap-2">
                 <span className="text-yellow-600 text-sm">⚠️</span>
                 <div className="text-sm">
-                  <p className="font-medium text-yellow-800 mb-1">Important :</p>
+                  <p className="font-medium text-yellow-800 mb-1">{t('settings.firebase.important')}:</p>
                   <p className="text-yellow-700">
-                    La mise à jour automatique nécessite une configuration avancée avec des permissions Firebase Admin. 
-                    En cas d'échec, utilisez la mise à jour manuelle.
+                    {t('settings.firebase.automaticRequirements')}
                   </p>
                 </div>
               </div>
@@ -151,7 +152,7 @@ export const FirestoreRulesSection: React.FC<FirestoreRulesSectionProps> = ({ on
               className="flex items-center gap-2"
             >
               <ExternalLink className="h-4 w-4" />
-              Ouvrir Console Firebase - Règles
+              {t('settings.firebase.openConsole')}
             </Button>
           </div>
           
