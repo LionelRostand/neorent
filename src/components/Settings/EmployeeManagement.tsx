@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,10 +7,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Lock } from 'lucide-react';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
+import EmployeePasswordDialog from './EmployeePasswordDialog';
 
 interface Employee {
   id: string;
@@ -21,6 +21,7 @@ interface Employee {
   companyId?: string;
   createdAt: string;
   permissions?: any;
+  hasPassword?: boolean;
 }
 
 interface EmployeeFormData {
@@ -36,6 +37,7 @@ const EmployeeManagement: React.FC = () => {
   const { toast } = useToast();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [formData, setFormData] = useState<EmployeeFormData>({
     name: '',
@@ -150,7 +152,15 @@ const EmployeeManagement: React.FC = () => {
     setIsEditDialogOpen(true);
   };
 
-  // Helper function to safely get permissions as array
+  const openPasswordDialog = (employee: Employee) => {
+    setSelectedEmployee(employee);
+    setIsPasswordDialogOpen(true);
+  };
+
+  const handlePasswordSet = () => {
+    refetch();
+  };
+
   const getPermissionsDisplay = (permissions: any): string => {
     if (Array.isArray(permissions)) {
       return permissions.join(', ');
@@ -216,6 +226,26 @@ const EmployeeManagement: React.FC = () => {
           </SelectContent>
         </Select>
       </div>
+
+      {isEdit && (
+        <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+          <div>
+            <Label className="font-medium">Mot de passe</Label>
+            <p className="text-sm text-gray-600">
+              {selectedEmployee?.hasPassword ? 'Mot de passe défini' : 'Aucun mot de passe défini'}
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => selectedEmployee && openPasswordDialog(selectedEmployee)}
+          >
+            <Lock className="h-4 w-4 mr-2" />
+            {selectedEmployee?.hasPassword ? 'Modifier' : 'Définir'}
+          </Button>
+        </div>
+      )}
       
       <Button type="submit" className="w-full">
         {isEdit ? 'Modifier l\'employé' : 'Ajouter l\'employé'}
@@ -228,113 +258,152 @@ const EmployeeManagement: React.FC = () => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between text-lg md:text-xl">
-          <div className="flex items-center gap-2">
-            👥 Gestion des Employés
-          </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                Ajouter un employé
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Ajouter un employé</DialogTitle>
-              </DialogHeader>
-              <EmployeeForm onSubmit={handleAddEmployee} />
-            </DialogContent>
-          </Dialog>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4 md:space-y-6">
-        <p className="text-gray-600 text-sm md:text-base">
-          Gérez les comptes employés de votre entreprise
-        </p>
-
-        <div className="overflow-x-auto">
-          <div className="min-w-[700px]">
-            <div className="hidden md:grid grid-cols-7 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
-              <div>Nom</div>
-              <div>Email</div>
-              <div>Rôle</div>
-              <div>Entreprise</div>
-              <div>Date création</div>
-              <div>Permissions</div>
-              <div>Actions</div>
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between text-lg md:text-xl">
+            <div className="flex items-center gap-2">
+              👥 Gestion des Employés
             </div>
-            
-            {userRoles.map((employee) => (
-              <div key={employee.id} className="md:hidden space-y-3 p-4 border border-gray-200 rounded-lg mb-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-medium text-lg">{employee.name}</h3>
-                    <p className="text-sm text-gray-600">{employee.role === 'admin' ? 'Administrateur' : 'Employé'}</p>
-                    <p className="text-sm text-gray-500">{getCompanyName((employee as any).companyId)}</p>
-                  </div>
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDeleteEmployee(employee.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm text-gray-600">{employee.email}</p>
-                  <p className="text-xs text-gray-500">
-                    Créé le: {new Date(employee.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
-            ))}
+            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="flex items-center gap-2">
+                  <Plus className="h-4 w-4" />
+                  Ajouter un employé
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Ajouter un employé</DialogTitle>
+                </DialogHeader>
+                <EmployeeForm onSubmit={handleAddEmployee} />
+              </DialogContent>
+            </Dialog>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 md:space-y-6">
+          <p className="text-gray-600 text-sm md:text-base">
+            Gérez les comptes employés de votre entreprise
+          </p>
 
-            <div className="hidden md:block">
+          <div className="overflow-x-auto">
+            <div className="min-w-[700px]">
+              <div className="hidden md:grid grid-cols-8 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
+                <div>Nom</div>
+                <div>Email</div>
+                <div>Rôle</div>
+                <div>Entreprise</div>
+                <div>Date création</div>
+                <div>Permissions</div>
+                <div>Mot de passe</div>
+                <div>Actions</div>
+              </div>
+              
               {userRoles.map((employee) => (
-                <div key={employee.id} className="grid grid-cols-7 gap-4 p-4 border-b border-gray-200">
-                  <div className="font-medium">{employee.name}</div>
-                  <div className="text-sm text-gray-600 truncate">{employee.email}</div>
-                  <div className="text-sm text-gray-600">
-                    {employee.role === 'admin' ? 'Administrateur' : 'Employé'}
+                <div key={employee.id} className="md:hidden space-y-3 p-4 border border-gray-200 rounded-lg mb-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-medium text-lg">{employee.name}</h3>
+                      <p className="text-sm text-gray-600">{employee.role === 'admin' ? 'Administrateur' : 'Employé'}</p>
+                      <p className="text-sm text-gray-500">{getCompanyName((employee as any).companyId)}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => openPasswordDialog(employee)}
+                        title="Gérer le mot de passe"
+                      >
+                        <Lock className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => handleDeleteEmployee(employee.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-600">
-                    {getCompanyName((employee as any).companyId)}
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    {new Date(employee.createdAt).toLocaleDateString()}
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    {getPermissionsDisplay(employee.permissions)}
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDeleteEmployee(employee.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                  <div className="space-y-1">
+                    <p className="text-sm text-gray-600">{employee.email}</p>
+                    <p className="text-xs text-gray-500">
+                      Créé le: {new Date(employee.createdAt).toLocaleDateString()}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Mot de passe: {(employee as any).hasPassword ? '✓ Défini' : '✗ Non défini'}
+                    </p>
                   </div>
                 </div>
               ))}
+
+              <div className="hidden md:block">
+                {userRoles.map((employee) => (
+                  <div key={employee.id} className="grid grid-cols-8 gap-4 p-4 border-b border-gray-200">
+                    <div className="font-medium">{employee.name}</div>
+                    <div className="text-sm text-gray-600 truncate">{employee.email}</div>
+                    <div className="text-sm text-gray-600">
+                      {employee.role === 'admin' ? 'Administrateur' : 'Employé'}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {getCompanyName((employee as any).companyId)}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {new Date(employee.createdAt).toLocaleDateString()}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {getPermissionsDisplay(employee.permissions)}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {(employee as any).hasPassword ? (
+                        <span className="text-green-600">✓ Défini</span>
+                      ) : (
+                        <span className="text-red-600">✗ Non défini</span>
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => openPasswordDialog(employee)}
+                        title="Gérer le mot de passe"
+                      >
+                        <Lock className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => handleDeleteEmployee(employee.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Dialog de modification */}
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Modifier l'employé</DialogTitle>
-            </DialogHeader>
-            <EmployeeForm onSubmit={handleEditEmployee} isEdit />
-          </DialogContent>
-        </Dialog>
-      </CardContent>
-    </Card>
+          {/* Dialog de modification */}
+          <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>Modifier l'employé</DialogTitle>
+              </DialogHeader>
+              <EmployeeForm onSubmit={handleEditEmployee} isEdit />
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      </Card>
+
+      {/* Dialog de gestion des mots de passe */}
+      {selectedEmployee && (
+        <EmployeePasswordDialog
+          open={isPasswordDialogOpen}
+          onOpenChange={setIsPasswordDialogOpen}
+          employee={selectedEmployee}
+          onPasswordSet={handlePasswordSet}
+        />
+      )}
+    </>
   );
 };
 
