@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { User } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -25,16 +26,18 @@ const TenantSelector: React.FC<TenantSelectorProps> = ({
   tenants,
   selectedTenantData
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-3">
       <Label htmlFor="tenant" className="text-sm font-semibold text-gray-700 flex items-center gap-2">
         <User className="h-4 w-4 text-blue-600" />
-        {selectedTenantData?.type === 'Colocataire' ? 'Colocataire' : 'Locataire'} 
+        {selectedTenantData?.type === 'Colocataire' ? t('rentManagement.roommate') : t('rentManagement.tenant')} 
         <span className="text-red-500">*</span>
       </Label>
       <Select value={selectedTenant} onValueChange={onTenantChange}>
         <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-blue-300 focus:border-blue-500 transition-colors">
-          <SelectValue placeholder="Sélectionner un locataire/colocataire" />
+          <SelectValue placeholder={t('rentManagement.selectTenant')} />
         </SelectTrigger>
         <SelectContent className="max-h-60">
           {tenants.map((tenant) => (

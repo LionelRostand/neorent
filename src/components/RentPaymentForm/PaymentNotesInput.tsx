@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
@@ -12,14 +13,16 @@ const PaymentNotesInput: React.FC<PaymentNotesInputProps> = ({
   notes,
   onNotesChange
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-3">
       <Label htmlFor="notes" className="text-sm font-semibold text-gray-700">
-        Notes (optionnel)
+        {t('rentManagement.notes')}
       </Label>
       <Input
         id="notes"
-        placeholder="Commentaires ou remarques sur ce règlement..."
+        placeholder={t('rentManagement.notesPlaceholder')}
         value={notes}
         onChange={(e) => onNotesChange(e.target.value)}
         className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 transition-colors"

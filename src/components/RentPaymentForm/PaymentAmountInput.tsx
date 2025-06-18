@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { DollarSign, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -25,11 +26,13 @@ const PaymentAmountInput: React.FC<PaymentAmountInputProps> = ({
   selectedTenantData,
   hasPaymentDiscrepancy
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-3">
       <Label htmlFor="amount" className="text-sm font-semibold text-gray-700 flex items-center gap-2">
         <DollarSign className="h-4 w-4 text-green-600" />
-        Montant (€) 
+        {t('rentManagement.amount')} 
         <span className="text-red-500">*</span>
       </Label>
       <div className="relative">
@@ -51,19 +54,19 @@ const PaymentAmountInput: React.FC<PaymentAmountInputProps> = ({
         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600 font-medium">€</span>
       </div>
       
-      {/* Alerte d'incohérence de paiement */}
+      {/* Payment discrepancy alert */}
       {hasPaymentDiscrepancy && selectedTenantData && (
         <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
           <div className="flex items-start gap-2">
             <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
             <div className="text-sm">
-              <p className="font-medium text-red-800 mb-1">Incohérence de paiement détectée</p>
+              <p className="font-medium text-red-800 mb-1">Payment discrepancy detected</p>
               <p className="text-red-700">
-                Montant saisi: <span className="font-semibold">{amount}€</span> • 
-                Loyer attendu: <span className="font-semibold">{selectedTenantData.rentAmount}€</span>
+                Amount entered: <span className="font-semibold">{amount}€</span> • 
+                Expected rent: <span className="font-semibold">{selectedTenantData.rentAmount}€</span>
               </p>
               <p className="text-xs text-red-600 mt-1">
-                Différence: {Math.abs(parseFloat(amount) - selectedTenantData.rentAmount).toFixed(2)}€
+                Difference: {Math.abs(parseFloat(amount) - selectedTenantData.rentAmount).toFixed(2)}€
               </p>
             </div>
           </div>
