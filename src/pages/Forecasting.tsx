@@ -99,7 +99,7 @@ const Forecasting = () => {
   }, [targetPropertyPrice, targetPropertyRent, downPaymentPercent, loanRate, loanDuration, monthlySavingsGoal, timeframe]);
 
   const canAffordProperty = projectedSavings >= requiredDownPayment;
-  const monthsToSave = requiredDownPayment > 0 && monthlySavingsGoal > 0 
+  const monthsToSave = requiredDownPayment > 0 && parseFloat(monthlySavingsGoal) > 0 
     ? Math.ceil(requiredDownPayment / parseFloat(monthlySavingsGoal)) 
     : 0;
 
