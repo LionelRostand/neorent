@@ -58,6 +58,8 @@ export const useFirebasePayments = () => {
           (contract.status === 'Actif' || contract.status === 'Signé')
         );
 
+        let updatedPayment = { ...payment };
+
         if (matchingContract) {
           // Extraire le montant numérique du contrat (ex: "450€" -> 450)
           const contractAmount = parseInt(matchingContract.amount.replace(/[€\s]/g, '')) || payment.rentAmount;
@@ -65,26 +67,38 @@ export const useFirebasePayments = () => {
           console.log(`Contrat trouvé pour ${payment.tenantName}: ${matchingContract.amount} -> ${contractAmount}€`);
           console.log(`Paiement actuel: ${payment.paidAmount}€, Attendu: ${contractAmount}€`);
           
-          // Détecter les incohérences de paiement
-          if (payment.paidAmount !== undefined && payment.paidAmount !== contractAmount) {
-            console.log(`🚨 ALERTE: ${payment.tenantName} - Paiement partiel détecté!`);
-            console.log(`Montant payé: ${payment.paidAmount}€, Montant attendu: ${contractAmount}€`);
-            
-            // Mettre à jour le statut si c'est un paiement partiel
-            if (payment.paidAmount < contractAmount && payment.paidAmount > 0) {
-              payment.status = 'En retard';
-            }
-          }
+          // Mettre à jour le montant du loyer avec celui du contrat
+          updatedPayment.rentAmount = contractAmount;
+          updatedPayment.contractRentAmount = contractAmount;
           
-          return {
-            ...payment,
-            contractRentAmount: contractAmount,
-            rentAmount: contractAmount // Utiliser le montant du contrat
-          };
+          // Détection des incohérences et mise à jour du statut
+          if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
+            const paidAmount = Number(payment.paidAmount);
+            
+            if (paidAmount < contractAmount && paidAmount > 0) {
+              // Paiement partiel
+              console.log(`🚨 PAIEMENT PARTIEL: ${payment.tenantName} - ${paidAmount}€ payé sur ${contractAmount}€`);
+              updatedPayment.status = 'En retard';
+            } else if (paidAmount === 0) {
+              // Aucun paiement
+              updatedPayment.status = 'En attente';
+            } else if (paidAmount >= contractAmount) {
+              // Paiement complet ou dépassé
+              updatedPayment.status = 'Payé';
+            }
+          } else {
+            // Pas de paiement enregistré
+            updatedPayment.status = 'En attente';
+          }
         }
 
-        console.log(`Aucun contrat trouvé pour ${payment.tenantName} - ${payment.property}`);
-        return payment;
+        console.log(`Paiement traité pour ${updatedPayment.tenantName}:`, {
+          rentAmount: updatedPayment.rentAmount,
+          paidAmount: updatedPayment.paidAmount,
+          status: updatedPayment.status
+        });
+
+        return updatedPayment;
       });
 
       console.log('Paiements enrichis:', enrichedPayments);
