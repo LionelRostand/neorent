@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   CreditCard, 
   DollarSign, 
@@ -238,7 +239,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                 Effectuer un paiement
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-green-600" />
@@ -246,167 +247,169 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                 </DialogTitle>
               </DialogHeader>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-blue-800 mb-2">Détails du paiement</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>{actualTenantType}:</span>
-                      <span className="font-medium">{actualTenantName}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Propriété:</span>
-                      <span className="font-medium">{propertyData.title}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Montant total:</span>
-                      <span className="font-bold text-green-600">{totalAmount}€</span>
+              <ScrollArea className="max-h-[70vh] pr-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-blue-800 mb-2">Détails du paiement</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>{actualTenantType}:</span>
+                        <span className="font-medium">{actualTenantName}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Propriété:</span>
+                        <span className="font-medium">{propertyData.title}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Montant total:</span>
+                        <span className="font-bold text-green-600">{totalAmount}€</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="paymentDate" className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      Date de paiement <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="paymentDate"
-                      type="date"
-                      value={paymentDate}
-                      onChange={(e) => setPaymentDate(e.target.value)}
-                      className="mt-1"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="paidAmount" className="flex items-center gap-2">
-                      <Euro className="h-4 w-4" />
-                      Montant à payer <span className="text-red-500">*</span>
-                    </Label>
-                    <div className="relative">
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="paymentDate" className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        Date de paiement <span className="text-red-500">*</span>
+                      </Label>
                       <Input
-                        id="paidAmount"
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        placeholder={totalAmount.toString()}
-                        value={paidAmount}
-                        onChange={(e) => setPaidAmount(e.target.value)}
-                        className={`mt-1 pr-8 ${
-                          hasDiscrepancy 
-                            ? 'border-red-300 focus:border-red-500 bg-red-50' 
-                            : isFullPayment
-                            ? 'border-green-300 focus:border-green-500 bg-green-50'
-                            : ''
-                        }`}
+                        id="paymentDate"
+                        type="date"
+                        value={paymentDate}
+                        onChange={(e) => setPaymentDate(e.target.value)}
+                        className="mt-1"
                         required
                       />
-                      <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">€</span>
                     </div>
-                    
-                    {/* Alerte de discordance */}
-                    {hasDiscrepancy && (
-                      <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                        <div className="flex items-start gap-2">
-                          <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
-                          <div className="text-sm">
-                            <p className="font-medium text-red-800">Attention - Montant différent</p>
-                            <p className="text-red-700">
-                              Montant saisi: <span className="font-semibold">{paidAmountNum}€</span> • 
-                              Montant attendu: <span className="font-semibold">{totalAmount}€</span>
-                            </p>
-                            <p className="text-xs text-red-600 mt-1">
-                              {paidAmountNum < totalAmount 
-                                ? `Manquant: ${(totalAmount - paidAmountNum).toFixed(2)}€`
-                                : `Surplus: ${(paidAmountNum - totalAmount).toFixed(2)}€`
-                              }
+
+                    <div>
+                      <Label htmlFor="paidAmount" className="flex items-center gap-2">
+                        <Euro className="h-4 w-4" />
+                        Montant à payer <span className="text-red-500">*</span>
+                      </Label>
+                      <div className="relative">
+                        <Input
+                          id="paidAmount"
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          placeholder={totalAmount.toString()}
+                          value={paidAmount}
+                          onChange={(e) => setPaidAmount(e.target.value)}
+                          className={`mt-1 pr-8 ${
+                            hasDiscrepancy 
+                              ? 'border-red-300 focus:border-red-500 bg-red-50' 
+                              : isFullPayment
+                              ? 'border-green-300 focus:border-green-500 bg-green-50'
+                              : ''
+                          }`}
+                          required
+                        />
+                        <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">€</span>
+                      </div>
+                      
+                      {/* Alerte de discordance */}
+                      {hasDiscrepancy && (
+                        <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                          <div className="flex items-start gap-2">
+                            <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                            <div className="text-sm">
+                              <p className="font-medium text-red-800">Attention - Montant différent</p>
+                              <p className="text-red-700">
+                                Montant saisi: <span className="font-semibold">{paidAmountNum}€</span> • 
+                                Montant attendu: <span className="font-semibold">{totalAmount}€</span>
+                              </p>
+                              <p className="text-xs text-red-600 mt-1">
+                                {paidAmountNum < totalAmount 
+                                  ? `Manquant: ${(totalAmount - paidAmountNum).toFixed(2)}€`
+                                  : `Surplus: ${(paidAmountNum - totalAmount).toFixed(2)}€`
+                                }
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Confirmation paiement complet */}
+                      {isFullPayment && (
+                        <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                          <div className="flex items-center gap-2">
+                            <CheckCircle className="h-5 w-5 text-green-600" />
+                            <p className="text-sm font-medium text-green-800">
+                              Montant correct - Paiement complet
                             </p>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
 
-                    {/* Confirmation paiement complet */}
-                    {isFullPayment && (
-                      <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-5 w-5 text-green-600" />
-                          <p className="text-sm font-medium text-green-800">
-                            Montant correct - Paiement complet
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                    <div>
+                      <Label htmlFor="paymentMethod" className="flex items-center gap-2">
+                        <CreditCard className="h-4 w-4" />
+                        Mode de paiement <span className="text-red-500">*</span>
+                      </Label>
+                      <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue placeholder="Sélectionner le mode de paiement" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="virement">Virement bancaire</SelectItem>
+                          <SelectItem value="cheque">Chèque</SelectItem>
+                          <SelectItem value="especes">Espèces</SelectItem>
+                          <SelectItem value="carte">Carte bancaire</SelectItem>
+                          <SelectItem value="prelevement">Prélèvement automatique</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                  <div>
-                    <Label htmlFor="paymentMethod" className="flex items-center gap-2">
-                      <CreditCard className="h-4 w-4" />
-                      Mode de paiement <span className="text-red-500">*</span>
-                    </Label>
-                    <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-                      <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Sélectionner le mode de paiement" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="virement">Virement bancaire</SelectItem>
-                        <SelectItem value="cheque">Chèque</SelectItem>
-                        <SelectItem value="especes">Espèces</SelectItem>
-                        <SelectItem value="carte">Carte bancaire</SelectItem>
-                        <SelectItem value="prelevement">Prélèvement automatique</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="notes">Notes (optionnel)</Label>
-                    <Input
-                      id="notes"
-                      placeholder="Commentaires sur ce paiement..."
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-                </div>
-
-                {/* Informations sur le reçu */}
-                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                  <div className="flex items-start gap-2">
-                    <Download className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
-                    <div className="text-sm text-yellow-800">
-                      <p className="font-medium mb-1">Reçu de paiement :</p>
-                      <p className="text-xs">
-                        {isFullPayment 
-                          ? "Un reçu PDF sera automatiquement téléchargé après validation du paiement complet."
-                          : "Aucun reçu ne sera généré pour un paiement partiel ou excédentaire."
-                        }
-                      </p>
+                    <div>
+                      <Label htmlFor="notes">Notes (optionnel)</Label>
+                      <Input
+                        id="notes"
+                        placeholder="Commentaires sur ce paiement..."
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        className="mt-1"
+                      />
                     </div>
                   </div>
-                </div>
 
-                <div className="flex justify-end space-x-3">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setOpen(false)}
-                    disabled={loading}
-                  >
-                    Annuler
-                  </Button>
-                  <Button 
-                    type="submit" 
-                    className="bg-green-600 hover:bg-green-700"
-                    disabled={loading}
-                  >
-                    {loading ? 'Traitement...' : 'Confirmer le paiement'}
-                  </Button>
-                </div>
-              </form>
+                  {/* Informations sur le reçu */}
+                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <div className="flex items-start gap-2">
+                      <Download className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                      <div className="text-sm text-yellow-800">
+                        <p className="font-medium mb-1">Reçu de paiement :</p>
+                        <p className="text-xs">
+                          {isFullPayment 
+                            ? "Un reçu PDF sera automatiquement téléchargé après validation du paiement complet."
+                            : "Aucun reçu ne sera généré pour un paiement partiel ou excédentaire."
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end space-x-3">
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => setOpen(false)}
+                      disabled={loading}
+                    >
+                      Annuler
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      className="bg-green-600 hover:bg-green-700"
+                      disabled={loading}
+                    >
+                      {loading ? 'Traitement...' : 'Confirmer le paiement'}
+                    </Button>
+                  </div>
+                </form>
+              </ScrollArea>
             </DialogContent>
           </Dialog>
 
