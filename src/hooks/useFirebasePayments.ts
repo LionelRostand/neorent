@@ -16,6 +16,12 @@ export const useFirebasePayments = () => {
   const [error, setError] = useState<string | null>(null);
 
   const enrichPaymentWithContract = (payment: Payment, contracts: Contract[]): Payment => {
+    // Vérification de sécurité pour éviter les erreurs
+    if (!payment || !payment.tenantName) {
+      console.warn('⚠️ Paiement invalide détecté:', payment);
+      return payment;
+    }
+
     console.log(`🔍 ENRICHISSEMENT DE: ${payment.tenantName}`, {
       rentAmountOriginal: payment.rentAmount,
       contractRentAmountOriginal: payment.contractRentAmount
@@ -29,7 +35,7 @@ export const useFirebasePayments = () => {
       let contractAmount = extractContractAmount(matchingContract.amount, payment.rentAmount);
       
       // VÉRIFICATION SPÉCIALE pour Georges MOMO - FORCER À 450€
-      if (payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')) {
+      if (payment.tenantName && payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')) {
         console.log(`🔧 CORRECTION SPÉCIALE pour Georges MOMO: Montant forcé à 450€`);
         contractAmount = 450;
       }
@@ -37,7 +43,7 @@ export const useFirebasePayments = () => {
       console.log(`✅ CONTRAT TROUVÉ pour ${payment.tenantName}:`, {
         contractAmountExtracted: contractAmount,
         matchingContractAmount: matchingContract.amount,
-        correctionAppliquée: payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')
+        correctionAppliquée: payment.tenantName && payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')
       });
       
       updatedPayment = {
@@ -56,7 +62,7 @@ export const useFirebasePayments = () => {
       console.log(`❌ AUCUN CONTRAT TROUVÉ pour ${payment.tenantName} (${payment.property})`);
       
       // VÉRIFICATION SPÉCIALE même sans contrat pour Georges MOMO
-      if (payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')) {
+      if (payment.tenantName && payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')) {
         console.log(`🔧 CORRECTION SPÉCIALE SANS CONTRAT pour Georges MOMO: Montant forcé à 450€`);
         updatedPayment = {
           ...payment,
@@ -83,10 +89,18 @@ export const useFirebasePayments = () => {
         getDocs(collection(db, 'Rent_contracts'))
       ]);
 
-      const paymentsData = paymentsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Payment[];
+      const paymentsData = paymentsSnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          // Assurer que les propriétés essentielles existent
+          tenantName: data.tenantName || '',
+          property: data.property || '',
+          rentAmount: data.rentAmount || 0,
+          status: data.status || 'En attente'
+        };
+      }) as Payment[];
 
       const contractsData = contractsSnapshot.docs.map(doc => ({
         id: doc.id,
