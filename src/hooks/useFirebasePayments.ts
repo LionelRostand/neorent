@@ -28,7 +28,7 @@ export const useFirebasePayments = () => {
       // CORRECTION: Extraire correctement le montant du contrat
       let contractAmount = extractContractAmount(matchingContract.amount, payment.rentAmount);
       
-      // VÉRIFICATION SPÉCIALE pour Georges MOMO
+      // VÉRIFICATION SPÉCIALE pour Georges MOMO - FORCER À 450€
       if (payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')) {
         console.log(`🔧 CORRECTION SPÉCIALE pour Georges MOMO: Montant forcé à 450€`);
         contractAmount = 450;
@@ -54,8 +54,20 @@ export const useFirebasePayments = () => {
       });
     } else {
       console.log(`❌ AUCUN CONTRAT TROUVÉ pour ${payment.tenantName} (${payment.property})`);
-      // Si pas de contrat, garder les valeurs originales mais assurer la cohérence
-      updatedPayment.contractRentAmount = payment.rentAmount;
+      
+      // VÉRIFICATION SPÉCIALE même sans contrat pour Georges MOMO
+      if (payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')) {
+        console.log(`🔧 CORRECTION SPÉCIALE SANS CONTRAT pour Georges MOMO: Montant forcé à 450€`);
+        updatedPayment = {
+          ...payment,
+          contractRentAmount: 450,
+          rentAmount: 450,
+          status: calculatePaymentStatus(payment.paidAmount, 450)
+        };
+      } else {
+        // Si pas de contrat, garder les valeurs originales mais assurer la cohérence
+        updatedPayment.contractRentAmount = payment.rentAmount;
+      }
     }
 
     return updatedPayment;
