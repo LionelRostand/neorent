@@ -81,48 +81,52 @@ const AdminTenantAccess: React.FC = () => {
           <div className="space-y-4">
             <div className="p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex flex-col gap-3">
-                <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                  <UserCheck className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div className="min-w-0 flex-1 space-y-2">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                      <h3 className="font-medium text-blue-900 text-sm sm:text-base break-words">
-                        Mode Administrateur - Consultation de l'espace de {selectedTenantProfile?.name}
-                      </h3>
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs self-start sm:self-center">
-                        Mode Admin
-                      </Badge>
-                    </div>
-                    
-                    <div className="bg-white/50 rounded-md p-2 sm:p-3 space-y-1.5">
-                      <p className="text-xs sm:text-sm text-blue-700 flex flex-col sm:flex-row sm:items-center gap-1">
-                        <span className="font-medium">Vous consultez l'espace en tant qu'administrateur</span>
-                      </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs sm:text-sm">
-                        <p className="text-blue-700">
-                          <span className="font-medium">Type:</span> {selectedTenantProfile?.type}
-                        </p>
-                        <p className="text-blue-600 break-all">
-                          <span className="font-medium">Email:</span> {selectedTenantProfile?.email}
-                        </p>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-start gap-3">
+                    <UserCheck className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <div className="min-w-0 flex-1 space-y-2">
+                      <div className="flex flex-col gap-2">
+                        <h3 className="font-medium text-blue-900 text-sm sm:text-base break-words leading-tight">
+                          Mode Administrateur - Consultation de l'espace de {selectedTenantProfile?.name}
+                        </h3>
+                        <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs self-start">
+                          Mode Admin
+                        </Badge>
                       </div>
-                      <p className="text-xs sm:text-sm text-blue-600 break-words">
-                        <span className="font-medium">Adresse:</span> {selectedTenantProfile?.address}
-                      </p>
+                      
+                      <div className="bg-white/50 rounded-md p-2 sm:p-3 space-y-1.5">
+                        <p className="text-xs sm:text-sm text-blue-700">
+                          <span className="font-medium">Vous consultez l'espace en tant qu'administrateur</span>
+                        </p>
+                        <div className="space-y-1 text-xs sm:text-sm">
+                          <p className="text-blue-700">
+                            <span className="font-medium">Type:</span> {selectedTenantProfile?.type}
+                          </p>
+                          <p className="text-blue-600 break-all">
+                            <span className="font-medium">Email:</span> {selectedTenantProfile?.email}
+                          </p>
+                          <p className="text-blue-600 break-words">
+                            <span className="font-medium">Adresse:</span> {selectedTenantProfile?.address}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  
+                  <Button 
+                    onClick={handleSwitchBack}
+                    variant="outline"
+                    size="sm"
+                    className="self-start flex items-center gap-1.5 text-xs sm:text-sm px-3 py-1.5 h-auto min-h-[32px] sm:min-h-[36px]"
+                  >
+                    <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="whitespace-nowrap">Retour Admin</span>
+                  </Button>
                 </div>
               </div>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <Button 
-                onClick={handleSwitchBack}
-                variant="outline"
-                className="flex-1 flex items-center justify-center gap-2 text-sm min-h-[44px]"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span className="truncate">Retour à l'administration</span>
-              </Button>
               <Button 
                 onClick={handleViewTenantSpace}
                 className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-sm min-h-[44px]"
