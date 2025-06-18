@@ -2,6 +2,7 @@
 import React from 'react';
 import { CheckCircle, XCircle, Clock, DollarSign } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface Payment {
   id: string;
@@ -20,10 +21,25 @@ interface RentMetricsProps {
 }
 
 const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
+  const { properties } = useFirebaseProperties();
+  
   const paidCount = payments.filter(p => p.status === 'Payé').length;
   const lateCount = payments.filter(p => p.status === 'En retard').length;
   const pendingCount = payments.filter(p => p.status === 'En attente').length;
-  const totalAmount = payments.reduce((sum, p) => sum + p.rentAmount, 0);
+  
+  // Calculer le total mensuel à partir des propriétés occupées
+  const totalAmount = properties
+    .filter(property => property.status === 'Occupé')
+    .reduce((sum, property) => {
+      if (property.locationType === 'Colocation') {
+        // Pour les colocations, multiplier le loyer par le nombre de chambres occupées
+        const occupiedRooms = property.totalRooms - property.availableRooms;
+        return sum + (property.rent * occupiedRooms);
+      } else {
+        // Pour les locations classiques, utiliser le loyer total
+        return sum + property.rent;
+      }
+    }, 0);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
