@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -28,6 +27,7 @@ const Properties = () => {
         creditImmobilier: data.creditImmobilier,
         owner: data.owner,
         charges: data.charges,
+        floor: data.floor,
         status: 'Libre',
         tenant: null,
         image: data.imageBase64 ? `data:image/jpeg;base64,${data.imageBase64}` : '/placeholder.svg',

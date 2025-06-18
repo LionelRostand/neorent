@@ -15,4 +15,5 @@ export interface Property {
   creditImmobilier?: string;
   owner?: string;
   charges?: any;
+  floor?: string;
 }

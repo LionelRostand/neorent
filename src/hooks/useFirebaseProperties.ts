@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -19,6 +18,7 @@ interface Property {
   creditImmobilier?: string;
   owner?: string;
   charges?: any;
+  floor?: string;
 }
 
 export const useFirebaseProperties = () => {
@@ -53,7 +53,8 @@ export const useFirebaseProperties = () => {
         availableRooms: propertyData.availableRooms || 0,
         creditImmobilier: propertyData.creditImmobilier || '',
         owner: propertyData.owner || '',
-        charges: propertyData.charges || {}
+        charges: propertyData.charges || {},
+        floor: propertyData.floor || ''
       };
 
       const docRef = await addDoc(collection(db, 'Rent_properties'), cleanedData);

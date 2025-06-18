@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +20,7 @@ interface PropertyFormData {
   locationType: string;
   roomCount: string;
   owner: string;
+  floor: string;
   charges: {
     electricity: string;
     water: string;
@@ -51,6 +51,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
     locationType: '',
     roomCount: '',
     owner: '',
+    floor: '',
     charges: {
       electricity: '',
       water: '',
@@ -231,7 +232,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="type">Type *</Label>
             <Select onValueChange={(value) => handleInputChange('type', value)} required>
@@ -256,6 +257,16 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
               onChange={(e) => handleInputChange('surface', e.target.value)}
               placeholder="Ex: 65m²"
               required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="floor">Étage</Label>
+            <Input
+              id="floor"
+              value={formData.floor}
+              onChange={(e) => handleInputChange('floor', e.target.value)}
+              placeholder="Ex: 3ème, RDC, Sous-sol"
             />
           </div>
         </div>
