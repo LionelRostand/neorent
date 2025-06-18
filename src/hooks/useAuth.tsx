@@ -1,3 +1,4 @@
+
 import { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
-  const { getUserRole } = useFirebaseUserRoles();
+  const { getUserRole, userRoles } = useFirebaseUserRoles();
 
   // Vérifier si l'utilisateur existe dans Firebase
   const checkUserProfile = async (currentUser: User | null) => {
@@ -42,8 +43,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('🔍 Vérification du profil pour:', currentUser.email);
 
     try {
-      // D'abord vérifier dans user_roles (admin/employee)
-      const userRole = await getUserRole(currentUser.uid);
+      // D'abord vérifier dans user_roles par UID (admin/employee)
+      let userRole = await getUserRole(currentUser.uid);
+      
+      // Si pas trouvé par UID, chercher par email
+      if (!userRole && userRoles.length > 0) {
+        console.log('🔍 Recherche par email dans user_roles...');
+        userRole = userRoles.find(role => role.email === currentUser.email);
+        console.log('📧 Résultat recherche par email:', userRole);
+      }
+      
       if (userRole) {
         console.log('👤 Profil admin/employé trouvé:', userRole);
         setUserProfile({
@@ -51,7 +60,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           name: userRole.name,
           email: userRole.email,
           role: userRole.role,
-          permissions: userRole.permissions || []
+          permissions: userRole.permissions || [],
+          hasPassword: userRole.hasPassword || false
         });
         setUserType(userRole.role);
         return;
@@ -123,7 +133,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const timer = setTimeout(() => {
         console.log('📊 Données Firebase marquées comme chargées:', { 
           tenants: tenants.length, 
-          roommates: roommates.length 
+          roommates: roommates.length,
+          userRoles: userRoles.length 
         });
         setDataLoaded(true);
         
@@ -136,7 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       return () => clearTimeout(timer);
     }
-  }, [tenants, roommates, user, userProfile, dataLoaded]);
+  }, [tenants, roommates, userRoles, user, userProfile, dataLoaded]);
 
   // Re-vérifier le profil quand les données changent
   useEffect(() => {
@@ -144,7 +155,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('🔄 Nouvelles données disponibles, re-vérification du profil...');
       checkUserProfile(user);
     }
-  }, [tenants, roommates, dataLoaded, user, userProfile]);
+  }, [tenants, roommates, userRoles, dataLoaded, user, userProfile]);
 
   const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);

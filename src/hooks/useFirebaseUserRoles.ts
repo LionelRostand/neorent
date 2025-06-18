@@ -12,6 +12,7 @@ interface UserRole {
   createdAt: string;
   permissions?: string[];
   detailedPermissions?: EmployeePermissions;
+  hasPassword?: boolean;
 }
 
 export const useFirebaseUserRoles = () => {
@@ -22,11 +23,13 @@ export const useFirebaseUserRoles = () => {
   const fetchUserRoles = async () => {
     try {
       setLoading(true);
+      console.log('🔍 Chargement des rôles utilisateur...');
       const querySnapshot = await getDocs(collection(db, 'user_roles'));
       const rolesData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as UserRole[];
+      console.log('📊 Rôles utilisateur chargés:', rolesData);
       setUserRoles(rolesData);
       setError(null);
     } catch (err) {
