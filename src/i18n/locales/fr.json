@@ -17,6 +17,41 @@
     "settings": "Paramètres",
     "help": "Aide"
   },
+  "tenants": {
+    "management": "Gestion des Locataires",
+    "description": "Gérez et suivez tous vos locataires en un seul endroit",
+    "addTenant": "Ajouter un locataire",
+    "listTitle": "Liste des Locataires",
+    "listDescription": "Consultez et gérez tous vos locataires",
+    "noTenants": "Aucun locataire",
+    "noTenantsDescription": "Commencez par ajouter votre premier locataire.",
+    "viewDetails": "Voir détails",
+    "contact": "Contacter",
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "searching": "En recherche"
+    },
+    "metrics": {
+      "activeTenants": "Locataires actifs",
+      "activeDescription": "{{count}} locataire{{count, plural, one {} other {s}}} actif{{count, plural, one {} other {s}}}",
+      "searching": "En recherche",
+      "searchingDescription": "{{count}} locataire{{count, plural, one {} other {s}}} en recherche",
+      "inactive": "Inactifs",
+      "inactiveDescription": "{{count}} locataire{{count, plural, one {} other {s}}} inactif{{count, plural, one {} other {s}}}",
+      "total": "Total",
+      "totalDescription": "{{count}} locataire{{count, plural, one {} other {s}}} au total"
+    },
+    "loading": "Chargement des locataires...",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce locataire ?",
+    "addSuccess": "Le locataire a été ajouté avec succès.",
+    "updateSuccess": "Le locataire a été modifié avec succès.",
+    "deleteSuccess": "Le locataire a été supprimé avec succès.",
+    "addError": "Erreur lors de l'ajout du locataire.",
+    "updateError": "Erreur lors de la modification du locataire.",
+    "deleteError": "Erreur lors de la suppression du locataire.",
+    "rentPerMonth": "/mois"
+  },
   "tenantSpace": {
     "title": "Espace {{type}}",
     "welcome": "Bienvenue {{name}}",

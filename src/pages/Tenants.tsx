@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +16,7 @@ import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useToast } from '@/hooks/use-toast';
 
 const Tenants = () => {
+  const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedTenant, setSelectedTenant] = useState(null);
   const [editingTenant, setEditingTenant] = useState(null);
@@ -44,15 +47,15 @@ const Tenants = () => {
 
       await addTenant(newTenant);
       toast({
-        title: "Succès",
-        description: "Le locataire a été ajouté avec succès.",
+        title: t('common.success'),
+        description: t('tenants.addSuccess'),
       });
       console.log('Locataire ajouté à la collection Rent_tenants:', newTenant);
     } catch (err) {
       console.error('Erreur lors de l\'ajout du locataire:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de l'ajout du locataire.",
+        title: t('common.error'),
+        description: t('tenants.addError'),
         variant: "destructive",
       });
     }
@@ -62,34 +65,34 @@ const Tenants = () => {
     try {
       await updateTenant(id, updates);
       toast({
-        title: "Succès",
-        description: "Le locataire a été modifié avec succès.",
+        title: t('common.success'),
+        description: t('tenants.updateSuccess'),
       });
       console.log('Locataire modifié dans la collection Rent_tenants:', { id, updates });
     } catch (err) {
       console.error('Erreur lors de la modification du locataire:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la modification du locataire.",
+        title: t('common.error'),
+        description: t('tenants.updateError'),
         variant: "destructive",
       });
     }
   };
 
   const handleDeleteTenant = async (id: string) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce locataire ?')) {
+    if (window.confirm(t('tenants.confirmDelete'))) {
       try {
         await deleteTenant(id);
         toast({
-          title: "Succès",
-          description: "Le locataire a été supprimé avec succès.",
+          title: t('common.success'),
+          description: t('tenants.deleteSuccess'),
         });
         console.log('Locataire supprimé de la collection Rent_tenants:', id);
       } catch (err) {
         console.error('Erreur lors de la suppression du locataire:', err);
         toast({
-          title: "Erreur",
-          description: "Erreur lors de la suppression du locataire.",
+          title: t('common.error'),
+          description: t('tenants.deleteError'),
           variant: "destructive",
         });
       }
@@ -111,7 +114,7 @@ const Tenants = () => {
       <MainLayout>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Chargement des locataires...</p>
+          <p className="mt-4 text-gray-600">{t('tenants.loading')}</p>
         </div>
       </MainLayout>
     );
@@ -121,7 +124,7 @@ const Tenants = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">Erreur: {error}</div>
+          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
         </div>
       </MainLayout>
     );
@@ -135,14 +138,14 @@ const Tenants = () => {
           <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Gestion des Locataires</h1>
-                <p className="text-gray-600 mt-2 text-sm sm:text-base">Gérez et suivez tous vos locataires en un seul endroit</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('tenants.management')}</h1>
+                <p className="text-gray-600 mt-2 text-sm sm:text-base">{t('tenants.description')}</p>
               </div>
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto">
                     <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                    <span className="text-sm sm:text-base">Ajouter un locataire</span>
+                    <span className="text-sm sm:text-base">{t('tenants.addTenant')}</span>
                   </Button>
                 </DialogTrigger>
                 <TenantForm
@@ -157,33 +160,33 @@ const Tenants = () => {
           {/* Métriques responsives */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             <MetricCard
-              title="Locataires actifs"
+              title={t('tenants.metrics.activeTenants')}
               value={activeCount}
-              description={`${activeCount} locataire${activeCount > 1 ? 's' : ''} actif${activeCount > 1 ? 's' : ''}`}
+              description={t('tenants.metrics.activeDescription', { count: activeCount })}
               icon={CheckCircle}
               iconBgColor="bg-green-500"
               borderColor="border-l-green-500"
             />
             <MetricCard
-              title="En recherche"
+              title={t('tenants.metrics.searching')}
               value={searchingCount}
-              description={`${searchingCount} locataire${searchingCount > 1 ? 's' : ''} en recherche`}
+              description={t('tenants.metrics.searchingDescription', { count: searchingCount })}
               icon={Clock}
               iconBgColor="bg-yellow-500"
               borderColor="border-l-yellow-500"
             />
             <MetricCard
-              title="Inactifs"
+              title={t('tenants.metrics.inactive')}
               value={inactiveCount}
-              description={`${inactiveCount} locataire${inactiveCount > 1 ? 's' : ''} inactif${inactiveCount > 1 ? 's' : ''}`}
+              description={t('tenants.metrics.inactiveDescription', { count: inactiveCount })}
               icon={XCircle}
               iconBgColor="bg-red-500"
               borderColor="border-l-red-500"
             />
             <MetricCard
-              title="Total"
+              title={t('tenants.metrics.total')}
               value={totalCount}
-              description={`${totalCount} locataire${totalCount > 1 ? 's' : ''} au total`}
+              description={t('tenants.metrics.totalDescription', { count: totalCount })}
               icon={Users}
               iconBgColor="bg-blue-500"
               borderColor="border-l-blue-500"
@@ -193,16 +196,16 @@ const Tenants = () => {
           {/* Section Liste des Locataires */}
           <div className="bg-white rounded-lg shadow-sm border">
             <div className="p-4 sm:p-6 border-b border-gray-200">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Liste des Locataires</h2>
-              <p className="text-gray-600 mt-1 text-sm sm:text-base">Consultez et gérez tous vos locataires</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t('tenants.listTitle')}</h2>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">{t('tenants.listDescription')}</p>
             </div>
             
             <div className="p-3 sm:p-4 lg:p-6">
               {tenants.length === 0 ? (
                 <div className="text-center py-12">
                   <Users className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-4 text-lg font-medium text-gray-900">Aucun locataire</h3>
-                  <p className="mt-2 text-gray-500">Commencez par ajouter votre premier locataire.</p>
+                  <h3 className="mt-4 text-lg font-medium text-gray-900">{t('tenants.noTenants')}</h3>
+                  <p className="mt-2 text-gray-500">{t('tenants.noTenantsDescription')}</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
@@ -267,7 +270,7 @@ const Tenants = () => {
                             <div className="flex items-center text-gray-600 text-xs">
                               <Home className="mr-2 h-3 w-3 text-orange-500 flex-shrink-0" />
                               <span className="truncate">
-                                <span className="font-medium text-blue-600">{tenant.rentAmount}/mois</span>
+                                <span className="font-medium text-blue-600">{tenant.rentAmount}{t('tenants.rentPerMonth')}</span>
                               </span>
                             </div>
                           </div>
@@ -280,14 +283,14 @@ const Tenants = () => {
                               className="w-full h-7 text-xs hover:bg-blue-50 hover:border-blue-300"
                               onClick={() => handleViewDetails(tenant)}
                             >
-                              Voir détails
+                              {t('tenants.viewDetails')}
                             </Button>
                             <Button 
                               variant="outline" 
                               size="sm" 
                               className="w-full h-7 text-xs hover:bg-green-50 hover:border-green-300"
                             >
-                              Contacter
+                              {t('tenants.contact')}
                             </Button>
                           </div>
                         </div>
