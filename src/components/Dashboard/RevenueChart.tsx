@@ -3,8 +3,10 @@ import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useTranslation } from 'react-i18next';
 
 const RevenueChart = () => {
+  const { t } = useTranslation();
   const { payments } = useFirebasePayments();
 
   const chartData = useMemo(() => {
@@ -44,7 +46,7 @@ const RevenueChart = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Revenus Locatifs</CardTitle>
+        <CardTitle>{t('dashboard.rentalRevenue')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-80">
@@ -53,7 +55,7 @@ const RevenueChart = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip formatter={(value) => [`${value}€`, 'Revenus']} />
+              <Tooltip formatter={(value) => [`${value}€`, t('dashboard.revenue')]} />
               <Line 
                 type="monotone" 
                 dataKey="revenue" 

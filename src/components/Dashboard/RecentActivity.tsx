@@ -3,14 +3,16 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useRecentActivityData } from './RecentActivityData';
+import { useTranslation } from 'react-i18next';
 
 const RecentActivity = () => {
+  const { t } = useTranslation();
   const activities = useRecentActivityData();
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Activité Récente</CardTitle>
+        <CardTitle>{t('dashboard.recentActivity')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -35,7 +37,7 @@ const RecentActivity = () => {
             ))
           ) : (
             <div className="text-center py-8 text-gray-500">
-              <p>Aucune activité récente</p>
+              <p>{t('dashboard.noRecentActivity')}</p>
             </div>
           )}
         </div>
