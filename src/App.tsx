@@ -16,6 +16,7 @@ import Leases from "./pages/Leases";
 import Inspections from "./pages/Inspections";
 import RentManagement from "./pages/RentManagement";
 import RentalCharges from "./pages/RentalCharges";
+import Forecasting from "./pages/Forecasting";
 import Taxes from "./pages/Taxes";
 import Website from "./pages/Website";
 import Messages from "./pages/Messages";
@@ -134,6 +135,14 @@ function App() {
                 element={
                   <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
                     <RentalCharges />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/forecasting" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Forecasting />
                   </ProtectedRoute>
                 } 
               />

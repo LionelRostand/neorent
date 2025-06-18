@@ -14,7 +14,8 @@ import {
   Globe,
   Calculator,
   MessageCircle,
-  HelpCircle
+  HelpCircle,
+  TrendingUp
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPermissions } from '@/hooks/useUserPermissions';
@@ -79,6 +80,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
       label: 'Charges locatives', 
       path: '/admin/rental-charges',
       permission: 'rentalCharges' as keyof EmployeePermissions
+    },
+    { 
+      icon: TrendingUp, 
+      label: 'Prévisions', 
+      path: '/admin/forecasting',
+      permission: 'dashboard' as keyof EmployeePermissions
     },
     { 
       icon: Wrench, 
