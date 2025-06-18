@@ -65,6 +65,52 @@
       "usefulLinks": "Useful links",
       "contact": "Contact",
       "copyright": "All rights reserved."
+    },
+    "about": {
+      "title": "About",
+      "subtitle": "NeoRent",
+      "description": "Since our creation, we are committed to revolutionizing real estate management with innovative and efficient solutions.",
+      "story": {
+        "title": "Our Story",
+        "paragraph1": "Founded in 2020, NeoRent was born from the vision of simplifying and modernizing real estate management. Our team of experts identified the major challenges in the sector and developed a complete solution.",
+        "paragraph2": "Today, we are proud to support hundreds of real estate professionals in their digital transformation, offering powerful and intuitive tools.",
+        "paragraph3": "Our mission is to enable every real estate player to focus on their core business by automating administrative tasks."
+      },
+      "stats": {
+        "title": "Our Numbers",
+        "managedProperties": "Managed Properties",
+        "satisfiedClients": "Satisfied Clients",
+        "availability": "Availability",
+        "support": "Support"
+      },
+      "values": {
+        "title": "Our Values",
+        "subtitle": "The principles that guide our daily action",
+        "clientProximity": {
+          "title": "Client Proximity",
+          "description": "We place our clients at the heart of our strategy and develop tailor-made solutions."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "We constantly innovate to offer the best technologies on the market."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "We strive for excellence in every aspect of our services and products."
+        },
+        "growth": {
+          "title": "Growth",
+          "description": "We support our clients' growth with scalable solutions."
+        }
+      },
+      "team": {
+        "title": "Our Team",
+        "subtitle": "Passionate experts at your service",
+        "dedication": {
+          "title": "A Team Dedicated to Your Success",
+          "description": "Our multidisciplinary team combines technical expertise, real estate market knowledge and passion for innovation. We work every day to offer you the best possible experience."
+        }
+      }
     }
   },
   "common": {

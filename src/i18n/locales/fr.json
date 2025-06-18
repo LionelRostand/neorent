@@ -65,6 +65,52 @@
       "usefulLinks": "Liens utiles",
       "contact": "Contact",
       "copyright": "Tous droits réservés."
+    },
+    "about": {
+      "title": "À Propos de",
+      "subtitle": "NeoRent",
+      "description": "Depuis notre création, nous nous engageons à révolutionner la gestion immobilière avec des solutions innovantes et performantes.",
+      "story": {
+        "title": "Notre Histoire",
+        "paragraph1": "Fondée en 2020, NeoRent est née de la vision de simplifier et moderniser la gestion immobilière. Notre équipe d'experts a identifié les défis majeurs du secteur et a développé une solution complète.",
+        "paragraph2": "Aujourd'hui, nous sommes fiers d'accompagner des centaines de professionnels de l'immobilier dans leur transformation numérique, en offrant des outils puissants et intuitifs.",
+        "paragraph3": "Notre mission est de permettre à chaque acteur de l'immobilier de se concentrer sur son cœur de métier en automatisant les tâches administratives."
+      },
+      "stats": {
+        "title": "Nos Chiffres",
+        "managedProperties": "Biens Gérés",
+        "satisfiedClients": "Clients Satisfaits",
+        "availability": "Disponibilité",
+        "support": "Support"
+      },
+      "values": {
+        "title": "Nos Valeurs",
+        "subtitle": "Les principes qui guident notre action quotidienne",
+        "clientProximity": {
+          "title": "Proximité Client",
+          "description": "Nous plaçons nos clients au cœur de notre stratégie et développons des solutions sur mesure."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "Nous innovons constamment pour offrir les meilleures technologies du marché."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "Nous visons l'excellence dans chaque aspect de nos services et produits."
+        },
+        "growth": {
+          "title": "Croissance",
+          "description": "Nous accompagnons la croissance de nos clients avec des solutions évolutives."
+        }
+      },
+      "team": {
+        "title": "Notre Équipe",
+        "subtitle": "Des experts passionnés au service de votre réussite",
+        "dedication": {
+          "title": "Une Équipe Dédiée à Votre Succès",
+          "description": "Notre équipe multidisciplinaire combine expertise technique, connaissance du marché immobilier et passion pour l'innovation. Nous travaillons chaque jour pour vous offrir la meilleure expérience possible."
+        }
+      }
     }
   },
   "common": {

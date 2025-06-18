@@ -1,39 +1,42 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PublicLayout from '@/components/PublicSite/PublicLayout';
 import { ChatWidget } from '@/components/Chat/ChatWidget';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Target, Award, TrendingUp } from 'lucide-react';
 
 const PublicAbout = () => {
+  const { t } = useTranslation();
+
   const values = [
     {
       icon: Users,
-      title: "Proximité Client",
-      description: "Nous plaçons nos clients au cœur de notre stratégie et développons des solutions sur mesure."
+      title: t('publicSite.about.values.clientProximity.title'),
+      description: t('publicSite.about.values.clientProximity.description')
     },
     {
       icon: Target,
-      title: "Innovation",
-      description: "Nous innovons constamment pour offrir les meilleures technologies du marché."
+      title: t('publicSite.about.values.innovation.title'),
+      description: t('publicSite.about.values.innovation.description')
     },
     {
       icon: Award,
-      title: "Excellence",
-      description: "Nous visons l'excellence dans chaque aspect de nos services et produits."
+      title: t('publicSite.about.values.excellence.title'),
+      description: t('publicSite.about.values.excellence.description')
     },
     {
       icon: TrendingUp,
-      title: "Croissance",
-      description: "Nous accompagnons la croissance de nos clients avec des solutions évolutives."
+      title: t('publicSite.about.values.growth.title'),
+      description: t('publicSite.about.values.growth.description')
     }
   ];
 
   const stats = [
-    { number: "10,000+", label: "Biens Gérés" },
-    { number: "500+", label: "Clients Satisfaits" },
-    { number: "99.9%", label: "Disponibilité" },
-    { number: "24/7", label: "Support" }
+    { number: "10,000+", label: t('publicSite.about.stats.managedProperties') },
+    { number: "500+", label: t('publicSite.about.stats.satisfiedClients') },
+    { number: "99.9%", label: t('publicSite.about.stats.availability') },
+    { number: "24/7", label: t('publicSite.about.stats.support') }
   ];
 
   return (
@@ -43,12 +46,11 @@ const PublicAbout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              À Propos de
-              <span className="text-green-600 block">NeoRent</span>
+              {t('publicSite.about.title')}
+              <span className="text-green-600 block">{t('publicSite.about.subtitle')}</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Depuis notre création, nous nous engageons à révolutionner la gestion immobilière 
-              avec des solutions innovantes et performantes.
+              {t('publicSite.about.description')}
             </p>
           </div>
         </div>
@@ -60,27 +62,22 @@ const PublicAbout = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Notre Histoire
+                {t('publicSite.about.story.title')}
               </h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  Fondée en 2020, NeoRent est née de la vision de simplifier et moderniser 
-                  la gestion immobilière. Notre équipe d'experts a identifié les défis 
-                  majeurs du secteur et a développé une solution complète.
+                  {t('publicSite.about.story.paragraph1')}
                 </p>
                 <p>
-                  Aujourd'hui, nous sommes fiers d'accompagner des centaines de professionnels 
-                  de l'immobilier dans leur transformation numérique, en offrant des outils 
-                  puissants et intuitifs.
+                  {t('publicSite.about.story.paragraph2')}
                 </p>
                 <p>
-                  Notre mission est de permettre à chaque acteur de l'immobilier de se concentrer 
-                  sur son cœur de métier en automatisant les tâches administratives.
+                  {t('publicSite.about.story.paragraph3')}
                 </p>
               </div>
             </div>
             <div className="bg-gray-50 p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Nos Chiffres</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">{t('publicSite.about.stats.title')}</h3>
               <div className="grid grid-cols-2 gap-6">
                 {stats.map((stat, index) => (
                   <div key={index} className="text-center">
@@ -101,10 +98,10 @@ const PublicAbout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Nos Valeurs
+              {t('publicSite.about.values.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Les principes qui guident notre action quotidienne
+              {t('publicSite.about.values.subtitle')}
             </p>
           </div>
           
@@ -131,21 +128,19 @@ const PublicAbout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Notre Équipe
+              {t('publicSite.about.team.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Des experts passionnés au service de votre réussite
+              {t('publicSite.about.team.subtitle')}
             </p>
           </div>
           
           <div className="bg-green-50 p-8 rounded-lg text-center">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Une Équipe Dédiée à Votre Succès
+              {t('publicSite.about.team.dedication.title')}
             </h3>
             <p className="text-gray-600 max-w-3xl mx-auto">
-              Notre équipe multidisciplinaire combine expertise technique, connaissance 
-              du marché immobilier et passion pour l'innovation. Nous travaillons chaque 
-              jour pour vous offrir la meilleure expérience possible.
+              {t('publicSite.about.team.dedication.description')}
             </p>
           </div>
         </div>
