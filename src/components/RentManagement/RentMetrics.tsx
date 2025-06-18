@@ -36,10 +36,18 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
     year: 'numeric' 
   });
   
-  // Calculer le total mensuel attendu à partir des PAIEMENTS ACTUELS (qui incluent déjà les contrats)
+  // CALCUL CORRIGÉ: Toujours utiliser contractRentAmount s'il existe, sinon rentAmount
   const totalExpectedAmount = payments.reduce((sum, payment) => {
-    // Utiliser le contractRentAmount s'il existe, sinon rentAmount
+    // PRIORITÉ ABSOLUE au contractRentAmount
     const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+    
+    console.log(`🔍 ${payment.tenantName}:`, {
+      rentAmount: payment.rentAmount,
+      contractRentAmount: payment.contractRentAmount,
+      montantUtilisé: expectedAmount,
+      status: payment.status
+    });
+    
     return sum + (Number(expectedAmount) || 0);
   }, 0);
 
@@ -70,21 +78,21 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
   // Calculer la différence totale (ce qui manque encore)
   const totalMissingAmount = totalExpectedAmount - totalPaidAmount;
 
-  console.log('💰 Calcul des métriques DÉTAILLÉ:', {
+  console.log('🎯 DIAGNOSTIC COMPLET DES CONTRATS:', {
     totalExpectedAmount,
     totalPaidAmount,
     totalLateAmount,
     totalPendingAmount,
     totalMissingAmount,
     currentMonth,
-    payments: payments.map(p => ({ 
-      id: p.id, 
+    détailPaiements: payments.map(p => ({ 
       nom: p.tenantName,
       rentAmount: p.rentAmount, 
       contractRentAmount: p.contractRentAmount,
-      montantUtilisé: p.contractRentAmount || p.rentAmount,
+      montantFinalUtilisé: p.contractRentAmount || p.rentAmount,
       paidAmount: p.paidAmount, 
-      status: p.status 
+      status: p.status,
+      propriété: p.property
     }))
   });
 
