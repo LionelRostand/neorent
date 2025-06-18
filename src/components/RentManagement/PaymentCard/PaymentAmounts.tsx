@@ -9,8 +9,16 @@ interface PaymentAmountsProps {
 }
 
 const PaymentAmounts: React.FC<PaymentAmountsProps> = ({ rentAmount, paidAmount, contractRentAmount }) => {
-  // Utiliser le montant du contrat si disponible, sinon le montant du loyer
+  // TOUJOURS utiliser le montant du contrat s'il existe, sinon fallback sur rentAmount
   const expectedAmount = contractRentAmount || rentAmount;
+  
+  console.log('💰 PaymentAmounts - Affichage des montants:', {
+    rentAmount,
+    contractRentAmount,
+    expectedAmount: expectedAmount,
+    paidAmount,
+    source: contractRentAmount ? 'contrat' : 'rentAmount'
+  });
   
   return (
     <>

@@ -79,13 +79,13 @@ export const useFirebasePayments = () => {
         let updatedPayment = { ...payment };
 
         if (matchingContract) {
-          // Extraire le montant numérique du contrat (ex: "300€" -> 300)
+          // Extraire le montant numérique du contrat (ex: "450€" -> 450)
           const contractAmountStr = matchingContract.amount;
           let contractAmount = 0;
           
           // Gérer différents formats de montant
           if (typeof contractAmountStr === 'string') {
-            // Supprimer tout ce qui n'est pas un chiffre
+            // Supprimer tout ce qui n'est pas un chiffre pour extraire le montant
             const numericPart = contractAmountStr.replace(/[^\d]/g, '');
             contractAmount = parseInt(numericPart) || payment.rentAmount;
           } else if (typeof contractAmountStr === 'number') {
@@ -99,9 +99,10 @@ export const useFirebasePayments = () => {
           console.log(`   - Montant numérique extrait: ${contractAmount}€`);
           console.log(`   - Ancien rentAmount: ${payment.rentAmount}€`);
           
-          // FORCER l'utilisation du montant du contrat
+          // FORCER l'utilisation du montant du contrat comme référence
           updatedPayment.contractRentAmount = contractAmount;
-          updatedPayment.rentAmount = contractAmount; // IMPORTANT: Remplacer rentAmount par le montant du contrat
+          // IMPORTANT: Garder le rentAmount original mais ajouter contractRentAmount
+          // pour que PaymentAmounts puisse utiliser le bon montant d'affichage
           
           // Recalculer le statut basé sur le montant du contrat
           if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
@@ -133,7 +134,7 @@ export const useFirebasePayments = () => {
           contractRentAmount: updatedPayment.contractRentAmount,
           paidAmount: updatedPayment.paidAmount,
           status: updatedPayment.status,
-          hasDiscrepancy: updatedPayment.paidAmount !== updatedPayment.rentAmount
+          hasDiscrepancy: updatedPayment.paidAmount !== updatedPayment.contractRentAmount
         });
 
         return updatedPayment;
