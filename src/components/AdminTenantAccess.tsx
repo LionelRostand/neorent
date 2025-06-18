@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -89,19 +88,21 @@ const AdminTenantAccess: React.FC = () => {
                       <h3 className="font-medium text-blue-900 text-sm sm:text-base break-words leading-tight">
                         Mode Administrateur - Consultation de l'espace de {selectedTenantProfile?.name}
                       </h3>
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                        <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs self-start">
-                          Mode Admin
-                        </Badge>
-                        <Button 
-                          onClick={handleSwitchBack}
-                          variant="outline"
-                          size="sm"
-                          className="flex items-center gap-1.5 text-xs sm:text-sm px-3 py-1.5 h-auto min-h-[32px] sm:min-h-[36px] self-start"
-                        >
-                          <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
-                          <span className="whitespace-nowrap">Retour Admin</span>
-                        </Button>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs">
+                            Mode Admin
+                          </Badge>
+                          <Button 
+                            onClick={handleSwitchBack}
+                            variant="outline"
+                            size="sm"
+                            className="flex items-center gap-1.5 text-xs px-2 py-1 h-auto min-h-[28px] flex-shrink-0"
+                          >
+                            <ArrowLeft className="h-3 w-3" />
+                            <span className="whitespace-nowrap">Retour Admin</span>
+                          </Button>
+                        </div>
                       </div>
                     </div>
                     
