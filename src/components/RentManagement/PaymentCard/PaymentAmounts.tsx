@@ -9,15 +9,16 @@ interface PaymentAmountsProps {
 }
 
 const PaymentAmounts: React.FC<PaymentAmountsProps> = ({ rentAmount, paidAmount, contractRentAmount }) => {
-  // TOUJOURS utiliser le montant du contrat s'il existe, sinon fallback sur rentAmount
-  const expectedAmount = contractRentAmount || rentAmount;
+  // PRIORITÉ ABSOLUE au montant du contrat - c'est la source de vérité
+  const expectedAmount = contractRentAmount ?? rentAmount;
   
   console.log('💰 PaymentAmounts - Affichage des montants:', {
     rentAmount,
     contractRentAmount,
     expectedAmount: expectedAmount,
     paidAmount,
-    source: contractRentAmount ? 'contrat' : 'rentAmount'
+    source: contractRentAmount ? 'contrat (priorité)' : 'rentAmount (fallback)',
+    contractAmountExists: contractRentAmount !== undefined && contractRentAmount !== null
   });
   
   return (
@@ -29,7 +30,9 @@ const PaymentAmounts: React.FC<PaymentAmountsProps> = ({ rentAmount, paidAmount,
             <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mr-2" />
             <div>
               <span className="text-sm font-medium text-gray-700">Loyer mensuel à payer</span>
-              <p className="text-xs text-gray-500">Selon contrat de bail</p>
+              <p className="text-xs text-gray-500">
+                {contractRentAmount ? 'Selon contrat de bail' : 'Montant estimé'}
+              </p>
             </div>
           </div>
           <span className="text-xl sm:text-2xl font-bold text-blue-600">{expectedAmount}€</span>

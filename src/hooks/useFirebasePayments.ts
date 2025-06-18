@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -27,8 +26,17 @@ export const useFirebasePayments = () => {
       
       logPaymentProcessing(payment, contractAmount);
       
+      // FORCER la mise à jour avec le montant du contrat
       updatedPayment.contractRentAmount = contractAmount;
+      updatedPayment.rentAmount = contractAmount; // Forcer la cohérence
       updatedPayment.status = calculatePaymentStatus(payment.paidAmount, contractAmount);
+      
+      console.log(`✅ CONTRAT APPLIQUÉ pour ${payment.tenantName}:`, {
+        ancienRentAmount: payment.rentAmount,
+        nouveauRentAmount: contractAmount,
+        contractRentAmount: contractAmount,
+        paidAmount: payment.paidAmount
+      });
       
       if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
         const paidAmount = Number(payment.paidAmount);
