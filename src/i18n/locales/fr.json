@@ -316,10 +316,19 @@
       "payment": "Paiement",
       "adminAccess": "Accès Locataires"
     },
+    "company": {
+      "title": "Gestion des Entreprises",
+      "subtitle": "Gérez les informations et paramètres de votre entreprise"
+    },
+    "employees": {
+      "title": "Gestion des Employés",
+      "subtitle": "Gérez les membres de votre équipe et leurs accès"
+    },
     "companyManagement": "Gestion des Entreprises",
     "addCompany": "Ajouter une entreprise",
     "permissions": {
       "title": "Gestion des Permissions Employés",
+      "subtitle": "Configurez les droits d'accès pour les membres de votre équipe",
       "loading": "Chargement des permissions...",
       "selectEmployee": "Sélectionner un Employé",
       "chooseEmployee": "Choisir un employé",
@@ -340,6 +349,8 @@
       "noEmployees": "Aucun employé trouvé. Ajoutez d'abord des employés pour gérer leurs permissions."
     },
     "database": {
+      "title": "Gestion de la Base de Données",
+      "subtitle": "Surveillez et gérez la configuration de votre base de données",
       "stats": {
         "title": "Statistiques de la Base de Données",
         "collectionsConfigured": "Collections configurées",
@@ -360,6 +371,8 @@
       }
     },
     "firebase": {
+      "title": "Configuration Firebase",
+      "subtitle": "Gérez les paramètres et règles de votre projet Firebase",
       "config": {
         "title": "Configuration Firebase",
         "copy": "Copier",

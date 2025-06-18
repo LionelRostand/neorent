@@ -316,10 +316,19 @@
       "payment": "Payment",
       "adminAccess": "Tenant Access"
     },
+    "company": {
+      "title": "Company Management",
+      "subtitle": "Manage your company information and settings"
+    },
+    "employees": {
+      "title": "Employee Management",
+      "subtitle": "Manage your team members and their access"
+    },
     "companyManagement": "Company Management",
     "addCompany": "Add company",
     "permissions": {
       "title": "Employee Permissions Management",
+      "subtitle": "Configure access rights for your team members",
       "loading": "Loading permissions...",
       "selectEmployee": "Select Employee",
       "chooseEmployee": "Choose an employee",
@@ -340,6 +349,8 @@
       "noEmployees": "No employees found. Add employees first to manage their permissions."
     },
     "database": {
+      "title": "Database Management",
+      "subtitle": "Monitor and manage your database configuration",
       "stats": {
         "title": "Database Statistics",
         "collectionsConfigured": "Collections configured",
@@ -360,6 +371,8 @@
       }
     },
     "firebase": {
+      "title": "Firebase Configuration",
+      "subtitle": "Manage your Firebase project settings and rules",
       "config": {
         "title": "Firebase Configuration",
         "copy": "Copy",

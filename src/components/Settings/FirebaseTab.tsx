@@ -5,6 +5,7 @@ import { StorageRulesSection } from './Firebase/StorageRulesSection';
 import FirebaseCollectionsList from './Firebase/FirebaseCollectionsList';
 import { UserRolesList } from './Firebase/UserRolesList';
 import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const FirebaseTab: React.FC = () => {
   const { t } = useTranslation();
@@ -16,6 +17,19 @@ const FirebaseTab: React.FC = () => {
 
   return (
     <div className="space-y-4 md:space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
+            🔥 {t('settings.firebase.title')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-600 mb-6">
+            {t('settings.firebase.subtitle')}
+          </p>
+        </CardContent>
+      </Card>
+      
       <FirestoreRulesSection onCopy={copyToClipboard} />
       <StorageRulesSection onCopy={copyToClipboard} />
       <FirebaseCollectionsList />

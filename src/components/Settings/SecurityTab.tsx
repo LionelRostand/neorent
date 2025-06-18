@@ -7,6 +7,7 @@ import PasswordPolicyConfig from './Security/PasswordPolicyConfig';
 import TwoFactorConfig from './Security/TwoFactorConfig';
 import SessionSecurityConfig from './Security/SessionSecurityConfig';
 import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const SecurityTab: React.FC = () => {
   const { t } = useTranslation();
@@ -29,18 +30,22 @@ const SecurityTab: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold">{t('settings.security.title')}</h2>
-          <p className="text-gray-600">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900 flex justify-between items-center">
+            <span>🔒 {t('settings.security.title')}</span>
+            <Button onClick={handleSave} disabled={saving}>
+              <Save className="h-4 w-4 mr-2" />
+              {saving ? t('settings.security.saving') : t('common.save')}
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-600 mb-6">
             {t('settings.security.subtitle')}
           </p>
-        </div>
-        <Button onClick={handleSave} disabled={saving}>
-          <Save className="h-4 w-4 mr-2" />
-          {saving ? t('settings.security.saving') : t('common.save')}
-        </Button>
-      </div>
+        </CardContent>
+      </Card>
 
       <PasswordPolicyConfig
         policy={settings.passwordPolicy}
