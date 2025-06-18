@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -427,6 +426,7 @@
       "clickRulesTab": "Click on the 'Rules' tab",
       "replaceContentWithNewRules": "Replace the existing content with the new rules",
       "clickPublishToApply": "Click 'Publish' to apply the changes",
+      "userRolesDefined": "User Roles Defined",
       "config": {
         "title": "Firebase Configuration",
         "copy": "Copy",
