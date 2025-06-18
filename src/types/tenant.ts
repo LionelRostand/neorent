@@ -4,4 +4,5 @@ export interface Tenant {
   propertyId: string;
   fullName: string;
   rentAmount: number;
+  property?: string;
 }

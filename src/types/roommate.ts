@@ -5,4 +5,5 @@ export interface Roommate {
   fullName: string;
   roomNumber: string;
   rentAmount: number;
+  property?: string;
 }

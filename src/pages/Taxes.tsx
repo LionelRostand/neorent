@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,6 +26,7 @@ const generateYears = () => {
 const defaultYear = Math.max(new Date().getFullYear(), 2025);
 
 const Taxes = () => {
+  const { t } = useTranslation();
   const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [isDeclarationFormOpen, setIsDeclarationFormOpen] = useState(false);
   
@@ -106,7 +107,7 @@ const Taxes = () => {
       <MainLayout>
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-          <p className="ml-4">Chargement des données fiscales...</p>
+          <p className="ml-4">{t('taxes.loading')}</p>
         </div>
       </MainLayout>
     );
@@ -117,15 +118,15 @@ const Taxes = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Fiscalités</h1>
-            <p className="text-gray-600 mt-2">Gérez vos obligations fiscales et estimez vos impôts</p>
+            <h1 className="text-3xl font-bold text-gray-900">{t('taxes.fiscalities')}</h1>
+            <p className="text-gray-600 mt-2">{t('taxes.manageFiscalObligations')}</p>
           </div>
           <Button 
             className="bg-blue-600 hover:bg-blue-700"
             onClick={() => setIsDeclarationFormOpen(true)}
           >
             <Plus className="mr-2 h-4 w-4" />
-            Nouvelle déclaration
+            {t('taxes.newDeclaration')}
           </Button>
         </div>
 
@@ -134,27 +135,27 @@ const Taxes = () => {
           <CardHeader>
             <CardTitle className="flex items-center text-blue-800">
               <TrendingUp className="mr-2 h-5 w-5" />
-              Estimation Fiscale {defaultYear}
+              {t('taxes.taxEstimation2025')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="text-center">
-                <p className="text-sm text-gray-600">Total Approximatif</p>
+                <p className="text-sm text-gray-600">{t('taxes.approximateTotal')}</p>
                 <p className="text-2xl font-bold text-blue-600">{totalCurrentYearAmount.toLocaleString('fr-FR')}€</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600">Déjà Payé</p>
+                <p className="text-sm text-gray-600">{t('taxes.alreadyPaid')}</p>
                 <p className="text-2xl font-bold text-green-600">{paidCurrentYear.toLocaleString('fr-FR')}€</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600">Reste à Payer</p>
+                <p className="text-sm text-gray-600">{t('taxes.remainingToPay')}</p>
                 <p className="text-2xl font-bold text-orange-600">{remainingCurrentYear.toLocaleString('fr-FR')}€</p>
               </div>
             </div>
             <div className="mt-4 p-3 bg-blue-100 rounded-lg">
               <p className="text-sm text-blue-800">
-                <strong>Note:</strong> Cette estimation est basée sur les données déclarées et peut varier selon l'évolution de votre patrimoine et des taux d'imposition.
+                <strong>{t('common.note')}:</strong> {t('taxes.estimationNote')}
               </p>
             </div>
           </CardContent>
@@ -162,7 +163,7 @@ const Taxes = () => {
 
         {/* Sélecteur d'année dynamique */}
         <div className="flex items-center space-x-4">
-          <label className="text-sm font-medium text-gray-700">Filtrer par année:</label>
+          <label className="text-sm font-medium text-gray-700">{t('taxes.filterByYear')}</label>
           <select 
             value={selectedYear} 
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
@@ -177,33 +178,33 @@ const Taxes = () => {
         {/* Métriques pour l'année sélectionnée */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
-            title="Payées"
+            title={t('taxes.paidTaxes')}
             value={paidCount}
-            description={`${paidCount} taxe${paidCount > 1 ? 's' : ''} payée${paidCount > 1 ? 's' : ''}`}
+            description={`${paidCount} ${t('taxes.taxPaid')}`}
             icon={CheckCircle}
             iconBgColor="bg-green-500"
             borderColor="border-l-green-500"
           />
           <MetricCard
-            title="À déclarer"
+            title={t('taxes.taxesToDeclare')}
             value={todeclareCount}
-            description={`${todeclareCount} déclaration${todeclareCount > 1 ? 's' : ''} à faire`}
+            description={`${todeclareCount} ${t('taxes.declarationToDo')}`}
             icon={Clock}
             iconBgColor="bg-yellow-500"
             borderColor="border-l-yellow-500"
           />
           <MetricCard
-            title="À payer"
+            title={t('taxes.taxesToPay')}
             value={pendingCount}
-            description={`${pendingCount} paiement${pendingCount > 1 ? 's' : ''} à effectuer`}
+            description={`${pendingCount} ${t('taxes.paymentToMake')}`}
             icon={XCircle}
             iconBgColor="bg-red-500"
             borderColor="border-l-red-500"
           />
           <MetricCard
-            title="Total"
+            title={t('taxes.totalTaxes')}
             value={totalCount}
-            description={`${totalCount} obligation${totalCount > 1 ? 's' : ''} au total`}
+            description={`${totalCount} ${t('taxes.totalObligation')}`}
             icon={Receipt}
             iconBgColor="bg-blue-500"
             borderColor="border-l-blue-500"
@@ -212,7 +213,7 @@ const Taxes = () => {
 
         {/* Titre Liste */}
         <div className="pt-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Liste des Fiscalités - {selectedYear}</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('taxes.taxList2025', { year: selectedYear })}</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

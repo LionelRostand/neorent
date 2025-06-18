@@ -5,4 +5,5 @@ export interface Property {
   address: string;
   rent: string;
   charges?: Record<string, any>;
+  tenant?: string | null;
 }
