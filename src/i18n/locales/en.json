@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -20,6 +19,8 @@
   "properties": {
     "title": "Properties",
     "subtitle": "Manage your real estate properties",
+    "management": "Property Management",
+    "description": "Manage and track all your real estate properties",
     "addProperty": "Add Property",
     "loading": "Loading properties...",
     "addSuccess": "Property added successfully",
@@ -41,11 +42,30 @@
     "partiallyOccupied": "Partially Occupied",
     "fullyOccupied": "Fully Occupied",
     "vacant": "Vacant",
-    "perMonth": "/month"
+    "perMonth": "/month",
+    "metrics": {
+      "totalProperties": "Total Properties",
+      "totalDescription": "{{count}} properties in your portfolio",
+      "occupancyRate": "Occupancy Rate",
+      "occupancyDescription": "{{rate}}% of your properties are occupied",
+      "colocationRooms": "Shared Rooms",
+      "colocationDescription": "{{occupied}}/{{total}} rooms occupied",
+      "monthlyRevenue": "Monthly Revenue",
+      "revenueDescription": "Total revenue for this month"
+    },
+    "listTitle": "Property List",
+    "listDescription": "Manage and view all your properties",
+    "noProperties": "No properties",
+    "noPropertiesDescription": "Start by adding your first property",
+    "viewDetails": "View details",
+    "editProperty": "Edit",
+    "confirmDelete": "Are you sure you want to delete this property?"
   },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Overview of your real estate activity",
+    "management": "Dashboard",
+    "description": "Overview of your real estate activity",
     "monthlyRevenue": "Monthly Revenue",
     "managedProperties": "Managed Properties",
     "activeTenants": "Active Tenants",
@@ -76,6 +96,8 @@
   "tenants": {
     "title": "Tenants",
     "subtitle": "Manage your tenants and their information",
+    "management": "Tenant Management",
+    "description": "Manage tenant accounts and their information",
     "addTenant": "Add Tenant",
     "loading": "Loading tenants...",
     "addSuccess": "Tenant added successfully",
@@ -83,11 +105,31 @@
     "updateSuccess": "Tenant updated successfully",
     "updateError": "Error updating tenant",
     "deleteSuccess": "Tenant deleted successfully",
-    "deleteError": "Error deleting tenant"
+    "deleteError": "Error deleting tenant",
+    "metrics": {
+      "activeTenants": "Active Tenants",
+      "activeDescription": "{{count}} currently active tenants",
+      "searching": "Searching",
+      "searchingDescription": "{{count}} people searching for housing",
+      "inactive": "Inactive",
+      "inactiveDescription": "{{count}} inactive tenants",
+      "total": "Total",
+      "totalDescription": "{{count}} total tenants"
+    },
+    "listTitle": "Tenant List",
+    "listDescription": "Manage and communicate with your tenants",
+    "noTenants": "No tenants",
+    "noTenantsDescription": "Start by adding your first tenant",
+    "viewDetails": "View details",
+    "contact": "Contact",
+    "rentPerMonth": "€/month",
+    "confirmDelete": "Are you sure you want to delete this tenant?"
   },
   "roommates": {
     "title": "Roommates",
     "subtitle": "Manage roommates and their information",
+    "management": "Roommate Management",
+    "description": "Manage roommates and their housing information",
     "addRoommate": "Add Roommate",
     "loading": "Loading roommates...",
     "addSuccess": "Roommate added successfully",
@@ -100,6 +142,8 @@
   "contracts": {
     "title": "Contracts",
     "subtitle": "Manage your rental contracts",
+    "management": "Contract Management",
+    "description": "Manage and track all your rental contracts",
     "addContract": "Add Contract",
     "loading": "Loading contracts...",
     "addSuccess": "Contract added successfully",
@@ -112,6 +156,8 @@
   "inspections": {
     "title": "Inspections",
     "subtitle": "Schedule and manage property inspections",
+    "management": "Inspection Management",
+    "description": "Schedule and track property inspections",
     "addInspection": "Add Inspection",
     "loading": "Loading inspections...",
     "addSuccess": "Inspection added successfully",
@@ -124,6 +170,8 @@
   "rentManagement": {
     "title": "Rent Management",
     "subtitle": "Track and manage rent payments",
+    "management": "Rent Management",
+    "description": "Track payments and manage rent",
     "loading": "Loading payments...",
     "addSuccess": "Payment added successfully",
     "addError": "Error adding payment",
@@ -133,6 +181,8 @@
   "rentalCharges": {
     "title": "Rental Charges",
     "subtitle": "Manage charges and provisions for your properties",
+    "management": "Rental Charges",
+    "description": "Manage charges and provisions for your properties",
     "loading": "Loading charges...",
     "addSuccess": "Charge added successfully",
     "addError": "Error adding charge",
@@ -142,6 +192,8 @@
   "maintenance": {
     "title": "Maintenance",
     "subtitle": "Manage maintenance requests and interventions",
+    "management": "Maintenance Management",
+    "description": "Manage maintenance requests and interventions",
     "loading": "Loading requests...",
     "addSuccess": "Request added successfully",
     "addError": "Error adding request",
@@ -151,6 +203,8 @@
   "messages": {
     "title": "Messages",
     "subtitle": "Communication with your tenants and partners",
+    "management": "Message Management",
+    "description": "Communication with your tenants and partners",
     "loading": "Loading messages...",
     "sendSuccess": "Message sent successfully",
     "sendError": "Error sending message"
@@ -158,6 +212,8 @@
   "taxes": {
     "title": "Taxes",
     "subtitle": "Manage your real estate tax declarations",
+    "management": "Tax Management",
+    "description": "Manage your real estate tax declarations",
     "loading": "Loading tax data...",
     "saveSuccess": "Tax data saved",
     "saveError": "Error saving data"
@@ -165,12 +221,16 @@
   "help": {
     "title": "Help",
     "subtitle": "Documentation and technical support",
+    "management": "Help Center",
+    "description": "Documentation and technical support",
     "searchPlaceholder": "Search in help...",
     "noResults": "No results found"
   },
   "forecasting": {
     "title": "Forecasting",
     "subtitle": "Simulate your future real estate investments",
+    "management": "Investment Forecasting",
+    "description": "Simulate and plan your future real estate investments",
     "currentSituation": "Current Situation",
     "realMonthlyRevenue": "Real Monthly Revenue",
     "basedOnPayments": "Based on payments received this month",
@@ -470,6 +530,8 @@
   "settings": {
     "title": "Settings",
     "subtitle": "Configure your application",
+    "management": "Settings",
+    "description": "Configure your application and preferences",
     "tabs": {
       "company": "Company",
       "employees": "Employees",
@@ -500,6 +562,8 @@
   },
   "website": {
     "websiteManagement": "Website Management",
+    "management": "Website Management",
+    "description": "Manage and configure your NeoRent website",
     "subtitle": "Manage and configure your NeoRent website",
     "pages": {
       "title": "Page Management",

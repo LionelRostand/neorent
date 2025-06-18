@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Tableau de bord",
@@ -20,6 +19,8 @@
   "properties": {
     "title": "Propriétés",
     "subtitle": "Gérez vos biens immobiliers",
+    "management": "Gestion des Propriétés",
+    "description": "Gérez et suivez tous vos biens immobiliers",
     "addProperty": "Ajouter un bien",
     "loading": "Chargement des propriétés...",
     "addSuccess": "Bien ajouté avec succès",
@@ -41,11 +42,30 @@
     "partiallyOccupied": "Partiellement occupé",
     "fullyOccupied": "Complet",
     "vacant": "Libre",
-    "perMonth": "/mois"
+    "perMonth": "/mois",
+    "metrics": {
+      "totalProperties": "Total des Propriétés",
+      "totalDescription": "{{count}} propriétés dans votre portefeuille",
+      "occupancyRate": "Taux d'Occupation",
+      "occupancyDescription": "{{rate}}% de vos propriétés sont occupées",
+      "colocationRooms": "Chambres en Colocation",
+      "colocationDescription": "{{occupied}}/{{total}} chambres occupées",
+      "monthlyRevenue": "Revenus Mensuels",
+      "revenueDescription": "Revenus totaux de ce mois"
+    },
+    "listTitle": "Liste des Propriétés",
+    "listDescription": "Gérez et visualisez toutes vos propriétés",
+    "noProperties": "Aucune propriété",
+    "noPropertiesDescription": "Commencez par ajouter votre première propriété",
+    "viewDetails": "Voir les détails",
+    "editProperty": "Modifier",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette propriété ?"
   },
   "dashboard": {
     "title": "Tableau de bord",
     "subtitle": "Vue d'ensemble de votre activité immobilière",
+    "management": "Tableau de Bord",
+    "description": "Vue d'ensemble de votre activité immobilière",
     "monthlyRevenue": "Revenus mensuels",
     "managedProperties": "Biens gérés",
     "activeTenants": "Locataires actifs",
@@ -76,6 +96,8 @@
   "tenants": {
     "title": "Locataires",
     "subtitle": "Gérez vos locataires et leurs informations",
+    "management": "Gestion des Locataires",
+    "description": "Gérez les comptes et informations de vos locataires",
     "addTenant": "Ajouter un locataire",
     "loading": "Chargement des locataires...",
     "addSuccess": "Locataire ajouté avec succès",
@@ -83,11 +105,31 @@
     "updateSuccess": "Locataire mis à jour avec succès",
     "updateError": "Erreur lors de la mise à jour du locataire",
     "deleteSuccess": "Locataire supprimé avec succès",
-    "deleteError": "Erreur lors de la suppression du locataire"
+    "deleteError": "Erreur lors de la suppression du locataire",
+    "metrics": {
+      "activeTenants": "Locataires Actifs",
+      "activeDescription": "{{count}} locataires actuellement actifs",
+      "searching": "En Recherche",
+      "searchingDescription": "{{count}} personnes en recherche de logement",
+      "inactive": "Inactifs",
+      "inactiveDescription": "{{count}} locataires inactifs",
+      "total": "Total",
+      "totalDescription": "{{count}} locataires au total"
+    },
+    "listTitle": "Liste des Locataires",
+    "listDescription": "Gérez et communiquez avec vos locataires",
+    "noTenants": "Aucun locataire",
+    "noTenantsDescription": "Commencez par ajouter votre premier locataire",
+    "viewDetails": "Voir les détails",
+    "contact": "Contacter",
+    "rentPerMonth": "€/mois",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce locataire ?"
   },
   "roommates": {
     "title": "Colocataires",
     "subtitle": "Gérez les colocataires et leurs informations",
+    "management": "Gestion des Colocataires",
+    "description": "Gérez les colocataires et leurs informations de logement",
     "addRoommate": "Ajouter un colocataire",
     "loading": "Chargement des colocataires...",
     "addSuccess": "Colocataire ajouté avec succès",
@@ -100,6 +142,8 @@
   "contracts": {
     "title": "Contrats",
     "subtitle": "Gérez vos contrats de location",
+    "management": "Gestion des Contrats",
+    "description": "Gérez et suivez tous vos contrats de location",
     "addContract": "Ajouter un contrat",
     "loading": "Chargement des contrats...",
     "addSuccess": "Contrat ajouté avec succès",
@@ -112,6 +156,8 @@
   "inspections": {
     "title": "Inspections",
     "subtitle": "Planifiez et gérez les inspections de vos biens",
+    "management": "Gestion des Inspections",
+    "description": "Planifiez et suivez les inspections de vos propriétés",
     "addInspection": "Ajouter une inspection",
     "loading": "Chargement des inspections...",
     "addSuccess": "Inspection ajoutée avec succès",
@@ -124,6 +170,8 @@
   "rentManagement": {
     "title": "Gestion des loyers",
     "subtitle": "Suivez et gérez les paiements de loyer",
+    "management": "Gestion des Loyers",
+    "description": "Suivez les paiements et gérez les loyers",
     "loading": "Chargement des paiements...",
     "addSuccess": "Paiement ajouté avec succès",
     "addError": "Erreur lors de l'ajout du paiement",
@@ -133,6 +181,8 @@
   "rentalCharges": {
     "title": "Charges locatives",
     "subtitle": "Gérez les charges et provisions de vos propriétés",
+    "management": "Charges Locatives",
+    "description": "Gérez les charges et provisions de vos propriétés",
     "loading": "Chargement des charges...",
     "addSuccess": "Charge ajoutée avec succès",
     "addError": "Erreur lors de l'ajout de la charge",
@@ -142,6 +192,8 @@
   "maintenance": {
     "title": "Maintenance",
     "subtitle": "Gérez les demandes et interventions de maintenance",
+    "management": "Gestion de la Maintenance",
+    "description": "Gérez les demandes et interventions de maintenance",
     "loading": "Chargement des demandes...",
     "addSuccess": "Demande ajoutée avec succès",
     "addError": "Erreur lors de l'ajout de la demande",
@@ -151,6 +203,8 @@
   "messages": {
     "title": "Messages",
     "subtitle": "Communication avec vos locataires et partenaires",
+    "management": "Gestion des Messages",
+    "description": "Communication avec vos locataires et partenaires",
     "loading": "Chargement des messages...",
     "sendSuccess": "Message envoyé avec succès",
     "sendError": "Erreur lors de l'envoi du message"
@@ -158,6 +212,8 @@
   "taxes": {
     "title": "Fiscalité",
     "subtitle": "Gérez vos déclarations fiscales immobilières",
+    "management": "Gestion Fiscale",
+    "description": "Gérez vos déclarations fiscales immobilières",
     "loading": "Chargement des données fiscales...",
     "saveSuccess": "Données fiscales sauvegardées",
     "saveError": "Erreur lors de la sauvegarde"
@@ -165,12 +221,16 @@
   "help": {
     "title": "Aide",
     "subtitle": "Documentation et support technique",
+    "management": "Centre d'Aide",
+    "description": "Documentation et support technique",
     "searchPlaceholder": "Rechercher dans l'aide...",
     "noResults": "Aucun résultat trouvé"
   },
   "forecasting": {
     "title": "Prévisions",
     "subtitle": "Simulez vos investissements immobiliers futurs",
+    "management": "Prévisions d'Investissement",
+    "description": "Simulez et planifiez vos futurs investissements immobiliers",
     "currentSituation": "Situation actuelle",
     "realMonthlyRevenue": "Revenus mensuels réels",
     "basedOnPayments": "Basé sur les paiements reçus ce mois",
@@ -470,6 +530,8 @@
   "settings": {
     "title": "Paramètres",
     "subtitle": "Configurez votre application",
+    "management": "Paramètres",
+    "description": "Configurez votre application et vos préférences",
     "tabs": {
       "company": "Entreprise",
       "employees": "Employés",
@@ -500,6 +562,8 @@
   },
   "website": {
     "websiteManagement": "Gestion du site web",
+    "management": "Gestion du Site Web",
+    "description": "Gérez et configurez votre site web NeoRent",
     "subtitle": "Gérez et configurez votre site web NeoRent",
     "pages": {
       "title": "Gestion des pages",
