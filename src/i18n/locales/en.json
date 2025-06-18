@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -413,6 +414,17 @@
       }
     },
     "email": {
+      "title": "Email Configuration",
+      "subtitle": "Configure email sending and receiving settings",
+      "enabled": "Enable Email System",
+      "testMode": "Test Mode (emails won't be sent)",
+      "loadingSettings": "Loading email settings...",
+      "saving": "Saving email settings...",
+      "recommendedConfig": "Recommended Configuration",
+      "gmailConfig": "Gmail: Use app passwords for secure authentication",
+      "outlookConfig": "Outlook: Enable IMAP/SMTP in your account settings",
+      "appPasswordRecommendation": "Use app-specific passwords instead of your main password",
+      "testConnectionRecommendation": "Test connections before saving configuration",
       "smtp": {
         "title": "SMTP Configuration (Outgoing)",
         "description": "Configure email sending settings",
@@ -430,14 +442,60 @@
         "connectionError": "IMAP connection failed"
       }
     },
+    "security": {
+      "title": "Security Configuration",
+      "subtitle": "Configure security policies and authentication settings",
+      "loadingSettings": "Loading security settings...",
+      "saving": "Saving security settings..."
+    },
     "payment": {
+      "title": "Payment Configuration",
+      "subtitle": "Configure payment methods and processing",
       "stripe": {
         "title": "Stripe Configuration",
-        "description": "Configure credit card payments via Stripe"
+        "description": "Configure credit card payments via Stripe",
+        "enable": "Enable Stripe",
+        "publicKey": "Public Key",
+        "secretKey": "Secret Key",
+        "webhookSecret": "Webhook Secret",
+        "save": "Save Stripe Configuration",
+        "saveSuccess": "Stripe configuration saved successfully"
       },
       "paypal": {
         "title": "PayPal Configuration",
-        "description": "Configure PayPal payments"
+        "description": "Configure PayPal payments",
+        "enable": "Enable PayPal",
+        "clientId": "Client ID",
+        "clientSecret": "Client Secret",
+        "clientIdPlaceholder": "Your PayPal Client ID",
+        "clientSecretPlaceholder": "Your PayPal Client Secret",
+        "save": "Save PayPal Configuration",
+        "saveSuccess": "PayPal configuration saved successfully"
+      },
+      "bank": {
+        "title": "Bank Transfer",
+        "description": "Configure bank transfer information",
+        "enable": "Enable Bank Transfer",
+        "iban": "IBAN",
+        "bic": "BIC/SWIFT",
+        "bankName": "Bank Name",
+        "accountHolder": "Account Holder",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 7890 123",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolderPlaceholder": "John Doe",
+        "save": "Save Bank Configuration",
+        "saveSuccess": "Bank configuration saved successfully"
+      },
+      "mobile": {
+        "title": "Mobile Payment",
+        "description": "Configure mobile payment solutions",
+        "enable": "Enable Mobile Payment",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Mobile Money",
+        "moovMoney": "Moov Money",
+        "save": "Save Mobile Configuration",
+        "saveSuccess": "Mobile payment configuration saved successfully"
       },
       "bankTransfer": {
         "title": "Bank Transfer",

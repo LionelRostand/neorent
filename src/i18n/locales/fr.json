@@ -34,7 +34,11 @@
     "occupancyRate": "taux d'occupation",
     "newThisMonth": "nouveaux ce mois",
     "vsLastMonth": "vs mois dernier",
-    "vsQuarter": "vs trimestre"
+    "vsQuarter": "vs trimestre",
+    "rentalRevenue": "Revenus Locatifs",
+    "recentActivity": "Activité Récente",
+    "revenue": "Revenus",
+    "noRecentActivity": "Aucune activité récente"
   },
   "properties": {
     "title": "Biens Immobiliers",
@@ -313,7 +317,195 @@
       "adminAccess": "Accès Locataires"
     },
     "companyManagement": "Gestion des Entreprises",
-    "addCompany": "Ajouter une entreprise"
+    "addCompany": "Ajouter une entreprise",
+    "permissions": {
+      "title": "Gestion des Permissions Employés",
+      "loading": "Chargement des permissions...",
+      "selectEmployee": "Sélectionner un Employé",
+      "chooseEmployee": "Choisir un employé",
+      "selectedEmployeeInfo": "Informations de l'Employé Sélectionné",
+      "name": "Nom",
+      "email": "Email",
+      "company": "Entreprise",
+      "noCompany": "Aucune entreprise",
+      "unknownCompany": "Entreprise inconnue",
+      "allowAll": "Tout Autoriser",
+      "denyAll": "Tout Refuser",
+      "read": "Lecture",
+      "write": "Écriture",
+      "view": "Visualiser",
+      "delete": "Supprimer",
+      "save": "Sauvegarder les Permissions",
+      "saving": "Sauvegarde...",
+      "noEmployees": "Aucun employé trouvé. Ajoutez d'abord des employés pour gérer leurs permissions."
+    },
+    "database": {
+      "stats": {
+        "title": "Statistiques de la Base de Données",
+        "collectionsConfigured": "Collections configurées",
+        "firestoreCollections": "Collections Firestore",
+        "activeUsers": "Utilisateurs actifs",
+        "userAccounts": "Comptes utilisateurs",
+        "storedDocuments": "Documents stockés",
+        "documentsInCollections": "Documents dans les collections",
+        "operationsPerDay": "Opérations par jour",
+        "dailyOperations": "Opérations quotidiennes"
+      },
+      "importantInfo": {
+        "title": "Informations Importantes",
+        "realTimeStats": "Statistiques mises à jour en temps réel",
+        "monitorQuota": "Surveillez votre quota Firebase",
+        "optimizeQueries": "Optimisez vos requêtes pour de meilleures performances",
+        "configureBilling": "Configurez les alertes de facturation dans la console Firebase"
+      }
+    },
+    "firebase": {
+      "config": {
+        "title": "Configuration Firebase",
+        "copy": "Copier",
+        "console": "Console",
+        "connectionStatus": {
+          "title": "État de la Connexion",
+          "firestore": "Firestore",
+          "authentication": "Authentification",
+          "storage": "Stockage",
+          "region": "Région",
+          "connected": "Connecté",
+          "configured": "Configuré",
+          "available": "Disponible",
+          "europe": "Europe",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Sécurité",
+          "apiKeyPublic": "La clé API est publique et visible dans le frontend",
+          "rulesProtection": "Les règles de sécurité protègent vos données",
+          "checkRules": "Vérifiez vos règles Firestore et Storage",
+          "monitorUsage": "Surveillez l'utilisation dans la console Firebase"
+        }
+      },
+      "collections": {
+        "title": "Collections Firebase",
+        "lastUpdate": "Dernière mise à jour",
+        "refreshing": "Actualisation...",
+        "refresh": "Actualiser",
+        "refreshed": "Collections actualisées",
+        "refreshedDescription": "Les statistiques des collections ont été mises à jour.",
+        "properties": "Gestion des propriétés",
+        "tenants": "Gestion des locataires",
+        "roommates": "Gestion des colocataires",
+        "payments": "Suivi des paiements",
+        "contracts": "Gestion des contrats",
+        "inspections": "Planification des inspections",
+        "maintenances": "Demandes de maintenance",
+        "companies": "Gestion des entreprises",
+        "active": "Actif",
+        "inactive": "Inactif",
+        "document": "document",
+        "modified": "Modifié",
+        "docs": "docs",
+        "importantInfo": {
+          "title": "Informations Importantes",
+          "autoCreated": "Les collections sont créées automatiquement lors de l'ajout du premier document",
+          "rulesApply": "Les règles de sécurité s'appliquent à toutes les collections",
+          "realTimeSync": "La synchronisation en temps réel est activée",
+          "refreshStats": "Actualisez pour obtenir les dernières statistiques"
+        }
+      }
+    },
+    "email": {
+      "title": "Configuration Email",
+      "subtitle": "Configurez les paramètres d'envoi et de réception d'emails",
+      "enabled": "Activer le Système Email",
+      "testMode": "Mode Test (les emails ne seront pas envoyés)",
+      "loadingSettings": "Chargement des paramètres email...",
+      "saving": "Sauvegarde des paramètres email...",
+      "recommendedConfig": "Configuration Recommandée",
+      "gmailConfig": "Gmail : Utilisez des mots de passe d'application pour une authentification sécurisée",
+      "outlookConfig": "Outlook : Activez IMAP/SMTP dans les paramètres de votre compte",
+      "appPasswordRecommendation": "Utilisez des mots de passe spécifiques aux applications plutôt que votre mot de passe principal",
+      "testConnectionRecommendation": "Testez les connexions avant de sauvegarder la configuration",
+      "smtp": {
+        "title": "Configuration SMTP (Sortant)",
+        "description": "Configurez les paramètres d'envoi d'emails",
+        "testConnection": "Tester la Connexion",
+        "testing": "Test en cours...",
+        "connectionSuccess": "Connexion SMTP réussie",
+        "connectionError": "Échec de la connexion SMTP"
+      },
+      "imap": {
+        "title": "Configuration IMAP (Entrant)",
+        "description": "Configurez les paramètres de réception d'emails",
+        "testConnection": "Tester la Connexion",
+        "testing": "Test en cours...",
+        "connectionSuccess": "Connexion IMAP réussie",
+        "connectionError": "Échec de la connexion IMAP"
+      }
+    },
+    "security": {
+      "title": "Configuration de Sécurité",
+      "subtitle": "Configurez les politiques de sécurité et les paramètres d'authentification",
+      "loadingSettings": "Chargement des paramètres de sécurité...",
+      "saving": "Sauvegarde des paramètres de sécurité..."
+    },
+    "payment": {
+      "title": "Configuration des Paiements",
+      "subtitle": "Configurez les méthodes de paiement et le traitement",
+      "stripe": {
+        "title": "Configuration Stripe",
+        "description": "Configurez les paiements par carte de crédit via Stripe",
+        "enable": "Activer Stripe",
+        "publicKey": "Clé Publique",
+        "secretKey": "Clé Secrète",
+        "webhookSecret": "Secret Webhook",
+        "save": "Sauvegarder la Configuration Stripe",
+        "saveSuccess": "Configuration Stripe sauvegardée avec succès"
+      },
+      "paypal": {
+        "title": "Configuration PayPal",
+        "description": "Configurez les paiements PayPal",
+        "enable": "Activer PayPal",
+        "clientId": "ID Client",
+        "clientSecret": "Secret Client",
+        "clientIdPlaceholder": "Votre ID Client PayPal",
+        "clientSecretPlaceholder": "Votre Secret Client PayPal",
+        "save": "Sauvegarder la Configuration PayPal",
+        "saveSuccess": "Configuration PayPal sauvegardée avec succès"
+      },
+      "bank": {
+        "title": "Virement Bancaire",
+        "description": "Configurez les informations de virement bancaire",
+        "enable": "Activer le Virement Bancaire",
+        "iban": "IBAN",
+        "bic": "BIC/SWIFT",
+        "bankName": "Nom de la Banque",
+        "accountHolder": "Titulaire du Compte",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 7890 123",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolderPlaceholder": "Jean Dupont",
+        "save": "Sauvegarder la Configuration Bancaire",
+        "saveSuccess": "Configuration bancaire sauvegardée avec succès"
+      },
+      "mobile": {
+        "title": "Paiement Mobile",
+        "description": "Configurez les solutions de paiement mobile",
+        "enable": "Activer le Paiement Mobile",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Mobile Money",
+        "moovMoney": "Moov Money",
+        "save": "Sauvegarder la Configuration Mobile",
+        "saveSuccess": "Configuration de paiement mobile sauvegardée avec succès"
+      },
+      "bankTransfer": {
+        "title": "Virement Bancaire",
+        "description": "Configurez les informations de virement bancaire"
+      },
+      "mobilePayment": {
+        "title": "Paiement Mobile",
+        "description": "Configurez les solutions de paiement mobile"
+      }
+    }
   },
   "common": {
     "loading": "Chargement...",
