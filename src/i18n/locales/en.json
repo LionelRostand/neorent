@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -197,7 +198,16 @@
     "propertyInformation": "Property Information",
     "type": "TYPE",
     "property": "PROPERTY", 
-    "monthlyRent": "MONTHLY RENT"
+    "monthlyRent": "MONTHLY RENT",
+    "paidRents": "Paid Rents",
+    "received": "received",
+    "late": "Late",
+    "overdue": "overdue",
+    "pending": "Pending",
+    "expected": "expected",
+    "totalMonth": "Total",
+    "totalReceived": "Received:",
+    "missing": "Missing:"
   },
   "rentalCharges": {
     "title": "Rental Charges",
