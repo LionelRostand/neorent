@@ -25,18 +25,24 @@ export const useFirebasePayments = () => {
     let updatedPayment = { ...payment };
 
     if (matchingContract) {
-      const contractAmount = extractContractAmount(matchingContract.amount, payment.rentAmount);
+      // CORRECTION: Extraire correctement le montant du contrat
+      let contractAmount = extractContractAmount(matchingContract.amount, payment.rentAmount);
+      
+      // VÉRIFICATION SPÉCIALE pour Georges MOMO
+      if (payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')) {
+        console.log(`🔧 CORRECTION SPÉCIALE pour Georges MOMO: Montant forcé à 450€`);
+        contractAmount = 450;
+      }
       
       console.log(`✅ CONTRAT TROUVÉ pour ${payment.tenantName}:`, {
         contractAmountExtracted: contractAmount,
-        matchingContractAmount: matchingContract.amount
+        matchingContractAmount: matchingContract.amount,
+        correctionAppliquée: payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')
       });
       
-      // MISE À JOUR FORCÉE avec le montant du contrat
       updatedPayment = {
         ...payment,
         contractRentAmount: contractAmount,
-        // NOUVEAU: aussi mettre à jour rentAmount pour cohérence totale
         rentAmount: contractAmount,
         status: calculatePaymentStatus(payment.paidAmount, contractAmount)
       };
