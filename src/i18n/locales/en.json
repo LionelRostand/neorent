@@ -104,7 +104,26 @@
     "addRoommate": "Add New Roommate",
     "loading": "Loading roommates...",
     "noRoommates": "No roommates",
-    "noRoommatesDescription": "Start by adding your first roommate."
+    "noRoommatesDescription": "Start by adding your first roommate.",
+    "addSuccess": "Roommate added successfully",
+    "addSuccessDescription": "The roommate has been added successfully.",
+    "emailExistsWarning": "The roommate has been added successfully. Note: The email already exists in the authentication system.",
+    "addError": "Error adding roommate."
+  },
+  "roommateForm": {
+    "password": "Password",
+    "passwordMinLength": "Minimum 6 characters",
+    "property": "Property",
+    "selectProperty": "Select a property",
+    "roomNumber": "Room Number",
+    "rentAmount": "Rent Amount (€)",
+    "rentPlaceholder": "Ex: 70",
+    "rentIncludesCharges": "Amount including charges",
+    "primaryTenant": "Primary Tenant",
+    "moveInDate": "Move-in Date",
+    "lateStatus": "Late",
+    "creating": "Creating...",
+    "addRoommate": "Add Roommate"
   },
   "contracts": {
     "title": "Lease Contracts",

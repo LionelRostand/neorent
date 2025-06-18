@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -35,6 +36,7 @@ interface RoommateFormProps {
 }
 
 const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateFormProps) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -83,14 +85,14 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
 
         if (emailAlreadyExists) {
           toast({
-            title: "Colocataire ajouté",
-            description: "Le colocataire a été ajouté avec succès. Note: L'email existe déjà dans le système d'authentification.",
+            title: t('roommates.addSuccess'),
+            description: t('roommates.emailExistsWarning'),
             variant: "default",
           });
         } else {
           toast({
-            title: "Colocataire ajouté",
-            description: "Le colocataire a été ajouté avec succès.",
+            title: t('roommates.addSuccess'),
+            description: t('roommates.addSuccessDescription'),
           });
         }
       }
@@ -115,8 +117,8 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
     } catch (error: any) {
       console.error('Erreur:', error);
       toast({
-        title: "Erreur",
-        description: error.message || "Erreur lors de l'ajout du colocataire.",
+        title: t('common.error'),
+        description: error.message || t('roommates.addError'),
         variant: "destructive",
       });
     } finally {
@@ -127,12 +129,12 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Ajouter un nouveau colocataire</DialogTitle>
+        <DialogTitle>{t('roommates.addRoommate')}</DialogTitle>
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="name">Nom complet *</Label>
+            <Label htmlFor="name">{t('profile.name')} *</Label>
             <Input
               id="name"
               value={formData.name}
@@ -143,7 +145,7 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
           </div>
           
           <div>
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email">{t('profile.email')} *</Label>
             <Input
               id="email"
               type="email"
@@ -155,7 +157,7 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
           </div>
 
           <div>
-            <Label htmlFor="password">Mot de passe *</Label>
+            <Label htmlFor="password">{t('roommateForm.password')} *</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -175,11 +177,11 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-1">Minimum 6 caractères</p>
+            <p className="text-xs text-gray-500 mt-1">{t('roommateForm.passwordMinLength')}</p>
           </div>
           
           <div>
-            <Label htmlFor="phone">Téléphone</Label>
+            <Label htmlFor="phone">{t('profile.phone')}</Label>
             <Input
               id="phone"
               value={formData.phone}
@@ -189,7 +191,7 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
           </div>
           
           <div>
-            <Label htmlFor="property">Propriété</Label>
+            <Label htmlFor="property">{t('roommateForm.property')}</Label>
             {properties ? (
               <Select 
                 value={formData.property} 
@@ -197,7 +199,7 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
                 disabled={loading}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner une propriété" />
+                  <SelectValue placeholder={t('roommateForm.selectProperty')} />
                 </SelectTrigger>
                 <SelectContent>
                   {properties.map((property) => (
@@ -218,7 +220,7 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
           </div>
           
           <div>
-            <Label htmlFor="roomNumber">Numéro de chambre</Label>
+            <Label htmlFor="roomNumber">{t('roommateForm.roomNumber')}</Label>
             <Input
               id="roomNumber"
               value={formData.roomNumber}
@@ -228,20 +230,20 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
           </div>
           
           <div>
-            <Label htmlFor="rentAmount">Montant du loyer (€)</Label>
+            <Label htmlFor="rentAmount">{t('roommateForm.rentAmount')}</Label>
             <Input
               id="rentAmount"
               type="number"
               value={formData.rentAmount}
               onChange={(e) => setFormData({ ...formData, rentAmount: e.target.value })}
               disabled={loading}
-              placeholder="Ex: 70"
+              placeholder={t('roommateForm.rentPlaceholder')}
             />
-            <p className="text-xs text-gray-500 mt-1">Montant incluant les charges</p>
+            <p className="text-xs text-gray-500 mt-1">{t('roommateForm.rentIncludesCharges')}</p>
           </div>
           
           <div>
-            <Label htmlFor="primaryTenant">Locataire principal</Label>
+            <Label htmlFor="primaryTenant">{t('roommateForm.primaryTenant')}</Label>
             <Input
               id="primaryTenant"
               value={formData.primaryTenant}
@@ -251,7 +253,7 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
           </div>
           
           <div>
-            <Label htmlFor="moveInDate">Date d'emménagement</Label>
+            <Label htmlFor="moveInDate">{t('roommateForm.moveInDate')}</Label>
             <Input
               id="moveInDate"
               type="date"
@@ -262,7 +264,7 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
           </div>
           
           <div>
-            <Label htmlFor="status">Statut</Label>
+            <Label htmlFor="status">{t('profile.status')}</Label>
             <Select 
               value={formData.status} 
               onValueChange={(value) => setFormData({ ...formData, status: value })}
@@ -272,16 +274,16 @@ const RoommateForm = ({ onSuccess, onClose, onSubmit, properties }: RoommateForm
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Actif">Actif</SelectItem>
-                <SelectItem value="Inactif">Inactif</SelectItem>
-                <SelectItem value="En retard">En retard</SelectItem>
+                <SelectItem value="Actif">{t('tenants.status.active')}</SelectItem>
+                <SelectItem value="Inactif">{t('tenants.status.inactive')}</SelectItem>
+                <SelectItem value="En retard">{t('roommateForm.lateStatus')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Création en cours...' : 'Ajouter le colocataire'}
+          {loading ? t('roommateForm.creating') : t('roommateForm.addRoommate')}
         </Button>
       </form>
     </DialogContent>

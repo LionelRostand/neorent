@@ -104,7 +104,26 @@
     "addRoommate": "Ajouter un nouveau colocataire",
     "loading": "Chargement des colocataires...",
     "noRoommates": "Aucun colocataire",
-    "noRoommatesDescription": "Commencez par ajouter votre premier colocataire."
+    "noRoommatesDescription": "Commencez par ajouter votre premier colocataire.",
+    "addSuccess": "Colocataire ajouté avec succès",
+    "addSuccessDescription": "Le colocataire a été ajouté avec succès.",
+    "emailExistsWarning": "Le colocataire a été ajouté avec succès. Note: L'email existe déjà dans le système d'authentification.",
+    "addError": "Erreur lors de l'ajout du colocataire."
+  },
+  "roommateForm": {
+    "password": "Mot de passe",
+    "passwordMinLength": "Minimum 6 caractères",
+    "property": "Propriété",
+    "selectProperty": "Sélectionner une propriété",
+    "roomNumber": "Numéro de chambre",
+    "rentAmount": "Montant du loyer (€)",
+    "rentPlaceholder": "Ex: 70",
+    "rentIncludesCharges": "Montant incluant les charges",
+    "primaryTenant": "Locataire principal",
+    "moveInDate": "Date d'emménagement",
+    "lateStatus": "En retard",
+    "creating": "Création en cours...",
+    "addRoommate": "Ajouter le colocataire"
   },
   "contracts": {
     "title": "Contrats de Baux",
