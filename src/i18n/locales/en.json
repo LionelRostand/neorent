@@ -85,7 +85,12 @@
       "rentability": "Property Profitability",
       "benefit": "Benefit",
       "configuration": "Property Configuration",
-      "occupantList": "Occupants List"
+      "occupantList": "Occupants List",
+      "colocation": "Shared Housing",
+      "roommate": "Roommate",
+      "primaryTenant": "Primary Tenant",
+      "chambre": "Room",
+      "mois": "month"
     }
   },
   "propertyForm": {
