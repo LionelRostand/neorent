@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,7 @@ import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useTaxCalculations } from '@/hooks/useTaxCalculations';
 import TaxDeclarationHeader from './TaxDeclaration/TaxDeclarationHeader';
 import YearSelector from './TaxDeclaration/YearSelector';
+import CountrySelector from './TaxDeclaration/CountrySelector';
 import PropertyOccupantSelector from './TaxDeclaration/PropertyOccupantSelector';
 import ChargesInput from './TaxDeclaration/ChargesInput';
 import TaxBracketSelector from './TaxDeclaration/TaxBracketSelector';
@@ -24,8 +26,9 @@ interface TaxDeclarationFormProps {
 const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormProps) => {
   const currentYear = new Date().getFullYear();
   
-  // États du formulaire - simplifié
+  // États du formulaire
   const [declarationYear, setDeclarationYear] = useState(currentYear);
+  const [country, setCountry] = useState('FR');
   const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
   const [deductibleCharges, setDeductibleCharges] = useState('');
   const [taxBracket, setTaxBracket] = useState('');
@@ -44,7 +47,8 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     selectedTenants: [], // Géré automatiquement via les biens
     selectedRoommates: [], // Géré automatiquement via les biens
     deductibleCharges,
-    taxBracket
+    taxBracket,
+    country
   });
 
   const handlePropertyChange = (propertyId: string, checked: boolean) => {
@@ -70,7 +74,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
       return;
     }
 
-    if (!taxBracket) {
+    if (!taxBracket && country !== 'AE') {
       toast({
         title: "Erreur", 
         description: "Veuillez sélectionner une tranche d'imposition.",
@@ -81,6 +85,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
     
     const declarationData = {
       declarationYear,
+      country,
       selectedProperties,
       deductibleCharges: parseFloat(deductibleCharges) || 0,
       taxBracket,
@@ -106,6 +111,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
       setSelectedProperties([]);
       setDeductibleCharges('');
       setTaxBracket('');
+      setCountry('FR');
       
     } catch (error) {
       console.error('Erreur lors de la génération du PDF:', error);
@@ -136,6 +142,11 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
               onYearChange={setDeclarationYear}
             />
 
+            <CountrySelector
+              country={country}
+              onCountryChange={setCountry}
+            />
+
             <PropertyOccupantSelector
               properties={properties}
               tenants={tenants}
@@ -153,9 +164,10 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
             <TaxBracketSelector
               taxBracket={taxBracket}
               onTaxBracketChange={setTaxBracket}
+              country={country}
             />
 
-            {selectedProperties.length > 0 && taxBracket && (
+            {selectedProperties.length > 0 && (country === 'AE' || taxBracket) && (
               <TaxSummary
                 declarationYear={declarationYear}
                 totalRentalIncome={calculations.totalRentalIncome}
@@ -163,6 +175,8 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
                 netIncome={calculations.netIncome}
                 estimatedTax={calculations.estimatedTax}
                 taxBracket={taxBracket}
+                country={country}
+                currencySymbol={calculations.currencySymbol}
               />
             )}
 
@@ -172,7 +186,7 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
               </Button>
               <Button 
                 type="submit" 
-                disabled={selectedProperties.length === 0 || !taxBracket}
+                disabled={selectedProperties.length === 0 || (!taxBracket && country !== 'AE')}
               >
                 Créer la déclaration
               </Button>

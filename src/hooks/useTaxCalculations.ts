@@ -1,5 +1,6 @@
 
 import { useMemo } from 'react';
+import { calculateTaxForCountry, getCurrencySymbol } from '@/utils/taxBrackets';
 
 interface Property {
   id: string;
@@ -29,6 +30,7 @@ interface UseTaxCalculationsProps {
   selectedRoommates: string[];
   deductibleCharges: string;
   taxBracket: string;
+  country: string;
 }
 
 export const useTaxCalculations = ({
@@ -39,11 +41,13 @@ export const useTaxCalculations = ({
   selectedTenants,
   selectedRoommates,
   deductibleCharges,
-  taxBracket
+  taxBracket,
+  country
 }: UseTaxCalculationsProps) => {
   
   const calculations = useMemo(() => {
     let totalRentalIncome = 0;
+    const currencySymbol = getCurrencySymbol(country);
 
     // Calcul des revenus des biens immobiliers (annualisé automatiquement)
     selectedProperties.forEach(propertyId => {
@@ -89,24 +93,8 @@ export const useTaxCalculations = ({
     const totalCharges = propertyCharges + additionalCharges;
     const netIncome = Math.max(0, totalRentalIncome - totalCharges);
 
-    // Calcul de l'impôt estimé selon la tranche
-    let estimatedTax = 0;
-    switch (taxBracket) {
-      case '11':
-        estimatedTax = netIncome * 0.11;
-        break;
-      case '30':
-        estimatedTax = netIncome * 0.30;
-        break;
-      case '41':
-        estimatedTax = netIncome * 0.41;
-        break;
-      case '45':
-        estimatedTax = netIncome * 0.45;
-        break;
-      default:
-        estimatedTax = 0;
-    }
+    // Calcul de l'impôt estimé selon le pays et la tranche
+    const estimatedTax = calculateTaxForCountry(netIncome, country);
 
     return {
       totalRentalIncome,
@@ -114,9 +102,10 @@ export const useTaxCalculations = ({
       additionalCharges,
       totalCharges,
       netIncome,
-      estimatedTax
+      estimatedTax,
+      currencySymbol
     };
-  }, [properties, tenants, roommates, selectedProperties, selectedTenants, selectedRoommates, deductibleCharges, taxBracket]);
+  }, [properties, tenants, roommates, selectedProperties, selectedTenants, selectedRoommates, deductibleCharges, taxBracket, country]);
 
   return calculations;
 };
