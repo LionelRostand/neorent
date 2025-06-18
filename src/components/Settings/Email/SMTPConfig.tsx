@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Mail, Send } from 'lucide-react';
 import { SMTPSettings } from '../types/email';
+import { useTranslation } from 'react-i18next';
 
 interface SMTPConfigProps {
   settings: SMTPSettings;
@@ -22,6 +23,8 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
   onTestConnection,
   testing = false
 }) => {
+  const { t } = useTranslation();
+
   const handleChange = (field: keyof SMTPSettings, value: string | number) => {
     onSettingsChange({
       ...settings,
@@ -34,13 +37,13 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Send className="h-5 w-5" />
-          Configuration SMTP (Envoi)
+          {t('settings.email.smtp.title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="smtp-host">Serveur SMTP</Label>
+            <Label htmlFor="smtp-host">{t('settings.email.smtp.server')}</Label>
             <Input
               id="smtp-host"
               value={settings.host}
@@ -49,7 +52,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="smtp-port">Port</Label>
+            <Label htmlFor="smtp-port">{t('settings.email.smtp.port')}</Label>
             <Input
               id="smtp-port"
               type="number"
@@ -61,7 +64,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="smtp-username">Nom d'utilisateur</Label>
+            <Label htmlFor="smtp-username">{t('settings.email.smtp.username')}</Label>
             <Input
               id="smtp-username"
               value={settings.username}
@@ -70,7 +73,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="smtp-password">Mot de passe</Label>
+            <Label htmlFor="smtp-password">{t('settings.email.smtp.password')}</Label>
             <Input
               id="smtp-password"
               type="password"
@@ -81,7 +84,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="smtp-security">Sécurité</Label>
+          <Label htmlFor="smtp-security">{t('settings.email.smtp.security')}</Label>
           <Select 
             value={settings.security} 
             onValueChange={(value: 'none' | 'tls' | 'ssl') => handleChange('security', value)}
@@ -90,16 +93,16 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="none">Aucune</SelectItem>
-              <SelectItem value="tls">TLS</SelectItem>
-              <SelectItem value="ssl">SSL</SelectItem>
+              <SelectItem value="none">{t('settings.email.securityOptions.none')}</SelectItem>
+              <SelectItem value="tls">{t('settings.email.securityOptions.tls')}</SelectItem>
+              <SelectItem value="ssl">{t('settings.email.securityOptions.ssl')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="from-email">Email expéditeur</Label>
+            <Label htmlFor="from-email">{t('settings.email.smtp.fromEmail')}</Label>
             <Input
               id="from-email"
               value={settings.fromEmail}
@@ -108,7 +111,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="from-name">Nom expéditeur</Label>
+            <Label htmlFor="from-name">{t('settings.email.smtp.fromName')}</Label>
             <Input
               id="from-name"
               value={settings.fromName}
@@ -125,7 +128,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
             variant="outline"
           >
             <Mail className="h-4 w-4 mr-2" />
-            {testing ? 'Test en cours...' : 'Tester la connexion'}
+            {testing ? t('settings.email.testing') : t('settings.email.smtp.testConnection')}
           </Button>
         </div>
       </CardContent>

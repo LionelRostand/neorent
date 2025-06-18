@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Mail, Inbox } from 'lucide-react';
 import { IMAPSettings } from '../types/email';
+import { useTranslation } from 'react-i18next';
 
 interface IMAPConfigProps {
   settings: IMAPSettings;
@@ -21,6 +22,8 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
   onTestConnection,
   testing = false
 }) => {
+  const { t } = useTranslation();
+
   const handleChange = (field: keyof IMAPSettings, value: string | number) => {
     onSettingsChange({
       ...settings,
@@ -33,13 +36,13 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Inbox className="h-5 w-5" />
-          Configuration IMAP (Réception)
+          {t('settings.email.imap.title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="imap-host">Serveur IMAP</Label>
+            <Label htmlFor="imap-host">{t('settings.email.imap.server')}</Label>
             <Input
               id="imap-host"
               value={settings.host}
@@ -48,7 +51,7 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="imap-port">Port</Label>
+            <Label htmlFor="imap-port">{t('settings.email.imap.port')}</Label>
             <Input
               id="imap-port"
               type="number"
@@ -60,7 +63,7 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="imap-username">Nom d'utilisateur</Label>
+            <Label htmlFor="imap-username">{t('settings.email.imap.username')}</Label>
             <Input
               id="imap-username"
               value={settings.username}
@@ -69,7 +72,7 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="imap-password">Mot de passe</Label>
+            <Label htmlFor="imap-password">{t('settings.email.imap.password')}</Label>
             <Input
               id="imap-password"
               type="password"
@@ -81,7 +84,7 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="imap-security">Sécurité</Label>
+            <Label htmlFor="imap-security">{t('settings.email.imap.security')}</Label>
             <Select 
               value={settings.security} 
               onValueChange={(value: 'none' | 'tls' | 'ssl') => handleChange('security', value)}
@@ -90,14 +93,14 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">Aucune</SelectItem>
-                <SelectItem value="tls">TLS</SelectItem>
-                <SelectItem value="ssl">SSL</SelectItem>
+                <SelectItem value="none">{t('settings.email.securityOptions.none')}</SelectItem>
+                <SelectItem value="tls">{t('settings.email.securityOptions.tls')}</SelectItem>
+                <SelectItem value="ssl">{t('settings.email.securityOptions.ssl')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="imap-folder">Dossier</Label>
+            <Label htmlFor="imap-folder">{t('settings.email.imap.folder')}</Label>
             <Input
               id="imap-folder"
               value={settings.folder}
@@ -114,7 +117,7 @@ const IMAPConfig: React.FC<IMAPConfigProps> = ({
             variant="outline"
           >
             <Mail className="h-4 w-4 mr-2" />
-            {testing ? 'Test en cours...' : 'Tester la connexion'}
+            {testing ? t('settings.email.testing') : t('settings.email.imap.testConnection')}
           </Button>
         </div>
       </CardContent>

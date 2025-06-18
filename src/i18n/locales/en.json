@@ -914,11 +914,17 @@
       "testMode": "Test mode (emails will not be actually sent)",
       "loadingSettings": "Loading settings...",
       "saving": "Saving...",
+      "testing": "Testing...",
       "recommendedConfig": "Recommended Configuration",
       "gmailConfig": "Gmail: SMTP smtp.gmail.com:587 (TLS), IMAP imap.gmail.com:993 (SSL)",
       "outlookConfig": "Outlook: SMTP smtp-mail.outlook.com:587 (TLS), IMAP outlook.office365.com:993 (SSL)",
       "appPasswordRecommendation": "Use app passwords for enhanced security",
       "testConnectionRecommendation": "Always test your connections before saving",
+      "securityOptions": {
+        "none": "None",
+        "tls": "TLS",
+        "ssl": "SSL"
+      },
       "smtp": {
         "title": "SMTP Configuration (Outgoing)",
         "server": "SMTP Server",
@@ -937,6 +943,7 @@
         "security": "Security",
         "username": "Username",
         "password": "Password",
+        "folder": "Folder",
         "testConnection": "Test Connection"
       }
     },
