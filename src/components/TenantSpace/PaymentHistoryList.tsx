@@ -9,7 +9,8 @@ import {
   CheckCircle, 
   Clock,
   Receipt,
-  FileText
+  FileText,
+  Euro
 } from 'lucide-react';
 
 interface PaymentHistoryListProps {
@@ -83,7 +84,26 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
               <div className={`flex ${isMobile ? 'flex-col space-y-3' : 'items-center space-x-4'}`}>
                 <div className={`${isMobile ? 'flex justify-between items-center' : 'text-right'}`}>
                   <div>
-                    <p className="font-semibold text-sm md:text-base">{payment.amount}€</p>
+                    {/* Montant versé - Affiché en priorité pour les paiements effectués */}
+                    {payment.status === 'Payé' && (
+                      <div className="mb-2">
+                        <div className="flex items-center gap-1 justify-end">
+                          <Euro className="h-3 w-3 text-green-600" />
+                          <span className="text-xs text-green-600 font-medium">Montant versé</span>
+                        </div>
+                        <p className="font-bold text-base md:text-lg text-green-600">{payment.amount}€</p>
+                      </div>
+                    )}
+                    
+                    {/* Montant à payer - Pour les paiements en attente */}
+                    {payment.status !== 'Payé' && (
+                      <div className="mb-2">
+                        <span className="text-xs text-gray-500">Montant à payer</span>
+                        <p className="font-semibold text-sm md:text-base text-gray-900">{payment.amount}€</p>
+                      </div>
+                    )}
+                    
+                    {/* Détail loyer + charges */}
                     <p className="text-xs md:text-sm text-gray-600">
                       Loyer: {payment.rent}€ + Charges: {payment.charges}€
                     </p>
