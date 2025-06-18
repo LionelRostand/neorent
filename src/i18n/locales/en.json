@@ -91,7 +91,8 @@
       "primaryTenant": "Primary Tenant",
       "chambre": "Room",
       "mois": "month"
-    }
+    },
+    "availableRooms": "Available Rooms"
   },
   "propertyForm": {
     "addTitle": "Add Property",
@@ -130,19 +131,35 @@
     "error": "Error",
     "addErrorMessage": "Error adding property",
     "requiredFieldsError": "Please fill in all required fields",
+    "save": "Save",
+    "title": "Title",
+    "address": "Address",
+    "type": "Type",
+    "surface": "Surface",
+    "creditImmobilier": "Monthly Rent",
+    "status": "Status",
+    "locationType": "Rental Type",
+    "roomCount": "Number of Rooms",
     "propertyTypes": {
       "appartement": "Apartment",
       "studio": "Studio",
       "maison": "House",
       "loft": "Loft",
-      "duplex": "Duplex"
+      "duplex": "Duplex",
+      "villa": "Villa"
     },
     "locationTypes": {
       "location": "Rental",
       "colocation": "Shared Housing"
     },
+    "statusTypes": {
+      "libre": "Available",
+      "occupe": "Occupied",
+      "travaux": "Under Renovation"
+    },
     "charges": {
       "title": "Monthly Charges Breakdown",
+      "subtitle": "Monthly Charges Breakdown",
       "electricityUnit": "Electricity (€/month)",
       "electricityPlaceholder": "Monthly electricity cost",
       "waterUnit": "Water (€/month)",
