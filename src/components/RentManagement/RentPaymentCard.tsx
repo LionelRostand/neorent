@@ -37,10 +37,13 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
 }) => {
   const statusData = usePaymentStatus(payment.status);
   
+  // Utiliser le montant du contrat si disponible, sinon le montant du loyer
+  const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+  
   // Vérifier s'il y a une incohérence de paiement
-  const hasPaymentDiscrepancy = payment.status === 'Payé' && 
-    payment.paidAmount !== undefined && 
-    payment.paidAmount !== payment.rentAmount;
+  const hasPaymentDiscrepancy = payment.paidAmount !== undefined && 
+    payment.paidAmount !== null && 
+    payment.paidAmount !== expectedAmount;
 
   return (
     <Card className={`hover:shadow-lg transition-all duration-200 border-l-4 ${statusData.borderColor} h-full flex flex-col ${hasPaymentDiscrepancy ? 'ring-2 ring-red-200' : ''}`}>
@@ -79,6 +82,7 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
         <PaymentAmounts
           rentAmount={payment.rentAmount}
           paidAmount={payment.paidAmount}
+          contractRentAmount={payment.contractRentAmount}
         />
 
         {/* Statut de paiement */}

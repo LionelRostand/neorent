@@ -72,9 +72,9 @@ export const useFirebasePayments = () => {
           console.log(`   - Montant paiement actuel: ${payment.rentAmount}€`);
           console.log(`   - Montant payé: ${payment.paidAmount}€`);
           
-          // CORRECTION: Utiliser le montant du contrat comme référence
-          updatedPayment.rentAmount = contractAmount;
+          // CORRECTION PRINCIPALE: Toujours utiliser le montant du contrat comme référence
           updatedPayment.contractRentAmount = contractAmount;
+          updatedPayment.rentAmount = contractAmount; // Le montant attendu est celui du contrat
           
           // Recalculer le statut basé sur le vrai montant du contrat
           if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
@@ -103,6 +103,7 @@ export const useFirebasePayments = () => {
         } else {
           console.log(`❌ Aucun contrat trouvé pour ${payment.tenantName} (${payment.property})`);
           // Garder les données actuelles si aucun contrat trouvé
+          updatedPayment.contractRentAmount = payment.rentAmount;
         }
 
         console.log(`📊 Paiement final pour ${updatedPayment.tenantName}:`, {
