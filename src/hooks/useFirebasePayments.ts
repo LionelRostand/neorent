@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -17,7 +16,10 @@ export const useFirebasePayments = () => {
   const [error, setError] = useState<string | null>(null);
 
   const enrichPaymentWithContract = (payment: Payment, contracts: Contract[]): Payment => {
-    logPaymentProcessing(payment);
+    console.log(`🔍 ENRICHISSEMENT DE: ${payment.tenantName}`, {
+      rentAmountOriginal: payment.rentAmount,
+      contractRentAmountOriginal: payment.contractRentAmount
+    });
     
     const matchingContract = findMatchingContract(payment, contracts);
     let updatedPayment = { ...payment };
@@ -25,41 +27,37 @@ export const useFirebasePayments = () => {
     if (matchingContract) {
       const contractAmount = extractContractAmount(matchingContract.amount, payment.rentAmount);
       
-      logPaymentProcessing(payment, contractAmount);
-      
-      // FORCER la mise à jour COMPLÈTE avec le montant du contrat
-      updatedPayment.contractRentAmount = contractAmount;
-      updatedPayment.rentAmount = contractAmount; // FORCER la cohérence totale
-      updatedPayment.status = calculatePaymentStatus(payment.paidAmount, contractAmount);
-      
-      console.log(`✅ CONTRAT APPLIQUÉ pour ${payment.tenantName}:`, {
-        ancienRentAmount: payment.rentAmount,
-        nouveauRentAmount: contractAmount,
-        contractRentAmount: contractAmount,
-        paidAmount: payment.paidAmount,
-        statusRecalcule: updatedPayment.status
+      console.log(`✅ CONTRAT TROUVÉ pour ${payment.tenantName}:`, {
+        contractAmountExtracted: contractAmount,
+        matchingContractAmount: matchingContract.amount
       });
       
-      if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
-        const paidAmount = Number(payment.paidAmount);
-        if (paidAmount > contractAmount) {
-          console.log(`⚠️ TROP-PERÇU: ${paidAmount}€ payé pour ${contractAmount}€ attendu`);
-        } else if (paidAmount < contractAmount && paidAmount > 0) {
-          console.log(`🚨 PAIEMENT PARTIEL: ${paidAmount}€ payé sur ${contractAmount}€ attendu`);
-        }
-      }
+      // FORCER l'utilisation EXCLUSIVE du montant du contrat
+      updatedPayment = {
+        ...payment,
+        contractRentAmount: contractAmount,
+        rentAmount: contractAmount, // FORCER la cohérence totale
+        status: calculatePaymentStatus(payment.paidAmount, contractAmount)
+      };
+      
+      console.log(`🔧 PAIEMENT MIS À JOUR pour ${payment.tenantName}:`, {
+        nouveauRentAmount: updatedPayment.rentAmount,
+        nouveauContractRentAmount: updatedPayment.contractRentAmount,
+        statusRecalcule: updatedPayment.status
+      });
     } else {
       console.log(`❌ AUCUN CONTRAT TROUVÉ pour ${payment.tenantName} (${payment.property})`);
+      // Si pas de contrat, garder les valeurs originales
       updatedPayment.contractRentAmount = payment.rentAmount;
     }
 
-    logFinalResult(updatedPayment);
     return updatedPayment;
   };
 
   const fetchPayments = async () => {
     try {
       setLoading(true);
+      console.log('🚀 DÉBUT DU CHARGEMENT DES PAIEMENTS');
       
       const [paymentsSnapshot, contractsSnapshot] = await Promise.all([
         getDocs(collection(db, 'Rent_Payments')),
@@ -76,18 +74,25 @@ export const useFirebasePayments = () => {
         ...doc.data()
       })) as Contract[];
 
-      console.log('📋 DONNÉES COMPLÈTES - Contrats récupérés:', contractsData);
-      console.log('💰 DONNÉES COMPLÈTES - Paiements récupérés:', paymentsData);
+      console.log('📋 DONNÉES BRUTES - Contrats:', contractsData);
+      console.log('💰 DONNÉES BRUTES - Paiements:', paymentsData);
 
-      const enrichedPayments = paymentsData.map(payment => 
-        enrichPaymentWithContract(payment, contractsData)
-      );
+      // Enrichir CHAQUE paiement avec les données de contrat
+      const enrichedPayments = paymentsData.map(payment => {
+        const enriched = enrichPaymentWithContract(payment, contractsData);
+        console.log(`📊 PAIEMENT FINAL ${payment.tenantName}:`, {
+          rentAmount: enriched.rentAmount,
+          contractRentAmount: enriched.contractRentAmount,
+          utilisationContrat: enriched.contractRentAmount ? 'OUI' : 'NON'
+        });
+        return enriched;
+      });
 
-      console.log('🔧 PAIEMENTS FINAUX avec contrats appliqués:', enrichedPayments);
+      console.log('🎯 TOUS LES PAIEMENTS ENRICHIS:', enrichedPayments);
       setPayments(enrichedPayments);
       setError(null);
     } catch (err) {
-      console.error('Error fetching payments:', err);
+      console.error('❌ ERREUR lors du chargement:', err);
       setError('Erreur lors du chargement des paiements');
     } finally {
       setLoading(false);

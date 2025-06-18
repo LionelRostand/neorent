@@ -9,21 +9,20 @@ interface PaymentAmountsProps {
 }
 
 const PaymentAmounts: React.FC<PaymentAmountsProps> = ({ rentAmount, paidAmount, contractRentAmount }) => {
-  // PRIORITÉ ABSOLUE au montant du contrat - c'est la source de vérité
-  const expectedAmount = contractRentAmount ?? rentAmount;
+  // PRIORITÉ ABSOLUE au contractRentAmount - C'EST LA SOURCE DE VÉRITÉ
+  const expectedAmount = contractRentAmount || rentAmount;
   
-  console.log('💰 PaymentAmounts - Affichage des montants:', {
-    rentAmount,
-    contractRentAmount,
-    expectedAmount: expectedAmount,
-    paidAmount,
-    source: contractRentAmount ? 'contrat (priorité)' : 'rentAmount (fallback)',
-    contractAmountExists: contractRentAmount !== undefined && contractRentAmount !== null
+  console.log('💰 PaymentAmounts - DEBUGGING AFFICHAGE:', {
+    rentAmount: rentAmount,
+    contractRentAmount: contractRentAmount,
+    expectedAmountCalculé: expectedAmount,
+    paidAmount: paidAmount,
+    sourceUtilisée: contractRentAmount ? 'contractRentAmount (PRIORITÉ)' : 'rentAmount (fallback)'
   });
   
   return (
     <>
-      {/* Montant du loyer mensuel à payer (selon contrat) */}
+      {/* Montant du loyer mensuel à payer */}
       <div className="bg-blue-50 rounded-lg p-3 sm:p-4 mb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -39,7 +38,7 @@ const PaymentAmounts: React.FC<PaymentAmountsProps> = ({ rentAmount, paidAmount,
         </div>
       </div>
 
-      {/* Montant du loyer mensuel payé (si différent) */}
+      {/* Montant du loyer mensuel payé */}
       {paidAmount !== undefined && paidAmount !== null && (
         <div className={`rounded-lg p-3 sm:p-4 mb-3 ${paidAmount === expectedAmount ? 'bg-green-50' : 'bg-red-50'}`}>
           <div className="flex items-center justify-between">
