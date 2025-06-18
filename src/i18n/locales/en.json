@@ -179,8 +179,9 @@
     "updateSuccess": "Payment updated successfully",
     "updateError": "Error updating payment",
     "tenant": "Tenant",
+    "roommate": "Roommate", 
     "paymentDate": "Payment Date",
-    "amount": "Amount",
+    "amount": "Amount (€)",
     "paymentMethod": "Payment Method",
     "notes": "Notes (optional)",
     "selectTenant": "Select a tenant/roommate",
@@ -192,7 +193,11 @@
     "check": "Check",
     "cash": "Cash",
     "creditCard": "Credit Card",
-    "automaticDebit": "Automatic Debit"
+    "automaticDebit": "Automatic Debit",
+    "propertyInformation": "Property Information",
+    "type": "TYPE",
+    "property": "PROPERTY", 
+    "monthlyRent": "MONTHLY RENT"
   },
   "rentalCharges": {
     "title": "Rental Charges",
