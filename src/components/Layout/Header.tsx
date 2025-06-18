@@ -5,6 +5,7 @@ import { Menu, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { UserProfileDropdown } from './UserProfile/UserProfileDropdown';
 import { MessageNotification } from '@/components/Messages/MessageNotification';
+import LanguageSelector from '@/components/LanguageSelector';
 
 interface HeaderProps {
   onToggleSidebar?: () => void;
@@ -30,6 +31,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         </div>
         
         <div className="flex items-center space-x-4">
+          <LanguageSelector />
           <MessageNotification />
           <UserProfileDropdown />
         </div>

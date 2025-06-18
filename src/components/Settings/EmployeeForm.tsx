@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -44,10 +45,12 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
   selectedEmployee,
   onPasswordClick
 }) => {
+  const { t } = useTranslation();
+
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="name">Nom complet</Label>
+        <Label htmlFor="name">{t('employees.fullName')}</Label>
         <Input
           id="name"
           value={formData.name}
@@ -57,7 +60,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       </div>
       
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t('profile.email')}</Label>
         <Input
           id="email"
           type="email"
@@ -68,26 +71,26 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       </div>
       
       <div>
-        <Label htmlFor="role">Rôle</Label>
+        <Label htmlFor="role">{t('employees.role')}</Label>
         <Select value={formData.role} onValueChange={(value: 'admin' | 'employee') => setFormData({ ...formData, role: value })}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="employee">Employé</SelectItem>
-            <SelectItem value="admin">Administrateur</SelectItem>
+            <SelectItem value="employee">{t('employees.employee')}</SelectItem>
+            <SelectItem value="admin">{t('employees.administrator')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
       
       <div>
-        <Label htmlFor="company">Entreprise</Label>
+        <Label htmlFor="company">{t('employees.company')}</Label>
         <Select value={formData.companyId} onValueChange={(value: string) => setFormData({ ...formData, companyId: value })}>
           <SelectTrigger>
-            <SelectValue placeholder="Sélectionner une entreprise" />
+            <SelectValue placeholder={t('employees.selectCompany')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="none">Aucune entreprise</SelectItem>
+            <SelectItem value="none">{t('employees.noCompany')}</SelectItem>
             {companies.map((company) => (
               <SelectItem key={company.id} value={company.id}>
                 {company.name}
@@ -100,9 +103,9 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       {isEdit && selectedEmployee && onPasswordClick && (
         <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
           <div>
-            <Label className="font-medium">Mot de passe</Label>
+            <Label className="font-medium">{t('employees.password')}</Label>
             <p className="text-sm text-gray-600">
-              {selectedEmployee.hasPassword ? 'Mot de passe défini' : 'Aucun mot de passe défini'}
+              {selectedEmployee.hasPassword ? t('employees.passwordSet') : t('employees.passwordNotSet')}
             </p>
           </div>
           <Button
@@ -112,13 +115,13 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             onClick={() => onPasswordClick(selectedEmployee)}
           >
             <Lock className="h-4 w-4 mr-2" />
-            {selectedEmployee.hasPassword ? 'Modifier' : 'Définir'}
+            {selectedEmployee.hasPassword ? t('employees.changePassword') : t('employees.setPassword')}
           </Button>
         </div>
       )}
       
       <Button type="submit" className="w-full">
-        {isEdit ? 'Modifier l\'employé' : 'Ajouter l\'employé'}
+        {isEdit ? t('employees.editEmployee') : t('employees.addEmployee')}
       </Button>
     </form>
   );

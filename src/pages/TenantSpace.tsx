@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,6 +27,7 @@ import DocumentUpload from '@/components/TenantSpace/DocumentUpload';
 
 const TenantSpace = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const { t } = useTranslation();
   const { userProfile, userType } = useAuth();
   const { 
     isAuthorizedAdmin, 
@@ -59,12 +60,12 @@ const TenantSpace = () => {
   };
 
   const tabs = [
-    { id: 'overview', label: 'Vue d\'ensemble', icon: Home },
-    { id: 'payment', label: 'Paiement', icon: CreditCard },
-    { id: 'history', label: 'Historique', icon: FileText },
-    { id: 'documents', label: 'Documents', icon: FileText },
-    { id: 'upload', label: 'Upload', icon: Upload },
-    { id: 'profile', label: 'Profil', icon: User }
+    { id: 'overview', label: t('tenantSpace.tabs.overview'), icon: Home },
+    { id: 'payment', label: t('tenantSpace.tabs.payment'), icon: CreditCard },
+    { id: 'history', label: t('tenantSpace.tabs.history'), icon: FileText },
+    { id: 'documents', label: t('tenantSpace.tabs.documents'), icon: FileText },
+    { id: 'upload', label: t('tenantSpace.tabs.upload'), icon: Upload },
+    { id: 'profile', label: t('tenantSpace.tabs.profile'), icon: User }
   ];
 
   if (!currentProfile) {
@@ -125,6 +126,8 @@ const TenantSpace = () => {
 
   console.log('Rendered data:', { mockPropertyData, mockTenantData });
 
+  const typeKey = currentType === 'colocataire' ? 'roommate' : 'tenant';
+
   return (
     <MainLayout>
       <div className="space-y-4 md:space-y-6">
@@ -169,14 +172,14 @@ const TenantSpace = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                Espace {currentType === 'colocataire' ? 'Colocataire' : 'Locataire'}
+                {t('tenantSpace.title', { type: t(`tenantSpace.${typeKey}`) })}
               </h1>
               <p className="text-gray-600 mt-2 text-sm sm:text-base">
-                Bienvenue {currentProfile.name}
+                {t('tenantSpace.welcome', { name: currentProfile.name })}
               </p>
               {currentType === 'colocataire' && currentProfile.roomNumber && (
                 <p className="text-gray-500 mt-1 text-sm">
-                  Chambre {currentProfile.roomNumber}
+                  {t('tenantSpace.room', { number: currentProfile.roomNumber })}
                 </p>
               )}
             </div>
@@ -184,7 +187,7 @@ const TenantSpace = () => {
               variant="secondary" 
               className="bg-green-100 text-green-800 border-green-200"
             >
-              {currentType === 'colocataire' ? 'Colocataire' : 'Locataire'}
+              {t(`tenantSpace.${typeKey}`)}
             </Badge>
           </div>
         </div>

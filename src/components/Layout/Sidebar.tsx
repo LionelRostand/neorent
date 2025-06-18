@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { 
   Home, 
   Building, 
@@ -29,99 +30,100 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose }) => {
   const location = useLocation();
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
   const { canAccessMenu, isAdmin } = useUserPermissions();
 
   const menuItems = [
     { 
       icon: Home, 
-      label: 'Dashboard', 
+      label: t('navigation.dashboard'), 
       path: '/admin/dashboard',
       permission: 'dashboard' as keyof EmployeePermissions
     },
     { 
       icon: Building, 
-      label: 'Propriétés', 
+      label: t('navigation.properties'), 
       path: '/admin/properties',
       permission: 'properties' as keyof EmployeePermissions
     },
     { 
       icon: Users, 
-      label: 'Locataires', 
+      label: t('navigation.tenants'), 
       path: '/admin/tenants',
       permission: 'tenants' as keyof EmployeePermissions
     },
     { 
       icon: UserCheck, 
-      label: 'Colocataires', 
+      label: t('navigation.roommates'), 
       path: '/admin/roommates',
       permission: 'roommates' as keyof EmployeePermissions
     },
     { 
       icon: FileText, 
-      label: 'Contrats', 
+      label: t('navigation.contracts'), 
       path: '/admin/contracts',
       permission: 'contracts' as keyof EmployeePermissions
     },
     { 
       icon: ClipboardList, 
-      label: 'États des lieux', 
+      label: t('navigation.inspections'), 
       path: '/admin/inspections',
       permission: 'inspections' as keyof EmployeePermissions
     },
     { 
       icon: DollarSign, 
-      label: 'Gestion des loyers', 
+      label: t('navigation.rentManagement'), 
       path: '/admin/rent-management',
       permission: 'rentManagement' as keyof EmployeePermissions
     },
     { 
       icon: Calculator, 
-      label: 'Charges locatives', 
+      label: t('navigation.rentalCharges'), 
       path: '/admin/rental-charges',
       permission: 'rentalCharges' as keyof EmployeePermissions
     },
     { 
       icon: TrendingUp, 
-      label: 'Prévisions', 
+      label: t('navigation.forecasting'), 
       path: '/admin/forecasting',
       permission: 'dashboard' as keyof EmployeePermissions
     },
     { 
       icon: Wrench, 
-      label: 'Maintenance', 
+      label: t('navigation.maintenance'), 
       path: '/admin/maintenance',
       permission: 'maintenance' as keyof EmployeePermissions
     },
     { 
       icon: MessageCircle, 
-      label: 'Messages', 
+      label: t('navigation.messages'), 
       path: '/admin/messages',
       permission: 'messages' as keyof EmployeePermissions
     },
     { 
       icon: FileText, 
-      label: 'Déclarations fiscales', 
+      label: t('navigation.taxes'), 
       path: '/admin/taxes',
       permission: 'taxes' as keyof EmployeePermissions
     },
     { 
       icon: Globe, 
-      label: 'Site Web', 
+      label: t('navigation.website'), 
       path: '/admin/website',
       permission: 'website' as keyof EmployeePermissions
     },
     { 
       icon: Settings, 
-      label: 'Paramètres', 
+      label: t('navigation.settings'), 
       path: '/admin/settings',
       permission: 'settings' as keyof EmployeePermissions
     },
     { 
       icon: HelpCircle, 
-      label: 'Aide', 
+      label: t('navigation.help'), 
       path: '/admin/help',
-      permission: 'dashboard' as keyof EmployeePermissions // Accessible à tous ceux qui ont accès au dashboard
+      permission: 'dashboard' as keyof EmployeePermissions
     }
   ];
 
