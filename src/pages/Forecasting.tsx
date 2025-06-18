@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,11 +20,13 @@ import {
 } from 'lucide-react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import MainLayout from '@/components/Layout/MainLayout';
 
 const Forecasting = () => {
   const { properties } = useFirebaseProperties();
   const { roommates } = useFirebaseRoommates();
+  const { payments } = useFirebasePayments();
   
   // État pour les prévisions
   const [targetPropertyPrice, setTargetPropertyPrice] = useState('');
@@ -45,28 +46,38 @@ const Forecasting = () => {
   const [monthlyLoanPayment, setMonthlyLoanPayment] = useState(0);
   const [profitability, setProfitability] = useState(0);
 
-  // Calculer les revenus actuels
+  // Calculer les revenus actuels basés sur les vrais paiements reçus
   useEffect(() => {
-    const totalRevenue = properties.reduce((sum, property) => {
-      const activeRoommates = roommates.filter(roommate => 
-        roommate.property === property.title && roommate.status === 'Actif'
-      );
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    // Calculer les revenus réels du mois en cours basés sur les paiements effectués
+    const monthlyRevenueFromPayments = payments
+      .filter(payment => {
+        if (!payment.paymentDate || payment.status !== 'Payé') return false;
+        const paymentDate = new Date(payment.paymentDate);
+        return paymentDate.getMonth() === currentMonth && 
+               paymentDate.getFullYear() === currentYear;
+      })
+      .reduce((sum, payment) => {
+        // Utiliser le montant réellement payé (paidAmount) ou le montant du loyer
+        const amountReceived = payment.paidAmount || payment.rentAmount || 0;
+        return sum + amountReceived;
+      }, 0);
 
-      if (property.locationType === 'Colocation') {
-        const rentPerRoom = parseFloat((property.creditImmobilier || property.rent || '0').toString().replace(/[^0-9.-]+/g, '')) / (property.totalRooms || 1);
-        return sum + (rentPerRoom * activeRoommates.length);
-      } else {
-        if (activeRoommates.length > 0) {
-          const rentValue = property.creditImmobilier || property.rent || '0';
-          const numericRent = parseFloat(rentValue.toString().replace(/[^0-9.-]+/g, ''));
-          return sum + (isNaN(numericRent) ? 0 : numericRent);
-        }
-        return sum;
-      }
-    }, 0);
+    console.log('🔍 CALCUL REVENUS PRÉVISIONS:', {
+      paymentsThisMonth: payments.filter(p => {
+        if (!p.paymentDate) return false;
+        const paymentDate = new Date(p.paymentDate);
+        return paymentDate.getMonth() === currentMonth && 
+               paymentDate.getFullYear() === currentYear &&
+               p.status === 'Payé';
+      }),
+      totalRevenue: monthlyRevenueFromPayments
+    });
 
-    setCurrentMonthlyRevenue(totalRevenue);
-  }, [properties, roommates]);
+    setCurrentMonthlyRevenue(monthlyRevenueFromPayments);
+  }, [payments]);
 
   // Calculs des prévisions
   useEffect(() => {
@@ -130,12 +141,12 @@ const Forecasting = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label className="text-sm text-gray-600">Revenus mensuels actuels</Label>
+                  <Label className="text-sm text-gray-600">Revenus mensuels réels</Label>
                   <div className="text-2xl font-bold text-green-600">
                     {Math.round(currentMonthlyRevenue).toLocaleString()}€
                   </div>
                   <p className="text-xs text-gray-500">
-                    {properties.length} propriété(s) en portefeuille
+                    Basé sur les paiements reçus ce mois
                   </p>
                 </div>
 
@@ -147,7 +158,7 @@ const Forecasting = () => {
                     {Math.round(currentMonthlyRevenue * 0.3).toLocaleString()}€/mois
                   </div>
                   <p className="text-xs text-gray-500">
-                    30% des revenus locatifs
+                    30% des revenus locatifs reçus
                   </p>
                 </div>
               </CardContent>
