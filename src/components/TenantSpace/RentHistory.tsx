@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
+import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import RentPayment from './RentPayment';
-import { 
-  CreditCard, 
-  Download, 
-  Calendar, 
-  CheckCircle, 
-  Clock, 
-  Euro,
-  Receipt,
-  TrendingUp,
-  FileText
-} from 'lucide-react';
+import ContractInfoCard from './ContractInfoCard';
+import PaymentSummaryCards from './PaymentSummaryCards';
+import PaymentHistoryList from './PaymentHistoryList';
+import PaymentInfoCard from './PaymentInfoCard';
 
 const RentHistory = () => {
-  const [selectedYear, setSelectedYear] = useState('2024');
   const [contractData, setContractData] = useState<any>(null);
   const [rentPayments, setRentPayments] = useState<any[]>([]);
-  const isMobile = useIsMobile();
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
   const { contracts, loading: contractsLoading } = useFirebaseContracts();
   
@@ -132,26 +119,6 @@ const RentHistory = () => {
     return payments.reverse(); // Ordre chronologique inverse (plus récent en premier)
   };
 
-  // Effect pour charger les données du contrat et générer l'historique
-  useEffect(() => {
-    if (!contractsLoading && contracts && contracts.length > 0) {
-      const contract = findTenantContract();
-      if (contract) {
-        console.log('Contrat trouvé:', contract);
-        setContractData(contract);
-        const generatedPayments = generatePaymentHistory(contract);
-        console.log('Historique généré:', generatedPayments);
-        setRentPayments(generatedPayments);
-      } else {
-        console.log('Aucun contrat trouvé pour', actualTenantName);
-        // Utiliser les données par défaut si aucun contrat n'est trouvé
-        const defaultPayments = generateDefaultPayments();
-        setRentPayments(defaultPayments);
-      }
-    }
-  }, [contracts, contractsLoading, actualTenantName]);
-
-  // Fonction pour générer des paiements par défaut si aucun contrat n'est trouvé
   const generateDefaultPayments = () => {
     const defaultRent = 400;
     const defaultCharges = 50;
@@ -295,7 +262,26 @@ const RentHistory = () => {
       }
     ];
   };
-  
+
+  // Effect pour charger les données du contrat et générer l'historique
+  useEffect(() => {
+    if (!contractsLoading && contracts && contracts.length > 0) {
+      const contract = findTenantContract();
+      if (contract) {
+        console.log('Contrat trouvé:', contract);
+        setContractData(contract);
+        const generatedPayments = generatePaymentHistory(contract);
+        console.log('Historique généré:', generatedPayments);
+        setRentPayments(generatedPayments);
+      } else {
+        console.log('Aucun contrat trouvé pour', actualTenantName);
+        // Utiliser les données par défaut si aucun contrat n'est trouvé
+        const defaultPayments = generateDefaultPayments();
+        setRentPayments(defaultPayments);
+      }
+    }
+  }, [contracts, contractsLoading, actualTenantName]);
+
   // Données du locataire avec le nom réel
   const tenantData = {
     name: actualTenantName,
@@ -348,35 +334,6 @@ const RentHistory = () => {
     });
   };
 
-  // ... keep existing code (getStatusBadge function and other helper functions)
-  const getStatusBadge = (status: string) => {
-    const className = `text-xs ${isMobile ? 'px-2 py-1' : ''}`;
-    switch (status) {
-      case 'Payé':
-        return (
-          <Badge className={`bg-green-100 text-green-800 ${className}`}>
-            <CheckCircle className="h-3 w-3 mr-1" />
-            {status}
-          </Badge>
-        );
-      case 'En attente':
-        return (
-          <Badge className={`bg-yellow-100 text-yellow-800 ${className}`}>
-            <Clock className="h-3 w-3 mr-1" />
-            {status}
-          </Badge>
-        );
-      case 'En retard':
-        return (
-          <Badge variant="destructive" className={className}>
-            ⚠️ {status}
-          </Badge>
-        );
-      default:
-        return <Badge variant="secondary" className={className}>{status}</Badge>;
-    }
-  };
-
   const totalPaid = rentPayments.filter(p => p.status === 'Payé').reduce((sum, p) => sum + p.amount, 0);
   const paidPayments = rentPayments.filter(p => p.status === 'Payé').length;
 
@@ -395,178 +352,34 @@ const RentHistory = () => {
       <RentPayment tenantData={tenantData} propertyData={propertyData} />
 
       {/* Affichage des informations du contrat */}
-      {contractData && (
-        <Card className="border-blue-200 bg-blue-50">
-          <CardHeader>
-            <CardTitle className="text-blue-800 text-lg md:text-xl">Informations du contrat</CardTitle>
-          </CardHeader>
-          <CardContent className="text-blue-700">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              <div>
-                <h4 className="font-medium mb-2 text-sm md:text-base">Détails du contrat</h4>
-                <ul className="space-y-1 text-xs md:text-sm">
-                  <li>• Locataire: {contractData.tenant}</li>
-                  <li>• Propriété: {contractData.property}</li>
-                  <li>• Montant: {contractData.amount}</li>
-                  <li>• Date de début: {new Date(contractData.startDate).toLocaleDateString('fr-FR')}</li>
-                  <li>• Statut: {contractData.status}</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-medium mb-2 text-sm md:text-base">Historique généré</h4>
-                <ul className="space-y-1 text-xs md:text-sm">
-                  <li>• Depuis: {new Date(contractData.startDate).toLocaleDateString('fr-FR')}</li>
-                  <li>• Loyer mensuel: {monthlyRent}€</li>
-                  <li>• Charges mensuelles: {monthlyCharges}€</li>
-                  <li>• Total mensuel: {totalMonthly}€</li>
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <ContractInfoCard 
+        contractData={contractData}
+        monthlyRent={monthlyRent}
+        monthlyCharges={monthlyCharges}
+        totalMonthly={totalMonthly}
+      />
 
       {/* Résumé financier */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-        <Card>
-          <CardContent className="pt-4 md:pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm text-gray-600">Total payé</p>
-                <p className="text-lg md:text-2xl font-bold text-green-600">{totalPaid.toLocaleString()}€</p>
-              </div>
-              <Euro className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="pt-4 md:pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm text-gray-600">Paiements effectués</p>
-                <p className="text-lg md:text-2xl font-bold text-blue-600">{paidPayments}</p>
-              </div>
-              <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-blue-500" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="pt-4 md:pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm text-gray-600">Loyer mensuel</p>
-                <p className="text-lg md:text-2xl font-bold text-purple-600">{monthlyRent}€</p>
-              </div>
-              <CreditCard className="h-6 w-6 md:h-8 md:w-8 text-purple-500" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="pt-4 md:pt-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs md:text-sm text-gray-600">Charges mensuelles</p>
-                <p className="text-lg md:text-2xl font-bold text-orange-600">{monthlyCharges}€</p>
-              </div>
-              <TrendingUp className="h-6 w-6 md:h-8 md:w-8 text-orange-500" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <PaymentSummaryCards 
+        totalPaid={totalPaid}
+        paidPayments={paidPayments}
+        monthlyRent={monthlyRent}
+        monthlyCharges={monthlyCharges}
+      />
 
       {/* Historique des paiements */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-            <Receipt className="h-4 w-4 md:h-5 md:w-5" />
-            Historique des loyers {contractData ? `- Depuis ${new Date(contractData.startDate).toLocaleDateString('fr-FR')}` : '- Depuis septembre 2023'}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3 md:space-y-4">
-            {rentPayments.map((payment) => (
-              <div key={payment.id} className={`flex flex-col ${isMobile ? 'space-y-3' : 'md:flex-row md:items-center md:justify-between'} p-3 md:p-4 border rounded-lg hover:bg-gray-50`}>
-                <div className="flex items-center space-x-3 md:space-x-4">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Calendar className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-medium text-sm md:text-base">{payment.month}</h3>
-                    <div className={`flex ${isMobile ? 'flex-col space-y-1' : 'items-center gap-4'} text-xs md:text-sm text-gray-600 mt-1`}>
-                      <span>Échéance: {new Date(payment.dueDate).toLocaleDateString('fr-FR')}</span>
-                      {payment.paymentDate && (
-                        <span>Payé le: {new Date(payment.paymentDate).toLocaleDateString('fr-FR')}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className={`flex ${isMobile ? 'flex-col space-y-3' : 'items-center space-x-4'}`}>
-                  <div className={`${isMobile ? 'flex justify-between items-center' : 'text-right'}`}>
-                    <div>
-                      <p className="font-semibold text-sm md:text-base">{payment.amount}€</p>
-                      <p className="text-xs md:text-sm text-gray-600">
-                        Loyer: {payment.rent}€ + Charges: {payment.charges}€
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className={`flex ${isMobile ? 'justify-between items-center' : 'items-center gap-3'}`}>
-                    {getStatusBadge(payment.status)}
-                    
-                    {payment.status === 'Payé' ? (
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className={isMobile ? 'text-xs px-3 py-1' : ''}
-                        onClick={() => handleDownloadReceipt(payment)}
-                      >
-                        <FileText className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
-                        Quittance PDF
-                      </Button>
-                    ) : (
-                      <Button variant="outline" size="sm" disabled className={isMobile ? 'text-xs px-3 py-1' : ''}>
-                        Non disponible
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <PaymentHistoryList 
+        rentPayments={rentPayments}
+        contractData={contractData}
+        onDownloadReceipt={handleDownloadReceipt}
+      />
 
       {/* Informations de paiement */}
-      <Card className="border-blue-200 bg-blue-50">
-        <CardHeader>
-          <CardTitle className="text-blue-800 text-lg md:text-xl">Informations de paiement</CardTitle>
-        </CardHeader>
-        <CardContent className="text-blue-700">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div>
-              <h4 className="font-medium mb-2 text-sm md:text-base">Modalités de paiement</h4>
-              <ul className="space-y-1 text-xs md:text-sm">
-                <li>• Loyer mensuel: {monthlyRent}€</li>
-                <li>• Charges mensuelles: {monthlyCharges}€</li>
-                <li>• Total mensuel: {totalMonthly}€</li>
-                <li>• Échéance: 1er de chaque mois</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-2 text-sm md:text-base">Moyens de paiement acceptés</h4>
-              <ul className="space-y-1 text-xs md:text-sm">
-                <li>• Virement bancaire (recommandé)</li>
-                <li>• Chèque</li>
-                <li>• Prélèvement automatique</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <PaymentInfoCard 
+        monthlyRent={monthlyRent}
+        monthlyCharges={monthlyCharges}
+        totalMonthly={totalMonthly}
+      />
     </div>
   );
 };
