@@ -136,22 +136,25 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
           </Button>
         </div>
       </div>
-      <CardHeader>
-        <CardTitle className="flex justify-between items-center">
-          <span>{property.title}</span>
-          <Badge variant="outline" className={getStatusBadgeColor(realStatus)}>
-            {realStatus}
+      <CardHeader className="pb-3">
+        <CardTitle className="flex justify-between items-start gap-2">
+          <span className="truncate flex-1 min-w-0">{property.title}</span>
+          <Badge 
+            variant="outline" 
+            className={`${getStatusBadgeColor(realStatus)} text-xs px-2 py-1 shrink-0 max-w-[120px] text-center`}
+          >
+            <span className="truncate">{realStatus}</span>
           </Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         <div className="space-y-2">
           <div className="flex items-center text-gray-600">
-            <MapPin className="mr-2 h-4 w-4" />
+            <MapPin className="mr-2 h-4 w-4 shrink-0" />
             <span className="text-sm truncate">{property.address}</span>
           </div>
           <div className="flex items-center text-gray-600">
-            <Home className="mr-2 h-4 w-4" />
+            <Home className="mr-2 h-4 w-4 shrink-0" />
             <span className="text-sm">{property.type} - {property.surface}</span>
           </div>
           <div className="flex items-center justify-between">
