@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import EmployeePasswordDialog from './EmployeePasswordDialog';
 import EmployeeForm from './EmployeeForm';
 import EmployeeTable from './EmployeeTable';
+import { useTranslation } from 'react-i18next';
 
 interface Employee {
   id: string;
@@ -32,6 +33,7 @@ interface EmployeeFormData {
 }
 
 const EmployeeManagement: React.FC = () => {
+  const { t } = useTranslation();
   const { userRoles, loading, refetch } = useFirebaseUserRoles();
   const { companies, loading: companiesLoading } = useFirebaseCompanies();
   const { toast } = useToast();
@@ -69,8 +71,8 @@ const EmployeeManagement: React.FC = () => {
       await setDoc(doc(db, 'user_roles', employeeId), newEmployee);
       
       toast({
-        title: "Succès",
-        description: "Employé ajouté avec succès",
+        title: t('common.success'),
+        description: t('employees.addSuccess'),
       });
       
       resetForm();
@@ -79,8 +81,8 @@ const EmployeeManagement: React.FC = () => {
     } catch (error) {
       console.error('Error adding employee:', error);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de l'ajout de l'employé",
+        title: t('common.error'),
+        description: t('employees.addError'),
         variant: "destructive",
       });
     }
@@ -101,8 +103,8 @@ const EmployeeManagement: React.FC = () => {
       await setDoc(doc(db, 'user_roles', selectedEmployee.id), updatedEmployee, { merge: true });
       
       toast({
-        title: "Succès",
-        description: "Employé modifié avec succès",
+        title: t('common.success'),
+        description: t('employees.updateSuccess'),
       });
       
       resetForm();
@@ -112,30 +114,30 @@ const EmployeeManagement: React.FC = () => {
     } catch (error) {
       console.error('Error updating employee:', error);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la modification de l'employé",
+        title: t('common.error'),
+        description: t('employees.updateError'),
         variant: "destructive",
       });
     }
   };
 
   const handleDeleteEmployee = async (employeeId: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cet employé ?')) return;
+    if (!confirm(t('employees.confirmDelete'))) return;
 
     try {
       await deleteDoc(doc(db, 'user_roles', employeeId));
       
       toast({
-        title: "Succès",
-        description: "Employé supprimé avec succès",
+        title: t('common.success'),
+        description: t('employees.deleteSuccess'),
       });
       
       refetch();
     } catch (error) {
       console.error('Error deleting employee:', error);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la suppression de l'employé",
+        title: t('common.error'),
+        description: t('employees.deleteError'),
         variant: "destructive",
       });
     }
@@ -165,17 +167,17 @@ const EmployeeManagement: React.FC = () => {
     if (Array.isArray(permissions)) {
       return permissions.join(', ');
     }
-    return 'Aucune';
+    return t('employees.noPermissions');
   };
 
   const getCompanyName = (companyId?: string): string => {
-    if (!companyId) return 'Non assigné';
+    if (!companyId) return t('employees.noCompany');
     const company = companies.find(c => c.id === companyId);
-    return company ? company.name : 'Entreprise inconnue';
+    return company ? company.name : t('employees.unknownCompany');
   };
 
   if (loading || companiesLoading) {
-    return <div>Chargement des employés...</div>;
+    return <div>{t('employees.loading')}</div>;
   }
 
   return (
@@ -184,18 +186,18 @@ const EmployeeManagement: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between text-lg md:text-xl">
             <div className="flex items-center gap-2">
-              👥 Gestion des Employés
+              👥 {t('employees.management')}
             </div>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="flex items-center gap-2">
                   <Plus className="h-4 w-4" />
-                  Ajouter un employé
+                  {t('employees.addEmployee')}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Ajouter un employé</DialogTitle>
+                  <DialogTitle>{t('employees.addEmployee')}</DialogTitle>
                 </DialogHeader>
                 <EmployeeForm
                   formData={formData}
@@ -209,7 +211,7 @@ const EmployeeManagement: React.FC = () => {
         </CardHeader>
         <CardContent className="space-y-4 md:space-y-6">
           <p className="text-gray-600 text-sm md:text-base">
-            Gérez les comptes employés de votre entreprise
+            {t('employees.description')}
           </p>
 
           <EmployeeTable
@@ -222,11 +224,11 @@ const EmployeeManagement: React.FC = () => {
             getCompanyName={getCompanyName}
           />
 
-          {/* Dialog de modification */}
+          {/* Edit Dialog */}
           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>Modifier l'employé</DialogTitle>
+                <DialogTitle>{t('employees.editEmployee')}</DialogTitle>
               </DialogHeader>
               <EmployeeForm
                 formData={formData}
@@ -242,7 +244,7 @@ const EmployeeManagement: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Dialog de gestion des mots de passe */}
+      {/* Password Management Dialog */}
       {selectedEmployee && (
         <EmployeePasswordDialog
           open={isPasswordDialogOpen}
