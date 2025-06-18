@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,12 +10,13 @@ import { Save, Plus, Edit, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const PagesTab = () => {
+  const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [pages, setPages] = useState([
-    { id: '1', title: 'Accueil', url: '/', status: 'Publiée' },
-    { id: '2', title: 'À propos', url: '/about', status: 'Publiée' },
-    { id: '3', title: 'Contact', url: '/contact', status: 'Publiée' },
-    { id: '4', title: 'Services', url: '/services', status: 'Brouillon' }
+    { id: '1', title: 'Home', url: '/', status: 'Published' },
+    { id: '2', title: 'About', url: '/about', status: 'Published' },
+    { id: '3', title: 'Contact', url: '/contact', status: 'Published' },
+    { id: '4', title: 'Services', url: '/services', status: 'Draft' }
   ]);
 
   const [newPage, setNewPage] = useState({
@@ -29,14 +31,14 @@ const PagesTab = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      console.log('Sauvegarde des pages:', { pages, newPage });
+      console.log('Saving pages:', { pages, newPage });
       
-      toast.success('Pages sauvegardées avec succès !', {
-        description: 'Configuration des pages mise à jour'
+      toast.success('Pages saved successfully!', {
+        description: 'Page configuration updated'
       });
     } catch (error) {
-      toast.error('Erreur lors de la sauvegarde', {
-        description: 'Veuillez réessayer'
+      toast.error('Error saving pages', {
+        description: 'Please try again'
       });
     } finally {
       setIsSaving(false);
@@ -49,35 +51,35 @@ const PagesTab = () => {
         id: String(pages.length + 1),
         title: newPage.title,
         url: newPage.url,
-        status: 'Brouillon'
+        status: 'Draft'
       };
       setPages([...pages, page]);
       setNewPage({ title: '', url: '', content: '', metaDescription: '' });
-      toast.success('Page ajoutée avec succès !');
+      toast.success('Page added successfully!');
     }
   };
 
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📄 Gestion des pages</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📄 Page Management</h2>
         <Button 
           onClick={handleSavePages} 
           disabled={isSaving}
           className="flex items-center gap-2 w-full sm:w-auto"
         >
           <Save className="h-4 w-4" />
-          {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
+          {isSaving ? 'Saving...' : 'Save'}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">
-        Créez et gérez les pages de votre site web NeoRent.
+        Create and manage your NeoRent website pages.
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">Pages existantes</CardTitle>
+            <CardTitle className="text-base md:text-lg">Existing Pages</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -87,7 +89,7 @@ const PagesTab = () => {
                     <h4 className="font-medium">{page.title}</h4>
                     <p className="text-sm text-gray-500">{page.url}</p>
                     <span className={`text-xs px-2 py-1 rounded ${
-                      page.status === 'Publiée' 
+                      page.status === 'Published' 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
                     }`}>
@@ -110,13 +112,13 @@ const PagesTab = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">Ajouter une nouvelle page</CardTitle>
+            <CardTitle className="text-base md:text-lg">Add New Page</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Titre de la page</Label>
+              <Label>Page Title</Label>
               <Input 
-                placeholder="Ex: Nos services"
+                placeholder="e.g. Our Services"
                 value={newPage.title}
                 onChange={(e) => setNewPage({...newPage, title: e.target.value})}
               />
@@ -124,15 +126,15 @@ const PagesTab = () => {
             <div className="space-y-2">
               <Label>URL</Label>
               <Input 
-                placeholder="Ex: /services"
+                placeholder="e.g. /services"
                 value={newPage.url}
                 onChange={(e) => setNewPage({...newPage, url: e.target.value})}
               />
             </div>
             <div className="space-y-2">
-              <Label>Description META</Label>
+              <Label>META Description</Label>
               <Textarea 
-                placeholder="Description pour le SEO..."
+                placeholder="Description for SEO..."
                 rows={2}
                 value={newPage.metaDescription}
                 onChange={(e) => setNewPage({...newPage, metaDescription: e.target.value})}
@@ -140,7 +142,7 @@ const PagesTab = () => {
             </div>
             <Button onClick={addNewPage} className="w-full">
               <Plus className="h-4 w-4 mr-2" />
-              Ajouter la page
+              Add Page
             </Button>
           </CardContent>
         </Card>
