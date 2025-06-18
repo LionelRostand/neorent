@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { RefreshCw, Database, FileText, Users, Home, Calendar, CreditCard, Settings as SettingsIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 const FirebaseCollectionsList = () => {
+  const { t } = useTranslation();
   const [refreshing, setRefreshing] = useState(false);
   const [lastRefresh, setLastRefresh] = useState(new Date());
   const { toast } = useToast();
@@ -120,7 +122,7 @@ const FirebaseCollectionsList = () => {
           <div>
             <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
               <Database className="h-5 w-5" />
-              Collections Firebase configurées
+              {t('settings.firebase.configuredFirebaseCollections')}
             </CardTitle>
             <p className="text-sm text-gray-600 mt-1">
               Dernière mise à jour: {lastRefresh.toLocaleDateString('fr-FR')} à {lastRefresh.toLocaleTimeString('fr-FR')}
@@ -181,7 +183,7 @@ const FirebaseCollectionsList = () => {
         </div>
         
         <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h4 className="font-semibold text-blue-900 mb-2 text-sm md:text-base">Informations importantes</h4>
+          <h4 className="font-semibold text-blue-900 mb-2 text-sm md:text-base">{t('settings.firebase.importantInformation')}</h4>
           <ul className="space-y-1 text-xs md:text-sm text-blue-800">
             <li>• Les collections sont automatiquement créées lors de l'ajout du premier document</li>
             <li>• Les règles de sécurité Firestore s'appliquent à toutes les collections</li>

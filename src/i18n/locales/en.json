@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -820,6 +821,7 @@
       "userRoles": "User Roles",
       "userRolesDefined": "Defined User Roles",
       "importantInformation": "Important Information",
+      "configuredFirebaseCollections": "Configured Firebase Collections",
       "copy": "Copy",
       "applyAuto": "Apply auto",
       "manualUpdate": "Manual update",
