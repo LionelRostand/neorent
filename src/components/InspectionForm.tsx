@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,6 +17,7 @@ interface InspectionFormProps {
 }
 
 const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
+  const { t } = useTranslation();
   const { properties } = useFirebaseProperties();
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
@@ -112,7 +114,7 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
     e.preventDefault();
     
     if (!formData.title || !formData.type || !formData.contractType || !formData.tenant || !formData.property) {
-      alert('Veuillez remplir tous les champs obligatoires');
+      alert(t('propertyForm.requiredFieldsError'));
       return;
     }
 
@@ -133,41 +135,41 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
   return (
     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle className="text-xl font-bold">Nouvel État des Lieux</DialogTitle>
+        <DialogTitle className="text-xl font-bold">{t('inspections.newInspection')}</DialogTitle>
       </DialogHeader>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="title">Titre *</Label>
+            <Label htmlFor="title">{t('inspections.inspectionTitle')}</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => handleInputChange('title', e.target.value)}
               required
-              placeholder="Ex: État des lieux entrée Marie Dubois"
+              placeholder={t('inspections.inspectionTitlePlaceholder')}
             />
           </div>
 
           <div>
-            <Label htmlFor="type">Type d'état des lieux *</Label>
+            <Label htmlFor="type">{t('inspections.inspectionType')}</Label>
             <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
               <SelectTrigger>
-                <SelectValue placeholder="Sélectionner le type" />
+                <SelectValue placeholder={t('inspections.selectInspectionType')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Entrée">État des lieux d'entrée</SelectItem>
-                <SelectItem value="Sortie">État des lieux de sortie</SelectItem>
-                <SelectItem value="Intermédiaire">État des lieux intermédiaire</SelectItem>
+                <SelectItem value="Entrée">{t('inspections.entryInspection')}</SelectItem>
+                <SelectItem value="Sortie">{t('inspections.exitInspection')}</SelectItem>
+                <SelectItem value="Intermédiaire">{t('inspections.intermediateInspection')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="property">Bien immobilier *</Label>
+            <Label htmlFor="property">{t('inspections.property')}</Label>
             <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
               <SelectTrigger>
-                <SelectValue placeholder="Sélectionner un bien" />
+                <SelectValue placeholder={t('inspections.selectProperty')} />
               </SelectTrigger>
               <SelectContent>
                 {properties.map((property) => (
@@ -180,21 +182,21 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
           </div>
 
           <div>
-            <Label htmlFor="contractType">Type de contrat</Label>
+            <Label htmlFor="contractType">{t('inspections.contractType')}</Label>
             <Select value={formData.contractType} onValueChange={(value) => handleInputChange('contractType', value)} disabled>
               <SelectTrigger>
-                <SelectValue placeholder="Automatique selon le bien" />
+                <SelectValue placeholder={t('inspections.automaticByProperty')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Bail locatif">Bail locatif</SelectItem>
-                <SelectItem value="Bail colocatif">Bail colocatif</SelectItem>
+                <SelectItem value="Bail locatif">{t('inspections.rentalLease')}</SelectItem>
+                <SelectItem value="Bail colocatif">{t('inspections.colocationLease')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
             <Label htmlFor="tenant">
-              {formData.contractType === 'Bail locatif' ? 'Locataire *' : 'Colocataire *'}
+              {formData.contractType === 'Bail locatif' ? t('inspections.tenant') : t('inspections.roommate')}
             </Label>
             <Select 
               value={formData.tenant} 
@@ -204,8 +206,10 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
               <SelectTrigger>
                 <SelectValue placeholder={
                   !formData.property 
-                    ? "Sélectionner d'abord un bien" 
-                    : `Sélectionner un ${formData.contractType === 'Bail locatif' ? 'locataire' : 'colocataire'}`
+                    ? t('inspections.selectPropertyFirst')
+                    : formData.contractType === 'Bail locatif' 
+                      ? t('inspections.selectTenant')
+                      : t('inspections.selectRoommate')
                 } />
               </SelectTrigger>
               <SelectContent>
@@ -217,7 +221,7 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
                   ))
                 ) : (
                   <SelectItem value="no-tenants" disabled>
-                    {formData.property ? "Aucun locataire pour ce bien" : "Sélectionner d'abord un bien"}
+                    {formData.property ? t('inspections.noTenantsForProperty') : t('inspections.selectPropertyFirst')}
                   </SelectItem>
                 )}
               </SelectContent>
@@ -226,10 +230,10 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
 
           {isColocatifContract && formData.property && (
             <div>
-              <Label htmlFor="roomNumber">Chambre</Label>
+              <Label htmlFor="roomNumber">{t('inspections.room')}</Label>
               <Select value={formData.roomNumber} onValueChange={(value) => handleInputChange('roomNumber', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner une chambre" />
+                  <SelectValue placeholder={t('inspections.selectRoom')} />
                 </SelectTrigger>
                 <SelectContent>
                   {availableRooms.map((room) => (
@@ -243,7 +247,7 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
           )}
 
           <div>
-            <Label htmlFor="date">Date *</Label>
+            <Label htmlFor="date">{t('inspections.date')}</Label>
             <Input
               id="date"
               type="date"
@@ -254,45 +258,45 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
           </div>
 
           <div>
-            <Label htmlFor="inspector">Inspecteur *</Label>
+            <Label htmlFor="inspector">{t('inspections.inspectorField')}</Label>
             <Input
               id="inspector"
               value={formData.inspector}
               onChange={(e) => handleInputChange('inspector', e.target.value)}
               required
-              placeholder="Nom de l'inspecteur"
+              placeholder={t('inspections.inspectorPlaceholder')}
             />
           </div>
         </div>
 
         <div>
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{t('inspections.description')}</Label>
           <Textarea
             id="description"
             value={formData.description}
             onChange={(e) => handleInputChange('description', e.target.value)}
-            placeholder="Description de l'état des lieux..."
+            placeholder={t('inspections.descriptionPlaceholder')}
             className="min-h-[80px]"
           />
         </div>
 
         <div>
-          <Label htmlFor="observations">Observations</Label>
+          <Label htmlFor="observations">{t('inspections.observations')}</Label>
           <Textarea
             id="observations"
             value={formData.observations}
             onChange={(e) => handleInputChange('observations', e.target.value)}
-            placeholder="Observations particulières..."
+            placeholder={t('inspections.observationsPlaceholder')}
             className="min-h-[80px]"
           />
         </div>
 
         <div className="flex justify-end space-x-3 pt-4">
           <Button type="button" variant="outline" onClick={onClose}>
-            Annuler
+            {t('inspections.cancel')}
           </Button>
           <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-            Créer l'état des lieux
+            {t('inspections.createInspection')}
           </Button>
         </div>
       </form>
