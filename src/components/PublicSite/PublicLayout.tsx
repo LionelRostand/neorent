@@ -41,13 +41,13 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 to="/about"
                 className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
-                {t('publicSite.about')}
+                {t('publicSite.about.title')}
               </Link>
               <Link
                 to="/contact"
                 className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
-                {t('publicSite.contact')}
+                {t('publicSite.contact.hero.title')}
               </Link>
               <LanguageSelector />
               <Link to="/login">
@@ -87,14 +87,14 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                   className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {t('publicSite.about')}
+                  {t('publicSite.about.title')}
                 </Link>
                 <Link
                   to="/contact"
                   className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {t('publicSite.contact')}
+                  {t('publicSite.contact.hero.title')}
                 </Link>
                 <div className="px-3 py-2">
                   <LanguageSelector />
@@ -140,12 +140,12 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 </li>
                 <li>
                   <Link to="/about" className="text-gray-400 hover:text-white transition-colors">
-                    {t('publicSite.about')}
+                    {t('publicSite.about.title')}
                   </Link>
                 </li>
                 <li>
                   <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
-                    {t('publicSite.contact')}
+                    {t('publicSite.contact.hero.title')}
                   </Link>
                 </li>
               </ul>
