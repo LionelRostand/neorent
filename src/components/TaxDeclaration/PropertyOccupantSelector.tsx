@@ -28,24 +28,24 @@ const PropertyOccupantSelector = ({
 
   // Filtrer seulement les biens avec des locataires ou colocataires
   const propertiesWithOccupants = properties.filter(property => {
-    const propertyTenants = tenants.filter(tenant => tenant.propertyId === property.id);
-    const propertyRoommates = roommates.filter(roommate => roommate.propertyId === property.id);
+    const propertyTenants = tenants.filter(tenant => tenant.property === property.id);
+    const propertyRoommates = roommates.filter(roommate => roommate.property === property.id);
     return propertyTenants.length > 0 || propertyRoommates.length > 0;
   });
 
   const getTotalRentalIncome = (property: Property) => {
-    const propertyTenants = tenants.filter(tenant => tenant.propertyId === property.id);
-    const propertyRoommates = roommates.filter(roommate => roommate.propertyId === property.id);
+    const propertyTenants = tenants.filter(tenant => tenant.property === property.id);
+    const propertyRoommates = roommates.filter(roommate => roommate.property === property.id);
     
-    const tenantRents = propertyTenants.reduce((sum, tenant) => sum + (tenant.rentAmount || 0), 0);
-    const roommateRents = propertyRoommates.reduce((sum, roommate) => sum + (roommate.rentAmount || 0), 0);
+    const tenantRents = propertyTenants.reduce((sum, tenant) => sum + (parseFloat(tenant.rentAmount) || 0), 0);
+    const roommateRents = propertyRoommates.reduce((sum, roommate) => sum + (parseFloat(roommate.rentAmount) || 0), 0);
     
     return (tenantRents + roommateRents) * 12; // Annuel
   };
 
   const getOccupantsInfo = (property: Property) => {
-    const propertyTenants = tenants.filter(tenant => tenant.propertyId === property.id);
-    const propertyRoommates = roommates.filter(roommate => roommate.propertyId === property.id);
+    const propertyTenants = tenants.filter(tenant => tenant.property === property.id);
+    const propertyRoommates = roommates.filter(roommate => roommate.property === property.id);
     
     return { tenants: propertyTenants, roommates: propertyRoommates };
   };
@@ -91,7 +91,7 @@ const PropertyOccupantSelector = ({
                     />
                     <div className="flex items-center gap-2">
                       <Home className="h-5 w-5 text-blue-600" />
-                      <CardTitle className="text-base">{property.name}</CardTitle>
+                      <CardTitle className="text-base">{property.title}</CardTitle>
                     </div>
                   </div>
                   <Badge variant={isSelected ? "default" : "secondary"}>
@@ -119,7 +119,7 @@ const PropertyOccupantSelector = ({
                         <div className="flex flex-wrap gap-1">
                           {occupants.tenants.map((tenant) => (
                             <Badge key={tenant.id} variant="outline" className="text-xs">
-                              {tenant.fullName} ({(tenant.rentAmount || 0).toLocaleString('fr-FR')}€/mois)
+                              {tenant.name} ({(parseFloat(tenant.rentAmount) || 0).toLocaleString('fr-FR')}€/mois)
                             </Badge>
                           ))}
                         </div>
@@ -132,7 +132,7 @@ const PropertyOccupantSelector = ({
                         <div className="flex flex-wrap gap-1">
                           {occupants.roommates.map((roommate) => (
                             <Badge key={roommate.id} variant="outline" className="text-xs">
-                              {roommate.fullName} - Ch.{roommate.roomNumber} ({(roommate.rentAmount || 0).toLocaleString('fr-FR')}€/mois)
+                              {roommate.name} - Ch.{roommate.roomNumber} ({(parseFloat(roommate.rentAmount) || 0).toLocaleString('fr-FR')}€/mois)
                             </Badge>
                           ))}
                         </div>
