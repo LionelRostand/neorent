@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -27,9 +28,11 @@ export const countries = [
 ];
 
 const CountrySelector = ({ country, onCountryChange }: CountrySelectorProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-2">
-      <Label htmlFor="country">Pays de résidence fiscale</Label>
+      <Label htmlFor="country">{t('taxes.taxResidenceCountry')}</Label>
       <Select value={country} onValueChange={onCountryChange}>
         <SelectTrigger>
           <SelectValue placeholder="Sélectionner votre pays" />

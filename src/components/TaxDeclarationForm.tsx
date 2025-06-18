@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
@@ -24,6 +25,7 @@ interface TaxDeclarationFormProps {
 }
 
 const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormProps) => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
   
   // États du formulaire
@@ -182,13 +184,13 @@ const TaxDeclarationForm = ({ isOpen, onClose, onSubmit }: TaxDeclarationFormPro
 
             <div className="flex justify-end space-x-4 pt-6 border-t">
               <Button type="button" variant="outline" onClick={onClose}>
-                Annuler
+                {t('taxes.cancel')}
               </Button>
               <Button 
                 type="submit" 
                 disabled={selectedProperties.length === 0 || (!taxBracket && country !== 'AE')}
               >
-                Créer la déclaration
+                {t('taxes.createDeclaration')}
               </Button>
             </div>
           </form>

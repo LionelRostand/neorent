@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -9,6 +10,8 @@ interface YearSelectorProps {
 }
 
 const YearSelector = ({ declarationYear, onYearChange }: YearSelectorProps) => {
+  const { t } = useTranslation();
+
   const generateYears = () => {
     const years = [];
     const startYear = 2025;
@@ -23,7 +26,7 @@ const YearSelector = ({ declarationYear, onYearChange }: YearSelectorProps) => {
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="year">Année de déclaration</Label>
+      <Label htmlFor="year">{t('taxes.declarationYear')}</Label>
       <Select value={declarationYear.toString()} onValueChange={(value) => onYearChange(parseInt(value))}>
         <SelectTrigger>
           <SelectValue />

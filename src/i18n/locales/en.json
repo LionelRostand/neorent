@@ -614,7 +614,15 @@
     "selectPropertiesForDeclaration": "Select properties for declaration",
     "addRealEstateProperty": "Add a real estate property",
     "selectPropertyToAdd": "Choose a property to add...",
-    "noPropertySelected": "No property selected"
+    "noPropertySelected": "No property selected",
+    "additionalDeductibleCharges": "Additional deductible charges (€)",
+    "chargesPlaceholder": "0.00",
+    "chargesDescription": "Management fees, repairs, insurance, loan interest, etc. (in addition to automatic property charges)",
+    "automaticCharges": "Automatic charges for selected properties: {{amount}}€/year",
+    "marginalTaxBracket": "Your marginal tax bracket",
+    "selectTaxBracket": "Select your tax bracket",
+    "cancel": "Cancel",
+    "createDeclaration": "Create declaration"
   },
   "website": {
     "title": "Website",
