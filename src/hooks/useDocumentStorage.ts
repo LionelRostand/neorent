@@ -83,10 +83,12 @@ export const useDocumentStorage = () => {
       }
 
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => ({
+      const documents = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as DocumentData[];
+      
+      return documents;
     } catch (error) {
       console.error('Erreur lors de la récupération des documents:', error);
       throw error;
@@ -95,18 +97,18 @@ export const useDocumentStorage = () => {
     }
   };
 
-  const downloadDocument = (document: DocumentData) => {
+  const downloadDocument = (documentData: DocumentData) => {
     try {
       // Reconstruire le data URL
-      const dataUrl = `data:${document.fileType};base64,${document.fileContent}`;
+      const dataUrl = `data:${documentData.fileType};base64,${documentData.fileContent}`;
       
       // Créer un lien de téléchargement
-      const link = document.createElement('a');
+      const link = window.document.createElement('a');
       link.href = dataUrl;
-      link.download = document.fileName;
-      document.body.appendChild(link);
+      link.download = documentData.fileName;
+      window.document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
+      window.document.body.removeChild(link);
     } catch (error) {
       console.error('Erreur lors du téléchargement:', error);
       throw new Error('Erreur lors du téléchargement du document');

@@ -25,7 +25,7 @@ import DocumentManager from './DocumentManager';
 import RentAlert from './RentAlert';
 import PaymentStatusCard from './TenantDetails/PaymentStatusCard';
 
-interface Tenant {
+interface TenantModalData {
   id: string;
   name: string;
   email: string;
@@ -40,10 +40,10 @@ interface Tenant {
 }
 
 interface TenantDetailsModalProps {
-  tenant: Tenant | null;
+  tenant: TenantModalData | null;
   isOpen: boolean;
   onClose: () => void;
-  onUpdateTenant?: (id: string, updates: Partial<Tenant>) => Promise<void>;
+  onUpdateTenant?: (id: string, updates: Partial<TenantModalData>) => Promise<void>;
 }
 
 const TenantDetailsModal: React.FC<TenantDetailsModalProps> = ({ 
