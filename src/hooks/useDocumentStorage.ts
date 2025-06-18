@@ -86,19 +86,23 @@ export const useDocumentStorage = () => {
       const documents: DocumentData[] = [];
       
       querySnapshot.docs.forEach(doc => {
-        const data = doc.data();
-        documents.push({
-          id: doc.id,
-          fileName: data.fileName,
-          fileType: data.fileType,
-          fileSize: data.fileSize,
-          fileContent: data.fileContent,
-          documentType: data.documentType,
-          tenantId: data.tenantId,
-          roommateId: data.roommateId,
-          uploadDate: data.uploadDate,
-          status: data.status
-        });
+        const data = doc.data() as Record<string, any>;
+        
+        // Vérifier que les champs requis existent
+        if (data.fileName && data.fileType && data.documentType) {
+          documents.push({
+            id: doc.id,
+            fileName: data.fileName as string,
+            fileType: data.fileType as string,
+            fileSize: data.fileSize as number || 0,
+            fileContent: data.fileContent as string || '',
+            documentType: data.documentType as string,
+            tenantId: data.tenantId as string || undefined,
+            roommateId: data.roommateId as string || undefined,
+            uploadDate: data.uploadDate as string || new Date().toISOString(),
+            status: data.status as string || 'Uploadé'
+          });
+        }
       });
       
       return documents;
