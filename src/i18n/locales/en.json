@@ -261,6 +261,27 @@
     "companyManagement": "Company Management",
     "addCompany": "Add Company"
   },
+  "forms": {
+    "addProperty": "Add Property",
+    "addTenant": "Add Tenant",
+    "addRoommate": "Add New Roommate",
+    "newLeaseContract": "New Lease Contract",
+    "newPropertyInspection": "New Property Inspection",
+    "newRentPayment": "New Rent Payment",
+    "addCharge": "Add Charge",
+    "addMaintenanceRequest": "Add Maintenance Request",
+    "newMessage": "New Message",
+    "newTaxDeclaration": "New Tax Declaration",
+    "required": "Required field",
+    "optional": "Optional field",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
