@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -207,7 +206,14 @@
     "expected": "expected",
     "totalMonth": "Total",
     "totalReceived": "Received:",
-    "missing": "Missing:"
+    "missing": "Missing:",
+    "loyersPayes": "Paid Rents",
+    "recu": "received",
+    "enRetard": "Late",
+    "enAttente": "Pending",
+    "attendus": "expected",
+    "totalJuin2025": "Total June 2025",
+    "manque": "Missing"
   },
   "rentalCharges": {
     "title": "Rental Charges",
