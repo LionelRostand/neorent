@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Home, Info, Phone, Mail, LogIn, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import LanguageSelector from '@/components/LanguageSelector';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -10,6 +12,7 @@ interface PublicLayoutProps {
 
 const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -32,24 +35,25 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 to="/"
                 className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
-                Accueil
+                {t('publicSite.home')}
               </Link>
               <Link
                 to="/about"
                 className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
-                À propos
+                {t('publicSite.about')}
               </Link>
               <Link
                 to="/contact"
                 className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
-                Contact
+                {t('publicSite.contact')}
               </Link>
+              <LanguageSelector />
               <Link to="/login">
                 <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
                   <LogIn className="h-4 w-4" />
-                  Connexion
+                  {t('publicSite.login')}
                 </Button>
               </Link>
             </div>
@@ -76,26 +80,29 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                   className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Accueil
+                  {t('publicSite.home')}
                 </Link>
                 <Link
                   to="/about"
                   className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  À propos
+                  {t('publicSite.about')}
                 </Link>
                 <Link
                   to="/contact"
                   className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Contact
+                  {t('publicSite.contact')}
                 </Link>
+                <div className="px-3 py-2">
+                  <LanguageSelector />
+                </div>
                 <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 w-full justify-center mt-2">
                     <LogIn className="h-4 w-4" />
-                    Connexion
+                    {t('publicSite.login')}
                   </Button>
                 </Link>
               </div>
@@ -119,33 +126,33 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 <span className="ml-2 text-lg font-bold">Neo Rent</span>
               </Link>
               <p className="mt-4 text-gray-400 text-sm lg:text-base">
-                Votre partenaire de confiance pour la gestion immobilière.
+                {t('publicSite.footer.description')}
               </p>
             </div>
             
             <div>
-              <h3 className="text-lg font-semibold mb-4">Liens utiles</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('publicSite.footer.usefulLinks')}</h3>
               <ul className="space-y-2">
                 <li>
                   <Link to="/" className="text-gray-400 hover:text-white transition-colors">
-                    Accueil
+                    {t('publicSite.home')}
                   </Link>
                 </li>
                 <li>
                   <Link to="/about" className="text-gray-400 hover:text-white transition-colors">
-                    À propos
+                    {t('publicSite.about')}
                   </Link>
                 </li>
                 <li>
                   <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
-                    Contact
+                    {t('publicSite.contact')}
                   </Link>
                 </li>
               </ul>
             </div>
             
             <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('publicSite.footer.contact')}</h3>
               <div className="space-y-2 text-gray-400 text-sm lg:text-base">
                 <div className="flex items-center">
                   <Mail className="h-4 w-4 mr-2 flex-shrink-0" />
@@ -160,7 +167,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
-            <p>&copy; 2025 Neotech-consulting. Tous droits réservés.</p>
+            <p>&copy; 2025 Neotech-consulting. {t('publicSite.footer.copyright')}</p>
           </div>
         </div>
       </footer>

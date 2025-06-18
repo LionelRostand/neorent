@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Tableau de bord",
@@ -16,6 +15,57 @@
     "website": "Site web",
     "settings": "Paramètres",
     "help": "Aide"
+  },
+  "publicSite": {
+    "home": "Accueil",
+    "about": "À propos",
+    "contact": "Contact",
+    "login": "Connexion",
+    "hero": {
+      "title": "Gestion Immobilière",
+      "subtitle": "Simplifiée",
+      "description": "NeoRent révolutionne la gestion de vos biens immobiliers avec une plateforme complète, intuitive et performante.",
+      "startFree": "Commencer Gratuitement",
+      "contactUs": "Nous Contacter"
+    },
+    "features": {
+      "title": "Pourquoi Choisir NeoRent ?",
+      "subtitle": "Découvrez les fonctionnalités qui font de NeoRent la solution de référence",
+      "propertyManagement": {
+        "title": "Gestion de Propriétés",
+        "description": "Gérez efficacement vos biens immobiliers avec nos outils avancés"
+      },
+      "tenantTracking": {
+        "title": "Suivi des Locataires",
+        "description": "Maintenez une relation de qualité avec vos locataires"
+      },
+      "dataSecurity": {
+        "title": "Sécurité des Données",
+        "description": "Vos données sont protégées avec les plus hauts standards de sécurité"
+      }
+    },
+    "benefits": {
+      "title": "Une Solution Complète pour Tous",
+      "description": "Que vous soyez propriétaire, gestionnaire ou locataire, NeoRent s'adapte à vos besoins spécifiques.",
+      "list": [
+        "Interface intuitive et facile à utiliser",
+        "Support client réactif 7j/7",
+        "Mises à jour automatiques incluses",
+        "Formation et accompagnement personnalisé"
+      ],
+      "contactTitle": "Contactez-nous"
+    },
+    "cta": {
+      "title": "Prêt à Transformer Votre Gestion Immobilière ?",
+      "description": "Rejoignez des milliers de professionnels qui font confiance à NeoRent",
+      "startNow": "Commencer Maintenant"
+    },
+    "footer": {
+      "description": "Votre partenaire de confiance pour la gestion immobilière.",
+      "usefulLinks": "Liens utiles",
+      "contact": "Contact",
+      "copyright": "Tous droits réservés."
+    }
   },
   "common": {
     "save": "Sauvegarder",

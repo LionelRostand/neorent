@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -16,6 +15,57 @@
     "website": "Website",
     "settings": "Settings",
     "help": "Help"
+  },
+  "publicSite": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "hero": {
+      "title": "Real Estate Management",
+      "subtitle": "Simplified",
+      "description": "NeoRent revolutionizes the management of your real estate properties with a complete, intuitive and efficient platform.",
+      "startFree": "Start for Free",
+      "contactUs": "Contact Us"
+    },
+    "features": {
+      "title": "Why Choose NeoRent?",
+      "subtitle": "Discover the features that make NeoRent the reference solution",
+      "propertyManagement": {
+        "title": "Property Management",
+        "description": "Efficiently manage your real estate properties with our advanced tools"
+      },
+      "tenantTracking": {
+        "title": "Tenant Tracking",
+        "description": "Maintain quality relationships with your tenants"
+      },
+      "dataSecurity": {
+        "title": "Data Security",
+        "description": "Your data is protected with the highest security standards"
+      }
+    },
+    "benefits": {
+      "title": "A Complete Solution for Everyone",
+      "description": "Whether you are an owner, manager or tenant, NeoRent adapts to your specific needs.",
+      "list": [
+        "Intuitive and easy-to-use interface",
+        "Responsive customer support 7/7",
+        "Automatic updates included",
+        "Personalized training and support"
+      ],
+      "contactTitle": "Contact us"
+    },
+    "cta": {
+      "title": "Ready to Transform Your Real Estate Management?",
+      "description": "Join thousands of professionals who trust NeoRent",
+      "startNow": "Start Now"
+    },
+    "footer": {
+      "description": "Your trusted partner for real estate management.",
+      "usefulLinks": "Useful links",
+      "contact": "Contact",
+      "copyright": "All rights reserved."
+    }
   },
   "common": {
     "save": "Save",

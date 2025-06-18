@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PublicLayout from '@/components/PublicSite/PublicLayout';
 import { ChatWidget } from '@/components/Chat/ChatWidget';
 import { Button } from '@/components/ui/button';
@@ -8,30 +9,27 @@ import { Building2, Users, Shield, Phone, Mail, MapPin, CheckCircle } from 'luci
 import { Link } from 'react-router-dom';
 
 const PublicHome = () => {
+  const { t } = useTranslation();
+
   const features = [
     {
       icon: Building2,
-      title: "Gestion de Propriétés",
-      description: "Gérez efficacement vos biens immobiliers avec nos outils avancés"
+      title: t('publicSite.features.propertyManagement.title'),
+      description: t('publicSite.features.propertyManagement.description')
     },
     {
       icon: Users,
-      title: "Suivi des Locataires",
-      description: "Maintenez une relation de qualité avec vos locataires"
+      title: t('publicSite.features.tenantTracking.title'),
+      description: t('publicSite.features.tenantTracking.description')
     },
     {
       icon: Shield,
-      title: "Sécurité des Données",
-      description: "Vos données sont protégées avec les plus hauts standards de sécurité"
+      title: t('publicSite.features.dataSecurity.title'),
+      description: t('publicSite.features.dataSecurity.description')
     }
   ];
 
-  const benefits = [
-    "Interface intuitive et facile à utiliser",
-    "Support client réactif 7j/7",
-    "Mises à jour automatiques incluses",
-    "Formation et accompagnement personnalisé"
-  ];
+  const benefits = t('publicSite.benefits.list', { returnObjects: true }) as string[];
 
   return (
     <PublicLayout>
@@ -40,22 +38,21 @@ const PublicHome = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Gestion Immobilière
-              <span className="text-green-600 block">Simplifiée</span>
+              {t('publicSite.hero.title')}
+              <span className="text-green-600 block">{t('publicSite.hero.subtitle')}</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              NeoRent révolutionne la gestion de vos biens immobiliers avec une plateforme 
-              complète, intuitive et performante.
+              {t('publicSite.hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/login">
                 <Button size="lg" className="bg-green-600 hover:bg-green-700">
-                  Commencer Gratuitement
+                  {t('publicSite.hero.startFree')}
                 </Button>
               </Link>
               <Link to="/contact">
                 <Button size="lg" variant="outline">
-                  Nous Contacter
+                  {t('publicSite.hero.contactUs')}
                 </Button>
               </Link>
             </div>
@@ -68,10 +65,10 @@ const PublicHome = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Pourquoi Choisir NeoRent ?
+              {t('publicSite.features.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Découvrez les fonctionnalités qui font de NeoRent la solution de référence
+              {t('publicSite.features.subtitle')}
             </p>
           </div>
           
@@ -99,11 +96,10 @@ const PublicHome = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Une Solution Complète pour Tous
+                {t('publicSite.benefits.title')}
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                Que vous soyez propriétaire, gestionnaire ou locataire, NeoRent s'adapte 
-                à vos besoins spécifiques.
+                {t('publicSite.benefits.description')}
               </p>
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
@@ -115,7 +111,7 @@ const PublicHome = () => {
               </div>
             </div>
             <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Contactez-nous</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">{t('publicSite.benefits.contactTitle')}</h3>
               <div className="space-y-4">
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-green-600 mr-3" />
@@ -139,14 +135,14 @@ const PublicHome = () => {
       <section className="py-20 bg-green-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Prêt à Transformer Votre Gestion Immobilière ?
+            {t('publicSite.cta.title')}
           </h2>
           <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-            Rejoignez des milliers de professionnels qui font confiance à NeoRent
+            {t('publicSite.cta.description')}
           </p>
           <Link to="/login">
             <Button size="lg" className="bg-white text-green-600 hover:bg-gray-50">
-              Commencer Maintenant
+              {t('publicSite.cta.startNow')}
             </Button>
           </Link>
         </div>
