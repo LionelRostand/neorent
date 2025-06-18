@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -16,6 +15,32 @@
     "website": "Website",
     "settings": "Settings",
     "help": "Help"
+  },
+  "properties": {
+    "title": "Properties",
+    "subtitle": "Manage your real estate properties",
+    "addProperty": "Add Property",
+    "loading": "Loading properties...",
+    "addSuccess": "Property added successfully",
+    "addError": "Error adding property",
+    "updateSuccess": "Property updated successfully",
+    "updateError": "Error updating property",
+    "deleteSuccess": "Property deleted successfully",
+    "deleteError": "Error deleting property",
+    "totalProperties": "Total Properties",
+    "occupancyRate": "Occupancy Rate",
+    "colocationRooms": "Shared Rooms",
+    "monthlyRevenue": "Monthly Revenue",
+    "realRevenueReceived": "Real revenue received",
+    "propertyList": "Property List",
+    "occupied": "occupied",
+    "available": "available",
+    "propertiesOccupied": "properties occupied",
+    "roomsAvailable": "rooms available",
+    "partiallyOccupied": "Partially Occupied",
+    "fullyOccupied": "Fully Occupied",
+    "vacant": "Vacant",
+    "perMonth": "/month"
   },
   "dashboard": {
     "title": "Dashboard",
