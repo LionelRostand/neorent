@@ -111,6 +111,71 @@
           "description": "Our multidisciplinary team combines technical expertise, real estate market knowledge and passion for innovation. We work every day to offer you the best possible experience."
         }
       }
+    },
+    "contact": {
+      "hero": {
+        "title": "Contact Us",
+        "subtitle": "Our team is here to answer all your questions about Neo Rent"
+      },
+      "form": {
+        "title": "Send us a message",
+        "subtitle": "We will get back to you as soon as possible",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "subject": "Subject",
+        "message": "Message",
+        "send": "Send Message",
+        "sending": "Sending...",
+        "success": "Message sent successfully!",
+        "error": "Error sending message"
+      },
+      "info": {
+        "title": "Contact Information",
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.fr",
+          "description": "Write to us for any questions"
+        },
+        "phone": {
+          "title": "Phone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Monday to Friday, 9am-6pm"
+        },
+        "address": {
+          "title": "Address",
+          "content": "123 Rue de la Paix, 75001 Paris",
+          "description": "Head office"
+        },
+        "hours": {
+          "title": "Hours",
+          "content": "Mon-Fri: 9am-6pm",
+          "description": "Technical support available"
+        }
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Quickly find answers to the most common questions",
+        "items": [
+          {
+            "question": "How to get started with Neo Rent?",
+            "answer": "Create your account for free, add your properties and start managing your real estate in minutes."
+          },
+          {
+            "question": "What are the pricing plans?",
+            "answer": "We offer several plans tailored to your needs, with a free version to get started."
+          },
+          {
+            "question": "Is my data secure?",
+            "answer": "Absolutely. We use bank-level encryption and our servers are hosted in Europe."
+          },
+          {
+            "question": "Can I import my existing data?",
+            "answer": "Yes, we provide import tools to facilitate the migration of your existing data."
+          }
+        ]
+      }
     }
   },
   "common": {

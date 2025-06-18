@@ -1,40 +1,43 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 export const ContactInfo: React.FC = () => {
+  const { t } = useTranslation();
+
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email',
-      content: 'contact@neorent.fr',
-      description: 'Écrivez-nous pour toute question'
+      title: t('publicSite.contact.info.email.title'),
+      content: t('publicSite.contact.info.email.content'),
+      description: t('publicSite.contact.info.email.description')
     },
     {
       icon: Phone,
-      title: 'Téléphone',
-      content: '+33 1 23 45 67 89',
-      description: 'Du lundi au vendredi, 9h-18h'
+      title: t('publicSite.contact.info.phone.title'),
+      content: t('publicSite.contact.info.phone.content'),
+      description: t('publicSite.contact.info.phone.description')
     },
     {
       icon: MapPin,
-      title: 'Adresse',
-      content: '123 Rue de la Paix, 75001 Paris',
-      description: 'Siège social'
+      title: t('publicSite.contact.info.address.title'),
+      content: t('publicSite.contact.info.address.content'),
+      description: t('publicSite.contact.info.address.description')
     },
     {
       icon: Clock,
-      title: 'Horaires',
-      content: 'Lun-Ven: 9h-18h',
-      description: 'Support technique disponible'
+      title: t('publicSite.contact.info.hours.title'),
+      content: t('publicSite.contact.info.hours.content'),
+      description: t('publicSite.contact.info.hours.description')
     }
   ];
 
   return (
     <div>
       <h2 className="text-3xl font-bold text-gray-900 mb-6">
-        Informations de contact
+        {t('publicSite.contact.info.title')}
       </h2>
       <div className="space-y-6">
         {contactInfo.map((info, index) => (

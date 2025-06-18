@@ -111,6 +111,71 @@
           "description": "Notre équipe multidisciplinaire combine expertise technique, connaissance du marché immobilier et passion pour l'innovation. Nous travaillons chaque jour pour vous offrir la meilleure expérience possible."
         }
       }
+    },
+    "contact": {
+      "hero": {
+        "title": "Contactez-nous",
+        "subtitle": "Notre équipe est là pour répondre à toutes vos questions sur Neo Rent"
+      },
+      "form": {
+        "title": "Envoyez-nous un message",
+        "subtitle": "Nous vous répondrons dans les plus brefs délais",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Email",
+        "phone": "Téléphone",
+        "subject": "Sujet",
+        "message": "Message",
+        "send": "Envoyer le message",
+        "sending": "Envoi en cours...",
+        "success": "Message envoyé avec succès !",
+        "error": "Erreur lors de l'envoi du message"
+      },
+      "info": {
+        "title": "Informations de contact",
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.fr",
+          "description": "Écrivez-nous pour toute question"
+        },
+        "phone": {
+          "title": "Téléphone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Du lundi au vendredi, 9h-18h"
+        },
+        "address": {
+          "title": "Adresse",
+          "content": "123 Rue de la Paix, 75001 Paris",
+          "description": "Siège social"
+        },
+        "hours": {
+          "title": "Horaires",
+          "content": "Lun-Ven: 9h-18h",
+          "description": "Support technique disponible"
+        }
+      },
+      "faq": {
+        "title": "Questions Fréquentes",
+        "subtitle": "Trouvez rapidement des réponses aux questions les plus courantes",
+        "items": [
+          {
+            "question": "Comment commencer avec Neo Rent ?",
+            "answer": "Créez votre compte gratuitement, ajoutez vos propriétés et commencez à gérer vos biens immobiliers en quelques minutes."
+          },
+          {
+            "question": "Quels sont les tarifs ?",
+            "answer": "Nous proposons plusieurs formules adaptées à vos besoins, avec une version gratuite pour commencer."
+          },
+          {
+            "question": "Mes données sont-elles sécurisées ?",
+            "answer": "Absolument. Nous utilisons un chiffrement de niveau bancaire et nos serveurs sont hébergés en Europe."
+          },
+          {
+            "question": "Puis-je importer mes données existantes ?",
+            "answer": "Oui, nous proposons des outils d'import pour faciliter la migration de vos données existantes."
+          }
+        ]
+      }
     }
   },
   "common": {
