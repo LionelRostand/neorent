@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
@@ -8,6 +9,7 @@ import { messageService } from '@/services/messageService';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
 const Messages = () => {
+  const { t } = useTranslation();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -122,8 +124,8 @@ const Messages = () => {
     <MainLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-          <p className="text-gray-600">Gérez vos conversations avec les clients</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('messages.title')}</h1>
+          <p className="text-gray-600">{t('messages.subtitle')}</p>
         </div>
 
         <MessageStats conversations={conversations} />
@@ -149,7 +151,7 @@ const Messages = () => {
             ) : (
               <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
                 <div className="text-center">
-                  <p className="text-gray-500">Sélectionnez un contact pour commencer</p>
+                  <p className="text-gray-500">{t('messages.selectContact')}</p>
                 </div>
               </div>
             )}

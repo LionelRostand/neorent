@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
@@ -27,20 +28,21 @@ import AdminTenantAccess from '@/components/AdminTenantAccess';
 import { useAuth } from '@/hooks/useAuth';
 
 const Settings = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('company');
   const { user } = useAuth();
   const isAdmin = user?.email === 'admin@neotech-consulting.com';
 
   const tabs = [
-    { id: 'company', label: 'Entreprise', icon: Building },
-    { id: 'employees', label: 'Employés', icon: Users },
-    { id: 'permissions', label: 'Permissions', icon: ShieldCheck },
-    { id: 'firebase', label: 'Firebase', icon: Database },
-    { id: 'database', label: 'Base de données', icon: Database },
-    { id: 'email', label: 'Email', icon: Mail },
-    { id: 'security', label: 'Sécurité', icon: Shield },
-    { id: 'payment', label: 'Paiement', icon: CreditCard },
-    ...(isAdmin ? [{ id: 'admin-access', label: 'Accès Locataires', icon: UserCog }] : [])
+    { id: 'company', label: t('settings.tabs.company'), icon: Building },
+    { id: 'employees', label: t('settings.tabs.employees'), icon: Users },
+    { id: 'permissions', label: t('settings.tabs.permissions'), icon: ShieldCheck },
+    { id: 'firebase', label: t('settings.tabs.firebase'), icon: Database },
+    { id: 'database', label: t('settings.tabs.database'), icon: Database },
+    { id: 'email', label: t('settings.tabs.email'), icon: Mail },
+    { id: 'security', label: t('settings.tabs.security'), icon: Shield },
+    { id: 'payment', label: t('settings.tabs.payment'), icon: CreditCard },
+    ...(isAdmin ? [{ id: 'admin-access', label: t('settings.tabs.adminAccess'), icon: UserCog }] : [])
   ];
 
   return (
@@ -50,9 +52,9 @@ const Settings = () => {
           <div className="flex items-center space-x-3">
             <SettingsIcon className="h-8 w-8 text-blue-600" />
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Paramètres</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('settings.title')}</h1>
               <p className="text-gray-600 mt-1 text-sm sm:text-base">
-                Gérez la configuration de votre application NeoRent
+                {t('settings.subtitle')}
               </p>
             </div>
           </div>
@@ -112,12 +114,12 @@ const Settings = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
-                      🔑 Accès Administrateur aux Espaces Locataires
+                      🔑 {t('settings.adminAccess')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600 mb-6">
-                      En tant qu'administrateur principal, vous pouvez accéder à l'espace de n'importe quel locataire ou colocataire pour les assister ou vérifier leurs informations.
+                      {t('settings.adminAccessDescription')}
                     </p>
                     <AdminTenantAccess />
                   </CardContent>

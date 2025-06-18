@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
@@ -24,17 +25,18 @@ import AnalyticsTab from '@/components/Website/AnalyticsTab';
 import ConfigTab from '@/components/Website/ConfigTab';
 
 const Website = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('pages');
 
   const tabs = [
-    { id: 'pages', label: 'Pages', icon: FileText },
-    { id: 'content', label: 'Contenu', icon: File },
-    { id: 'medias', label: 'Médias', icon: Image },
-    { id: 'theme', label: 'Thème', icon: Palette },
-    { id: 'footer', label: 'Pied de page', icon: LinkIcon },
-    { id: 'carte', label: 'Carte', icon: MapPin },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'config', label: 'Configuration', icon: Settings }
+    { id: 'pages', label: t('website.pages'), icon: FileText },
+    { id: 'content', label: t('website.content'), icon: File },
+    { id: 'medias', label: t('website.medias'), icon: Image },
+    { id: 'theme', label: t('website.theme'), icon: Palette },
+    { id: 'footer', label: t('website.footer'), icon: LinkIcon },
+    { id: 'carte', label: t('website.map'), icon: MapPin },
+    { id: 'analytics', label: t('website.analytics'), icon: BarChart3 },
+    { id: 'config', label: t('website.configuration'), icon: Settings }
   ];
 
   return (

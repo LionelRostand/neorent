@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
@@ -13,6 +15,7 @@ import { useFirebaseCharges } from '@/hooks/useFirebaseCharges';
 import { useToast } from '@/hooks/use-toast';
 
 const RentalCharges = () => {
+  const { t } = useTranslation();
   const { charges, loading, error, addCharge, deleteCharge } = useFirebaseCharges();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('2024-12');
@@ -35,34 +38,34 @@ const RentalCharges = () => {
     try {
       await addCharge(data);
       toast({
-        title: "Succès",
-        description: "La charge a été ajoutée avec succès.",
+        title: t('common.success'),
+        description: t('rentalCharges.addSuccess'),
       });
       console.log('Charge ajoutée à la collection Rent_Charges:', data);
     } catch (err) {
       console.error('Erreur lors de l\'ajout de la charge:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de l'ajout de la charge.",
+        title: t('common.error'),
+        description: t('rentalCharges.addError'),
         variant: "destructive",
       });
     }
   };
 
   const handleDeleteCharge = async (id: string) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette charge ?')) {
+    if (window.confirm(t('rentalCharges.confirmDelete'))) {
       try {
         await deleteCharge(id);
         toast({
-          title: "Succès",
-          description: "La charge a été supprimée avec succès.",
+          title: t('common.success'),
+          description: t('rentalCharges.deleteSuccess'),
         });
         console.log('Charge supprimée de la collection Rent_Charges:', id);
       } catch (err) {
         console.error('Erreur lors de la suppression de la charge:', err);
         toast({
-          title: "Erreur",
-          description: "Erreur lors de la suppression de la charge.",
+          title: t('common.error'),
+          description: t('rentalCharges.deleteError'),
           variant: "destructive",
         });
       }
@@ -73,7 +76,7 @@ const RentalCharges = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Chargement des charges...</div>
+          <div className="text-lg">{t('rentalCharges.loading')}</div>
         </div>
       </MainLayout>
     );
@@ -83,7 +86,7 @@ const RentalCharges = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">Erreur: {error}</div>
+          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
         </div>
       </MainLayout>
     );
@@ -94,9 +97,9 @@ const RentalCharges = () => {
       <div className="space-y-4 md:space-y-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Charges Locatives</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('rentalCharges.title')}</h1>
             <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
-              Gérez les charges de vos biens immobiliers
+              {t('rentalCharges.subtitle')}
             </p>
           </div>
           <Button 
@@ -104,7 +107,7 @@ const RentalCharges = () => {
             onClick={() => setIsFormOpen(true)}
           >
             <Plus className="mr-2 h-4 w-4" />
-            Ajouter des charges
+            {t('rentalCharges.addCharge')}
           </Button>
         </div>
 
