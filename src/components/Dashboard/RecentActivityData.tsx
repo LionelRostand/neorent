@@ -4,8 +4,10 @@ import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 import { DollarSign, User, Home, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const useRecentActivityData = () => {
+  const { t } = useTranslation();
   const { payments } = useFirebasePayments();
   const { tenants } = useFirebaseTenants();
   const { inspections } = useFirebaseInspections();
@@ -23,9 +25,9 @@ export const useRecentActivityData = () => {
       activityList.push({
         id: `payment-${payment.id}`,
         type: 'payment',
-        description: `Loyer reçu - ${payment.property}`,
+        description: `${t('dashboard.rentReceived')} - ${payment.property}`,
         amount: `${payment.rentAmount}€`,
-        time: formatTimeAgo(payment.paymentDate!),
+        time: formatTimeAgo(payment.paymentDate!, t),
         icon: DollarSign,
         iconColor: 'bg-green-500'
       });
@@ -41,8 +43,8 @@ export const useRecentActivityData = () => {
       activityList.push({
         id: `tenant-${tenant.id}`,
         type: 'tenant',
-        description: `Nouveau locataire - ${tenant.name}`,
-        time: formatTimeAgo(tenant.leaseStart),
+        description: `${t('dashboard.newTenant')} - ${tenant.name}`,
+        time: formatTimeAgo(tenant.leaseStart, t),
         icon: User,
         iconColor: 'bg-blue-500'
       });
@@ -59,7 +61,7 @@ export const useRecentActivityData = () => {
         id: `inspection-${inspection.id}`,
         type: 'maintenance',
         description: `${inspection.type} - ${inspection.property}`,
-        time: formatTimeAgo(inspection.date),
+        time: formatTimeAgo(inspection.date, t),
         icon: Home,
         iconColor: 'bg-orange-500'
       });
@@ -74,9 +76,9 @@ export const useRecentActivityData = () => {
       activityList.push({
         id: `late-${payment.id}`,
         type: 'payment',
-        description: `Loyer en retard - ${payment.property}`,
+        description: `${t('dashboard.latePayment')} - ${payment.property}`,
         amount: `${payment.rentAmount}€`,
-        time: formatTimeAgo(payment.dueDate),
+        time: formatTimeAgo(payment.dueDate, t),
         icon: Clock,
         iconColor: 'bg-red-500'
       });
@@ -85,12 +87,12 @@ export const useRecentActivityData = () => {
     return activityList
       .sort((a, b) => getTimeValue(b.time) - getTimeValue(a.time))
       .slice(0, 4);
-  }, [payments, tenants, inspections]);
+  }, [payments, tenants, inspections, t]);
 
   return activities;
 };
 
-const formatTimeAgo = (dateString: string): string => {
+const formatTimeAgo = (dateString: string, t: any): string => {
   const date = new Date(dateString);
   const now = new Date();
   const diffInMs = now.getTime() - date.getTime();
@@ -98,16 +100,16 @@ const formatTimeAgo = (dateString: string): string => {
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
   if (diffInHours < 24) {
-    return `Il y a ${diffInHours}h`;
+    return t('dashboard.timeAgo.hours', { hours: diffInHours });
   } else if (diffInDays < 7) {
-    return `Il y a ${diffInDays}j`;
+    return t('dashboard.timeAgo.days', { days: diffInDays });
   } else {
-    return `Il y a ${Math.floor(diffInDays / 7)}sem`;
+    return t('dashboard.timeAgo.weeks', { weeks: Math.floor(diffInDays / 7) });
   }
 };
 
 const getTimeValue = (timeString: string): number => {
-  const match = timeString.match(/(\d+)(h|j|sem)/);
+  const match = timeString.match(/(\d+)(h|j|d|sem|w)/);
   if (!match) return 0;
   
   const value = parseInt(match[1]);
@@ -115,8 +117,10 @@ const getTimeValue = (timeString: string): number => {
   
   switch (unit) {
     case 'h': return value;
-    case 'j': return value * 24;
-    case 'sem': return value * 24 * 7;
+    case 'j':
+    case 'd': return value * 24;
+    case 'sem':
+    case 'w': return value * 24 * 7;
     default: return 0;
   }
 };
