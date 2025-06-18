@@ -59,10 +59,23 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       return sum + (Number(expectedAmount) || 0);
     }, 0);
 
-  console.log('💰 Calcul des métriques CORRIGÉ:', {
+  // Calculer le montant total en attente (différence entre attendu et reçu)
+  const totalPendingAmount = payments
+    .filter(p => p.status === 'En attente')
+    .reduce((sum, payment) => {
+      const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+      return sum + (Number(expectedAmount) || 0);
+    }, 0);
+
+  // Calculer la différence totale (ce qui manque encore)
+  const totalMissingAmount = totalExpectedAmount - totalPaidAmount;
+
+  console.log('💰 Calcul des métriques DÉTAILLÉ:', {
     totalExpectedAmount,
     totalPaidAmount,
     totalLateAmount,
+    totalPendingAmount,
+    totalMissingAmount,
     currentMonth,
     payments: payments.map(p => ({ 
       id: p.id, 
@@ -80,7 +93,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title="Loyers Payés"
         value={paidCount}
-        description={`${paidCount} paiement${paidCount > 1 ? 's' : ''} reçu${paidCount > 1 ? 's' : ''}`}
+        description={`${totalPaidAmount.toLocaleString()}€ reçus (${paidCount} paiement${paidCount > 1 ? 's' : ''})`}
         icon={CheckCircle}
         iconBgColor="bg-green-500"
         borderColor="border-l-green-500"
@@ -96,7 +109,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title="En Attente"
         value={pendingCount}
-        description={`${pendingCount} paiement${pendingCount > 1 ? 's' : ''} attendu${pendingCount > 1 ? 's' : ''}`}
+        description={`${totalPendingAmount.toLocaleString()}€ manquants (${pendingCount} paiement${pendingCount > 1 ? 's' : ''})`}
         icon={Clock}
         iconBgColor="bg-yellow-500"
         borderColor="border-l-yellow-500"
@@ -104,7 +117,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title={`Total ${currentMonth}`}
         value={`${totalExpectedAmount.toLocaleString()}€`}
-        description={`Total attendu ce mois | Reçu: ${totalPaidAmount.toLocaleString()}€`}
+        description={`Attendu: ${totalExpectedAmount.toLocaleString()}€ | Reçu: ${totalPaidAmount.toLocaleString()}€ | Reste: ${totalMissingAmount.toLocaleString()}€`}
         icon={DollarSign}
         iconBgColor="bg-blue-500"
         borderColor="border-l-blue-500"
