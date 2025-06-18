@@ -118,7 +118,7 @@ const ContractDetailsModal: React.FC<ContractDetailsModalProps> = ({
                     <Euro className="h-5 w-5 text-gray-400" />
                     <div>
                       <p className="text-sm text-gray-600">Montant</p>
-                      <p className="font-medium text-blue-600">{contract.amount}/an</p>
+                      <p className="font-medium text-blue-600">{contract.amount}/mois</p>
                     </div>
                   </div>
                 </div>

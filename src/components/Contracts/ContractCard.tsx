@@ -84,7 +84,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
             </div>
             <div className="flex items-center text-blue-600 font-semibold text-sm">
               <FileText className="mr-2 h-4 w-4" />
-              {contract.amount}/an
+              {contract.amount}/mois
             </div>
             <div className="flex items-center text-gray-600 text-sm">
               <span className="text-xs bg-gray-100 px-2 py-1 rounded">
