@@ -26,42 +26,52 @@ const Maintenance = () => {
           </div>
 
           <Tabs defaultValue="requests" className="space-y-4 sm:space-y-6">
-            <div className="w-full overflow-x-auto">
-              <TabsList className="grid grid-cols-5 w-full min-w-[600px] bg-muted p-1 h-auto">
+            <div className="w-full overflow-x-auto pb-2">
+              <TabsList className="grid grid-cols-5 w-full min-w-[700px] bg-muted p-1 h-auto rounded-lg">
                 <TabsTrigger 
                   value="requests" 
-                  className="flex flex-col sm:flex-row items-center justify-center gap-1 p-2 min-h-[60px] sm:min-h-[40px] text-xs sm:text-sm data-[state=active]:bg-background"
+                  className="flex flex-col items-center justify-center gap-1 p-2 min-h-[70px] text-xs data-[state=active]:bg-background data-[state=active]:shadow-sm rounded-md"
                 >
-                  <ClipboardList className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-                  <span className="text-center leading-tight">{t('maintenance.requests')}</span>
+                  <ClipboardList className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-center leading-tight text-wrap break-words max-w-full">
+                    {t('maintenance.requests')}
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="responsibilities" 
-                  className="flex flex-col sm:flex-row items-center justify-center gap-1 p-2 min-h-[60px] sm:min-h-[40px] text-xs sm:text-sm data-[state=active]:bg-background"
+                  className="flex flex-col items-center justify-center gap-1 p-2 min-h-[70px] text-xs data-[state=active]:bg-background data-[state=active]:shadow-sm rounded-md"
                 >
-                  <Scale className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-                  <span className="text-center leading-tight">{t('maintenance.responsibilities')}</span>
+                  <Scale className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-center leading-tight text-wrap break-words max-w-full">
+                    {t('maintenance.responsibilities')}
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="interventions" 
-                  className="flex flex-col sm:flex-row items-center justify-center gap-1 p-2 min-h-[60px] sm:min-h-[40px] text-xs sm:text-sm data-[state=active]:bg-background"
+                  className="flex flex-col items-center justify-center gap-1 p-2 min-h-[70px] text-xs data-[state=active]:bg-background data-[state=active]:shadow-sm rounded-md"
                 >
-                  <Wrench className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-                  <span className="text-center leading-tight">{t('maintenance.interventions')}</span>
+                  <Wrench className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-center leading-tight text-wrap break-words max-w-full">
+                    {t('maintenance.interventions')}
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="history" 
-                  className="flex flex-col sm:flex-row items-center justify-center gap-1 p-2 min-h-[60px] sm:min-h-[40px] text-xs sm:text-sm data-[state=active]:bg-background"
+                  className="flex flex-col items-center justify-center gap-1 p-2 min-h-[70px] text-xs data-[state=active]:bg-background data-[state=active]:shadow-sm rounded-md"
                 >
-                  <Calendar className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-                  <span className="text-center leading-tight">{t('maintenance.history')}</span>
+                  <Calendar className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-center leading-tight text-wrap break-words max-w-full">
+                    {t('maintenance.history')}
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="costs" 
-                  className="flex flex-col sm:flex-row items-center justify-center gap-1 p-2 min-h-[60px] sm:min-h-[40px] text-xs sm:text-sm data-[state=active]:bg-background"
+                  className="flex flex-col items-center justify-center gap-1 p-2 min-h-[70px] text-xs data-[state=active]:bg-background data-[state=active]:shadow-sm rounded-md"
                 >
-                  <Euro className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-                  <span className="text-center leading-tight">{t('maintenance.costs')}</span>
+                  <Euro className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-center leading-tight text-wrap break-words max-w-full">
+                    {t('maintenance.costs')}
+                  </span>
                 </TabsTrigger>
               </TabsList>
             </div>
