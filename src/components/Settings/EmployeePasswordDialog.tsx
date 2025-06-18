@@ -9,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Lock, Eye, EyeOff } from 'lucide-react';
+import { Lock, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useEmployeePassword } from '@/hooks/useEmployeePassword';
 
@@ -66,8 +66,8 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
     
     if (result.success) {
       toast({
-        title: "Mot de passe défini",
-        description: `Le mot de passe a été ${employee.hasPassword ? 'mis à jour' : 'défini'} avec succès.`,
+        title: "Succès",
+        description: result.message || `Le mot de passe a été ${employee.hasPassword ? 'mis à jour' : 'défini'} avec succès.`,
       });
       onPasswordSet();
       onOpenChange(false);
@@ -96,6 +96,17 @@ const EmployeePasswordDialog: React.FC<EmployeePasswordDialogProps> = ({
           <div className="space-y-2">
             <Label>Employé: {employee.name}</Label>
             <Label>Email: {employee.email}</Label>
+          </div>
+
+          {/* Information sur l'email existant */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <div className="flex items-center gap-2 text-blue-700">
+              <AlertCircle className="h-4 w-4" />
+              <span className="text-sm font-medium">Information</span>
+            </div>
+            <p className="text-sm text-blue-600 mt-1">
+              Si cet email existe déjà dans Firebase Auth, le système mettra simplement à jour le statut du mot de passe.
+            </p>
           </div>
           
           <div className="space-y-2">

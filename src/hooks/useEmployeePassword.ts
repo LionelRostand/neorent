@@ -15,6 +15,19 @@ export const useEmployeePassword = () => {
       // Créer un compte Firebase Auth pour l'employé
       const result = await createUserAccount(email, password);
       
+      if (result.emailAlreadyExists) {
+        // Si l'email existe déjà, on met simplement à jour le document employé
+        await updateDoc(doc(db, 'user_roles', employeeId), {
+          hasPassword: true,
+          passwordUpdatedAt: new Date().toISOString()
+        });
+        
+        return { 
+          success: true, 
+          message: 'Un compte Firebase existe déjà pour cet email. Le statut du mot de passe a été mis à jour.' 
+        };
+      }
+      
       if (result.user) {
         // Mettre à jour le document employé avec l'UID Firebase
         await updateDoc(doc(db, 'user_roles', employeeId), {
@@ -23,7 +36,7 @@ export const useEmployeePassword = () => {
           updatedAt: new Date().toISOString()
         });
         
-        return { success: true };
+        return { success: true, message: 'Compte créé avec succès.' };
       }
       
       return { success: false, error: 'Erreur lors de la création du compte' };
@@ -44,7 +57,7 @@ export const useEmployeePassword = () => {
         passwordUpdatedAt: new Date().toISOString()
       });
       
-      return { success: true };
+      return { success: true, message: 'Mot de passe mis à jour avec succès.' };
     } catch (error: any) {
       console.error('Erreur lors de la mise à jour du mot de passe:', error);
       return { success: false, error: error.message };
