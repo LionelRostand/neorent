@@ -17,7 +17,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_properties',
       icon: Home,
-      description: 'Propriétés immobilières',
+      description: t('settings.firebase.collections.properties'),
       documentCount: 12,
       status: 'active',
       lastModified: '2024-01-15T10:30:00Z'
@@ -25,7 +25,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_tenants',
       icon: Users,
-      description: 'Locataires',
+      description: t('settings.firebase.collections.tenants'),
       documentCount: 28,
       status: 'active',
       lastModified: '2024-01-14T16:45:00Z'
@@ -33,7 +33,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_colocataires',
       icon: Users,
-      description: 'Colocataires',
+      description: t('settings.firebase.collections.roommates'),
       documentCount: 34,
       status: 'active',
       lastModified: '2024-01-14T14:20:00Z'
@@ -41,7 +41,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_Payments',
       icon: CreditCard,
-      description: 'Paiements de loyers',
+      description: t('settings.firebase.collections.payments'),
       documentCount: 156,
       status: 'active',
       lastModified: '2024-01-15T09:15:00Z'
@@ -49,7 +49,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_Contracts',
       icon: FileText,
-      description: 'Contrats de location',
+      description: t('settings.firebase.collections.contracts'),
       documentCount: 23,
       status: 'active',
       lastModified: '2024-01-13T11:30:00Z'
@@ -57,7 +57,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_Inspections',
       icon: Calendar,
-      description: 'Inspections et visites',
+      description: t('settings.firebase.collections.inspections'),
       documentCount: 45,
       status: 'active',
       lastModified: '2024-01-12T15:20:00Z'
@@ -65,7 +65,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_Maintenances',
       icon: SettingsIcon,
-      description: 'Maintenance et réparations',
+      description: t('settings.firebase.collections.maintenances'),
       documentCount: 67,
       status: 'active',
       lastModified: '2024-01-14T08:45:00Z'
@@ -73,7 +73,7 @@ const FirebaseCollectionsList = () => {
     {
       name: 'Rent_Companies',
       icon: Database,
-      description: 'Informations des entreprises',
+      description: t('settings.firebase.collections.companies'),
       documentCount: 3,
       status: 'active',
       lastModified: '2024-01-10T12:00:00Z'
@@ -88,8 +88,8 @@ const FirebaseCollectionsList = () => {
       setRefreshing(false);
       setLastRefresh(new Date());
       toast({
-        title: "Collections mises à jour",
-        description: "Les informations des collections Firebase ont été actualisées.",
+        title: t('settings.firebase.collections.refreshed'),
+        description: t('settings.firebase.collections.refreshedDescription'),
       });
     }, 2000);
   };
@@ -97,9 +97,9 @@ const FirebaseCollectionsList = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge className="bg-green-100 text-green-800">Actif</Badge>;
+        return <Badge className="bg-green-100 text-green-800">{t('settings.firebase.collections.active')}</Badge>;
       case 'inactive':
-        return <Badge variant="secondary">Inactif</Badge>;
+        return <Badge variant="secondary">{t('settings.firebase.collections.inactive')}</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -122,10 +122,10 @@ const FirebaseCollectionsList = () => {
           <div>
             <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
               <Database className="h-5 w-5" />
-              {t('settings.firebase.configuredFirebaseCollections')}
+              {t('settings.firebase.collections.title')}
             </CardTitle>
             <p className="text-sm text-gray-600 mt-1">
-              Dernière mise à jour: {lastRefresh.toLocaleDateString('fr-FR')} à {lastRefresh.toLocaleTimeString('fr-FR')}
+              {t('settings.firebase.collections.lastUpdate')}: {lastRefresh.toLocaleDateString('fr-FR')} à {lastRefresh.toLocaleTimeString('fr-FR')}
             </p>
           </div>
           <Button 
@@ -134,7 +134,7 @@ const FirebaseCollectionsList = () => {
             className="w-full sm:w-auto"
           >
             <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-            {refreshing ? 'Actualisation...' : 'Actualiser'}
+            {refreshing ? t('settings.firebase.collections.refreshing') : t('settings.firebase.collections.refresh')}
           </Button>
         </div>
       </CardHeader>
@@ -159,9 +159,9 @@ const FirebaseCollectionsList = () => {
                       {collection.description}
                     </p>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 mt-2 text-xs text-gray-500">
-                      <span>{collection.documentCount} document{collection.documentCount > 1 ? 's' : ''}</span>
+                      <span>{collection.documentCount} {t('settings.firebase.collections.document')}{collection.documentCount > 1 ? 's' : ''}</span>
                       <span className="hidden sm:inline">•</span>
-                      <span>Modifié le {formatDate(collection.lastModified)}</span>
+                      <span>{t('settings.firebase.collections.modified')} {formatDate(collection.lastModified)}</span>
                     </div>
                   </div>
                 </div>
@@ -173,7 +173,7 @@ const FirebaseCollectionsList = () => {
                       {collection.documentCount}
                     </div>
                     <div className="text-xs text-gray-500">
-                      docs
+                      {t('settings.firebase.collections.docs')}
                     </div>
                   </div>
                 </div>
@@ -183,12 +183,12 @@ const FirebaseCollectionsList = () => {
         </div>
         
         <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h4 className="font-semibold text-blue-900 mb-2 text-sm md:text-base">{t('settings.firebase.importantInformation')}</h4>
+          <h4 className="font-semibold text-blue-900 mb-2 text-sm md:text-base">{t('settings.firebase.collections.importantInfo.title')}</h4>
           <ul className="space-y-1 text-xs md:text-sm text-blue-800">
-            <li>• Les collections sont automatiquement créées lors de l'ajout du premier document</li>
-            <li>• Les règles de sécurité Firestore s'appliquent à toutes les collections</li>
-            <li>• La synchronisation en temps réel est activée pour toutes les collections</li>
-            <li>• Cliquez sur "Actualiser" pour mettre à jour les statistiques</li>
+            <li>• {t('settings.firebase.collections.importantInfo.autoCreated')}</li>
+            <li>• {t('settings.firebase.collections.importantInfo.rulesApply')}</li>
+            <li>• {t('settings.firebase.collections.importantInfo.realTimeSync')}</li>
+            <li>• {t('settings.firebase.collections.importantInfo.refreshStats')}</li>
           </ul>
         </div>
       </CardContent>
