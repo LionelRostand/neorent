@@ -1,17 +1,17 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
-import { Plus, Edit, Trash2, Lock } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import EmployeePasswordDialog from './EmployeePasswordDialog';
+import EmployeeForm from './EmployeeForm';
+import EmployeeTable from './EmployeeTable';
 
 interface Employee {
   id: string;
@@ -174,85 +174,6 @@ const EmployeeManagement: React.FC = () => {
     return company ? company.name : 'Entreprise inconnue';
   };
 
-  const EmployeeForm = ({ onSubmit, isEdit = false }: { onSubmit: (e: React.FormEvent) => void; isEdit?: boolean }) => (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="name">Nom complet</Label>
-        <Input
-          id="name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          required
-        />
-      </div>
-      
-      <div>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
-      </div>
-      
-      <div>
-        <Label htmlFor="role">Rôle</Label>
-        <Select value={formData.role} onValueChange={(value: 'admin' | 'employee') => setFormData({ ...formData, role: value })}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="employee">Employé</SelectItem>
-            <SelectItem value="admin">Administrateur</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      
-      <div>
-        <Label htmlFor="company">Entreprise</Label>
-        <Select value={formData.companyId} onValueChange={(value: string) => setFormData({ ...formData, companyId: value })}>
-          <SelectTrigger>
-            <SelectValue placeholder="Sélectionner une entreprise" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="none">Aucune entreprise</SelectItem>
-            {companies.map((company) => (
-              <SelectItem key={company.id} value={company.id}>
-                {company.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {isEdit && (
-        <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-          <div>
-            <Label className="font-medium">Mot de passe</Label>
-            <p className="text-sm text-gray-600">
-              {selectedEmployee?.hasPassword ? 'Mot de passe défini' : 'Aucun mot de passe défini'}
-            </p>
-          </div>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => selectedEmployee && openPasswordDialog(selectedEmployee)}
-          >
-            <Lock className="h-4 w-4 mr-2" />
-            {selectedEmployee?.hasPassword ? 'Modifier' : 'Définir'}
-          </Button>
-        </div>
-      )}
-      
-      <Button type="submit" className="w-full">
-        {isEdit ? 'Modifier l\'employé' : 'Ajouter l\'employé'}
-      </Button>
-    </form>
-  );
-
   if (loading || companiesLoading) {
     return <div>Chargement des employés...</div>;
   }
@@ -276,7 +197,12 @@ const EmployeeManagement: React.FC = () => {
                 <DialogHeader>
                   <DialogTitle>Ajouter un employé</DialogTitle>
                 </DialogHeader>
-                <EmployeeForm onSubmit={handleAddEmployee} />
+                <EmployeeForm
+                  formData={formData}
+                  setFormData={setFormData}
+                  onSubmit={handleAddEmployee}
+                  companies={companies}
+                />
               </DialogContent>
             </Dialog>
           </CardTitle>
@@ -286,101 +212,15 @@ const EmployeeManagement: React.FC = () => {
             Gérez les comptes employés de votre entreprise
           </p>
 
-          <div className="overflow-x-auto">
-            <div className="min-w-[700px]">
-              <div className="hidden md:grid grid-cols-8 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
-                <div>Nom</div>
-                <div>Email</div>
-                <div>Rôle</div>
-                <div>Entreprise</div>
-                <div>Date création</div>
-                <div>Permissions</div>
-                <div>Mot de passe</div>
-                <div>Actions</div>
-              </div>
-              
-              {userRoles.map((employee) => (
-                <div key={employee.id} className="md:hidden space-y-3 p-4 border border-gray-200 rounded-lg mb-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-medium text-lg">{employee.name}</h3>
-                      <p className="text-sm text-gray-600">{employee.role === 'admin' ? 'Administrateur' : 'Employé'}</p>
-                      <p className="text-sm text-gray-500">{getCompanyName((employee as any).companyId)}</p>
-                    </div>
-                    <div className="flex gap-1">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => openPasswordDialog(employee)}
-                        title="Gérer le mot de passe"
-                      >
-                        <Lock className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => handleDeleteEmployee(employee.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-sm text-gray-600">{employee.email}</p>
-                    <p className="text-xs text-gray-500">
-                      Créé le: {new Date(employee.createdAt).toLocaleDateString()}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Mot de passe: {(employee as any).hasPassword ? '✓ Défini' : '✗ Non défini'}
-                    </p>
-                  </div>
-                </div>
-              ))}
-
-              <div className="hidden md:block">
-                {userRoles.map((employee) => (
-                  <div key={employee.id} className="grid grid-cols-8 gap-4 p-4 border-b border-gray-200">
-                    <div className="font-medium">{employee.name}</div>
-                    <div className="text-sm text-gray-600 truncate">{employee.email}</div>
-                    <div className="text-sm text-gray-600">
-                      {employee.role === 'admin' ? 'Administrateur' : 'Employé'}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {getCompanyName((employee as any).companyId)}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {new Date(employee.createdAt).toLocaleDateString()}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {getPermissionsDisplay(employee.permissions)}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {(employee as any).hasPassword ? (
-                        <span className="text-green-600">✓ Défini</span>
-                      ) : (
-                        <span className="text-red-600">✗ Non défini</span>
-                      )}
-                    </div>
-                    <div className="flex gap-2">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => openPasswordDialog(employee)}
-                        title="Gérer le mot de passe"
-                      >
-                        <Lock className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(employee)}>
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => handleDeleteEmployee(employee.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <EmployeeTable
+            employees={userRoles}
+            companies={companies}
+            onEdit={openEditDialog}
+            onDelete={handleDeleteEmployee}
+            onPasswordClick={openPasswordDialog}
+            getPermissionsDisplay={getPermissionsDisplay}
+            getCompanyName={getCompanyName}
+          />
 
           {/* Dialog de modification */}
           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
@@ -388,7 +228,15 @@ const EmployeeManagement: React.FC = () => {
               <DialogHeader>
                 <DialogTitle>Modifier l'employé</DialogTitle>
               </DialogHeader>
-              <EmployeeForm onSubmit={handleEditEmployee} isEdit />
+              <EmployeeForm
+                formData={formData}
+                setFormData={setFormData}
+                onSubmit={handleEditEmployee}
+                companies={companies}
+                isEdit
+                selectedEmployee={selectedEmployee}
+                onPasswordClick={openPasswordDialog}
+              />
             </DialogContent>
           </Dialog>
         </CardContent>
