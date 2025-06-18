@@ -36,17 +36,17 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
       status: payment.status,
       rentAmount: payment.rentAmount,
       paidAmount: payment.paidAmount,
-      hasDiscrepancy: payment.status === 'Payé' && payment.paidAmount !== undefined && payment.paidAmount !== payment.rentAmount
+      isPaid: payment.status === 'Payé',
+      hasPaidAmount: payment.paidAmount !== undefined && payment.paidAmount !== null,
+      isDifferent: payment.paidAmount !== payment.rentAmount
     });
 
-    // Vérifier s'il y a une incohérence entre le montant attendu et le montant payé
+    // Vérifier s'il y a une incohérence pour les paiements marqués comme "Payé"
     if (payment.status === 'Payé') {
-      // Si paidAmount n'est pas défini, considérer qu'il n'y a pas d'incohérence
-      if (payment.paidAmount === undefined || payment.paidAmount === null) {
-        return false;
-      }
       // Si paidAmount est défini et différent du montant du loyer, c'est une incohérence
-      return payment.paidAmount !== payment.rentAmount;
+      if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
+        return Number(payment.paidAmount) !== Number(payment.rentAmount);
+      }
     }
     return false;
   });
@@ -54,7 +54,8 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
   console.log('Paiements avec incohérences détectées:', paymentsWithDiscrepancies.map(p => ({
     tenantName: p.tenantName,
     rentAmount: p.rentAmount,
-    paidAmount: p.paidAmount
+    paidAmount: p.paidAmount,
+    difference: Number(p.paidAmount || 0) - Number(p.rentAmount)
   })));
 
   return (
@@ -82,11 +83,6 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
           </div>
         </div>
       )}
-
-      {/* Message de debug pour développement */}
-      <div className="p-3 bg-gray-50 border-b text-xs text-gray-600">
-        Debug: {payments.length} paiements total, {paymentsWithDiscrepancies.length} avec incohérences
-      </div>
 
       <div className="p-3 sm:p-4 lg:p-6">
         {payments.length === 0 ? (
