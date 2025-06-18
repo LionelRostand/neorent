@@ -9,11 +9,21 @@ interface Payment {
   tenantType: string;
   property: string;
   rentAmount: number;
-  paidAmount?: number; // Nouveau champ pour le montant réellement payé
+  contractRentAmount?: number; // Montant du contrat
+  paidAmount?: number;
   dueDate: string;
   status: string;
   paymentDate: string | null;
   paymentMethod: string | null;
+}
+
+interface Contract {
+  id: string;
+  tenant: string;
+  property: string;
+  amount: string;
+  status: string;
+  type: string;
 }
 
 export const useFirebasePayments = () => {
@@ -24,12 +34,48 @@ export const useFirebasePayments = () => {
   const fetchPayments = async () => {
     try {
       setLoading(true);
-      const querySnapshot = await getDocs(collection(db, 'Rent_Payments'));
-      const paymentsData = querySnapshot.docs.map(doc => ({
+      
+      // Récupérer les paiements
+      const paymentsSnapshot = await getDocs(collection(db, 'Rent_Payments'));
+      const paymentsData = paymentsSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as Payment[];
-      setPayments(paymentsData);
+
+      // Récupérer les contrats pour obtenir les montants corrects
+      const contractsSnapshot = await getDocs(collection(db, 'Rent_contracts'));
+      const contractsData = contractsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Contract[];
+
+      // Associer les montants des contrats aux paiements
+      const enrichedPayments = paymentsData.map(payment => {
+        // Chercher le contrat correspondant au locataire
+        const matchingContract = contractsData.find(contract => 
+          contract.tenant === payment.tenantName && 
+          contract.property === payment.property &&
+          (contract.status === 'Actif' || contract.status === 'Signé')
+        );
+
+        if (matchingContract) {
+          // Extraire le montant numérique du contrat (ex: "1200€" -> 1200)
+          const contractAmount = parseInt(matchingContract.amount.replace(/[€\s]/g, '')) || payment.rentAmount;
+          
+          console.log(`Contrat trouvé pour ${payment.tenantName}: ${matchingContract.amount} -> ${contractAmount}€`);
+          
+          return {
+            ...payment,
+            contractRentAmount: contractAmount,
+            rentAmount: contractAmount // Utiliser le montant du contrat
+          };
+        }
+
+        console.log(`Aucun contrat trouvé pour ${payment.tenantName} - ${payment.property}`);
+        return payment;
+      });
+
+      setPayments(enrichedPayments);
       setError(null);
     } catch (err) {
       console.error('Error fetching payments:', err);

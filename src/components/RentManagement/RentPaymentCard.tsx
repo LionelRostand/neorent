@@ -11,7 +11,8 @@ import {
   AlertTriangle,
   Trash2,
   Building,
-  DollarSign
+  DollarSign,
+  FileText
 } from 'lucide-react';
 
 interface Payment {
@@ -20,6 +21,7 @@ interface Payment {
   tenantType: string;
   property: string;
   rentAmount: number;
+  contractRentAmount?: number;
   paidAmount?: number;
   dueDate: string;
   status: string;
@@ -144,12 +146,15 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
           )}
         </div>
 
-        {/* Montant du loyer mensuel à payer */}
+        {/* Montant du loyer mensuel à payer (selon contrat) */}
         <div className="bg-blue-50 rounded-lg p-3 sm:p-4 mb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mr-2" />
-              <span className="text-sm font-medium text-gray-700">Loyer mensuel à payer</span>
+              <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mr-2" />
+              <div>
+                <span className="text-sm font-medium text-gray-700">Loyer mensuel à payer</span>
+                <p className="text-xs text-gray-500">Selon contrat de bail</p>
+              </div>
             </div>
             <span className="text-xl sm:text-2xl font-bold text-blue-600">{payment.rentAmount}€</span>
           </div>
