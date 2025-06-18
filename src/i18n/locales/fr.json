@@ -88,6 +88,16 @@
     "deleteError": "Erreur lors de la suppression du locataire.",
     "rentPerMonth": "/mois"
   },
+  "tenantForm": {
+    "password": "Mot de passe",
+    "passwordMinLength": "Minimum 6 caractères",
+    "property": "Propriété",
+    "selectProperty": "Sélectionner une propriété",
+    "rentAmount": "Montant du loyer (€)",
+    "nextPayment": "Prochain paiement",
+    "lateStatus": "En retard",
+    "creating": "Création en cours..."
+  },
   "roommates": {
     "title": "Colocataires",
     "subtitle": "Gérez les colocataires dans les logements partagés",

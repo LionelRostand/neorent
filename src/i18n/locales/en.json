@@ -88,6 +88,16 @@
     "deleteError": "Error deleting tenant.",
     "rentPerMonth": "/month"
   },
+  "tenantForm": {
+    "password": "Password",
+    "passwordMinLength": "Minimum 6 characters",
+    "property": "Property",
+    "selectProperty": "Select a property",
+    "rentAmount": "Rent Amount (€)",
+    "nextPayment": "Next Payment",
+    "lateStatus": "Late",
+    "creating": "Creating..."
+  },
   "roommates": {
     "title": "Roommates",
     "subtitle": "Manage roommates in shared accommodations",

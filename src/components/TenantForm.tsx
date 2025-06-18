@@ -122,7 +122,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>{t('tenants.addTenant')}</DialogTitle>
+        <DialogTitle>{t('forms.addTenant')}</DialogTitle>
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -150,7 +150,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
 
           <div>
-            <Label htmlFor="password">Mot de passe *</Label>
+            <Label htmlFor="password">{t('tenantForm.password')} *</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -170,7 +170,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-1">Minimum 6 caractères</p>
+            <p className="text-xs text-gray-500 mt-1">{t('tenantForm.passwordMinLength')}</p>
           </div>
           
           <div>
@@ -184,7 +184,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
           
           <div>
-            <Label htmlFor="property">Propriété</Label>
+            <Label htmlFor="property">{t('tenantForm.property')}</Label>
             {properties ? (
               <Select 
                 value={formData.property} 
@@ -192,7 +192,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                 disabled={loading}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner une propriété" />
+                  <SelectValue placeholder={t('tenantForm.selectProperty')} />
                 </SelectTrigger>
                 <SelectContent>
                   {properties.map((property) => (
@@ -213,7 +213,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
           
           <div>
-            <Label htmlFor="rentAmount">Montant du loyer (€)</Label>
+            <Label htmlFor="rentAmount">{t('tenantForm.rentAmount')}</Label>
             <Input
               id="rentAmount"
               type="number"
@@ -224,7 +224,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
           
           <div>
-            <Label htmlFor="nextPayment">Prochain paiement</Label>
+            <Label htmlFor="nextPayment">{t('tenantForm.nextPayment')}</Label>
             <Input
               id="nextPayment"
               type="date"
@@ -258,14 +258,14 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
               <SelectContent>
                 <SelectItem value="Actif">{t('tenants.status.active')}</SelectItem>
                 <SelectItem value="Inactif">{t('tenants.status.inactive')}</SelectItem>
-                <SelectItem value="En retard">En retard</SelectItem>
+                <SelectItem value="En retard">{t('tenantForm.lateStatus')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Création en cours...' : t('tenants.addTenant')}
+          {loading ? t('tenantForm.creating') : t('forms.addTenant')}
         </Button>
       </form>
     </DialogContent>
