@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, AlertCircle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
@@ -26,18 +26,22 @@ const LoginForm = () => {
     try {
       await login(email, password);
       
-      // Attendre un peu pour que les données Firebase se chargent
+      // Attendre un peu plus pour que les données Firebase se chargent
       setTimeout(() => {
+        console.log('Vérification du profil utilisateur:', { userProfile, userType });
+        
         // Vérifier si l'utilisateur a un profil valide
-        if (!userProfile) {
+        if (!userProfile || !userType) {
+          console.log('Aucun profil trouvé pour:', email);
           toast({
-            title: "Accès refusé",
-            description: "Votre compte n'est pas encore configuré. Contactez votre gestionnaire immobilier.",
+            title: "Profil non configuré",
+            description: `Aucun profil trouvé pour ${email}. Veuillez contacter votre gestionnaire immobilier pour configurer votre compte.`,
             variant: "destructive",
           });
           return;
         }
 
+        console.log('Connexion réussie avec profil:', userProfile);
         toast({
           title: "Connexion réussie",
           description: `Bienvenue ${userProfile.name || 'Utilisateur'}`,
@@ -62,7 +66,7 @@ const LoginForm = () => {
             navigate('/tenant-space');
           }
         }
-      }, 1000);
+      }, 1500); // Augmenter le délai pour laisser plus de temps au chargement
       
     } catch (error: any) {
       console.error('Erreur de connexion:', error);
@@ -79,6 +83,8 @@ const LoginForm = () => {
         errorMessage = "Ce compte a été désactivé.";
       } else if (error.code === 'auth/too-many-requests') {
         errorMessage = "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
+      } else if (error.code === 'auth/invalid-credential') {
+        errorMessage = "Identifiants invalides. Vérifiez votre email et mot de passe.";
       }
       
       toast({
@@ -155,9 +161,17 @@ const LoginForm = () => {
             </a>
           </div>
           
-          <div className="text-center text-sm text-gray-600 mt-4">
-            <p>Vous êtes locataire ou colocataire ?</p>
-            <p>Utilisez l'email et le mot de passe fournis par votre gestionnaire.</p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="text-sm">
+                <p className="font-medium text-blue-800 mb-1">Information importante :</p>
+                <p className="text-blue-700">
+                  Votre compte doit être configuré par votre gestionnaire immobilier avant la première connexion. 
+                  Si vous obtenez une erreur "Accès refusé", contactez votre gestionnaire pour activer votre compte.
+                </p>
+              </div>
+            </div>
           </div>
         </form>
       </CardContent>

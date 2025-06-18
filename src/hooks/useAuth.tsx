@@ -1,4 +1,3 @@
-
 import { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -58,31 +57,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
 
-      // Chercher dans les locataires (seulement si les données sont chargées)
-      if (tenants.length > 0) {
-        const tenantProfile = tenants.find(t => t.email === currentUser.email);
-        if (tenantProfile) {
-          console.log('🏠 Profil locataire trouvé:', tenantProfile);
-          setUserProfile(tenantProfile);
-          setUserType('locataire');
-          return;
-        }
-      }
-
-      // Chercher dans les colocataires (seulement si les données sont chargées)
-      if (roommates.length > 0) {
-        const roommateProfile = roommates.find(r => r.email === currentUser.email);
-        if (roommateProfile) {
-          console.log('👥 Profil colocataire trouvé:', roommateProfile);
-          setUserProfile(roommateProfile);
-          setUserType('colocataire');
-          return;
-        }
-      }
-
-      // Si les données ne sont pas encore chargées, ne pas définir de profil null
-      if (tenants.length === 0 && roommates.length === 0 && !dataLoaded) {
+      // Attendre que les données tenants/roommates soient chargées
+      if (!dataLoaded) {
         console.log('⏳ Données pas encore chargées, attente...');
+        return;
+      }
+
+      // Chercher dans les locataires
+      const tenantProfile = tenants.find(t => t.email === currentUser.email);
+      if (tenantProfile) {
+        console.log('🏠 Profil locataire trouvé:', tenantProfile);
+        setUserProfile(tenantProfile);
+        setUserType('locataire');
+        return;
+      }
+
+      // Chercher dans les colocataires
+      const roommateProfile = roommates.find(r => r.email === currentUser.email);
+      if (roommateProfile) {
+        console.log('👥 Profil colocataire trouvé:', roommateProfile);
+        setUserProfile(roommateProfile);
+        setUserType('colocataire');
         return;
       }
 
@@ -122,17 +117,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Marquer les données comme chargées et vérifier le profil
   useEffect(() => {
-    if ((tenants.length > 0 || roommates.length > 0) && !dataLoaded) {
-      console.log('📊 Données Firebase chargées:', { tenants: tenants.length, roommates: roommates.length });
-      setDataLoaded(true);
-      
-      // Si un utilisateur est connecté, vérifier son profil avec les nouvelles données
-      if (user && !userProfile) {
-        console.log('🔄 Re-vérification du profil avec nouvelles données...');
-        checkUserProfile(user);
-      }
+    // Considérer les données comme chargées même si les listes sont vides
+    // pour éviter d'attendre indéfiniment
+    if (!dataLoaded) {
+      const timer = setTimeout(() => {
+        console.log('📊 Données Firebase marquées comme chargées:', { 
+          tenants: tenants.length, 
+          roommates: roommates.length 
+        });
+        setDataLoaded(true);
+        
+        // Si un utilisateur est connecté, vérifier son profil avec les données disponibles
+        if (user && !userProfile) {
+          console.log('🔄 Re-vérification du profil avec données disponibles...');
+          checkUserProfile(user);
+        }
+      }, 2000); // Attendre 2 secondes max pour charger les données
+
+      return () => clearTimeout(timer);
     }
   }, [tenants, roommates, user, userProfile, dataLoaded]);
+
+  // Re-vérifier le profil quand les données changent
+  useEffect(() => {
+    if (dataLoaded && user && !userProfile) {
+      console.log('🔄 Nouvelles données disponibles, re-vérification du profil...');
+      checkUserProfile(user);
+    }
+  }, [tenants, roommates, dataLoaded, user, userProfile]);
 
   const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
