@@ -28,6 +28,25 @@ interface ContractCardProps {
 }
 
 const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: ContractCardProps) => {
+  // Translate status to English
+  const getStatusInEnglish = (status: string) => {
+    switch (status) {
+      case 'Actif':
+        return 'Active';
+      case 'Signé':
+        return 'Signed';
+      case 'Expiré':
+        return 'Expired';
+      case 'Brouillon':
+      case 'Draft':
+        return 'Draft';
+      default:
+        return status;
+    }
+  };
+
+  const englishStatus = getStatusInEnglish(contract.status);
+
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardContent className="p-6">
@@ -39,13 +58,13 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
             </div>
             <div className="flex items-center space-x-2">
               <Badge 
-                variant={contract.status === 'Actif' ? 'default' : contract.status === 'Signé' ? 'default' : 'destructive'}
+                variant={englishStatus === 'Active' ? 'default' : englishStatus === 'Signed' ? 'default' : 'destructive'}
                 className={
-                  contract.status === 'Actif' ? 'bg-green-100 text-green-800' : 
-                  contract.status === 'Signé' ? 'bg-blue-100 text-blue-800' : ''
+                  englishStatus === 'Active' ? 'bg-green-100 text-green-800' : 
+                  englishStatus === 'Signed' ? 'bg-blue-100 text-blue-800' : ''
                 }
               >
-                {contract.status}
+                {englishStatus}
               </Badge>
               <Button
                 variant="outline"
@@ -80,15 +99,15 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
             </div>
             <div className="flex items-center text-gray-600 text-sm">
               <Calendar className="mr-2 h-4 w-4" />
-              Du {new Date(contract.startDate).toLocaleDateString('fr-FR')} au {new Date(contract.endDate).toLocaleDateString('fr-FR')}
+              From {new Date(contract.startDate).toLocaleDateString('en-US')} to {new Date(contract.endDate).toLocaleDateString('en-US')}
             </div>
             <div className="flex items-center text-blue-600 font-semibold text-sm">
               <FileText className="mr-2 h-4 w-4" />
-              {contract.amount}/mois
+              {contract.amount}/month
             </div>
             <div className="flex items-center text-gray-600 text-sm">
               <span className="text-xs bg-gray-100 px-2 py-1 rounded">
-                Juridiction {contract.jurisdiction}
+                Jurisdiction {contract.jurisdiction}
               </span>
             </div>
           </div>
@@ -100,15 +119,15 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
               className="flex-1"
               onClick={() => onViewDetails(contract)}
             >
-              Voir détails
+              View Details
             </Button>
-            {contract.status !== 'Signé' ? (
+            {englishStatus !== 'Signed' ? (
               <Button 
                 className="flex-1 bg-blue-600 hover:bg-blue-700"
                 size="sm"
                 onClick={() => onSign(contract)}
               >
-                Signer
+                Sign
               </Button>
             ) : (
               <Button 
@@ -117,7 +136,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
                 className="flex-1"
                 onClick={() => onEdit(contract)}
               >
-                Modifier
+                Edit
               </Button>
             )}
           </div>
