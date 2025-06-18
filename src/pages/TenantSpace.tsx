@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -134,34 +135,42 @@ const TenantSpace = () => {
         {/* Admin Impersonation Banner */}
         {isImpersonating && isAuthorizedAdmin && (
           <Card className="border-blue-200 bg-blue-50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Shield className="h-5 w-5 text-blue-600" />
-                  <div>
-                    <p className="font-medium text-blue-900">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
+                  <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-blue-900 text-sm sm:text-base break-words leading-tight">
                       Mode Administrateur - Consultation de l'espace de {currentProfile.name}
                     </p>
-                    <p className="text-sm text-blue-700">
+                    <p className="text-xs sm:text-sm text-blue-700 mt-1">
                       Vous consultez l'espace en tant qu'administrateur
                     </p>
-                    <p className="text-sm text-blue-600">
-                      Type: {currentType} | Email: {currentProfile.email}
-                    </p>
-                    <p className="text-sm text-blue-600">
-                      Adresse: {currentProfile.address}
-                    </p>
+                    <div className="mt-2 space-y-1">
+                      <p className="text-xs text-blue-600">
+                        <span className="font-medium">Type:</span> {currentType}
+                      </p>
+                      <p className="text-xs text-blue-600 break-all">
+                        <span className="font-medium">Email:</span> {currentProfile.email}
+                      </p>
+                      <p className="text-xs text-blue-600 break-words">
+                        <span className="font-medium">Adresse:</span> {currentProfile.address}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <Button 
-                  onClick={handleBackToAdmin}
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  Retour Admin
-                </Button>
+                <div className="flex justify-end sm:justify-start">
+                  <Button 
+                    onClick={handleBackToAdmin}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-1.5 text-xs px-2 py-1 h-8 sm:h-9 flex-shrink-0"
+                  >
+                    <ArrowLeft className="h-3 w-3" />
+                    <span className="hidden xs:inline">Retour Admin</span>
+                    <span className="xs:hidden">Retour</span>
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -171,10 +180,10 @@ const TenantSpace = () => {
         <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
                 {t('tenantSpace.title', { type: t(`tenantSpace.${typeKey}`) })}
               </h1>
-              <p className="text-gray-600 mt-2 text-sm sm:text-base">
+              <p className="text-gray-600 mt-2 text-sm sm:text-base break-words">
                 {t('tenantSpace.welcome', { name: currentProfile.name })}
               </p>
               {currentType === 'colocataire' && currentProfile.roomNumber && (
@@ -185,7 +194,7 @@ const TenantSpace = () => {
             </div>
             <Badge 
               variant="secondary" 
-              className="bg-green-100 text-green-800 border-green-200"
+              className="bg-green-100 text-green-800 border-green-200 text-xs sm:text-sm flex-shrink-0"
             >
               {t(`tenantSpace.${typeKey}`)}
             </Badge>
