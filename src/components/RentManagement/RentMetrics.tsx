@@ -36,63 +36,69 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
     year: 'numeric' 
   });
   
-  // CALCUL CORRIGÉ: Toujours utiliser contractRentAmount s'il existe, sinon rentAmount
+  // CALCUL PRINCIPAL: Utiliser TOUJOURS contractRentAmount en priorité absolue
   const totalExpectedAmount = payments.reduce((sum, payment) => {
-    // PRIORITÉ ABSOLUE au contractRentAmount
-    const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+    // Si contractRentAmount existe, l'utiliser OBLIGATOIREMENT
+    const expectedAmount = payment.contractRentAmount !== undefined && payment.contractRentAmount !== null 
+      ? payment.contractRentAmount 
+      : payment.rentAmount;
     
-    console.log(`🔍 ${payment.tenantName}:`, {
+    console.log(`🎯 CALCUL POUR ${payment.tenantName}:`, {
       rentAmount: payment.rentAmount,
       contractRentAmount: payment.contractRentAmount,
-      montantUtilisé: expectedAmount,
-      status: payment.status
+      montantRetenu: expectedAmount,
+      source: payment.contractRentAmount !== undefined ? 'CONTRAT' : 'ESTIMATION'
     });
     
     return sum + (Number(expectedAmount) || 0);
   }, 0);
 
-  // Calculer le total des paiements reçus ce mois
+  // Total des paiements effectivement reçus
   const totalPaidAmount = payments
     .filter(p => p.status === 'Payé')
     .reduce((sum, payment) => {
-      const actualPaidAmount = payment.paidAmount !== undefined ? payment.paidAmount : (payment.contractRentAmount || payment.rentAmount);
-      return sum + (Number(actualPaidAmount) || 0);
+      const paidAmount = payment.paidAmount !== undefined && payment.paidAmount !== null 
+        ? payment.paidAmount 
+        : (payment.contractRentAmount || payment.rentAmount);
+      return sum + (Number(paidAmount) || 0);
     }, 0);
 
-  // Calculer le montant total en retard
+  // Montant en retard (basé sur les contrats)
   const totalLateAmount = payments
     .filter(p => p.status === 'En retard')
     .reduce((sum, payment) => {
-      const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+      const expectedAmount = payment.contractRentAmount !== undefined && payment.contractRentAmount !== null 
+        ? payment.contractRentAmount 
+        : payment.rentAmount;
       return sum + (Number(expectedAmount) || 0);
     }, 0);
 
-  // Calculer le montant total en attente (différence entre attendu et reçu)
+  // Montant en attente (basé sur les contrats)
   const totalPendingAmount = payments
     .filter(p => p.status === 'En attente')
     .reduce((sum, payment) => {
-      const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+      const expectedAmount = payment.contractRentAmount !== undefined && payment.contractRentAmount !== null 
+        ? payment.contractRentAmount 
+        : payment.rentAmount;
       return sum + (Number(expectedAmount) || 0);
     }, 0);
 
-  // Calculer la différence totale (ce qui manque encore)
+  // Ce qui reste à recevoir
   const totalMissingAmount = totalExpectedAmount - totalPaidAmount;
 
-  console.log('🎯 DIAGNOSTIC COMPLET DES CONTRATS:', {
-    totalExpectedAmount,
-    totalPaidAmount,
-    totalLateAmount,
-    totalPendingAmount,
-    totalMissingAmount,
-    currentMonth,
-    détailPaiements: payments.map(p => ({ 
-      nom: p.tenantName,
-      rentAmount: p.rentAmount, 
-      contractRentAmount: p.contractRentAmount,
-      montantFinalUtilisé: p.contractRentAmount || p.rentAmount,
-      paidAmount: p.paidAmount, 
-      status: p.status,
-      propriété: p.property
+  console.log('📊 RÉSUMÉ FINAL DES MÉTRIQUES:', {
+    'Total attendu (selon contrats)': totalExpectedAmount,
+    'Total reçu': totalPaidAmount,
+    'Montant en retard': totalLateAmount,
+    'Montant en attente': totalPendingAmount,
+    'Reste à recevoir': totalMissingAmount,
+    'Période': currentMonth,
+    'Détail par paiement': payments.map(p => ({
+      locataire: p.tenantName,
+      contrat: p.contractRentAmount,
+      estimation: p.rentAmount,
+      montantFinal: p.contractRentAmount !== undefined ? p.contractRentAmount : p.rentAmount,
+      statut: p.status
     }))
   });
 
@@ -101,7 +107,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title="Loyers Payés"
         value={paidCount}
-        description={`${totalPaidAmount.toLocaleString()}€ reçus (${paidCount} paiement${paidCount > 1 ? 's' : ''})`}
+        description={`${totalPaidAmount.toLocaleString()}€ reçus sur ${totalExpectedAmount.toLocaleString()}€ attendus`}
         icon={CheckCircle}
         iconBgColor="bg-green-500"
         borderColor="border-l-green-500"
@@ -109,7 +115,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title="En Retard"
         value={lateCount}
-        description={`${totalLateAmount.toLocaleString()}€ en retard (${lateCount} paiement${lateCount > 1 ? 's' : ''})`}
+        description={`${totalLateAmount.toLocaleString()}€ dus (selon contrats de bail)`}
         icon={XCircle}
         iconBgColor="bg-red-500"
         borderColor="border-l-red-500"
@@ -117,7 +123,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title="En Attente"
         value={pendingCount}
-        description={`${totalPendingAmount.toLocaleString()}€ manquants (${pendingCount} paiement${pendingCount > 1 ? 's' : ''})`}
+        description={`${totalPendingAmount.toLocaleString()}€ attendus (selon contrats de bail)`}
         icon={Clock}
         iconBgColor="bg-yellow-500"
         borderColor="border-l-yellow-500"
@@ -125,7 +131,7 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
       <MetricCard
         title={`Total ${currentMonth}`}
         value={`${totalExpectedAmount.toLocaleString()}€`}
-        description={`Attendu: ${totalExpectedAmount.toLocaleString()}€ | Reçu: ${totalPaidAmount.toLocaleString()}€ | Reste: ${totalMissingAmount.toLocaleString()}€`}
+        description={`Attendu: ${totalExpectedAmount.toLocaleString()}€ (contrats) | Reçu: ${totalPaidAmount.toLocaleString()}€ | Manque: ${totalMissingAmount.toLocaleString()}€`}
         icon={DollarSign}
         iconBgColor="bg-blue-500"
         borderColor="border-l-blue-500"
