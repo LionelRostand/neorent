@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +11,7 @@ import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { determineResponsibility } from './utils/responsibilityUtils';
+import { useTranslation } from 'react-i18next';
 
 interface MaintenanceFormData {
   propertyId: string;
@@ -26,6 +28,7 @@ interface MaintenanceFormProps {
 }
 
 const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { properties, loading: propertiesLoading } = useFirebaseProperties();
   const { tenants, loading: tenantsLoading } = useFirebaseTenants();
@@ -123,10 +126,10 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="propertyId">Bien Immobilier</Label>
+          <Label htmlFor="propertyId">{t('maintenance.propertyField')}</Label>
           <Select value={formData.propertyId} onValueChange={(value) => setFormData({...formData, propertyId: value})}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={propertiesLoading ? "Chargement des biens..." : "Sélectionner un bien immobilier"} />
+              <SelectValue placeholder={propertiesLoading ? "Chargement des biens..." : t('maintenance.selectProperty')} />
             </SelectTrigger>
             <SelectContent className="bg-white z-50 max-h-60 overflow-y-auto">
               {propertiesLoading ? (
@@ -154,7 +157,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="tenantName">Nom du Locataire</Label>
+          <Label htmlFor="tenantName">{t('maintenance.tenantField')}</Label>
           <Select 
             value={formData.tenantName} 
             onValueChange={(value) => setFormData({...formData, tenantName: value})}
@@ -164,7 +167,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
               <SelectValue placeholder={
                 !formData.propertyId 
                   ? "Sélectionner d'abord un bien" 
-                  : "Sélectionner un locataire"
+                  : t('maintenance.selectTenant')
               } />
             </SelectTrigger>
             <SelectContent className="bg-white z-50">
@@ -186,10 +189,10 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="category">Catégorie</Label>
+          <Label htmlFor="category">{t('maintenance.categoryField')}</Label>
           <Select value={formData.category} onValueChange={(value) => setFormData({...formData, category: value})}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Type de maintenance" />
+              <SelectValue placeholder={t('maintenance.selectCategory')} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Plomberie">Plomberie</SelectItem>
@@ -204,10 +207,10 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="priority">Priorité</Label>
+          <Label htmlFor="priority">{t('maintenance.priorityField')}</Label>
           <Select value={formData.priority} onValueChange={(value) => setFormData({...formData, priority: value})}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Niveau de priorité" />
+              <SelectValue placeholder={t('maintenance.selectPriority')} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="urgent">Urgent</SelectItem>
@@ -218,19 +221,19 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="location">Localisation</Label>
+          <Label htmlFor="location">{t('maintenance.locationField')}</Label>
           <Input
             id="location"
             value={formData.location}
             onChange={(e) => setFormData({...formData, location: e.target.value})}
-            placeholder="Ex: Cuisine, Salon, Salle de bain..."
+            placeholder={t('maintenance.locationPlaceholder')}
             className="w-full"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="requestDate">Date de la demande</Label>
+          <Label htmlFor="requestDate">{t('maintenance.requestDateField')}</Label>
           <Input
             id="requestDate"
             type="date"
@@ -243,22 +246,23 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">{t('maintenance.descriptionField')}</Label>
         <Textarea
           id="description"
           value={formData.description}
           onChange={(e) => setFormData({...formData, description: e.target.value})}
-          placeholder="Décrivez le problème en détail..."
+          placeholder={t('maintenance.descriptionPlaceholder')}
           className="min-h-[100px] w-full resize-none"
           required
         />
       </div>
 
       <Button type="submit" className="w-full sm:w-auto sm:min-w-[200px]">
-        <span className="truncate">Enregistrer la demande</span>
+        <span className="truncate">{t('maintenance.submitRequest')}</span>
       </Button>
     </form>
   );
 };
 
 export default MaintenanceForm;
+
