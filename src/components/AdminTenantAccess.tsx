@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -68,11 +67,13 @@ const AdminTenantAccess: React.FC = () => {
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+    <Card className="w-full max-w-4xl mx-auto">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-2 text-base sm:text-lg">
           <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
-          <span className="break-words">Accès Administrateur aux Espaces Locataires</span>
+          <span className="break-words leading-tight">
+            Accès Administrateur aux Espaces Locataires
+          </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 p-4 sm:p-6">
@@ -80,44 +81,51 @@ const AdminTenantAccess: React.FC = () => {
           <div className="space-y-4">
             <div className="p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex flex-col gap-3">
-                <div className="flex items-start gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                   <UserCheck className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div className="min-w-0 flex-1">
-                    <p className="font-medium text-blue-900 text-sm sm:text-base break-words">
-                      Consultation de l'espace de {selectedTenantProfile?.name}
-                    </p>
-                    <div className="space-y-1 mt-2">
-                      <p className="text-xs sm:text-sm text-blue-700">
-                        <span className="font-medium">Type:</span> {selectedTenantProfile?.type}
+                  <div className="min-w-0 flex-1 space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <h3 className="font-medium text-blue-900 text-sm sm:text-base break-words">
+                        Mode Administrateur - Consultation de l'espace de {selectedTenantProfile?.name}
+                      </h3>
+                      <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs self-start sm:self-center">
+                        Mode Admin
+                      </Badge>
+                    </div>
+                    
+                    <div className="bg-white/50 rounded-md p-2 sm:p-3 space-y-1.5">
+                      <p className="text-xs sm:text-sm text-blue-700 flex flex-col sm:flex-row sm:items-center gap-1">
+                        <span className="font-medium">Vous consultez l'espace en tant qu'administrateur</span>
                       </p>
-                      <p className="text-xs sm:text-sm text-blue-600 break-all">
-                        <span className="font-medium">Email:</span> {selectedTenantProfile?.email}
-                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs sm:text-sm">
+                        <p className="text-blue-700">
+                          <span className="font-medium">Type:</span> {selectedTenantProfile?.type}
+                        </p>
+                        <p className="text-blue-600 break-all">
+                          <span className="font-medium">Email:</span> {selectedTenantProfile?.email}
+                        </p>
+                      </div>
                       <p className="text-xs sm:text-sm text-blue-600 break-words">
                         <span className="font-medium">Adresse:</span> {selectedTenantProfile?.address}
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-end">
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs">
-                    Mode Admin
-                  </Badge>
-                </div>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2">
+            
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button 
                 onClick={handleSwitchBack}
                 variant="outline"
-                className="flex-1 flex items-center justify-center gap-2 text-sm"
+                className="flex-1 flex items-center justify-center gap-2 text-sm min-h-[44px]"
               >
                 <ArrowLeft className="h-4 w-4" />
                 <span className="truncate">Retour à l'administration</span>
               </Button>
               <Button 
                 onClick={handleViewTenantSpace}
-                className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-sm"
+                className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-sm min-h-[44px]"
               >
                 <Users className="h-4 w-4" />
                 <span className="truncate">Voir l'espace locataire</span>
