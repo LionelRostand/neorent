@@ -37,6 +37,11 @@ interface PropertyInfoProps {
 const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
   const isMobile = useIsMobile();
 
+  // Forcer les valeurs financières selon la demande
+  const baseRent = 400;
+  const monthlyCharges = 50;
+  const securityDeposit = baseRent + monthlyCharges; // 450€
+
   return (
     <div className="space-y-4 md:space-y-6">
       {/* Informations générales */}
@@ -134,21 +139,21 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <div className="text-center p-3 md:p-4 bg-blue-50 rounded-lg">
               <p className="text-xs md:text-sm text-gray-600">Loyer mensuel</p>
-              <p className="text-xl md:text-2xl font-bold text-blue-600">{propertyData.rent}€</p>
+              <p className="text-xl md:text-2xl font-bold text-blue-600">{baseRent}€</p>
             </div>
             <div className="text-center p-3 md:p-4 bg-orange-50 rounded-lg">
               <p className="text-xs md:text-sm text-gray-600">Charges mensuelles</p>
-              <p className="text-xl md:text-2xl font-bold text-orange-600">{propertyData.charges}€</p>
+              <p className="text-xl md:text-2xl font-bold text-orange-600">{monthlyCharges}€</p>
             </div>
             <div className="text-center p-3 md:p-4 bg-green-50 rounded-lg">
               <p className="text-xs md:text-sm text-gray-600">Dépôt de garantie</p>
-              <p className="text-xl md:text-2xl font-bold text-green-600">{propertyData.deposit}€</p>
+              <p className="text-xl md:text-2xl font-bold text-green-600">{securityDeposit}€</p>
             </div>
           </div>
           
           <div className="mt-4 p-3 md:p-4 bg-gray-50 rounded-lg">
             <p className="text-xs md:text-sm text-gray-600">Total mensuel (loyer + charges)</p>
-            <p className="text-lg md:text-xl font-bold">{propertyData.rent + propertyData.charges}€</p>
+            <p className="text-lg md:text-xl font-bold">{baseRent + monthlyCharges}€</p>
           </div>
         </CardContent>
       </Card>
