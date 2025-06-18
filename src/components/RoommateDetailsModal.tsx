@@ -30,6 +30,7 @@ import {
 import { Button } from '@/components/ui/button';
 import DocumentViewer from './DocumentViewer';
 import RentAlert from './RentAlert';
+import DocumentManager from './DocumentManager';
 
 interface Roommate {
   id: number | string;
@@ -380,74 +381,11 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                 </Card>
               </TabsContent>
 
-              <TabsContent value="documents" className="space-y-4 sm:space-y-6">
-                {/* Documents section */}
-                <div className="grid gap-3 sm:gap-4">
-                  {documentTypes.map((docType) => {
-                    const document = roommate ? documents[docType.key as keyof typeof documents] : undefined;
-                    const Icon = docType.icon;
-                    
-                    return (
-                      <Card key={docType.key} className="hover:shadow-md transition-shadow">
-                        <CardContent className="p-3 sm:p-4 lg:p-6">
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                            <div className="flex items-start sm:items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
-                              <Icon className={`h-6 w-6 sm:h-8 sm:w-8 ${docType.color} flex-shrink-0 mt-1 sm:mt-0`} />
-                              <div className="min-w-0 flex-1">
-                                <h4 className="font-semibold text-sm sm:text-base flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                                  <span className="truncate">{docType.label}</span>
-                                  {docType.required && (
-                                    <Badge variant="outline" className="text-xs w-fit">
-                                      Requis
-                                    </Badge>
-                                  )}
-                                </h4>
-                                {document?.exists ? (
-                                  <p className="text-xs sm:text-sm text-gray-600 mt-1 break-words">
-                                    <span className="font-medium">{document.name}</span>
-                                    <br className="sm:hidden" />
-                                    <span className="sm:ml-2">• Ajouté le {new Date(document.uploadDate!).toLocaleDateString('fr-FR')}</span>
-                                  </p>
-                                ) : (
-                                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Aucun document uploadé</p>
-                                )}
-                              </div>
-                            </div>
-                            
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                              {document && getDocumentStatusBadge(document.status, document.exists, docType.required)}
-                              
-                              {document?.exists && (
-                                <div className="flex gap-1 sm:gap-2 w-full sm:w-auto">
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm"
-                                    onClick={() => handleViewDocument(document.name!, docType.label)}
-                                    className="flex-1 sm:flex-none text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 h-auto"
-                                  >
-                                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                                    <span className="hidden sm:inline">Voir</span>
-                                    <span className="sm:hidden">👁</span>
-                                  </Button>
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm"
-                                    onClick={() => handleDownloadDocument(document.name!)}
-                                    className="flex-1 sm:flex-none text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 h-auto"
-                                  >
-                                    <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                                    <span className="hidden sm:inline">Télécharger</span>
-                                    <span className="sm:hidden">⬇</span>
-                                  </Button>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
+              <TabsContent value="documents" className="space-y-4">
+                <DocumentManager
+                  roommateId={roommate.id.toString()}
+                  tenantName={roommate.name}
+                />
               </TabsContent>
             </Tabs>
           </>
