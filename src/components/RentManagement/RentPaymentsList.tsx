@@ -28,34 +28,29 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
   onMarkAsPaid,
   onDeletePayment
 }) => {
-  // Filtrer les paiements avec des incohérences réelles
+  // Filtrer les paiements avec des incohérences réelles - plus strict
   const paymentsWithDiscrepancies = payments.filter(payment => {
-    // Pour les paiements marqués comme "Payé", vérifier s'il y a une différence entre attendu et payé
-    if (payment.status === 'Payé') {
-      // Si paidAmount est défini et différent de rentAmount
-      if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
-        const expectedAmount = Number(payment.rentAmount) || 0;
-        const actualPaidAmount = Number(payment.paidAmount) || 0;
-        // Il y a incohérence si les montants sont différents
-        return expectedAmount !== actualPaidAmount;
-      }
-      // Si paidAmount n'est pas défini mais le statut est "Payé", considérer comme cohérent
-      return false;
+    const expectedAmount = Number(payment.rentAmount) || 0;
+    const actualPaidAmount = Number(payment.paidAmount) || 0;
+    
+    // Vérifier s'il y a une vraie différence (pas juste undefined vs 0)
+    const hasRealDiscrepancy = payment.paidAmount !== undefined && 
+                              payment.paidAmount !== null && 
+                              actualPaidAmount !== expectedAmount;
+    
+    if (hasRealDiscrepancy) {
+      console.log(`🚨 Incohérence détectée pour ${payment.tenantName}:`, {
+        expected: expectedAmount,
+        paid: actualPaidAmount,
+        difference: expectedAmount - actualPaidAmount,
+        status: payment.status
+      });
     }
     
-    // Pour les paiements "En retard" ou "En attente" avec un paidAmount partiel
-    if ((payment.status === 'En retard' || payment.status === 'En attente') && 
-        payment.paidAmount !== undefined && 
-        payment.paidAmount !== null && 
-        payment.paidAmount > 0) {
-      const expectedAmount = Number(payment.rentAmount) || 0;
-      const actualPaidAmount = Number(payment.paidAmount) || 0;
-      // Il y a incohérence si le montant payé est différent de zéro
-      return actualPaidAmount !== expectedAmount;
-    }
-    
-    return false;
+    return hasRealDiscrepancy;
   });
+
+  console.log(`Nombre d'incohérences détectées: ${paymentsWithDiscrepancies.length}`);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border">
@@ -66,10 +61,12 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
         <p className="text-sm sm:text-base text-gray-600 mt-1">Vue d'ensemble des paiements de loyers</p>
       </div>
 
-      {/* Alertes pour les incohérences de paiement */}
+      {/* Alertes pour les incohérences de paiement - Toujours afficher si il y en a */}
       {paymentsWithDiscrepancies.length > 0 && (
-        <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-100">
-          <h3 className="text-sm font-medium text-gray-900 mb-3">🚨 Alertes de paiement</h3>
+        <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-100 bg-red-50">
+          <h3 className="text-sm font-medium text-red-900 mb-3 flex items-center">
+            🚨 <span className="ml-2">Alertes de paiement ({paymentsWithDiscrepancies.length})</span>
+          </h3>
           <div className="space-y-3">
             {paymentsWithDiscrepancies.map((payment) => (
               <PaymentAlert

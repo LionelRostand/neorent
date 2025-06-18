@@ -59,10 +59,22 @@ export const useFirebasePayments = () => {
         );
 
         if (matchingContract) {
-          // Extraire le montant numérique du contrat (ex: "1200€" -> 1200)
+          // Extraire le montant numérique du contrat (ex: "450€" -> 450)
           const contractAmount = parseInt(matchingContract.amount.replace(/[€\s]/g, '')) || payment.rentAmount;
           
           console.log(`Contrat trouvé pour ${payment.tenantName}: ${matchingContract.amount} -> ${contractAmount}€`);
+          console.log(`Paiement actuel: ${payment.paidAmount}€, Attendu: ${contractAmount}€`);
+          
+          // Détecter les incohérences de paiement
+          if (payment.paidAmount !== undefined && payment.paidAmount !== contractAmount) {
+            console.log(`🚨 ALERTE: ${payment.tenantName} - Paiement partiel détecté!`);
+            console.log(`Montant payé: ${payment.paidAmount}€, Montant attendu: ${contractAmount}€`);
+            
+            // Mettre à jour le statut si c'est un paiement partiel
+            if (payment.paidAmount < contractAmount && payment.paidAmount > 0) {
+              payment.status = 'En retard';
+            }
+          }
           
           return {
             ...payment,
@@ -75,6 +87,7 @@ export const useFirebasePayments = () => {
         return payment;
       });
 
+      console.log('Paiements enrichis:', enrichedPayments);
       setPayments(enrichedPayments);
       setError(null);
     } catch (err) {
