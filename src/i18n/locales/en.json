@@ -1,5 +1,3 @@
-
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -329,7 +327,38 @@
     "inspector": "Inspector",
     "viewDetails": "View Details",
     "editInspection": "Edit Inspection",
-    "confirmDelete": "Are you sure you want to delete this inspection?"
+    "confirmDelete": "Are you sure you want to delete this inspection?",
+    "newInspection": "New Inspection",
+    "inspectionTitle": "Title *",
+    "inspectionTitlePlaceholder": "e.g. Move-in inspection Marie Dubois",
+    "inspectionType": "Inspection Type *",
+    "selectInspectionType": "Select type",
+    "entryInspection": "Move-in inspection",
+    "exitInspection": "Move-out inspection",
+    "intermediateInspection": "Intermediate inspection",
+    "property": "Property *",
+    "selectProperty": "Select a property",
+    "contractType": "Contract Type",
+    "automaticByProperty": "Automatic based on property",
+    "rentalLease": "Rental Lease",
+    "colocationLease": "Colocation Lease",
+    "tenant": "Tenant *",
+    "roommate": "Roommate *",
+    "selectTenant": "Select a tenant",
+    "selectRoommate": "Select a roommate",
+    "selectPropertyFirst": "Select a property first",
+    "noTenantsForProperty": "No tenants for this property",
+    "room": "Room",
+    "selectRoom": "Select a room",
+    "date": "Date *",
+    "inspectorField": "Inspector *",
+    "inspectorPlaceholder": "Inspector name",
+    "description": "Description",
+    "descriptionPlaceholder": "Inspection description...",
+    "observations": "Observations",
+    "observationsPlaceholder": "Specific observations...",
+    "cancel": "Cancel",
+    "createInspection": "Create Inspection"
   },
   "rentManagement": {
     "title": "Rent Management",
