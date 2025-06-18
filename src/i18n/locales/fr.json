@@ -39,7 +39,7 @@
   "properties": {
     "title": "Biens Immobiliers",
     "subtitle": "Gérez votre portefeuille immobilier",
-    "addProperty": "Ajouter un bien",
+    "addProperty": "Ajouter un bien immobilier",
     "loading": "Chargement des biens immobiliers...",
     "noProperties": "Aucun bien",
     "noPropertiesDescription": "Commencez par ajouter votre premier bien.",
@@ -91,15 +91,15 @@
   "roommates": {
     "title": "Colocataires",
     "subtitle": "Gérez les colocataires dans les logements partagés",
-    "addRoommate": "Ajouter un colocataire",
+    "addRoommate": "Ajouter un nouveau colocataire",
     "loading": "Chargement des colocataires...",
     "noRoommates": "Aucun colocataire",
     "noRoommatesDescription": "Commencez par ajouter votre premier colocataire."
   },
   "contracts": {
-    "title": "Contrats",
+    "title": "Contrats de Baux",
     "subtitle": "Gérez les baux de vos locataires",
-    "addContract": "Nouveau contrat",
+    "addContract": "Nouveau Contrat de Bail",
     "loading": "Chargement des contrats...",
     "noContracts": "Aucun contrat",
     "noContractsDescription": "Commencez par créer votre premier contrat.",
@@ -117,15 +117,15 @@
   "inspections": {
     "title": "États des lieux",
     "subtitle": "Gérez les inspections de vos biens",
-    "addInspection": "Ajouter un état des lieux",
+    "addInspection": "Nouvel État des Lieux",
     "loading": "Chargement des états des lieux...",
     "noInspections": "Aucun état des lieux",
     "noInspectionsDescription": "Commencez par programmer votre premier état des lieux."
   },
   "rentManagement": {
-    "title": "Gestion des loyers",
+    "title": "Gestion des Loyers",
     "subtitle": "Suivez et gérez les paiements de loyers",
-    "addPayment": "Ajouter un paiement",
+    "addPayment": "Nouveau Règlement de Loyer",
     "loading": "Chargement des paiements...",
     "noPayments": "Aucun paiement",
     "noPaymentsDescription": "Commencez par enregistrer votre premier paiement."

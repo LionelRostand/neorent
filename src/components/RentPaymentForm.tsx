@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
@@ -19,6 +20,7 @@ import PaymentNotesInput from './RentPaymentForm/PaymentNotesInput';
 import PaymentFormActions from './RentPaymentForm/PaymentFormActions';
 
 const RentPaymentForm = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [selectedTenant, setSelectedTenant] = useState('');
   const [paymentDate, setPaymentDate] = useState('');
@@ -69,7 +71,7 @@ const RentPaymentForm = () => {
     
     if (!selectedTenant || !paymentDate || !amount || !paymentMethod) {
       toast({
-        title: "Erreur",
+        title: t('common.error'),
         description: "Veuillez remplir tous les champs obligatoires.",
         variant: "destructive",
       });
@@ -78,7 +80,7 @@ const RentPaymentForm = () => {
 
     if (!selectedTenantData) {
       toast({
-        title: "Erreur",
+        title: t('common.error'),
         description: "Locataire/Colocataire non trouvé.",
         variant: "destructive",
       });
@@ -118,7 +120,7 @@ const RentPaymentForm = () => {
     } catch (err) {
       console.error('Erreur lors de l\'ajout du paiement:', err);
       toast({
-        title: "Erreur",
+        title: t('common.error'),
         description: "Erreur lors de l'enregistrement du règlement.",
         variant: "destructive",
       });
@@ -130,7 +132,7 @@ const RentPaymentForm = () => {
       <DialogTrigger asChild>
         <Button className="bg-green-600 hover:bg-green-700 shadow-lg">
           <Plus className="mr-2 h-4 w-4" />
-          Règlement Loyer
+          {t('rentManagement.addPayment')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[650px] max-h-[90vh] overflow-y-auto">

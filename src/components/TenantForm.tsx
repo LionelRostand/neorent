@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -35,6 +36,7 @@ interface TenantFormProps {
 }
 
 const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProps) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -85,7 +87,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
 
         toast({
           title: "Locataire ajouté",
-          description: "Le locataire a été ajouté avec succès.",
+          description: t('tenants.addSuccess'),
         });
       }
 
@@ -108,8 +110,8 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
     } catch (error: any) {
       console.error('Erreur:', error);
       toast({
-        title: "Erreur",
-        description: error.message || "Erreur lors de l'ajout du locataire.",
+        title: t('common.error'),
+        description: error.message || t('tenants.addError'),
         variant: "destructive",
       });
     } finally {
@@ -120,12 +122,12 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Ajouter un locataire</DialogTitle>
+        <DialogTitle>{t('tenants.addTenant')}</DialogTitle>
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="name">Nom complet *</Label>
+            <Label htmlFor="name">{t('profile.name')} *</Label>
             <Input
               id="name"
               value={formData.name}
@@ -136,7 +138,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
           
           <div>
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email">{t('profile.email')} *</Label>
             <Input
               id="email"
               type="email"
@@ -172,7 +174,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
           
           <div>
-            <Label htmlFor="phone">Téléphone</Label>
+            <Label htmlFor="phone">{t('profile.phone')}</Label>
             <Input
               id="phone"
               value={formData.phone}
@@ -233,7 +235,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
           
           <div>
-            <Label htmlFor="leaseStart">Début du bail</Label>
+            <Label htmlFor="leaseStart">{t('profile.leaseStart')}</Label>
             <Input
               id="leaseStart"
               type="date"
@@ -244,7 +246,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           </div>
           
           <div>
-            <Label htmlFor="status">Statut</Label>
+            <Label htmlFor="status">{t('profile.status')}</Label>
             <Select 
               value={formData.status} 
               onValueChange={(value) => setFormData({ ...formData, status: value })}
@@ -254,8 +256,8 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Actif">Actif</SelectItem>
-                <SelectItem value="Inactif">Inactif</SelectItem>
+                <SelectItem value="Actif">{t('tenants.status.active')}</SelectItem>
+                <SelectItem value="Inactif">{t('tenants.status.inactive')}</SelectItem>
                 <SelectItem value="En retard">En retard</SelectItem>
               </SelectContent>
             </Select>
@@ -263,7 +265,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
         </div>
         
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Création en cours...' : 'Ajouter le locataire'}
+          {loading ? 'Création en cours...' : t('tenants.addTenant')}
         </Button>
       </form>
     </DialogContent>

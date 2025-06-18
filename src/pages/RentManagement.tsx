@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import RentPaymentForm from '@/components/RentPaymentForm';
 import NewRentMetrics from '@/components/RentManagement/NewRentMetrics';
@@ -8,6 +9,7 @@ import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useToast } from '@/hooks/use-toast';
 
 const RentManagement = () => {
+  const { t } = useTranslation();
   const { payments, loading, error, updatePayment, deletePayment, refetch } = useFirebasePayments();
   const { toast } = useToast();
 
@@ -31,7 +33,7 @@ const RentManagement = () => {
       });
 
       toast({
-        title: "Succès",
+        title: t('common.success'),
         description: "Le paiement a été marqué comme payé.",
       });
 
@@ -39,7 +41,7 @@ const RentManagement = () => {
     } catch (err) {
       console.error('Erreur lors de la mise à jour:', err);
       toast({
-        title: "Erreur",
+        title: t('common.error'),
         description: "Erreur lors de la mise à jour du paiement.",
         variant: "destructive",
       });
@@ -51,14 +53,14 @@ const RentManagement = () => {
       try {
         await deletePayment(paymentId);
         toast({
-          title: "Succès",
+          title: t('common.success'),
           description: "Le paiement a été supprimé avec succès.",
         });
         await refetch();
       } catch (err) {
         console.error('Erreur lors de la suppression:', err);
         toast({
-          title: "Erreur",
+          title: t('common.error'),
           description: "Erreur lors de la suppression du paiement.",
           variant: "destructive",
         });
@@ -70,7 +72,7 @@ const RentManagement = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Chargement des paiements...</div>
+          <div className="text-lg">{t('rentManagement.loading')}</div>
         </div>
       </MainLayout>
     );
@@ -80,7 +82,7 @@ const RentManagement = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">Erreur: {error}</div>
+          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
         </div>
       </MainLayout>
     );
@@ -91,9 +93,9 @@ const RentManagement = () => {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Gestion des Loyers</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{t('rentManagement.title')}</h1>
             <p className="text-base text-gray-600 mt-2">
-              Suivi des paiements mensuels - Calculs basés sur les contrats de bail
+              {t('rentManagement.subtitle')}
             </p>
           </div>
           <div className="flex-shrink-0">

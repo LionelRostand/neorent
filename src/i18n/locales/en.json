@@ -39,7 +39,7 @@
   "properties": {
     "title": "Real Estate Properties",
     "subtitle": "Manage your real estate portfolio",
-    "addProperty": "Add property",
+    "addProperty": "Add Property",
     "loading": "Loading real estate properties...",
     "noProperties": "No properties",
     "noPropertiesDescription": "Start by adding your first property.",
@@ -56,7 +56,7 @@
   "tenants": {
     "management": "Tenant Management",
     "description": "Manage and track all your tenants in one place",
-    "addTenant": "Add tenant",
+    "addTenant": "Add Tenant",
     "listTitle": "Tenant List",
     "listDescription": "View and manage all your tenants",
     "noTenants": "No tenants",
@@ -91,15 +91,15 @@
   "roommates": {
     "title": "Roommates",
     "subtitle": "Manage roommates in shared accommodations",
-    "addRoommate": "Add roommate",
+    "addRoommate": "Add New Roommate",
     "loading": "Loading roommates...",
     "noRoommates": "No roommates",
     "noRoommatesDescription": "Start by adding your first roommate."
   },
   "contracts": {
-    "title": "Contracts",
+    "title": "Lease Contracts",
     "subtitle": "Manage your tenant leases",
-    "addContract": "New contract",
+    "addContract": "New Lease Contract",
     "loading": "Loading contracts...",
     "noContracts": "No contracts",
     "noContractsDescription": "Start by creating your first contract.",
@@ -115,9 +115,9 @@
     "deleteContract": "Delete contract"
   },
   "inspections": {
-    "title": "Inspections",
+    "title": "Property Inspections",
     "subtitle": "Manage property inspections",
-    "addInspection": "Add inspection",
+    "addInspection": "New Property Inspection",
     "loading": "Loading inspections...",
     "noInspections": "No inspections",
     "noInspectionsDescription": "Start by scheduling your first inspection."
@@ -125,7 +125,7 @@
   "rentManagement": {
     "title": "Rent Management",
     "subtitle": "Track and manage rent payments",
-    "addPayment": "Add payment",
+    "addPayment": "New Rent Payment",
     "loading": "Loading payments...",
     "noPayments": "No payments",
     "noPaymentsDescription": "Start by recording your first payment."
