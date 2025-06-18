@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -761,6 +760,14 @@
     "creationDate": "Creation Date",
     "passwordStatus": "Password"
   },
+  "employees.name": "Name",
+  "employees.email": "Email",
+  "employees.role": "Role",
+  "employees.company": "Company",
+  "employees.creationDate": "Creation Date",
+  "employees.permissions": "Permissions",
+  "employees.passwordStatus": "Password",
+  "employees.actions": "Actions",
   "settings": {
     "title": "Settings",
     "subtitle": "Manage your NeoRent application configuration",
