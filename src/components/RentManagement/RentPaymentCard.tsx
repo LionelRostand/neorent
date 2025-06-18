@@ -144,8 +144,8 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
           )}
         </div>
 
-        {/* Montant du loyer mensuel */}
-        <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
+        {/* Montant du loyer mensuel à payer */}
+        <div className="bg-blue-50 rounded-lg p-3 sm:p-4 mb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mr-2" />
@@ -153,16 +153,26 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
             </div>
             <span className="text-xl sm:text-2xl font-bold text-blue-600">{payment.rentAmount}€</span>
           </div>
-          
-          {/* Affichage du statut de paiement */}
-          <div className="mt-2 flex items-center justify-between">
-            {getStatusBadge(payment.status)}
-            {payment.paidAmount !== undefined && payment.paidAmount !== payment.rentAmount && payment.status === 'Payé' && (
-              <span className="text-sm text-red-600 font-medium">
-                Payé: {payment.paidAmount}€
+        </div>
+
+        {/* Montant du loyer mensuel payé (si différent) */}
+        {payment.paidAmount !== undefined && payment.paidAmount !== null && (
+          <div className={`rounded-lg p-3 sm:p-4 mb-3 ${payment.paidAmount === payment.rentAmount ? 'bg-green-50' : 'bg-red-50'}`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <CheckCircle className={`h-4 w-4 sm:h-5 sm:w-5 mr-2 ${payment.paidAmount === payment.rentAmount ? 'text-green-600' : 'text-red-600'}`} />
+                <span className="text-sm font-medium text-gray-700">Loyer mensuel payé</span>
+              </div>
+              <span className={`text-xl sm:text-2xl font-bold ${payment.paidAmount === payment.rentAmount ? 'text-green-600' : 'text-red-600'}`}>
+                {payment.paidAmount}€
               </span>
-            )}
+            </div>
           </div>
+        )}
+
+        {/* Statut de paiement */}
+        <div className="mb-3 sm:mb-4">
+          {getStatusBadge(payment.status)}
         </div>
         
         {/* Actions pour les paiements non payés */}
