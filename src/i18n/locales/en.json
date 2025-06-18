@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -819,6 +818,8 @@
       "copyRules": "Copy Rules",
       "databaseCollections": "Database Collections",
       "userRoles": "User Roles",
+      "userRolesDefined": "Defined User Roles",
+      "importantInformation": "Important Information",
       "copy": "Copy",
       "applyAuto": "Apply auto",
       "manualUpdate": "Manual update",

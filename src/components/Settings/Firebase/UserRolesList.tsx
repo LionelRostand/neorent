@@ -1,8 +1,11 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 
 export const UserRolesList: React.FC = () => {
+  const { t } = useTranslation();
+  
   const roles = [
     {
       role: 'admin',
@@ -42,7 +45,7 @@ export const UserRolesList: React.FC = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-          👥 Rôles utilisateurs définis
+          👥 {t('settings.firebase.userRolesDefined')}
         </CardTitle>
       </CardHeader>
       <CardContent>
