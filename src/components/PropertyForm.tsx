@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -39,7 +40,9 @@ interface PropertyFormProps {
 }
 
 const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
+
   const [formData, setFormData] = useState<PropertyFormData>({
     title: '',
     address: '',
@@ -100,8 +103,8 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
         toast({
-          title: "Erreur",
-          description: "L'image ne doit pas dépasser 5MB",
+          title: t('propertyForm.error'),
+          description: t('propertyForm.photoSizeError'),
           variant: "destructive"
         });
         return;
@@ -109,8 +112,8 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
 
       if (!file.type.startsWith('image/')) {
         toast({
-          title: "Erreur",
-          description: "Veuillez sélectionner un fichier image",
+          title: t('propertyForm.error'),
+          description: t('propertyForm.photoTypeError'),
           variant: "destructive"
         });
         return;
@@ -151,8 +154,8 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
     try {
       if (!formData.title || !formData.address || !formData.type || !formData.surface || !formData.creditImmobilier || !formData.locationType) {
         toast({
-          title: "Erreur",
-          description: "Veuillez remplir tous les champs obligatoires",
+          title: t('propertyForm.error'),
+          description: t('propertyForm.requiredFieldsError'),
           variant: "destructive"
         });
         setIsSubmitting(false);
@@ -161,8 +164,8 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
 
       if (formData.locationType === 'Colocation' && !formData.roomCount) {
         toast({
-          title: "Erreur",
-          description: "Veuillez indiquer le nombre de chambres pour une colocation",
+          title: t('propertyForm.error'),
+          description: t('propertyForm.roomCountError'),
           variant: "destructive"
         });
         setIsSubmitting(false);
@@ -185,16 +188,16 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
       });
 
       toast({
-        title: "Succès",
-        description: "Le bien immobilier a été ajouté avec succès",
+        title: t('propertyForm.success'),
+        description: t('propertyForm.addSuccessMessage'),
       });
 
       onClose();
     } catch (error) {
       console.error('Erreur lors de l\'enregistrement:', error);
       toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de l'enregistrement",
+        title: t('propertyForm.error'),
+        description: t('propertyForm.addErrorMessage'),
         variant: "destructive"
       });
     } finally {
@@ -205,104 +208,104 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Ajouter un bien immobilier</DialogTitle>
+        <DialogTitle>{t('propertyForm.addTitle')}</DialogTitle>
       </DialogHeader>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Titre *</Label>
+            <Label htmlFor="title">{t('propertyForm.titleRequired')}</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => handleInputChange('title', e.target.value)}
-              placeholder="Ex: Appartement Rue des Fleurs"
+              placeholder={t('propertyForm.titlePlaceholder')}
               required
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="owner">Propriétaire</Label>
+            <Label htmlFor="owner">{t('propertyForm.owner')}</Label>
             <Input
               id="owner"
               value={formData.owner}
               onChange={(e) => handleInputChange('owner', e.target.value)}
-              placeholder="Nom du propriétaire"
+              placeholder={t('propertyForm.ownerPlaceholder')}
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="type">Type *</Label>
+            <Label htmlFor="type">{t('propertyForm.typeRequired')}</Label>
             <Select onValueChange={(value) => handleInputChange('type', value)} required>
               <SelectTrigger>
-                <SelectValue placeholder="Sélectionner le type" />
+                <SelectValue placeholder={t('propertyForm.typeSelect')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Appartement">Appartement</SelectItem>
-                <SelectItem value="Studio">Studio</SelectItem>
-                <SelectItem value="Maison">Maison</SelectItem>
-                <SelectItem value="Loft">Loft</SelectItem>
-                <SelectItem value="Duplex">Duplex</SelectItem>
+                <SelectItem value="Appartement">{t('propertyForm.propertyTypes.appartement')}</SelectItem>
+                <SelectItem value="Studio">{t('propertyForm.propertyTypes.studio')}</SelectItem>
+                <SelectItem value="Maison">{t('propertyForm.propertyTypes.maison')}</SelectItem>
+                <SelectItem value="Loft">{t('propertyForm.propertyTypes.loft')}</SelectItem>
+                <SelectItem value="Duplex">{t('propertyForm.propertyTypes.duplex')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="surface">Surface *</Label>
+            <Label htmlFor="surface">{t('propertyForm.surfaceRequired')}</Label>
             <Input
               id="surface"
               value={formData.surface}
               onChange={(e) => handleInputChange('surface', e.target.value)}
-              placeholder="Ex: 65m²"
+              placeholder={t('propertyForm.surfacePlaceholder')}
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="floor">Étage</Label>
+            <Label htmlFor="floor">{t('propertyForm.floor')}</Label>
             <Input
               id="floor"
               value={formData.floor}
               onChange={(e) => handleInputChange('floor', e.target.value)}
-              placeholder="Ex: 3ème, RDC, Sous-sol"
+              placeholder={t('propertyForm.floorPlaceholder')}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="address">Adresse *</Label>
+          <Label htmlFor="address">{t('propertyForm.addressRequired')}</Label>
           <Input
             id="address"
             value={formData.address}
             onChange={(e) => handleInputChange('address', e.target.value)}
-            placeholder="Ex: 123 Rue des Fleurs, 75001 Paris"
+            placeholder={t('propertyForm.addressPlaceholder')}
             required
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="creditImmobilier">Crédit immobilier *</Label>
+            <Label htmlFor="creditImmobilier">{t('propertyForm.creditImmobilierRequired')}</Label>
             <Input
               id="creditImmobilier"
               value={formData.creditImmobilier}
               onChange={(e) => handleInputChange('creditImmobilier', e.target.value)}
-              placeholder="Ex: 1200€"
+              placeholder={t('propertyForm.creditImmobilierPlaceholder')}
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="locationType">Type de location *</Label>
+            <Label htmlFor="locationType">{t('propertyForm.locationTypeRequired')}</Label>
             <Select onValueChange={(value) => handleInputChange('locationType', value)} required>
               <SelectTrigger>
-                <SelectValue placeholder="Sélectionner le type de location" />
+                <SelectValue placeholder={t('propertyForm.locationTypeSelect')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Location">Location</SelectItem>
-                <SelectItem value="Colocation">Colocation</SelectItem>
+                <SelectItem value="Location">{t('propertyForm.locationTypes.location')}</SelectItem>
+                <SelectItem value="Colocation">{t('propertyForm.locationTypes.colocation')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -310,14 +313,14 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
 
         {formData.locationType === 'Colocation' && (
           <div className="space-y-2">
-            <Label htmlFor="roomCount">Nombre de chambres *</Label>
+            <Label htmlFor="roomCount">{t('propertyForm.roomCountRequired')}</Label>
             <Input
               id="roomCount"
               type="number"
               min="1"
               value={formData.roomCount}
               onChange={(e) => handleInputChange('roomCount', e.target.value)}
-              placeholder="Ex: 3"
+              placeholder={t('propertyForm.roomCountPlaceholder')}
               required
             />
           </div>
@@ -328,107 +331,107 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Calculator className="h-5 w-5" />
-              Évaluation des coûts de charges
+              {t('propertyForm.charges.title')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="electricity">Électricité (€/mois)</Label>
+                <Label htmlFor="electricity">{t('propertyForm.charges.electricityUnit')}</Label>
                 <Input
                   id="electricity"
                   type="number"
                   value={formData.charges.electricity}
                   onChange={(e) => handleChargeChange('electricity', e.target.value)}
-                  placeholder="Ex: 80"
+                  placeholder={t('propertyForm.charges.electricityPlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="water">Eau (€/mois)</Label>
+                <Label htmlFor="water">{t('propertyForm.charges.waterUnit')}</Label>
                 <Input
                   id="water"
                   type="number"
                   value={formData.charges.water}
                   onChange={(e) => handleChargeChange('water', e.target.value)}
-                  placeholder="Ex: 45"
+                  placeholder={t('propertyForm.charges.waterPlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="heating">Chauffage (€/mois)</Label>
+                <Label htmlFor="heating">{t('propertyForm.charges.heatingUnit')}</Label>
                 <Input
                   id="heating"
                   type="number"
                   value={formData.charges.heating}
                   onChange={(e) => handleChargeChange('heating', e.target.value)}
-                  placeholder="Ex: 120"
+                  placeholder={t('propertyForm.charges.heatingPlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="maintenance">Maintenance (€/mois)</Label>
+                <Label htmlFor="maintenance">{t('propertyForm.charges.maintenanceUnit')}</Label>
                 <Input
                   id="maintenance"
                   type="number"
                   value={formData.charges.maintenance}
                   onChange={(e) => handleChargeChange('maintenance', e.target.value)}
-                  placeholder="Ex: 50"
+                  placeholder={t('propertyForm.charges.maintenancePlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="insurance">Assurance (€/mois)</Label>
+                <Label htmlFor="insurance">{t('propertyForm.charges.insuranceUnit')}</Label>
                 <Input
                   id="insurance"
                   type="number"
                   value={formData.charges.insurance}
                   onChange={(e) => handleChargeChange('insurance', e.target.value)}
-                  placeholder="Ex: 30"
+                  placeholder={t('propertyForm.charges.insurancePlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="garbage">Ordures ménagères (€/mois)</Label>
+                <Label htmlFor="garbage">{t('propertyForm.charges.garbageUnit')}</Label>
                 <Input
                   id="garbage"
                   type="number"
                   value={formData.charges.garbage}
                   onChange={(e) => handleChargeChange('garbage', e.target.value)}
-                  placeholder="Ex: 25"
+                  placeholder={t('propertyForm.charges.garbagePlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="internet">Internet (€/mois)</Label>
+                <Label htmlFor="internet">{t('propertyForm.charges.internetUnit')}</Label>
                 <Input
                   id="internet"
                   type="number"
                   value={formData.charges.internet}
                   onChange={(e) => handleChargeChange('internet', e.target.value)}
-                  placeholder="Ex: 35"
+                  placeholder={t('propertyForm.charges.internetPlaceholder')}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="taxes">Taxes foncières (€/mois)</Label>
+                <Label htmlFor="taxes">{t('propertyForm.charges.taxesUnit')}</Label>
                 <Input
                   id="taxes"
                   type="number"
                   value={formData.charges.taxes}
                   onChange={(e) => handleChargeChange('taxes', e.target.value)}
-                  placeholder="Ex: 100"
+                  placeholder={t('propertyForm.charges.taxesPlaceholder')}
                 />
               </div>
             </div>
             
             <div className="border-t pt-4 space-y-2">
               <div className="flex justify-between items-center text-lg font-semibold">
-                <span>Total charges mensuelles:</span>
+                <span>{t('propertyForm.charges.totalCharges')}</span>
                 <span className="text-blue-600">{calculateTotalCharges().toFixed(2)}€</span>
               </div>
               <div className="flex justify-between items-center text-xl font-bold text-green-600">
-                <span>Coût total mensuel:</span>
+                <span>{t('propertyForm.charges.totalCost')}</span>
                 <span>{calculateTotalCost().toFixed(2)}€</span>
               </div>
             </div>
@@ -436,18 +439,18 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
         </Card>
 
         <div className="space-y-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{t('propertyForm.description')}</Label>
           <Textarea
             id="description"
             value={formData.description}
             onChange={(e) => handleInputChange('description', e.target.value)}
-            placeholder="Description du bien immobilier..."
+            placeholder={t('propertyForm.descriptionPlaceholder')}
             rows={3}
           />
         </div>
 
         <div className="space-y-2">
-          <Label>Photo du bien</Label>
+          <Label>{t('propertyForm.photo')}</Label>
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
             {imagePreview ? (
               <div className="relative">
@@ -481,11 +484,11 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
                     htmlFor="image-upload"
                     className="cursor-pointer text-blue-600 hover:text-blue-500"
                   >
-                    Cliquez pour sélectionner une image
+                    {t('propertyForm.photoSelect')}
                   </Label>
                 </div>
                 <p className="text-sm text-gray-500 mt-1">
-                  PNG, JPG, GIF jusqu'à 5MB
+                  {t('propertyForm.photoFormat')}
                 </p>
               </div>
             )}
@@ -494,10 +497,10 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
 
         <div className="flex justify-end space-x-2 pt-4">
           <Button type="button" variant="outline" onClick={onClose}>
-            Annuler
+            {t('propertyForm.cancel')}
           </Button>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Enregistrement...' : 'Ajouter le bien'}
+            {isSubmitting ? t('propertyForm.adding') : t('propertyForm.add')}
           </Button>
         </div>
       </form>
