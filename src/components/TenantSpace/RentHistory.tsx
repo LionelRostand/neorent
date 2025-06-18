@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,7 +22,7 @@ const RentHistory = () => {
   const [selectedYear, setSelectedYear] = useState('2024');
   const isMobile = useIsMobile();
   
-  // Données simulées - à remplacer par les vraies données
+  // Données du locataire
   const tenantData = {
     name: 'Marie Dubois',
     type: 'Locataire' as 'Locataire' | 'Colocataire',
@@ -35,9 +36,9 @@ const RentHistory = () => {
     type: 'Appartement',
     surface: '65m²',
     rooms: '3 pièces',
-    rent: 1200,
-    charges: 150,
-    deposit: 2400,
+    rent: 400, // Valeur corrigée
+    charges: 50, // Valeur corrigée
+    deposit: 450, // Valeur corrigée
     furnished: true,
     floor: '3ème étage',
     elevator: true,
@@ -52,14 +53,69 @@ const RentHistory = () => {
     propertyType: tenantData.propertyType
   });
   
-  // Données simulées - à remplacer par les vraies données
+  // Valeurs corrigées
+  const monthlyRent = 400;
+  const monthlyCharges = 50;
+  const totalMonthly = monthlyRent + monthlyCharges; // 450€
+  
+  // Historique des paiements depuis le début du contrat (septembre 2023)
   const rentPayments = [
+    // 2023 - Depuis septembre (début du contrat)
     {
       id: 1,
+      month: 'Septembre 2023',
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: '2023-09-05',
+      dueDate: '2023-09-01',
+      status: 'Payé',
+      method: 'Virement',
+      receiptUrl: '#'
+    },
+    {
+      id: 2,
+      month: 'Octobre 2023',
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: '2023-10-03',
+      dueDate: '2023-10-01',
+      status: 'Payé',
+      method: 'Virement',
+      receiptUrl: '#'
+    },
+    {
+      id: 3,
+      month: 'Novembre 2023',
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: '2023-11-02',
+      dueDate: '2023-11-01',
+      status: 'Payé',
+      method: 'Virement',
+      receiptUrl: '#'
+    },
+    {
+      id: 4,
+      month: 'Décembre 2023',
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: '2023-12-01',
+      dueDate: '2023-12-01',
+      status: 'Payé',
+      method: 'Virement',
+      receiptUrl: '#'
+    },
+    // 2024
+    {
+      id: 5,
       month: 'Janvier 2024',
-      amount: 1350,
-      rent: 1200,
-      charges: 150,
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
       paymentDate: '2024-01-05',
       dueDate: '2024-01-01',
       status: 'Payé',
@@ -67,11 +123,11 @@ const RentHistory = () => {
       receiptUrl: '#'
     },
     {
-      id: 2,
+      id: 6,
       month: 'Février 2024',
-      amount: 1350,
-      rent: 1200,
-      charges: 150,
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
       paymentDate: '2024-02-03',
       dueDate: '2024-02-01',
       status: 'Payé',
@@ -79,11 +135,11 @@ const RentHistory = () => {
       receiptUrl: '#'
     },
     {
-      id: 3,
+      id: 7,
       month: 'Mars 2024',
-      amount: 1350,
-      rent: 1200,
-      charges: 150,
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
       paymentDate: '2024-03-01',
       dueDate: '2024-03-01',
       status: 'Payé',
@@ -91,13 +147,49 @@ const RentHistory = () => {
       receiptUrl: '#'
     },
     {
-      id: 4,
+      id: 8,
       month: 'Avril 2024',
-      amount: 1350,
-      rent: 1200,
-      charges: 150,
-      paymentDate: null,
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: '2024-04-02',
       dueDate: '2024-04-01',
+      status: 'Payé',
+      method: 'Virement',
+      receiptUrl: '#'
+    },
+    {
+      id: 9,
+      month: 'Mai 2024',
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: '2024-05-03',
+      dueDate: '2024-05-01',
+      status: 'Payé',
+      method: 'Virement',
+      receiptUrl: '#'
+    },
+    {
+      id: 10,
+      month: 'Juin 2024',
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: '2024-06-04',
+      dueDate: '2024-06-01',
+      status: 'Payé',
+      method: 'Virement',
+      receiptUrl: '#'
+    },
+    {
+      id: 11,
+      month: 'Juillet 2024',
+      amount: totalMonthly,
+      rent: monthlyRent,
+      charges: monthlyCharges,
+      paymentDate: null,
+      dueDate: '2024-07-01',
       status: 'En attente',
       method: null,
       receiptUrl: null
@@ -156,12 +248,11 @@ const RentHistory = () => {
 
       {/* Résumé financier */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-        {/* MetricCard components */}
         <Card>
           <CardContent className="pt-4 md:pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs md:text-sm text-gray-600">Total payé en 2024</p>
+                <p className="text-xs md:text-sm text-gray-600">Total payé</p>
                 <p className="text-lg md:text-2xl font-bold text-green-600">{totalPaid.toLocaleString()}€</p>
               </div>
               <Euro className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
@@ -186,7 +277,7 @@ const RentHistory = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs md:text-sm text-gray-600">Loyer mensuel</p>
-                <p className="text-lg md:text-2xl font-bold text-purple-600">1,200€</p>
+                <p className="text-lg md:text-2xl font-bold text-purple-600">{monthlyRent}€</p>
               </div>
               <CreditCard className="h-6 w-6 md:h-8 md:w-8 text-purple-500" />
             </div>
@@ -198,7 +289,7 @@ const RentHistory = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs md:text-sm text-gray-600">Charges mensuelles</p>
-                <p className="text-lg md:text-2xl font-bold text-orange-600">150€</p>
+                <p className="text-lg md:text-2xl font-bold text-orange-600">{monthlyCharges}€</p>
               </div>
               <TrendingUp className="h-6 w-6 md:h-8 md:w-8 text-orange-500" />
             </div>
@@ -211,7 +302,7 @@ const RentHistory = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
             <Receipt className="h-4 w-4 md:h-5 md:w-5" />
-            Historique des loyers - {selectedYear}
+            Historique des loyers - Depuis septembre 2023
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -279,9 +370,9 @@ const RentHistory = () => {
             <div>
               <h4 className="font-medium mb-2 text-sm md:text-base">Modalités de paiement</h4>
               <ul className="space-y-1 text-xs md:text-sm">
-                <li>• Loyer mensuel: 1,200€</li>
-                <li>• Charges mensuelles: 150€</li>
-                <li>• Total mensuel: 1,350€</li>
+                <li>• Loyer mensuel: {monthlyRent}€</li>
+                <li>• Charges mensuelles: {monthlyCharges}€</li>
+                <li>• Total mensuel: {totalMonthly}€</li>
                 <li>• Échéance: 1er de chaque mois</li>
               </ul>
             </div>

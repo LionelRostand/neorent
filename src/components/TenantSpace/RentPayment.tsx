@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -52,7 +51,10 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
     propertyType: tenantData.type === 'Colocataire' ? 'Chambre en colocation' : 'Appartement'
   });
 
-  const totalAmount = propertyData.rent + propertyData.charges;
+  // Valeurs corrigées selon la demande
+  const monthlyRent = 400;
+  const monthlyCharges = 50;
+  const totalAmount = monthlyRent + monthlyCharges; // 450€
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,8 +93,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
 
       generateReceipt({
         month: monthYear,
-        rentAmount: propertyData.rent,
-        charges: propertyData.charges,
+        rentAmount: monthlyRent,
+        charges: monthlyCharges,
         paymentDate: paymentDate,
         paymentMethod: paymentMethod
       });
@@ -134,11 +136,11 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600">Loyer mensuel</p>
-                <p className="text-lg font-semibold text-gray-900">{propertyData.rent}€</p>
+                <p className="text-lg font-semibold text-gray-900">{monthlyRent}€</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Charges</p>
-                <p className="text-lg font-semibold text-gray-900">{propertyData.charges}€</p>
+                <p className="text-lg font-semibold text-gray-900">{monthlyCharges}€</p>
               </div>
             </div>
             <div className="mt-4 pt-4 border-t border-gray-200">
