@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Clock, Shield } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SessionSecurityConfigProps {
   sessionTimeout: number;
@@ -23,18 +24,20 @@ const SessionSecurityConfig: React.FC<SessionSecurityConfigProps> = ({
   onMaxLoginAttemptsChange,
   onLockoutDurationChange
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Clock className="h-5 w-5" />
-          Sécurité des sessions
+          {t('settings.security.sessionSecurity')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="sessionTimeout">Timeout de session (minutes)</Label>
+            <Label htmlFor="sessionTimeout">{t('settings.security.sessionTimeout')}</Label>
             <Select 
               value={sessionTimeout.toString()} 
               onValueChange={(value) => onSessionTimeoutChange(parseInt(value))}
@@ -43,18 +46,18 @@ const SessionSecurityConfig: React.FC<SessionSecurityConfigProps> = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="15">15 minutes</SelectItem>
-                <SelectItem value="30">30 minutes</SelectItem>
-                <SelectItem value="60">1 heure</SelectItem>
-                <SelectItem value="120">2 heures</SelectItem>
-                <SelectItem value="480">8 heures</SelectItem>
-                <SelectItem value="0">Jamais</SelectItem>
+                <SelectItem value="15">{t('settings.security.timeoutOptions.15min')}</SelectItem>
+                <SelectItem value="30">{t('settings.security.timeoutOptions.30min')}</SelectItem>
+                <SelectItem value="60">{t('settings.security.timeoutOptions.1hour')}</SelectItem>
+                <SelectItem value="120">{t('settings.security.timeoutOptions.2hours')}</SelectItem>
+                <SelectItem value="480">{t('settings.security.timeoutOptions.8hours')}</SelectItem>
+                <SelectItem value="0">{t('settings.security.timeoutOptions.never')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="maxLoginAttempts">Tentatives de connexion max</Label>
+            <Label htmlFor="maxLoginAttempts">{t('settings.security.maxLoginAttempts')}</Label>
             <Input
               id="maxLoginAttempts"
               type="number"
@@ -67,7 +70,7 @@ const SessionSecurityConfig: React.FC<SessionSecurityConfigProps> = ({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="lockoutDuration">Durée de verrouillage (minutes)</Label>
+          <Label htmlFor="lockoutDuration">{t('settings.security.lockoutDuration')}</Label>
           <Select 
             value={lockoutDuration.toString()} 
             onValueChange={(value) => onLockoutDurationChange(parseInt(value))}
@@ -76,11 +79,11 @@ const SessionSecurityConfig: React.FC<SessionSecurityConfigProps> = ({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="5">5 minutes</SelectItem>
-              <SelectItem value="15">15 minutes</SelectItem>
-              <SelectItem value="30">30 minutes</SelectItem>
-              <SelectItem value="60">1 heure</SelectItem>
-              <SelectItem value="120">2 heures</SelectItem>
+              <SelectItem value="5">{t('settings.security.lockoutOptions.5min')}</SelectItem>
+              <SelectItem value="15">{t('settings.security.lockoutOptions.15min')}</SelectItem>
+              <SelectItem value="30">{t('settings.security.lockoutOptions.30min')}</SelectItem>
+              <SelectItem value="60">{t('settings.security.lockoutOptions.1hour')}</SelectItem>
+              <SelectItem value="120">{t('settings.security.lockoutOptions.2hours')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -89,12 +92,12 @@ const SessionSecurityConfig: React.FC<SessionSecurityConfigProps> = ({
           <div className="flex items-start gap-2">
             <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
             <div>
-              <h4 className="font-medium text-blue-900">Recommandations de sécurité</h4>
+              <h4 className="font-medium text-blue-900">{t('settings.security.recommendations.title')}</h4>
               <ul className="text-sm text-blue-700 mt-1 space-y-1">
-                <li>• Utilisez un timeout de session de 30 minutes maximum</li>
-                <li>• Limitez les tentatives de connexion à 5 maximum</li>
-                <li>• Activez la double authentification pour tous les comptes</li>
-                <li>• Vérifiez régulièrement les journaux de connexion</li>
+                <li>• {t('settings.security.recommendations.sessionTimeout')}</li>
+                <li>• {t('settings.security.recommendations.loginAttempts')}</li>
+                <li>• {t('settings.security.recommendations.twoFactor')}</li>
+                <li>• {t('settings.security.recommendations.checkLogs')}</li>
               </ul>
             </div>
           </div>

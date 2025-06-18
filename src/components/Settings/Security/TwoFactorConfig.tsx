@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -11,6 +10,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp
 import { Smartphone, Mail, QrCode, Key, Copy } from 'lucide-react';
 import { TwoFactorSettings } from '../types/security';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface TwoFactorConfigProps {
   settings: TwoFactorSettings;
@@ -21,6 +21,7 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
   settings,
   onSettingsChange
 }) => {
+  const { t } = useTranslation();
   const [isEnabling, setIsEnabling] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
@@ -48,13 +49,13 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
       });
 
       toast({
-        title: "2FA activé",
-        description: "L'authentification à deux facteurs a été activée avec succès",
+        title: t('settings.security.twoFactor.enabled'),
+        description: t('settings.security.twoFactor.enabledDescription'),
       });
     } catch (error) {
       toast({
-        title: "Erreur",
-        description: "Impossible d'activer la 2FA",
+        title: t('common.error'),
+        description: t('settings.security.twoFactor.enableError'),
         variant: "destructive",
       });
     } finally {
@@ -70,8 +71,8 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
     });
 
     toast({
-      title: "2FA désactivé",
-      description: "L'authentification à deux facteurs a été désactivée",
+      title: t('settings.security.twoFactor.disabled'),
+      description: t('settings.security.twoFactor.disabledDescription'),
     });
   };
 
@@ -79,8 +80,8 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
     const codesText = backupCodes.join('\n');
     navigator.clipboard.writeText(codesText);
     toast({
-      title: "Codes copiés",
-      description: "Les codes de secours ont été copiés dans le presse-papier",
+      title: t('settings.security.twoFactor.codesCopied'),
+      description: t('settings.security.twoFactor.codesCopiedDescription'),
     });
   };
 
@@ -98,15 +99,15 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Key className="h-5 w-5" />
-          Authentification à deux facteurs (2FA)
+          {t('settings.security.twoFactor.title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <Label>Activer la 2FA</Label>
+            <Label>{t('settings.security.twoFactor.enable')}</Label>
             <p className="text-sm text-gray-500">
-              Ajoute une couche de sécurité supplémentaire à votre compte
+              {t('settings.security.twoFactor.enableDescription')}
             </p>
           </div>
           <Switch
@@ -124,7 +125,7 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
         {settings.enabled && (
           <>
             <div className="space-y-2">
-              <Label>Méthode de vérification</Label>
+              <Label>{t('settings.security.twoFactor.verificationMethod')}</Label>
               <Select 
                 value={settings.method} 
                 onValueChange={(value: 'sms' | 'email' | 'authenticator') => 
@@ -138,19 +139,19 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
                   <SelectItem value="email">
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />
-                      Email
+                      {t('settings.security.twoFactor.methods.email')}
                     </div>
                   </SelectItem>
                   <SelectItem value="sms">
                     <div className="flex items-center gap-2">
                       <Smartphone className="h-4 w-4" />
-                      SMS
+                      {t('settings.security.twoFactor.methods.sms')}
                     </div>
                   </SelectItem>
                   <SelectItem value="authenticator">
                     <div className="flex items-center gap-2">
                       <QrCode className="h-4 w-4" />
-                      Application d'authentification
+                      {t('settings.security.twoFactor.methods.authenticator')}
                     </div>
                   </SelectItem>
                 </SelectContent>
@@ -159,11 +160,11 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
 
             {settings.backupCodes.length > 0 && (
               <div className="space-y-2">
-                <Label>Codes de secours</Label>
+                <Label>{t('settings.security.twoFactor.backupCodes')}</Label>
                 <div className="p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm text-gray-600">
-                      Conservez ces codes en lieu sûr
+                      {t('settings.security.twoFactor.backupCodesDescription')}
                     </p>
                     <Button 
                       variant="outline" 
@@ -171,7 +172,7 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
                       onClick={copyBackupCodes}
                     >
                       <Copy className="h-4 w-4 mr-1" />
-                      Copier
+                      {t('settings.security.twoFactor.copy')}
                     </Button>
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-sm font-mono">
@@ -190,7 +191,7 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
                 variant="outline" 
                 onClick={() => setBackupCodes(generateBackupCodes())}
               >
-                Générer nouveaux codes de secours
+                {t('settings.security.twoFactor.generateNewCodes')}
               </Button>
             </div>
           </>
@@ -200,16 +201,16 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
           <AlertDialog open={isEnabling} onOpenChange={setIsEnabling}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Activer l'authentification à deux facteurs</AlertDialogTitle>
+                <AlertDialogTitle>{t('settings.security.twoFactor.enableTitle')}</AlertDialogTitle>
                 <AlertDialogDescription>
                   {settings.method === 'email' && 
-                    "Un code de vérification sera envoyé à votre adresse email lors de chaque connexion."
+                    t('settings.security.twoFactor.emailDescription')
                   }
                   {settings.method === 'sms' && 
-                    "Un code de vérification sera envoyé par SMS lors de chaque connexion."
+                    t('settings.security.twoFactor.smsDescription')
                   }
                   {settings.method === 'authenticator' && 
-                    "Scannez ce QR code avec votre application d'authentification et entrez le code généré."
+                    t('settings.security.twoFactor.authenticatorDescription')
                   }
                 </AlertDialogDescription>
               </AlertDialogHeader>
@@ -222,13 +223,13 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
                     </div>
                   </div>
                   <p className="text-sm text-center text-gray-600">
-                    QR Code pour l'application d'authentification
+                    {t('settings.security.twoFactor.qrCodeDescription')}
                   </p>
                 </div>
               )}
               
               <div className="space-y-2">
-                <Label>Code de vérification</Label>
+                <Label>{t('settings.security.twoFactor.verificationCode')}</Label>
                 <InputOTP value={verificationCode} onChange={setVerificationCode} maxLength={6}>
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
@@ -242,12 +243,12 @@ const TwoFactorConfig: React.FC<TwoFactorConfigProps> = ({
               </div>
 
               <AlertDialogFooter>
-                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                <AlertDialogCancel>{t('forms.cancel')}</AlertDialogCancel>
                 <AlertDialogAction 
                   onClick={enable2FA}
                   disabled={verificationCode.length !== 6}
                 >
-                  Activer la 2FA
+                  {t('settings.security.twoFactor.enable2FA')}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

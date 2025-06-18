@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -882,7 +883,8 @@
       "goToFirebaseConsole": "Go to Firebase console → Firestore Database",
       "clickRulesTab": "Click on the \"Rules\" tab",
       "replaceContentWithNewRules": "Replace the content with these new rules",
-      "clickPublishToApply": "Click \"Publish\" to apply the changes"
+      "clickPublishToApply": "Click \"Publish\" to apply the changes",
+      "storageConfiguration": "Storage Configuration"
     },
     "database": {
       "title": "Database Management",
@@ -943,16 +945,76 @@
       "subtitle": "Configure security and access policies for your application",
       "passwordPolicy": "Password Policy",
       "minLength": "Minimum Length",
+      "passwordExpiry": "Password Expiry (days)",
+      "complexityRequirements": "Complexity Requirements",
       "requireUppercase": "Require Uppercase",
       "requireLowercase": "Require Lowercase",
       "requireNumbers": "Require Numbers",
       "requireSpecialChars": "Require Special Characters",
-      "twoFactor": "Two-Factor Authentication",
-      "enableTwoFactor": "Enable 2FA for all users",
+      "preventCommonPasswords": "Block Common Passwords",
+      "preventCommonPasswordsDescription": "Prevents the use of weak passwords like \"123456\"",
+      "expiryOptions": {
+        "30days": "30 days",
+        "60days": "60 days",
+        "90days": "90 days",
+        "120days": "120 days",
+        "never": "Never"
+      },
+      "twoFactor": {
+        "title": "Two-Factor Authentication (2FA)",
+        "enable": "Enable 2FA",
+        "enableDescription": "Adds an additional layer of security to your account",
+        "verificationMethod": "Verification Method",
+        "methods": {
+          "email": "Email",
+          "sms": "SMS",
+          "authenticator": "Authenticator App"
+        },
+        "backupCodes": "Backup Codes",
+        "backupCodesDescription": "Keep these codes in a safe place",
+        "copy": "Copy",
+        "generateNewCodes": "Generate New Backup Codes",
+        "enableTitle": "Enable Two-Factor Authentication",
+        "emailDescription": "A verification code will be sent to your email address at each login.",
+        "smsDescription": "A verification code will be sent by SMS at each login.",
+        "authenticatorDescription": "Scan this QR code with your authenticator app and enter the generated code.",
+        "qrCodeDescription": "QR Code for authenticator app",
+        "verificationCode": "Verification Code",
+        "enable2FA": "Enable 2FA",
+        "enabled": "2FA Enabled",
+        "enabledDescription": "Two-factor authentication has been successfully enabled",
+        "disabled": "2FA Disabled",
+        "disabledDescription": "Two-factor authentication has been disabled",
+        "codesCopied": "Codes Copied",
+        "codesCopiedDescription": "Backup codes have been copied to clipboard",
+        "enableError": "Unable to enable 2FA"
+      },
       "sessionSecurity": "Session Security",
       "sessionTimeout": "Session Timeout (minutes)",
       "maxLoginAttempts": "Max Login Attempts",
       "lockoutDuration": "Lockout Duration (minutes)",
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours",
+        "8hours": "8 hours",
+        "never": "Never"
+      },
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours"
+      },
+      "recommendations": {
+        "title": "Security Recommendations",
+        "sessionTimeout": "Use a session timeout of 30 minutes maximum",
+        "loginAttempts": "Limit login attempts to 5 maximum",
+        "twoFactor": "Enable two-factor authentication for all accounts",
+        "checkLogs": "Regularly check connection logs"
+      },
       "loadingSettings": "Loading settings...",
       "saving": "Saving..."
     },

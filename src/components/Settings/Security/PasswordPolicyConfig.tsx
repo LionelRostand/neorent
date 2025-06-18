@@ -7,6 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Shield } from 'lucide-react';
 import { PasswordPolicy } from '../types/security';
+import { useTranslation } from 'react-i18next';
 
 interface PasswordPolicyConfigProps {
   policy: PasswordPolicy;
@@ -17,6 +18,8 @@ const PasswordPolicyConfig: React.FC<PasswordPolicyConfigProps> = ({
   policy,
   onPolicyChange
 }) => {
+  const { t } = useTranslation();
+
   const updatePolicy = (updates: Partial<PasswordPolicy>) => {
     onPolicyChange({ ...policy, ...updates });
   };
@@ -26,13 +29,13 @@ const PasswordPolicyConfig: React.FC<PasswordPolicyConfigProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Shield className="h-5 w-5" />
-          Politique de mot de passe
+          {t('settings.security.passwordPolicy')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="minLength">Longueur minimale</Label>
+            <Label htmlFor="minLength">{t('settings.security.minLength')}</Label>
             <Input
               id="minLength"
               type="number"
@@ -44,28 +47,28 @@ const PasswordPolicyConfig: React.FC<PasswordPolicyConfigProps> = ({
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="passwordExpiry">Expiration (jours)</Label>
+            <Label htmlFor="passwordExpiry">{t('settings.security.passwordExpiry')}</Label>
             <Select value={policy.passwordExpiry.toString()} onValueChange={(value) => updatePolicy({ passwordExpiry: parseInt(value) })}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="30">30 jours</SelectItem>
-                <SelectItem value="60">60 jours</SelectItem>
-                <SelectItem value="90">90 jours</SelectItem>
-                <SelectItem value="120">120 jours</SelectItem>
-                <SelectItem value="0">Jamais</SelectItem>
+                <SelectItem value="30">{t('settings.security.expiryOptions.30days')}</SelectItem>
+                <SelectItem value="60">{t('settings.security.expiryOptions.60days')}</SelectItem>
+                <SelectItem value="90">{t('settings.security.expiryOptions.90days')}</SelectItem>
+                <SelectItem value="120">{t('settings.security.expiryOptions.120days')}</SelectItem>
+                <SelectItem value="0">{t('settings.security.expiryOptions.never')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
         <div className="space-y-4">
-          <h4 className="font-medium">Exigences de complexité</h4>
+          <h4 className="font-medium">{t('settings.security.complexityRequirements')}</h4>
           
           <div className="grid gap-4 md:grid-cols-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="requireUppercase">Majuscules requises</Label>
+              <Label htmlFor="requireUppercase">{t('settings.security.requireUppercase')}</Label>
               <Switch
                 id="requireUppercase"
                 checked={policy.requireUppercase}
@@ -74,7 +77,7 @@ const PasswordPolicyConfig: React.FC<PasswordPolicyConfigProps> = ({
             </div>
             
             <div className="flex items-center justify-between">
-              <Label htmlFor="requireLowercase">Minuscules requises</Label>
+              <Label htmlFor="requireLowercase">{t('settings.security.requireLowercase')}</Label>
               <Switch
                 id="requireLowercase"
                 checked={policy.requireLowercase}
@@ -83,7 +86,7 @@ const PasswordPolicyConfig: React.FC<PasswordPolicyConfigProps> = ({
             </div>
             
             <div className="flex items-center justify-between">
-              <Label htmlFor="requireNumbers">Chiffres requis</Label>
+              <Label htmlFor="requireNumbers">{t('settings.security.requireNumbers')}</Label>
               <Switch
                 id="requireNumbers"
                 checked={policy.requireNumbers}
@@ -92,7 +95,7 @@ const PasswordPolicyConfig: React.FC<PasswordPolicyConfigProps> = ({
             </div>
             
             <div className="flex items-center justify-between">
-              <Label htmlFor="requireSpecialChars">Caractères spéciaux</Label>
+              <Label htmlFor="requireSpecialChars">{t('settings.security.requireSpecialChars')}</Label>
               <Switch
                 id="requireSpecialChars"
                 checked={policy.requireSpecialChars}
@@ -103,8 +106,8 @@ const PasswordPolicyConfig: React.FC<PasswordPolicyConfigProps> = ({
           
           <div className="flex items-center justify-between">
             <div>
-              <Label htmlFor="preventCommonPasswords">Bloquer mots de passe courants</Label>
-              <p className="text-sm text-gray-500">Empêche l'utilisation de mots de passe faibles comme "123456"</p>
+              <Label htmlFor="preventCommonPasswords">{t('settings.security.preventCommonPasswords')}</Label>
+              <p className="text-sm text-gray-500">{t('settings.security.preventCommonPasswordsDescription')}</p>
             </div>
             <Switch
               id="preventCommonPasswords"
