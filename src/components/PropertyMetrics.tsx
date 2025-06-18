@@ -29,22 +29,26 @@ const PropertyMetrics: React.FC = () => {
   const occupiedProperties = properties.filter(p => p.status === 'Occupé').length;
   const availableProperties = totalProperties - occupiedProperties;
   
-  // Calculer les revenus à partir des biens occupés
+  // Calculer les revenus à partir des biens occupés uniquement
   const totalRevenue = properties
     .filter(p => p.status === 'Occupé')
     .reduce((sum, p) => {
+      // Utiliser creditImmobilier en priorité, sinon rent
       const rentValue = p.creditImmobilier || p.rent || '0';
       const numericRent = parseFloat(rentValue.toString().replace(/[^0-9.-]+/g, ''));
       return sum + (isNaN(numericRent) ? 0 : numericRent);
     }, 0);
 
-  // Calculer les statistiques de colocation
+  // Calculer les statistiques de colocation correctement
   const colocationProperties = properties.filter(p => p.locationType === 'Colocation');
   const totalColocationRooms = colocationProperties.reduce((sum, p) => sum + (p.totalRooms || 0), 0);
-  const availableColocationRooms = colocationProperties.reduce((sum, p) => sum + (p.availableRooms || 0), 0);
-  const occupiedColocationRooms = totalColocationRooms - availableColocationRooms;
+  const occupiedColocationRooms = colocationProperties.reduce((sum, p) => {
+    const occupiedRooms = (p.totalRooms || 0) - (p.availableRooms || 0);
+    return sum + occupiedRooms;
+  }, 0);
+  const availableColocationRooms = totalColocationRooms - occupiedColocationRooms;
 
-  // Calculer le taux d'occupation
+  // Calculer le taux d'occupation global
   const occupancyRate = totalProperties > 0 ? Math.round((occupiedProperties / totalProperties) * 100) : 0;
 
   return (
