@@ -9,6 +9,7 @@ interface Payment {
   tenantType: string;
   property: string;
   rentAmount: number;
+  paidAmount?: number; // Nouveau champ pour le montant réellement payé
   dueDate: string;
   status: string;
   paymentDate: string | null;

@@ -20,6 +20,7 @@ interface Payment {
   tenantType: string;
   property: string;
   rentAmount: number;
+  paidAmount?: number;
   dueDate: string;
   status: string;
   paymentDate: string | null;
@@ -76,8 +77,13 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
     }
   };
 
+  // Vérifier s'il y a une incohérence de paiement
+  const hasPaymentDiscrepancy = payment.status === 'Payé' && 
+    payment.paidAmount !== undefined && 
+    payment.paidAmount !== payment.rentAmount;
+
   return (
-    <Card className={`hover:shadow-lg transition-all duration-200 border-l-4 ${getCardBorderColor(payment.status)} h-full flex flex-col`}>
+    <Card className={`hover:shadow-lg transition-all duration-200 border-l-4 ${getCardBorderColor(payment.status)} h-full flex flex-col ${hasPaymentDiscrepancy ? 'ring-2 ring-red-200' : ''}`}>
       <CardContent className="p-3 sm:p-4 lg:p-6 flex flex-col h-full">
         {/* Header avec nom et statut */}
         <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -104,6 +110,16 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
             </Button>
           </div>
         </div>
+
+        {/* Alerte d'incohérence de paiement */}
+        {hasPaymentDiscrepancy && (
+          <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded-md">
+            <div className="flex items-center text-xs text-red-700">
+              <AlertTriangle className="h-3 w-3 mr-1" />
+              <span>Incohérence de paiement détectée</span>
+            </div>
+          </div>
+        )}
 
         {/* Informations du bien */}
         <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4 flex-1">
@@ -137,6 +153,11 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
               <span className="text-lg sm:text-2xl font-bold text-gray-900">{payment.rentAmount}€</span>
             </div>
             <p className="text-xs text-gray-500">Loyer mensuel</p>
+            {payment.paidAmount !== undefined && payment.paidAmount !== payment.rentAmount && payment.status === 'Payé' && (
+              <p className="text-xs text-red-600 mt-1">
+                Payé: {payment.paidAmount}€
+              </p>
+            )}
           </div>
         </div>
         

@@ -10,6 +10,7 @@ interface Payment {
   tenantType: string;
   property: string;
   rentAmount: number;
+  paidAmount?: number;
   dueDate: string;
   status: string;
   paymentDate: string | null;
@@ -27,15 +28,16 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
   onMarkAsPaid,
   onDeletePayment
 }) => {
-  // Filtrer les paiements avec des incohérences (pour la démo, on simule des montants payés différents)
+  // Filtrer les paiements avec des incohérences réelles
   const paymentsWithDiscrepancies = payments.filter(payment => {
-    // Simuler des montants payés différents pour certains paiements
-    const paidAmount = payment.status === 'Payé' ? payment.rentAmount : 
-                     payment.id.endsWith('1') ? payment.rentAmount - 200 :
-                     payment.id.endsWith('2') ? payment.rentAmount + 100 : 
-                     payment.rentAmount;
-    return paidAmount !== payment.rentAmount && payment.status === 'Payé';
+    // Vérifier s'il y a une incohérence entre le montant attendu et le montant payé
+    if (payment.status === 'Payé' && payment.paidAmount !== undefined) {
+      return payment.paidAmount !== payment.rentAmount;
+    }
+    return false;
   });
+
+  console.log('Paiements avec incohérences:', paymentsWithDiscrepancies);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border">
@@ -49,21 +51,16 @@ const RentPaymentsList: React.FC<RentPaymentsListProps> = ({
       {/* Alertes pour les incohérences de paiement */}
       {paymentsWithDiscrepancies.length > 0 && (
         <div className="p-3 sm:p-4 lg:p-6 border-b border-gray-100">
-          <h3 className="text-sm font-medium text-gray-900 mb-3">⚠️ Alertes de paiement</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-3">🚨 Alertes de paiement</h3>
           <div className="space-y-3">
-            {paymentsWithDiscrepancies.map((payment) => {
-              const paidAmount = payment.id.endsWith('1') ? payment.rentAmount - 200 :
-                               payment.id.endsWith('2') ? payment.rentAmount + 100 : 
-                               payment.rentAmount;
-              return (
-                <PaymentAlert
-                  key={`alert-${payment.id}`}
-                  expectedAmount={payment.rentAmount}
-                  paidAmount={paidAmount}
-                  tenantName={payment.tenantName}
-                />
-              );
-            })}
+            {paymentsWithDiscrepancies.map((payment) => (
+              <PaymentAlert
+                key={`alert-${payment.id}`}
+                expectedAmount={payment.rentAmount}
+                paidAmount={payment.paidAmount || 0}
+                tenantName={payment.tenantName}
+              />
+            ))}
           </div>
         </div>
       )}
