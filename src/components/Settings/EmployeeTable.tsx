@@ -3,6 +3,7 @@ import React from 'react';
 import EmployeeRow from './EmployeeRow';
 import { Company } from '@/hooks/useFirebaseCompanies';
 import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface Employee {
   id: string;
@@ -37,33 +38,42 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="overflow-x-auto">
-      <div className="min-w-[700px]">
-        <div className="hidden md:grid grid-cols-8 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
-          <div>{t('employees.name')}</div>
-          <div>{t('employees.email')}</div>
-          <div>{t('employees.role')}</div>
-          <div>{t('employees.company')}</div>
-          <div>{t('employees.creationDate')}</div>
-          <div>{t('employees.permissions')}</div>
-          <div>{t('employees.passwordStatus')}</div>
-          <div>{t('employees.actions')}</div>
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg md:text-xl">
+          📋 {t('employees.description')}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <div className="min-w-[700px]">
+            <div className="hidden md:grid grid-cols-8 gap-4 p-4 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-700">
+              <div>{t('employees.name')}</div>
+              <div>{t('profile.email')}</div>
+              <div>{t('employees.role')}</div>
+              <div>{t('employees.company')}</div>
+              <div>{t('employees.creationDate')}</div>
+              <div>{t('employees.permissions')}</div>
+              <div>{t('employees.passwordStatus')}</div>
+              <div>{t('employees.actions')}</div>
+            </div>
+            
+            {employees.map((employee) => (
+              <EmployeeRow
+                key={employee.id}
+                employee={employee}
+                companies={companies}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onPasswordClick={onPasswordClick}
+                getPermissionsDisplay={getPermissionsDisplay}
+                getCompanyName={getCompanyName}
+              />
+            ))}
+          </div>
         </div>
-        
-        {employees.map((employee) => (
-          <EmployeeRow
-            key={employee.id}
-            employee={employee}
-            companies={companies}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            onPasswordClick={onPasswordClick}
-            getPermissionsDisplay={getPermissionsDisplay}
-            getCompanyName={getCompanyName}
-          />
-        ))}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

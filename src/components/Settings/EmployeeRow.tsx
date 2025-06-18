@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Edit, Trash2, Lock } from 'lucide-react';
 import { Company } from '@/hooks/useFirebaseCompanies';
+import { useTranslation } from 'react-i18next';
 
 interface Employee {
   id: string;
@@ -34,6 +35,8 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
   getPermissionsDisplay,
   getCompanyName
 }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* Mobile view */}
@@ -41,7 +44,9 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
         <div className="flex justify-between items-start">
           <div>
             <h3 className="font-medium text-lg">{employee.name}</h3>
-            <p className="text-sm text-gray-600">{employee.role === 'admin' ? 'Administrateur' : 'Employé'}</p>
+            <p className="text-sm text-gray-600">
+              {employee.role === 'admin' ? t('employees.administrator') : t('employees.employee')}
+            </p>
             <p className="text-sm text-gray-500">{getCompanyName(employee.companyId)}</p>
           </div>
           <div className="flex gap-1">
@@ -49,7 +54,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
               variant="ghost" 
               size="sm" 
               onClick={() => onPasswordClick(employee)}
-              title="Gérer le mot de passe"
+              title={t('employees.managePassword')}
             >
               <Lock className="h-4 w-4" />
             </Button>
@@ -64,10 +69,10 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
         <div className="space-y-1">
           <p className="text-sm text-gray-600">{employee.email}</p>
           <p className="text-xs text-gray-500">
-            Créé le: {new Date(employee.createdAt).toLocaleDateString()}
+            {t('employees.createdOn')}: {new Date(employee.createdAt).toLocaleDateString()}
           </p>
           <p className="text-xs text-gray-500">
-            Mot de passe: {employee.hasPassword ? '✓ Défini' : '✗ Non défini'}
+            {t('employees.password')}: {employee.hasPassword ? t('employees.passwordDefined') : t('employees.passwordNotDefined')}
           </p>
         </div>
       </div>
@@ -77,7 +82,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
         <div className="font-medium">{employee.name}</div>
         <div className="text-sm text-gray-600 truncate">{employee.email}</div>
         <div className="text-sm text-gray-600">
-          {employee.role === 'admin' ? 'Administrateur' : 'Employé'}
+          {employee.role === 'admin' ? t('employees.administrator') : t('employees.employee')}
         </div>
         <div className="text-sm text-gray-600">
           {getCompanyName(employee.companyId)}
@@ -90,9 +95,9 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
         </div>
         <div className="text-sm text-gray-600">
           {employee.hasPassword ? (
-            <span className="text-green-600">✓ Défini</span>
+            <span className="text-green-600">{t('employees.passwordDefined')}</span>
           ) : (
-            <span className="text-red-600">✗ Non défini</span>
+            <span className="text-red-600">{t('employees.passwordNotDefined')}</span>
           )}
         </div>
         <div className="flex gap-2">
@@ -100,7 +105,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
             variant="ghost" 
             size="sm" 
             onClick={() => onPasswordClick(employee)}
-            title="Gérer le mot de passe"
+            title={t('employees.managePassword')}
           >
             <Lock className="h-4 w-4" />
           </Button>
