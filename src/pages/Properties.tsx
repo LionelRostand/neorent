@@ -24,6 +24,7 @@ const Properties = () => {
         surface: data.surface,
         rent: data.creditImmobilier, // Map creditImmobilier to rent field for backwards compatibility
         creditImmobilier: data.creditImmobilier,
+        owner: data.owner,
         charges: data.charges,
         status: 'Libre',
         tenant: null,

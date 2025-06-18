@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +20,7 @@ interface PropertyFormData {
   image: File | null;
   locationType: string;
   roomCount: string;
+  owner: string;
   charges: {
     electricity: string;
     water: string;
@@ -48,6 +50,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
     image: null,
     locationType: '',
     roomCount: '',
+    owner: '',
     charges: {
       electricity: '',
       water: '',
@@ -218,6 +221,18 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
           </div>
           
           <div className="space-y-2">
+            <Label htmlFor="owner">Propriétaire</Label>
+            <Input
+              id="owner"
+              value={formData.owner}
+              onChange={(e) => handleInputChange('owner', e.target.value)}
+              placeholder="Nom du propriétaire"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
             <Label htmlFor="type">Type *</Label>
             <Select onValueChange={(value) => handleInputChange('type', value)} required>
               <SelectTrigger>
@@ -231,6 +246,17 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
                 <SelectItem value="Duplex">Duplex</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="surface">Surface *</Label>
+            <Input
+              id="surface"
+              value={formData.surface}
+              onChange={(e) => handleInputChange('surface', e.target.value)}
+              placeholder="Ex: 65m²"
+              required
+            />
           </div>
         </div>
 
@@ -247,17 +273,6 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="surface">Surface *</Label>
-            <Input
-              id="surface"
-              value={formData.surface}
-              onChange={(e) => handleInputChange('surface', e.target.value)}
-              placeholder="Ex: 65m²"
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
             <Label htmlFor="creditImmobilier">Crédit immobilier *</Label>
             <Input
               id="creditImmobilier"
@@ -267,9 +282,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
               required
             />
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="locationType">Type de location *</Label>
             <Select onValueChange={(value) => handleInputChange('locationType', value)} required>
@@ -282,22 +295,22 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
               </SelectContent>
             </Select>
           </div>
-
-          {formData.locationType === 'Colocation' && (
-            <div className="space-y-2">
-              <Label htmlFor="roomCount">Nombre de chambres *</Label>
-              <Input
-                id="roomCount"
-                type="number"
-                min="1"
-                value={formData.roomCount}
-                onChange={(e) => handleInputChange('roomCount', e.target.value)}
-                placeholder="Ex: 3"
-                required
-              />
-            </div>
-          )}
         </div>
+
+        {formData.locationType === 'Colocation' && (
+          <div className="space-y-2">
+            <Label htmlFor="roomCount">Nombre de chambres *</Label>
+            <Input
+              id="roomCount"
+              type="number"
+              min="1"
+              value={formData.roomCount}
+              onChange={(e) => handleInputChange('roomCount', e.target.value)}
+              placeholder="Ex: 3"
+              required
+            />
+          </div>
+        )}
 
         {/* Section d'évaluation des charges */}
         <Card className="border-blue-200 bg-blue-50">
