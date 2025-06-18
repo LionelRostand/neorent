@@ -7,8 +7,10 @@ import { Save, Mail } from 'lucide-react';
 import { useEmailSettings } from '@/hooks/useEmailSettings';
 import SMTPConfig from './Email/SMTPConfig';
 import IMAPConfig from './Email/IMAPConfig';
+import { useTranslation } from 'react-i18next';
 
 const EmailTab: React.FC = () => {
+  const { t } = useTranslation();
   const { 
     settings, 
     loading, 
@@ -30,7 +32,7 @@ const EmailTab: React.FC = () => {
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Chargement des paramètres...</p>
+          <p className="mt-2 text-gray-600">{t('settings.email.loadingSettings')}</p>
         </div>
       </div>
     );
@@ -40,14 +42,14 @@ const EmailTab: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold">Paramètres Email</h2>
+          <h2 className="text-2xl font-bold">{t('settings.email.title')}</h2>
           <p className="text-gray-600">
-            Configurez l'envoi et la réception d'emails pour votre application
+            {t('settings.email.subtitle')}
           </p>
         </div>
         <Button onClick={handleSave} disabled={saving}>
           <Save className="h-4 w-4 mr-2" />
-          {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+          {saving ? t('settings.email.saving') : t('common.save')}
         </Button>
       </div>
 
@@ -61,7 +63,7 @@ const EmailTab: React.FC = () => {
         />
         <Label htmlFor="email-enabled" className="flex items-center gap-2">
           <Mail className="h-4 w-4" />
-          Activer le système de messagerie
+          {t('settings.email.enabled')}
         </Label>
       </div>
 
@@ -76,7 +78,7 @@ const EmailTab: React.FC = () => {
               }
             />
             <Label htmlFor="test-mode">
-              Mode test (les emails ne seront pas réellement envoyés)
+              {t('settings.email.testMode')}
             </Label>
           </div>
 
@@ -99,12 +101,12 @@ const EmailTab: React.FC = () => {
           />
 
           <div className="p-4 bg-green-50 rounded-lg">
-            <h4 className="font-medium text-green-900 mb-2">Configuration recommandée</h4>
+            <h4 className="font-medium text-green-900 mb-2">{t('settings.email.recommendedConfig')}</h4>
             <ul className="text-sm text-green-700 space-y-1">
-              <li>• Gmail: SMTP smtp.gmail.com:587 (TLS), IMAP imap.gmail.com:993 (SSL)</li>
-              <li>• Outlook: SMTP smtp-mail.outlook.com:587 (TLS), IMAP outlook.office365.com:993 (SSL)</li>
-              <li>• Utilisez des mots de passe d'application pour une sécurité renforcée</li>
-              <li>• Testez toujours vos connexions avant de sauvegarder</li>
+              <li>• {t('settings.email.gmailConfig')}</li>
+              <li>• {t('settings.email.outlookConfig')}</li>
+              <li>• {t('settings.email.appPasswordRecommendation')}</li>
+              <li>• {t('settings.email.testConnectionRecommendation')}</li>
             </ul>
           </div>
         </>
