@@ -1,4 +1,3 @@
-
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -373,6 +372,28 @@
     "firebase": {
       "title": "Firebase Configuration",
       "subtitle": "Manage your Firebase project settings and rules",
+      "firestoreRules": "Firestore Security Rules",
+      "copyInstructions": "Copy these rules to Firebase Console > Firestore Database > Rules",
+      "updateOptions": "Update Options",
+      "automatic": "Automatic",
+      "automaticDescription": "Apply rules directly via Firebase Admin SDK",
+      "manual": "Manual",
+      "manualDescription": "Get instructions to update rules manually",
+      "copy": "Copy",
+      "copyDescription": "Copy rules to clipboard for manual update",
+      "applyAuto": "Apply Automatically",
+      "updating": "Updating...",
+      "manualUpdate": "Manual Instructions",
+      "openConsole": "Open Firebase Console",
+      "important": "Important",
+      "automaticRequirements": "Automatic update requires proper Firebase Admin configuration and may not work in all environments.",
+      "rulesUpdated": "Rules Updated",
+      "rulesAppliedSuccess": "Firebase rules have been applied successfully",
+      "automaticUpdateUnavailable": "Automatic update unavailable",
+      "useManualUpdate": "Please use manual update instructions",
+      "instructionsCopied": "Instructions copied",
+      "followInstructions": "Follow the copied instructions to update rules manually",
+      "manualUpdateInstructions": "Manual Update Instructions",
       "config": {
         "title": "Firebase Configuration",
         "copy": "Copy",
