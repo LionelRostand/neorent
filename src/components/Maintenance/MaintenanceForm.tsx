@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -109,11 +110,14 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
     });
   };
 
-  // Filtrer les biens par type de location
+  // Filtrer tous les biens immobiliers (pas seulement ceux loués)
   const availableProperties = properties.filter(property => 
-    property.locationType === 'Location' && property.status === 'Loué' ||
-    property.locationType === 'Colocation' && property.availableRooms < property.totalRooms
+    property.locationType === 'Location' || property.locationType === 'Colocation'
   );
+
+  console.log('Properties loaded:', properties.length);
+  console.log('Available properties for maintenance:', availableProperties.length);
+  console.log('Properties loading state:', propertiesLoading);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -122,22 +126,31 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
           <Label htmlFor="propertyId">Bien Immobilier</Label>
           <Select value={formData.propertyId} onValueChange={(value) => setFormData({...formData, propertyId: value})}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Sélectionner un bien" />
+              <SelectValue placeholder={propertiesLoading ? "Chargement des biens..." : "Sélectionner un bien immobilier"} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white z-50 max-h-60 overflow-y-auto">
               {propertiesLoading ? (
-                <SelectItem value="loading" disabled>Chargement...</SelectItem>
+                <SelectItem value="loading" disabled>Chargement des propriétés...</SelectItem>
               ) : availableProperties.length > 0 ? (
                 availableProperties.map((property) => (
-                  <SelectItem key={property.id} value={property.title}>
-                    {property.title} - {property.address}
+                  <SelectItem key={property.id} value={property.title} className="hover:bg-gray-100">
+                    <div className="flex flex-col">
+                      <span className="font-medium">{property.title}</span>
+                      <span className="text-sm text-gray-500">{property.address} - {property.locationType}</span>
+                      <span className="text-xs text-gray-400">Status: {property.status}</span>
+                    </div>
                   </SelectItem>
                 ))
               ) : (
-                <SelectItem value="no-properties" disabled>Aucun bien disponible</SelectItem>
+                <SelectItem value="no-properties" disabled>Aucun bien immobilier trouvé</SelectItem>
               )}
             </SelectContent>
           </Select>
+          {formData.propertyId && (
+            <p className="text-sm text-blue-600">
+              Bien sélectionné: {properties.find(p => p.title === formData.propertyId)?.title}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -154,7 +167,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
                   : "Sélectionner un locataire"
               } />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white z-50">
               {(tenantsLoading || roommatesLoading) ? (
                 <SelectItem value="loading" disabled>Chargement...</SelectItem>
               ) : availableTenants.length > 0 ? (
