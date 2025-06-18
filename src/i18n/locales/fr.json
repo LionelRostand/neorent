@@ -17,6 +17,42 @@
     "settings": "Paramètres",
     "help": "Aide"
   },
+  "dashboard": {
+    "title": "Tableau de Bord",
+    "subtitle": "Vue d'ensemble de votre portefeuille immobilier",
+    "monthlyRevenue": "Revenus ce mois",
+    "managedProperties": "Biens gérés",
+    "activeTenants": "Locataires actifs",
+    "averageYield": "Rendement moyen",
+    "importantAlerts": "Alertes importantes",
+    "lateRent": "Loyer en retard",
+    "expiringLease": "Bail expirant",
+    "urgentInspection": "Inspection urgente",
+    "late": "En retard",
+    "urgent": "Urgent",
+    "days": "jours",
+    "occupancyRate": "taux d'occupation",
+    "newThisMonth": "nouveaux ce mois",
+    "vsLastMonth": "vs mois dernier",
+    "vsQuarter": "vs trimestre"
+  },
+  "properties": {
+    "title": "Biens Immobiliers",
+    "subtitle": "Gérez votre portefeuille immobilier",
+    "addProperty": "Ajouter un bien",
+    "loading": "Chargement des biens immobiliers...",
+    "noProperties": "Aucun bien",
+    "noPropertiesDescription": "Commencez par ajouter votre premier bien.",
+    "editProperty": "Modifier le bien",
+    "deleteProperty": "Supprimer le bien",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce bien ?",
+    "addSuccess": "Le bien a été ajouté avec succès.",
+    "updateSuccess": "Le bien a été modifié avec succès.",
+    "deleteSuccess": "Le bien a été supprimé avec succès.",
+    "addError": "Erreur lors de l'ajout du bien.",
+    "updateError": "Erreur lors de la modification du bien.",
+    "deleteError": "Erreur lors de la suppression du bien."
+  },
   "tenants": {
     "management": "Gestion des Locataires",
     "description": "Gérez et suivez tous vos locataires en un seul endroit",
@@ -51,6 +87,105 @@
     "updateError": "Erreur lors de la modification du locataire.",
     "deleteError": "Erreur lors de la suppression du locataire.",
     "rentPerMonth": "/mois"
+  },
+  "roommates": {
+    "title": "Colocataires",
+    "subtitle": "Gérez les colocataires dans les logements partagés",
+    "addRoommate": "Ajouter un colocataire",
+    "loading": "Chargement des colocataires...",
+    "noRoommates": "Aucun colocataire",
+    "noRoommatesDescription": "Commencez par ajouter votre premier colocataire."
+  },
+  "contracts": {
+    "title": "Contrats",
+    "subtitle": "Gérez les baux de vos locataires",
+    "addContract": "Nouveau contrat",
+    "loading": "Chargement des contrats...",
+    "noContracts": "Aucun contrat",
+    "noContractsDescription": "Commencez par créer votre premier contrat.",
+    "active": "Actifs",
+    "expired": "Expirés",
+    "total": "Total",
+    "activeContracts": "Contrats actifs",
+    "expiredContracts": "Contrats expirés",
+    "totalContracts": "Total contrats",
+    "viewContract": "Voir contrat",
+    "editContract": "Modifier contrat",
+    "signContract": "Signer contrat",
+    "deleteContract": "Supprimer contrat"
+  },
+  "inspections": {
+    "title": "États des lieux",
+    "subtitle": "Gérez les inspections de vos biens",
+    "addInspection": "Ajouter un état des lieux",
+    "loading": "Chargement des états des lieux...",
+    "noInspections": "Aucun état des lieux",
+    "noInspectionsDescription": "Commencez par programmer votre premier état des lieux."
+  },
+  "rentManagement": {
+    "title": "Gestion des loyers",
+    "subtitle": "Suivez et gérez les paiements de loyers",
+    "addPayment": "Ajouter un paiement",
+    "loading": "Chargement des paiements...",
+    "noPayments": "Aucun paiement",
+    "noPaymentsDescription": "Commencez par enregistrer votre premier paiement."
+  },
+  "rentalCharges": {
+    "title": "Charges locatives",
+    "subtitle": "Gérez les charges locatives et frais",
+    "addCharge": "Ajouter une charge",
+    "loading": "Chargement des charges...",
+    "noCharges": "Aucune charge",
+    "noChargesDescription": "Commencez par ajouter votre première charge."
+  },
+  "forecasting": {
+    "title": "Prévisions d'investissement",
+    "subtitle": "Planifiez vos futurs investissements immobiliers basés sur vos revenus actuels",
+    "currentRevenue": "Revenus actuels",
+    "targetProperty": "Bien ciblé",
+    "simulation": "Simulation",
+    "results": "Résultats"
+  },
+  "maintenance": {
+    "title": "Maintenance",
+    "subtitle": "Gérez la maintenance et les réparations de vos biens",
+    "addRequest": "Ajouter une demande",
+    "loading": "Chargement des demandes de maintenance...",
+    "noRequests": "Aucune demande",
+    "noRequestsDescription": "Commencez par ajouter votre première demande de maintenance."
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communiquez avec vos locataires et prestataires",
+    "newMessage": "Nouveau message",
+    "loading": "Chargement des messages...",
+    "noMessages": "Aucun message",
+    "noMessagesDescription": "Commencez par envoyer votre premier message."
+  },
+  "taxes": {
+    "title": "Déclarations fiscales",
+    "subtitle": "Gérez vos déclarations fiscales",
+    "newDeclaration": "Nouvelle déclaration",
+    "loading": "Chargement des déclarations...",
+    "noDeclarations": "Aucune déclaration",
+    "noDeclarationsDescription": "Commencez par créer votre première déclaration."
+  },
+  "website": {
+    "title": "Site Web",
+    "subtitle": "Gérez votre site de location",
+    "analytics": "Analytiques",
+    "content": "Contenu",
+    "settings": "Paramètres"
+  },
+  "help": {
+    "title": "Centre d'aide",
+    "subtitle": "Guide complet des fonctionnalités techniques et fonctionnelles de NeoRent",
+    "search": "Rechercher dans l'aide...",
+    "categories": "Catégories",
+    "allCategories": "Toutes les catégories",
+    "clearFilters": "Effacer les filtres",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsDescription": "Essayez d'ajuster vos termes de recherche ou d'effacer les filtres."
   },
   "tenantSpace": {
     "title": "Espace {{type}}",

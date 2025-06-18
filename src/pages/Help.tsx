@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import HelpSearch from '@/components/Help/HelpSearch';
 import CategoryFilters from '@/components/Help/CategoryFilters';
@@ -8,6 +9,7 @@ import NoResults from '@/components/Help/NoResults';
 import { helpSections } from '@/components/Help/helpData';
 
 const Help = () => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -36,9 +38,9 @@ const Help = () => {
     <MainLayout>
       <div className="space-y-4 md:space-y-6">
         <div className="px-1">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Centre d'aide</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('help.title')}</h1>
           <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
-            Guide complet des fonctionnalités techniques et fonctionnelles de NeoRent
+            {t('help.subtitle')}
           </p>
         </div>
 

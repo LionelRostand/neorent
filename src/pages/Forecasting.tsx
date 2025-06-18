@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { TrendingUp } from 'lucide-react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { useForecastingCalculations } from '@/hooks/useForecastingCalculations';
@@ -8,6 +9,7 @@ import SimulationForm from '@/components/Forecasting/SimulationForm';
 import SimulationResults from '@/components/Forecasting/SimulationResults';
 
 const Forecasting = () => {
+  const { t } = useTranslation();
   const {
     targetPropertyPrice,
     setTargetPropertyPrice,
@@ -43,10 +45,10 @@ const Forecasting = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
               <TrendingUp className="h-8 w-8 text-green-600" />
-              Prévisions d'investissement
+              {t('forecasting.title')}
             </h1>
             <p className="text-gray-600 mt-2">
-              Planifiez vos futurs investissements immobiliers basés sur vos revenus actuels
+              {t('forecasting.subtitle')}
             </p>
           </div>
         </div>

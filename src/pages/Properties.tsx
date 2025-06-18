@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
@@ -11,6 +12,7 @@ import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useToast } from '@/hooks/use-toast';
 
 const Properties = () => {
+  const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { properties, loading, error, addProperty, updateProperty, deleteProperty } = useFirebaseProperties();
   const { toast } = useToast();
@@ -22,7 +24,7 @@ const Properties = () => {
         address: data.address,
         type: data.type,
         surface: data.surface,
-        rent: data.creditImmobilier, // Map creditImmobilier to rent field for backwards compatibility
+        rent: data.creditImmobilier,
         creditImmobilier: data.creditImmobilier,
         owner: data.owner,
         charges: data.charges,
@@ -36,16 +38,16 @@ const Properties = () => {
 
       await addProperty(newProperty);
       toast({
-        title: "Succès",
-        description: "Le bien a été ajouté avec succès.",
+        title: t('common.success'),
+        description: t('properties.addSuccess'),
       });
       console.log('Bien ajouté à la collection Rent_properties:', newProperty);
       setIsDialogOpen(false);
     } catch (err) {
       console.error('Erreur lors de l\'ajout du bien:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de l'ajout du bien.",
+        title: t('common.error'),
+        description: t('properties.addError'),
         variant: "destructive",
       });
     }
@@ -55,15 +57,15 @@ const Properties = () => {
     try {
       await updateProperty(id, updates);
       toast({
-        title: "Succès",
-        description: "Le bien a été modifié avec succès.",
+        title: t('common.success'),
+        description: t('properties.updateSuccess'),
       });
       console.log('Bien modifié dans la collection Rent_properties:', { id, updates });
     } catch (err) {
       console.error('Erreur lors de la modification du bien:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la modification du bien.",
+        title: t('common.error'),
+        description: t('properties.updateError'),
         variant: "destructive",
       });
     }
@@ -73,15 +75,15 @@ const Properties = () => {
     try {
       await deleteProperty(id);
       toast({
-        title: "Succès",
-        description: "Le bien a été supprimé avec succès.",
+        title: t('common.success'),
+        description: t('properties.deleteSuccess'),
       });
       console.log('Bien supprimé de la collection Rent_properties:', id);
     } catch (err) {
       console.error('Erreur lors de la suppression du bien:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la suppression du bien.",
+        title: t('common.error'),
+        description: t('properties.deleteError'),
         variant: "destructive",
       });
     }
@@ -91,7 +93,7 @@ const Properties = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Chargement des biens immobiliers...</div>
+          <div className="text-lg">{t('properties.loading')}</div>
         </div>
       </MainLayout>
     );
@@ -101,7 +103,7 @@ const Properties = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">Erreur: {error}</div>
+          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
         </div>
       </MainLayout>
     );
@@ -112,14 +114,14 @@ const Properties = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Biens Immobiliers</h1>
-            <p className="text-gray-600 mt-2">Gérez votre portefeuille immobilier</p>
+            <h1 className="text-3xl font-bold text-gray-900">{t('properties.title')}</h1>
+            <p className="text-gray-600 mt-2">{t('properties.subtitle')}</p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button className="bg-blue-600 hover:bg-blue-700">
                 <Plus className="mr-2 h-4 w-4" />
-                Ajouter un bien
+                {t('properties.addProperty')}
               </Button>
             </DialogTrigger>
             <PropertyForm

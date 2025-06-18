@@ -17,6 +17,42 @@
     "settings": "Settings",
     "help": "Help"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your real estate portfolio",
+    "monthlyRevenue": "Monthly Revenue",
+    "managedProperties": "Managed Properties",
+    "activeTenants": "Active Tenants",
+    "averageYield": "Average Yield",
+    "importantAlerts": "Important Alerts",
+    "lateRent": "Late rent",
+    "expiringLease": "Lease expiring",
+    "urgentInspection": "Urgent inspection",
+    "late": "Late",
+    "urgent": "Urgent",
+    "days": "days",
+    "occupancyRate": "occupancy rate",
+    "newThisMonth": "new this month",
+    "vsLastMonth": "vs last month",
+    "vsQuarter": "vs quarter"
+  },
+  "properties": {
+    "title": "Real Estate Properties",
+    "subtitle": "Manage your real estate portfolio",
+    "addProperty": "Add property",
+    "loading": "Loading real estate properties...",
+    "noProperties": "No properties",
+    "noPropertiesDescription": "Start by adding your first property.",
+    "editProperty": "Edit property",
+    "deleteProperty": "Delete property",
+    "confirmDelete": "Are you sure you want to delete this property?",
+    "addSuccess": "Property added successfully.",
+    "updateSuccess": "Property updated successfully.",
+    "deleteSuccess": "Property deleted successfully.",
+    "addError": "Error adding property.",
+    "updateError": "Error updating property.",
+    "deleteError": "Error deleting property."
+  },
   "tenants": {
     "management": "Tenant Management",
     "description": "Manage and track all your tenants in one place",
@@ -51,6 +87,105 @@
     "updateError": "Error updating tenant.",
     "deleteError": "Error deleting tenant.",
     "rentPerMonth": "/month"
+  },
+  "roommates": {
+    "title": "Roommates",
+    "subtitle": "Manage roommates in shared accommodations",
+    "addRoommate": "Add roommate",
+    "loading": "Loading roommates...",
+    "noRoommates": "No roommates",
+    "noRoommatesDescription": "Start by adding your first roommate."
+  },
+  "contracts": {
+    "title": "Contracts",
+    "subtitle": "Manage your tenant leases",
+    "addContract": "New contract",
+    "loading": "Loading contracts...",
+    "noContracts": "No contracts",
+    "noContractsDescription": "Start by creating your first contract.",
+    "active": "Active",
+    "expired": "Expired",
+    "total": "Total",
+    "activeContracts": "Active contracts",
+    "expiredContracts": "Expired contracts",
+    "totalContracts": "Total contracts",
+    "viewContract": "View contract",
+    "editContract": "Edit contract",
+    "signContract": "Sign contract",
+    "deleteContract": "Delete contract"
+  },
+  "inspections": {
+    "title": "Inspections",
+    "subtitle": "Manage property inspections",
+    "addInspection": "Add inspection",
+    "loading": "Loading inspections...",
+    "noInspections": "No inspections",
+    "noInspectionsDescription": "Start by scheduling your first inspection."
+  },
+  "rentManagement": {
+    "title": "Rent Management",
+    "subtitle": "Track and manage rent payments",
+    "addPayment": "Add payment",
+    "loading": "Loading payments...",
+    "noPayments": "No payments",
+    "noPaymentsDescription": "Start by recording your first payment."
+  },
+  "rentalCharges": {
+    "title": "Rental Charges",
+    "subtitle": "Manage rental charges and fees",
+    "addCharge": "Add charge",
+    "loading": "Loading charges...",
+    "noCharges": "No charges",
+    "noChargesDescription": "Start by adding your first charge."
+  },
+  "forecasting": {
+    "title": "Investment Forecasting",
+    "subtitle": "Plan your future real estate investments based on current income",
+    "currentRevenue": "Current Revenue",
+    "targetProperty": "Target Property",
+    "simulation": "Simulation",
+    "results": "Results"
+  },
+  "maintenance": {
+    "title": "Maintenance",
+    "subtitle": "Manage property maintenance and repairs",
+    "addRequest": "Add request",
+    "loading": "Loading maintenance requests...",
+    "noRequests": "No requests",
+    "noRequestsDescription": "Start by adding your first maintenance request."
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communicate with tenants and service providers",
+    "newMessage": "New message",
+    "loading": "Loading messages...",
+    "noMessages": "No messages",
+    "noMessagesDescription": "Start by sending your first message."
+  },
+  "taxes": {
+    "title": "Tax Declarations",
+    "subtitle": "Manage your tax declarations",
+    "newDeclaration": "New declaration",
+    "loading": "Loading declarations...",
+    "noDeclarations": "No declarations",
+    "noDeclarationsDescription": "Start by creating your first declaration."
+  },
+  "website": {
+    "title": "Website",
+    "subtitle": "Manage your rental website",
+    "analytics": "Analytics",
+    "content": "Content",
+    "settings": "Settings"
+  },
+  "help": {
+    "title": "Help Center",
+    "subtitle": "Complete guide to NeoRent technical and functional features",
+    "search": "Search help articles...",
+    "categories": "Categories",
+    "allCategories": "All categories",
+    "clearFilters": "Clear filters",
+    "noResults": "No results found",
+    "noResultsDescription": "Try adjusting your search terms or clearing filters."
   },
   "tenantSpace": {
     "title": "{{type}} Space",
