@@ -492,21 +492,38 @@
       "outlookConfig": "Outlook: Enable IMAP/SMTP in your account settings",
       "appPasswordRecommendation": "Use app-specific passwords instead of your main password",
       "testConnectionRecommendation": "Test connections before saving configuration",
+      "testing": "Testing...",
       "smtp": {
         "title": "SMTP Configuration (Outgoing)",
         "description": "Configure email sending settings",
+        "server": "SMTP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "fromEmail": "From Email",
+        "fromName": "From Name",
         "testConnection": "Test Connection",
-        "testing": "Testing...",
         "connectionSuccess": "SMTP connection successful",
         "connectionError": "SMTP connection failed"
       },
       "imap": {
         "title": "IMAP Configuration (Incoming)",
         "description": "Configure email receiving settings",
+        "server": "IMAP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "folder": "Folder",
         "testConnection": "Test Connection",
-        "testing": "Testing...",
         "connectionSuccess": "IMAP connection successful",
         "connectionError": "IMAP connection failed"
+      },
+      "securityOptions": {
+        "none": "None",
+        "tls": "TLS",
+        "ssl": "SSL"
       }
     },
     "security": {
