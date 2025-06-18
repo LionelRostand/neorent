@@ -74,6 +74,23 @@
     "passwordDefined": "✓ Défini",
     "passwordNotDefined": "✗ Non défini"
   },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Gérez la configuration de votre application NeoRent",
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Employés",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Locataires"
+    },
+    "companyManagement": "Gestion des Entreprises",
+    "addCompany": "Ajouter une entreprise"
+  },
   "common": {
     "loading": "Chargement...",
     "error": "Erreur",

@@ -13,11 +13,14 @@ const resources = {
   }
 };
 
+// Récupérer la langue sauvegardée ou utiliser français par défaut
+const savedLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'fr', // langue par défaut
+    lng: savedLanguage, // utiliser la langue sauvegardée
     fallbackLng: 'fr',
     interpolation: {
       escapeValue: false

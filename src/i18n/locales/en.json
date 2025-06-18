@@ -74,6 +74,23 @@
     "passwordDefined": "✓ Set",
     "passwordNotDefined": "✗ Not set"
   },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your NeoRent application configuration",
+    "tabs": {
+      "company": "Company",
+      "employees": "Employees",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Database",
+      "email": "Email",
+      "security": "Security",
+      "payment": "Payment",
+      "adminAccess": "Tenant Access"
+    },
+    "companyManagement": "Company Management",
+    "addCompany": "Add Company"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",

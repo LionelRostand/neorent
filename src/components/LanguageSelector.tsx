@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -15,10 +15,25 @@ const LanguageSelector: React.FC = () => {
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
 
-  const changeLanguage = (languageCode: string) => {
-    i18n.changeLanguage(languageCode);
-    localStorage.setItem('preferredLanguage', languageCode);
+  // Fonction pour changer la langue
+  const changeLanguage = async (languageCode: string) => {
+    try {
+      await i18n.changeLanguage(languageCode);
+      localStorage.setItem('preferredLanguage', languageCode);
+      // Forcer un rechargement pour s'assurer que tous les composants utilisent la nouvelle langue
+      window.location.reload();
+    } catch (error) {
+      console.error('Erreur lors du changement de langue:', error);
+    }
   };
+
+  // S'assurer que la langue est bien chargée au démarrage
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('preferredLanguage');
+    if (savedLanguage && savedLanguage !== i18n.language) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
 
   return (
     <DropdownMenu>
