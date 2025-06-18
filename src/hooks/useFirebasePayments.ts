@@ -129,8 +129,16 @@ export const useFirebasePayments = () => {
 
   const addPayment = async (paymentData: Omit<Payment, 'id'>) => {
     try {
-      const docRef = await addDoc(collection(db, 'Rent_Payments'), paymentData);
-      const newPayment = { id: docRef.id, ...paymentData };
+      // Formater les données avant l'ajout
+      const formattedPaymentData = {
+        ...paymentData,
+        paymentMethod: paymentData.paymentMethod ? 
+          paymentData.paymentMethod.charAt(0).toUpperCase() + paymentData.paymentMethod.slice(1).toLowerCase() :
+          null
+      };
+
+      const docRef = await addDoc(collection(db, 'Rent_Payments'), formattedPaymentData);
+      const newPayment = { id: docRef.id, ...formattedPaymentData };
       setPayments(prev => [...prev, newPayment]);
       return newPayment;
     } catch (err) {
@@ -142,9 +150,17 @@ export const useFirebasePayments = () => {
 
   const updatePayment = async (id: string, updates: Partial<Payment>) => {
     try {
-      await updateDoc(doc(db, 'Rent_Payments', id), updates);
+      // Formater les données avant la mise à jour
+      const formattedUpdates = {
+        ...updates,
+        paymentMethod: updates.paymentMethod ? 
+          updates.paymentMethod.charAt(0).toUpperCase() + updates.paymentMethod.slice(1).toLowerCase() :
+          updates.paymentMethod
+      };
+
+      await updateDoc(doc(db, 'Rent_Payments', id), formattedUpdates);
       setPayments(prev => prev.map(payment => 
-        payment.id === id ? { ...payment, ...updates } : payment
+        payment.id === id ? { ...payment, ...formattedUpdates } : payment
       ));
     } catch (err) {
       console.error('Error updating payment:', err);

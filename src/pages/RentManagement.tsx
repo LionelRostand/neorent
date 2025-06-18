@@ -22,10 +22,15 @@ const RentManagement = () => {
 
   const handleMarkAsPaid = async (paymentId: string) => {
     try {
+      // Trouver le paiement pour récupérer le montant du contrat
+      const payment = payments.find(p => p.id === paymentId);
+      const rentAmountToPay = payment?.rentAmount || payment?.contractRentAmount || 0;
+
       await updatePayment(paymentId, {
         status: 'Payé',
         paymentDate: new Date().toISOString().split('T')[0],
-        paymentMethod: 'Virement'
+        paymentMethod: 'Virement',
+        paidAmount: rentAmountToPay // S'assurer que le montant payé correspond au montant du contrat
       });
       toast({
         title: "Succès",

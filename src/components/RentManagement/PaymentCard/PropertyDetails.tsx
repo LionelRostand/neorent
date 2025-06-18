@@ -15,6 +15,14 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   paymentDate, 
   paymentMethod 
 }) => {
+  // Formatter la méthode de paiement (première lettre en majuscule)
+  const formatPaymentMethod = (method: string | null) => {
+    if (!method) return null;
+    return method.charAt(0).toUpperCase() + method.slice(1).toLowerCase();
+  };
+
+  const formattedPaymentMethod = formatPaymentMethod(paymentMethod);
+
   return (
     <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4 flex-1">
       <div className="flex items-start text-xs sm:text-sm text-gray-600">
@@ -32,7 +40,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
           <CheckCircle className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
           <span className="break-words">
             Payé le: {new Date(paymentDate).toLocaleDateString('fr-FR')}
-            {paymentMethod && <span className="ml-1">({paymentMethod})</span>}
+            {formattedPaymentMethod && (
+              <span className="ml-1">({formattedPaymentMethod})</span>
+            )}
           </span>
         </div>
       )}
