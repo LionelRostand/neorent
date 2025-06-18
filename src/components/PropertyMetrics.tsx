@@ -61,18 +61,25 @@ const PropertyMetrics: React.FC = () => {
   
   const availableProperties = totalProperties - occupiedProperties;
   
-  // Calculer les revenus en utilisant le loyer mensuel (creditImmobilier ou rent) des biens occupés
+  // Calculer les revenus réels basés sur les colocataires actifs
   const totalRevenue = properties.reduce((sum, p) => {
-    const realStatus = getPropertyStatus(p);
-    
-    // Seulement inclure les biens qui sont réellement occupés
-    if (realStatus === 'Occupé' || realStatus === 'Complet' || realStatus === 'Partiellement occupé') {
-      // Utiliser creditImmobilier en priorité, sinon rent
-      const rentValue = p.creditImmobilier || p.rent || '0';
-      const numericRent = parseFloat(rentValue.toString().replace(/[^0-9.-]+/g, ''));
-      return sum + (isNaN(numericRent) ? 0 : numericRent);
+    const activeRoommates = roommates.filter(roommate => 
+      roommate.property === p.title && roommate.status === 'Actif'
+    );
+
+    if (p.locationType === 'Colocation') {
+      // Pour les colocations, calculer le revenu par chambre occupée
+      const rentPerRoom = parseFloat((p.creditImmobilier || p.rent || '0').toString().replace(/[^0-9.-]+/g, '')) / (p.totalRooms || 1);
+      return sum + (rentPerRoom * activeRoommates.length);
+    } else {
+      // Pour les locations classiques, prendre le loyer complet si occupé
+      if (activeRoommates.length > 0) {
+        const rentValue = p.creditImmobilier || p.rent || '0';
+        const numericRent = parseFloat(rentValue.toString().replace(/[^0-9.-]+/g, ''));
+        return sum + (isNaN(numericRent) ? 0 : numericRent);
+      }
+      return sum;
     }
-    return sum;
   }, 0);
 
   // Calculer les statistiques de colocation avec les vraies données
@@ -139,9 +146,9 @@ const PropertyMetrics: React.FC = () => {
           <DollarSign className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{totalRevenue.toLocaleString()}€</div>
+          <div className="text-2xl font-bold">{Math.round(totalRevenue).toLocaleString()}€</div>
           <p className="text-xs text-muted-foreground">
-            Revenus des biens occupés
+            Revenus réels perçus
           </p>
         </CardContent>
       </Card>
