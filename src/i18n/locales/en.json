@@ -314,7 +314,7 @@
       "email": "Email",
       "security": "Security",
       "payment": "Payment",
-      "adminAccess": "Tenant Access"
+      "adminAccess": "Admin Tenant Access"
     },
     "company": {
       "title": "Company Management",
