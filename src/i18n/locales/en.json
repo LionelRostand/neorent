@@ -1,4 +1,5 @@
 
+
 {
   "navigation": {
     "dashboard": "Dashboard",
@@ -316,7 +317,19 @@
     "updateSuccess": "Inspection updated successfully",
     "updateError": "Error updating inspection",
     "deleteSuccess": "Inspection deleted successfully",
-    "deleteError": "Error deleting inspection"
+    "deleteError": "Error deleting inspection",
+    "completed": "Completed",
+    "completedInspections": "completed inspections",
+    "inProgress": "In Progress",
+    "inProgressInspections": "inspections in progress",
+    "planned": "Planned",
+    "plannedInspections": "planned inspections",
+    "totalInspections": "total inspections",
+    "listTitle": "Inspection List",
+    "inspector": "Inspector",
+    "viewDetails": "View Details",
+    "editInspection": "Edit Inspection",
+    "confirmDelete": "Are you sure you want to delete this inspection?"
   },
   "rentManagement": {
     "title": "Rent Management",
@@ -710,7 +723,8 @@
     "description": "Description",
     "notes": "Notes",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "total": "Total"
   },
   "employees": {
     "management": "Employee Management",
