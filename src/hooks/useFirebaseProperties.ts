@@ -17,6 +17,7 @@ interface Property {
   totalRooms: number;
   availableRooms: number;
   creditImmobilier?: string;
+  owner?: string;
   charges?: any;
 }
 
@@ -51,6 +52,7 @@ export const useFirebaseProperties = () => {
         totalRooms: propertyData.totalRooms || 0,
         availableRooms: propertyData.availableRooms || 0,
         creditImmobilier: propertyData.creditImmobilier || '',
+        owner: propertyData.owner || '',
         charges: propertyData.charges || {}
       };
 

@@ -23,6 +23,7 @@ interface Property {
   totalRooms?: number | null;
   availableRooms?: number | null;
   creditImmobilier?: string;
+  owner?: string;
   charges?: {
     electricity?: number;
     water?: number;
@@ -107,14 +108,25 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
           <DialogTitle>Modifier le bien immobilier</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <Label htmlFor="title">Titre</Label>
-            <Input
-              id="title"
-              value={formData.title || ''}
-              onChange={(e) => setFormData({...formData, title: e.target.value})}
-              required
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="title">Titre</Label>
+              <Input
+                id="title"
+                value={formData.title || ''}
+                onChange={(e) => setFormData({...formData, title: e.target.value})}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="owner">Propriétaire</Label>
+              <Input
+                id="owner"
+                value={formData.owner || ''}
+                onChange={(e) => setFormData({...formData, owner: e.target.value})}
+                placeholder="Nom du propriétaire"
+              />
+            </div>
           </div>
           <div>
             <Label htmlFor="address">Adresse</Label>
