@@ -357,7 +357,7 @@
     "invoiceNumber": "Invoice Number",
     "date": "Date",
     "realEstateProperty": "Real Estate Property",
-    "selectProperty": "Select a property",
+    "selectPropertyInvoice": "Select a property",
     "technician": "Technician",
     "technicianName": "Technician name",
     "amount": "Amount (€)",
@@ -422,7 +422,41 @@
     "rentalReports": "- Rental reports",
     "tenantRepairs": "- Tenant repairs",
     "landlordObligations": "- Landlord obligations",
-    "tenantObligations": "- Tenant obligations"
+    "tenantObligations": "- Tenant obligations",
+    "categories": {
+      "plumbing": "Plumbing",
+      "electricity": "Electricity",
+      "heating": "Heating",
+      "painting": "Painting",
+      "locksmith": "Locksmith",
+      "cleaning": "Cleaning",
+      "other": "Other"
+    },
+    "priorities": {
+      "urgent": "Urgent",
+      "normal": "Normal",
+      "low": "Low"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "planned": "Planned",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "requestSaved": "Request saved",
+    "requestSavedDescription": "The maintenance request has been created successfully.",
+    "loadingProperties": "Loading properties...",
+    "loadingTenants": "Loading...",
+    "noTenantsForProperty": "No tenants for this property",
+    "selectPropertyFirst": "Select a property first",
+    "noPropertiesFound": "No real estate properties found",
+    "propertySelected": "Property selected:",
+    "firstSelectProperty": "First select a property",
+    "responsibilities": {
+      "owner": "Owner",
+      "tenant": "Tenant"
+    }
   },
   "messages": {
     "title": "Messages",

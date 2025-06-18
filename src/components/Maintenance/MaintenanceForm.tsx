@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -92,7 +90,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
     const newRequest = {
       id: Date.now().toString(),
       ...formData,
-      status: 'En attente',
+      status: t('maintenance.statuses.pending'),
       responsibility: determineResponsibility(formData.category)
     };
 
@@ -108,8 +106,8 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
     });
 
     toast({
-      title: "Demande enregistrée",
-      description: "La demande de maintenance a été créée avec succès.",
+      title: t('maintenance.requestSaved'),
+      description: t('maintenance.requestSavedDescription'),
     });
   };
 
@@ -129,11 +127,11 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
           <Label htmlFor="propertyId">{t('maintenance.propertyField')}</Label>
           <Select value={formData.propertyId} onValueChange={(value) => setFormData({...formData, propertyId: value})}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={propertiesLoading ? "Chargement des biens..." : t('maintenance.selectProperty')} />
+              <SelectValue placeholder={propertiesLoading ? t('maintenance.loadingProperties') : t('maintenance.selectProperty')} />
             </SelectTrigger>
             <SelectContent className="bg-white z-50 max-h-60 overflow-y-auto">
               {propertiesLoading ? (
-                <SelectItem value="loading" disabled>Chargement des propriétés...</SelectItem>
+                <SelectItem value="loading" disabled>{t('maintenance.loadingProperties')}</SelectItem>
               ) : availableProperties.length > 0 ? (
                 availableProperties.map((property) => (
                   <SelectItem key={property.id} value={property.title} className="hover:bg-gray-100">
@@ -145,13 +143,13 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
                   </SelectItem>
                 ))
               ) : (
-                <SelectItem value="no-properties" disabled>Aucun bien immobilier trouvé</SelectItem>
+                <SelectItem value="no-properties" disabled>{t('maintenance.noPropertiesFound')}</SelectItem>
               )}
             </SelectContent>
           </Select>
           {formData.propertyId && (
             <p className="text-sm text-blue-600">
-              Bien sélectionné: {properties.find(p => p.title === formData.propertyId)?.title}
+              {t('maintenance.propertySelected')} {properties.find(p => p.title === formData.propertyId)?.title}
             </p>
           )}
         </div>
@@ -166,13 +164,13 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
             <SelectTrigger className="w-full">
               <SelectValue placeholder={
                 !formData.propertyId 
-                  ? "Sélectionner d'abord un bien" 
+                  ? t('maintenance.selectPropertyFirst')
                   : t('maintenance.selectTenant')
               } />
             </SelectTrigger>
             <SelectContent className="bg-white z-50">
               {(tenantsLoading || roommatesLoading) ? (
-                <SelectItem value="loading" disabled>Chargement...</SelectItem>
+                <SelectItem value="loading" disabled>{t('maintenance.loadingTenants')}</SelectItem>
               ) : availableTenants.length > 0 ? (
                 availableTenants.map((tenant) => (
                   <SelectItem key={tenant.id} value={tenant.name}>
@@ -181,7 +179,7 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
                 ))
               ) : (
                 <SelectItem value="no-tenants" disabled>
-                  {formData.propertyId ? "Aucun locataire pour ce bien" : "Sélectionner d'abord un bien"}
+                  {formData.propertyId ? t('maintenance.noTenantsForProperty') : t('maintenance.firstSelectProperty')}
                 </SelectItem>
               )}
             </SelectContent>
@@ -195,13 +193,13 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
               <SelectValue placeholder={t('maintenance.selectCategory')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Plomberie">Plomberie</SelectItem>
-              <SelectItem value="Électricité">Électricité</SelectItem>
-              <SelectItem value="Chauffage">Chauffage</SelectItem>
-              <SelectItem value="Peinture">Peinture</SelectItem>
-              <SelectItem value="Serrurerie">Serrurerie</SelectItem>
-              <SelectItem value="Ménage">Ménage</SelectItem>
-              <SelectItem value="Autre">Autre</SelectItem>
+              <SelectItem value="Plomberie">{t('maintenance.categories.plumbing')}</SelectItem>
+              <SelectItem value="Électricité">{t('maintenance.categories.electricity')}</SelectItem>
+              <SelectItem value="Chauffage">{t('maintenance.categories.heating')}</SelectItem>
+              <SelectItem value="Peinture">{t('maintenance.categories.painting')}</SelectItem>
+              <SelectItem value="Serrurerie">{t('maintenance.categories.locksmith')}</SelectItem>
+              <SelectItem value="Ménage">{t('maintenance.categories.cleaning')}</SelectItem>
+              <SelectItem value="Autre">{t('maintenance.categories.other')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -213,9 +211,9 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
               <SelectValue placeholder={t('maintenance.selectPriority')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="urgent">Urgent</SelectItem>
-              <SelectItem value="normal">Normal</SelectItem>
-              <SelectItem value="faible">Faible</SelectItem>
+              <SelectItem value="urgent">{t('maintenance.priorities.urgent')}</SelectItem>
+              <SelectItem value="normal">{t('maintenance.priorities.normal')}</SelectItem>
+              <SelectItem value="faible">{t('maintenance.priorities.low')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -265,4 +263,3 @@ const MaintenanceForm = ({ onSubmit }: MaintenanceFormProps) => {
 };
 
 export default MaintenanceForm;
-
