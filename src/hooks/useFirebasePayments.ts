@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -26,16 +27,17 @@ export const useFirebasePayments = () => {
       
       logPaymentProcessing(payment, contractAmount);
       
-      // FORCER la mise à jour avec le montant du contrat
+      // FORCER la mise à jour COMPLÈTE avec le montant du contrat
       updatedPayment.contractRentAmount = contractAmount;
-      updatedPayment.rentAmount = contractAmount; // Forcer la cohérence
+      updatedPayment.rentAmount = contractAmount; // FORCER la cohérence totale
       updatedPayment.status = calculatePaymentStatus(payment.paidAmount, contractAmount);
       
       console.log(`✅ CONTRAT APPLIQUÉ pour ${payment.tenantName}:`, {
         ancienRentAmount: payment.rentAmount,
         nouveauRentAmount: contractAmount,
         contractRentAmount: contractAmount,
-        paidAmount: payment.paidAmount
+        paidAmount: payment.paidAmount,
+        statusRecalcule: updatedPayment.status
       });
       
       if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
@@ -81,7 +83,7 @@ export const useFirebasePayments = () => {
         enrichPaymentWithContract(payment, contractsData)
       );
 
-      console.log('🔧 PAIEMENTS FINAUX avec contrats:', enrichedPayments);
+      console.log('🔧 PAIEMENTS FINAUX avec contrats appliqués:', enrichedPayments);
       setPayments(enrichedPayments);
       setError(null);
     } catch (err) {

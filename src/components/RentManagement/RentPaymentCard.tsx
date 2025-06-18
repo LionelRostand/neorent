@@ -37,13 +37,21 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
 }) => {
   const statusData = usePaymentStatus(payment.status);
   
-  // Utiliser le montant du contrat si disponible, sinon le montant du loyer
-  const expectedAmount = payment.contractRentAmount || payment.rentAmount;
+  // PRIORITÉ ABSOLUE au montant du contrat si disponible
+  const expectedAmount = payment.contractRentAmount ?? payment.rentAmount;
   
   // Vérifier s'il y a une incohérence de paiement
   const hasPaymentDiscrepancy = payment.paidAmount !== undefined && 
     payment.paidAmount !== null && 
     payment.paidAmount !== expectedAmount;
+
+  console.log(`🎯 RentPaymentCard pour ${payment.tenantName}:`, {
+    rentAmount: payment.rentAmount,
+    contractRentAmount: payment.contractRentAmount,
+    expectedAmount,
+    paidAmount: payment.paidAmount,
+    hasDiscrepancy: hasPaymentDiscrepancy
+  });
 
   return (
     <Card className={`hover:shadow-lg transition-all duration-200 border-l-4 ${statusData.borderColor} h-full flex flex-col ${hasPaymentDiscrepancy ? 'ring-2 ring-red-200' : ''}`}>
@@ -78,9 +86,9 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
           paymentMethod={payment.paymentMethod}
         />
 
-        {/* Montants de paiement */}
+        {/* Montants de paiement - UTILISER LE BON MONTANT ATTENDU */}
         <PaymentAmounts
-          rentAmount={payment.rentAmount}
+          rentAmount={expectedAmount}
           paidAmount={payment.paidAmount}
           contractRentAmount={payment.contractRentAmount}
         />
