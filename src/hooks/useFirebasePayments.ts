@@ -32,11 +32,12 @@ export const useFirebasePayments = () => {
         matchingContractAmount: matchingContract.amount
       });
       
-      // FORCER l'utilisation EXCLUSIVE du montant du contrat
+      // MISE À JOUR FORCÉE avec le montant du contrat
       updatedPayment = {
         ...payment,
         contractRentAmount: contractAmount,
-        rentAmount: contractAmount, // FORCER la cohérence totale
+        // NOUVEAU: aussi mettre à jour rentAmount pour cohérence totale
+        rentAmount: contractAmount,
         status: calculatePaymentStatus(payment.paidAmount, contractAmount)
       };
       
@@ -47,7 +48,7 @@ export const useFirebasePayments = () => {
       });
     } else {
       console.log(`❌ AUCUN CONTRAT TROUVÉ pour ${payment.tenantName} (${payment.property})`);
-      // Si pas de contrat, garder les valeurs originales
+      // Si pas de contrat, garder les valeurs originales mais assurer la cohérence
       updatedPayment.contractRentAmount = payment.rentAmount;
     }
 
@@ -81,9 +82,9 @@ export const useFirebasePayments = () => {
       const enrichedPayments = paymentsData.map(payment => {
         const enriched = enrichPaymentWithContract(payment, contractsData);
         console.log(`📊 PAIEMENT FINAL ${payment.tenantName}:`, {
-          rentAmount: enriched.rentAmount,
-          contractRentAmount: enriched.contractRentAmount,
-          utilisationContrat: enriched.contractRentAmount ? 'OUI' : 'NON'
+          rentAmountFinal: enriched.rentAmount,
+          contractRentAmountFinal: enriched.contractRentAmount,
+          montantAffiché: enriched.contractRentAmount || enriched.rentAmount
         });
         return enriched;
       });

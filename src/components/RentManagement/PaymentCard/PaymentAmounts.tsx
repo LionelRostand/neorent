@@ -9,15 +9,14 @@ interface PaymentAmountsProps {
 }
 
 const PaymentAmounts: React.FC<PaymentAmountsProps> = ({ rentAmount, paidAmount, contractRentAmount }) => {
-  // PRIORITÉ ABSOLUE au contractRentAmount - C'EST LA SOURCE DE VÉRITÉ
-  const expectedAmount = contractRentAmount || rentAmount;
+  // UTILISER DIRECTEMENT le rentAmount passé (qui contient déjà la bonne valeur)
+  const expectedAmount = rentAmount;
   
-  console.log('💰 PaymentAmounts - DEBUGGING AFFICHAGE:', {
-    rentAmount: rentAmount,
+  console.log('💰 PaymentAmounts - AFFICHAGE FINAL:', {
+    rentAmountReçu: rentAmount,
     contractRentAmount: contractRentAmount,
-    expectedAmountCalculé: expectedAmount,
-    paidAmount: paidAmount,
-    sourceUtilisée: contractRentAmount ? 'contractRentAmount (PRIORITÉ)' : 'rentAmount (fallback)'
+    expectedAmountUtilisé: expectedAmount,
+    paidAmount: paidAmount
   });
   
   return (
