@@ -13,7 +13,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
   return (
     <>
       <div>
-        <Label htmlFor="startDate">Date de début</Label>
+        <Label htmlFor="startDate">Start Date</Label>
         <Input
           id="startDate"
           type="date"
@@ -23,7 +23,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
       </div>
 
       <div>
-        <Label htmlFor="endDate">Date de fin</Label>
+        <Label htmlFor="endDate">End Date</Label>
         <Input
           id="endDate"
           type="date"
@@ -33,7 +33,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
       </div>
 
       <div>
-        <Label htmlFor="amount">Montant</Label>
+        <Label htmlFor="amount">Amount</Label>
         <Input
           id="amount"
           value={formData.amount}
@@ -48,7 +48,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
           id="description"
           value={formData.description}
           onChange={(e) => handleInputChange('description', e.target.value)}
-          placeholder="Description détaillée du contrat..."
+          placeholder="Detailed contract description..."
           className="min-h-[100px]"
         />
       </div>

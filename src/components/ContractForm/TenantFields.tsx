@@ -27,13 +27,13 @@ const TenantFields = ({
       {isBailContract && (
         <div>
           <Label htmlFor="tenant">
-            {formData.type === 'Bail locatif' ? 'Locataire *' : 'Colocataire *'}
+            {formData.type === 'Bail locatif' ? 'Tenant *' : 'Roommate *'}
           </Label>
           <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
             <SelectTrigger>
               <SelectValue placeholder={
-                isDataLoading ? "Chargement..." : 
-                `Sélectionner un ${formData.type === 'Bail locatif' ? 'locataire' : 'colocataire'}`
+                isDataLoading ? "Loading..." : 
+                `Select a ${formData.type === 'Bail locatif' ? 'tenant' : 'roommate'}`
               } />
             </SelectTrigger>
             <SelectContent>
@@ -49,14 +49,14 @@ const TenantFields = ({
 
       {!isBailContract && (
         <div>
-          <Label htmlFor="tenant">Locataire/Colocataire *</Label>
+          <Label htmlFor="tenant">Tenant/Roommate *</Label>
           <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
             <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? "Chargement..." : "Sélectionner un locataire"} />
+              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a tenant"} />
             </SelectTrigger>
             <SelectContent>
-              {[...tenants.map(t => ({ id: t.id, name: t.name, type: 'Locataire' })), 
-                ...roommates.map(r => ({ id: r.id, name: r.name, type: 'Colocataire' }))].map((tenant) => (
+              {[...tenants.map(t => ({ id: t.id, name: t.name, type: 'Tenant' })), 
+                ...roommates.map(r => ({ id: r.id, name: r.name, type: 'Roommate' }))].map((tenant) => (
                 <SelectItem key={tenant.id} value={`${tenant.name} (${tenant.type})`}>
                   {tenant.name} ({tenant.type})
                 </SelectItem>

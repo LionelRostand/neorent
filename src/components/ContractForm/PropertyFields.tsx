@@ -26,10 +26,10 @@ const PropertyFields = ({
     <>
       {isBailContract && (
         <div>
-          <Label htmlFor="property">Bien immobilier</Label>
+          <Label htmlFor="property">Property</Label>
           <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
             <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? "Chargement..." : "Sélectionner un bien"} />
+              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a property"} />
             </SelectTrigger>
             <SelectContent>
               {getAvailableProperties().map((property) => (
@@ -44,10 +44,10 @@ const PropertyFields = ({
 
       {!isBailContract && (
         <div>
-          <Label htmlFor="property">Bien immobilier</Label>
+          <Label htmlFor="property">Property</Label>
           <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
             <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? "Chargement..." : "Sélectionner un bien"} />
+              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a property"} />
             </SelectTrigger>
             <SelectContent>
               {getAvailableProperties().map((property) => (
@@ -62,10 +62,10 @@ const PropertyFields = ({
 
       {isColocatifContract && formData.property && (
         <div>
-          <Label htmlFor="roomNumber">Chambre</Label>
+          <Label htmlFor="roomNumber">Room</Label>
           <Select value={formData.roomNumber} onValueChange={(value) => handleInputChange('roomNumber', value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Sélectionner une chambre" />
+              <SelectValue placeholder="Select a room" />
             </SelectTrigger>
             <SelectContent>
               {getAvailableRooms().map((room) => (

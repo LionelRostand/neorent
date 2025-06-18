@@ -14,21 +14,21 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
   return (
     <>
       <div>
-        <Label htmlFor="title">Titre du contrat de bail *</Label>
+        <Label htmlFor="title">Lease Contract Title *</Label>
         <Input
           id="title"
           value={formData.title}
           onChange={(e) => handleInputChange('title', e.target.value)}
-          placeholder="Ex: Contrat de bail - Villa Montparnasse..."
+          placeholder="Ex: Lease Contract - Villa Montparnasse..."
           required
         />
       </div>
 
       <div>
-        <Label htmlFor="type">Type de contrat *</Label>
+        <Label htmlFor="type">Contract Type *</Label>
         <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
           <SelectTrigger>
-            <SelectValue placeholder="Sélectionner un type" />
+            <SelectValue placeholder="Select type" />
           </SelectTrigger>
           <SelectContent>
             {contractTypes.map((type) => (
@@ -41,24 +41,24 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
       </div>
 
       <div>
-        <Label htmlFor="provider">Prestataire</Label>
+        <Label htmlFor="provider">Service Provider</Label>
         <Input
           id="provider"
           value={formData.provider}
           onChange={(e) => handleInputChange('provider', e.target.value)}
-          placeholder="Nom du prestataire"
+          placeholder="Service provider name"
         />
       </div>
 
       <div>
-        <Label htmlFor="jurisdiction">Juridiction *</Label>
+        <Label htmlFor="jurisdiction">Jurisdiction *</Label>
         <Select value={formData.jurisdiction} onValueChange={(value) => handleInputChange('jurisdiction', value)}>
           <SelectTrigger>
-            <SelectValue placeholder="Choisir la juridiction" />
+            <SelectValue placeholder="Choose jurisdiction" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="francaise">Française</SelectItem>
-            <SelectItem value="camerounaise">Camerounaise</SelectItem>
+            <SelectItem value="francaise">French</SelectItem>
+            <SelectItem value="camerounaise">Cameroonian</SelectItem>
           </SelectContent>
         </Select>
       </div>

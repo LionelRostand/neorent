@@ -24,14 +24,14 @@ export const useContractForm = () => {
   const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
 
   const contractTypes = [
-    'Bail locatif',
-    'Bail colocatif'
+    'Residential Lease',
+    'Shared Accommodation Lease'
   ];
 
-  // Chambres par bien en colocation
+  // Rooms by property for shared accommodation
   const roomsByProperty = {
-    'Villa Montparnasse': ['Chambre 1', 'Chambre 2', 'Chambre 3'],
-    'Appartement République': ['Chambre A', 'Chambre B']
+    'Villa Montparnasse': ['Room 1', 'Room 2', 'Room 3'],
+    'Appartement République': ['Room A', 'Room B']
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -54,46 +54,46 @@ export const useContractForm = () => {
     });
   };
 
-  // Filtrer les propriétés selon le type de contrat
+  // Filter properties according to contract type
   const getAvailableProperties = () => {
     if (loading) return [];
     
-    if (formData.type === 'Bail locatif') {
+    if (formData.type === 'Residential Lease') {
       return properties.filter(property => property.locationType === 'Location');
     }
-    if (formData.type === 'Bail colocatif') {
+    if (formData.type === 'Shared Accommodation Lease') {
       return properties.filter(property => property.locationType === 'Colocation');
     }
     return properties;
   };
 
   const getAvailableTenants = () => {
-    if (formData.type === 'Bail locatif') {
+    if (formData.type === 'Residential Lease') {
       return tenants.map(tenant => ({
         id: tenant.id,
         name: tenant.name,
-        type: 'Locataire'
+        type: 'Tenant'
       }));
     }
-    if (formData.type === 'Bail colocatif') {
+    if (formData.type === 'Shared Accommodation Lease') {
       return roommates.map(roommate => ({
         id: roommate.id,
         name: roommate.name,
-        type: 'Colocataire'
+        type: 'Roommate'
       }));
     }
     return [];
   };
 
   const getAvailableRooms = () => {
-    if (formData.type === 'Bail colocatif' && formData.property) {
+    if (formData.type === 'Shared Accommodation Lease' && formData.property) {
       return roomsByProperty[formData.property] || [];
     }
     return [];
   };
 
-  const isBailContract = formData.type === 'Bail locatif' || formData.type === 'Bail colocatif';
-  const isColocatifContract = formData.type === 'Bail colocatif';
+  const isBailContract = formData.type === 'Residential Lease' || formData.type === 'Shared Accommodation Lease';
+  const isColocatifContract = formData.type === 'Shared Accommodation Lease';
   const isDataLoading = loading || tenantsLoading || roommatesLoading;
 
   return {

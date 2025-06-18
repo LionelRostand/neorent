@@ -43,7 +43,7 @@ const Contracts = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">{t('contracts.loading')}</div>
+          <div className="text-lg">Loading contracts...</div>
         </div>
       </MainLayout>
     );
@@ -53,7 +53,7 @@ const Contracts = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
+          <div className="text-lg text-red-600">Error: {error}</div>
         </div>
       </MainLayout>
     );
