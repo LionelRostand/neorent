@@ -79,13 +79,24 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   const hasDiscrepancy = paidAmount && paidAmountNum !== totalAmount && paidAmountNum > 0;
   const isFullPayment = paidAmountNum === totalAmount;
 
+  // Validation du formulaire
+  const isFormValid = paymentDate && paymentMethod && paidAmount && paidAmountNum > 0;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log('🔍 Validation du formulaire:', {
+      paymentDate,
+      paymentMethod,
+      paidAmount,
+      paidAmountNum,
+      isFormValid
+    });
+    
     if (!paymentDate || !paymentMethod || !paidAmount) {
       toast({
-        title: "Erreur",
-        description: "Veuillez remplir tous les champs obligatoires.",
+        title: "Erreur de validation",
+        description: "Veuillez remplir tous les champs obligatoires (Date, Montant et Mode de paiement).",
         variant: "destructive",
       });
       return;
@@ -152,6 +163,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
         paymentMethod,
         notes: notes || null
       };
+
+      console.log('💾 Données de paiement à enregistrer:', paymentData);
 
       await addPayment(paymentData);
 
@@ -349,7 +362,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                         <CreditCard className="h-4 w-4" />
                         Mode de paiement <span className="text-red-500">*</span>
                       </Label>
-                      <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                      <Select value={paymentMethod} onValueChange={setPaymentMethod} required>
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Sélectionner le mode de paiement" />
                         </SelectTrigger>
@@ -391,6 +404,18 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                     </div>
                   </div>
 
+                  {/* Validation form indicator */}
+                  {!isFormValid && (
+                    <div className="bg-red-50 p-3 rounded-lg border border-red-200">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className="h-4 w-4 text-red-600" />
+                        <p className="text-sm text-red-800">
+                          Veuillez remplir tous les champs obligatoires pour continuer
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex justify-end space-x-3">
                     <Button 
                       type="button" 
@@ -402,8 +427,12 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                     </Button>
                     <Button 
                       type="submit" 
-                      className="bg-green-600 hover:bg-green-700"
-                      disabled={loading}
+                      className={`${
+                        isFormValid 
+                          ? 'bg-green-600 hover:bg-green-700' 
+                          : 'bg-gray-400 cursor-not-allowed'
+                      }`}
+                      disabled={loading || !isFormValid}
                     >
                       {loading ? 'Traitement...' : 'Confirmer le paiement'}
                     </Button>
