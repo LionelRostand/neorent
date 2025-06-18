@@ -301,7 +301,15 @@
     "updateSuccess": "Contract updated successfully",
     "updateError": "Error updating contract",
     "deleteSuccess": "Contract deleted successfully",
-    "deleteError": "Error deleting contract"
+    "deleteError": "Error deleting contract",
+    "activeContracts": "Active Contracts",
+    "activeContractsCount": "active contracts",
+    "toRenew": "To Renew",
+    "toRenewCount": "contracts to renew",
+    "expired": "Expired", 
+    "expiredCount": "expired contracts",
+    "total": "Total",
+    "totalCount": "total contracts"
   },
   "contractForm": {
     "newContract": "New Contract",

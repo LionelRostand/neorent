@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle, Clock, XCircle, ScrollText } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 
@@ -10,36 +11,38 @@ interface ContractsMetricsProps {
 }
 
 const ContractsMetrics = ({ activeCount, expiredCount, totalCount }: ContractsMetricsProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <MetricCard
-        title="Contrats actifs"
+        title={t('contracts.activeContracts')}
         value={activeCount}
-        description={`${activeCount} contrat${activeCount > 1 ? 's' : ''} actif${activeCount > 1 ? 's' : ''}`}
+        description={`${activeCount} ${t('contracts.activeContractsCount')}`}
         icon={CheckCircle}
         iconBgColor="bg-green-500"
         borderColor="border-l-green-500"
       />
       <MetricCard
-        title="À renouveler"
+        title={t('contracts.toRenew')}
         value={0}
-        description="0 contrat à renouveler"
+        description={`0 ${t('contracts.toRenewCount')}`}
         icon={Clock}
         iconBgColor="bg-yellow-500"
         borderColor="border-l-yellow-500"
       />
       <MetricCard
-        title="Expirés"
+        title={t('contracts.expired')}
         value={expiredCount}
-        description={`${expiredCount} contrat${expiredCount > 1 ? 's' : ''} expiré${expiredCount > 1 ? 's' : ''}`}
+        description={`${expiredCount} ${t('contracts.expiredCount')}`}
         icon={XCircle}
         iconBgColor="bg-red-500"
         borderColor="border-l-red-500"
       />
       <MetricCard
-        title="Total"
+        title={t('contracts.total')}
         value={totalCount}
-        description={`${totalCount} contrat${totalCount > 1 ? 's' : ''} au total`}
+        description={`${totalCount} ${t('contracts.totalCount')}`}
         icon={ScrollText}
         iconBgColor="bg-blue-500"
         borderColor="border-l-blue-500"
