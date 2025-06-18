@@ -20,7 +20,7 @@ const FirebaseTab: React.FC = () => {
       <Card>
         <CardHeader>
           <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
-            🔥 {t('settings.firebase.title')}
+            🔥 Configuration Firebase
           </CardTitle>
         </CardHeader>
         <CardContent>
