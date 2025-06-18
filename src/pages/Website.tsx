@@ -29,14 +29,14 @@ const Website = () => {
   const [activeTab, setActiveTab] = useState('pages');
 
   const tabs = [
-    { id: 'pages', label: t('website.pages'), icon: FileText },
-    { id: 'content', label: t('website.content'), icon: File },
-    { id: 'medias', label: t('website.medias'), icon: Image },
-    { id: 'theme', label: t('website.theme'), icon: Palette },
-    { id: 'footer', label: t('website.footer'), icon: LinkIcon },
-    { id: 'carte', label: t('website.map'), icon: MapPin },
-    { id: 'analytics', label: t('website.analytics'), icon: BarChart3 },
-    { id: 'config', label: t('website.configuration'), icon: Settings }
+    { id: 'pages', label: 'Pages', icon: FileText },
+    { id: 'content', label: 'Content', icon: File },
+    { id: 'medias', label: 'Media', icon: Image },
+    { id: 'theme', label: 'Theme', icon: Palette },
+    { id: 'footer', label: 'Footer', icon: LinkIcon },
+    { id: 'carte', label: 'Map', icon: MapPin },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'config', label: 'Config', icon: Settings }
   ];
 
   return (
