@@ -1,9 +1,15 @@
 
 export interface Roommate {
   id: string;
-  propertyId: string;
-  fullName: string;
+  name: string;
+  email: string;
+  phone: string;
+  property: string;
   roomNumber: string;
-  rentAmount: number;
-  property?: string;
+  rentAmount: string;
+  status: string;
+  primaryTenant: string;
+  moveInDate: string;
+  image: string | null;
+  paidAmount?: number;
 }

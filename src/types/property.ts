@@ -1,9 +1,18 @@
 
 export interface Property {
   id: string;
-  name: string;
+  title: string;
   address: string;
+  type: string;
+  surface: string;
   rent: string;
-  charges?: Record<string, any>;
-  tenant?: string | null;
+  status: string;
+  tenant: string | null;
+  image: string;
+  locationType: string;
+  totalRooms: number;
+  availableRooms: number;
+  creditImmobilier?: string;
+  owner?: string;
+  charges?: any;
 }

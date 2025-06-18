@@ -1,8 +1,13 @@
 
 export interface Tenant {
   id: string;
-  propertyId: string;
-  fullName: string;
-  rentAmount: number;
-  property?: string;
+  name: string;
+  email: string;
+  phone: string;
+  property: string;
+  rentAmount: string;
+  nextPayment: string;
+  status: string;
+  leaseStart: string;
+  image: string | null;
 }
