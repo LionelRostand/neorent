@@ -31,13 +31,16 @@ const RentMetrics: React.FC<RentMetricsProps> = ({ payments }) => {
   const totalAmount = properties
     .filter(property => property.status === 'Occupé')
     .reduce((sum, property) => {
+      const rent = Number(property.rent) || 0;
       if (property.locationType === 'Colocation') {
         // Pour les colocations, multiplier le loyer par le nombre de chambres occupées
-        const occupiedRooms = property.totalRooms - property.availableRooms;
-        return sum + (property.rent * occupiedRooms);
+        const totalRooms = Number(property.totalRooms) || 0;
+        const availableRooms = Number(property.availableRooms) || 0;
+        const occupiedRooms = totalRooms - availableRooms;
+        return sum + (rent * occupiedRooms);
       } else {
         // Pour les locations classiques, utiliser le loyer total
-        return sum + property.rent;
+        return sum + rent;
       }
     }, 0);
 
