@@ -768,7 +768,9 @@
     "securitySettings": "Security Settings",
     "integrationSettings": "Integration Settings",
     "backupSettings": "Backup Settings",
-    "systemSettings": "System Settings"
+    "systemSettings": "System Settings",
+    "adminAccess": "Admin Tenant Access",
+    "adminAccessDescription": "As an administrator, you can access tenant accounts to provide support and assistance."
   },
   "forms": {
     "addProperty": "Add Property",
