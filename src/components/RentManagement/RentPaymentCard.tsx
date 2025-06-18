@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-import { PaymentStatus } from './PaymentCard/PaymentStatus';
+import { usePaymentStatus } from './PaymentCard/usePaymentStatus';
 import TenantInfo from './PaymentCard/TenantInfo';
 import PropertyDetails from './PaymentCard/PropertyDetails';
 import PaymentAmounts from './PaymentCard/PaymentAmounts';
@@ -35,7 +35,7 @@ const RentPaymentCard: React.FC<RentPaymentCardProps> = ({
   onMarkAsPaid,
   onDelete
 }) => {
-  const statusData = PaymentStatus({ status: payment.status });
+  const statusData = usePaymentStatus(payment.status);
   
   // Vérifier s'il y a une incohérence de paiement
   const hasPaymentDiscrepancy = payment.status === 'Payé' && 

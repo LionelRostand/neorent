@@ -1,14 +1,9 @@
 
-import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 
-interface PaymentStatusProps {
-  status: string;
-}
-
-export const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
-  const getStatusBadge = (status: string) => {
+export const usePaymentStatus = (status: string) => {
+  const getStatusBadge = () => {
     switch (status) {
       case 'Payé':
         return <Badge className="bg-green-100 text-green-800 border-green-200 text-xs">Payé</Badge>;
@@ -21,7 +16,7 @@ export const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
     }
   };
 
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = () => {
     switch (status) {
       case 'Payé':
         return <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />;
@@ -34,7 +29,7 @@ export const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
     }
   };
 
-  const getCardBorderColor = (status: string) => {
+  const getCardBorderColor = () => {
     switch (status) {
       case 'Payé':
         return 'border-l-green-500';
@@ -48,8 +43,8 @@ export const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
   };
 
   return {
-    badge: getStatusBadge(status),
-    icon: getStatusIcon(status),
-    borderColor: getCardBorderColor(status)
+    badge: getStatusBadge(),
+    icon: getStatusIcon(),
+    borderColor: getCardBorderColor()
   };
 };
