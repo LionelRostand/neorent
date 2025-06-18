@@ -61,13 +61,13 @@ const PropertyMetrics: React.FC = () => {
   
   const availableProperties = totalProperties - occupiedProperties;
   
-  // Calculer les revenus des biens ayant des colocataires actifs
+  // Calculer les revenus en utilisant le loyer mensuel (creditImmobilier ou rent) des biens occupés
   const totalRevenue = properties.reduce((sum, p) => {
-    const activeRoommates = roommates.filter(roommate => 
-      roommate.property === p.title && roommate.status === 'Actif'
-    );
+    const realStatus = getPropertyStatus(p);
     
-    if (activeRoommates.length > 0) {
+    // Seulement inclure les biens qui sont réellement occupés
+    if (realStatus === 'Occupé' || realStatus === 'Complet' || realStatus === 'Partiellement occupé') {
+      // Utiliser creditImmobilier en priorité, sinon rent
       const rentValue = p.creditImmobilier || p.rent || '0';
       const numericRent = parseFloat(rentValue.toString().replace(/[^0-9.-]+/g, ''));
       return sum + (isNaN(numericRent) ? 0 : numericRent);
