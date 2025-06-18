@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -49,64 +48,87 @@ export const useFirebasePayments = () => {
         ...doc.data()
       })) as Contract[];
 
-      console.log('📋 Contrats récupérés:', contractsData);
-      console.log('💰 Paiements récupérés:', paymentsData);
+      console.log('📋 DONNÉES COMPLÈTES - Contrats récupérés:', contractsData);
+      console.log('💰 DONNÉES COMPLÈTES - Paiements récupérés:', paymentsData);
 
       // Associer les montants des contrats aux paiements
       const enrichedPayments = paymentsData.map(payment => {
+        console.log(`\n🔍 TRAITEMENT DE: ${payment.tenantName}`);
+        console.log(`   Propriété: ${payment.property}`);
+        console.log(`   Montant actuel rentAmount: ${payment.rentAmount}€`);
+        console.log(`   Montant payé: ${payment.paidAmount}€`);
+        
         // Chercher le contrat correspondant au locataire
-        const matchingContract = contractsData.find(contract => 
-          contract.tenant === payment.tenantName && 
-          contract.property === payment.property &&
-          (contract.status === 'Actif' || contract.status === 'Signé')
-        );
+        const matchingContract = contractsData.find(contract => {
+          const nameMatch = contract.tenant === payment.tenantName;
+          const propertyMatch = contract.property === payment.property;
+          const statusMatch = contract.status === 'Actif' || contract.status === 'Signé';
+          
+          console.log(`   🔎 Contrat testé:`, {
+            contractTenant: contract.tenant,
+            contractProperty: contract.property,
+            contractStatus: contract.status,
+            nameMatch,
+            propertyMatch,
+            statusMatch
+          });
+          
+          return nameMatch && propertyMatch && statusMatch;
+        });
 
         let updatedPayment = { ...payment };
 
         if (matchingContract) {
-          // Extraire le montant numérique du contrat (ex: "450€" -> 450)
-          const contractAmount = parseInt(matchingContract.amount.replace(/[€\s]/g, '')) || payment.rentAmount;
+          // Extraire le montant numérique du contrat (ex: "300€" -> 300)
+          const contractAmountStr = matchingContract.amount;
+          let contractAmount = 0;
           
-          console.log(`✅ Contrat trouvé pour ${payment.tenantName}:`);
-          console.log(`   - Montant contrat: ${matchingContract.amount} -> ${contractAmount}€`);
-          console.log(`   - Montant paiement actuel: ${payment.rentAmount}€`);
-          console.log(`   - Montant payé: ${payment.paidAmount}€`);
+          // Gérer différents formats de montant
+          if (typeof contractAmountStr === 'string') {
+            // Supprimer tout ce qui n'est pas un chiffre
+            const numericPart = contractAmountStr.replace(/[^\d]/g, '');
+            contractAmount = parseInt(numericPart) || payment.rentAmount;
+          } else if (typeof contractAmountStr === 'number') {
+            contractAmount = contractAmountStr;
+          } else {
+            contractAmount = payment.rentAmount;
+          }
           
-          // CORRECTION PRINCIPALE: Toujours utiliser le montant du contrat comme référence
+          console.log(`✅ CONTRAT TROUVÉ pour ${payment.tenantName}:`);
+          console.log(`   - Montant brut contrat: "${matchingContract.amount}"`);
+          console.log(`   - Montant numérique extrait: ${contractAmount}€`);
+          console.log(`   - Ancien rentAmount: ${payment.rentAmount}€`);
+          
+          // FORCER l'utilisation du montant du contrat
           updatedPayment.contractRentAmount = contractAmount;
-          updatedPayment.rentAmount = contractAmount; // Le montant attendu est celui du contrat
+          updatedPayment.rentAmount = contractAmount; // IMPORTANT: Remplacer rentAmount par le montant du contrat
           
-          // Recalculer le statut basé sur le vrai montant du contrat
+          // Recalculer le statut basé sur le montant du contrat
           if (payment.paidAmount !== undefined && payment.paidAmount !== null) {
             const paidAmount = Number(payment.paidAmount);
             
             if (paidAmount < contractAmount && paidAmount > 0) {
-              // Paiement partiel
-              console.log(`🚨 PAIEMENT PARTIEL DÉTECTÉ: ${payment.tenantName} - ${paidAmount}€ payé sur ${contractAmount}€ attendu`);
               updatedPayment.status = 'En retard';
+              console.log(`🚨 PAIEMENT PARTIEL: ${paidAmount}€ payé sur ${contractAmount}€ attendu`);
             } else if (paidAmount === 0) {
-              // Aucun paiement
               updatedPayment.status = 'En attente';
             } else if (paidAmount >= contractAmount) {
-              // Paiement complet ou dépassé
-              if (paidAmount === contractAmount) {
-                updatedPayment.status = 'Payé';
-              } else {
-                console.log(`⚠️ TROP-PERÇU DÉTECTÉ: ${payment.tenantName} - ${paidAmount}€ payé pour ${contractAmount}€ attendu`);
-                updatedPayment.status = 'Payé';
+              updatedPayment.status = 'Payé';
+              if (paidAmount > contractAmount) {
+                console.log(`⚠️ TROP-PERÇU: ${paidAmount}€ payé pour ${contractAmount}€ attendu`);
               }
             }
           } else {
-            // Pas de paiement enregistré
             updatedPayment.status = 'En attente';
           }
         } else {
-          console.log(`❌ Aucun contrat trouvé pour ${payment.tenantName} (${payment.property})`);
+          console.log(`❌ AUCUN CONTRAT TROUVÉ pour ${payment.tenantName} (${payment.property})`);
+          console.log(`   Contrats disponibles:`, contractsData.map(c => `${c.tenant} - ${c.property} (${c.status})`));
           // Garder les données actuelles si aucun contrat trouvé
           updatedPayment.contractRentAmount = payment.rentAmount;
         }
 
-        console.log(`📊 Paiement final pour ${updatedPayment.tenantName}:`, {
+        console.log(`📊 RÉSULTAT FINAL pour ${updatedPayment.tenantName}:`, {
           rentAmount: updatedPayment.rentAmount,
           contractRentAmount: updatedPayment.contractRentAmount,
           paidAmount: updatedPayment.paidAmount,
@@ -117,7 +139,7 @@ export const useFirebasePayments = () => {
         return updatedPayment;
       });
 
-      console.log('🔧 Paiements enrichis avec données des contrats:', enrichedPayments);
+      console.log('🔧 PAIEMENTS FINAUX avec contrats:', enrichedPayments);
       setPayments(enrichedPayments);
       setError(null);
     } catch (err) {
