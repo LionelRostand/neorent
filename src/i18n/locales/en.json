@@ -141,5 +141,112 @@
       "save": "Save Permissions",
       "noEmployees": "No employees found. Add employees first to manage their permissions."
     }
+  },
+  "website": {
+    "websiteManagement": "Website Management",
+    "subtitle": "Manage and configure your NeoRent website",
+    "pages": {
+      "title": "Page Management",
+      "description": "Create and manage your NeoRent website pages",
+      "existingPages": "Existing Pages",
+      "addNewPage": "Add New Page",
+      "pageTitle": "Page Title",
+      "pageUrl": "URL",
+      "metaDescription": "META Description",
+      "metaDescriptionPlaceholder": "Description for SEO...",
+      "pageTitlePlaceholder": "e.g. Our Services",
+      "pageUrlPlaceholder": "e.g. /services",
+      "published": "Published",
+      "draft": "Draft"
+    },
+    "content": {
+      "title": "Content Management",
+      "description": "Customize texts and content of your website",
+      "homePageContent": "Home Page Content",
+      "heroTitle": "Main Title",
+      "heroSubtitle": "Subtitle",
+      "heroDescription": "Description",
+      "aboutSection": "About Section",
+      "servicesSection": "Services Section",
+      "contactSection": "Contact Section"
+    },
+    "media": {
+      "title": "Media Library",
+      "description": "Organize and manage your images and documents by categories with easy integration",
+      "mediaFiles": "Media Files",
+      "uploading": "Uploading...",
+      "uploadSuccess": "Files uploaded successfully!",
+      "uploadError": "Error uploading files"
+    },
+    "theme": {
+      "title": "Theme Configuration",
+      "description": "Customize the appearance and colors of your website",
+      "colorScheme": "Color Scheme",
+      "primaryColor": "Primary Color",
+      "secondaryColor": "Secondary Color",
+      "fontFamily": "Font Family",
+      "layout": "Layout"
+    },
+    "footer": {
+      "title": "Footer Configuration",
+      "description": "Manage footer links and information",
+      "companyInfo": "Company Information",
+      "socialLinks": "Social Links",
+      "legalLinks": "Legal Links",
+      "contactInfo": "Contact Information"
+    },
+    "map": {
+      "title": "Map Configuration",
+      "description": "Configure map display and NeoRent geolocation",
+      "mapSettings": "Map Settings",
+      "showMap": "Show Map",
+      "showMapDescription": "Enable/disable map display",
+      "address": "Address",
+      "markerTitle": "Marker Title",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "zoomLevel": "Zoom Level",
+      "showMarker": "Show Marker",
+      "showMarkerDescription": "Mark position on map",
+      "googleMapsApiKey": "Google Maps API Key (optional)",
+      "apiKeyPlaceholder": "Your Google Maps API key",
+      "apiKeyHelper": "Leave empty to use default map",
+      "mapPreview": "Map Preview",
+      "addressPlaceholder": "Complete address",
+      "markerTitlePlaceholder": "Name displayed on marker"
+    },
+    "analytics": {
+      "title": "Analytics & Tracking",
+      "description": "Configure performance tracking and analytics for your website",
+      "googleAnalytics": "Google Analytics",
+      "facebookPixel": "Facebook Pixel",
+      "customTracking": "Custom Tracking"
+    },
+    "config": {
+      "title": "General Configuration",
+      "description": "Technical SEO settings, features and Firebase backend connection",
+      "seoSettings": "SEO Settings",
+      "siteTitle": "Site Title",
+      "siteDescription": "Description",
+      "keywords": "Keywords",
+      "features": "Features",
+      "onlineBooking": "Online Appointment Booking",
+      "onlineBookingDescription": "Allow clients to book appointments",
+      "onlineQuotes": "Online Quotes",
+      "onlineQuotesDescription": "Quote request form",
+      "liveChat": "Live Chat (ChatWidget)",
+      "liveChatDescription": "Real-time customer support",
+      "quickAccess": "Quick Access",
+      "clientAreaAccess": "Client area access",
+      "firebaseConnection": "Firebase connection",
+      "configSaved": "Configuration saved successfully!",
+      "configSavedDescription": "SEO settings and features updated",
+      "configSaveError": "Error saving configuration",
+      "configSaveErrorDescription": "Please try again"
+    },
+    "viewWebsite": "View website",
+    "saving": "Saving...",
+    "saveSuccess": "Saved successfully!",
+    "saveError": "Error saving"
   }
 }
