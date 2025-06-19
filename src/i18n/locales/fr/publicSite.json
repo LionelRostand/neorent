@@ -131,6 +131,10 @@
           "description": "Nous sommes là pour vous aider"
         }
       },
+      "map": {
+        "title": "Notre Localisation",
+        "description": "Retrouvez-nous à Paris pour tous vos besoins en gestion immobilière"
+      },
       "faq": {
         "title": "Questions Fréquemment Posées",
         "subtitle": "Trouvez des réponses aux questions courantes sur notre plateforme",

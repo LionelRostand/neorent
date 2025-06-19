@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PublicLayout from '@/components/PublicSite/PublicLayout';
 import { ChatWidget } from '@/components/Chat/ChatWidget';
 import { ContactHero } from '@/components/PublicSite/ContactHero';
@@ -9,6 +10,8 @@ import { ContactFAQ } from '@/components/PublicSite/ContactFAQ';
 import { ContactMap } from '@/components/PublicSite/ContactMap';
 
 const PublicContact = () => {
+  const { t } = useTranslation();
+
   return (
     <PublicLayout>
       <ContactHero />
@@ -28,10 +31,10 @@ const PublicContact = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Notre Localisation
+              {t('publicSite.contact.map.title')}
             </h2>
             <p className="text-gray-600">
-              Retrouvez-nous à Paris pour tous vos besoins en gestion immobilière
+              {t('publicSite.contact.map.description')}
             </p>
           </div>
           <ContactMap />

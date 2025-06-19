@@ -131,6 +131,10 @@
           "description": "We're here to help"
         }
       },
+      "map": {
+        "title": "Our Location",
+        "description": "Find us in Paris for all your property management needs"
+      },
       "faq": {
         "title": "Frequently Asked Questions",
         "subtitle": "Find answers to common questions about our platform",
