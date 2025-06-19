@@ -1,5 +1,5 @@
 
-import { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
   signInWithEmailAndPassword, 
@@ -28,13 +28,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const [userType, setUserType] = useState<'locataire' | 'colocataire' | 'admin' | 'employee' | null>(null);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const { tenants } = useFirebaseTenants();
-  const { roommates } = useFirebaseRoommates();
-  const { getUserRole, userRoles } = useFirebaseUserRoles();
+  
+  // Only initialize Firebase hooks after component mounts
+  const [hooksInitialized, setHooksInitialized] = useState(false);
+  
+  // Initialize hooks conditionally
+  const { tenants } = hooksInitialized ? useFirebaseTenants() : { tenants: [] };
+  const { roommates } = hooksInitialized ? useFirebaseRoommates() : { roommates: [] };
+  const { getUserRole, userRoles } = hooksInitialized ? useFirebaseUserRoles() : { getUserRole: async () => null, userRoles: [] };
+
+  // Initialize hooks after mount
+  useEffect(() => {
+    setHooksInitialized(true);
+  }, []);
 
   // Vérifier si l'utilisateur existe dans Firebase
   const checkUserProfile = async (currentUser: User | null) => {
-    if (!currentUser) {
+    if (!currentUser || !hooksInitialized) {
       setUserProfile(null);
       setUserType(null);
       return;
@@ -110,7 +120,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('🔐 Auth state changed:', firebaseUser?.email || 'déconnecté');
       setUser(firebaseUser);
       
-      if (firebaseUser) {
+      if (firebaseUser && hooksInitialized) {
         // Utilisateur connecté, vérifier son profil
         await checkUserProfile(firebaseUser);
       } else {
@@ -123,10 +133,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [hooksInitialized]);
 
   // Marquer les données comme chargées et vérifier le profil
   useEffect(() => {
+    if (!hooksInitialized) return;
+    
     // Considérer les données comme chargées même si les listes sont vides
     // pour éviter d'attendre indéfiniment
     if (!dataLoaded) {
@@ -147,15 +159,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       return () => clearTimeout(timer);
     }
-  }, [tenants, roommates, userRoles, user, userProfile, dataLoaded]);
+  }, [tenants, roommates, userRoles, user, userProfile, dataLoaded, hooksInitialized]);
 
   // Re-vérifier le profil quand les données changent
   useEffect(() => {
-    if (dataLoaded && user && !userProfile) {
+    if (dataLoaded && user && !userProfile && hooksInitialized) {
       console.log('🔄 Nouvelles données disponibles, re-vérification du profil...');
       checkUserProfile(user);
     }
-  }, [tenants, roommates, userRoles, dataLoaded, user, userProfile]);
+  }, [tenants, roommates, userRoles, dataLoaded, user, userProfile, hooksInitialized]);
 
   const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
