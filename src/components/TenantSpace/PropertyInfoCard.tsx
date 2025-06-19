@@ -57,14 +57,14 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
               <Euro className="h-4 w-4 text-orange-500" />
               <div>
                 <span className="font-medium text-gray-700 block">Charges</span>
-                <span className="text-orange-600 font-semibold">150€/mois</span>
+                <span className="text-orange-600 font-semibold">50€/mois</span>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Shield className="h-4 w-4 text-purple-500" />
               <div>
                 <span className="font-medium text-gray-700 block">Dépôt de garantie</span>
-                <span className="text-purple-600 font-semibold">900€</span>
+                <span className="text-purple-600 font-semibold">450€</span>
               </div>
             </div>
           </div>
