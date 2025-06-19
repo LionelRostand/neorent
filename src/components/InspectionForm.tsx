@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -39,7 +38,6 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
   const [availableTenants, setAvailableTenants] = useState<Array<{id: string, name: string, type: string}>>([]);
   const [availableRooms, setAvailableRooms] = useState<string[]>([]);
 
-  // Mettre à jour la liste des locataires/colocataires quand la propriété change
   useEffect(() => {
     if (formData.property) {
       const selectedProperty = properties.find(p => p.title === formData.property);
@@ -48,7 +46,6 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
         let propertyTenants: Array<{id: string, name: string, type: string}> = [];
         
         if (selectedProperty.locationType === 'Location') {
-          // Pour les locations classiques, chercher les locataires
           const propertyTenantsList = tenants.filter(tenant => 
             tenant.property === selectedProperty.title
           );
@@ -58,7 +55,6 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
             type: 'Locataire'
           }));
         } else if (selectedProperty.locationType === 'Colocation') {
-          // Pour les colocations, chercher les colocataires
           const propertyRoommatesList = roommates.filter(roommate => 
             roommate.property === selectedProperty.title
           );
@@ -71,7 +67,6 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
         
         setAvailableTenants(propertyTenants);
         
-        // Mettre à jour le type de contrat automatiquement
         const newContractType = selectedProperty.locationType === 'Colocation' ? 'Bail colocatif' : 'Bail locatif';
         setFormData(prev => ({ ...prev, contractType: newContractType }));
       }
@@ -79,17 +74,14 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
       setAvailableTenants([]);
     }
     
-    // Reset du locataire sélectionné quand la propriété change
     setFormData(prev => ({ ...prev, tenant: '' }));
   }, [formData.property, properties, tenants, roommates]);
 
-  // Mettre à jour les chambres disponibles pour les colocations
   useEffect(() => {
     if (formData.property && formData.contractType === 'Bail colocatif') {
       const selectedProperty = properties.find(p => p.title === formData.property);
       
       if (selectedProperty && selectedProperty.locationType === 'Colocation') {
-        // Générer la liste des chambres basée sur totalRooms
         const rooms = [];
         for (let i = 1; i <= (selectedProperty.totalRooms || 0); i++) {
           rooms.push(`Chambre ${i}`);
@@ -102,7 +94,6 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
       setAvailableRooms([]);
     }
     
-    // Reset de la chambre sélectionnée
     setFormData(prev => ({ ...prev, roomNumber: '' }));
   }, [formData.property, formData.contractType, properties]);
 

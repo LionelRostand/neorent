@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -59,13 +58,11 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
     }
   }, [inspection]);
 
-  // Mettre à jour les chambres disponibles quand la propriété change
   useEffect(() => {
     if (formData.property) {
       const selectedProperty = properties.find(p => p.title === formData.property);
       
       if (selectedProperty && selectedProperty.locationType === 'Colocation') {
-        // Générer la liste des chambres basée sur totalRooms
         const rooms = [];
         for (let i = 1; i <= (selectedProperty.totalRooms || 0); i++) {
           rooms.push(`${t('inspections.room')} ${i}`);
