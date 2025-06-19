@@ -1,3 +1,4 @@
+
 {
   "navigation": {
     "dashboard": "Tableau de bord",
@@ -239,7 +240,7 @@
   "rentalCharges": {
     "title": "Charges locatives",
     "subtitle": "Gérez les charges et provisions de vos propriétés",
-    "management": "Charges Locatives",
+    "management": "Gestion des Charges Locatives",
     "description": "Gérez les charges et provisions de vos propriétés",
     "loading": "Chargement des charges...",
     "addSuccess": "Charge ajoutée avec succès",
@@ -252,6 +253,16 @@
     "subtitle": "Gérez les demandes et interventions de maintenance",
     "management": "Gestion de la Maintenance",
     "description": "Gérez les demandes et interventions de maintenance",
+    "requests": "Demandes",
+    "responsibilities": "Responsabilités",
+    "interventions": "Interventions",
+    "history": "Historique",
+    "costs": "Coûts",
+    "requestManagement": "Gestion des Demandes",
+    "responsibilityDistribution": "Répartition des Responsabilités",
+    "interventionTracking": "Suivi des Interventions",
+    "maintenanceHistory": "Historique de Maintenance",
+    "costManagement": "Gestion des Coûts",
     "loading": "Chargement des demandes...",
     "addSuccess": "Demande ajoutée avec succès",
     "addError": "Erreur lors de l'ajout de la demande",
@@ -265,7 +276,8 @@
     "description": "Communication avec vos locataires et partenaires",
     "loading": "Chargement des messages...",
     "sendSuccess": "Message envoyé avec succès",
-    "sendError": "Erreur lors de l'envoi du message"
+    "sendError": "Erreur lors de l'envoi du message",
+    "selectContact": "Sélectionnez un contact pour commencer une conversation"
   },
   "taxes": {
     "title": "Fiscalité",
