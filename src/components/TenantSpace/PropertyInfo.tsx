@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -68,18 +69,10 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
     return rooms;
   };
 
-  // Function to translate floor
+  // Function to translate floor - set to 1st floor
   const translateFloor = (floor: string) => {
-    if (floor.includes('3ème')) {
-      return t('tenantSpace.overview.ordinalFloor.3');
-    } else if (floor.includes('2ème')) {
-      return t('tenantSpace.overview.ordinalFloor.2');
-    } else if (floor.includes('1er')) {
-      return t('tenantSpace.overview.ordinalFloor.1');
-    } else if (floor.includes('rez')) {
-      return t('tenantSpace.overview.ordinalFloor.ground');
-    }
-    return floor;
+    // Always return 1st floor
+    return t('tenantSpace.overview.ordinalFloor.1');
   };
 
   return (
