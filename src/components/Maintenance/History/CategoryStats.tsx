@@ -17,7 +17,7 @@ const CategoryStats = ({ categoryStats, propertyStats }: CategoryStatsProps) => 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>{t('maintenance.maintenanceHistory.categoryStats')}</CardTitle>
+          <CardTitle>{t('maintenanceHistory.categoryStats')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -33,7 +33,7 @@ const CategoryStats = ({ categoryStats, propertyStats }: CategoryStatsProps) => 
       
       <Card>
         <CardHeader>
-          <CardTitle>{t('maintenance.maintenanceHistory.propertyStats')}</CardTitle>
+          <CardTitle>{t('maintenanceHistory.propertyStats')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
