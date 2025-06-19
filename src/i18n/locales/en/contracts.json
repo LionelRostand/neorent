@@ -30,7 +30,9 @@
     "viewDetails": "View details",
     "editContract": "Edit",
     "signContract": "Sign",
-    "confirmDelete": "Are you sure you want to delete this contract?"
+    "confirmDelete": "Are you sure you want to delete this contract?",
+    "downloadContract": "Download Contract",
+    "generatePdf": "Generate PDF"
   },
   "contractForm": {
     "newContract": "New Contract",
@@ -42,8 +44,8 @@
     "providerPlaceholder": "Provider name",
     "jurisdiction": "Jurisdiction",
     "selectJurisdiction": "Select jurisdiction",
-    "french": "French",
-    "cameroonian": "Cameroonian",
+    "french": "French Law",
+    "cameroonian": "Cameroonian Law",
     "startDate": "Start Date",
     "endDate": "End Date",
     "amount": "Amount",
@@ -51,6 +53,7 @@
     "description": "Description",
     "descriptionPlaceholder": "Detailed contract description...",
     "createContract": "Create Contract",
-    "requiredFieldsError": "Please fill in all required fields"
+    "requiredFieldsError": "Please fill in all required fields",
+    "jurisdictionInfo": "The jurisdiction determines the legal clauses included in the contract"
   }
 }

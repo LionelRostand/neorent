@@ -30,7 +30,9 @@
     "viewDetails": "Voir les détails",
     "editContract": "Modifier",
     "signContract": "Signer",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce contrat ?"
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce contrat ?",
+    "downloadContract": "Télécharger le Contrat",
+    "generatePdf": "Générer PDF"
   },
   "contractForm": {
     "newContract": "Nouveau Contrat",
@@ -42,8 +44,8 @@
     "providerPlaceholder": "Nom du prestataire",
     "jurisdiction": "Juridiction",
     "selectJurisdiction": "Sélectionner la juridiction",
-    "french": "Française",
-    "cameroonian": "Camerounaise",
+    "french": "Droit français",
+    "cameroonian": "Droit camerounais",
     "startDate": "Date de début",
     "endDate": "Date de fin",
     "amount": "Montant",
@@ -51,6 +53,7 @@
     "description": "Description",
     "descriptionPlaceholder": "Description détaillée du contrat...",
     "createContract": "Créer le contrat",
-    "requiredFieldsError": "Veuillez remplir tous les champs obligatoires"
+    "requiredFieldsError": "Veuillez remplir tous les champs obligatoires",
+    "jurisdictionInfo": "La juridiction détermine les clauses légales incluses dans le contrat"
   }
 }
