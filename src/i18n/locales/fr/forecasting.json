@@ -1,12 +1,12 @@
 
 {
   "forecasting": {
-    "title": "Prévisions",
-    "subtitle": "Analysez et prévisez vos investissements immobiliers",
-    "management": "Prévisions d'Investissement",
-    "description": "Projections financières et analyse d'investissement",
+    "title": "Prévisions Financières",
+    "subtitle": "Analysez et projetez vos investissements immobiliers",
+    "management": "Prévisions et Analyse d'Investissement",
+    "description": "Projections financières et analyse de performance d'investissement",
     "newSimulation": "Nouvelle Simulation",
-    "loading": "Chargement des prévisions...",
+    "loading": "Chargement des données de prévision...",
     "simulationSuccess": "Simulation créée avec succès",
     "simulationError": "Erreur lors de la création de la simulation",
     "currentRevenue": "Revenus Actuels",
@@ -14,10 +14,17 @@
     "investmentGoals": "Objectifs d'Investissement",
     "roi": "Retour sur Investissement",
     "forecastList": "Liste des Prévisions",
-    "noForecasts": "Aucune prévision",
-    "noForecastsDescription": "Commencez par créer votre première prévision",
-    "viewDetails": "Voir les détails",
-    "editForecast": "Modifier",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette prévision ?"
+    "noForecasts": "Aucune prévision disponible",
+    "noForecastsDescription": "Commencez par créer votre première prévision financière",
+    "viewDetails": "Voir les détails de la prévision",
+    "editForecast": "Modifier la prévision",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette prévision ?",
+    "createForecast": "Créer une Prévision",
+    "editSimulation": "Modifier la Simulation",
+    "deleteSimulation": "Supprimer la Simulation",
+    "simulationResults": "Résultats de Simulation",
+    "profitability": "Analyse de Rentabilité",
+    "riskAssessment": "Évaluation des Risques",
+    "marketTrends": "Tendances du Marché"
   }
 }

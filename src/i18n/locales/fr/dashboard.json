@@ -2,9 +2,9 @@
 {
   "dashboard": {
     "title": "Tableau de bord",
-    "subtitle": "Vue d'ensemble de votre activité immobilière",
-    "management": "Tableau de Bord",
-    "description": "Vue d'ensemble de votre activité immobilière",
+    "subtitle": "Vue d'ensemble de votre portefeuille immobilier",
+    "management": "Aperçu du tableau de bord",
+    "description": "Surveillez votre activité immobilière",
     "monthlyRevenue": "Revenus mensuels",
     "managedProperties": "Biens gérés",
     "activeTenants": "Locataires actifs",
@@ -22,10 +22,12 @@
     "urgent": "Urgent",
     "recentActivity": "Activité récente",
     "noRecentActivity": "Aucune activité récente",
-    "rentReceived": "Loyer reçu",
-    "newTenant": "Nouveau locataire",
+    "rentReceived": "Paiement de loyer reçu",
+    "newTenant": "Nouveau locataire enregistré",
     "latePayment": "Loyer en retard",
-    "inspection": "Inspection",
+    "inspection": "Inspection de propriété",
+    "viewAll": "Voir tout",
+    "viewDetails": "Voir les détails",
     "timeAgo": {
       "hours": "Il y a {{hours}}h",
       "days": "Il y a {{days}}j",

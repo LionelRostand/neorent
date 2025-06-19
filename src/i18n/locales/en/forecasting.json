@@ -1,12 +1,12 @@
 
 {
   "forecasting": {
-    "title": "Forecasting",
-    "subtitle": "Analyze and forecast your real estate investments",
-    "management": "Investment Forecasting",
-    "description": "Financial projections and investment analysis",
+    "title": "Financial Forecasting",
+    "subtitle": "Analyze and project your real estate investments",
+    "management": "Investment Forecasting & Analysis",
+    "description": "Financial projections and investment performance analysis",
     "newSimulation": "New Simulation",
-    "loading": "Loading forecasts...",
+    "loading": "Loading forecast data...",
     "simulationSuccess": "Simulation created successfully",
     "simulationError": "Error creating simulation",
     "currentRevenue": "Current Revenue",
@@ -14,10 +14,17 @@
     "investmentGoals": "Investment Goals",
     "roi": "Return on Investment",
     "forecastList": "Forecast List",
-    "noForecasts": "No forecasts",
-    "noForecastsDescription": "Start by creating your first forecast",
-    "viewDetails": "View details",
-    "editForecast": "Edit",
-    "confirmDelete": "Are you sure you want to delete this forecast?"
+    "noForecasts": "No forecasts available",
+    "noForecastsDescription": "Start by creating your first financial forecast",
+    "viewDetails": "View forecast details",
+    "editForecast": "Edit forecast",
+    "confirmDelete": "Are you sure you want to delete this forecast?",
+    "createForecast": "Create Forecast",
+    "editSimulation": "Edit Simulation",
+    "deleteSimulation": "Delete Simulation",
+    "simulationResults": "Simulation Results",
+    "profitability": "Profitability Analysis",
+    "riskAssessment": "Risk Assessment",
+    "marketTrends": "Market Trends"
   }
 }

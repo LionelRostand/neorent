@@ -1,10 +1,10 @@
 
 {
   "messages": {
-    "title": "Messages",
+    "title": "Centre de Messages",
     "subtitle": "Communiquez avec les locataires et gérez les demandes",
-    "management": "Gestion des Messages",
-    "description": "Gérez les communications et les messages",
+    "management": "Gestion de la Communication",
+    "description": "Gérez toutes les communications et fils de discussion",
     "newMessage": "Nouveau Message",
     "loading": "Chargement des messages...",
     "sendSuccess": "Message envoyé avec succès",
@@ -13,14 +13,28 @@
     "deleteError": "Erreur lors de la suppression du message",
     "totalMessages": "Total des Messages",
     "unreadMessages": "Messages Non Lus",
-    "respondedMessages": "Répondus",
-    "pendingMessages": "En Attente",
+    "respondedMessages": "Messages Répondus",
+    "pendingMessages": "Réponses en Attente",
     "messageList": "Liste des Messages",
     "noMessages": "Aucun message",
-    "noMessagesDescription": "Aucun message pour le moment",
+    "noMessagesDescription": "Aucun message dans votre boîte de réception pour le moment",
     "selectContact": "Sélectionnez un contact pour commencer la messagerie",
-    "viewDetails": "Voir les détails",
+    "viewDetails": "Voir les détails du message",
     "reply": "Répondre",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce message ?"
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce message ?",
+    "compose": "Rédiger un Message",
+    "send": "Envoyer le Message",
+    "draft": "Sauvegarder comme Brouillon",
+    "subject": "Objet",
+    "recipient": "Destinataire",
+    "messageBody": "Message",
+    "attachment": "Pièce jointe",
+    "markAsRead": "Marquer comme Lu",
+    "markAsUnread": "Marquer comme Non Lu",
+    "archive": "Archiver",
+    "inbox": "Boîte de Réception",
+    "sent": "Messages Envoyés",
+    "drafts": "Brouillons",
+    "archived": "Archivés"
   }
 }
