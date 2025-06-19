@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -25,6 +24,7 @@ interface Property {
   availableRooms?: number | null;
   creditImmobilier?: string;
   owner?: string;
+  floor?: string;
   charges?: {
     electricity?: number;
     water?: number;
@@ -139,7 +139,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div>
               <Label htmlFor="type">{t('propertyForm.typeRequired')}</Label>
               <Select value={formData.type} onValueChange={(value) => setFormData({...formData, type: value})}>
@@ -162,6 +162,15 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                 value={formData.surface || ''}
                 onChange={(e) => setFormData({...formData, surface: e.target.value})}
                 required
+              />
+            </div>
+            <div>
+              <Label htmlFor="floor">{t('propertyForm.floor')}</Label>
+              <Input
+                id="floor"
+                value={formData.floor || ''}
+                onChange={(e) => setFormData({...formData, floor: e.target.value})}
+                placeholder={t('propertyForm.floorPlaceholder')}
               />
             </div>
           </div>
