@@ -11,7 +11,7 @@ const WebsiteHeader = () => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('website.websiteManagement')}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('website.title')}</h1>
         <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
           {t('website.subtitle')}
         </p>
