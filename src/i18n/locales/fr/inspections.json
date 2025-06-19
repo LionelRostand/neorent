@@ -23,9 +23,9 @@
     "viewDetails": "Voir les détails",
     "editInspection": "Modifier",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet état des lieux ?",
-    "completed": "Terminés",
+    "completed": "Terminé",
     "inProgress": "En cours",
-    "planned": "Planifiés",
+    "planned": "Planifié",
     "listTitle": "Liste des États des Lieux",
     "totalInspections": "états des lieux au total",
     "inProgressInspections": "états des lieux en cours",
@@ -92,6 +92,8 @@
     "electricity": "Électricité",
     "present": "Présent",
     "defectsRemarks": "Défauts, remarques...",
-    "tenantName": "Nom du locataire"
+    "tenantName": "Nom du locataire",
+    "edit": "Modifier",
+    "delete": "Supprimer"
   }
 }

@@ -1,7 +1,7 @@
 
 {
   "inspections": {
-    "title": "Inspections",
+    "title": "Property Inspections",
     "subtitle": "Manage property inspections and reports",
     "management": "Inspection Management",
     "description": "Schedule and track property inspections",
@@ -92,6 +92,8 @@
     "electricity": "Electricity",
     "present": "Present",
     "defectsRemarks": "Defects, remarks...",
-    "tenantName": "Tenant Name"
+    "tenantName": "Tenant Name",
+    "edit": "Edit",
+    "delete": "Delete"
   }
 }
