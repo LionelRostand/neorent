@@ -50,6 +50,17 @@
     "upToDate": "Up to date",
     "completePayment": "Complete payment",
     "nextPayment": "Next payment:",
+    "uploadNewDocument": "Upload a new document",
+    "documentType": "Document type",
+    "selectType": "Select a type",
+    "fileMaxSize": "File (max 10MB)",
+    "chooseFile": "Choose a file",
+    "noFileChosen": "No file chosen",
+    "uploadDocument": "Upload document",
+    "documentsOf": "Documents of",
+    "required": "Required",
+    "missing": "Missing",
+    "noDocumentUploaded": "No document uploaded",
     "status": {
       "active": "Active",
       "inactive": "Inactive", 
@@ -65,6 +76,17 @@
       "inactiveMultiple": "inactive roommates",
       "total": "roommate total",
       "totalMultiple": "roommates total"
+    },
+    "documentTypes": {
+      "bail": "Rental agreement",
+      "assurance": "Home insurance",
+      "etatLieuxEntree": "Move-in inventory",
+      "revenus": "Income proof",
+      "identite": "ID document",
+      "rib": "Bank details",
+      "garant": "Guarantor documents",
+      "taxeHabitation": "Housing tax",
+      "etatLieuxSortie": "Move-out inventory"
     }
   },
   "roommateForm": {

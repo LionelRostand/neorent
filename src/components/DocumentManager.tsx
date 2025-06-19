@@ -1,318 +1,199 @@
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { 
-  Upload, 
-  Download, 
-  Eye, 
-  Trash2, 
-  FileText, 
+  FileText,
   Shield,
   ClipboardList,
   User,
   CreditCard,
   Home,
-  AlertCircle
+  Download,
+  Eye,
+  Upload
 } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { useDocumentStorage, DocumentData } from '@/hooks/useDocumentStorage';
+import DocumentUploadComponent from './DocumentUploadComponent';
 
 interface DocumentManagerProps {
-  tenantId?: string;
   roommateId?: string;
-  tenantName: string;
+  tenantId?: string;
+  tenantName?: string;
 }
 
 const DocumentManager: React.FC<DocumentManagerProps> = ({
-  tenantId,
   roommateId,
+  tenantId,
   tenantName
 }) => {
-  const [documents, setDocuments] = useState<DocumentData[]>([]);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedDocumentType, setSelectedDocumentType] = useState('');
-  
-  const { toast } = useToast();
-  const { 
-    loading, 
-    uploading, 
-    uploadDocument, 
-    getDocuments, 
-    downloadDocument, 
-    deleteDocument,
-    updateDocumentStatus 
-  } = useDocumentStorage();
+  const { t } = useTranslation();
+  const [selectedDocumentType, setSelectedDocumentType] = useState<string>('');
 
-  // Documents générés automatiquement par l'application (ne doivent pas être uploadés)
-  const systemGeneratedDocuments = ['contract', 'receipt', 'invoice'];
+  // Mock documents data
+  const documents = {
+    bail: { exists: true, name: `Contrat de bail - ${tenantName}.pdf`, uploadDate: '2023-06-01', status: 'Signé' },
+    assurance: { exists: true, name: 'Assurance habitation.pdf', uploadDate: '2023-05-28', status: 'Valide' },
+    etatLieuxEntree: { exists: true, name: 'État des lieux entrée.pdf', uploadDate: '2023-06-01', status: 'Signé' },
+    revenus: { exists: true, name: 'Bulletins de salaire.pdf', uploadDate: '2023-05-25', status: 'Validé' },
+    identite: { exists: true, name: 'Carte identité.pdf', uploadDate: '2023-05-20', status: 'Validé' },
+    rib: { exists: true, name: 'RIB.pdf', uploadDate: '2023-05-20', status: 'Validé' },
+    garant: { exists: false, name: null, uploadDate: null, status: 'Non requis' },
+    taxeHabitation: { exists: false, name: null, uploadDate: null, status: 'Optionnel' },
+    etatLieuxSortie: { exists: false, name: null, uploadDate: null, status: 'À venir' }
+  };
 
   const documentTypes = [
-    { value: 'bail', label: 'Contrat de bail', icon: FileText, required: true, systemGenerated: false },
-    { value: 'assurance', label: 'Assurance habitation', icon: Shield, required: true, systemGenerated: false },
-    { value: 'etatLieuxEntree', label: 'État des lieux d\'entrée', icon: ClipboardList, required: true, systemGenerated: false },
-    { value: 'revenus', label: 'Justificatifs de revenus', icon: CreditCard, required: true, systemGenerated: false },
-    { value: 'identite', label: 'Pièce d\'identité', icon: User, required: true, systemGenerated: false },
-    { value: 'rib', label: 'RIB', icon: CreditCard, required: true, systemGenerated: false },
-    { value: 'garant', label: 'Documents garant', icon: User, required: false, systemGenerated: false },
-    { value: 'taxeHabitation', label: 'Taxe d\'habitation', icon: Home, required: false, systemGenerated: false },
-    { value: 'etatLieuxSortie', label: 'État des lieux de sortie', icon: ClipboardList, required: false, systemGenerated: false },
-    // Documents générés par le système (affichage seulement)
-    { value: 'contract', label: 'Contrat généré', icon: FileText, required: false, systemGenerated: true },
-    { value: 'receipt', label: 'Quittances de loyer', icon: FileText, required: false, systemGenerated: true },
-    { value: 'invoice', label: 'Factures générées', icon: FileText, required: false, systemGenerated: true }
+    { key: 'bail', icon: FileText, label: t('roommates.documentTypes.bail'), color: 'text-blue-600', required: true },
+    { key: 'assurance', icon: Shield, label: t('roommates.documentTypes.assurance'), color: 'text-green-600', required: true },
+    { key: 'etatLieuxEntree', icon: ClipboardList, label: t('roommates.documentTypes.etatLieuxEntree'), color: 'text-purple-600', required: true },
+    { key: 'revenus', icon: CreditCard, label: t('roommates.documentTypes.revenus'), color: 'text-orange-600', required: true },
+    { key: 'identite', icon: User, label: t('roommates.documentTypes.identite'), color: 'text-red-600', required: true },
+    { key: 'rib', icon: CreditCard, label: t('roommates.documentTypes.rib'), color: 'text-teal-600', required: true },
+    { key: 'garant', icon: User, label: t('roommates.documentTypes.garant'), color: 'text-indigo-600', required: false },
+    { key: 'taxeHabitation', icon: Home, label: t('roommates.documentTypes.taxeHabitation'), color: 'text-gray-600', required: false },
+    { key: 'etatLieuxSortie', icon: ClipboardList, label: t('roommates.documentTypes.etatLieuxSortie'), color: 'text-orange-600', required: false }
   ];
 
-  useEffect(() => {
-    loadDocuments();
-  }, [tenantId, roommateId]);
-
-  const loadDocuments = async () => {
-    try {
-      const docs = await getDocuments(tenantId, roommateId);
-      setDocuments(docs);
-    } catch (error) {
-      console.error('Erreur lors du chargement des documents:', error);
-    }
-  };
-
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Vérifier la taille (max 10MB)
-      if (file.size > 10 * 1024 * 1024) {
-        toast({
-          title: "Fichier trop volumineux",
-          description: "Le fichier ne doit pas dépasser 10MB.",
-          variant: "destructive",
-        });
-        return;
+  const getDocumentStatusBadge = (status: string, exists: boolean, required: boolean) => {
+    if (exists) {
+      switch (status) {
+        case 'Signé':
+        case 'Valide':
+        case 'Validé':
+          return <Badge className="bg-green-100 text-green-800">✓ {status}</Badge>;
+        default:
+          return <Badge className="bg-blue-100 text-blue-800">{status}</Badge>;
       }
-      setSelectedFile(file);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile || !selectedDocumentType) {
-      toast({
-        title: "Informations manquantes",
-        description: "Veuillez sélectionner un fichier et un type de document.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Vérifier si c'est un document généré par le système
-    if (systemGeneratedDocuments.includes(selectedDocumentType)) {
-      toast({
-        title: "Document généré automatiquement",
-        description: "Ce type de document est généré automatiquement par l'application.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      await uploadDocument(selectedFile, selectedDocumentType, tenantId, roommateId);
-      
-      toast({
-        title: "Document uploadé",
-        description: "Le document a été uploadé avec succès.",
-      });
-      
-      setSelectedFile(null);
-      setSelectedDocumentType('');
-      loadDocuments();
-    } catch (error) {
-      toast({
-        title: "Erreur d'upload",
-        description: "Erreur lors de l'upload du document.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleDownload = async (document: DocumentData) => {
-    try {
-      downloadDocument(document);
-      toast({
-        title: "Téléchargement en cours",
-        description: `Téléchargement de ${document.fileName}`,
-      });
-    } catch (error) {
-      toast({
-        title: "Erreur de téléchargement",
-        description: "Erreur lors du téléchargement du document.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleDelete = async (documentId: string, fileName: string) => {
-    if (window.confirm(`Supprimer le document ${fileName} ?`)) {
-      try {
-        await deleteDocument(documentId);
-        toast({
-          title: "Document supprimé",
-          description: "Le document a été supprimé avec succès.",
-        });
-        loadDocuments();
-      } catch (error) {
-        toast({
-          title: "Erreur de suppression",
-          description: "Erreur lors de la suppression du document.",
-          variant: "destructive",
-        });
+    } else {
+      if (required) {
+        return <Badge className="bg-red-100 text-red-800">❌ {t('roommates.missing')}</Badge>;
+      } else {
+        return <Badge variant="secondary">{status}</Badge>;
       }
     }
   };
 
-  const getDocumentByType = (type: string) => {
-    return documents.find(doc => doc.documentType === type);
+  const handleUploadSuccess = (result: any) => {
+    console.log('Document uploaded successfully:', result);
   };
 
-  // Filtrer les types de documents pour l'upload (exclure les documents générés par le système)
-  const uploadableDocumentTypes = documentTypes.filter(type => !type.systemGenerated);
+  const handleViewDocument = (documentName: string) => {
+    console.log('Viewing document:', documentName);
+  };
+
+  const handleDownloadDocument = (documentName: string) => {
+    const link = document.createElement('a');
+    link.href = '/placeholder.svg';
+    link.download = documentName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="space-y-6">
-      {/* Section d'upload */}
+      {/* Upload Section */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+        <CardContent className="p-6">
+          <div className="flex items-center space-x-2 mb-4">
             <Upload className="h-5 w-5" />
-            Uploader un nouveau document
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Type de document</label>
-            <select
-              value={selectedDocumentType}
-              onChange={(e) => setSelectedDocumentType(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            >
-              <option value="">Sélectionner un type</option>
-              {uploadableDocumentTypes.map((type) => (
-                <option key={type.value} value={type.value}>
-                  {type.label}
-                </option>
-              ))}
-            </select>
+            <h3 className="text-lg font-semibold">{t('roommates.uploadNewDocument')}</h3>
           </div>
           
-          <div>
-            <label className="block text-sm font-medium mb-2">Fichier (max 10MB)</label>
-            <Input
-              type="file"
-              onChange={handleFileSelect}
-              accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-            />
-          </div>
-          
-          {selectedFile && (
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <p className="text-sm">
-                <strong>Fichier sélectionné:</strong> {selectedFile.name}
-              </p>
-              <p className="text-xs text-gray-600">
-                Taille: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-              </p>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="document-type">{t('roommates.documentType')}</Label>
+              <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t('roommates.selectType')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {documentTypes.map((type) => (
+                    <SelectItem key={type.key} value={type.key}>
+                      {type.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          )}
-          
-          <Button 
-            onClick={handleUpload} 
-            disabled={!selectedFile || !selectedDocumentType || uploading}
-            className="w-full"
-          >
-            {uploading ? 'Upload en cours...' : 'Uploader le document'}
-          </Button>
+
+            {selectedDocumentType && (
+              <DocumentUploadComponent
+                folder={`documents/${roommateId || tenantId}`}
+                onUploadSuccess={handleUploadSuccess}
+                label={t('roommates.fileMaxSize')}
+              />
+            )}
+          </div>
         </CardContent>
       </Card>
 
-      {/* Liste des documents */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Documents de {tenantName}</h3>
+      {/* Documents List */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">
+          {t('roommates.documentsOf')} {tenantName}
+        </h3>
         
-        {documentTypes.map((docType) => {
-          const document = getDocumentByType(docType.value);
-          const Icon = docType.icon;
-          
-          return (
-            <Card key={docType.value}>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Icon className="h-6 w-6 text-blue-600" />
-                    <div>
-                      <h4 className="font-medium flex items-center gap-2">
-                        {docType.label}
-                        {docType.required && <Badge variant="outline" className="text-xs">Requis</Badge>}
-                        {docType.systemGenerated && <Badge variant="secondary" className="text-xs">Généré auto</Badge>}
-                      </h4>
-                      {document ? (
-                        <p className="text-sm text-gray-600">
-                          {document.fileName} • {(document.fileSize / 1024).toFixed(2)} KB
-                          <br />
-                          Uploadé le {new Date(document.uploadDate).toLocaleDateString('fr-FR')}
-                        </p>
-                      ) : docType.systemGenerated ? (
-                        <p className="text-sm text-gray-500">Document généré automatiquement par l'application</p>
-                      ) : (
-                        <p className="text-sm text-gray-500">Aucun document uploadé</p>
+        <div className="grid gap-4">
+          {documentTypes.map((docType) => {
+            const document = documents[docType.key as keyof typeof documents];
+            const Icon = docType.icon;
+            
+            return (
+              <Card key={docType.key}>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Icon className={`h-8 w-8 ${docType.color}`} />
+                      <div>
+                        <h4 className="font-semibold flex items-center gap-2">
+                          {docType.label}
+                          {docType.required && <Badge variant="outline" className="text-xs">{t('roommates.required')}</Badge>}
+                        </h4>
+                        {document.exists ? (
+                          <p className="text-sm text-gray-600">
+                            {document.name} • {new Date(document.uploadDate!).toLocaleDateString()}
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-500">{t('roommates.noDocumentUploaded')}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      {getDocumentStatusBadge(document.status, document.exists, docType.required)}
+                      {document.exists && (
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleViewDocument(document.name!)}
+                          >
+                            <Eye className="h-4 w-4 mr-2" />
+                            Voir
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleDownloadDocument(document.name!)}
+                          >
+                            <Download className="h-4 w-4 mr-2" />
+                            Télécharger
+                          </Button>
+                        </div>
                       )}
                     </div>
                   </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    {document ? (
-                      <>
-                        <Badge className="bg-green-100 text-green-800">
-                          ✓ {document.status}
-                        </Badge>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDownload(document)}
-                        >
-                          <Download className="h-4 w-4 mr-1" />
-                          Télécharger
-                        </Button>
-                        {!docType.systemGenerated && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDelete(document.id!, document.fileName)}
-                          >
-                            <Trash2 className="h-4 w-4 mr-1" />
-                            Supprimer
-                          </Button>
-                        )}
-                      </>
-                    ) : (
-                      !docType.systemGenerated && docType.required && (
-                        <Badge className="bg-red-100 text-red-800">
-                          ❌ Manquant
-                        </Badge>
-                      )
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {loading && (
-        <div className="text-center py-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Chargement des documents...</p>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 };
