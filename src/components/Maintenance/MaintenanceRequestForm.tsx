@@ -1,10 +1,12 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import MaintenanceForm from './MaintenanceForm';
 import MaintenanceRequestsList from './MaintenanceRequestsList';
 import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
 
 const MaintenanceRequestForm = () => {
+  const { t } = useTranslation();
   const { requests, addRequest, getRecentRequests, loading } = useFirebaseMaintenances();
 
   const handleNewRequest = async (newRequest: any) => {
@@ -18,7 +20,7 @@ const MaintenanceRequestForm = () => {
   const recentRequests = getRecentRequests();
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <div>{t('maintenance.loading')}</div>;
   }
 
   return (
