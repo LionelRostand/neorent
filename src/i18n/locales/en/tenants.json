@@ -22,6 +22,48 @@
     "noTenantsDescription": "Start by adding your first tenant",
     "viewDetails": "View details",
     "editTenant": "Edit",
-    "confirmDelete": "Are you sure you want to delete this tenant?"
+    "confirmDelete": "Are you sure you want to delete this tenant?",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "metrics": {
+      "activeTenants": "Active Tenants",
+      "activeDescription": "{{count}} active tenant",
+      "activeDescription_plural": "{{count}} active tenants",
+      "searching": "Searching",
+      "searchingDescription": "{{count}} tenant searching",
+      "searchingDescription_plural": "{{count}} tenants searching",
+      "inactive": "Inactive",
+      "inactiveDescription": "{{count}} inactive tenant",
+      "inactiveDescription_plural": "{{count}} inactive tenants",
+      "total": "Total",
+      "totalDescription": "{{count}} tenant in total",
+      "totalDescription_plural": "{{count}} tenants in total"
+    },
+    "listTitle": "Tenant List",
+    "listDescription": "View and manage all your tenants",
+    "contact": "Contact",
+    "rentPerMonth": "/month"
+  },
+  "tenantForm": {
+    "password": "Password",
+    "passwordMinLength": "Minimum 6 characters",
+    "property": "Property",
+    "selectProperty": "Select a property",
+    "rentAmount": "Rent amount",
+    "nextPayment": "Next payment",
+    "lateStatus": "Late",
+    "creating": "Creating..."
+  },
+  "forms": {
+    "addTenant": "Add Tenant"
+  },
+  "profile": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "status": "Status",
+    "leaseStart": "Lease start"
   }
 }

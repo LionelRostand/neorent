@@ -22,6 +22,23 @@
     "noRoommatesDescription": "Commencez par ajouter votre premier colocataire",
     "viewDetails": "Voir les détails",
     "editRoommate": "Modifier",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce colocataire ?"
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce colocataire ?",
+    "emailExistsWarning": "L'email est déjà utilisé, mais le colocataire a été ajouté avec succès.",
+    "addSuccessDescription": "Le colocataire a été ajouté avec succès."
+  },
+  "roommateForm": {
+    "password": "Mot de passe",
+    "passwordMinLength": "Minimum 6 caractères",
+    "property": "Propriété",
+    "selectProperty": "Sélectionner une propriété",
+    "roomNumber": "Numéro de chambre",
+    "rentAmount": "Montant du loyer",
+    "rentPlaceholder": "Ex: 450",
+    "rentIncludesCharges": "Charges comprises",
+    "primaryTenant": "Locataire principal",
+    "moveInDate": "Date d'emménagement",
+    "lateStatus": "En retard",
+    "creating": "Création...",
+    "addRoommate": "Ajouter un colocataire"
   }
 }
