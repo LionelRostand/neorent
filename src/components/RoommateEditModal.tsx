@@ -20,7 +20,7 @@ interface Roommate {
   primaryTenant: string;
   moveInDate: string;
   image: string | null;
-  password?: string; // Ajout optionnel pour type
+  password?: string;
 }
 
 interface Property {
@@ -67,12 +67,12 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>{t('roommates.roommateForm.editTitle')}</DialogTitle>
+          <DialogTitle>{t('roommateForm.editTitle')}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="name">{t('roommates.roommateForm.fullName')}</Label>
+              <Label htmlFor="name">{t('roommateForm.fullName')}</Label>
               <Input
                 id="name"
                 value={formData.name || ''}
@@ -81,7 +81,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="email">{t('roommates.roommateForm.email')}</Label>
+              <Label htmlFor="email">{t('roommateForm.email')}</Label>
               <Input
                 id="email"
                 type="email"
@@ -93,7 +93,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="phone">{t('roommates.roommateForm.phone')}</Label>
+              <Label htmlFor="phone">{t('roommateForm.phone')}</Label>
               <Input
                 id="phone"
                 value={formData.phone || ''}
@@ -102,7 +102,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="property">{t('roommates.roommateForm.property')}</Label>
+              <Label htmlFor="property">{t('roommateForm.property')}</Label>
               <Select value={formData.property} onValueChange={(value) => setFormData({...formData, property: value})}>
                 <SelectTrigger>
                   <SelectValue />
@@ -120,7 +120,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
           {/* LIGNE avec numéro de chambre et mot de passe */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="roomNumber">{t('roommates.roommateForm.roomNumber')}</Label>
+              <Label htmlFor="roomNumber">{t('roommateForm.roomNumber')}</Label>
               <Input
                 id="roomNumber"
                 value={formData.roomNumber || ''}
@@ -129,7 +129,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="password">{t('roommates.roommateForm.newPassword')} ({t('roommates.roommateForm.passwordNote')})</Label>
+              <Label htmlFor="password">{t('roommateForm.newPassword')} ({t('roommateForm.passwordNote')})</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -137,7 +137,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   minLength={6}
-                  placeholder={t('roommates.roommateForm.newPassword')}
+                  placeholder={t('roommateForm.newPassword')}
                   autoComplete="new-password"
                 />
                 <button
@@ -150,13 +150,13 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                 </button>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                {t('roommates.roommateForm.passwordMinLength')}. {t('roommates.roommateForm.passwordNote')}.
+                {t('roommateForm.passwordMinLength')}. {t('roommateForm.passwordNote')}.
               </p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="rentAmount">{t('roommates.roommateForm.rentAmount')} (€)</Label>
+              <Label htmlFor="rentAmount">{t('roommateForm.rentAmount')} (€)</Label>
               <Input
                 id="rentAmount"
                 value={formData.rentAmount || ''}
@@ -165,7 +165,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="primaryTenant">{t('roommates.roommateForm.primaryTenant')}</Label>
+              <Label htmlFor="primaryTenant">{t('roommateForm.primaryTenant')}</Label>
               <Input
                 id="primaryTenant"
                 value={formData.primaryTenant || ''}
@@ -175,7 +175,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="status">{t('roommates.roommateForm.status')}</Label>
+              <Label htmlFor="status">{t('roommateForm.status')}</Label>
               <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
                 <SelectTrigger>
                   <SelectValue />
@@ -191,7 +191,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
             <div></div>
           </div>
           <div>
-            <Label htmlFor="moveInDate">{t('roommates.roommateForm.moveInDate')}</Label>
+            <Label htmlFor="moveInDate">{t('roommateForm.moveInDate')}</Label>
             <Input
               id="moveInDate"
               type="date"
@@ -202,10 +202,10 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
           </div>
           <div className="flex justify-end space-x-2 pt-4">
             <Button type="button" variant="outline" onClick={onClose}>
-              {t('roommates.roommateForm.cancel')}
+              {t('roommateForm.cancel')}
             </Button>
             <Button type="submit">
-              {t('roommates.roommateForm.saveChanges')}
+              {t('roommateForm.saveChanges')}
             </Button>
           </div>
         </form>
