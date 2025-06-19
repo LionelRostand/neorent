@@ -15,11 +15,13 @@ import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { ProfileDialog } from './ProfileDialog';
 import { PasswordChangeDialog } from './PasswordChangeDialog';
+import { useTranslation } from 'react-i18next';
 
 export const UserProfileDropdown = () => {
   const { user, logout, userProfile, userType } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
   const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
 
@@ -27,13 +29,13 @@ export const UserProfileDropdown = () => {
     try {
       await logout();
       toast({
-        title: "Déconnexion",
+        title: t('common.logout'),
         description: "Vous avez été déconnecté avec succès.",
       });
       navigate('/login');
     } catch (error) {
       toast({
-        title: "Erreur",
+        title: t('common.error'),
         description: "Erreur lors de la déconnexion.",
         variant: "destructive",
       });
@@ -69,7 +71,7 @@ export const UserProfileDropdown = () => {
               </p>
               {isAdminOrEmployee && (
                 <p className="text-xs leading-none text-blue-600 font-medium">
-                  {userType === 'admin' ? 'Administrateur' : 'Employé'}
+                  {userType === 'admin' ? t('common.administrator') : t('common.employee')}
                 </p>
               )}
             </div>
@@ -80,15 +82,15 @@ export const UserProfileDropdown = () => {
             <>
               <DropdownMenuItem onClick={() => setIsProfileDialogOpen(true)}>
                 <UserCheck className="mr-2 h-4 w-4" />
-                <span>Mon profil</span>
+                <span>{t('common.myProfile')}</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setIsPasswordDialogOpen(true)}>
                 <Lock className="mr-2 h-4 w-4" />
-                <span>Changer le mot de passe</span>
+                <span>{t('common.changePassword')}</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleTenantSpaceAccess}>
                 <Home className="mr-2 h-4 w-4" />
-                <span>Espace locataire</span>
+                <span>{t('common.tenantSpace')}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
@@ -96,7 +98,7 @@ export const UserProfileDropdown = () => {
           
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Se déconnecter</span>
+            <span>{t('common.logout')}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
