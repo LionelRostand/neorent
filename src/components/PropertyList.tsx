@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropertyCard from './PropertyCard';
 import PropertyDetailsModal from './PropertyDetailsModal';
 import PropertyEditModal from './PropertyEditModal';
@@ -26,6 +27,7 @@ interface PropertyListProps {
 }
 
 const PropertyList: React.FC<PropertyListProps> = ({ properties, onUpdateProperty, onDeleteProperty }) => {
+  const { t } = useTranslation();
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -66,7 +68,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties, onUpdatePropert
   return (
     <>
       <div className="pt-4">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Liste des Biens Immobiliers</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">{t('properties.listTitle')}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {properties.map((property) => (
