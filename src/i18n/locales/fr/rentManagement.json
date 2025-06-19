@@ -80,6 +80,7 @@
     "check": "Chèque",
     "cash": "Espèces",
     "creditCard": "Carte Bancaire",
-    "automaticDebit": "Prélèvement Automatique"
+    "automaticDebit": "Prélèvement Automatique",
+    "roommate": "Colocataire"
   }
 }

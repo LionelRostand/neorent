@@ -80,6 +80,7 @@
     "check": "Check",
     "cash": "Cash",
     "creditCard": "Credit Card",
-    "automaticDebit": "Automatic Debit"
+    "automaticDebit": "Automatic Debit",
+    "roommate": "Roommate"
   }
 }

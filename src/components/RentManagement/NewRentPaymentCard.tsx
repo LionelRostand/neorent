@@ -41,7 +41,7 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
           bgColor: 'bg-green-50',
           borderColor: 'border-l-green-500',
           textColor: 'text-green-800',
-          label: 'Paid'
+          label: t('rentManagement.paid')
         };
       case 'En retard':
         return {
@@ -49,7 +49,7 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
           bgColor: 'bg-red-50',
           borderColor: 'border-l-red-500',
           textColor: 'text-red-800',
-          label: 'Late'
+          label: t('rentManagement.late')
         };
       default:
         return {
@@ -57,7 +57,7 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
           bgColor: 'bg-yellow-50',
           borderColor: 'border-l-yellow-500',
           textColor: 'text-yellow-800',
-          label: 'Pending'
+          label: t('rentManagement.pending')
         };
     }
   };
@@ -72,7 +72,7 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
           <div>
             <h3 className="font-semibold text-gray-900">{payment.tenantName}</h3>
             <p className="text-sm text-gray-500 capitalize">
-              {payment.tenantType === 'Colocataire' ? 'Roommate' : 'Tenant'}
+              {payment.tenantType === 'Colocataire' ? t('rentManagement.roommate') : t('rentManagement.tenant')}
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -95,7 +95,7 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
             <span>{payment.property}</span>
           </div>
           <div className="text-xs text-gray-500 mt-1">
-            Due date: {payment.dueDate}
+            {t('rentManagement.dueDate')}: {payment.dueDate}
           </div>
         </div>
 
@@ -105,8 +105,8 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
             <div className="flex items-center">
               <DollarSign className="h-5 w-5 text-blue-600 mr-2" />
               <div>
-                <span className="text-sm font-medium text-gray-700">Contract rent</span>
-                <p className="text-xs text-gray-500">According to lease contract</p>
+                <span className="text-sm font-medium text-gray-700">{t('rentManagement.contractRent')}</span>
+                <p className="text-xs text-gray-500">{t('rentManagement.accordingToContract')}</p>
               </div>
             </div>
             <span className="text-2xl font-bold text-blue-600">{contractAmount}€</span>
@@ -119,7 +119,7 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
             payment.paidAmount === contractAmount ? 'bg-green-50' : 'bg-red-50'
           }`}>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-700">Amount paid</span>
+              <span className="text-sm font-medium text-gray-700">{t('rentManagement.amountPaid')}</span>
               <span className={`text-2xl font-bold ${
                 payment.paidAmount === contractAmount ? 'text-green-600' : 'text-red-600'
               }`}>
@@ -145,15 +145,15 @@ const NewRentPaymentCard: React.FC<NewRentPaymentCardProps> = ({
             onClick={() => onMarkAsPaid(payment.id)}
             className="w-full bg-green-600 hover:bg-green-700"
           >
-            Mark as paid
+            {t('rentManagement.markAsPaidButton')}
           </Button>
         )}
 
         {/* Payment details if paid */}
         {payment.status === 'Payé' && payment.paymentDate && (
           <div className="text-xs text-gray-500 text-center">
-            Paid on {payment.paymentDate}
-            {payment.paymentMethod && ` via ${payment.paymentMethod}`}
+            {t('rentManagement.paymentDate')}: {payment.paymentDate}
+            {payment.paymentMethod && ` - ${payment.paymentMethod}`}
           </div>
         )}
       </CardContent>
