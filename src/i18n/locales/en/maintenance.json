@@ -30,6 +30,7 @@
     "requestList": "Maintenance Request List",
     "noRequests": "No maintenance requests",
     "noRequestsDescription": "Start by adding your first maintenance request",
+    "recentRequests": "Recent Requests",
     "viewDetails": "View request details",
     "editRequest": "Edit request",
     "confirmDelete": "Are you sure you want to delete this maintenance request?",

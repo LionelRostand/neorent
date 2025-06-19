@@ -30,6 +30,7 @@
     "requestList": "Liste des Demandes de Maintenance",
     "noRequests": "Aucune demande de maintenance",
     "noRequestsDescription": "Commencez par ajouter votre première demande de maintenance",
+    "recentRequests": "Demandes Récentes",
     "viewDetails": "Voir les détails de la demande",
     "editRequest": "Modifier la demande",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette demande de maintenance ?",

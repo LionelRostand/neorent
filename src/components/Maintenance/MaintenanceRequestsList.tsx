@@ -26,9 +26,16 @@ const MaintenanceRequestsList = ({ requests }: MaintenanceRequestsListProps) => 
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">{t('maintenance.recentRequests')}</h3>
-      {requests.map((request) => (
-        <MaintenanceRequestCard key={request.id} request={request} />
-      ))}
+      {requests.length === 0 ? (
+        <div className="text-center py-8">
+          <p className="text-gray-500">{t('maintenance.noRequests')}</p>
+          <p className="text-sm text-gray-400 mt-1">{t('maintenance.noRequestsDescription')}</p>
+        </div>
+      ) : (
+        requests.map((request) => (
+          <MaintenanceRequestCard key={request.id} request={request} />
+        ))
+      )}
     </div>
   );
 };
