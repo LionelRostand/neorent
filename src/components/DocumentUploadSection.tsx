@@ -1,14 +1,13 @@
 
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Progress } from '@/components/ui/progress';
-import { Upload, File, X, AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Upload } from 'lucide-react';
+import DocumentTypeSelector from './DocumentUpload/DocumentTypeSelector';
+import FileSelector from './DocumentUpload/FileSelector';
+import SelectedFileDisplay from './DocumentUpload/SelectedFileDisplay';
+import ErrorAlert from './DocumentUpload/ErrorAlert';
+import UploadProgress from './DocumentUpload/UploadProgress';
+import UploadButton from './DocumentUpload/UploadButton';
 
 interface DocumentType {
   key: string;
@@ -31,7 +30,6 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
   uploading,
   uploadProgress = 0
 }) => {
-  const { t } = useTranslation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedDocumentType, setSelectedDocumentType] = useState<string>('');
   const [uploadError, setUploadError] = useState<string>('');
@@ -89,13 +87,6 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
     if (input) input.value = '';
   };
 
-  const formatFileSize = (bytes: number) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
-  };
-
-  // Fonction pour annuler l'upload en cours
   const cancelUpload = () => {
     setSelectedFile(null);
     setSelectedDocumentType('');
@@ -113,106 +104,40 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Sélection du type de document */}
-        <div>
-          <Label htmlFor="document-type">Type de document</Label>
-          <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType} disabled={uploading}>
-            <SelectTrigger>
-              <SelectValue placeholder="Sélectionner un type de document" />
-            </SelectTrigger>
-            <SelectContent>
-              {documentTypes.map((docType) => (
-                <SelectItem key={docType.key} value={docType.key}>
-                  {docType.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <DocumentTypeSelector
+          documentTypes={documentTypes}
+          selectedDocumentType={selectedDocumentType}
+          onDocumentTypeChange={setSelectedDocumentType}
+          uploading={uploading}
+        />
 
-        {/* Sélection du fichier */}
-        <div>
-          <Label htmlFor="file-upload">Choisir un fichier</Label>
-          <Input
-            id="file-upload"
-            type="file"
-            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-            onChange={handleFileSelect}
-            disabled={uploading}
-            className="cursor-pointer"
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Taille max: 10 MB • Types autorisés: PDF, Images, Documents Word
-          </p>
-        </div>
+        <FileSelector
+          onFileSelect={handleFileSelect}
+          uploading={uploading}
+        />
 
-        {/* Affichage du fichier sélectionné */}
         {selectedFile && (
-          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <File className="h-5 w-5 text-gray-500" />
-              <div>
-                <p className="text-sm font-medium">{selectedFile.name}</p>
-                <p className="text-xs text-gray-500">{formatFileSize(selectedFile.size)}</p>
-              </div>
-            </div>
-            <Button
-              onClick={clearSelectedFile}
-              disabled={uploading}
-              size="sm"
-              variant="outline"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          <SelectedFileDisplay
+            selectedFile={selectedFile}
+            onClearFile={clearSelectedFile}
+            uploading={uploading}
+          />
         )}
 
-        {/* Affichage des erreurs */}
-        {uploadError && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{uploadError}</AlertDescription>
-          </Alert>
-        )}
+        <ErrorAlert error={uploadError} />
 
-        {/* Barre de progression */}
         {uploading && (
-          <div className="space-y-2">
-            <Progress value={uploadProgress} className="w-full" />
-            <p className="text-xs text-center text-gray-500">
-              Upload en cours... {uploadProgress}%
-            </p>
-            <div className="flex justify-center">
-              <Button
-                onClick={cancelUpload}
-                size="sm"
-                variant="outline"
-                className="text-red-600 hover:text-red-800"
-              >
-                Annuler l'upload
-              </Button>
-            </div>
-          </div>
+          <UploadProgress
+            uploadProgress={uploadProgress}
+            onCancelUpload={cancelUpload}
+          />
         )}
 
-        {/* Bouton d'upload */}
-        <Button
-          onClick={handleUpload}
+        <UploadButton
+          onUpload={handleUpload}
           disabled={!selectedFile || !selectedDocumentType || uploading}
-          className="w-full"
-        >
-          {uploading ? (
-            <>
-              <Upload className="h-4 w-4 mr-2 animate-spin" />
-              Upload en cours...
-            </>
-          ) : (
-            <>
-              <Upload className="h-4 w-4 mr-2" />
-              Uploader le document
-            </>
-          )}
-        </Button>
+          uploading={uploading}
+        />
       </CardContent>
     </Card>
   );
