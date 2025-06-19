@@ -63,6 +63,7 @@
     "low": "Low",
     "urgent": "Urgent",
     "normal": "Normal",
+    "planned": "Planned",
     "scheduled": "Scheduled",
     "completed": "Completed",
     "cancelled": "Cancelled",
@@ -188,7 +189,8 @@
       "interventionUpdated": "The intervention has been marked as",
       "createInvoice": "Create invoice",
       "invoiceCreated": "Invoice created",
-      "invoiceDescription": "The new invoice has been recorded."
+      "invoiceDescription": "The new invoice has been recorded.",
+      "loadingData": "Loading data..."
     },
     "costManagement": {
       "title": "Cost Management",

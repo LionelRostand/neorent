@@ -78,7 +78,7 @@ const InterventionTracking = () => {
   const createInterventionsFromRequests = () => {
     requests.forEach(async (request) => {
       const existingIntervention = interventions.find(i => i.requestId === request.id);
-      if (!existingIntervention && request.status === 'En attente') {
+      if (!existingIntervention && request.status === t('maintenance.pending')) {
         try {
           await addIntervention({
             requestId: request.id,
@@ -377,10 +377,10 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
       
       <div className="flex justify-end gap-2">
         <Button type="button" variant="outline" onClick={onCancel}>
-          {t('maintenance.interventionTracking.cancel')}
+          {t('maintenance.cancel')}
         </Button>
         <Button type="submit">
-          {t('maintenance.interventionTracking.save')}
+          {t('maintenance.save')}
         </Button>
       </div>
     </form>

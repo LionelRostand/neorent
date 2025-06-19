@@ -63,6 +63,7 @@
     "low": "Faible",
     "urgent": "Urgent",
     "normal": "Normal",
+    "planned": "Planifiée",
     "scheduled": "Planifié",
     "completed": "Terminé",
     "cancelled": "Annulé",
@@ -188,7 +189,8 @@
       "interventionUpdated": "L'intervention a été marquée comme",
       "createInvoice": "Créer une facture",
       "invoiceCreated": "Facture créée",
-      "invoiceDescription": "La nouvelle facture a été enregistrée."
+      "invoiceDescription": "La nouvelle facture a été enregistrée.",
+      "loadingData": "Chargement des données..."
     },
     "costManagement": {
       "title": "Gestion des Coûts",
