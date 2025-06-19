@@ -35,30 +35,56 @@ const BankTransferDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold">Gestion des Virements Bancaires</h1>
-        <p className="text-gray-600 mt-2">
+    <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+          Gestion des Virements Bancaires
+        </h1>
+        <p className="text-sm sm:text-base text-gray-600 mt-2">
           Système de paiement par virement avec gestion des bénéficiaires, portefeuilles et transferts
         </p>
       </div>
 
-      <Tabs defaultValue="beneficiaries" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-1">
-          <TabsTrigger value="beneficiaries" className="text-xs sm:text-sm">Bénéficiaires</TabsTrigger>
-          <TabsTrigger value="wallets" className="text-xs sm:text-sm">Portefeuilles</TabsTrigger>
-          <TabsTrigger value="transfers" className="text-xs sm:text-sm">Virements</TabsTrigger>
-          <TabsTrigger value="history" className="text-xs sm:text-sm">Historique</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="beneficiaries" className="space-y-4 sm:space-y-6">
+        <div className="overflow-x-auto">
+          <TabsList className="grid w-full min-w-fit grid-cols-2 sm:grid-cols-4 gap-1 h-auto p-1">
+            <TabsTrigger 
+              value="beneficiaries" 
+              className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap"
+            >
+              <span className="hidden xs:inline">Bénéficiaires</span>
+              <span className="xs:hidden">Bénéf.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="wallets" 
+              className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap"
+            >
+              <span className="hidden xs:inline">Portefeuilles</span>
+              <span className="xs:hidden">Porte.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="transfers" 
+              className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap"
+            >
+              Virements
+            </TabsTrigger>
+            <TabsTrigger 
+              value="history" 
+              className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap"
+            >
+              Historique
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsContent value="beneficiaries">
+        <TabsContent value="beneficiaries" className="mt-4 sm:mt-6">
           <BeneficiaryUserForm 
             onSubmit={handleCreateBeneficiary}
             loading={loading}
           />
         </TabsContent>
 
-        <TabsContent value="wallets">
+        <TabsContent value="wallets" className="mt-4 sm:mt-6">
           <WalletManager 
             wallets={wallets}
             onCreateWallet={handleCreateWallet}
@@ -66,7 +92,7 @@ const BankTransferDashboard: React.FC = () => {
           />
         </TabsContent>
 
-        <TabsContent value="transfers">
+        <TabsContent value="transfers" className="mt-4 sm:mt-6">
           <TransferForm 
             wallets={wallets}
             bankAccounts={beneficiaries.map(b => ({
@@ -79,7 +105,7 @@ const BankTransferDashboard: React.FC = () => {
           />
         </TabsContent>
 
-        <TabsContent value="history">
+        <TabsContent value="history" className="mt-4 sm:mt-6">
           <TransferHistory transfers={transfers} />
         </TabsContent>
       </Tabs>
