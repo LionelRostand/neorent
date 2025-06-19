@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { User, Mail, Phone, MapPin, Calendar } from 'lucide-react';
@@ -30,6 +31,8 @@ const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({
   isUpdating,
   onFormDataChange
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
       <div className="space-y-4">
@@ -37,7 +40,7 @@ const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({
           <div className="flex items-center space-x-3">
             <User className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0" />
             <div className="min-w-0">
-              <p className="text-xs md:text-sm text-gray-600">Nom complet</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.profile.name')}</p>
               <p className="font-medium text-sm md:text-base truncate">{tenantData.name}</p>
             </div>
           </div>
@@ -47,7 +50,7 @@ const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({
           <div className="flex items-center space-x-3">
             <Mail className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0" />
             <div className="min-w-0">
-              <p className="text-xs md:text-sm text-gray-600">Email</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.profile.email')}</p>
               <p className="font-medium text-sm md:text-base truncate">{tenantData.email}</p>
             </div>
           </div>
@@ -57,13 +60,13 @@ const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({
           <div className="flex items-center space-x-3 flex-1">
             <Phone className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-xs md:text-sm text-gray-600">Téléphone</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.profile.phone')}</p>
               {isEditing ? (
                 <Input
                   value={formData.phone}
                   onChange={(e) => onFormDataChange('phone', e.target.value)}
                   className="mt-1 text-sm md:text-base"
-                  placeholder="Numéro de téléphone"
+                  placeholder={t('tenantSpace.profile.phone')}
                   disabled={isUpdating}
                 />
               ) : (
@@ -79,7 +82,7 @@ const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({
           <div className="flex items-start space-x-3">
             <MapPin className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0 mt-1" />
             <div className="min-w-0">
-              <p className="text-xs md:text-sm text-gray-600">Adresse du logement</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.profile.address')}</p>
               <p className="font-medium text-sm md:text-base">{tenantData.address}</p>
             </div>
           </div>
@@ -89,9 +92,9 @@ const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({
           <div className="flex items-start space-x-3">
             <Calendar className="h-4 w-4 md:h-5 md:w-5 text-gray-400 flex-shrink-0 mt-1" />
             <div className="min-w-0">
-              <p className="text-xs md:text-sm text-gray-600">Période de bail</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.profile.leaseStart')} - {t('tenantSpace.profile.leaseEnd')}</p>
               <p className="font-medium text-sm md:text-base">
-                Du {new Date(tenantData.leaseStart).toLocaleDateString('fr-FR')} au {new Date(tenantData.leaseEnd).toLocaleDateString('fr-FR')}
+                {new Date(tenantData.leaseStart).toLocaleDateString('fr-FR')} - {new Date(tenantData.leaseEnd).toLocaleDateString('fr-FR')}
               </p>
             </div>
           </div>
@@ -108,7 +111,7 @@ const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({
               </Badge>
             </div>
             <div>
-              <p className="text-xs md:text-sm text-gray-600">Statut du compte</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.profile.status')}</p>
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ const ProfileStatusMessages: React.FC<ProfileStatusMessagesProps> = ({
       {updateSuccess && (
         <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg text-green-800">
           <CheckCircle className="h-4 w-4" />
-          <span className="text-sm font-medium">{t('profile.updateSuccess')}</span>
+          <span className="text-sm font-medium">{t('tenantSpace.profile.updateSuccess')}</span>
         </div>
       )}
       
