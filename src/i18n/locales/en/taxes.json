@@ -35,6 +35,23 @@
     "overdue": "Overdue",
     "calculateTax": "Calculate Tax",
     "generateReport": "Generate Tax Report",
-    "exportData": "Export Tax Data"
+    "exportData": "Export Tax Data",
+    "fiscalities": "Tax Management",
+    "manageFiscalObligations": "Manage fiscal obligations and tax declarations",
+    "taxEstimation2025": "Tax Estimation 2025",
+    "approximateTotal": "Approximate Total",
+    "alreadyPaid": "Already Paid",
+    "remainingToPay": "Remaining to Pay",
+    "estimationNote": "This estimation is based on current data and may vary.",
+    "filterByYear": "Filter by year",
+    "paidTaxes": "Paid Taxes",
+    "taxPaid": "tax paid",
+    "taxesToDeclare": "Taxes to Declare",
+    "declarationToDo": "declaration to do",
+    "taxesToPay": "Taxes to Pay",
+    "paymentToMake": "payment to make",
+    "totalTaxes": "Total Taxes",
+    "totalObligation": "total obligation",
+    "taxList2025": "Tax List {{year}}"
   }
 }

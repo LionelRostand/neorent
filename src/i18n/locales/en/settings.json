@@ -28,6 +28,25 @@
     "databaseSettings": "Database Settings",
     "emailSettings": "Email Settings",
     "firebaseSettings": "Firebase Settings",
-    "paymentSettings": "Payment Settings"
+    "paymentSettings": "Payment Settings",
+    "tabs": {
+      "company": "Company",
+      "employees": "Employees", 
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Database",
+      "email": "Email",
+      "security": "Security",
+      "payment": "Payment",
+      "adminAccess": "Admin Access"
+    },
+    "adminAccess": "Admin Access",
+    "adminAccessDescription": "Access tenant accounts for support purposes",
+    "security": {
+      "title": "Security Settings",
+      "subtitle": "Configure security settings and policies",
+      "loadingSettings": "Loading security settings...",
+      "saving": "Saving..."
+    }
   }
 }
