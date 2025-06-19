@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -106,12 +107,12 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{t('propertyForm.editTitle')}</DialogTitle>
+          <DialogTitle>{t('properties.editProperty')}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="title">{t('propertyForm.title')}</Label>
+              <Label htmlFor="title">{t('propertyForm.titleRequired')}</Label>
               <Input
                 id="title"
                 value={formData.title || ''}
@@ -130,7 +131,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
             </div>
           </div>
           <div>
-            <Label htmlFor="address">{t('propertyForm.address')}</Label>
+            <Label htmlFor="address">{t('propertyForm.addressRequired')}</Label>
             <Textarea
               id="address"
               value={formData.address || ''}
@@ -140,7 +141,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="type">{t('propertyForm.type')}</Label>
+              <Label htmlFor="type">{t('propertyForm.typeRequired')}</Label>
               <Select value={formData.type} onValueChange={(value) => setFormData({...formData, type: value})}>
                 <SelectTrigger>
                   <SelectValue />
@@ -149,12 +150,13 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                   <SelectItem value="Appartement">{t('propertyForm.propertyTypes.appartement')}</SelectItem>
                   <SelectItem value="Maison">{t('propertyForm.propertyTypes.maison')}</SelectItem>
                   <SelectItem value="Studio">{t('propertyForm.propertyTypes.studio')}</SelectItem>
-                  <SelectItem value="Villa">{t('propertyForm.propertyTypes.villa')}</SelectItem>
+                  <SelectItem value="Loft">{t('propertyForm.propertyTypes.loft')}</SelectItem>
+                  <SelectItem value="Duplex">{t('propertyForm.propertyTypes.duplex')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label htmlFor="surface">{t('propertyForm.surface')} (m²)</Label>
+              <Label htmlFor="surface">{t('propertyForm.surfaceRequired')}</Label>
               <Input
                 id="surface"
                 value={formData.surface || ''}
@@ -165,7 +167,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="creditImmobilier">{t('propertyForm.creditImmobilier')} (€)</Label>
+              <Label htmlFor="creditImmobilier">{t('propertyForm.creditImmobilierRequired')}</Label>
               <Input
                 id="creditImmobilier"
                 value={formData.creditImmobilier || ''}
@@ -174,21 +176,21 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="status">{t('propertyForm.status')}</Label>
+              <Label htmlFor="status">{t('properties.status')}</Label>
               <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Libre">{t('propertyForm.statusTypes.libre')}</SelectItem>
-                  <SelectItem value="Occupé">{t('propertyForm.statusTypes.occupe')}</SelectItem>
-                  <SelectItem value="En travaux">{t('propertyForm.statusTypes.travaux')}</SelectItem>
+                  <SelectItem value="Libre">{t('properties.vacant')}</SelectItem>
+                  <SelectItem value="Occupé">{t('properties.occupied')}</SelectItem>
+                  <SelectItem value="En travaux">{t('properties.underRenovation')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <div>
-            <Label htmlFor="locationType">{t('propertyForm.locationType')}</Label>
+            <Label htmlFor="locationType">{t('propertyForm.locationTypeRequired')}</Label>
             <Select value={formData.locationType} onValueChange={(value) => setFormData({...formData, locationType: value})}>
               <SelectTrigger>
                 <SelectValue />
@@ -203,7 +205,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
           {formData.locationType === 'Colocation' && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="totalRooms">{t('propertyForm.roomCount')}</Label>
+                <Label htmlFor="totalRooms">{t('propertyForm.roomCountRequired')}</Label>
                 <Input
                   id="totalRooms"
                   type="number"
@@ -212,7 +214,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                 />
               </div>
               <div>
-                <Label htmlFor="availableRooms">{t('Chambres disponibles')}</Label>
+                <Label htmlFor="availableRooms">{t('properties.availableRooms')}</Label>
                 <Input
                   id="availableRooms"
                   type="number"
@@ -228,7 +230,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Calculator className="h-5 w-5" />
-                {t('propertyForm.charges.subtitle')}
+                {t('propertyForm.charges.title')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -340,7 +342,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
               {t('propertyForm.cancel')}
             </Button>
             <Button type="submit">
-              {t('propertyForm.save')}
+              {t('common.save')}
             </Button>
           </div>
         </form>

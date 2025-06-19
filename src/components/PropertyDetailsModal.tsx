@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -48,6 +50,7 @@ interface PropertyDetailsModalProps {
 }
 
 const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, isOpen, onClose }) => {
+  const { t } = useTranslation();
   const { roommates } = useFirebaseRoommates();
 
   if (!property) return null;
@@ -179,7 +182,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                   variant={property.locationType === 'Colocation' ? 'default' : 'secondary'}
                   className={property.locationType === 'Colocation' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}
                 >
-                  {property.locationType}
+                  {t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`)}
                 </Badge>
                 <Badge 
                   variant={occupancyInfo.status === 'Libre' ? 'secondary' : 'default'}
@@ -189,7 +192,10 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                     'bg-yellow-100 text-yellow-800'
                   }
                 >
-                  {occupancyInfo.status}
+                  {occupancyInfo.status === 'Libre' ? t('properties.vacant') :
+                   occupancyInfo.status === 'Complet' ? t('properties.fullyOccupied') :
+                   occupancyInfo.status === 'Partiellement occupé' ? t('properties.partiallyOccupied') :
+                   occupancyInfo.status}
                 </Badge>
               </div>
 
@@ -201,10 +207,10 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                 
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="font-medium">Type:</span> {property.type}
+                    <span className="font-medium">{t('propertyForm.type')}:</span> {t(`propertyForm.propertyTypes.${property.type.toLowerCase()}`)}
                   </div>
                   <div>
-                    <span className="font-medium">Surface:</span> {property.surface}
+                    <span className="font-medium">{t('propertyForm.surface')}:</span> {property.surface}
                   </div>
                 </div>
 
@@ -213,11 +219,11 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                     <Bed className="mr-2 h-5 w-5" />
                     {occupancyInfo.availableRooms > 0 ? (
                       <span className="text-green-600 font-medium">
-                        {occupancyInfo.availableRooms} chambre{occupancyInfo.availableRooms !== 1 ? 's' : ''} disponible{occupancyInfo.availableRooms !== 1 ? 's' : ''}
+                        {occupancyInfo.availableRooms} {t('properties.roomsAvailable')}
                       </span>
                     ) : (
                       <span className="text-red-600 font-medium">
-                        Toutes les chambres sont occupées
+                        {t('properties.allRoomsOccupied')}
                       </span>
                     )}
                     <span className="ml-1">/ {occupancyInfo.totalRooms} total</span>
@@ -227,7 +233,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                 {property.locationType === 'Location' && occupants.length > 0 && (
                   <div className="flex items-center text-green-600 font-medium">
                     <User className="mr-2 h-5 w-5" />
-                    Appartement occupé
+                    {t('properties.apartmentOccupied')}
                   </div>
                 )}
               </div>
@@ -236,23 +242,23 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
 
           {/* Rentabilité et bénéfices */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Rentabilité du bien</h3>
+            <h3 className="text-xl font-semibold mb-4">{t('properties.profitability')}</h3>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card>
                 <CardContent className="p-4 text-center">
                   <DollarSign className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                  <div className="font-medium text-green-600">Revenus</div>
+                  <div className="font-medium text-green-600">{t('properties.revenue')}</div>
                   <div className="text-xl font-bold">{formatNumber(totalRevenue)}€</div>
-                  <div className="text-sm text-gray-600">Ce mois</div>
+                  <div className="text-sm text-gray-600">{t('properties.thisMonth')}</div>
                 </CardContent>
               </Card>
               
               <Card>
                 <CardContent className="p-4 text-center">
                   <DollarSign className="h-8 w-8 mx-auto mb-2 text-red-600" />
-                  <div className="font-medium text-red-600">Charges</div>
+                  <div className="font-medium text-red-600">{t('properties.charges')}</div>
                   <div className="text-xl font-bold">{formatNumber(totalCharges)}€</div>
-                  <div className="text-sm text-gray-600">Ce mois</div>
+                  <div className="text-sm text-gray-600">{t('properties.thisMonth')}</div>
                 </CardContent>
               </Card>
               
@@ -264,22 +270,22 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                     <TrendingDown className="h-8 w-8 mx-auto mb-2 text-red-600" />
                   )}
                   <div className={`font-medium ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {profit >= 0 ? 'Bénéfice' : 'Perte'}
+                    {profit >= 0 ? t('properties.profit') : t('properties.loss')}
                   </div>
                   <div className={`text-xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {formatNumber(Math.abs(profit))}€
                   </div>
-                  <div className="text-sm text-gray-600">Ce mois</div>
+                  <div className="text-sm text-gray-600">{t('properties.thisMonth')}</div>
                 </CardContent>
               </Card>
               
               <Card>
                 <CardContent className="p-4 text-center">
                   <Users className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-                  <div className="font-medium text-blue-600">Taux d'occupation</div>
+                  <div className="font-medium text-blue-600">{t('properties.occupancyRate')}</div>
                   <div className="text-xl font-bold">{occupancyRate}%</div>
                   <div className="text-sm text-gray-600">
-                    {occupants.length} occupant{occupants.length !== 1 ? 's' : ''}
+                    {occupants.length} {t('properties.occupants')}
                   </div>
                 </CardContent>
               </Card>
@@ -288,30 +294,30 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
 
           {/* Configuration du bien */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Configuration du bien</h3>
+            <h3 className="text-xl font-semibold mb-4">{t('properties.propertyConfiguration')}</h3>
             <Card>
               <CardContent className="p-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <Home className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-                    <div className="font-medium">{property.type}</div>
+                    <div className="font-medium">{t(`propertyForm.propertyTypes.${property.type.toLowerCase()}`)}</div>
                     <div className="text-sm text-gray-600">{property.surface}</div>
                   </div>
                   
                   {property.locationType === 'Colocation' && (
                     <div className="text-center p-4 bg-gray-50 rounded-lg">
                       <Bed className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                      <div className="font-medium">{occupancyInfo.totalRooms} chambres</div>
+                      <div className="font-medium">{occupancyInfo.totalRooms} {t('properties.rooms')}</div>
                       <div className="text-sm text-gray-600">
-                        {occupancyInfo.availableRooms} disponible{occupancyInfo.availableRooms !== 1 ? 's' : ''}
+                        {occupancyInfo.availableRooms} {t('properties.available')}
                       </div>
                     </div>
                   )}
                   
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <Users className="h-8 w-8 mx-auto mb-2 text-purple-600" />
-                    <div className="font-medium">{occupants.length} occupant{occupants.length !== 1 ? 's' : ''}</div>
-                    <div className="text-sm text-gray-600">{property.locationType}</div>
+                    <div className="font-medium">{occupants.length} {t('properties.occupants')}</div>
+                    <div className="text-sm text-gray-600">{t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`)}</div>
                   </div>
                 </div>
               </CardContent>
@@ -321,7 +327,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
           {/* Liste des occupants */}
           <div>
             <h3 className="text-xl font-semibold mb-4">
-              Liste des occupants ({occupants.length})
+              {t('properties.occupantsList')} ({occupants.length})
             </h3>
             
             {occupants.length > 0 ? (
@@ -342,7 +348,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                           <div className="flex justify-between items-start">
                             <h4 className="font-medium">{occupant.name}</h4>
                             <Badge variant="outline" className="text-xs">
-                              {occupant.type}
+                              {occupant.type === 'Locataire principal' ? t('properties.mainTenant') : t('properties.roommate')}
                             </Badge>
                           </div>
                           
@@ -358,7 +364,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                             {occupant.roomNumber && (
                               <div className="flex items-center">
                                 <Bed className="mr-1 h-3 w-3" />
-                                {occupant.roomNumber} - {occupant.rentAmount}/mois
+                                {occupant.roomNumber} - {occupant.rentAmount}{t('properties.perMonth')}
                               </div>
                             )}
                           </div>
@@ -372,9 +378,9 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
               <Card>
                 <CardContent className="p-8 text-center">
                   <Users className="h-12 w-12 mx-auto mb-3 text-gray-400" />
-                  <p className="text-gray-600">Aucun occupant pour ce bien</p>
+                  <p className="text-gray-600">{t('properties.noOccupants')}</p>
                   <p className="text-sm text-gray-500 mt-1">
-                    Les occupants apparaîtront automatiquement une fois ajoutés dans la section Colocataires
+                    {t('properties.noOccupantsDescription')}
                   </p>
                 </CardContent>
               </Card>
