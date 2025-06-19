@@ -25,6 +25,8 @@ export const useTenantSpaceData = () => {
     console.log('Is admin:', isAuthorizedAdmin);
     console.log('User profile:', userProfile);
     console.log('User type:', userType);
+    console.log('Profile name check:', currentProfile?.name);
+    console.log('Profile room number check:', currentProfile?.roomNumber);
     console.log('========================');
   }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType]);
 
@@ -47,17 +49,18 @@ export const useTenantSpaceData = () => {
       : ["Balcon", "Cuisine équipée", "Parquet", "Lumineux"]
   } : null;
 
-  // Tenant/roommate data for components
+  // Tenant/roommate data for components - S'assurer que les données sont correctement formatées
   const mockTenantData = currentProfile ? {
     id: currentProfile.id || 1,
-    name: currentProfile.name,
-    email: currentProfile.email,
+    name: currentProfile.name || 'Nom non disponible',
+    email: currentProfile.email || 'Email non disponible',
     phone: currentProfile.phone || "0123456789",
     address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
     leaseStart: currentProfile.leaseStart || currentProfile.moveInDate || "2024-01-01",
     leaseEnd: currentProfile.leaseEnd || "2024-12-31",
     status: currentProfile.status || "À jour",
     type: (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire',
+    roomNumber: currentProfile.roomNumber || null,
     emergencyContact: {
       name: "Contact Urgence",
       phone: "0987654321",
@@ -66,9 +69,18 @@ export const useTenantSpaceData = () => {
   } : null;
 
   console.log('Rendered data:', { mockPropertyData, mockTenantData });
+  console.log('Current profile for header:', {
+    name: currentProfile?.name,
+    roomNumber: currentProfile?.roomNumber,
+    type: currentType
+  });
 
   return {
-    currentProfile,
+    currentProfile: currentProfile ? {
+      ...currentProfile,
+      name: currentProfile.name || 'Nom non disponible',
+      roomNumber: currentProfile.roomNumber || null
+    } : null,
     currentType,
     isAuthorizedAdmin,
     isImpersonating,

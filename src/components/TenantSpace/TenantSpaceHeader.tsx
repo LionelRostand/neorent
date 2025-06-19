@@ -26,8 +26,8 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
     currentType,
     typeKey,
     translatedType,
-    titleTranslation: t('tenantSpace.title', { type: translatedType }),
-    welcomeTranslation: t('tenantSpace.welcome', { name: currentProfile.name })
+    name: currentProfile?.name,
+    roomNumber: currentProfile?.roomNumber
   });
 
   return (
@@ -38,9 +38,9 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {t('tenantSpace.title', { type: translatedType })}
           </h1>
           <p className="text-gray-600 mt-2 text-sm sm:text-base break-words">
-            {t('tenantSpace.welcome', { name: currentProfile.name })}
+            {t('tenantSpace.welcome', { name: currentProfile?.name || 'Utilisateur' })}
           </p>
-          {currentType === 'colocataire' && currentProfile.roomNumber && (
+          {currentType === 'colocataire' && currentProfile?.roomNumber && (
             <p className="text-gray-500 mt-1 text-sm">
               {t('tenantSpace.room', { number: currentProfile.roomNumber })}
             </p>
