@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Loading...",
@@ -95,6 +94,17 @@
     "myProfile": "My Profile",
     "changePassword": "Change Password",
     "tenantSpace": "Tenant Space",
-    "logout": "Logout"
+    "logout": "Logout",
+    "role": "Role",
+    "permissions": "Permissions",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "modify": "Modify",
+    "enterCurrentPassword": "Enter your current password",
+    "minimum6Characters": "Minimum 6 characters",
+    "confirmNewPassword": "Confirm new password",
+    "modifying": "Modifying...",
+    "notDefined": "Not defined"
   }
 }

@@ -2,6 +2,7 @@
 import React from 'react';
 import { User } from 'firebase/auth';
 import { Eye, EyeOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -24,6 +25,7 @@ export const PasswordChangeDialog = ({
   onOpenChange, 
   user 
 }: PasswordChangeDialogProps) => {
+  const { t } = useTranslation();
   const {
     currentPassword,
     setCurrentPassword,
@@ -45,11 +47,11 @@ export const PasswordChangeDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle>Changer le mot de passe</DialogTitle>
+          <DialogTitle>{t('common.changePassword')}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handlePasswordChange} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="current-password">Mot de passe actuel</Label>
+            <Label htmlFor="current-password">{t('common.currentPassword')}</Label>
             <div className="relative">
               <Input
                 id="current-password"
@@ -57,7 +59,7 @@ export const PasswordChangeDialog = ({
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 required
-                placeholder="Saisissez votre mot de passe actuel"
+                placeholder={t('common.enterCurrentPassword')}
               />
               <Button
                 type="button"
@@ -75,7 +77,7 @@ export const PasswordChangeDialog = ({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="new-password">Nouveau mot de passe</Label>
+            <Label htmlFor="new-password">{t('common.newPassword')}</Label>
             <div className="relative">
               <Input
                 id="new-password"
@@ -83,7 +85,7 @@ export const PasswordChangeDialog = ({
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
-                placeholder="Minimum 6 caractères"
+                placeholder={t('common.minimum6Characters')}
               />
               <Button
                 type="button"
@@ -101,7 +103,7 @@ export const PasswordChangeDialog = ({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirm-password">Confirmer le nouveau mot de passe</Label>
+            <Label htmlFor="confirm-password">{t('common.confirmPassword')}</Label>
             <div className="relative">
               <Input
                 id="confirm-password"
@@ -109,7 +111,7 @@ export const PasswordChangeDialog = ({
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                placeholder="Confirmez le nouveau mot de passe"
+                placeholder={t('common.confirmNewPassword')}
               />
               <Button
                 type="button"
@@ -132,10 +134,10 @@ export const PasswordChangeDialog = ({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Annuler
+              {t('common.cancel')}
             </Button>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Modification...' : 'Modifier'}
+              {isLoading ? t('common.modifying') : t('common.modify')}
             </Button>
           </div>
         </form>

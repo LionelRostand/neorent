@@ -1,9 +1,11 @@
 
 import { useState } from 'react';
 import { User, updatePassword } from 'firebase/auth';
+import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 
 export const usePasswordChange = (user: User, onClose: (open: boolean) => void) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -18,8 +20,8 @@ export const usePasswordChange = (user: User, onClose: (open: boolean) => void) 
     
     if (newPassword !== confirmPassword) {
       toast({
-        title: "Erreur",
-        description: "Les mots de passe ne correspondent pas.",
+        title: t('common.error'),
+        description: "The passwords do not match.",
         variant: "destructive",
       });
       return;
@@ -27,8 +29,8 @@ export const usePasswordChange = (user: User, onClose: (open: boolean) => void) 
 
     if (newPassword.length < 6) {
       toast({
-        title: "Erreur", 
-        description: "Le mot de passe doit contenir au moins 6 caractères.",
+        title: t('common.error'), 
+        description: "Password must contain at least 6 characters.",
         variant: "destructive",
       });
       return;
@@ -40,8 +42,8 @@ export const usePasswordChange = (user: User, onClose: (open: boolean) => void) 
       if (user) {
         await updatePassword(user, newPassword);
         toast({
-          title: "Succès",
-          description: "Mot de passe modifié avec succès.",
+          title: t('common.success'),
+          description: "Password changed successfully.",
         });
         onClose(false);
         setCurrentPassword('');
@@ -50,8 +52,8 @@ export const usePasswordChange = (user: User, onClose: (open: boolean) => void) 
       }
     } catch (error: any) {
       toast({
-        title: "Erreur",
-        description: "Impossible de modifier le mot de passe. Veuillez vous reconnecter.",
+        title: t('common.error'),
+        description: "Unable to change password. Please log in again.",
         variant: "destructive",
       });
     } finally {

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { User } from 'firebase/auth';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -26,40 +27,42 @@ export const ProfileDialog = ({
   userProfile, 
   userType 
 }: ProfileDialogProps) => {
+  const { t } = useTranslation();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle>Mon profil</DialogTitle>
+          <DialogTitle>{t('common.myProfile')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>Nom</Label>
+            <Label>{t('common.name')}</Label>
             <Input
-              value={userProfile?.name || 'Non défini'}
+              value={userProfile?.name || t('common.notDefined')}
               readOnly
               className="bg-gray-50"
             />
           </div>
           <div className="space-y-2">
-            <Label>Email</Label>
+            <Label>{t('common.email')}</Label>
             <Input
-              value={user.email || 'Non défini'}
+              value={user.email || t('common.notDefined')}
               readOnly
               className="bg-gray-50"
             />
           </div>
           <div className="space-y-2">
-            <Label>Rôle</Label>
+            <Label>{t('common.role')}</Label>
             <Input
-              value={userType === 'admin' ? 'Administrateur' : 'Employé'}
+              value={userType === 'admin' ? t('common.administrator') : t('common.employee')}
               readOnly
               className="bg-gray-50"
             />
           </div>
           {userProfile?.permissions && Array.isArray(userProfile.permissions) && userProfile.permissions.length > 0 && (
             <div className="space-y-2">
-              <Label>Permissions</Label>
+              <Label>{t('common.permissions')}</Label>
               <div className="bg-gray-50 p-3 rounded-md">
                 <div className="flex flex-wrap gap-1">
                   {userProfile.permissions.map((permission: string) => (
@@ -80,7 +83,7 @@ export const ProfileDialog = ({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Fermer
+              {t('common.close')}
             </Button>
           </div>
         </div>
