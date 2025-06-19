@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +52,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
               <Link to="/login">
                 <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
                   <LogIn className="h-4 w-4" />
-                  Connexion
+                  {t('publicSite.login.title')}
                 </Button>
               </Link>
             </div>
@@ -102,7 +101,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 w-full justify-center mt-2">
                     <LogIn className="h-4 w-4" />
-                    Connexion
+                    {t('publicSite.login.title')}
                   </Button>
                 </Link>
               </div>
