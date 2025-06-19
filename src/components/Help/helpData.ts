@@ -14,109 +14,109 @@ import {
   MessageCircle
 } from 'lucide-react';
 
-export const helpSections = [
+export const helpSectionsData = [
   {
     icon: Home,
-    title: 'Dashboard',
-    category: 'Vue d\'ensemble',
-    description: 'Tableau de bord principal avec métriques et activités récentes',
-    technical: 'Interface de synthèse utilisant des composants de métriques et graphiques en temps réel',
-    functional: 'Permet de visualiser rapidement l\'état général de votre parc immobilier, les revenus, les tâches en attente et les alertes importantes'
+    titleKey: 'help.sections.dashboard.title',
+    categoryKey: 'help.categories.overview',
+    descriptionKey: 'help.sections.dashboard.description',
+    technicalKey: 'help.sections.dashboard.technical',
+    functionalKey: 'help.sections.dashboard.functional'
   },
   {
     icon: Building,
-    title: 'Propriétés',
-    category: 'Gestion immobilière',
-    description: 'Gestion complète de votre parc immobilier',
-    technical: 'CRUD complet avec upload de documents, géolocalisation et historique des modifications',
-    functional: 'Créer, modifier et suivre vos biens immobiliers : appartements, maisons, locaux commerciaux. Gérer les caractéristiques, photos, documents et localisation'
+    titleKey: 'help.sections.properties.title',
+    categoryKey: 'help.categories.realEstate',
+    descriptionKey: 'help.sections.properties.description',
+    technicalKey: 'help.sections.properties.technical',
+    functionalKey: 'help.sections.properties.functional'
   },
   {
     icon: Users,
-    title: 'Locataires',
-    category: 'Gestion locative',
-    description: 'Base de données et suivi des locataires',
-    technical: 'Système de gestion des profils avec historique des paiements et documents associés',
-    functional: 'Gérer les informations personnelles des locataires, leur historique de location, documents d\'identité et suivi des relations contractuelles'
+    titleKey: 'help.sections.tenants.title',
+    categoryKey: 'help.categories.rental',
+    descriptionKey: 'help.sections.tenants.description',
+    technicalKey: 'help.sections.tenants.technical',
+    functionalKey: 'help.sections.tenants.functional'
   },
   {
     icon: UserCheck,
-    title: 'Colocataires',
-    category: 'Gestion locative',
-    description: 'Gestion spécialisée pour la colocation',
-    technical: 'Extension du système locataires avec gestion des relations multiples et répartition des charges',
-    functional: 'Suivre les colocataires, gérer la répartition des loyers et charges, coordonner les responsabilités partagées'
+    titleKey: 'help.sections.roommates.title',
+    categoryKey: 'help.categories.rental',
+    descriptionKey: 'help.sections.roommates.description',
+    technicalKey: 'help.sections.roommates.technical',
+    functionalKey: 'help.sections.roommates.functional'
   },
   {
     icon: FileText,
-    title: 'Contrats',
-    category: 'Documentation',
-    description: 'Création et gestion des baux et contrats',
-    technical: 'Générateur de contrats avec templates personnalisables et signature électronique',
-    functional: 'Créer des baux de location, gérer les renouvellements, suivre les échéances et conditions contractuelles'
+    titleKey: 'help.sections.contracts.title',
+    categoryKey: 'help.categories.documentation',
+    descriptionKey: 'help.sections.contracts.description',
+    technicalKey: 'help.sections.contracts.technical',
+    functionalKey: 'help.sections.contracts.functional'
   },
   {
     icon: ClipboardList,
-    title: 'États des lieux',
-    category: 'Documentation',
-    description: 'Documentation détaillée de l\'état des biens',
-    technical: 'Formulaires dynamiques avec upload de photos et génération automatique de rapports PDF',
-    functional: 'Réaliser des états des lieux d\'entrée et de sortie, documenter l\'état des biens avec photos et observations détaillées'
+    titleKey: 'help.sections.inspections.title',
+    categoryKey: 'help.categories.documentation',
+    descriptionKey: 'help.sections.inspections.description',
+    technicalKey: 'help.sections.inspections.technical',
+    functionalKey: 'help.sections.inspections.functional'
   },
   {
     icon: DollarSign,
-    title: 'Gestion des loyers',
-    category: 'Finance',
-    description: 'Suivi des paiements et relances',
-    technical: 'Système de facturation automatique avec intégration aux passerelles de paiement',
-    functional: 'Générer les quittances, suivre les paiements, gérer les retards et relances automatiques'
+    titleKey: 'help.sections.rentManagement.title',
+    categoryKey: 'help.categories.finance',
+    descriptionKey: 'help.sections.rentManagement.description',
+    technicalKey: 'help.sections.rentManagement.technical',
+    functionalKey: 'help.sections.rentManagement.functional'
   },
   {
     icon: Calculator,
-    title: 'Charges locatives',
-    category: 'Finance',
-    description: 'Calcul et répartition des charges',
-    technical: 'Moteur de calcul avec règles de répartition personnalisables et historique des variations',
-    functional: 'Calculer et répartir les charges communes, gérer les provisions et régularisations annuelles'
+    titleKey: 'help.sections.rentalCharges.title',
+    categoryKey: 'help.categories.finance',
+    descriptionKey: 'help.sections.rentalCharges.description',
+    technicalKey: 'help.sections.rentalCharges.technical',
+    functionalKey: 'help.sections.rentalCharges.functional'
   },
   {
     icon: Wrench,
-    title: 'Maintenance',
-    category: 'Technique',
-    description: 'Gestion des interventions et réparations',
-    technical: 'Système de tickets avec workflow d\'approbation et suivi des prestataires',
-    functional: 'Planifier et suivre les interventions de maintenance, gérer les demandes locataires et coordonner les prestataires'
+    titleKey: 'help.sections.maintenance.title',
+    categoryKey: 'help.categories.technical',
+    descriptionKey: 'help.sections.maintenance.description',
+    technicalKey: 'help.sections.maintenance.technical',
+    functionalKey: 'help.sections.maintenance.functional'
   },
   {
     icon: MessageCircle,
-    title: 'Messages',
-    category: 'Communication',
-    description: 'Communication centralisée avec les locataires',
-    technical: 'Système de messagerie en temps réel avec notifications push et historique',
-    functional: 'Communiquer avec vos locataires, envoyer des notifications importantes et maintenir un historique des échanges'
+    titleKey: 'help.sections.messages.title',
+    categoryKey: 'help.categories.communication',
+    descriptionKey: 'help.sections.messages.description',
+    technicalKey: 'help.sections.messages.technical',
+    functionalKey: 'help.sections.messages.functional'
   },
   {
     icon: FileText,
-    title: 'Déclarations fiscales',
-    category: 'Administration',
-    description: 'Préparation des déclarations et reporting fiscal',
-    technical: 'Générateur de rapports fiscaux avec export comptable et archivage sécurisé',
-    functional: 'Préparer vos déclarations fiscales, générer les états de revenus fonciers et exporter les données comptables'
+    titleKey: 'help.sections.taxes.title',
+    categoryKey: 'help.categories.administration',
+    descriptionKey: 'help.sections.taxes.description',
+    technicalKey: 'help.sections.taxes.technical',
+    functionalKey: 'help.sections.taxes.functional'
   },
   {
     icon: Globe,
-    title: 'Site Web',
-    category: 'Marketing',
-    description: 'Gestion de votre présence en ligne',
-    technical: 'CMS intégré avec optimisation SEO et analytics de performance',
-    functional: 'Créer et gérer votre site web vitrine, publier vos annonces et analyser le trafic et les performances'
+    titleKey: 'help.sections.website.title',
+    categoryKey: 'help.categories.marketing',
+    descriptionKey: 'help.sections.website.description',
+    technicalKey: 'help.sections.website.technical',
+    functionalKey: 'help.sections.website.functional'
   },
   {
     icon: Settings,
-    title: 'Paramètres',
-    category: 'Configuration',
-    description: 'Configuration générale de l\'application',
-    technical: 'Interface d\'administration avec gestion des permissions et configuration système',
-    functional: 'Configurer votre entreprise, gérer les utilisateurs et permissions, paramétrer les intégrations et sauvegardes'
+    titleKey: 'help.sections.settings.title',
+    categoryKey: 'help.categories.configuration',
+    descriptionKey: 'help.sections.settings.description',
+    technicalKey: 'help.sections.settings.technical',
+    functionalKey: 'help.sections.settings.functional'
   }
 ];

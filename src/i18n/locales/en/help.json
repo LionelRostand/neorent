@@ -21,6 +21,98 @@
     "apiReference": "API Reference",
     "clearFilters": "Clear all filters",
     "technicalAspect": "Technical aspect",
-    "functionalUsage": "Functional usage"
+    "functionalUsage": "Functional usage",
+    "categories": {
+      "overview": "Overview",
+      "realEstate": "Real Estate Management",
+      "rental": "Rental Management",
+      "documentation": "Documentation",
+      "finance": "Finance",
+      "technical": "Technical",
+      "communication": "Communication",
+      "administration": "Administration",
+      "marketing": "Marketing",
+      "configuration": "Configuration"
+    },
+    "sections": {
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "Main dashboard with metrics and recent activities",
+        "technical": "Synthesis interface using real-time metrics and graphics components",
+        "functional": "Quickly visualize the general state of your real estate portfolio, revenue, pending tasks and important alerts"
+      },
+      "properties": {
+        "title": "Properties",
+        "description": "Complete management of your real estate portfolio",
+        "technical": "Complete CRUD with document upload, geolocation and modification history",
+        "functional": "Create, modify and track your real estate properties: apartments, houses, commercial premises. Manage characteristics, photos, documents and location"
+      },
+      "tenants": {
+        "title": "Tenants",
+        "description": "Database and tenant tracking",
+        "technical": "Profile management system with payment history and associated documents",
+        "functional": "Manage tenants' personal information, rental history, identity documents and track contractual relationships"
+      },
+      "roommates": {
+        "title": "Roommates",
+        "description": "Specialized management for shared housing",
+        "technical": "Extension of the tenant system with multiple relationship management and charge distribution",
+        "functional": "Track roommates, manage rent and charge distribution, coordinate shared responsibilities"
+      },
+      "contracts": {
+        "title": "Contracts",
+        "description": "Creation and management of leases and contracts",
+        "technical": "Contract generator with customizable templates and electronic signature",
+        "functional": "Create rental leases, manage renewals, track deadlines and contractual conditions"
+      },
+      "inspections": {
+        "title": "Property Inspections",
+        "description": "Detailed documentation of property condition",
+        "technical": "Dynamic forms with photo upload and automatic PDF report generation",
+        "functional": "Conduct move-in and move-out inspections, document property condition with photos and detailed observations"
+      },
+      "rentManagement": {
+        "title": "Rent Management",
+        "description": "Payment tracking and reminders",
+        "technical": "Automatic billing system with payment gateway integration",
+        "functional": "Generate receipts, track payments, manage delays and automatic reminders"
+      },
+      "rentalCharges": {
+        "title": "Rental Charges",
+        "description": "Calculation and distribution of charges",
+        "technical": "Calculation engine with customizable distribution rules and variation history",
+        "functional": "Calculate and distribute common charges, manage provisions and annual adjustments"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Management of interventions and repairs",
+        "technical": "Ticket system with approval workflow and service provider tracking",
+        "functional": "Plan and track maintenance interventions, manage tenant requests and coordinate service providers"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Centralized communication with tenants",
+        "technical": "Real-time messaging system with push notifications and history",
+        "functional": "Communicate with your tenants, send important notifications and maintain an exchange history"
+      },
+      "taxes": {
+        "title": "Tax Declarations",
+        "description": "Preparation of declarations and tax reporting",
+        "technical": "Tax report generator with accounting export and secure archiving",
+        "functional": "Prepare your tax declarations, generate rental income statements and export accounting data"
+      },
+      "website": {
+        "title": "Website",
+        "description": "Management of your online presence",
+        "technical": "Integrated CMS with SEO optimization and performance analytics",
+        "functional": "Create and manage your showcase website, publish your listings and analyze traffic and performance"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "General application configuration",
+        "technical": "Administration interface with permission management and system configuration",
+        "functional": "Configure your company, manage users and permissions, set up integrations and backups"
+      }
+    }
   }
 }

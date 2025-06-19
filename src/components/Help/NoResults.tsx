@@ -23,7 +23,7 @@ const NoResults: React.FC<NoResultsProps> = ({ onClearFilters }) => {
         onClick={onClearFilters}
         className="text-blue-600 hover:text-blue-800 underline text-sm md:text-base"
       >
-        {t('help.noResultsDescription')}
+        {t('help.clearFilters')}
       </button>
     </div>
   );
