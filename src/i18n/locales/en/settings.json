@@ -238,7 +238,21 @@
       "loading": "Loading...",
       "saving": "Saving...",
       "save": "Save",
-      "noEmployees": "No employees found"
+      "noEmployees": "No employees found",
+      "selectEmployee": "Select an employee",
+      "chooseEmployee": "Choose an employee",
+      "selectedEmployeeInfo": "Selected employee information",
+      "name": "Name",
+      "email": "Email",
+      "company": "Company",
+      "noCompany": "No company",
+      "unknownCompany": "Unknown company",
+      "allowAll": "Allow all",
+      "denyAll": "Deny all",
+      "read": "Read",
+      "write": "Write",
+      "view": "View",
+      "delete": "Delete"
     }
   },
   "employees": {
@@ -290,6 +304,15 @@
     "deleteSuccess": "Employee deleted successfully",
     "deleteError": "Error deleting employee",
     "activateAccess": "Activate Access",
-    "accessActivated": "Access activated"
+    "accessActivated": "Access activated",
+    "creationDate": "Creation Date",
+    "createdOn": "Created on",
+    "passwordStatus": "Password Status",
+    "actions": "Actions",
+    "passwordDefined": "Defined",
+    "passwordNotDefined": "Not defined",
+    "defined": "Defined",
+    "notDefined": "Not defined",
+    "managePassword": "Manage Password"
   }
 }
