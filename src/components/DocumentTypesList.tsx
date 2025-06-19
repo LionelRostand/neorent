@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { DocumentData } from '@/hooks/useDocumentStorage';
+import { DocumentData } from '@/types/document';
 import DocumentStatusBadge from './DocumentStatusBadge';
 import DocumentActions from './DocumentActions';
 

@@ -91,15 +91,15 @@ export const useDocumentStorage = () => {
     downloadDocumentFile(documentData);
   };
 
-  const deleteDocument = async (documentId: string, roommateId: string) => {
+  const deleteDocument = async (documentId: string, roommateId?: string) => {
     try {
-      const docData = await getDocumentById(documentId, roommateId);
+      const docData = await getDocumentById(documentId);
       
       if (docData?.storagePath) {
         await deleteDocumentFromStorage(docData.storagePath);
       }
 
-      await deleteDocumentFromFirestore(documentId, roommateId);
+      await deleteDocumentFromFirestore(documentId);
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
       throw new Error('Erreur lors de la suppression du document');

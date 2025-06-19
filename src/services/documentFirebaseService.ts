@@ -1,12 +1,12 @@
 
-import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '@/lib/firebase';
 import { DocumentData } from '@/types/document';
 
 export const uploadFileToStorage = async (file: File, roommateId: string): Promise<{ downloadURL: string; storagePath: string }> => {
   const timestamp = new Date().getTime();
-  const storagePath = `roommates/${roommateId}/documents/${timestamp}_${file.name}`;
+  const storagePath = `rent_documents/${roommateId}/${timestamp}_${file.name}`;
   
   console.log('📁 Chemin de stockage:', storagePath);
 
@@ -23,13 +23,21 @@ export const uploadFileToStorage = async (file: File, roommateId: string): Promi
 };
 
 export const saveDocumentMetadata = async (documentData: any, roommateId: string): Promise<string> => {
-  const collectionPath = `Rent_colocataires/${roommateId}/documents`;
+  const collectionPath = 'rent_documents';
   console.log('📁 Chemin de la collection Firestore:', collectionPath);
+
+  // Ajouter le roommateId aux données du document
+  const documentWithRoommate = {
+    ...documentData,
+    roommateId: roommateId,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
 
   console.log('💾 Sauvegarde des métadonnées dans Firestore...');
   const docRef = await addDoc(
-    collection(db, 'Rent_colocataires', roommateId, 'documents'), 
-    documentData
+    collection(db, 'rent_documents'), 
+    documentWithRoommate
   );
   
   console.log('✅ Métadonnées sauvegardées avec succès! ID:', docRef.id);
@@ -37,9 +45,12 @@ export const saveDocumentMetadata = async (documentData: any, roommateId: string
 };
 
 export const getDocumentsFromFirestore = async (roommateId: string): Promise<DocumentData[]> => {
-  const querySnapshot = await getDocs(
-    collection(db, 'Rent_colocataires', roommateId, 'documents')
+  const q = query(
+    collection(db, 'rent_documents'),
+    where('roommateId', '==', roommateId)
   );
+  
+  const querySnapshot = await getDocs(q);
   
   const documents: DocumentData[] = [];
   
@@ -72,28 +83,24 @@ export const deleteDocumentFromStorage = async (storagePath: string): Promise<vo
   console.log('✅ Fichier supprimé de Storage');
 };
 
-export const deleteDocumentFromFirestore = async (documentId: string, roommateId: string): Promise<void> => {
-  await deleteDoc(doc(db, 'Rent_colocataires', roommateId, 'documents', documentId));
+export const deleteDocumentFromFirestore = async (documentId: string): Promise<void> => {
+  await deleteDoc(doc(db, 'rent_documents', documentId));
   console.log('✅ Document supprimé de Firestore');
 };
 
 export const updateDocumentStatusInFirestore = async (documentId: string, roommateId: string, status: string): Promise<void> => {
-  await updateDoc(doc(db, 'Rent_colocataires', roommateId, 'documents', documentId), {
+  await updateDoc(doc(db, 'rent_documents', documentId), {
     status,
     updatedAt: new Date().toISOString()
   });
 };
 
-export const getDocumentById = async (documentId: string, roommateId: string): Promise<any | null> => {
-  const querySnapshot = await getDocs(
-    query(
-      collection(db, 'Rent_colocataires', roommateId, 'documents'),
-      where('__name__', '==', documentId)
-    )
-  );
+export const getDocumentById = async (documentId: string): Promise<any | null> => {
+  const docRef = doc(db, 'rent_documents', documentId);
+  const docSnap = await getDoc(docRef);
 
-  if (!querySnapshot.empty) {
-    return querySnapshot.docs[0].data();
+  if (docSnap.exists()) {
+    return docSnap.data();
   }
   return null;
 };

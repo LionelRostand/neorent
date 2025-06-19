@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, Eye } from 'lucide-react';
-import { DocumentData } from '@/hooks/useDocumentStorage';
+import { DocumentData } from '@/types/document';
 
 interface DocumentActionsProps {
   document: DocumentData | undefined;
