@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Home, Info, Phone, Mail, LogIn, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LanguageSelector from '@/components/LanguageSelector';
+import CopyrightModal from './CopyrightModal';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -12,10 +13,15 @@ interface PublicLayoutProps {
 
 const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCopyrightModalOpen, setIsCopyrightModalOpen] = useState(false);
   const { t } = useTranslation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleCopyrightClick = () => {
+    setIsCopyrightModalOpen(true);
   };
 
   return (
@@ -205,21 +211,22 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 </a>
               </p>
               <p>
-                &copy; 2025 
-                <a 
-                  href="https://neotech-consulting.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors underline ml-1"
+                <button
+                  onClick={handleCopyrightClick}
+                  className="hover:text-white transition-colors underline cursor-pointer"
                 >
-                  Neotech-consulting
-                </a>
-                . {t('publicSite.footer.copyright')}
+                  &copy; 2025 Neotech-consulting. {t('publicSite.footer.copyright')}
+                </button>
               </p>
             </div>
           </div>
         </div>
       </footer>
+
+      <CopyrightModal 
+        isOpen={isCopyrightModalOpen} 
+        onClose={() => setIsCopyrightModalOpen(false)} 
+      />
     </div>
   );
 };
