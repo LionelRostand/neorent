@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ViewSelectorProps {
   selectedView: 'monthly' | 'annual';
@@ -10,9 +11,11 @@ const ViewSelector: React.FC<ViewSelectorProps> = ({
   selectedView,
   onViewChange
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center space-x-4">
-      <label className="text-sm font-medium text-gray-700">Vue:</label>
+      <label className="text-sm font-medium text-gray-700">{t('rentalCharges.view')}</label>
       <div className="flex border border-gray-300 rounded-md overflow-hidden">
         <button
           onClick={() => onViewChange('monthly')}
@@ -22,7 +25,7 @@ const ViewSelector: React.FC<ViewSelectorProps> = ({
               : 'bg-white text-gray-700 hover:bg-gray-50'
           }`}
         >
-          Mensuelle
+          {t('rentalCharges.monthlyView')}
         </button>
         <button
           onClick={() => onViewChange('annual')}
@@ -32,7 +35,7 @@ const ViewSelector: React.FC<ViewSelectorProps> = ({
               : 'bg-white text-gray-700 hover:bg-gray-50'
           }`}
         >
-          Annuelle
+          {t('rentalCharges.annualView')}
         </button>
       </div>
     </div>

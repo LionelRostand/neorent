@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface YearSelectorProps {
   selectedYear: string;
@@ -10,9 +11,11 @@ const YearSelector: React.FC<YearSelectorProps> = ({
   selectedYear,
   onYearChange
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center space-x-4">
-      <label className="text-sm font-medium text-gray-700">Filtrer par année:</label>
+      <label className="text-sm font-medium text-gray-700">{t('rentalCharges.filterByYear')}</label>
       <select 
         value={selectedYear} 
         onChange={(e) => onYearChange(e.target.value)}
