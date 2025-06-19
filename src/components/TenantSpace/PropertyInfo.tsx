@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -35,6 +36,7 @@ interface PropertyInfoProps {
 }
 
 const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   // Forcer les valeurs financières selon la demande
@@ -49,7 +51,7 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
             <Home className="h-4 w-4 md:h-5 md:w-5" />
-            Informations générales
+            {t('tenantSpace.overview.generalInfo')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -65,11 +67,11 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs md:text-sm text-gray-600">Type</p>
+                  <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.type')}</p>
                   <p className="font-medium text-sm md:text-base">{propertyData.type}</p>
                 </div>
                 <div>
-                  <p className="text-xs md:text-sm text-gray-600">Surface</p>
+                  <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.surface')}</p>
                   <div className="flex items-center">
                     <Ruler className="h-4 w-4 mr-2" />
                     <span className="font-medium text-sm md:text-base">{propertyData.surface}</span>
@@ -79,14 +81,14 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs md:text-sm text-gray-600">Nombre de pièces</p>
+                  <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.rooms')}</p>
                   <div className="flex items-center">
                     <Bed className="h-4 w-4 mr-2" />
                     <span className="font-medium text-sm md:text-base">{propertyData.rooms}</span>
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs md:text-sm text-gray-600">Étage</p>
+                  <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.floor')}</p>
                   <p className="font-medium text-sm md:text-base">{propertyData.floor}</p>
                 </div>
               </div>
@@ -94,10 +96,10 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
             
             <div className="space-y-4">
               <div>
-                <p className="text-xs md:text-sm text-gray-600 mb-2">Équipements</p>
+                <p className="text-xs md:text-sm text-gray-600 mb-2">{t('tenantSpace.overview.equipment')}</p>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm md:text-base">Meublé</span>
+                    <span className="text-sm md:text-base">{t('tenantSpace.overview.furnished')}</span>
                     {propertyData.furnished ? (
                       <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
                     ) : (
@@ -105,7 +107,7 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
                     )}
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm md:text-base">Ascenseur</span>
+                    <span className="text-sm md:text-base">{t('tenantSpace.overview.elevator')}</span>
                     {propertyData.elevator ? (
                       <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
                     ) : (
@@ -113,7 +115,7 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
                     )}
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm md:text-base">Parking</span>
+                    <span className="text-sm md:text-base">{t('tenantSpace.overview.parking')}</span>
                     {propertyData.parking ? (
                       <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
                     ) : (
@@ -132,27 +134,27 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
             <Euro className="h-4 w-4 md:h-5 md:w-5" />
-            Informations financières
+            {t('tenantSpace.overview.financialInfo')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <div className="text-center p-3 md:p-4 bg-blue-50 rounded-lg">
-              <p className="text-xs md:text-sm text-gray-600">Loyer mensuel</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.monthlyRent')}</p>
               <p className="text-xl md:text-2xl font-bold text-blue-600">{baseRent}€</p>
             </div>
             <div className="text-center p-3 md:p-4 bg-orange-50 rounded-lg">
-              <p className="text-xs md:text-sm text-gray-600">Charges mensuelles</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.monthlyCharges')}</p>
               <p className="text-xl md:text-2xl font-bold text-orange-600">{monthlyCharges}€</p>
             </div>
             <div className="text-center p-3 md:p-4 bg-green-50 rounded-lg">
-              <p className="text-xs md:text-sm text-gray-600">Dépôt de garantie</p>
+              <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.securityDeposit')}</p>
               <p className="text-xl md:text-2xl font-bold text-green-600">{securityDeposit}€</p>
             </div>
           </div>
           
           <div className="mt-4 p-3 md:p-4 bg-gray-50 rounded-lg">
-            <p className="text-xs md:text-sm text-gray-600">Total mensuel (loyer + charges)</p>
+            <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.totalMonthly')}</p>
             <p className="text-lg md:text-xl font-bold">{baseRent + monthlyCharges}€</p>
           </div>
         </CardContent>
@@ -161,7 +163,7 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
       {/* Caractéristiques */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg md:text-xl">Caractéristiques du logement</CardTitle>
+          <CardTitle className="text-lg md:text-xl">{t('tenantSpace.overview.characteristics')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">

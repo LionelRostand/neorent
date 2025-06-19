@@ -37,5 +37,14 @@
     "yes": "Yes",
     "no": "No",
     "total": "Total"
+  },
+  "profile": {
+    "personalInfo": "Personal Information",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "updateSuccess": "Profile updated successfully",
+    "updateError": "Error updating profile"
   }
 }

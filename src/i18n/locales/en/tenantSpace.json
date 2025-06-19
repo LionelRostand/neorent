@@ -13,6 +13,108 @@
       "documents": "Documents",
       "upload": "Upload",
       "profile": "Profile"
+    },
+    "overview": {
+      "generalInfo": "General Information",
+      "financialInfo": "Financial Information",
+      "characteristics": "Property Characteristics",
+      "monthlyRent": "Monthly Rent",
+      "monthlyCharges": "Monthly Charges",
+      "securityDeposit": "Security Deposit",
+      "totalMonthly": "Total monthly (rent + charges)",
+      "type": "Type",
+      "surface": "Surface",
+      "rooms": "Number of rooms",
+      "floor": "Floor",
+      "furnished": "Furnished",
+      "elevator": "Elevator",
+      "parking": "Parking",
+      "equipment": "Equipment"
+    },
+    "payment": {
+      "title": "Rent Payment",
+      "paymentInfo": "Payment Information",
+      "contractInfo": "Contract Information",
+      "currentBalance": "Current Balance",
+      "nextPayment": "Next Payment",
+      "paymentMethod": "Payment Method",
+      "bankTransfer": "Bank Transfer",
+      "automaticDebit": "Automatic Debit",
+      "check": "Check",
+      "cash": "Cash",
+      "makePayment": "Make Payment",
+      "paymentHistory": "Payment History",
+      "downloadReceipt": "Download Receipt"
+    },
+    "history": {
+      "title": "Payment History",
+      "rentHistory": "Rent History",
+      "since": "Since",
+      "dueDate": "Due Date",
+      "paidOn": "Paid on",
+      "amountPaid": "Amount Paid",
+      "amountToPay": "Amount to Pay",
+      "rent": "Rent",
+      "charges": "Charges",
+      "status": {
+        "paid": "Paid",
+        "pending": "Pending",
+        "overdue": "Overdue"
+      },
+      "receiptPdf": "Receipt PDF",
+      "notAvailable": "Not Available"
+    },
+    "documents": {
+      "title": "Documents",
+      "myDocuments": "My Documents",
+      "uploadDocument": "Upload Document",
+      "noDocuments": "No documents available",
+      "downloadAll": "Download All",
+      "documentTypes": {
+        "contract": "Contract",
+        "receipt": "Receipt",
+        "inventory": "Inventory",
+        "insurance": "Insurance",
+        "other": "Other"
+      }
+    },
+    "upload": {
+      "title": "Document Upload",
+      "uploadArea": "Upload Area",
+      "dragAndDrop": "Drag and drop files here or click to select",
+      "supportedFormats": "Supported formats: PDF, JPG, PNG, DOC, DOCX",
+      "maxSize": "Maximum size: 10MB per file",
+      "selectFiles": "Select Files",
+      "uploading": "Uploading...",
+      "uploadSuccess": "Upload successful",
+      "uploadError": "Upload error",
+      "documentType": "Document Type",
+      "description": "Description",
+      "optional": "Optional"
+    },
+    "profile": {
+      "title": "Profile",
+      "personalInfo": "Personal Information",
+      "contactInfo": "Contact Information",
+      "emergencyContact": "Emergency Contact",
+      "leaseInfo": "Lease Information",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "leaseStart": "Lease Start",
+      "leaseEnd": "Lease End",
+      "status": "Status",
+      "emergencyName": "Emergency Contact Name",
+      "emergencyPhone": "Emergency Contact Phone",
+      "emergencyRelation": "Relationship",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "updateSuccess": "Profile updated successfully",
+      "updateError": "Error updating profile",
+      "readOnly": "This information can only be modified by the administrator"
     }
   }
 }
