@@ -40,10 +40,18 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       setSelectedFile(file);
       setUploadError('');
       
-      // Validation de la taille (5MB max pour éviter les erreurs Firestore)
-      const maxFileSize = 5 * 1024 * 1024; // 5MB
+      // Validation de la taille (3MB max pour éviter les erreurs de compression)
+      const maxFileSize = 3 * 1024 * 1024; // 3MB
       if (file.size > maxFileSize) {
-        setUploadError(`Le fichier ne doit pas dépasser 5 MB (actuellement: ${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+        setUploadError(`Le fichier ne doit pas dépasser 3 MB (actuellement: ${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+        setSelectedFile(null);
+        return;
+      }
+
+      // Validation du type de fichier
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!allowedTypes.includes(file.type)) {
+        setUploadError('Type de fichier non autorisé. Types acceptés: PDF, JPG, PNG, DOC, DOCX');
         setSelectedFile(null);
         return;
       }

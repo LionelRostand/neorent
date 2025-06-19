@@ -13,13 +13,19 @@ export const saveDocumentToFirestore = async (
   console.log('📤 Taille originale du fichier:', file.size, 'bytes');
 
   try {
-    // Validation préalable de la taille
-    const maxFileSize = 5 * 1024 * 1024; // 5MB
+    // Validation préalable de la taille - réduite à 3MB
+    const maxFileSize = 3 * 1024 * 1024; // 3MB
     if (file.size > maxFileSize) {
-      throw new Error(`Fichier trop volumineux (${(file.size / 1024 / 1024).toFixed(2)}MB). Limite: 5MB`);
+      throw new Error(`Fichier trop volumineux (${(file.size / 1024 / 1024).toFixed(2)}MB). Limite: 3MB`);
     }
 
-    // Compression du fichier avec validation
+    // Validation du type de fichier
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(file.type)) {
+      throw new Error('Type de fichier non autorisé. Types acceptés: PDF, JPG, PNG, DOC, DOCX');
+    }
+
+    // Compression du fichier avec validation améliorée
     console.log('🗜️ Compression du fichier...');
     const compressedData = await compressFile(file);
     const compressedSize = compressedData.length;
@@ -64,11 +70,15 @@ export const saveDocumentToFirestore = async (
     
     // Messages d'erreur plus spécifiques
     if (error.message.includes('Maximum call stack')) {
-      throw new Error('Fichier trop volumineux pour Firestore. Veuillez choisir un fichier plus petit (max 3MB).');
+      throw new Error('Fichier trop volumineux pour Firestore. Veuillez choisir un fichier plus petit (max 2MB).');
     } else if (error.message.includes('too large')) {
       throw new Error('Document trop volumineux pour Firestore. Veuillez choisir un fichier plus petit.');
     } else if (error.message.includes('trop volumineux')) {
       throw error; // Conserver notre message personnalisé
+    } else if (error.message.includes('compression')) {
+      throw new Error(`Erreur de compression: ${error.message}`);
+    } else if (error.message.includes('Type de fichier')) {
+      throw error; // Conserver le message de validation de type
     }
     
     throw new Error(`Erreur Firestore: ${error.message}`);
