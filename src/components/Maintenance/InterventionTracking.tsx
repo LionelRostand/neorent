@@ -54,7 +54,7 @@ const InterventionTracking = () => {
       await updateIntervention(id, { status: newStatus });
       toast({
         title: t('maintenance.requestSaved'),
-        description: `${t('maintenance.interventionUpdated')} ${newStatus.toLowerCase()}.`,
+        description: `${t('maintenanceInterventions.interventionUpdated')} ${newStatus.toLowerCase()}.`,
       });
     } catch (error) {
       console.error('Erreur lors de la mise à jour:', error);
@@ -116,7 +116,7 @@ const InterventionTracking = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.plannedInterventions')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenanceInterventions.plannedInterventions')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">
@@ -127,7 +127,7 @@ const InterventionTracking = () => {
         
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.inProgressInterventions')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenanceInterventions.inProgressInterventions')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">
@@ -138,7 +138,7 @@ const InterventionTracking = () => {
         
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.completedInterventions')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenanceInterventions.completedInterventions')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
@@ -149,7 +149,7 @@ const InterventionTracking = () => {
         
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.totalCost')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenanceInterventions.totalCost')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">
@@ -161,22 +161,22 @@ const InterventionTracking = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t('maintenance.ongoingInterventions')}</CardTitle>
+          <CardTitle>{t('maintenanceInterventions.ongoingInterventions')}</CardTitle>
           <CardDescription>
-            {t('maintenance.ongoingSubtitle')}
+            {t('maintenanceInterventions.ongoingSubtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t('maintenance.property')}</TableHead>
-                <TableHead>{t('maintenance.description')}</TableHead>
-                <TableHead>{t('maintenance.technician')}</TableHead>
-                <TableHead>{t('maintenance.scheduledDate')}</TableHead>
-                <TableHead>{t('maintenance.cost')}</TableHead>
+                <TableHead>{t('maintenanceInterventions.property')}</TableHead>
+                <TableHead>{t('maintenanceInterventions.description')}</TableHead>
+                <TableHead>{t('maintenanceInterventions.technician')}</TableHead>
+                <TableHead>{t('maintenanceInterventions.scheduledDate')}</TableHead>
+                <TableHead>{t('maintenanceInterventions.cost')}</TableHead>
                 <TableHead>{t('maintenance.status')}</TableHead>
-                <TableHead>{t('maintenance.actions')}</TableHead>
+                <TableHead>{t('maintenanceInterventions.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -197,7 +197,7 @@ const InterventionTracking = () => {
                     <div className="flex flex-col">
                       <span className="flex items-center gap-1 text-sm">
                         <User className="h-3 w-3" />
-                        {intervention.technicianName || t('maintenance.noAssigned')}
+                        {intervention.technicianName || t('maintenanceInterventions.noAssigned')}
                       </span>
                       {intervention.technicianPhone && (
                         <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -246,14 +246,14 @@ const InterventionTracking = () => {
                             size="sm"
                             onClick={() => setSelectedIntervention(intervention)}
                           >
-                            {t('maintenance.modify')}
+                            {t('maintenanceInterventions.modify')}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-2xl">
                           <DialogHeader>
-                            <DialogTitle>{t('maintenance.editIntervention')}</DialogTitle>
+                            <DialogTitle>{t('maintenanceInterventions.editIntervention')}</DialogTitle>
                             <DialogDescription>
-                              {t('maintenance.updateInterventionInfo')}
+                              {t('maintenanceInterventions.updateInterventionInfo')}
                             </DialogDescription>
                           </DialogHeader>
                           {selectedIntervention && (
@@ -305,7 +305,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="technicianName">{t('maintenance.technicianName')}</Label>
+          <Label htmlFor="technicianName">{t('maintenanceInterventions.technicianName')}</Label>
           <Input
             id="technicianName"
             value={formData.technicianName}
@@ -315,7 +315,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="technicianPhone">{t('maintenance.technicianPhone')}</Label>
+          <Label htmlFor="technicianPhone">{t('maintenanceInterventions.technicianPhone')}</Label>
           <Input
             id="technicianPhone"
             value={formData.technicianPhone}
@@ -325,7 +325,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="scheduledDate">{t('maintenance.scheduledDate')}</Label>
+          <Label htmlFor="scheduledDate">{t('maintenanceInterventions.scheduledDate')}</Label>
           <Input
             id="scheduledDate"
             type="date"
@@ -335,7 +335,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="scheduledTime">{t('maintenance.scheduledTime')}</Label>
+          <Label htmlFor="scheduledTime">{t('maintenanceInterventions.scheduledTime')}</Label>
           <Input
             id="scheduledTime"
             type="time"
@@ -345,7 +345,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="estimatedCost">{t('maintenance.estimatedCost')}</Label>
+          <Label htmlFor="estimatedCost">{t('maintenanceInterventions.estimatedCost')}</Label>
           <Input
             id="estimatedCost"
             type="number"
@@ -355,7 +355,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="actualCost">{t('maintenance.actualCost')}</Label>
+          <Label htmlFor="actualCost">{t('maintenanceInterventions.actualCost')}</Label>
           <Input
             id="actualCost"
             type="number"
@@ -366,12 +366,12 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="completionNotes">{t('maintenance.completionNotes')}</Label>
+        <Label htmlFor="completionNotes">{t('maintenanceInterventions.completionNotes')}</Label>
         <Textarea
           id="completionNotes"
           value={formData.completionNotes}
           onChange={(e) => setFormData({...formData, completionNotes: e.target.value})}
-          placeholder={t('maintenance.completionNotesPlaceholder')}
+          placeholder={t('maintenanceInterventions.completionNotesPlaceholder')}
         />
       </div>
       
