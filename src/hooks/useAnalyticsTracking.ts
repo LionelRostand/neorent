@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { collection, addDoc, query, where, getDocs, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
@@ -22,6 +22,7 @@ export const useAnalyticsTracking = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [hasRealData, setHasRealData] = useState(false);
+  const [autoRefresh, setAutoRefresh] = useState(true);
 
   const trackPageView = useCallback(async (page: string, userAgent?: string) => {
     try {
@@ -147,11 +148,32 @@ export const useAnalyticsTracking = () => {
     }
   }, []);
 
+  // Auto-refresh effect
+  useEffect(() => {
+    if (!autoRefresh) return;
+
+    // Fetch initial data
+    fetchAnalyticsData();
+
+    // Set up interval for auto-refresh every 30 seconds
+    const interval = setInterval(() => {
+      fetchAnalyticsData();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [autoRefresh, fetchAnalyticsData]);
+
+  const toggleAutoRefresh = useCallback(() => {
+    setAutoRefresh(prev => !prev);
+  }, []);
+
   return {
     analyticsData,
     isLoading,
     hasRealData,
+    autoRefresh,
     fetchAnalyticsData,
+    toggleAutoRefresh,
     trackPageView,
     trackContactRequest
   };

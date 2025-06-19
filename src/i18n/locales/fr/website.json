@@ -32,6 +32,17 @@
     "virtualTours": "Visites Virtuelles",
     "publishChanges": "Publier les Modifications",
     "previewWebsite": "Prévisualiser le Site Web",
-    "backupWebsite": "Sauvegarder le Site Web"
+    "backupWebsite": "Sauvegarder le Site Web",
+    "visitorsToday": "Visiteurs aujourd'hui",
+    "pagesViewed": "Pages vues",
+    "contactRequests": "Demandes de contact",
+    "weeklyEvolution": "Évolution hebdomadaire",
+    "demoData": "Données de démo",
+    "trackingActive": "Tracking actif",
+    "awaitingData": "En attente de données",
+    "realTimeDataAvailable": "Données temps réel disponibles",
+    "demonstrationDataDisplayed": "Données de démonstration affichées",
+    "refreshing": "Actualisation...",
+    "refresh": "Actualiser"
   }
 }

@@ -7,15 +7,23 @@ import { StatsCards } from './StatsCards';
 import { WeeklyChart } from './WeeklyChart';
 
 const AnalyticsTab = () => {
-  const { analyticsData, isLoading, hasRealData, fetchAnalyticsData } = useAnalyticsTracking();
-
-  useEffect(() => {
-    fetchAnalyticsData(); // Chargement initial
-  }, [fetchAnalyticsData]);
+  const { 
+    analyticsData, 
+    isLoading, 
+    hasRealData, 
+    autoRefresh,
+    fetchAnalyticsData,
+    toggleAutoRefresh
+  } = useAnalyticsTracking();
 
   return (
     <div className="space-y-4 md:space-y-6">
-      <AnalyticsHeader onRefresh={fetchAnalyticsData} isLoading={isLoading} />
+      <AnalyticsHeader 
+        onRefresh={fetchAnalyticsData} 
+        isLoading={isLoading}
+        autoRefresh={autoRefresh}
+        onToggleAutoRefresh={toggleAutoRefresh}
+      />
       
       <TrackingStatus hasRealData={hasRealData} />
 
