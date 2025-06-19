@@ -1,0 +1,27 @@
+
+{
+  "taxes": {
+    "title": "Taxes",
+    "subtitle": "Manage tax declarations and fiscal obligations",
+    "management": "Tax Management",
+    "description": "Handle tax declarations and calculations",
+    "newDeclaration": "New Declaration",
+    "loading": "Loading tax data...",
+    "addSuccess": "Declaration added successfully",
+    "addError": "Error adding declaration",
+    "updateSuccess": "Declaration updated successfully",
+    "updateError": "Error updating declaration",
+    "deleteSuccess": "Declaration deleted successfully",
+    "deleteError": "Error deleting declaration",
+    "totalTaxes": "Total Taxes",
+    "annualIncome": "Annual Income",
+    "deductions": "Deductions",
+    "taxLiability": "Tax Liability",
+    "declarationList": "Declaration List",
+    "noDeclarations": "No declarations",
+    "noDeclarationsDescription": "Start by creating your first tax declaration",
+    "viewDetails": "View details",
+    "editDeclaration": "Edit",
+    "confirmDelete": "Are you sure you want to delete this declaration?"
+  }
+}

@@ -1,0 +1,28 @@
+
+{
+  "contracts": {
+    "title": "Lease Contracts",
+    "subtitle": "Manage lease contracts and service providers",
+    "management": "Contract Management",
+    "description": "Manage lease contracts and agreements",
+    "addContract": "New Lease Contract",
+    "loading": "Loading contracts...",
+    "addSuccess": "Contract added successfully",
+    "addError": "Error adding contract",
+    "updateSuccess": "Contract updated successfully",
+    "updateError": "Error updating contract",
+    "deleteSuccess": "Contract deleted successfully",
+    "deleteError": "Error deleting contract",
+    "activeContracts": "Active Contracts",
+    "expiredContracts": "Expired Contracts",
+    "totalContracts": "Total Contracts",
+    "pendingSignatures": "Pending Signatures",
+    "contractList": "Contract List",
+    "noContracts": "No contracts",
+    "noContractsDescription": "Start by adding your first contract",
+    "viewDetails": "View details",
+    "editContract": "Edit",
+    "signContract": "Sign",
+    "confirmDelete": "Are you sure you want to delete this contract?"
+  }
+}

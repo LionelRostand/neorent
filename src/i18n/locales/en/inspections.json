@@ -1,0 +1,27 @@
+
+{
+  "inspections": {
+    "title": "Inspections",
+    "subtitle": "Manage property inspections and reports",
+    "management": "Inspection Management",
+    "description": "Schedule and track property inspections",
+    "addInspection": "Schedule Inspection",
+    "loading": "Loading inspections...",
+    "addSuccess": "Inspection scheduled successfully",
+    "addError": "Error scheduling inspection",
+    "updateSuccess": "Inspection updated successfully",
+    "updateError": "Error updating inspection",
+    "deleteSuccess": "Inspection deleted successfully",
+    "deleteError": "Error deleting inspection",
+    "scheduledInspections": "Scheduled Inspections",
+    "completedInspections": "Completed Inspections",
+    "pendingInspections": "Pending Inspections",
+    "urgentInspections": "Urgent Inspections",
+    "inspectionList": "Inspection List",
+    "noInspections": "No inspections",
+    "noInspectionsDescription": "Start by scheduling your first inspection",
+    "viewDetails": "View details",
+    "editInspection": "Edit",
+    "confirmDelete": "Are you sure you want to delete this inspection?"
+  }
+}

@@ -1,0 +1,33 @@
+
+{
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Configure your application preferences",
+    "management": "Settings Management",
+    "description": "Manage application settings and preferences",
+    "general": "General",
+    "security": "Security",
+    "notifications": "Notifications",
+    "integrations": "Integrations",
+    "company": "Company",
+    "employees": "Employees",
+    "permissions": "Permissions",
+    "database": "Database",
+    "email": "Email",
+    "firebase": "Firebase",
+    "payment": "Payment",
+    "saveSuccess": "Settings saved successfully",
+    "saveError": "Error saving settings",
+    "resetSuccess": "Settings reset successfully",
+    "resetError": "Error resetting settings",
+    "generalSettings": "General Settings",
+    "securitySettings": "Security Settings",
+    "companySettings": "Company Settings",
+    "employeeManagement": "Employee Management",
+    "permissionSettings": "Permission Settings",
+    "databaseSettings": "Database Settings",
+    "emailSettings": "Email Settings",
+    "firebaseSettings": "Firebase Settings",
+    "paymentSettings": "Payment Settings"
+  }
+}

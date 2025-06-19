@@ -1,0 +1,25 @@
+
+{
+  "website": {
+    "title": "Website",
+    "subtitle": "Manage your property website and online presence",
+    "management": "Website Management",
+    "description": "Manage your property listing website",
+    "updateWebsite": "Update Website",
+    "loading": "Loading website data...",
+    "updateSuccess": "Website updated successfully",
+    "updateError": "Error updating website",
+    "publishSuccess": "Website published successfully",
+    "publishError": "Error publishing website",
+    "visitors": "Visitors",
+    "pageViews": "Page Views",
+    "inquiries": "Inquiries",
+    "conversionRate": "Conversion Rate",
+    "websiteStats": "Website Statistics",
+    "noData": "No data available",
+    "noDataDescription": "Website analytics will appear here once you have visitors",
+    "viewWebsite": "View Website",
+    "editContent": "Edit Content",
+    "managePages": "Manage Pages"
+  }
+}

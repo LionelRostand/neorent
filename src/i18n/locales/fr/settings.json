@@ -1,0 +1,33 @@
+
+{
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Configurez vos préférences d'application",
+    "management": "Gestion des Paramètres",
+    "description": "Gérez les paramètres et préférences de l'application",
+    "general": "Général",
+    "security": "Sécurité",
+    "notifications": "Notifications",
+    "integrations": "Intégrations",
+    "company": "Entreprise",
+    "employees": "Employés",
+    "permissions": "Permissions",
+    "database": "Base de Données",
+    "email": "Email",
+    "firebase": "Firebase",
+    "payment": "Paiement",
+    "saveSuccess": "Paramètres sauvegardés avec succès",
+    "saveError": "Erreur lors de la sauvegarde des paramètres",
+    "resetSuccess": "Paramètres réinitialisés avec succès",
+    "resetError": "Erreur lors de la réinitialisation des paramètres",
+    "generalSettings": "Paramètres Généraux",
+    "securitySettings": "Paramètres de Sécurité",
+    "companySettings": "Paramètres de l'Entreprise",
+    "employeeManagement": "Gestion des Employés",
+    "permissionSettings": "Paramètres de Permissions",
+    "databaseSettings": "Paramètres de Base de Données",
+    "emailSettings": "Paramètres Email",
+    "firebaseSettings": "Paramètres Firebase",
+    "paymentSettings": "Paramètres de Paiement"
+  }
+}

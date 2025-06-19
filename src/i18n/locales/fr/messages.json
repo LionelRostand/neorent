@@ -1,0 +1,26 @@
+
+{
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communiquez avec les locataires et gérez les demandes",
+    "management": "Gestion des Messages",
+    "description": "Gérez les communications et les messages",
+    "newMessage": "Nouveau Message",
+    "loading": "Chargement des messages...",
+    "sendSuccess": "Message envoyé avec succès",
+    "sendError": "Erreur lors de l'envoi du message",
+    "deleteSuccess": "Message supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du message",
+    "totalMessages": "Total des Messages",
+    "unreadMessages": "Messages Non Lus",
+    "respondedMessages": "Répondus",
+    "pendingMessages": "En Attente",
+    "messageList": "Liste des Messages",
+    "noMessages": "Aucun message",
+    "noMessagesDescription": "Aucun message pour le moment",
+    "selectContact": "Sélectionnez un contact pour commencer la messagerie",
+    "viewDetails": "Voir les détails",
+    "reply": "Répondre",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce message ?"
+  }
+}

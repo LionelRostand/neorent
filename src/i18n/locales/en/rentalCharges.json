@@ -1,0 +1,27 @@
+
+{
+  "rentalCharges": {
+    "title": "Rental Charges",
+    "subtitle": "Manage rental charges and expenses",
+    "management": "Charges Management",
+    "description": "Track and manage rental charges",
+    "addCharge": "Add Charge",
+    "loading": "Loading charges...",
+    "addSuccess": "Charge added successfully",
+    "addError": "Error adding charge",
+    "updateSuccess": "Charge updated successfully",
+    "updateError": "Error updating charge",
+    "deleteSuccess": "Charge deleted successfully",
+    "deleteError": "Error deleting charge",
+    "totalCharges": "Total Charges",
+    "monthlyCharges": "Monthly Charges",
+    "averageCharges": "Average Charges",
+    "chargesByCategory": "Charges by Category",
+    "chargeList": "Charge List",
+    "noCharges": "No charges",
+    "noChargesDescription": "Start by adding your first charge",
+    "viewDetails": "View details",
+    "editCharge": "Edit",
+    "confirmDelete": "Are you sure you want to delete this charge?"
+  }
+}

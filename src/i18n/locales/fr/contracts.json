@@ -1,0 +1,28 @@
+
+{
+  "contracts": {
+    "title": "Contrats de Bail",
+    "subtitle": "Gérez les contrats de bail et les prestataires de services",
+    "management": "Gestion des Contrats",
+    "description": "Gérez les contrats de bail et les accords",
+    "addContract": "Nouveau Contrat de Bail",
+    "loading": "Chargement des contrats...",
+    "addSuccess": "Contrat ajouté avec succès",
+    "addError": "Erreur lors de l'ajout du contrat",
+    "updateSuccess": "Contrat mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du contrat",
+    "deleteSuccess": "Contrat supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du contrat",
+    "activeContracts": "Contrats Actifs",
+    "expiredContracts": "Contrats Expirés",
+    "totalContracts": "Total des Contrats",
+    "pendingSignatures": "Signatures en Attente",
+    "contractList": "Liste des Contrats",
+    "noContracts": "Aucun contrat",
+    "noContractsDescription": "Commencez par ajouter votre premier contrat",
+    "viewDetails": "Voir les détails",
+    "editContract": "Modifier",
+    "signContract": "Signer",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce contrat ?"
+  }
+}

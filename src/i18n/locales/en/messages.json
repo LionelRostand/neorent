@@ -1,0 +1,26 @@
+
+{
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Communicate with tenants and manage inquiries",
+    "management": "Message Management",
+    "description": "Manage communications and messages",
+    "newMessage": "New Message",
+    "loading": "Loading messages...",
+    "sendSuccess": "Message sent successfully",
+    "sendError": "Error sending message",
+    "deleteSuccess": "Message deleted successfully",
+    "deleteError": "Error deleting message",
+    "totalMessages": "Total Messages",
+    "unreadMessages": "Unread Messages",
+    "respondedMessages": "Responded",
+    "pendingMessages": "Pending",
+    "messageList": "Message List",
+    "noMessages": "No messages",
+    "noMessagesDescription": "No messages yet",
+    "selectContact": "Select a contact to start messaging",
+    "viewDetails": "View details",
+    "reply": "Reply",
+    "confirmDelete": "Are you sure you want to delete this message?"
+  }
+}

@@ -1,0 +1,23 @@
+
+{
+  "help": {
+    "title": "Help",
+    "subtitle": "Get help and support for using the application",
+    "management": "Help Center",
+    "description": "Find answers and get support",
+    "searchHelp": "Search help articles",
+    "categories": "Categories",
+    "articles": "Articles",
+    "faq": "Frequently Asked Questions",
+    "tutorials": "Tutorials",
+    "documentation": "Documentation",
+    "support": "Support",
+    "contactSupport": "Contact Support",
+    "noResults": "No results found",
+    "noResultsDescription": "Try adjusting your search terms",
+    "gettingStarted": "Getting Started",
+    "userGuides": "User Guides",
+    "troubleshooting": "Troubleshooting",
+    "apiReference": "API Reference"
+  }
+}

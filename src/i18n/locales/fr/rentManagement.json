@@ -1,0 +1,27 @@
+
+{
+  "rentManagement": {
+    "title": "Gestion des Loyers",
+    "subtitle": "Suivez et gérez les paiements de loyers",
+    "management": "Gestion des Loyers",
+    "description": "Gérez les paiements et les encaissements de loyers",
+    "addPayment": "Enregistrer un Paiement",
+    "loading": "Chargement des paiements...",
+    "addSuccess": "Paiement enregistré avec succès",
+    "addError": "Erreur lors de l'enregistrement du paiement",
+    "updateSuccess": "Paiement mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du paiement",
+    "deleteSuccess": "Paiement supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du paiement",
+    "totalRevenue": "Revenus Totaux",
+    "paidPayments": "Paiements Effectués",
+    "latePayments": "Paiements en Retard",
+    "pendingPayments": "Paiements en Attente",
+    "paymentList": "Liste des Paiements",
+    "noPayments": "Aucun paiement",
+    "noPaymentsDescription": "Commencez par enregistrer votre premier paiement",
+    "viewDetails": "Voir les détails",
+    "editPayment": "Modifier",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce paiement ?"
+  }
+}

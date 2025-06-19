@@ -1,0 +1,27 @@
+
+{
+  "rentManagement": {
+    "title": "Rent Management",
+    "subtitle": "Track and manage rent payments",
+    "management": "Rent Management",
+    "description": "Manage rent payments and collections",
+    "addPayment": "Record Payment",
+    "loading": "Loading payments...",
+    "addSuccess": "Payment recorded successfully",
+    "addError": "Error recording payment",
+    "updateSuccess": "Payment updated successfully",
+    "updateError": "Error updating payment",
+    "deleteSuccess": "Payment deleted successfully",
+    "deleteError": "Error deleting payment",
+    "totalRevenue": "Total Revenue",
+    "paidPayments": "Paid Payments",
+    "latePayments": "Late Payments",
+    "pendingPayments": "Pending Payments",
+    "paymentList": "Payment List",
+    "noPayments": "No payments",
+    "noPaymentsDescription": "Start by recording your first payment",
+    "viewDetails": "View details",
+    "editPayment": "Edit",
+    "confirmDelete": "Are you sure you want to delete this payment?"
+  }
+}

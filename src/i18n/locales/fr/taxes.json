@@ -1,0 +1,27 @@
+
+{
+  "taxes": {
+    "title": "Fiscalité",
+    "subtitle": "Gérez les déclarations fiscales et les obligations fiscales",
+    "management": "Gestion Fiscale",
+    "description": "Gérez les déclarations fiscales et les calculs",
+    "newDeclaration": "Nouvelle Déclaration",
+    "loading": "Chargement des données fiscales...",
+    "addSuccess": "Déclaration ajoutée avec succès",
+    "addError": "Erreur lors de l'ajout de la déclaration",
+    "updateSuccess": "Déclaration mise à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour de la déclaration",
+    "deleteSuccess": "Déclaration supprimée avec succès",
+    "deleteError": "Erreur lors de la suppression de la déclaration",
+    "totalTaxes": "Total des Impôts",
+    "annualIncome": "Revenus Annuels",
+    "deductions": "Déductions",
+    "taxLiability": "Obligation Fiscale",
+    "declarationList": "Liste des Déclarations",
+    "noDeclarations": "Aucune déclaration",
+    "noDeclarationsDescription": "Commencez par créer votre première déclaration fiscale",
+    "viewDetails": "Voir les détails",
+    "editDeclaration": "Modifier",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette déclaration ?"
+  }
+}

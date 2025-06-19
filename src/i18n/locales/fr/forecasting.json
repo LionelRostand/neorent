@@ -1,0 +1,23 @@
+
+{
+  "forecasting": {
+    "title": "Prévisions",
+    "subtitle": "Analysez et prévisez vos investissements immobiliers",
+    "management": "Prévisions d'Investissement",
+    "description": "Projections financières et analyse d'investissement",
+    "newSimulation": "Nouvelle Simulation",
+    "loading": "Chargement des prévisions...",
+    "simulationSuccess": "Simulation créée avec succès",
+    "simulationError": "Erreur lors de la création de la simulation",
+    "currentRevenue": "Revenus Actuels",
+    "projectedRevenue": "Revenus Projetés",
+    "investmentGoals": "Objectifs d'Investissement",
+    "roi": "Retour sur Investissement",
+    "forecastList": "Liste des Prévisions",
+    "noForecasts": "Aucune prévision",
+    "noForecastsDescription": "Commencez par créer votre première prévision",
+    "viewDetails": "Voir les détails",
+    "editForecast": "Modifier",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette prévision ?"
+  }
+}

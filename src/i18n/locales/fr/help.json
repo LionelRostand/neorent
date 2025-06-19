@@ -1,0 +1,23 @@
+
+{
+  "help": {
+    "title": "Aide",
+    "subtitle": "Obtenez de l'aide et du support pour utiliser l'application",
+    "management": "Centre d'Aide",
+    "description": "Trouvez des réponses et obtenez du support",
+    "searchHelp": "Rechercher dans les articles d'aide",
+    "categories": "Catégories",
+    "articles": "Articles",
+    "faq": "Questions Fréquemment Posées",
+    "tutorials": "Tutoriels",
+    "documentation": "Documentation",
+    "support": "Support",
+    "contactSupport": "Contacter le Support",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsDescription": "Essayez d'ajuster vos termes de recherche",
+    "gettingStarted": "Démarrage",
+    "userGuides": "Guides Utilisateur",
+    "troubleshooting": "Dépannage",
+    "apiReference": "Référence API"
+  }
+}

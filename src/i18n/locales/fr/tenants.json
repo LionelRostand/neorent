@@ -1,0 +1,27 @@
+
+{
+  "tenants": {
+    "title": "Locataires",
+    "subtitle": "Gérez vos locataires et leurs informations",
+    "management": "Gestion des Locataires",
+    "description": "Gérez et suivez tous vos locataires",
+    "addTenant": "Ajouter un locataire",
+    "loading": "Chargement des locataires...",
+    "addSuccess": "Locataire ajouté avec succès",
+    "addError": "Erreur lors de l'ajout du locataire",
+    "updateSuccess": "Locataire mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du locataire",
+    "deleteSuccess": "Locataire supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du locataire",
+    "totalTenants": "Total des Locataires",
+    "activeTenants": "Locataires Actifs",
+    "latePayments": "Paiements en Retard",
+    "monthlyRevenue": "Revenus Mensuels",
+    "tenantList": "Liste des Locataires",
+    "noTenants": "Aucun locataire",
+    "noTenantsDescription": "Commencez par ajouter votre premier locataire",
+    "viewDetails": "Voir les détails",
+    "editTenant": "Modifier",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce locataire ?"
+  }
+}

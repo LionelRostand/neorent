@@ -1,0 +1,27 @@
+
+{
+  "inspections": {
+    "title": "Inspections",
+    "subtitle": "Gérez les inspections de propriétés et les rapports",
+    "management": "Gestion des Inspections",
+    "description": "Planifiez et suivez les inspections de propriétés",
+    "addInspection": "Programmer une Inspection",
+    "loading": "Chargement des inspections...",
+    "addSuccess": "Inspection programmée avec succès",
+    "addError": "Erreur lors de la programmation de l'inspection",
+    "updateSuccess": "Inspection mise à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour de l'inspection",
+    "deleteSuccess": "Inspection supprimée avec succès",
+    "deleteError": "Erreur lors de la suppression de l'inspection",
+    "scheduledInspections": "Inspections Programmées",
+    "completedInspections": "Inspections Terminées",
+    "pendingInspections": "Inspections en Attente",
+    "urgentInspections": "Inspections Urgentes",
+    "inspectionList": "Liste des Inspections",
+    "noInspections": "Aucune inspection",
+    "noInspectionsDescription": "Commencez par programmer votre première inspection",
+    "viewDetails": "Voir les détails",
+    "editInspection": "Modifier",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette inspection ?"
+  }
+}
