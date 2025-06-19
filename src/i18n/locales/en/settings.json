@@ -39,8 +39,17 @@
       "payment": "Payment",
       "adminAccess": "Admin Access"
     },
-    "adminAccess": "Admin Access",
+    "adminAccess": "Admin Access to Tenant Spaces",
     "adminAccessDescription": "Access tenant accounts for support purposes",
+    "adminMode": "Administrator Mode",
+    "adminModeConsultation": "Administrator Mode - Viewing {name}'s space",
+    "adminModeTitle": "Admin Mode",
+    "returnButton": "Return",
+    "viewingAsAdmin": "You are viewing the space as an administrator",
+    "viewTenantSpace": "View tenant space",
+    "tenantType": "Type",
+    "tenantEmail": "Email",
+    "tenantAddress": "Address",
     "company": {
       "title": "Company Management",
       "subtitle": "Manage your company information",
