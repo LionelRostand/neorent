@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus } from 'lucide-react';
@@ -12,17 +13,19 @@ interface ContractsHeaderProps {
 }
 
 const ContractsHeader = ({ isDialogOpen, setIsDialogOpen, onAddContract }: ContractsHeaderProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex justify-between items-center">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Lease Contracts</h1>
-        <p className="text-gray-600 mt-2">Manage your lease contracts and service providers</p>
+        <h1 className="text-3xl font-bold text-gray-900">{t('contracts.title')}</h1>
+        <p className="text-gray-600 mt-2">{t('contracts.subtitle')}</p>
       </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <Button className="bg-blue-600 hover:bg-blue-700">
             <Plus className="mr-2 h-4 w-4" />
-            New Lease Contract
+            {t('contracts.addContract')}
           </Button>
         </DialogTrigger>
         <ContractForm

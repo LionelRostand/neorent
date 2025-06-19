@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import ContractCard from './ContractCard';
 
 interface Contract {
@@ -25,10 +26,12 @@ interface ContractsListProps {
 }
 
 const ContractsList = ({ contracts, onEdit, onDelete, onViewDetails, onSign }: ContractsListProps) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="pt-4">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Lease Contracts List</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('contracts.contractList')}</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
