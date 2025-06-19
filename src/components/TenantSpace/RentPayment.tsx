@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,6 +23,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import PaymentMethodTabs from '../RentPaymentForm/PaymentMethodTabs';
 
 interface RentPaymentProps {
   tenantData: {
