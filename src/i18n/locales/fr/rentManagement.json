@@ -70,6 +70,11 @@
     "delete": "Supprimer",
     "edit": "Modifier",
     "view": "Voir",
-    "close": "Fermer"
+    "close": "Fermer",
+    "selectTenant": "Sélectionner un locataire",
+    "selectPaymentMethod": "Sélectionner le mode de paiement",
+    "notes": "Notes",
+    "notesPlaceholder": "Commentaires optionnels sur ce paiement...",
+    "savePayment": "Enregistrer le Paiement"
   }
 }

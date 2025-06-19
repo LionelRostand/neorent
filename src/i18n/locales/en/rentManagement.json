@@ -70,6 +70,11 @@
     "delete": "Delete",
     "edit": "Edit",
     "view": "View",
-    "close": "Close"
+    "close": "Close",
+    "selectTenant": "Select a tenant",
+    "selectPaymentMethod": "Select payment method",
+    "notes": "Notes",
+    "notesPlaceholder": "Optional comments about this payment...",
+    "savePayment": "Save Payment"
   }
 }
