@@ -1,26 +1,20 @@
 
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect } from 'react';
+import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import PublicLayout from '@/components/PublicSite/PublicLayout';
 import LoginForm from '@/components/PublicSite/LoginForm';
 
 const PublicLogin = () => {
-  const { t } = useTranslation();
+  const { trackPageView } = useAnalyticsTracking();
+
+  useEffect(() => {
+    trackPageView('/login');
+  }, [trackPageView]);
 
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-green-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div className="text-center">
-            <h2 className="mt-6 text-3xl font-extrabold text-white">
-              {t('publicSite.login.title')}
-            </h2>
-            <p className="mt-2 text-sm text-green-100">
-              {t('publicSite.login.subtitle')}
-            </p>
-          </div>
-          <LoginForm />
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <LoginForm />
       </div>
     </PublicLayout>
   );

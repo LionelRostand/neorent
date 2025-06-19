@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import PublicLayout from '@/components/PublicSite/PublicLayout';
 import { ChatWidget } from '@/components/Chat/ChatWidget';
 import { ContactHero } from '@/components/PublicSite/ContactHero';
@@ -11,6 +12,11 @@ import { ContactMap } from '@/components/PublicSite/ContactMap';
 
 const PublicContact = () => {
   const { t } = useTranslation();
+  const { trackPageView } = useAnalyticsTracking();
+
+  useEffect(() => {
+    trackPageView('/contact');
+  }, [trackPageView]);
 
   return (
     <PublicLayout>

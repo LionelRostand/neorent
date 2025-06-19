@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +17,7 @@ interface ChatFormProps {
 
 export const ChatForm: React.FC<ChatFormProps> = ({ onSubmit }) => {
   const { t } = useTranslation();
+  const { trackContactRequest } = useAnalyticsTracking();
   const [formData, setFormData] = useState<ChatFormData>({
     name: '',
     email: ''
@@ -23,12 +25,16 @@ export const ChatForm: React.FC<ChatFormProps> = ({ onSubmit }) => {
 
   console.log('ChatForm: Rendu du formulaire avec données:', formData);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('ChatForm: Soumission du formulaire avec:', formData);
     
     if (formData.name.trim() && formData.email.trim()) {
       console.log('ChatForm: Formulaire valide, appel de onSubmit');
+      
+      // Tracker la demande de chat
+      await trackContactRequest('chat_widget');
+      
       onSubmit(formData);
     } else {
       console.log('ChatForm: Formulaire invalide - nom ou email manquant');
