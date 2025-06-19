@@ -95,6 +95,15 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
     return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
   };
 
+  // Fonction pour annuler l'upload en cours
+  const cancelUpload = () => {
+    setSelectedFile(null);
+    setSelectedDocumentType('');
+    setUploadError('');
+    const input = document.getElementById('file-upload') as HTMLInputElement;
+    if (input) input.value = '';
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -107,7 +116,7 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
         {/* Sélection du type de document */}
         <div>
           <Label htmlFor="document-type">Type de document</Label>
-          <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType}>
+          <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType} disabled={uploading}>
             <SelectTrigger>
               <SelectValue placeholder="Sélectionner un type de document" />
             </SelectTrigger>
@@ -173,6 +182,16 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
             <p className="text-xs text-center text-gray-500">
               Upload en cours... {uploadProgress}%
             </p>
+            <div className="flex justify-center">
+              <Button
+                onClick={cancelUpload}
+                size="sm"
+                variant="outline"
+                className="text-red-600 hover:text-red-800"
+              >
+                Annuler l'upload
+              </Button>
+            </div>
           </div>
         )}
 

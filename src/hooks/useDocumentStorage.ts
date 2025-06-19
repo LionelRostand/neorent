@@ -69,6 +69,7 @@ export const useDocumentStorage = () => {
       };
 
       console.log('📋 Document final retourné:', savedDocument);
+      console.log('=== FIN UPLOAD DOCUMENT (SUCCÈS) ===');
       return savedDocument;
     } catch (error) {
       console.error('❌ ERREUR lors de l\'upload:', error);
@@ -88,6 +89,8 @@ export const useDocumentStorage = () => {
         errorMessage = 'Erreur de réseau. Vérifiez votre connexion.';
       } else if (error.message.includes('timeout')) {
         errorMessage = 'Timeout lors de l\'upload. Le fichier est peut-être trop volumineux.';
+      } else if (error.message.includes('RoommateId')) {
+        errorMessage = 'ID du colocataire manquant. Veuillez rafraîchir la page.';
       }
       
       throw new Error(`${errorMessage}: ${error.message}`);
