@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CreditCard, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
@@ -220,32 +220,34 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
             totalAmount={totalAmount}
           />
 
-          <PaymentDialog
-            open={open}
-            onOpenChange={setOpen}
-            actualTenantName={actualTenantName}
-            actualTenantType={actualTenantType}
-            propertyTitle={propertyData.title}
-            totalAmount={totalAmount}
-            paymentDate={paymentDate}
-            setPaymentDate={setPaymentDate}
-            paidAmount={paidAmount}
-            setPaidAmount={setPaidAmount}
-            paymentMethod={paymentMethod}
-            setPaymentMethod={setPaymentMethod}
-            notes={notes}
-            setNotes={setNotes}
-            loading={loading}
-            isFormValid={isFormValid}
-            onSubmit={handleSubmit}
-          />
+          <Dialog open={open} onOpenChange={setOpen}>
+            <PaymentDialog
+              open={open}
+              onOpenChange={setOpen}
+              actualTenantName={actualTenantName}
+              actualTenantType={actualTenantType}
+              propertyTitle={propertyData.title}
+              totalAmount={totalAmount}
+              paymentDate={paymentDate}
+              setPaymentDate={setPaymentDate}
+              paidAmount={paidAmount}
+              setPaidAmount={setPaidAmount}
+              paymentMethod={paymentMethod}
+              setPaymentMethod={setPaymentMethod}
+              notes={notes}
+              setNotes={setNotes}
+              loading={loading}
+              isFormValid={isFormValid}
+              onSubmit={handleSubmit}
+            />
 
-          <DialogTrigger asChild>
-            <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3" onClick={() => setOpen(true)}>
-              <DollarSign className="mr-2 h-4 w-4" />
-              {t('tenantSpace.payment.makePayment')}
-            </Button>
-          </DialogTrigger>
+            <DialogTrigger asChild>
+              <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
+                <DollarSign className="mr-2 h-4 w-4" />
+                {t('tenantSpace.payment.makePayment')}
+              </Button>
+            </DialogTrigger>
+          </Dialog>
 
           <PaymentImportantInfo />
         </div>
