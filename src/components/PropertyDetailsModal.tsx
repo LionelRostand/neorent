@@ -21,6 +21,7 @@ interface Property {
   totalRooms?: number | null;
   availableRooms?: number | null;
   creditImmobilier?: string;
+  floor?: string;
   charges?: {
     electricity?: number;
     water?: number;
@@ -212,6 +213,14 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                   <div>
                     <span className="font-medium">{t('propertyForm.surface')}:</span> {property.surface}
                   </div>
+                  {property.floor && (
+                    <>
+                      <div>
+                        <span className="font-medium">{t('propertyForm.floor')}:</span> {property.floor}
+                      </div>
+                      <div></div>
+                    </>
+                  )}
                 </div>
 
                 {property.locationType === 'Colocation' && (
