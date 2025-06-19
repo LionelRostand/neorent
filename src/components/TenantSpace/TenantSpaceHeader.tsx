@@ -26,14 +26,14 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-            {translatedType} Space
+            {t('tenantSpace.title', { type: translatedType })}
           </h1>
           <p className="text-gray-600 mt-2 text-sm sm:text-base break-words">
-            Welcome, {currentProfile.name}
+            {t('tenantSpace.welcome', { name: currentProfile.name })}
           </p>
           {currentType === 'colocataire' && currentProfile.roomNumber && (
             <p className="text-gray-500 mt-1 text-sm">
-              Room {currentProfile.roomNumber}
+              {t('tenantSpace.room', { number: currentProfile.roomNumber })}
             </p>
           )}
         </div>
