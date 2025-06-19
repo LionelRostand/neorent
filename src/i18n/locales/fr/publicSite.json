@@ -4,7 +4,7 @@
     "home": "Accueil",
     "login": "Connexion",
     "hero": {
-      "title": "Simplifiez Votre",
+      "title": "Simplifiez votre",
       "subtitle": "Gestion Immobilière",
       "description": "Gérez vos propriétés, locataires et revenus locatifs avec notre plateforme complète de gestion immobilière.",
       "startFree": "Essai Gratuit",
@@ -28,38 +28,38 @@
     },
     "benefits": {
       "title": "Pourquoi Choisir Notre Plateforme ?",
-      "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour optimiser leurs opérations.",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour rationaliser leurs opérations.",
       "list": [
         "Gestion rationalisée du portefeuille immobilier",
         "Collecte et suivi automatisés des loyers",
-        "Outils complets de vérification des locataires",
-        "Rapports financiers et analyses en temps réel",
+        "Outils complets de sélection des locataires",
+        "Reporting financier et analytique en temps réel",
         "Interface mobile pour la gestion en déplacement",
         "Support client 24/7 et assistance"
       ],
-      "contactTitle": "Contactez-nous"
+      "contactTitle": "Entrer en Contact"
     },
     "cta": {
       "title": "Prêt à Commencer ?",
-      "description": "Rejoignez des milliers de gestionnaires immobiliers qui utilisent déjà notre plateforme pour optimiser leurs opérations.",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui utilisent déjà notre plateforme pour rationaliser leurs opérations.",
       "startNow": "Commencer Maintenant"
     },
     "about": {
-      "title": "À Propos",
-      "subtitle": "Innovation en Gestion Immobilière",
+      "title": "À Propos de Nous",
+      "subtitle": "Innovation dans la Gestion Immobilière",
       "description": "Découvrez notre mission de révolutionner la gestion immobilière grâce à une technologie innovante et un service exceptionnel.",
       "story": {
         "title": "Notre Histoire",
-        "paragraph1": "Fondé avec la vision de simplifier la gestion immobilière, Neo Rent est passé d'une petite startup à une plateforme leader utilisée par des milliers de gestionnaires immobiliers dans le monde entier.",
+        "paragraph1": "Fondée avec la vision de simplifier la gestion immobilière, Neo Rent a évolué d'une petite startup à une plateforme leader de confiance pour des milliers de gestionnaires immobiliers dans le monde.",
         "paragraph2": "Notre équipe d'experts combine des années d'expérience immobilière avec une technologie de pointe pour créer des solutions qui font vraiment la différence dans la vie quotidienne des gestionnaires immobiliers.",
-        "paragraph3": "Nous croyons que la gestion immobilière doit être efficace, transparente et sans stress pour les propriétaires et les locataires."
+        "paragraph3": "Nous croyons que la gestion immobilière devrait être efficace, transparente et sans stress pour les propriétaires et les locataires."
       },
       "values": {
         "title": "Nos Valeurs",
         "subtitle": "Ce qui nous motive chaque jour",
         "clientProximity": {
           "title": "Proximité Client",
-          "description": "Nous construisons des relations durables avec nos clients grâce à un support personnalisé et un service attentif."
+          "description": "Nous construisons des relations durables avec nos clients grâce à un support personnalisé et un service attentionné."
         },
         "innovation": {
           "title": "Innovation",
@@ -83,20 +83,79 @@
       },
       "team": {
         "title": "Notre Équipe",
-        "subtitle": "Des experts passionnés dédiés à votre succès",
+        "subtitle": "Experts passionnés dédiés à votre succès",
         "dedication": {
           "title": "Dédiés à Votre Succès",
-          "description": "Notre équipe diversifiée d'experts en gestion immobilière, de développeurs et de spécialistes du succès client travaille ensemble pour vous garantir la meilleure expérience possible avec notre plateforme."
+          "description": "Notre équipe diversifiée d'experts en gestion immobilière, développeurs et spécialistes du succès client travaillent ensemble pour vous assurer la meilleure expérience possible avec notre plateforme."
         }
       }
     },
     "contact": {
       "hero": {
-        "title": "Contact"
+        "title": "Contact",
+        "subtitle": "Contactez notre équipe"
+      },
+      "form": {
+        "title": "Envoyez-nous un message",
+        "subtitle": "Nous vous répondrons dans les plus brefs délais",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Email",
+        "phone": "Téléphone",
+        "subject": "Sujet",
+        "message": "Message",
+        "send": "Envoyer le message",
+        "sending": "Envoi en cours...",
+        "success": "Merci pour votre message ! Nous vous répondrons bientôt."
+      },
+      "info": {
+        "title": "Informations de Contact",
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.com",
+          "description": "Envoyez-nous un email à tout moment"
+        },
+        "phone": {
+          "title": "Téléphone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Appelez-nous pendant les heures de bureau"
+        },
+        "address": {
+          "title": "Adresse",
+          "content": "123 Rue des Affaires, Paris, France",
+          "description": "Visitez notre bureau"
+        },
+        "hours": {
+          "title": "Heures d'Ouverture",
+          "content": "Lun-Ven : 9h00 - 18h00",
+          "description": "Nous sommes là pour vous aider"
+        }
+      },
+      "faq": {
+        "title": "Questions Fréquemment Posées",
+        "subtitle": "Trouvez des réponses aux questions courantes sur notre plateforme",
+        "items": [
+          {
+            "question": "Comment démarrer avec Neo Rent ?",
+            "answer": "Commencer est facile ! Contactez simplement notre équipe pour programmer une démonstration et nous vous aiderons à configurer votre compte et importer vos données de propriétés."
+          },
+          {
+            "question": "Mes données sont-elles sécurisées ?",
+            "answer": "Oui, nous utilisons des mesures de sécurité de niveau entreprise incluant le chiffrement, des serveurs sécurisés et des sauvegardes régulières pour protéger vos données."
+          },
+          {
+            "question": "Puis-je importer mes données de propriétés existantes ?",
+            "answer": "Absolument ! Notre équipe vous aidera à importer vos données existantes de propriétés et locataires depuis des feuilles de calcul ou d'autres systèmes de gestion immobilière."
+          },
+          {
+            "question": "Offrez-vous un support client ?",
+            "answer": "Oui, nous fournissons un support client complet incluant un support téléphonique, email et chat pendant les heures de bureau, plus une documentation extensive et des tutoriels vidéo."
+          }
+        ]
       }
     },
     "login": {
-      "title": "Connexion à votre espace",
+      "title": "Connectez-vous à votre espace",
       "subtitle": "Gérez vos biens immobiliers en toute simplicité",
       "formTitle": "Connexion à Neo Rent",
       "formSubtitle": "Accédez à votre espace de gestion immobilière",
@@ -105,7 +164,7 @@
       "password": "Mot de passe",
       "passwordPlaceholder": "••••••••",
       "signIn": "Se connecter",
-      "signingIn": "Connexion...",
+      "signingIn": "Connexion en cours...",
       "forgotPassword": "Mot de passe oublié ?",
       "importantInfo": "Information importante :",
       "profileWarning": "Votre compte doit être configuré par votre gestionnaire immobilier avant la première connexion. Si vous obtenez une erreur \"Accès refusé\", contactez votre gestionnaire pour activer votre compte."
@@ -115,11 +174,11 @@
       "usefulLinks": "Liens Utiles",
       "contact": "Contact",
       "copyright": "Tous droits réservés.",
-      "legalNotice": "Mentions légales",
-      "privacyPolicy": "Politique de confidentialité",
-      "termsOfService": "Conditions d'utilisation",
-      "intellectualProperty": "© 2025 Neo Rent - Plateforme de gestion immobilière. Tous droits réservés. Toute reproduction, distribution ou utilisation non autorisée de ce contenu est strictement interdite.",
-      "trademarks": "Neo Rent® est une marque déposée de Neotech-consulting. Toutes les autres marques mentionnées sont la propriété de leurs propriétaires respectifs."
+      "legalNotice": "Mentions Légales",
+      "privacyPolicy": "Politique de Confidentialité",
+      "termsOfService": "Conditions d'Utilisation",
+      "intellectualProperty": "© 2025 Neo Rent - Plateforme de Gestion Immobilière. Tous droits réservés. Toute reproduction, distribution ou utilisation non autorisée de ce contenu est strictement interdite.",
+      "trademarks": "Neo Rent® est une marque déposée de Neotech-consulting. Toutes les autres marques mentionnées appartiennent à leurs propriétaires respectifs."
     }
   }
 }

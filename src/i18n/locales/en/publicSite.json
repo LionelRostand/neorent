@@ -92,7 +92,66 @@
     },
     "contact": {
       "hero": {
-        "title": "Contact"
+        "title": "Contact",
+        "subtitle": "Get in touch with our team"
+      },
+      "form": {
+        "title": "Send us a message",
+        "subtitle": "We'll get back to you as soon as possible",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "subject": "Subject",
+        "message": "Message",
+        "send": "Send Message",
+        "sending": "Sending...",
+        "success": "Thank you for your message! We'll get back to you soon."
+      },
+      "info": {
+        "title": "Contact Information",
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.com",
+          "description": "Send us an email anytime"
+        },
+        "phone": {
+          "title": "Phone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Call us during business hours"
+        },
+        "address": {
+          "title": "Address",
+          "content": "123 Business Street, Paris, France",
+          "description": "Visit our office"
+        },
+        "hours": {
+          "title": "Business Hours",
+          "content": "Mon-Fri: 9:00 AM - 6:00 PM",
+          "description": "We're here to help"
+        }
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Find answers to common questions about our platform",
+        "items": [
+          {
+            "question": "How do I get started with Neo Rent?",
+            "answer": "Getting started is easy! Simply contact our team to schedule a demo and we'll help you set up your account and import your property data."
+          },
+          {
+            "question": "Is my data secure?",
+            "answer": "Yes, we use enterprise-grade security measures including encryption, secure servers, and regular backups to protect your data."
+          },
+          {
+            "question": "Can I import my existing property data?",
+            "answer": "Absolutely! Our team will help you import your existing property and tenant data from spreadsheets or other property management systems."
+          },
+          {
+            "question": "Do you offer customer support?",
+            "answer": "Yes, we provide comprehensive customer support including phone, email, and chat support during business hours, plus extensive documentation and video tutorials."
+          }
+        ]
       }
     },
     "login": {
