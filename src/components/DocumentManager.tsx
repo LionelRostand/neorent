@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -8,7 +9,8 @@ import {
   CreditCard,
   Home
 } from 'lucide-react';
-import { useDocumentStorage, DocumentData } from '@/hooks/useDocumentStorage';
+import { useDocumentStorage } from '@/hooks/useDocumentStorage';
+import { DocumentData } from '@/types/document';
 import { useToast } from '@/hooks/use-toast';
 import DocumentUploadSection from './DocumentUploadSection';
 import DocumentTypesList from './DocumentTypesList';
@@ -161,7 +163,6 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
 
   const handleViewDocument = (document: DocumentData) => {
     try {
-      // Utiliser l'URL de téléchargement Firebase Storage
       window.open(document.downloadURL, '_blank');
     } catch (error) {
       toast({
