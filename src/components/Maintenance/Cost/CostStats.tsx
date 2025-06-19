@@ -17,7 +17,7 @@ const CostStats = ({ totalCosts, proprietaireCosts, locataireCosts, pendingCosts
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.costManagement.totalCosts')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceCosts.totalCosts')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalCosts}€</div>
@@ -26,7 +26,7 @@ const CostStats = ({ totalCosts, proprietaireCosts, locataireCosts, pendingCosts
       
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.costManagement.ownerCosts')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceCosts.ownerCosts')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-blue-600">{proprietaireCosts}€</div>
@@ -38,7 +38,7 @@ const CostStats = ({ totalCosts, proprietaireCosts, locataireCosts, pendingCosts
       
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.costManagement.tenantCosts')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceCosts.tenantCosts')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-green-600">{locataireCosts}€</div>
@@ -50,7 +50,7 @@ const CostStats = ({ totalCosts, proprietaireCosts, locataireCosts, pendingCosts
       
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.costManagement.pendingCosts')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceCosts.pendingCosts')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-orange-600">{pendingCosts}€</div>

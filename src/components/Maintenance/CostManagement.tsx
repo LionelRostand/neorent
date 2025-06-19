@@ -29,17 +29,17 @@ const CostManagement = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const totalCosts = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
-  const proprietaireCosts = invoices.filter(i => i.responsibility === t('maintenance.costManagement.owner')).reduce((sum, i) => sum + i.amount, 0);
-  const locataireCosts = invoices.filter(i => i.responsibility === t('maintenance.costManagement.tenant')).reduce((sum, i) => sum + i.amount, 0);
-  const pendingCosts = invoices.filter(i => i.status === t('maintenance.costManagement.pending')).reduce((sum, i) => sum + i.amount, 0);
+  const proprietaireCosts = invoices.filter(i => i.responsibility === t('maintenanceCosts.owner')).reduce((sum, i) => sum + i.amount, 0);
+  const locataireCosts = invoices.filter(i => i.responsibility === t('maintenanceCosts.tenant')).reduce((sum, i) => sum + i.amount, 0);
+  const pendingCosts = invoices.filter(i => i.status === t('maintenanceCosts.pending')).reduce((sum, i) => sum + i.amount, 0);
 
   const handleNewInvoice = async (invoice: any) => {
     try {
       await addInvoice(invoice);
       setIsDialogOpen(false);
       toast({
-        title: t('maintenance.interventionTracking.invoiceCreated'),
-        description: t('maintenance.interventionTracking.invoiceDescription'),
+        title: t('maintenanceInterventions.invoiceCreated'),
+        description: t('maintenanceInterventions.invoiceDescription'),
       });
     } catch (error) {
       console.error('Erreur lors de la création de la facture:', error);
@@ -47,7 +47,7 @@ const CostManagement = () => {
   };
 
   if (loading) {
-    return <div>{t('maintenance.interventionTracking.loadingData')}</div>;
+    return <div>{t('maintenance.loadingData')}</div>;
   }
 
   return (
@@ -65,8 +65,8 @@ const CostManagement = () => {
         <CardHeader>
           <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
             <div>
-              <CardTitle>{t('maintenance.costManagement.title')}</CardTitle>
-              <CardDescription>{t('maintenance.costManagement.subtitle')}</CardDescription>
+              <CardTitle>{t('maintenanceCosts.title')}</CardTitle>
+              <CardDescription>{t('maintenanceCosts.subtitle')}</CardDescription>
             </div>
             <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
               <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
@@ -86,14 +86,14 @@ const CostManagement = () => {
                 <DialogTrigger asChild>
                   <Button className="w-full sm:w-auto">
                     <Plus className="h-4 w-4 mr-2" />
-                    {t('maintenance.costManagement.newInvoice')}
+                    {t('maintenanceCosts.newInvoice')}
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
-                    <DialogTitle>{t('maintenance.costManagement.createNewInvoice')}</DialogTitle>
+                    <DialogTitle>{t('maintenanceCosts.createNewInvoice')}</DialogTitle>
                     <DialogDescription>
-                      {t('maintenance.costManagement.recordNewInvoice')}
+                      {t('maintenanceCosts.recordNewInvoice')}
                     </DialogDescription>
                   </DialogHeader>
                   <InvoiceForm 

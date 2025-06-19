@@ -29,11 +29,11 @@ const InvoicesTable = ({ invoices }: InvoicesTableProps) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Payée': 
-      case t('maintenance.costManagement.paid'): return 'success';
+      case t('maintenanceCosts.paid'): return 'success';
       case 'En attente': 
-      case t('maintenance.costManagement.pending'): return 'secondary';
+      case t('maintenanceCosts.pendingCosts'): return 'secondary';
       case 'En retard': 
-      case t('maintenance.costManagement.overdue'): return 'destructive';
+      case t('maintenanceCosts.overdue'): return 'destructive';
       default: return 'default';
     }
   };
@@ -43,14 +43,14 @@ const InvoicesTable = ({ invoices }: InvoicesTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="min-w-[120px]">{t('maintenance.costManagement.invoiceNumberColumn')}</TableHead>
-            <TableHead className="min-w-[100px]">{t('maintenance.costManagement.dateColumn')}</TableHead>
-            <TableHead className="min-w-[150px]">{t('maintenance.costManagement.propertyColumn')}</TableHead>
-            <TableHead className="min-w-[200px]">{t('maintenance.costManagement.descriptionColumn')}</TableHead>
-            <TableHead className="min-w-[100px]">{t('maintenance.costManagement.amountColumn')}</TableHead>
-            <TableHead className="min-w-[120px]">{t('maintenance.costManagement.responsibilityColumn')}</TableHead>
-            <TableHead className="min-w-[100px]">{t('maintenance.costManagement.statusColumn')}</TableHead>
-            <TableHead className="min-w-[100px]">{t('maintenance.costManagement.actionsColumn')}</TableHead>
+            <TableHead className="min-w-[120px]">{t('maintenanceCosts.invoiceNumberColumn')}</TableHead>
+            <TableHead className="min-w-[100px]">{t('maintenanceCosts.dateColumn')}</TableHead>
+            <TableHead className="min-w-[150px]">{t('maintenanceCosts.propertyColumn')}</TableHead>
+            <TableHead className="min-w-[200px]">{t('maintenanceCosts.descriptionColumn')}</TableHead>
+            <TableHead className="min-w-[100px]">{t('maintenanceCosts.amountColumn')}</TableHead>
+            <TableHead className="min-w-[120px]">{t('maintenanceCosts.responsibilityColumn')}</TableHead>
+            <TableHead className="min-w-[100px]">{t('maintenanceCosts.statusColumn')}</TableHead>
+            <TableHead className="min-w-[100px]">{t('maintenanceCosts.actionsColumn')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -71,7 +71,7 @@ const InvoicesTable = ({ invoices }: InvoicesTableProps) => {
                 </div>
               </TableCell>
               <TableCell>
-                <Badge variant={invoice.responsibility === t('maintenance.costManagement.owner') ? 'default' : 'secondary'}>
+                <Badge variant={invoice.responsibility === t('maintenanceCosts.owner') ? 'default' : 'secondary'}>
                   {invoice.responsibility}
                 </Badge>
               </TableCell>

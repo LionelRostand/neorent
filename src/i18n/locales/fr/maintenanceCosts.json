@@ -31,6 +31,7 @@
     "statusColumn": "Statut",
     "actionsColumn": "Actions",
     "paid": "Payée",
+    "pending": "En attente",
     "overdue": "En retard",
     "editInvoice": "Modifier la facture",
     "deleteInvoice": "Supprimer la facture",
