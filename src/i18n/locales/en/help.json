@@ -6,7 +6,7 @@
     "management": "Help Center",
     "description": "Find answers and get support",
     "searchHelp": "Search help articles",
-    "categories": "All Categories",
+    "allCategories": "All Categories",
     "articles": "Articles",
     "faq": "Frequently Asked Questions",
     "tutorials": "Tutorials",
@@ -20,6 +20,7 @@
     "troubleshooting": "Troubleshooting",
     "apiReference": "API Reference",
     "clearFilters": "Clear all filters",
+    "filterBy": "Filter by",
     "technicalAspect": "Technical aspect",
     "functionalUsage": "Functional usage",
     "categories": {

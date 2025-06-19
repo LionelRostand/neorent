@@ -6,7 +6,7 @@
     "management": "Centre d'Aide",
     "description": "Trouvez des réponses et obtenez du support",
     "searchHelp": "Rechercher dans l'aide",
-    "categories": "Toutes les catégories",
+    "allCategories": "Toutes les catégories",
     "articles": "Articles",
     "faq": "Questions Fréquemment Posées",
     "tutorials": "Tutoriels",
@@ -20,6 +20,7 @@
     "troubleshooting": "Dépannage",
     "apiReference": "Référence API",
     "clearFilters": "Effacer tous les filtres",
+    "filterBy": "Filtrer par",
     "technicalAspect": "Aspect technique",
     "functionalUsage": "Utilisation fonctionnelle",
     "categories": {

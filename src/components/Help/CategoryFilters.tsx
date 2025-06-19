@@ -37,8 +37,8 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
           }`}
           onClick={onClearFilters}
         >
-          <span className="hidden sm:inline">{t('help.categories')}</span>
-          <span className="sm:hidden">{t('help.categories')}</span>
+          <span className="hidden sm:inline">{t('help.allCategories')}</span>
+          <span className="sm:hidden">{t('help.allCategories')}</span>
         </Badge>
         {categories.map(category => (
           <Badge 
@@ -61,7 +61,7 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
       {/* Indicateur de filtre actif */}
       {selectedCategory && (
         <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-600 px-1">
-          <span>{t('help.categories')} :</span>
+          <span>{t('help.filterBy')} :</span>
           <Badge variant="secondary" className="text-xs">{selectedCategory}</Badge>
           <button
             onClick={onClearFilters}
