@@ -132,6 +132,7 @@
     "sortByStatus": "Status",
     "sortAscending": "Ascending",
     "sortDescending": "Descending",
+    "filters": "Filters",
     "categories": {
       "plumbing": "Plumbing",
       "electricity": "Electricity",
