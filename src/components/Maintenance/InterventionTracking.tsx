@@ -23,20 +23,28 @@ const InterventionTracking = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Planifiée': return 'default';
-      case 'En cours': return 'secondary';
-      case 'Terminée': return 'success';
-      case 'Annulée': return 'destructive';
+      case 'Planifiée': 
+      case t('maintenance.planned'): return 'default';
+      case 'En cours': 
+      case t('maintenance.inProgress'): return 'secondary';
+      case 'Terminée': 
+      case t('maintenance.completed'): return 'success';
+      case 'Annulée': 
+      case t('maintenance.cancelled'): return 'destructive';
       default: return 'default';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'Planifiée': return <Clock className="h-4 w-4" />;
-      case 'En cours': return <AlertCircle className="h-4 w-4" />;
-      case 'Terminée': return <CheckCircle className="h-4 w-4" />;
-      case 'Annulée': return <XCircle className="h-4 w-4" />;
+      case 'Planifiée': 
+      case t('maintenance.planned'): return <Clock className="h-4 w-4" />;
+      case 'En cours': 
+      case t('maintenance.inProgress'): return <AlertCircle className="h-4 w-4" />;
+      case 'Terminée': 
+      case t('maintenance.completed'): return <CheckCircle className="h-4 w-4" />;
+      case 'Annulée': 
+      case t('maintenance.cancelled'): return <XCircle className="h-4 w-4" />;
       default: return <Clock className="h-4 w-4" />;
     }
   };
@@ -46,7 +54,7 @@ const InterventionTracking = () => {
       await updateIntervention(id, { status: newStatus });
       toast({
         title: t('maintenance.requestSaved'),
-        description: `L'intervention a été marquée comme ${newStatus.toLowerCase()}.`,
+        description: `${t('maintenance.interventionTracking.interventionUpdated')} ${newStatus.toLowerCase()}.`,
       });
     } catch (error) {
       console.error('Erreur lors de la mise à jour:', error);
@@ -76,7 +84,7 @@ const InterventionTracking = () => {
             requestId: request.id,
             property: request.propertyId,
             description: request.description,
-            status: 'Planifiée',
+            status: t('maintenance.planned'),
             priority: request.priority,
             technicianName: '',
             technicianPhone: '',
@@ -100,7 +108,7 @@ const InterventionTracking = () => {
   }, [requests, loading]);
 
   if (loading) {
-    return <div>{t('common.loading')}</div>;
+    return <div>{t('maintenance.interventionTracking.loadingData')}</div>;
   }
 
   return (
@@ -112,7 +120,7 @@ const InterventionTracking = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">
-              {interventions.filter(i => i.status === 'Planifiée').length}
+              {interventions.filter(i => i.status === t('maintenance.planned') || i.status === 'Planifiée').length}
             </div>
           </CardContent>
         </Card>
@@ -123,7 +131,7 @@ const InterventionTracking = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">
-              {interventions.filter(i => i.status === 'En cours').length}
+              {interventions.filter(i => i.status === t('maintenance.inProgress') || i.status === 'En cours').length}
             </div>
           </CardContent>
         </Card>
@@ -134,7 +142,7 @@ const InterventionTracking = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
-              {interventions.filter(i => i.status === 'Terminée').length}
+              {interventions.filter(i => i.status === t('maintenance.completed') || i.status === 'Terminée').length}
             </div>
           </CardContent>
         </Card>
@@ -189,7 +197,7 @@ const InterventionTracking = () => {
                     <div className="flex flex-col">
                       <span className="flex items-center gap-1 text-sm">
                         <User className="h-3 w-3" />
-                        {intervention.technicianName || 'Non assigné'}
+                        {intervention.technicianName || t('maintenance.interventionTracking.noAssigned')}
                       </span>
                       {intervention.technicianPhone && (
                         <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -266,10 +274,10 @@ const InterventionTracking = () => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Planifiée">{t('maintenance.planned')}</SelectItem>
-                          <SelectItem value="En cours">{t('maintenance.inProgress')}</SelectItem>
-                          <SelectItem value="Terminée">{t('maintenance.completed')}</SelectItem>
-                          <SelectItem value="Annulée">Annulée</SelectItem>
+                          <SelectItem value={t('maintenance.planned')}>{t('maintenance.planned')}</SelectItem>
+                          <SelectItem value={t('maintenance.inProgress')}>{t('maintenance.inProgress')}</SelectItem>
+                          <SelectItem value={t('maintenance.completed')}>{t('maintenance.completed')}</SelectItem>
+                          <SelectItem value={t('maintenance.cancelled')}>{t('maintenance.cancelled')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -327,7 +335,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="scheduledTime">Heure prévue</Label>
+          <Label htmlFor="scheduledTime">{t('maintenance.interventionTracking.scheduledTime')}</Label>
           <Input
             id="scheduledTime"
             type="time"

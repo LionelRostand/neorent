@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -14,6 +15,7 @@ import InvoicesTable from './Cost/InvoicesTable';
 import CostSummary from './Cost/CostSummary';
 
 const CostManagement = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { invoices, addInvoice, loading } = useFirebaseMaintenances();
   const { properties } = useFirebaseProperties();
@@ -27,17 +29,17 @@ const CostManagement = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const totalCosts = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
-  const proprietaireCosts = invoices.filter(i => i.responsibility === 'Propriétaire').reduce((sum, i) => sum + i.amount, 0);
-  const locataireCosts = invoices.filter(i => i.responsibility === 'Locataire').reduce((sum, i) => sum + i.amount, 0);
-  const pendingCosts = invoices.filter(i => i.status === 'En attente').reduce((sum, i) => sum + i.amount, 0);
+  const proprietaireCosts = invoices.filter(i => i.responsibility === t('maintenance.costManagement.owner')).reduce((sum, i) => sum + i.amount, 0);
+  const locataireCosts = invoices.filter(i => i.responsibility === t('maintenance.costManagement.tenant')).reduce((sum, i) => sum + i.amount, 0);
+  const pendingCosts = invoices.filter(i => i.status === t('maintenance.costManagement.pending')).reduce((sum, i) => sum + i.amount, 0);
 
   const handleNewInvoice = async (invoice: any) => {
     try {
       await addInvoice(invoice);
       setIsDialogOpen(false);
       toast({
-        title: "Facture créée",
-        description: "La nouvelle facture a été enregistrée.",
+        title: t('maintenance.interventionTracking.invoiceCreated'),
+        description: t('maintenance.interventionTracking.invoiceDescription'),
       });
     } catch (error) {
       console.error('Erreur lors de la création de la facture:', error);
@@ -45,7 +47,7 @@ const CostManagement = () => {
   };
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <div>{t('maintenance.interventionTracking.loadingData')}</div>;
   }
 
   return (
@@ -63,8 +65,8 @@ const CostManagement = () => {
         <CardHeader>
           <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
             <div>
-              <CardTitle>Gestion des Coûts</CardTitle>
-              <CardDescription>Facturation et suivi des paiements</CardDescription>
+              <CardTitle>{t('maintenance.costManagement.title')}</CardTitle>
+              <CardDescription>{t('maintenance.costManagement.subtitle')}</CardDescription>
             </div>
             <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
               <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
@@ -84,14 +86,14 @@ const CostManagement = () => {
                 <DialogTrigger asChild>
                   <Button className="w-full sm:w-auto">
                     <Plus className="h-4 w-4 mr-2" />
-                    Nouvelle facture
+                    {t('maintenance.costManagement.newInvoice')}
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
-                    <DialogTitle>Créer une nouvelle facture</DialogTitle>
+                    <DialogTitle>{t('maintenance.costManagement.createNewInvoice')}</DialogTitle>
                     <DialogDescription>
-                      Enregistrer une nouvelle facture de maintenance
+                      {t('maintenance.costManagement.recordNewInvoice')}
                     </DialogDescription>
                   </DialogHeader>
                   <InvoiceForm 

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +13,7 @@ interface InvoiceFormProps {
 }
 
 const InvoiceForm = ({ onSave, properties, onCancel }: InvoiceFormProps) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     invoiceNumber: `MAINT-${new Date().getFullYear()}-${String(Date.now()).slice(-3)}`,
     date: new Date().toISOString().split('T')[0],
@@ -20,7 +22,7 @@ const InvoiceForm = ({ onSave, properties, onCancel }: InvoiceFormProps) => {
     technicianName: '',
     amount: '',
     responsibility: '',
-    status: 'En attente',
+    status: t('maintenance.costManagement.pending'),
     tenantNotified: false
   });
 
@@ -36,7 +38,7 @@ const InvoiceForm = ({ onSave, properties, onCancel }: InvoiceFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="invoiceNumber">Numéro de facture</Label>
+          <Label htmlFor="invoiceNumber">{t('maintenance.costManagement.invoiceNumber')}</Label>
           <Input
             id="invoiceNumber"
             value={formData.invoiceNumber}
@@ -46,7 +48,7 @@ const InvoiceForm = ({ onSave, properties, onCancel }: InvoiceFormProps) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="date">Date</Label>
+          <Label htmlFor="date">{t('maintenance.costManagement.date')}</Label>
           <Input
             id="date"
             type="date"
@@ -57,10 +59,10 @@ const InvoiceForm = ({ onSave, properties, onCancel }: InvoiceFormProps) => {
         </div>
         
         <div className="space-y-2 col-span-2">
-          <Label htmlFor="property">Bien immobilier</Label>
+          <Label htmlFor="property">{t('maintenance.costManagement.property')}</Label>
           <Select value={formData.property} onValueChange={(value) => setFormData({...formData, property: value})}>
             <SelectTrigger>
-              <SelectValue placeholder="Sélectionner un bien" />
+              <SelectValue placeholder={t('maintenance.costManagement.selectProperty')} />
             </SelectTrigger>
             <SelectContent>
               {properties.map((property) => (
@@ -73,49 +75,49 @@ const InvoiceForm = ({ onSave, properties, onCancel }: InvoiceFormProps) => {
         </div>
         
         <div className="space-y-2 col-span-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{t('maintenance.costManagement.description')}</Label>
           <Input
             id="description"
             value={formData.description}
             onChange={(e) => setFormData({...formData, description: e.target.value})}
-            placeholder="Description de l'intervention"
+            placeholder={t('maintenance.costManagement.descriptionPlaceholder')}
             required
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="technicianName">Technicien</Label>
+          <Label htmlFor="technicianName">{t('maintenance.costManagement.technician')}</Label>
           <Input
             id="technicianName"
             value={formData.technicianName}
             onChange={(e) => setFormData({...formData, technicianName: e.target.value})}
-            placeholder="Nom du technicien"
+            placeholder={t('maintenance.costManagement.technicianPlaceholder')}
             required
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="amount">Montant (€)</Label>
+          <Label htmlFor="amount">{t('maintenance.costManagement.amount')}</Label>
           <Input
             id="amount"
             type="number"
             step="0.01"
             value={formData.amount}
             onChange={(e) => setFormData({...formData, amount: e.target.value})}
-            placeholder="0.00"
+            placeholder={t('maintenance.costManagement.amountPlaceholder')}
             required
           />
         </div>
         
         <div className="space-y-2 col-span-2">
-          <Label htmlFor="responsibility">Responsabilité</Label>
+          <Label htmlFor="responsibility">{t('maintenance.costManagement.responsibility')}</Label>
           <Select value={formData.responsibility} onValueChange={(value) => setFormData({...formData, responsibility: value})}>
             <SelectTrigger>
-              <SelectValue placeholder="Qui paie cette facture ?" />
+              <SelectValue placeholder={t('maintenance.costManagement.responsibilityPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Propriétaire">Propriétaire</SelectItem>
-              <SelectItem value="Locataire">Locataire</SelectItem>
+              <SelectItem value={t('maintenance.costManagement.owner')}>{t('maintenance.costManagement.owner')}</SelectItem>
+              <SelectItem value={t('maintenance.costManagement.tenant')}>{t('maintenance.costManagement.tenant')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -123,10 +125,10 @@ const InvoiceForm = ({ onSave, properties, onCancel }: InvoiceFormProps) => {
       
       <div className="flex flex-col space-y-2 sm:flex-row sm:justify-end sm:space-y-0 sm:space-x-2">
         <Button type="button" variant="outline" onClick={onCancel} className="w-full sm:w-auto">
-          Annuler
+          {t('maintenance.costManagement.cancel')}
         </Button>
         <Button type="submit" className="w-full sm:w-auto">
-          Créer la facture
+          {t('maintenance.costManagement.createInvoice')}
         </Button>
       </div>
     </form>
