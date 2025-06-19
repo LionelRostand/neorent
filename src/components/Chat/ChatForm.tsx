@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,6 +15,7 @@ interface ChatFormProps {
 }
 
 export const ChatForm: React.FC<ChatFormProps> = ({ onSubmit }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<ChatFormData>({
     name: '',
     email: ''
@@ -45,36 +47,36 @@ export const ChatForm: React.FC<ChatFormProps> = ({ onSubmit }) => {
   return (
     <div className="p-4 flex-1 flex flex-col justify-center">
       <div className="text-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Démarrer une conversation</h3>
+        <h3 className="text-lg font-semibold text-gray-900">{t('publicSite.chat.startConversation')}</h3>
         <p className="text-sm text-gray-600">
-          Remplissez le formulaire pour commencer à chatter avec notre équipe
+          {t('publicSite.chat.fillForm')}
         </p>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="name">Nom complet</Label>
+          <Label htmlFor="name">{t('publicSite.chat.fullName')}</Label>
           <Input
             id="name"
             name="name"
             type="text"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Votre nom"
+            placeholder={t('publicSite.chat.namePlaceholder')}
             required
             className="mt-1"
           />
         </div>
         
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('publicSite.chat.email')}</Label>
           <Input
             id="email"
             name="email"
             type="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="votre@email.com"
+            placeholder={t('publicSite.chat.emailPlaceholder')}
             required
             className="mt-1"
           />
@@ -85,7 +87,7 @@ export const ChatForm: React.FC<ChatFormProps> = ({ onSubmit }) => {
           className="w-full bg-green-500 hover:bg-green-600"
           disabled={!formData.name.trim() || !formData.email.trim()}
         >
-          Démarrer le chat
+          {t('publicSite.chat.startChat')}
         </Button>
       </form>
     </div>

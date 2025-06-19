@@ -173,6 +173,15 @@
       "importantInfo": "Information importante :",
       "profileWarning": "Votre compte doit être configuré par votre gestionnaire immobilier avant la première connexion. Si vous obtenez une erreur \"Accès refusé\", contactez votre gestionnaire pour activer votre compte."
     },
+    "chat": {
+      "startConversation": "Démarrer une conversation",
+      "fillForm": "Remplissez le formulaire pour commencer à chatter avec notre équipe",
+      "fullName": "Nom complet",
+      "namePlaceholder": "Votre nom",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "startChat": "Démarrer le chat"
+    },
     "footer": {
       "description": "La plateforme complète pour la gestion immobilière moderne. Simplifiez vos opérations et développez votre entreprise avec Neo Rent.",
       "usefulLinks": "Liens Utiles",
