@@ -100,16 +100,16 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          {t('roommates.uploadDocument')}
+          Uploader un document
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Sélection du type de document */}
         <div>
-          <Label htmlFor="document-type">{t('roommates.documentType')}</Label>
+          <Label htmlFor="document-type">Type de document</Label>
           <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType}>
             <SelectTrigger>
-              <SelectValue placeholder={t('roommates.selectDocumentType')} />
+              <SelectValue placeholder="Sélectionner un type de document" />
             </SelectTrigger>
             <SelectContent>
               {documentTypes.map((docType) => (
@@ -123,7 +123,7 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
 
         {/* Sélection du fichier */}
         <div>
-          <Label htmlFor="file-upload">{t('roommates.selectFile')}</Label>
+          <Label htmlFor="file-upload">Choisir un fichier</Label>
           <Input
             id="file-upload"
             type="file"
@@ -190,7 +190,7 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
           ) : (
             <>
               <Upload className="h-4 w-4 mr-2" />
-              {t('roommates.uploadDocument')}
+              Uploader le document
             </>
           )}
         </Button>
