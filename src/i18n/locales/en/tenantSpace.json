@@ -29,7 +29,20 @@
       "furnished": "Furnished",
       "elevator": "Elevator",
       "parking": "Parking",
-      "equipment": "Equipment"
+      "equipment": "Equipment",
+      "room": "room",
+      "bedroom": "bedroom",
+      "sharedRoom": "Shared room",
+      "apartment": "Apartment",
+      "studio": "Studio",
+      "house": "House",
+      "roomInSharedFlat": "Room in shared flat",
+      "ordinalFloor": {
+        "1": "1st floor",
+        "2": "2nd floor", 
+        "3": "3rd floor",
+        "ground": "Ground floor"
+      }
     },
     "payment": {
       "title": "Rent Payment",

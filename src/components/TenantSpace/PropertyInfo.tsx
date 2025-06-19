@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,6 +43,45 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
   const monthlyCharges = 50;
   const securityDeposit = baseRent + monthlyCharges; // 450€
 
+  // Function to translate property type
+  const translatePropertyType = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'chambre en colocation':
+        return t('tenantSpace.overview.roomInSharedFlat');
+      case 'appartement':
+        return t('tenantSpace.overview.apartment');
+      case 'studio':
+        return t('tenantSpace.overview.studio');
+      case 'maison':
+        return t('tenantSpace.overview.house');
+      default:
+        return type;
+    }
+  };
+
+  // Function to translate room count
+  const translateRooms = (rooms: string) => {
+    if (rooms.includes('chambre')) {
+      const number = rooms.match(/\d+/)?.[0] || '1';
+      return `${number} ${number === '1' ? t('tenantSpace.overview.bedroom') : t('tenantSpace.overview.bedroom') + 's'}`;
+    }
+    return rooms;
+  };
+
+  // Function to translate floor
+  const translateFloor = (floor: string) => {
+    if (floor.includes('3ème')) {
+      return t('tenantSpace.overview.ordinalFloor.3');
+    } else if (floor.includes('2ème')) {
+      return t('tenantSpace.overview.ordinalFloor.2');
+    } else if (floor.includes('1er')) {
+      return t('tenantSpace.overview.ordinalFloor.1');
+    } else if (floor.includes('rez')) {
+      return t('tenantSpace.overview.ordinalFloor.ground');
+    }
+    return floor;
+  };
+
   return (
     <div className="space-y-4 md:space-y-6">
       {/* Informations générales */}
@@ -68,7 +106,7 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.type')}</p>
-                  <p className="font-medium text-sm md:text-base">{propertyData.type}</p>
+                  <p className="font-medium text-sm md:text-base">{translatePropertyType(propertyData.type)}</p>
                 </div>
                 <div>
                   <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.surface')}</p>
@@ -84,12 +122,12 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
                   <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.rooms')}</p>
                   <div className="flex items-center">
                     <Bed className="h-4 w-4 mr-2" />
-                    <span className="font-medium text-sm md:text-base">{propertyData.rooms}</span>
+                    <span className="font-medium text-sm md:text-base">{translateRooms(propertyData.rooms)}</span>
                   </div>
                 </div>
                 <div>
                   <p className="text-xs md:text-sm text-gray-600">{t('tenantSpace.overview.floor')}</p>
-                  <p className="font-medium text-sm md:text-base">{propertyData.floor}</p>
+                  <p className="font-medium text-sm md:text-base">{translateFloor(propertyData.floor)}</p>
                 </div>
               </div>
             </div>
