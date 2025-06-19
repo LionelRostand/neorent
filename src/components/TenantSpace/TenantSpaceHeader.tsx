@@ -2,11 +2,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
+import { Home, Key, Calendar, MapPin } from 'lucide-react';
 
 interface TenantSpaceHeaderProps {
   currentProfile: {
     name: string;
     roomNumber?: string;
+    address?: string;
+    leaseStart?: string;
   };
   currentType: string;
 }
@@ -23,6 +26,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   
   // Clean the name by trimming whitespace and removing extra spaces
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || 'Utilisateur';
+  const isRoommate = currentType === 'colocataire';
 
   console.log('TenantSpaceHeader render:', {
     currentProfile,
@@ -34,27 +38,64 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-            Espace {translatedType}
-          </h1>
-          <p className="text-gray-600 mt-2 text-sm sm:text-base break-words">
-            Bienvenue, {cleanName}
-          </p>
-          {currentType === 'colocataire' && currentProfile?.roomNumber && (
-            <p className="text-gray-500 mt-1 text-sm">
-              Chambre {currentProfile.roomNumber}
-            </p>
-          )}
+    <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-sm border p-6 sm:p-8">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-3 bg-blue-100 rounded-xl">
+              {isRoommate ? (
+                <Key className="h-6 w-6 text-blue-600" />
+              ) : (
+                <Home className="h-6 w-6 text-blue-600" />
+              )}
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
+                Espace {translatedType}
+              </h1>
+              <p className="text-gray-600 mt-1 text-lg">
+                Bienvenue, {cleanName}
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+            {isRoommate && currentProfile?.roomNumber && (
+              <div className="flex items-center gap-2">
+                <Key className="h-4 w-4" />
+                <span>Chambre {currentProfile.roomNumber}</span>
+              </div>
+            )}
+            {currentProfile?.address && (
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                <span className="max-w-xs truncate">{currentProfile.address}</span>
+              </div>
+            )}
+            {currentProfile?.leaseStart && (
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <span>Depuis le {new Date(currentProfile.leaseStart).toLocaleDateString('fr-FR')}</span>
+              </div>
+            )}
+          </div>
         </div>
-        <Badge 
-          variant="secondary" 
-          className="bg-green-100 text-green-800 border-green-200 text-xs sm:text-sm flex-shrink-0"
-        >
-          {translatedType}
-        </Badge>
+        
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <Badge 
+            variant="secondary" 
+            className="bg-green-100 text-green-800 border-green-200 text-sm px-4 py-2 font-medium"
+          >
+            <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+            {translatedType}
+          </Badge>
+          <Badge 
+            variant="outline" 
+            className="border-blue-200 text-blue-700 text-sm px-4 py-2"
+          >
+            Compte actif
+          </Badge>
+        </div>
       </div>
     </div>
   );

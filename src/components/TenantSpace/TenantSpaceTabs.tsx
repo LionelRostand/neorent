@@ -31,80 +31,120 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-4">
-      <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 gap-1">
-        <TabsTrigger value="overview" className="flex items-center gap-2 text-xs sm:text-sm">
-          <Home className="h-4 w-4" />
-          <span className="hidden sm:inline">Aperçu</span>
-        </TabsTrigger>
-        <TabsTrigger value="payments" className="flex items-center gap-2 text-xs sm:text-sm">
-          <CreditCard className="h-4 w-4" />
-          <span className="hidden sm:inline">Paiements</span>
-        </TabsTrigger>
-        <TabsTrigger value="transfers" className="flex items-center gap-2 text-xs sm:text-sm">
-          <ArrowUpCircle className="h-4 w-4" />
-          <span className="hidden sm:inline">Virements</span>
-        </TabsTrigger>
-        <TabsTrigger value="documents" className="flex items-center gap-2 text-xs sm:text-sm">
-          <FileText className="h-4 w-4" />
-          <span className="hidden sm:inline">Documents</span>
-        </TabsTrigger>
-        <TabsTrigger value="messages" className="flex items-center gap-2 text-xs sm:text-sm">
-          <MessageSquare className="h-4 w-4" />
-          <span className="hidden sm:inline">Messages</span>
-        </TabsTrigger>
-        <TabsTrigger value="settings" className="flex items-center gap-2 text-xs sm:text-sm">
-          <Settings className="h-4 w-4" />
-          <span className="hidden sm:inline">Paramètres</span>
-        </TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="overview">
-        <TenantOverview 
-          propertyData={mockPropertyData}
-          tenantData={mockTenantData}
-        />
-      </TabsContent>
-
-      <TabsContent value="payments">
-        <RentHistory />
-      </TabsContent>
-
-      <TabsContent value="transfers">
-        <BankTransferDashboard />
-      </TabsContent>
-
-      <TabsContent value="documents">
-        <DocumentManager 
-          tenantId="tenant-1"
-          tenantName={mockTenantData?.name || "Locataire"}
-        />
-      </TabsContent>
-
-      <TabsContent value="messages">
-        <div className="text-center py-8">
-          <MessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Messages
-          </h3>
-          <p className="text-gray-500">
-            Communiquez avec votre gestionnaire immobilier
-          </p>
+    <div className="space-y-6">
+      <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-6">
+        <div className="overflow-x-auto pb-2">
+          <TabsList className="grid w-full min-w-fit grid-cols-3 lg:grid-cols-6 gap-1 h-auto p-1 bg-gray-100">
+            <TabsTrigger 
+              value="overview" 
+              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <Home className="h-4 w-4" />
+              <span className="hidden sm:inline font-medium">Aperçu</span>
+              <span className="sm:hidden font-medium">Vue</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="payments" 
+              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <CreditCard className="h-4 w-4" />
+              <span className="hidden sm:inline font-medium">Paiements</span>
+              <span className="sm:hidden font-medium">Pay.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="transfers" 
+              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <ArrowUpCircle className="h-4 w-4" />
+              <span className="hidden sm:inline font-medium">Virements</span>
+              <span className="sm:hidden font-medium">Vir.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="documents" 
+              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <FileText className="h-4 w-4" />
+              <span className="hidden sm:inline font-medium">Documents</span>
+              <span className="sm:hidden font-medium">Doc.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="messages" 
+              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span className="hidden sm:inline font-medium">Messages</span>
+              <span className="sm:hidden font-medium">Msg.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="settings" 
+              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline font-medium">Paramètres</span>
+              <span className="sm:hidden font-medium">Set.</span>
+            </TabsTrigger>
+          </TabsList>
         </div>
-      </TabsContent>
 
-      <TabsContent value="settings">
-        <div className="text-center py-8">
-          <Settings className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Paramètres
-          </h3>
-          <p className="text-gray-500">
-            Gérez vos préférences et informations personnelles
-          </p>
+        <div className="min-h-[500px]">
+          <TabsContent value="overview" className="mt-0">
+            <TenantOverview 
+              propertyData={mockPropertyData}
+              tenantData={mockTenantData}
+            />
+          </TabsContent>
+
+          <TabsContent value="payments" className="mt-0">
+            <RentHistory />
+          </TabsContent>
+
+          <TabsContent value="transfers" className="mt-0">
+            <BankTransferDashboard />
+          </TabsContent>
+
+          <TabsContent value="documents" className="mt-0">
+            <DocumentManager 
+              tenantId="tenant-1"
+              tenantName={mockTenantData?.name || "Locataire"}
+            />
+          </TabsContent>
+
+          <TabsContent value="messages" className="mt-0">
+            <div className="flex flex-col items-center justify-center py-16 px-6 text-center bg-gray-50 rounded-xl">
+              <div className="p-4 bg-blue-100 rounded-full mb-6">
+                <MessageSquare className="h-8 w-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Messages
+              </h3>
+              <p className="text-gray-600 max-w-md">
+                Communiquez avec votre gestionnaire immobilier et recevez des notifications importantes
+              </p>
+              <button className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Nouveau message
+              </button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="settings" className="mt-0">
+            <div className="flex flex-col items-center justify-center py-16 px-6 text-center bg-gray-50 rounded-xl">
+              <div className="p-4 bg-purple-100 rounded-full mb-6">
+                <Settings className="h-8 w-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Paramètres
+              </h3>
+              <p className="text-gray-600 max-w-md">
+                Gérez vos préférences, informations personnelles et paramètres de notification
+              </p>
+              <button className="mt-6 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                Modifier le profil
+              </button>
+            </div>
+          </TabsContent>
         </div>
-      </TabsContent>
-    </Tabs>
+      </Tabs>
+    </div>
   );
 };
 
