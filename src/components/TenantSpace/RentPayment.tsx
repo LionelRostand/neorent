@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -38,6 +39,7 @@ interface RentPaymentProps {
 }
 
 const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [paymentDate, setPaymentDate] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -95,8 +97,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
     
     if (!paymentDate || !paymentMethod || !paidAmount) {
       toast({
-        title: "Erreur de validation",
-        description: "Veuillez remplir tous les champs obligatoires (Date, Montant et Mode de paiement).",
+        title: t('tenantSpace.payment.validationError'),
+        description: t('tenantSpace.payment.fillAllFields'),
         variant: "destructive",
       });
       return;
@@ -104,8 +106,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
 
     if (paidAmountNum <= 0) {
       toast({
-        title: "Erreur",
-        description: "Le montant doit être supérieur à 0€.",
+        title: t('tenantSpace.payment.paymentError'),
+        description: t('tenantSpace.payment.amountMustBePositive'),
         variant: "destructive",
       });
       return;
@@ -129,8 +131,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
         });
         
         toast({
-          title: "Alerte - Paiement partiel",
-          description: `Montant payé: ${paidAmountNum}€ / Attendu: ${totalAmount}€. Différence: ${(totalAmount - paidAmountNum).toFixed(2)}€`,
+          title: t('tenantSpace.payment.partialPaymentAlert'),
+          description: `${t('tenantSpace.payment.amountEntered')}: ${paidAmountNum}€ / ${t('tenantSpace.payment.expectedAmount')}: ${totalAmount}€. ${t('tenantSpace.payment.missing')}: ${(totalAmount - paidAmountNum).toFixed(2)}€`,
           variant: "destructive",
         });
       } else if (paidAmountNum > totalAmount) {
@@ -145,8 +147,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
         });
         
         toast({
-          title: "Alerte - Trop-perçu",
-          description: `Montant payé: ${paidAmountNum}€ / Attendu: ${totalAmount}€. Surplus: ${(paidAmountNum - totalAmount).toFixed(2)}€`,
+          title: t('tenantSpace.payment.overpaymentAlert'),
+          description: `${t('tenantSpace.payment.amountEntered')}: ${paidAmountNum}€ / ${t('tenantSpace.payment.expectedAmount')}: ${totalAmount}€. ${t('tenantSpace.payment.surplus')}: ${(paidAmountNum - totalAmount).toFixed(2)}€`,
           variant: "destructive",
         });
       }
@@ -186,13 +188,13 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
         });
 
         toast({
-          title: "Paiement enregistré",
-          description: "Votre paiement de loyer a été enregistré et le reçu a été téléchargé automatiquement.",
+          title: t('tenantSpace.payment.paymentRecorded'),
+          description: t('tenantSpace.payment.paymentSuccess'),
         });
       } else {
         toast({
-          title: "Paiement enregistré",
-          description: `Paiement ${paymentStatus.toLowerCase()} enregistré. Aucun reçu généré pour un paiement non complet.`,
+          title: t('tenantSpace.payment.paymentRecorded'),
+          description: `${t('tenantSpace.payment.paymentRecorded')}. ${t('tenantSpace.payment.noReceiptPartial')}.`,
         });
       }
 
@@ -205,8 +207,8 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
     } catch (err) {
       console.error('Erreur lors du paiement:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de l'enregistrement du paiement.",
+        title: t('tenantSpace.payment.paymentError'),
+        description: t('tenantSpace.payment.paymentError'),
         variant: "destructive",
       });
     } finally {
@@ -219,7 +221,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-green-800">
           <CreditCard className="h-5 w-5" />
-          Payer mon loyer
+          {t('tenantSpace.payment.payRent')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -228,17 +230,17 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
           <div className="bg-white rounded-lg p-4 border border-green-200">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Loyer mensuel</p>
+                <p className="text-sm text-gray-600">{t('tenantSpace.payment.monthlyRent')}</p>
                 <p className="text-lg font-semibold text-gray-900">{monthlyRent}€</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Charges</p>
+                <p className="text-sm text-gray-600">{t('tenantSpace.payment.charges')}</p>
                 <p className="text-lg font-semibold text-gray-900">{monthlyCharges}€</p>
               </div>
             </div>
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="flex justify-between items-center">
-                <p className="text-sm text-gray-600">Total à payer</p>
+                <p className="text-sm text-gray-600">{t('tenantSpace.payment.totalToPay')}</p>
                 <p className="text-xl font-bold text-green-600">{totalAmount}€</p>
               </div>
             </div>
@@ -249,32 +251,32 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
             <DialogTrigger asChild>
               <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
                 <DollarSign className="mr-2 h-4 w-4" />
-                Effectuer un paiement
+                {t('tenantSpace.payment.makePayment')}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-green-600" />
-                  Paiement de loyer
+                  {t('tenantSpace.payment.title')}
                 </DialogTitle>
               </DialogHeader>
               
               <ScrollArea className="max-h-[70vh] pr-4">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-blue-800 mb-2">Détails du paiement</h4>
+                    <h4 className="font-semibold text-blue-800 mb-2">{t('tenantSpace.payment.paymentDetails')}</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span>{actualTenantType}:</span>
                         <span className="font-medium">{actualTenantName}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Propriété:</span>
+                        <span>{t('tenantSpace.payment.property')}:</span>
                         <span className="font-medium">{propertyData.title}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Montant total:</span>
+                        <span>{t('tenantSpace.payment.totalAmount')}:</span>
                         <span className="font-bold text-green-600">{totalAmount}€</span>
                       </div>
                     </div>
@@ -284,7 +286,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                     <div>
                       <Label htmlFor="paymentDate" className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
-                        Date de paiement <span className="text-red-500">*</span>
+                        {t('tenantSpace.payment.paymentDate')} <span className="text-red-500">*</span>
                       </Label>
                       <Input
                         id="paymentDate"
@@ -299,7 +301,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                     <div>
                       <Label htmlFor="paidAmount" className="flex items-center gap-2">
                         <Euro className="h-4 w-4" />
-                        Montant à payer <span className="text-red-500">*</span>
+                        {t('tenantSpace.payment.amountToPay')} <span className="text-red-500">*</span>
                       </Label>
                       <div className="relative">
                         <Input
@@ -328,15 +330,15 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                           <div className="flex items-start gap-2">
                             <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                             <div className="text-sm">
-                              <p className="font-medium text-red-800">Attention - Montant différent</p>
+                              <p className="font-medium text-red-800">{t('tenantSpace.payment.amountDifference')}</p>
                               <p className="text-red-700">
-                                Montant saisi: <span className="font-semibold">{paidAmountNum}€</span> • 
-                                Montant attendu: <span className="font-semibold">{totalAmount}€</span>
+                                {t('tenantSpace.payment.amountEntered')}: <span className="font-semibold">{paidAmountNum}€</span> • 
+                                {t('tenantSpace.payment.expectedAmount')}: <span className="font-semibold">{totalAmount}€</span>
                               </p>
                               <p className="text-xs text-red-600 mt-1">
                                 {paidAmountNum < totalAmount 
-                                  ? `Manquant: ${(totalAmount - paidAmountNum).toFixed(2)}€`
-                                  : `Surplus: ${(paidAmountNum - totalAmount).toFixed(2)}€`
+                                  ? `${t('tenantSpace.payment.missing')}: ${(totalAmount - paidAmountNum).toFixed(2)}€`
+                                  : `${t('tenantSpace.payment.surplus')}: ${(paidAmountNum - totalAmount).toFixed(2)}€`
                                 }
                               </p>
                             </div>
@@ -350,7 +352,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-5 w-5 text-green-600" />
                             <p className="text-sm font-medium text-green-800">
-                              Montant correct - Paiement complet
+                              {t('tenantSpace.payment.correctAmount')}
                             </p>
                           </div>
                         </div>
@@ -360,27 +362,27 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                     <div>
                       <Label htmlFor="paymentMethod" className="flex items-center gap-2">
                         <CreditCard className="h-4 w-4" />
-                        Mode de paiement <span className="text-red-500">*</span>
+                        {t('tenantSpace.payment.paymentMethod')} <span className="text-red-500">*</span>
                       </Label>
                       <Select value={paymentMethod} onValueChange={setPaymentMethod} required>
                         <SelectTrigger className="mt-1">
-                          <SelectValue placeholder="Sélectionner le mode de paiement" />
+                          <SelectValue placeholder={t('tenantSpace.payment.paymentMethod')} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="virement">Virement bancaire</SelectItem>
-                          <SelectItem value="cheque">Chèque</SelectItem>
-                          <SelectItem value="especes">Espèces</SelectItem>
-                          <SelectItem value="carte">Carte bancaire</SelectItem>
-                          <SelectItem value="prelevement">Prélèvement automatique</SelectItem>
+                          <SelectItem value="virement">{t('tenantSpace.payment.bankTransfer')}</SelectItem>
+                          <SelectItem value="cheque">{t('tenantSpace.payment.check')}</SelectItem>
+                          <SelectItem value="especes">{t('tenantSpace.payment.cash')}</SelectItem>
+                          <SelectItem value="carte">{t('tenantSpace.payment.card')}</SelectItem>
+                          <SelectItem value="prelevement">{t('tenantSpace.payment.automaticDebit')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div>
-                      <Label htmlFor="notes">Notes (optionnel)</Label>
+                      <Label htmlFor="notes">{t('tenantSpace.payment.paymentNotes')} ({t('tenantSpace.payment.optional')})</Label>
                       <Input
                         id="notes"
-                        placeholder="Commentaires sur ce paiement..."
+                        placeholder={t('tenantSpace.payment.paymentNotes')}
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                         className="mt-1"
@@ -393,11 +395,11 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                     <div className="flex items-start gap-2">
                       <Download className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
                       <div className="text-sm text-yellow-800">
-                        <p className="font-medium mb-1">Reçu de paiement :</p>
+                        <p className="font-medium mb-1">{t('tenantSpace.payment.receiptInfo')} :</p>
                         <p className="text-xs">
                           {isFullPayment 
-                            ? "Un reçu PDF sera automatiquement téléchargé après validation du paiement complet."
-                            : "Aucun reçu ne sera généré pour un paiement partiel ou excédentaire."
+                            ? t('tenantSpace.payment.receiptGenerated')
+                            : t('tenantSpace.payment.noReceiptPartial')
                           }
                         </p>
                       </div>
@@ -410,7 +412,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                       <div className="flex items-center gap-2">
                         <AlertCircle className="h-4 w-4 text-red-600" />
                         <p className="text-sm text-red-800">
-                          Veuillez remplir tous les champs obligatoires pour continuer
+                          {t('tenantSpace.payment.fillAllFields')}
                         </p>
                       </div>
                     </div>
@@ -423,7 +425,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                       onClick={() => setOpen(false)}
                       disabled={loading}
                     >
-                      Annuler
+                      {t('tenantSpace.payment.cancel')}
                     </Button>
                     <Button 
                       type="submit" 
@@ -434,7 +436,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
                       }`}
                       disabled={loading || !isFormValid}
                     >
-                      {loading ? 'Traitement...' : 'Confirmer le paiement'}
+                      {loading ? t('tenantSpace.payment.processing') : t('tenantSpace.payment.confirmPayment')}
                     </Button>
                   </div>
                 </form>
@@ -447,12 +449,12 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
             <div className="flex items-start gap-2">
               <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
               <div className="text-sm text-blue-800">
-                <p className="font-medium mb-1">Informations importantes :</p>
+                <p className="font-medium mb-1">{t('tenantSpace.payment.importantInfo')} :</p>
                 <ul className="space-y-1 text-xs">
-                  <li>• Le paiement doit être effectué avant le 5 de chaque mois</li>
-                  <li>• Saisissez le montant exact que vous payez</li>
-                  <li>• Un reçu PDF sera généré seulement pour les paiements complets</li>
-                  <li>• En cas de montant différent, une alerte sera remontée</li>
+                  <li>{t('tenantSpace.payment.paymentBefore5th')}</li>
+                  <li>{t('tenantSpace.payment.enterExactAmount')}</li>
+                  <li>{t('tenantSpace.payment.receiptFullPayment')}</li>
+                  <li>{t('tenantSpace.payment.alertDifferentAmount')}</li>
                 </ul>
               </div>
             </div>
