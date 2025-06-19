@@ -160,7 +160,8 @@
       "inProgress": "En cours",
       "completed": "Terminé",
       "cancelled": "Annulé",
-      "onHold": "En pause"
+      "onHold": "En pause",
+      "planned": "Planifiée"
     },
     "responsibilityGuide": {
       "title": "Guide des Responsabilités",

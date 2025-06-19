@@ -24,13 +24,13 @@ const InterventionTracking = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Planifiée': 
-      case t('maintenance.planned'): return 'default';
+      case t('maintenance.statuses.planned'): return 'default';
       case 'En cours': 
-      case t('maintenance.inProgress'): return 'secondary';
+      case t('maintenance.statuses.inProgress'): return 'secondary';
       case 'Terminée': 
-      case t('maintenance.completed'): return 'success';
+      case t('maintenance.statuses.completed'): return 'success';
       case 'Annulée': 
-      case t('maintenance.cancelled'): return 'destructive';
+      case t('maintenance.statuses.cancelled'): return 'destructive';
       default: return 'default';
     }
   };
@@ -38,13 +38,13 @@ const InterventionTracking = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'Planifiée': 
-      case t('maintenance.planned'): return <Clock className="h-4 w-4" />;
+      case t('maintenance.statuses.planned'): return <Clock className="h-4 w-4" />;
       case 'En cours': 
-      case t('maintenance.inProgress'): return <AlertCircle className="h-4 w-4" />;
+      case t('maintenance.statuses.inProgress'): return <AlertCircle className="h-4 w-4" />;
       case 'Terminée': 
-      case t('maintenance.completed'): return <CheckCircle className="h-4 w-4" />;
+      case t('maintenance.statuses.completed'): return <CheckCircle className="h-4 w-4" />;
       case 'Annulée': 
-      case t('maintenance.cancelled'): return <XCircle className="h-4 w-4" />;
+      case t('maintenance.statuses.cancelled'): return <XCircle className="h-4 w-4" />;
       default: return <Clock className="h-4 w-4" />;
     }
   };
@@ -54,7 +54,7 @@ const InterventionTracking = () => {
       await updateIntervention(id, { status: newStatus });
       toast({
         title: t('maintenance.requestSaved'),
-        description: `${t('maintenance.interventionTracking.interventionUpdated')} ${newStatus.toLowerCase()}.`,
+        description: `${t('maintenance.interventionUpdated')} ${newStatus.toLowerCase()}.`,
       });
     } catch (error) {
       console.error('Erreur lors de la mise à jour:', error);
@@ -78,13 +78,13 @@ const InterventionTracking = () => {
   const createInterventionsFromRequests = () => {
     requests.forEach(async (request) => {
       const existingIntervention = interventions.find(i => i.requestId === request.id);
-      if (!existingIntervention && request.status === t('maintenance.pending')) {
+      if (!existingIntervention && request.status === t('maintenance.statuses.pending')) {
         try {
           await addIntervention({
             requestId: request.id,
             property: request.propertyId,
             description: request.description,
-            status: t('maintenance.planned'),
+            status: t('maintenance.statuses.planned'),
             priority: request.priority,
             technicianName: '',
             technicianPhone: '',
@@ -108,7 +108,7 @@ const InterventionTracking = () => {
   }, [requests, loading]);
 
   if (loading) {
-    return <div>{t('maintenance.interventionTracking.loadingData')}</div>;
+    return <div>{t('maintenance.loadingData')}</div>;
   }
 
   return (
@@ -116,40 +116,40 @@ const InterventionTracking = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.interventionTracking.plannedInterventions')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenance.plannedInterventions')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">
-              {interventions.filter(i => i.status === t('maintenance.planned') || i.status === 'Planifiée').length}
+              {interventions.filter(i => i.status === t('maintenance.statuses.planned') || i.status === 'Planifiée').length}
             </div>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.interventionTracking.inProgressInterventions')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenance.inProgressInterventions')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">
-              {interventions.filter(i => i.status === t('maintenance.inProgress') || i.status === 'En cours').length}
+              {interventions.filter(i => i.status === t('maintenance.statuses.inProgress') || i.status === 'En cours').length}
             </div>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.interventionTracking.completedInterventions')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenance.completedInterventions')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
-              {interventions.filter(i => i.status === t('maintenance.completed') || i.status === 'Terminée').length}
+              {interventions.filter(i => i.status === t('maintenance.statuses.completed') || i.status === 'Terminée').length}
             </div>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">{t('maintenance.interventionTracking.totalCost')}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('maintenance.totalCost')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">
@@ -161,22 +161,22 @@ const InterventionTracking = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t('maintenance.interventionTracking.ongoingInterventions')}</CardTitle>
+          <CardTitle>{t('maintenance.ongoingInterventions')}</CardTitle>
           <CardDescription>
-            {t('maintenance.interventionTracking.ongoingSubtitle')}
+            {t('maintenance.ongoingSubtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t('maintenance.interventionTracking.property')}</TableHead>
-                <TableHead>{t('maintenance.interventionTracking.description')}</TableHead>
-                <TableHead>{t('maintenance.interventionTracking.technician')}</TableHead>
-                <TableHead>{t('maintenance.interventionTracking.scheduledDate')}</TableHead>
-                <TableHead>{t('maintenance.interventionTracking.cost')}</TableHead>
-                <TableHead>{t('maintenance.interventionTracking.status')}</TableHead>
-                <TableHead>{t('maintenance.interventionTracking.actions')}</TableHead>
+                <TableHead>{t('maintenance.property')}</TableHead>
+                <TableHead>{t('maintenance.description')}</TableHead>
+                <TableHead>{t('maintenance.technician')}</TableHead>
+                <TableHead>{t('maintenance.scheduledDate')}</TableHead>
+                <TableHead>{t('maintenance.cost')}</TableHead>
+                <TableHead>{t('maintenance.status')}</TableHead>
+                <TableHead>{t('maintenance.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -197,7 +197,7 @@ const InterventionTracking = () => {
                     <div className="flex flex-col">
                       <span className="flex items-center gap-1 text-sm">
                         <User className="h-3 w-3" />
-                        {intervention.technicianName || t('maintenance.interventionTracking.noAssigned')}
+                        {intervention.technicianName || t('maintenance.noAssigned')}
                       </span>
                       {intervention.technicianPhone && (
                         <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -246,14 +246,14 @@ const InterventionTracking = () => {
                             size="sm"
                             onClick={() => setSelectedIntervention(intervention)}
                           >
-                            {t('maintenance.interventionTracking.modify')}
+                            {t('maintenance.modify')}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-2xl">
                           <DialogHeader>
-                            <DialogTitle>{t('maintenance.interventionTracking.editIntervention')}</DialogTitle>
+                            <DialogTitle>{t('maintenance.editIntervention')}</DialogTitle>
                             <DialogDescription>
-                              {t('maintenance.interventionTracking.updateInterventionInfo')}
+                              {t('maintenance.updateInterventionInfo')}
                             </DialogDescription>
                           </DialogHeader>
                           {selectedIntervention && (
@@ -274,10 +274,10 @@ const InterventionTracking = () => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value={t('maintenance.planned')}>{t('maintenance.planned')}</SelectItem>
-                          <SelectItem value={t('maintenance.inProgress')}>{t('maintenance.inProgress')}</SelectItem>
-                          <SelectItem value={t('maintenance.completed')}>{t('maintenance.completed')}</SelectItem>
-                          <SelectItem value={t('maintenance.cancelled')}>{t('maintenance.cancelled')}</SelectItem>
+                          <SelectItem value={t('maintenance.statuses.planned')}>{t('maintenance.statuses.planned')}</SelectItem>
+                          <SelectItem value={t('maintenance.statuses.inProgress')}>{t('maintenance.statuses.inProgress')}</SelectItem>
+                          <SelectItem value={t('maintenance.statuses.completed')}>{t('maintenance.statuses.completed')}</SelectItem>
+                          <SelectItem value={t('maintenance.statuses.cancelled')}>{t('maintenance.statuses.cancelled')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -305,17 +305,17 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="technicianName">{t('maintenance.interventionTracking.technicianName')}</Label>
+          <Label htmlFor="technicianName">{t('maintenance.technicianName')}</Label>
           <Input
             id="technicianName"
             value={formData.technicianName}
             onChange={(e) => setFormData({...formData, technicianName: e.target.value})}
-            placeholder={t('maintenance.interventionTracking.technicianName')}
+            placeholder={t('maintenance.technicianPlaceholder')}
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="technicianPhone">{t('maintenance.interventionTracking.technicianPhone')}</Label>
+          <Label htmlFor="technicianPhone">{t('maintenance.technicianPhone')}</Label>
           <Input
             id="technicianPhone"
             value={formData.technicianPhone}
@@ -325,7 +325,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="scheduledDate">{t('maintenance.interventionTracking.scheduledDate')}</Label>
+          <Label htmlFor="scheduledDate">{t('maintenance.scheduledDate')}</Label>
           <Input
             id="scheduledDate"
             type="date"
@@ -335,7 +335,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="scheduledTime">{t('maintenance.interventionTracking.scheduledTime')}</Label>
+          <Label htmlFor="scheduledTime">{t('maintenance.scheduledTime')}</Label>
           <Input
             id="scheduledTime"
             type="time"
@@ -345,7 +345,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="estimatedCost">{t('maintenance.interventionTracking.estimatedCost')}</Label>
+          <Label htmlFor="estimatedCost">{t('maintenance.estimatedCost')}</Label>
           <Input
             id="estimatedCost"
             type="number"
@@ -355,7 +355,7 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="actualCost">{t('maintenance.interventionTracking.actualCost')}</Label>
+          <Label htmlFor="actualCost">{t('maintenance.actualCost')}</Label>
           <Input
             id="actualCost"
             type="number"
@@ -366,12 +366,12 @@ const InterventionEditForm = ({ intervention, onSave, onCancel }: any) => {
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="completionNotes">{t('maintenance.interventionTracking.completionNotes')}</Label>
+        <Label htmlFor="completionNotes">{t('maintenance.completionNotes')}</Label>
         <Textarea
           id="completionNotes"
           value={formData.completionNotes}
           onChange={(e) => setFormData({...formData, completionNotes: e.target.value})}
-          placeholder={t('maintenance.interventionTracking.completionNotesPlaceholder')}
+          placeholder={t('maintenance.completionNotesPlaceholder')}
         />
       </div>
       
