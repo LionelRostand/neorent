@@ -1,37 +1,26 @@
+
 import { useState } from 'react';
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { db, storage } from '@/lib/firebase';
 
 export interface DocumentData {
   id?: string;
   fileName: string;
   fileType: string;
   fileSize: number;
-  fileContent: string; // Base64 encoded
+  downloadURL: string; // URL de téléchargement Firebase Storage
   documentType: string;
   tenantId?: string;
   roommateId?: string;
   uploadDate: string;
   status: string;
+  storagePath?: string; // Chemin dans Firebase Storage
 }
 
 export const useDocumentStorage = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
-
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const result = reader.result as string;
-        // Enlever le préfixe data:type;base64,
-        const base64 = result.split(',')[1];
-        resolve(base64);
-      };
-      reader.onerror = error => reject(error);
-    });
-  };
 
   const uploadDocument = async (
     file: File, 
@@ -55,62 +44,66 @@ export const useDocumentStorage = () => {
         throw new Error('RoommateId requis pour sauvegarder le document');
       }
 
-      console.log('📄 Conversion du fichier en base64...');
-      const base64Content = await convertFileToBase64(file);
-      console.log('✅ Conversion réussie, taille base64:', base64Content.length);
+      // Créer un chemin unique pour le fichier dans Storage
+      const timestamp = new Date().getTime();
+      const storagePath = `roommates/${roommateId}/documents/${timestamp}_${file.name}`;
       
-      // Créer l'objet document
+      console.log('📁 Chemin de stockage:', storagePath);
+
+      // Upload vers Firebase Storage
+      console.log('📤 Upload vers Firebase Storage...');
+      const storageRef = ref(storage, storagePath);
+      const snapshot = await uploadBytes(storageRef, file);
+      console.log('✅ Fichier uploadé vers Storage');
+
+      // Obtenir l'URL de téléchargement
+      console.log('🔗 Récupération de l\'URL de téléchargement...');
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      console.log('✅ URL obtenue:', downloadURL);
+      
+      // Créer l'objet document pour Firestore
       const documentData: any = {
         fileName: file.name,
         fileType: file.type,
         fileSize: file.size,
-        fileContent: base64Content,
+        downloadURL,
+        storagePath,
         documentType,
         uploadDate: new Date().toISOString(),
         status: 'Uploadé'
       };
 
-      // Ajouter tenantId seulement s'il est défini
+      // Ajouter tenantId et roommateId si définis
       if (tenantId) {
         documentData.tenantId = tenantId;
         console.log('✅ TenantId ajouté:', tenantId);
       }
 
-      // Ajouter roommateId seulement s'il est défini
       if (roommateId) {
         documentData.roommateId = roommateId;
         console.log('✅ RoommateId ajouté:', roommateId);
       }
 
-      console.log('📊 Document à sauvegarder:', {
-        ...documentData,
-        fileContent: `[BASE64 DATA - ${base64Content.length} chars]`
-      });
+      console.log('📊 Document à sauvegarder:', documentData);
 
       const collectionPath = `Rent_colocataires/${roommateId}/documents`;
-      console.log('📁 Chemin de la collection:', collectionPath);
+      console.log('📁 Chemin de la collection Firestore:', collectionPath);
 
-      // Vérifier que la collection parent existe
-      console.log('🔍 Vérification de la connexion à Firebase...');
-      
-      // Stocker dans la sous-collection documents du colocataire
-      console.log('💾 Tentative de sauvegarde dans Firestore...');
+      // Stocker les métadonnées dans Firestore
+      console.log('💾 Sauvegarde des métadonnées dans Firestore...');
       const docRef = await addDoc(
         collection(db, 'Rent_colocataires', roommateId, 'documents'), 
         documentData
       );
       
-      console.log('✅ Document sauvegardé avec succès! ID:', docRef.id);
+      console.log('✅ Métadonnées sauvegardées avec succès! ID:', docRef.id);
       
       const savedDocument = {
         id: docRef.id,
         ...documentData
       };
 
-      console.log('📋 Document final retourné:', {
-        ...savedDocument,
-        fileContent: `[BASE64 DATA - ${base64Content.length} chars]`
-      });
+      console.log('📋 Document final retourné:', savedDocument);
 
       return savedDocument;
     } catch (error) {
@@ -145,13 +138,14 @@ export const useDocumentStorage = () => {
         const data = doc.data() as Record<string, any>;
         
         // Vérifier que les champs requis existent
-        if (data.fileName && data.fileType && data.documentType) {
+        if (data.fileName && data.fileType && data.documentType && data.downloadURL) {
           documents.push({
             id: doc.id,
             fileName: data.fileName as string,
             fileType: data.fileType as string,
             fileSize: data.fileSize as number || 0,
-            fileContent: data.fileContent as string || '',
+            downloadURL: data.downloadURL as string,
+            storagePath: data.storagePath as string || '',
             documentType: data.documentType as string,
             tenantId: data.tenantId as string || undefined,
             roommateId: data.roommateId as string || undefined,
@@ -172,13 +166,11 @@ export const useDocumentStorage = () => {
 
   const downloadDocument = (documentData: DocumentData) => {
     try {
-      // Reconstruire le data URL
-      const dataUrl = `data:${documentData.fileType};base64,${documentData.fileContent}`;
-      
-      // Créer un lien de téléchargement
+      // Utiliser l'URL de téléchargement de Firebase Storage
       const link = window.document.createElement('a');
-      link.href = dataUrl;
+      link.href = documentData.downloadURL;
       link.download = documentData.fileName;
+      link.target = '_blank';
       window.document.body.appendChild(link);
       link.click();
       window.document.body.removeChild(link);
@@ -190,7 +182,28 @@ export const useDocumentStorage = () => {
 
   const deleteDocument = async (documentId: string, roommateId: string) => {
     try {
+      // Récupérer les informations du document pour obtenir le chemin de stockage
+      const docSnapshot = await getDocs(
+        query(
+          collection(db, 'Rent_colocataires', roommateId, 'documents'),
+          where('__name__', '==', documentId)
+        )
+      );
+
+      if (!docSnapshot.empty) {
+        const docData = docSnapshot.docs[0].data();
+        
+        // Supprimer le fichier de Storage si le chemin existe
+        if (docData.storagePath) {
+          const storageRef = ref(storage, docData.storagePath);
+          await deleteObject(storageRef);
+          console.log('✅ Fichier supprimé de Storage');
+        }
+      }
+
+      // Supprimer le document de Firestore
       await deleteDoc(doc(db, 'Rent_colocataires', roommateId, 'documents', documentId));
+      console.log('✅ Document supprimé de Firestore');
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
       throw new Error('Erreur lors de la suppression du document');

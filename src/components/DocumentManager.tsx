@@ -54,7 +54,6 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
 
   const loadDocuments = async () => {
     try {
-      // S'assurer qu'on a au moins un ID valide
       if (!tenantId && !roommateId) {
         console.log('❌ No tenantId or roommateId provided for document loading');
         return;
@@ -89,7 +88,6 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
     });
 
     try {
-      // S'assurer qu'on a au moins un ID pour l'upload
       if (!tenantId && !roommateId) {
         console.error('❌ Aucun ID disponible pour l\'upload');
         toast({
@@ -126,8 +124,6 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
       
       console.log('✅ Upload terminé, document retourné:', uploadedDoc.id);
       
-      // Reload documents après upload réussi
-      console.log('🔄 Rechargement des documents après upload...');
       await loadDocuments();
       
       toast({
@@ -144,7 +140,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
       });
       toast({
         title: "Erreur",
-        description: "Erreur lors de l'upload du document",
+        description: `Erreur lors de l'upload: ${error.message}`,
         variant: "destructive",
       });
       console.log('🚀 === FIN HANDLEUPLOAD (ERREUR) ===');
@@ -165,8 +161,8 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
 
   const handleViewDocument = (document: DocumentData) => {
     try {
-      const dataUrl = `data:${document.fileType};base64,${document.fileContent}`;
-      window.open(dataUrl, '_blank');
+      // Utiliser l'URL de téléchargement Firebase Storage
+      window.open(document.downloadURL, '_blank');
     } catch (error) {
       toast({
         title: "Erreur",
