@@ -4,10 +4,10 @@
     "title": "Historique de Maintenance",
     "subtitle": "Consultez et analysez les interventions de maintenance terminées",
     "filters": "Filtres",
-    "search": "Rechercher", 
+    "search": "Recherche", 
     "searchPlaceholder": "Rechercher...",
-    "property": "Propriété",
-    "allProperties": "Toutes les propriétés",
+    "property": "Bien immobilier",
+    "allProperties": "Tous les biens",
     "priority": "Priorité",
     "allPriorities": "Toutes les priorités",
     "year": "Année",
@@ -32,6 +32,11 @@
     "notes": "Notes",
     "noHistory": "Aucun historique de maintenance",
     "noHistoryDescription": "Aucune intervention terminée trouvée pour les filtres sélectionnés",
-    "loadingHistory": "Chargement de l'historique de maintenance..."
+    "loadingHistory": "Chargement de l'historique de maintenance...",
+    "detailedHistory": "Historique détaillé",
+    "interventionsFound": "intervention(s) trouvée(s)",
+    "date": "Date",
+    "description": "Description",
+    "status": "Statut"
   }
 }
