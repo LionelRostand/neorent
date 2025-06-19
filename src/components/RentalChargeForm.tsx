@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +21,7 @@ interface RentalChargeFormProps {
 }
 
 const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) => {
+  const { t } = useTranslation();
   const [selectedProperty, setSelectedProperty] = useState('');
   const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
   const [charges, setCharges] = useState({
@@ -68,8 +71,8 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     
     if (!selectedProperty) {
       toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner un bien immobilier.",
+        title: t('common.error'),
+        description: t('rentalCharges.selectProperty'),
         variant: "destructive",
       });
       return;
@@ -96,8 +99,8 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     onSubmit(chargeData);
     
     toast({
-      title: "Charges ajoutées",
-      description: `Charges pour ${property.title} ajoutées avec succès.`,
+      title: t('rentalCharges.addSuccess'),
+      description: `${t('rentalCharges.chargesForMonth')} ${property.title} ${t('rentalCharges.addSuccess').toLowerCase()}.`,
     });
 
     // Reset form
@@ -120,7 +123,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Calculator className="h-5 w-5" />
-            Ajouter des Charges Locatives
+            {t('rentalCharges.addCharge')}
           </DialogTitle>
         </DialogHeader>
 
@@ -131,7 +134,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
           />
 
           <div className="space-y-2">
-            <Label htmlFor="month">Mois</Label>
+            <Label htmlFor="month">{t('rentalCharges.month')}</Label>
             <Input
               id="month"
               type="month"
@@ -152,11 +155,11 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
 
           <div className="flex justify-end space-x-2">
             <Button type="button" variant="outline" onClick={onClose}>
-              Annuler
+              {t('common.cancel')}
             </Button>
             <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
               <DollarSign className="mr-2 h-4 w-4" />
-              Enregistrer les charges
+              {t('rentalCharges.recordCharges')}
             </Button>
           </div>
         </form>
