@@ -16,14 +16,17 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   currentType
 }) => {
   const { t } = useTranslation();
+  
+  // Convert French type to English for translation key
   const typeKey = currentType === 'colocataire' ? 'roommate' : 'tenant';
+  const translatedType = t(`tenantSpace.${typeKey}`);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-            {t('tenantSpace.title', { type: t(`tenantSpace.${typeKey}`) })}
+            {t('tenantSpace.title', { type: translatedType })}
           </h1>
           <p className="text-gray-600 mt-2 text-sm sm:text-base break-words">
             {t('tenantSpace.welcome', { name: currentProfile.name })}
@@ -38,7 +41,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
           variant="secondary" 
           className="bg-green-100 text-green-800 border-green-200 text-xs sm:text-sm flex-shrink-0"
         >
-          {t(`tenantSpace.${typeKey}`)}
+          {translatedType}
         </Badge>
       </div>
     </div>
