@@ -4,7 +4,7 @@
     "title": "Colocataires",
     "subtitle": "Gérez les colocataires et les logements partagés",
     "management": "Gestion des Colocataires",
-    "description": "Gérez les colocataires dans les propriétés partagées",
+    "description": "Gérez et suivez tous vos colocataires en un seul endroit",
     "addRoommate": "Ajouter un colocataire",
     "loading": "Chargement des colocataires...",
     "addSuccess": "Colocataire ajouté avec succès",
@@ -15,6 +15,8 @@
     "deleteError": "Erreur lors de la suppression du colocataire",
     "totalRoommates": "Total des Colocataires",
     "activeRoommates": "Colocataires Actifs",
+    "inactiveRoommates": "Colocataires Inactifs",
+    "searchingRoommates": "Colocataires en Recherche",
     "sharedProperties": "Propriétés Partagées",
     "occupancyRate": "Taux d'Occupation",
     "roommateList": "Liste des Colocataires",
@@ -22,11 +24,35 @@
     "noRoommatesDescription": "Commencez par ajouter votre premier colocataire",
     "viewDetails": "Voir les détails",
     "editRoommate": "Modifier",
+    "deleteRoommate": "Supprimer",
+    "contact": "Contacter",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce colocataire ?",
     "emailExistsWarning": "L'email est déjà utilisé, mais le colocataire a été ajouté avec succès.",
-    "addSuccessDescription": "Le colocataire a été ajouté avec succès."
+    "addSuccessDescription": "Le colocataire a été ajouté avec succès.",
+    "paymentAlerts": "Alertes de paiement",
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "searching": "En recherche", 
+      "pending": "En attente"
+    },
+    "metrics": {
+      "active": "colocataire actif",
+      "activeMultiple": "colocataires actifs",
+      "searching": "colocataire en recherche",
+      "searchingMultiple": "colocataires en recherche",
+      "inactive": "colocataire inactif", 
+      "inactiveMultiple": "colocataires inactifs",
+      "total": "colocataire au total",
+      "totalMultiple": "colocataires au total"
+    }
   },
   "roommateForm": {
+    "title": "Ajouter un colocataire",
+    "editTitle": "Modifier le colocataire",
+    "fullName": "Nom complet",
+    "email": "Email",
+    "phone": "Téléphone",
     "password": "Mot de passe",
     "passwordMinLength": "Minimum 6 caractères",
     "property": "Propriété",
@@ -37,8 +63,14 @@
     "rentIncludesCharges": "Charges comprises",
     "primaryTenant": "Locataire principal",
     "moveInDate": "Date d'emménagement",
+    "status": "Statut",
     "lateStatus": "En retard",
     "creating": "Création...",
-    "addRoommate": "Ajouter un colocataire"
+    "saving": "Sauvegarde...",
+    "addRoommate": "Ajouter un colocataire",
+    "saveChanges": "Sauvegarder les modifications",
+    "cancel": "Annuler",
+    "passwordNote": "Laisser vide pour garder le mot de passe actuel",
+    "newPassword": "Nouveau mot de passe"
   }
 }

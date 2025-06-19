@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 
 const Roommates = () => {
+  const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRoommate, setSelectedRoommate] = useState(null);
   const [editingRoommate, setEditingRoommate] = useState(null);
@@ -71,15 +73,15 @@ const Roommates = () => {
 
       await addRoommate(newRoommate);
       toast({
-        title: "Succès",
-        description: "Le colocataire a été ajouté avec succès.",
+        title: t('common.success'),
+        description: t('roommates.addSuccessDescription'),
       });
       console.log('Colocataire ajouté à la collection Rent_colocataires:', newRoommate);
     } catch (err) {
       console.error('Erreur lors de l\'ajout du colocataire:', err);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de l'ajout du colocataire.",
+        title: t('common.error'),
+        description: t('roommates.addError'),
         variant: "destructive",
       });
     }
@@ -155,7 +157,7 @@ const Roommates = () => {
       <MainLayout>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Chargement des colocataires...</p>
+          <p className="mt-4 text-gray-600">{t('roommates.loading')}</p>
         </div>
       </MainLayout>
     );
@@ -165,7 +167,7 @@ const Roommates = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">Erreur: {error}</div>
+          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
         </div>
       </MainLayout>
     );
@@ -178,7 +180,7 @@ const Roommates = () => {
           {/* Payment Alerts */}
           {paymentAlerts.length > 0 && (
             <div className="space-y-3">
-              <h3 className="text-lg font-semibold text-gray-900">🚨 Alertes de paiement</h3>
+              <h3 className="text-lg font-semibold text-gray-900">🚨 {t('roommates.paymentAlerts')}</h3>
               {paymentAlerts.map(alert => (
                 <RentAlert
                   key={alert.roommate.id}
@@ -194,14 +196,14 @@ const Roommates = () => {
           <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Gestion des Colocataires</h1>
-                <p className="text-gray-600 mt-2 text-sm sm:text-base">Gérez et suivez tous vos colocataires en un seul endroit</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('roommates.management')}</h1>
+                <p className="text-gray-600 mt-2 text-sm sm:text-base">{t('roommates.description')}</p>
               </div>
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto">
                     <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                    <span className="text-sm sm:text-base">Ajouter un colocataire</span>
+                    <span className="text-sm sm:text-base">{t('roommates.addRoommate')}</span>
                   </Button>
                 </DialogTrigger>
                 <RoommateForm
@@ -216,33 +218,33 @@ const Roommates = () => {
           {/* Métriques responsives */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             <MetricCard
-              title="Colocataires actifs"
+              title={t('roommates.activeRoommates')}
               value={activeCount}
-              description={`${activeCount} colocataire${activeCount > 1 ? 's' : ''} actif${activeCount > 1 ? 's' : ''}`}
+              description={`${activeCount} ${activeCount > 1 ? t('roommates.metrics.activeMultiple') : t('roommates.metrics.active')}`}
               icon={CheckCircle}
               iconBgColor="bg-green-500"
               borderColor="border-l-green-500"
             />
             <MetricCard
-              title="En recherche"
+              title={t('roommates.searchingRoommates')}
               value={searchingCount}
-              description={`${searchingCount} colocataire${searchingCount > 1 ? 's' : ''} en recherche`}
+              description={`${searchingCount} ${searchingCount > 1 ? t('roommates.metrics.searchingMultiple') : t('roommates.metrics.searching')}`}
               icon={Clock}
               iconBgColor="bg-yellow-500"
               borderColor="border-l-yellow-500"
             />
             <MetricCard
-              title="Inactifs"
+              title={t('roommates.inactiveRoommates')}
               value={inactiveCount}
-              description={`${inactiveCount} colocataire${inactiveCount > 1 ? 's' : ''} inactif${inactiveCount > 1 ? 's' : ''}`}
+              description={`${inactiveCount} ${inactiveCount > 1 ? t('roommates.metrics.inactiveMultiple') : t('roommates.metrics.inactive')}`}
               icon={XCircle}
               iconBgColor="bg-red-500"
               borderColor="border-l-red-500"
             />
             <MetricCard
-              title="Total"
+              title={t('roommates.totalRoommates')}
               value={totalCount}
-              description={`${totalCount} colocataire${totalCount > 1 ? 's' : ''} au total`}
+              description={`${totalCount} ${totalCount > 1 ? t('roommates.metrics.totalMultiple') : t('roommates.metrics.total')}`}
               icon={Users}
               iconBgColor="bg-blue-500"
               borderColor="border-l-blue-500"
@@ -252,16 +254,16 @@ const Roommates = () => {
           {/* Section Liste des Colocataires */}
           <div className="bg-white rounded-lg shadow-sm border">
             <div className="p-4 sm:p-6 border-b border-gray-200">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Liste des Colocataires</h2>
-              <p className="text-gray-600 mt-1 text-sm sm:text-base">Consultez et gérez tous vos colocataires</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t('roommates.roommateList')}</h2>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">{t('roommates.description')}</p>
             </div>
             
             <div className="p-3 sm:p-4 lg:p-6">
               {roommates.length === 0 ? (
                 <div className="text-center py-12">
                   <Users className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-4 text-lg font-medium text-gray-900">Aucun colocataire</h3>
-                  <p className="mt-2 text-gray-500">Commencez par ajouter votre premier colocataire.</p>
+                  <h3 className="mt-4 text-lg font-medium text-gray-900">{t('roommates.noRoommates')}</h3>
+                  <p className="mt-2 text-gray-500">{t('roommates.noRoommatesDescription')}</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
@@ -326,12 +328,12 @@ const Roommates = () => {
                             <div className="flex items-center text-gray-600 text-xs">
                               <Home className="mr-2 h-3 w-3 text-orange-500 flex-shrink-0" />
                               <span className="truncate">
-                                Chambre {roommate.roomNumber} - <span className="font-medium text-blue-600">{roommate.rentAmount}€/mois</span>
+                                {t('roommates.roommateForm.roomNumber')} {roommate.roomNumber} - <span className="font-medium text-blue-600">{roommate.rentAmount}€/mois</span>
                               </span>
                             </div>
                             <div className="flex items-center text-gray-600 text-xs">
                               <UserCheck className="mr-2 h-3 w-3 text-purple-500 flex-shrink-0" />
-                              <span className="truncate">Locataire principal: {roommate.primaryTenant}</span>
+                              <span className="truncate">{t('roommates.roommateForm.primaryTenant')}: {roommate.primaryTenant}</span>
                             </div>
                           </div>
                           
@@ -343,14 +345,14 @@ const Roommates = () => {
                               className="w-full h-7 text-xs hover:bg-blue-50 hover:border-blue-300"
                               onClick={() => handleViewDetails(roommate)}
                             >
-                              Voir détails
+                              {t('roommates.viewDetails')}
                             </Button>
                             <Button 
                               variant="outline" 
                               size="sm" 
                               className="w-full h-7 text-xs hover:bg-blue-50 hover:border-blue-300"
                             >
-                              Contacter
+                              {t('roommates.contact')}
                             </Button>
                           </div>
                         </div>

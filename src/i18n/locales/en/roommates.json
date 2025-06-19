@@ -4,7 +4,7 @@
     "title": "Roommates",
     "subtitle": "Manage roommates and shared accommodations",
     "management": "Roommate Management",
-    "description": "Manage roommates in shared properties",
+    "description": "Manage and track all your roommates in one place",
     "addRoommate": "Add Roommate",
     "loading": "Loading roommates...",
     "addSuccess": "Roommate added successfully",
@@ -15,6 +15,8 @@
     "deleteError": "Error deleting roommate",
     "totalRoommates": "Total Roommates",
     "activeRoommates": "Active Roommates",
+    "inactiveRoommates": "Inactive Roommates", 
+    "searchingRoommates": "Searching Roommates",
     "sharedProperties": "Shared Properties",
     "occupancyRate": "Occupancy Rate",
     "roommateList": "Roommate List",
@@ -22,11 +24,35 @@
     "noRoommatesDescription": "Start by adding your first roommate",
     "viewDetails": "View details",
     "editRoommate": "Edit",
+    "deleteRoommate": "Delete",
+    "contact": "Contact",
     "confirmDelete": "Are you sure you want to delete this roommate?",
     "emailExistsWarning": "Email already used, but roommate added successfully.",
-    "addSuccessDescription": "Roommate added successfully."
+    "addSuccessDescription": "Roommate added successfully.",
+    "paymentAlerts": "Payment Alerts",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive", 
+      "searching": "Searching",
+      "pending": "Pending"
+    },
+    "metrics": {
+      "active": "active roommate",
+      "activeMultiple": "active roommates",
+      "searching": "roommate searching",
+      "searchingMultiple": "roommates searching", 
+      "inactive": "inactive roommate",
+      "inactiveMultiple": "inactive roommates",
+      "total": "roommate total",
+      "totalMultiple": "roommates total"
+    }
   },
   "roommateForm": {
+    "title": "Add Roommate",
+    "editTitle": "Edit Roommate",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
     "password": "Password",
     "passwordMinLength": "Minimum 6 characters",
     "property": "Property",
@@ -37,8 +63,14 @@
     "rentIncludesCharges": "Charges included",
     "primaryTenant": "Primary tenant",
     "moveInDate": "Move-in date",
+    "status": "Status",
     "lateStatus": "Late",
     "creating": "Creating...",
-    "addRoommate": "Add Roommate"
+    "saving": "Saving...",
+    "addRoommate": "Add Roommate",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "passwordNote": "Leave blank to keep current password",
+    "newPassword": "New password"
   }
 }
