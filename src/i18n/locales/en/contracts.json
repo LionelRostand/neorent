@@ -24,5 +24,26 @@
     "editContract": "Edit",
     "signContract": "Sign",
     "confirmDelete": "Are you sure you want to delete this contract?"
+  },
+  "contractForm": {
+    "newContract": "New Contract",
+    "title": "Title",
+    "titlePlaceholder": "e.g. Residential Lease Contract",
+    "type": "Type",
+    "selectType": "Select a type",
+    "provider": "Provider",
+    "providerPlaceholder": "Provider name",
+    "jurisdiction": "Jurisdiction",
+    "selectJurisdiction": "Select jurisdiction",
+    "french": "French",
+    "cameroonian": "Cameroonian",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "amount": "Amount",
+    "amountPlaceholder": "e.g. 1200",
+    "description": "Description",
+    "descriptionPlaceholder": "Detailed contract description...",
+    "createContract": "Create Contract",
+    "requiredFieldsError": "Please fill in all required fields"
   }
 }

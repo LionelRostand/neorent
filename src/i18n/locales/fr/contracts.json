@@ -24,5 +24,26 @@
     "editContract": "Modifier",
     "signContract": "Signer",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce contrat ?"
+  },
+  "contractForm": {
+    "newContract": "Nouveau Contrat",
+    "title": "Titre",
+    "titlePlaceholder": "Ex: Contrat de bail résidentiel",
+    "type": "Type",
+    "selectType": "Sélectionner un type",
+    "provider": "Prestataire",
+    "providerPlaceholder": "Nom du prestataire",
+    "jurisdiction": "Juridiction",
+    "selectJurisdiction": "Sélectionner la juridiction",
+    "french": "Française",
+    "cameroonian": "Camerounaise",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "amount": "Montant",
+    "amountPlaceholder": "Ex: 1200",
+    "description": "Description",
+    "descriptionPlaceholder": "Description détaillée du contrat...",
+    "createContract": "Créer le contrat",
+    "requiredFieldsError": "Veuillez remplir tous les champs obligatoires"
   }
 }
