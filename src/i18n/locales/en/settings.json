@@ -47,6 +47,132 @@
       "subtitle": "Configure security settings and policies",
       "loadingSettings": "Loading security settings...",
       "saving": "Saving..."
+    },
+    "email": {
+      "title": "Email Settings",
+      "subtitle": "Configure email settings",
+      "loadingSettings": "Loading email settings...",
+      "saving": "Saving...",
+      "enabled": "Email enabled",
+      "testMode": "Test mode",
+      "recommendedConfig": "Recommended Configuration",
+      "gmailConfig": "Gmail: smtp.gmail.com, port 587, TLS",
+      "outlookConfig": "Outlook: smtp-mail.outlook.com, port 587, TLS",
+      "appPasswordRecommendation": "Use app passwords for Gmail/Outlook",
+      "testConnectionRecommendation": "Always test connection after configuration",
+      "testing": "Testing...",
+      "smtp": {
+        "title": "SMTP Configuration",
+        "server": "SMTP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "fromEmail": "From Email",
+        "fromName": "From Name",
+        "testConnection": "Test Connection"
+      },
+      "imap": {
+        "title": "IMAP Configuration",
+        "server": "IMAP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "folder": "Folder",
+        "testConnection": "Test Connection"
+      },
+      "securityOptions": {
+        "none": "None",
+        "tls": "TLS",
+        "ssl": "SSL"
+      }
+    },
+    "firebase": {
+      "title": "Firebase Configuration",
+      "subtitle": "Manage your Firebase configuration and security rules",
+      "config": {
+        "title": "Firebase Configuration",
+        "copy": "copied to clipboard",
+        "console": "Firebase Console",
+        "connectionStatus": {
+          "title": "Connection Status",
+          "firestore": "Firestore",
+          "authentication": "Authentication",
+          "storage": "Storage",
+          "region": "Region",
+          "connected": "Connected",
+          "configured": "Configured",
+          "available": "Available",
+          "europe": "Europe",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Security Information",
+          "apiKeyPublic": "API key is public and secure",
+          "rulesProtection": "Firestore rules protect your data",
+          "checkRules": "Regularly check your security rules",
+          "monitorUsage": "Monitor usage in Firebase console"
+        }
+      }
+    },
+    "database": {
+      "title": "Database",
+      "subtitle": "Manage your database settings and collections"
+    },
+    "payment": {
+      "title": "Payment Settings",
+      "subtitle": "Configure your payment methods and gateways",
+      "stripe": {
+        "title": "Stripe Configuration",
+        "description": "Accept credit card payments with Stripe",
+        "enable": "Enable Stripe",
+        "publicKey": "Public Key",
+        "secretKey": "Secret Key",
+        "webhookSecret": "Webhook Secret",
+        "save": "Save"
+      },
+      "paypal": {
+        "title": "PayPal Configuration",
+        "description": "Accept payments via PayPal",
+        "enable": "Enable PayPal",
+        "clientId": "Client ID",
+        "clientSecret": "Client Secret",
+        "clientIdPlaceholder": "Your PayPal client ID",
+        "clientSecretPlaceholder": "Your PayPal client secret",
+        "save": "Save"
+      },
+      "bank": {
+        "title": "Bank Transfer",
+        "description": "Accept direct bank transfers",
+        "enable": "Enable bank transfers",
+        "iban": "IBAN",
+        "bic": "BIC/SWIFT",
+        "bankName": "Bank Name",
+        "accountHolder": "Account Holder",
+        "ibanPlaceholder": "GB29 NWBK 6016 1331 9268 19",
+        "bicPlaceholder": "NWBKGB2L",
+        "bankNamePlaceholder": "NatWest Bank",
+        "accountHolderPlaceholder": "Account holder name",
+        "save": "Save"
+      },
+      "mobile": {
+        "title": "Mobile Payment",
+        "description": "Accept mobile money payments",
+        "enable": "Enable mobile payment",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Mobile Money",
+        "moovMoney": "Moov Money",
+        "save": "Save"
+      }
+    },
+    "permissions": {
+      "title": "Permission Management",
+      "subtitle": "Configure employee permissions",
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "save": "Save",
+      "noEmployees": "No employees found"
     }
   }
 }

@@ -28,6 +28,151 @@
     "databaseSettings": "Paramètres de Base de Données",
     "emailSettings": "Paramètres Email",
     "firebaseSettings": "Paramètres Firebase",
-    "paymentSettings": "Paramètres de Paiement"
+    "paymentSettings": "Paramètres de Paiement",
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Employés", 
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de Données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Admin"
+    },
+    "adminAccess": "Accès Admin",
+    "adminAccessDescription": "Accéder aux comptes locataires à des fins de support",
+    "security": {
+      "title": "Paramètres de Sécurité",
+      "subtitle": "Configurez les paramètres et politiques de sécurité",
+      "loadingSettings": "Chargement des paramètres de sécurité...",
+      "saving": "Enregistrement..."
+    },
+    "email": {
+      "title": "Paramètres Email",
+      "subtitle": "Configurez les paramètres de messagerie",
+      "loadingSettings": "Chargement des paramètres email...",
+      "saving": "Enregistrement...",
+      "enabled": "Email activé",
+      "testMode": "Mode test",
+      "recommendedConfig": "Configuration recommandée",
+      "gmailConfig": "Gmail: smtp.gmail.com, port 587, TLS",
+      "outlookConfig": "Outlook: smtp-mail.outlook.com, port 587, TLS",
+      "appPasswordRecommendation": "Utilisez des mots de passe d'application pour Gmail/Outlook",
+      "testConnectionRecommendation": "Testez toujours la connexion après configuration",
+      "testing": "Test en cours...",
+      "smtp": {
+        "title": "Configuration SMTP",
+        "server": "Serveur SMTP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "fromEmail": "Email expéditeur",
+        "fromName": "Nom expéditeur",
+        "testConnection": "Tester la connexion"
+      },
+      "imap": {
+        "title": "Configuration IMAP",
+        "server": "Serveur IMAP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "folder": "Dossier",
+        "testConnection": "Tester la connexion"
+      },
+      "securityOptions": {
+        "none": "Aucune",
+        "tls": "TLS",
+        "ssl": "SSL"
+      }
+    },
+    "firebase": {
+      "title": "Configuration Firebase",
+      "subtitle": "Gérez votre configuration Firebase et les règles de sécurité",
+      "config": {
+        "title": "Configuration Firebase",
+        "copy": "copié dans le presse-papier",
+        "console": "Console Firebase",
+        "connectionStatus": {
+          "title": "État de la connexion",
+          "firestore": "Firestore",
+          "authentication": "Authentification",
+          "storage": "Stockage",
+          "region": "Région",
+          "connected": "Connecté",
+          "configured": "Configuré",
+          "available": "Disponible",
+          "europe": "Europe",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Informations de sécurité",
+          "apiKeyPublic": "La clé API est publique et sécurisée",
+          "rulesProtection": "Les règles Firestore protègent vos données",
+          "checkRules": "Vérifiez régulièrement vos règles de sécurité",
+          "monitorUsage": "Surveillez l'utilisation dans la console Firebase"
+        }
+      }
+    },
+    "database": {
+      "title": "Base de Données",
+      "subtitle": "Gérez vos paramètres de base de données et collections"
+    },
+    "payment": {
+      "title": "Paramètres de Paiement",
+      "subtitle": "Configurez vos méthodes de paiement et passerelles",
+      "stripe": {
+        "title": "Configuration Stripe",
+        "description": "Acceptez les paiements par carte de crédit avec Stripe",
+        "enable": "Activer Stripe",
+        "publicKey": "Clé publique",
+        "secretKey": "Clé secrète",
+        "webhookSecret": "Secret webhook",
+        "save": "Sauvegarder"
+      },
+      "paypal": {
+        "title": "Configuration PayPal",
+        "description": "Acceptez les paiements via PayPal",
+        "enable": "Activer PayPal",
+        "clientId": "ID Client",
+        "clientSecret": "Secret Client",
+        "clientIdPlaceholder": "Votre ID client PayPal",
+        "clientSecretPlaceholder": "Votre secret client PayPal",
+        "save": "Sauvegarder"
+      },
+      "bank": {
+        "title": "Virement Bancaire",
+        "description": "Acceptez les virements bancaires directs",
+        "enable": "Activer les virements",
+        "iban": "IBAN",
+        "bic": "BIC/SWIFT",
+        "bankName": "Nom de la banque",
+        "accountHolder": "Titulaire du compte",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 789",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolderPlaceholder": "Nom du titulaire",
+        "save": "Sauvegarder"
+      },
+      "mobile": {
+        "title": "Paiement Mobile",
+        "description": "Acceptez les paiements par mobile money",
+        "enable": "Activer le paiement mobile",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Mobile Money",
+        "moovMoney": "Moov Money",
+        "save": "Sauvegarder"
+      }
+    },
+    "permissions": {
+      "title": "Gestion des Permissions",
+      "subtitle": "Configurez les permissions des employés",
+      "loading": "Chargement...",
+      "saving": "Enregistrement...",
+      "save": "Sauvegarder",
+      "noEmployees": "Aucun employé trouvé"
+    }
   }
 }
