@@ -36,20 +36,20 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
               <p className="font-medium text-blue-900 text-sm sm:text-base break-words leading-tight">
-                {t('settings.adminModeConsultation', { name: currentProfile.name })}
+                Mode Administrateur - Consultation de l'espace de {currentProfile.name}
               </p>
               <p className="text-xs sm:text-sm text-blue-700 mt-1">
-                {t('settings.viewingAsAdmin')}
+                Vous consultez l'espace en tant qu'administrateur
               </p>
               <div className="mt-2 space-y-1">
                 <p className="text-xs text-blue-600">
-                  <span className="font-medium">{t('settings.tenantType')}:</span> {currentType}
+                  <span className="font-medium">Type:</span> {currentType}
                 </p>
                 <p className="text-xs text-blue-600 break-all">
-                  <span className="font-medium">{t('settings.tenantEmail')}:</span> {currentProfile.email}
+                  <span className="font-medium">Email:</span> {currentProfile.email}
                 </p>
                 <p className="text-xs text-blue-600 break-words">
-                  <span className="font-medium">{t('settings.tenantAddress')}:</span> {currentProfile.address}
+                  <span className="font-medium">Adresse:</span> {currentProfile.address}
                 </p>
               </div>
             </div>
@@ -62,8 +62,7 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
               className="flex items-center gap-1.5 text-xs px-2 py-1 h-8 sm:h-9 flex-shrink-0"
             >
               <ArrowLeft className="h-3 w-3" />
-              <span className="hidden xs:inline">{t('settings.returnButton')}</span>
-              <span className="xs:hidden">{t('settings.returnButton')}</span>
+              <span>Retour</span>
             </Button>
           </div>
         </div>
