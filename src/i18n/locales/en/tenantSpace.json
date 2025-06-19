@@ -91,7 +91,10 @@
       "paymentBefore5th": "• Payment must be made before the 5th of each month",
       "enterExactAmount": "• Enter the exact amount you are paying",
       "receiptFullPayment": "• A PDF receipt will be generated only for full payments",
-      "alertDifferentAmount": "• In case of different amount, an alert will be raised"
+      "alertDifferentAmount": "• In case of different amount, an alert will be raised",
+      "monthlyRent": "Monthly Rent",
+      "charges": "Charges",
+      "totalToPay": "Total to pay"
     },
     "history": {
       "title": "Payment History",
