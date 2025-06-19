@@ -32,6 +32,11 @@
     "notes": "Notes",
     "noHistory": "No maintenance history",
     "noHistoryDescription": "No completed interventions found for the selected filters",
-    "loadingHistory": "Loading maintenance history..."
+    "loadingHistory": "Loading maintenance history...",
+    "detailedHistory": "Detailed History",
+    "interventionsFound": "intervention(s) found",
+    "date": "Date",
+    "description": "Description",
+    "status": "Status"
   }
 }

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -26,25 +27,27 @@ interface HistoryTableProps {
 }
 
 const HistoryTable = ({ filteredHistory }: HistoryTableProps) => {
+  const { t } = useTranslation();
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Historique détaillé</CardTitle>
+        <CardTitle>{t('maintenanceHistory.detailedHistory')}</CardTitle>
         <CardDescription>
-          {filteredHistory.length} intervention{filteredHistory.length > 1 ? 's' : ''} trouvée{filteredHistory.length > 1 ? 's' : ''}
+          {filteredHistory.length} {t('maintenanceHistory.interventionsFound')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Bien</TableHead>
-              <TableHead>Priorité</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Technicien</TableHead>
-              <TableHead>Coût</TableHead>
-              <TableHead>Statut</TableHead>
+              <TableHead>{t('maintenanceHistory.date')}</TableHead>
+              <TableHead>{t('maintenanceHistory.property')}</TableHead>
+              <TableHead>{t('maintenanceHistory.priority')}</TableHead>
+              <TableHead>{t('maintenanceHistory.description')}</TableHead>
+              <TableHead>{t('maintenanceHistory.technician')}</TableHead>
+              <TableHead>{t('maintenanceHistory.cost')}</TableHead>
+              <TableHead>{t('maintenanceHistory.status')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -53,7 +56,7 @@ const HistoryTable = ({ filteredHistory }: HistoryTableProps) => {
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
-                    {item.scheduledDate || 'Non définie'}
+                    {item.scheduledDate || 'Not defined'}
                   </div>
                 </TableCell>
                 <TableCell className="font-medium">{item.property}</TableCell>
@@ -61,7 +64,7 @@ const HistoryTable = ({ filteredHistory }: HistoryTableProps) => {
                   <Badge variant="outline">{item.priority}</Badge>
                 </TableCell>
                 <TableCell>{item.description}</TableCell>
-                <TableCell>{item.technicianName || 'Non assigné'}</TableCell>
+                <TableCell>{item.technicianName || 'Not assigned'}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Euro className="h-3 w-3" />

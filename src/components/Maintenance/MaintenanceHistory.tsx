@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
 import FilterSection from './History/FilterSection';
 import StatsCards from './History/StatsCards';
@@ -7,27 +8,28 @@ import CategoryStats from './History/CategoryStats';
 import HistoryTable from './History/HistoryTable';
 
 const MaintenanceHistory = () => {
+  const { t } = useTranslation();
   const { interventions, loading } = useFirebaseMaintenances();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProperty, setSelectedProperty] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedYear, setSelectedYear] = useState('2025');
 
-  // Générer les années à partir de 2025
+  // Generate years starting from 2025
   const currentYear = new Date().getFullYear();
   const startYear = 2025;
   const years = [];
   for (let year = Math.max(startYear, currentYear); year >= startYear; year--) {
     years.push(year.toString());
   }
-  // Ajouter les années futures si nécessaire
+  // Add future years if necessary
   if (currentYear < startYear) {
     for (let year = startYear; year <= startYear + 5; year++) {
       years.push(year.toString());
     }
   }
 
-  // Filtrer seulement les interventions terminées pour l'historique
+  // Filter only completed interventions for history
   const completedInterventions = interventions.filter(intervention => 
     intervention.status === 'Terminée'
   );
@@ -39,7 +41,7 @@ const MaintenanceHistory = () => {
     const matchesProperty = selectedProperty === 'all' || item.property === selectedProperty;
     const matchesCategory = selectedCategory === 'all' || item.priority === selectedCategory;
     
-    // Filtrer par année basé sur la date programmée ou une date par défaut
+    // Filter by year based on scheduled date or default date
     const itemYear = item.scheduledDate ? new Date(item.scheduledDate).getFullYear().toString() : selectedYear;
     const matchesYear = itemYear === selectedYear;
     
@@ -48,7 +50,7 @@ const MaintenanceHistory = () => {
 
   const totalCost = filteredHistory.reduce((sum, item) => sum + (item.actualCost || item.estimatedCost || 0), 0);
   const proprietaireCost = filteredHistory.reduce((sum, item) => sum + (item.actualCost || item.estimatedCost || 0), 0);
-  const locataireCost = 0; // À implémenter selon la logique de responsabilité
+  const locataireCost = 0; // To implement according to responsibility logic
 
   const categoryStats = filteredHistory.reduce((acc, item) => {
     const category = item.priority || 'Non défini';
@@ -61,11 +63,11 @@ const MaintenanceHistory = () => {
     return acc;
   }, {} as Record<string, number>);
 
-  // Obtenir la liste unique des propriétés
+  // Get unique list of properties
   const uniqueProperties = [...new Set(completedInterventions.map(item => item.property))];
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <div>{t('maintenanceHistory.loadingHistory')}</div>;
   }
 
   return (
