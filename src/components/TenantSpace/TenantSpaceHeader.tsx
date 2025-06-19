@@ -21,6 +21,15 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   const typeKey = currentType === 'colocataire' ? 'roommate' : 'tenant';
   const translatedType = t(`tenantSpace.${typeKey}`);
 
+  console.log('TenantSpaceHeader render:', {
+    currentProfile,
+    currentType,
+    typeKey,
+    translatedType,
+    titleTranslation: t('tenantSpace.title', { type: translatedType }),
+    welcomeTranslation: t('tenantSpace.welcome', { name: currentProfile.name })
+  });
+
   return (
     <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
