@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -29,6 +30,7 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, onDelete }) => {
+  const { t } = useTranslation();
   const { roommates } = useFirebaseRoommates();
 
   const handleCardClick = () => {
@@ -46,7 +48,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onDelete && window.confirm('Êtes-vous sûr de vouloir supprimer ce bien ?')) {
+    if (onDelete && window.confirm(t('properties.confirmDelete'))) {
       onDelete(property.id);
     }
   };
@@ -67,15 +69,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
       const availableRooms = Math.max(0, totalRooms - occupiedRooms);
       
       if (availableRooms > 0) {
-        return 'Partiellement occupé';
+        return t('properties.partiallyOccupied');
       } else if (occupiedRooms > 0) {
-        return 'Complet';
+        return t('properties.fullyOccupied');
       } else {
-        return 'Libre';
+        return t('properties.vacant');
       }
     } else {
       // Location classique
-      return activeRoommates.length > 0 ? 'Occupé' : 'Libre';
+      return activeRoommates.length > 0 ? t('properties.occupied') : t('properties.vacant');
     }
   };
 
@@ -96,17 +98,27 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
   const realAvailableRooms = getRealAvailableRooms();
 
   const getStatusBadgeColor = (status: string) => {
-    switch (status) {
-      case 'Libre':
-        return 'bg-gray-100 text-gray-800';
-      case 'Occupé':
-      case 'Complet':
-        return 'bg-green-100 text-green-800';
-      case 'Partiellement occupé':
-        return 'bg-yellow-100 text-yellow-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
+    if (status === t('properties.vacant')) {
+      return 'bg-gray-100 text-gray-800';
+    } else if (status === t('properties.occupied') || status === t('properties.fullyOccupied')) {
+      return 'bg-green-100 text-green-800';
+    } else if (status === t('properties.partiallyOccupied')) {
+      return 'bg-yellow-100 text-yellow-800';
+    } else {
+      return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  // Traduire le type de propriété
+  const getTranslatedPropertyType = (type: string) => {
+    const typeKey = type.toLowerCase();
+    return t(`propertyForm.propertyTypes.${typeKey}`, type);
+  };
+
+  // Traduire le type de location
+  const getTranslatedLocationType = (locationType: string) => {
+    const locationKey = locationType.toLowerCase();
+    return t(`propertyForm.locationTypes.${locationKey}`, locationType);
   };
 
   return (
@@ -155,25 +167,25 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
           </div>
           <div className="flex items-center text-gray-600">
             <Home className="mr-2 h-4 w-4 shrink-0" />
-            <span className="text-sm">{property.type} - {property.surface}</span>
+            <span className="text-sm">{getTranslatedPropertyType(property.type)} - {property.surface}</span>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center text-blue-600 font-semibold">
               <Euro className="mr-2 h-4 w-4" />
-              <span>{property.rent}/mois</span>
+              <span>{property.rent}{t('properties.perMonth')}</span>
             </div>
             <div className={`text-sm font-semibold ${getLocationTypeColor(property.locationType)}`}>
-              {property.locationType}
+              {getTranslatedLocationType(property.locationType)}
             </div>
           </div>
           {property.locationType === 'Colocation' && (
             <div className="text-sm text-gray-500">
-              {realAvailableRooms}/{property.totalRooms} chambres disponibles
+              {realAvailableRooms}/{property.totalRooms} {t('properties.roomsAvailable')}
             </div>
           )}
           {property.tenant && (
             <div className="text-sm text-green-600">
-              Locataire: {property.tenant}
+              {t('properties.mainTenant')}: {property.tenant}
             </div>
           )}
         </div>
