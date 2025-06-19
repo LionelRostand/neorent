@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Home, User, Calendar, Euro, MapPin, Phone, Mail, Key, Clock, Shield } from 'lucide-react';
+import { Home, User, Calendar, Euro, MapPin, Phone, Mail, Key, Clock, Shield, CreditCard } from 'lucide-react';
 
 interface TenantOverviewProps {
   propertyData: any;
