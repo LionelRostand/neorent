@@ -50,6 +50,13 @@
     "tenantType": "Type",
     "tenantEmail": "Email",
     "tenantAddress": "Address",
+    "selectTenantRoommate": "Select a tenant/roommate",
+    "chooseProfileToView": "Choose a profile to view",
+    "accessTenantSpace": "Access tenant space",
+    "featureReservedForAdmin": "Feature reserved for admin@neotech-consulting.com",
+    "accessingTenantSpace": "Accessing {name}'s space",
+    "viewingTenantType": "You are now viewing the {type} space",
+    "returnedToAdmin": "Returned to administrator space",
     "company": {
       "title": "Company Management",
       "subtitle": "Manage your company information",

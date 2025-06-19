@@ -37,14 +37,14 @@ const AdminTenantAccess: React.FC = () => {
     
     if (!tenant) {
       console.error('Tenant not found for ID:', selectedTenantId);
-      toast.error('Tenant not found');
+      toast.error(t('common.tenantNotFound'));
       return;
     }
 
     if (switchToTenantProfile(tenant)) {
       console.log('Successfully switched to tenant profile, navigating to tenant space');
-      toast.success(`Accessing ${tenant.name}'s space`, {
-        description: `You are now viewing the ${tenant.type} space`
+      toast.success(t('settings.accessingTenantSpace', { name: tenant.name }), {
+        description: t('settings.viewingTenantType', { type: tenant.type })
       });
       
       // Small delay to ensure state is updated before navigation
@@ -53,14 +53,14 @@ const AdminTenantAccess: React.FC = () => {
       }, 100);
     } else {
       console.error('Failed to switch to tenant profile');
-      toast.error('Error accessing tenant space');
+      toast.error(t('common.errorAccessingTenantSpace'));
     }
   };
 
   const handleSwitchBack = () => {
     console.log('Switching back to admin');
     switchBackToAdmin();
-    toast.info('Returned to administrator space');
+    toast.info(t('settings.returnedToAdmin'));
     navigate('/admin/settings');
   };
 
@@ -147,11 +147,11 @@ const AdminTenantAccess: React.FC = () => {
           <div className="space-y-3 sm:space-y-4">
             <div className="space-y-2">
               <label className="text-xs sm:text-sm font-medium block">
-                Select a tenant/roommate
+                {t('settings.selectTenantRoommate')}
               </label>
               <Select value={selectedTenantId} onValueChange={setSelectedTenantId}>
                 <SelectTrigger className="w-full text-xs sm:text-sm">
-                  <SelectValue placeholder="Choose a profile to view" />
+                  <SelectValue placeholder={t('settings.chooseProfileToView')} />
                 </SelectTrigger>
                 <SelectContent>
                   {tenantProfiles.map((tenant) => (
@@ -177,11 +177,11 @@ const AdminTenantAccess: React.FC = () => {
               className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
             >
               <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span>Access tenant space</span>
+              <span>{t('settings.accessTenantSpace')}</span>
             </Button>
             
             <p className="text-xs text-gray-500 text-center break-words">
-              Feature reserved for admin@neotech-consulting.com
+              {t('settings.featureReservedForAdmin')}
             </p>
           </div>
         )}
