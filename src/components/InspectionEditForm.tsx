@@ -97,26 +97,26 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
   const isColocatif = inspection.contractType === 'Bail colocatif' || (inspection.tenant && inspection.tenant.includes('Colocataire'));
 
   const roomNames = {
-    salon: 'Salon',
-    cuisine: 'Cuisine',
-    chambre1: isColocatif ? inspection.roomNumber || 'Chambre' : 'Chambre',
-    salleDeBain: 'Salle de bain',
-    wc: 'WC',
-    entree: 'Entrée'
+    salon: t('inspections.livingRoom'),
+    cuisine: t('inspections.kitchen'),
+    chambre1: isColocatif ? inspection.roomNumber || t('inspections.bedroom') : t('inspections.bedroom'),
+    salleDeBain: t('inspections.bathroom'),
+    wc: t('inspections.toilet'),
+    entree: t('inspections.entrance')
   };
 
   const equipmentNames = {
-    electromenager: 'Électroménager',
-    chauffage: 'Chauffage',
-    plomberie: 'Plomberie',
-    electricite: 'Électricité'
+    electromenager: t('inspections.appliances'),
+    chauffage: t('inspections.heating'),
+    plomberie: t('inspections.plumbing'),
+    electricite: t('inspections.electricity')
   };
 
   const stateOptions = [
-    { value: 'Excellent', label: 'Excellent' },
-    { value: 'Bon', label: 'Bon' },
-    { value: 'Moyen', label: 'Moyen' },
-    { value: 'Mauvais', label: 'Mauvais' }
+    { value: 'Excellent', label: t('inspections.excellent') },
+    { value: 'Bon', label: t('inspections.good') },
+    { value: 'Moyen', label: t('inspections.average') },
+    { value: 'Mauvais', label: t('inspections.poor') }
   ];
 
   return (
@@ -182,7 +182,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
           {/* État des pièces */}
           <Card>
             <CardHeader>
-              <CardTitle>État des Pièces</CardTitle>
+              <CardTitle>{t('inspections.roomsCondition')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {Object.entries(formData.rooms).map(([roomKey, roomData]) => (
@@ -192,7 +192,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label>État</Label>
+                      <Label>{t('inspections.state')}</Label>
                       <Select 
                         value={roomData.state} 
                         onValueChange={(value) => handleRoomChange(roomKey, 'state', value)}
@@ -214,7 +214,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                       <Input
                         value={roomData.observations}
                         onChange={(e) => handleRoomChange(roomKey, 'observations', e.target.value)}
-                        placeholder="Défauts, remarques..."
+                        placeholder={t('inspections.defectsRemarks')}
                       />
                     </div>
                   </div>
@@ -226,7 +226,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
           {/* Équipements */}
           <Card>
             <CardHeader>
-              <CardTitle>Équipements</CardTitle>
+              <CardTitle>{t('inspections.equipment')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {Object.entries(formData.equipments).map(([equipmentKey, equipmentData]) => (
@@ -243,7 +243,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                   {equipmentData.present && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label>État</Label>
+                        <Label>{t('inspections.state')}</Label>
                         <Select 
                           value={equipmentData.state} 
                           onValueChange={(value) => handleEquipmentChange(equipmentKey, 'state', value)}
@@ -265,7 +265,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                         <Input
                           value={equipmentData.observations}
                           onChange={(e) => handleEquipmentChange(equipmentKey, 'observations', e.target.value)}
-                          placeholder="Défauts, remarques..."
+                          placeholder={t('inspections.defectsRemarks')}
                         />
                       </div>
                     </div>

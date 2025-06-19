@@ -72,6 +72,26 @@
     "generatePDF": "Générer PDF",
     "save": "Sauvegarder",
     "status": "Statut",
-    "actions": "Actions"
+    "actions": "Actions",
+    "roomsCondition": "État des Pièces",
+    "equipment": "Équipements",
+    "state": "État",
+    "excellent": "Excellent",
+    "good": "Bon",
+    "average": "Moyen",
+    "poor": "Mauvais",
+    "livingRoom": "Salon",
+    "kitchen": "Cuisine",
+    "bedroom": "Chambre",
+    "bathroom": "Salle de bain",
+    "toilet": "WC",
+    "entrance": "Entrée",
+    "appliances": "Électroménager",
+    "heating": "Chauffage",
+    "plumbing": "Plomberie",
+    "electricity": "Électricité",
+    "present": "Présent",
+    "defectsRemarks": "Défauts, remarques...",
+    "tenantName": "Nom du locataire"
   }
 }

@@ -72,6 +72,26 @@
     "generatePDF": "Generate PDF",
     "save": "Save",
     "status": "Status",
-    "actions": "Actions"
+    "actions": "Actions",
+    "roomsCondition": "Rooms Condition",
+    "equipment": "Equipment",
+    "state": "State",
+    "excellent": "Excellent",
+    "good": "Good",
+    "average": "Average",
+    "poor": "Poor",
+    "livingRoom": "Living Room",
+    "kitchen": "Kitchen",
+    "bedroom": "Bedroom",
+    "bathroom": "Bathroom",
+    "toilet": "Toilet",
+    "entrance": "Entrance",
+    "appliances": "Appliances",
+    "heating": "Heating",
+    "plumbing": "Plumbing",
+    "electricity": "Electricity",
+    "present": "Present",
+    "defectsRemarks": "Defects, remarks...",
+    "tenantName": "Tenant Name"
   }
 }
