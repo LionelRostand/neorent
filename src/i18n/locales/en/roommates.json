@@ -32,6 +32,13 @@
     "paymentAlerts": "Payment Alerts",
     "roomNumber": "Room",
     "monthlyRent": "monthly",
+    "paidInFull": "paid rent in full",
+    "incompletePayment": "Incomplete payment",
+    "expectedAmount": "Expected amount:",
+    "paidAmount": "Paid amount:",
+    "remainingToPay": "Remaining to pay:",
+    "overpayment": "Overpayment",
+    "overpaid": "Overpaid:",
     "status": {
       "active": "Active",
       "inactive": "Inactive", 

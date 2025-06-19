@@ -32,6 +32,13 @@
     "paymentAlerts": "Alertes de paiement",
     "roomNumber": "Chambre",
     "monthlyRent": "par mois",
+    "paidInFull": "a payé le loyer en totalité",
+    "incompletePayment": "Paiement incomplet",
+    "expectedAmount": "Montant attendu:",
+    "paidAmount": "Montant payé:",
+    "remainingToPay": "Reste à payer:",
+    "overpayment": "Trop-perçu",
+    "overpaid": "Trop-perçu:",
     "status": {
       "active": "Actif",
       "inactive": "Inactif",

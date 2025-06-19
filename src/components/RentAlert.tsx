@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
@@ -17,6 +18,7 @@ const RentAlert: React.FC<RentAlertProps> = ({
   tenantName,
   className = "" 
 }) => {
+  const { t } = useTranslation();
   const isPaidInFull = paidAmount >= expectedAmount;
   const remainingAmount = Math.max(expectedAmount - paidAmount, 0);
   const overpayment = Math.max(paidAmount - expectedAmount, 0);
@@ -26,7 +28,7 @@ const RentAlert: React.FC<RentAlertProps> = ({
       <Alert className={`border-green-200 bg-green-50 ${className}`}>
         <CheckCircle className="h-4 w-4 text-green-600" />
         <AlertDescription className="text-green-800">
-          <span className="font-medium">{tenantName}</span> a payé le loyer en totalité ({paidAmount.toLocaleString()}€)
+          <span className="font-medium">{tenantName}</span> {t('roommates.paidInFull')} ({paidAmount.toLocaleString()}€)
         </AlertDescription>
       </Alert>
     );
@@ -39,16 +41,16 @@ const RentAlert: React.FC<RentAlertProps> = ({
         <AlertDescription className="text-red-800">
           <div className="space-y-1">
             <div>
-              <span className="font-medium">{tenantName}</span> - Paiement incomplet
+              <span className="font-medium">{tenantName}</span> - {t('roommates.incompletePayment')}
             </div>
             <div className="text-sm">
-              Montant attendu: <span className="font-semibold">{expectedAmount.toLocaleString()}€</span>
+              {t('roommates.expectedAmount')} <span className="font-semibold">{expectedAmount.toLocaleString()}€</span>
             </div>
             <div className="text-sm">
-              Montant payé: <span className="font-semibold">{paidAmount.toLocaleString()}€</span>
+              {t('roommates.paidAmount')} <span className="font-semibold">{paidAmount.toLocaleString()}€</span>
             </div>
             <Badge variant="destructive" className="text-xs">
-              Reste à payer: {remainingAmount.toLocaleString()}€
+              {t('roommates.remainingToPay')}: {remainingAmount.toLocaleString()}€
             </Badge>
           </div>
         </AlertDescription>
@@ -63,16 +65,16 @@ const RentAlert: React.FC<RentAlertProps> = ({
         <AlertDescription className="text-yellow-800">
           <div className="space-y-1">
             <div>
-              <span className="font-medium">{tenantName}</span> - Trop-perçu
+              <span className="font-medium">{tenantName}</span> - {t('roommates.overpayment')}
             </div>
             <div className="text-sm">
-              Montant attendu: <span className="font-semibold">{expectedAmount.toLocaleString()}€</span>
+              {t('roommates.expectedAmount')} <span className="font-semibold">{expectedAmount.toLocaleString()}€</span>
             </div>
             <div className="text-sm">
-              Montant payé: <span className="font-semibold">{paidAmount.toLocaleString()}€</span>
+              {t('roommates.paidAmount')} <span className="font-semibold">{paidAmount.toLocaleString()}€</span>
             </div>
             <Badge className="bg-yellow-100 text-yellow-800 text-xs">
-              Trop-perçu: +{overpayment.toLocaleString()}€
+              {t('roommates.overpaid')} +{overpayment.toLocaleString()}€
             </Badge>
           </div>
         </AlertDescription>
