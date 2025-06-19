@@ -1,4 +1,3 @@
-
 {
   "settings": {
     "title": "Paramètres",
@@ -62,7 +61,79 @@
       "title": "Paramètres de Sécurité",
       "subtitle": "Configurez les paramètres et politiques de sécurité",
       "loadingSettings": "Chargement des paramètres de sécurité...",
-      "saving": "Enregistrement..."
+      "saving": "Enregistrement...",
+      "passwordPolicy": "Politique de Mot de Passe",
+      "minLength": "Longueur Minimale",
+      "passwordExpiry": "Expiration du Mot de Passe",
+      "complexityRequirements": "Exigences de Complexité",
+      "requireUppercase": "Exiger des majuscules",
+      "requireLowercase": "Exiger des minuscules",
+      "requireNumbers": "Exiger des chiffres",
+      "requireSpecialChars": "Exiger des caractères spéciaux",
+      "preventCommonPasswords": "Empêcher les mots de passe courants",
+      "preventCommonPasswordsDescription": "Bloquer les mots de passe couramment utilisés",
+      "sessionSecurity": "Sécurité de Session",
+      "sessionTimeout": "Délai d'Expiration de Session",
+      "maxLoginAttempts": "Tentatives de Connexion Max",
+      "lockoutDuration": "Durée de Verrouillage",
+      "expiryOptions": {
+        "30days": "30 jours",
+        "60days": "60 jours",
+        "90days": "90 jours",
+        "120days": "120 jours",
+        "never": "Jamais"
+      },
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 heure",
+        "2hours": "2 heures",
+        "8hours": "8 heures",
+        "never": "Jamais"
+      },
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 heure",
+        "2hours": "2 heures"
+      },
+      "recommendations": {
+        "title": "Recommandations de Sécurité",
+        "sessionTimeout": "Définir un délai d'expiration approprié pour votre environnement",
+        "loginAttempts": "Limiter les tentatives de connexion pour prévenir les attaques par force brute",
+        "twoFactor": "Activer l'authentification à deux facteurs pour les administrateurs",
+        "checkLogs": "Examiner régulièrement les journaux de sécurité"
+      },
+      "twoFactor": {
+        "title": "Authentification à Deux Facteurs",
+        "enable": "Activer 2FA",
+        "enableDescription": "Ajouter une couche de sécurité supplémentaire à votre compte",
+        "enabled": "Authentification à deux facteurs activée",
+        "enabledDescription": "Votre compte est maintenant sécurisé avec 2FA",
+        "disabled": "Authentification à deux facteurs désactivée",
+        "disabledDescription": "2FA a été supprimé de votre compte",
+        "verificationMethod": "Méthode de Vérification",
+        "verificationCode": "Code de Vérification",
+        "backupCodes": "Codes de Sauvegarde",
+        "backupCodesDescription": "Conservez ces codes en sécurité pour la récupération de compte",
+        "generateNewCodes": "Générer de Nouveaux Codes",
+        "copy": "Copier",
+        "codesCopied": "Codes de sauvegarde copiés",
+        "codesCopiedDescription": "Stockez ces codes dans un endroit sûr",
+        "enableTitle": "Activer l'Authentification à Deux Facteurs",
+        "enable2FA": "Activer 2FA",
+        "enableError": "Erreur lors de l'activation de l'authentification à deux facteurs",
+        "qrCodeDescription": "Scannez ce code QR avec votre application d'authentification",
+        "methods": {
+          "email": "Email",
+          "sms": "SMS",
+          "authenticator": "Application d'Authentification"
+        },
+        "emailDescription": "Un code de vérification sera envoyé à votre email",
+        "smsDescription": "Un code de vérification sera envoyé à votre téléphone",
+        "authenticatorDescription": "Utilisez une application d'authentification pour générer des codes"
+      }
     },
     "email": {
       "title": "Paramètres Email",
