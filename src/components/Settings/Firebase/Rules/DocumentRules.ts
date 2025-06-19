@@ -32,20 +32,19 @@ export const documentRules = `
     // Fonction de validation des données de document
     function validateDocumentData() {
       let data = request.resource.data;
-      return data.keys().hasAll(['fileName', 'fileType', 'documentType', 'downloadURL', 'roommateId']) &&
+      return data.keys().hasAll(['fileName', 'fileType', 'documentType', 'roommateId']) &&
              data.fileName is string &&
              data.fileType is string &&
              data.documentType is string &&
-             data.downloadURL is string &&
              data.roommateId is string &&
-             data.createdAt is timestamp &&
-             data.updatedAt is timestamp;
+             data.uploadDate is string &&
+             data.status is string;
     }
 
     // Fonction de validation des mises à jour
     function validateDocumentUpdate() {
       // Empêcher la modification des champs critiques
-      let unchangedFields = ['fileName', 'fileType', 'downloadURL', 'roommateId', 'createdAt'];
+      let unchangedFields = ['fileName', 'fileType', 'roommateId', 'uploadDate'];
       return unchangedFields.all(field in unchangedFields, 
         !(field in request.resource.data) || 
         request.resource.data[field] == resource.data[field]);
