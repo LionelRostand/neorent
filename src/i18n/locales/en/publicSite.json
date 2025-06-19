@@ -1,0 +1,46 @@
+
+{
+  "publicSite": {
+    "hero": {
+      "title": "Simplify Your",
+      "subtitle": "Property Management",
+      "description": "Manage your properties, tenants, and rental income with our comprehensive real estate management platform.",
+      "startFree": "Start Free Trial",
+      "contactUs": "Contact Us"
+    },
+    "features": {
+      "title": "Powerful Features",
+      "subtitle": "Everything you need to manage your properties efficiently",
+      "propertyManagement": {
+        "title": "Property Management",
+        "description": "Organize and track all your properties in one centralized platform"
+      },
+      "tenantTracking": {
+        "title": "Tenant Management",
+        "description": "Manage tenant information, leases, and communications effortlessly"
+      },
+      "dataSecurity": {
+        "title": "Data Security",
+        "description": "Your data is protected with enterprise-grade security measures"
+      }
+    },
+    "benefits": {
+      "title": "Why Choose Our Platform?",
+      "description": "Join thousands of property managers who trust our platform to streamline their operations.",
+      "list": [
+        "Streamlined property portfolio management",
+        "Automated rent collection and tracking",
+        "Comprehensive tenant screening tools",
+        "Real-time financial reporting and analytics",
+        "Mobile-friendly interface for on-the-go management",
+        "24/7 customer support and assistance"
+      ],
+      "contactTitle": "Get in Touch"
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "description": "Join thousands of property managers who are already using our platform to streamline their operations.",
+      "startNow": "Start Now"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+
+{
+  "publicSite": {
+    "hero": {
+      "title": "Simplifiez Votre",
+      "subtitle": "Gestion Immobilière",
+      "description": "Gérez vos propriétés, locataires et revenus locatifs avec notre plateforme complète de gestion immobilière.",
+      "startFree": "Essai Gratuit",
+      "contactUs": "Nous Contacter"
+    },
+    "features": {
+      "title": "Fonctionnalités Puissantes",
+      "subtitle": "Tout ce dont vous avez besoin pour gérer efficacement vos propriétés",
+      "propertyManagement": {
+        "title": "Gestion de Propriétés",
+        "description": "Organisez et suivez toutes vos propriétés dans une plateforme centralisée"
+      },
+      "tenantTracking": {
+        "title": "Gestion des Locataires",
+        "description": "Gérez les informations des locataires, les baux et les communications sans effort"
+      },
+      "dataSecurity": {
+        "title": "Sécurité des Données",
+        "description": "Vos données sont protégées par des mesures de sécurité de niveau entreprise"
+      }
+    },
+    "benefits": {
+      "title": "Pourquoi Choisir Notre Plateforme ?",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour optimiser leurs opérations.",
+      "list": [
+        "Gestion rationalisée du portefeuille immobilier",
+        "Collecte et suivi automatisés des loyers",
+        "Outils complets de vérification des locataires",
+        "Rapports financiers et analyses en temps réel",
+        "Interface mobile pour la gestion en déplacement",
+        "Support client 24/7 et assistance"
+      ],
+      "contactTitle": "Contactez-nous"
+    },
+    "cta": {
+      "title": "Prêt à Commencer ?",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui utilisent déjà notre plateforme pour optimiser leurs opérations.",
+      "startNow": "Commencer Maintenant"
+    }
+  }
+}
