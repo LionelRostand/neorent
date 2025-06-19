@@ -30,7 +30,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
       <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
         <User className="h-4 w-4 md:h-5 md:w-5" />
-        {t('profile.personalInfo')}
+        {t('tenantSpace.profile.personalInfo')}
       </CardTitle>
       {!isEditing ? (
         <Button 
@@ -40,7 +40,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           className="w-full sm:w-auto"
         >
           <Edit className="h-4 w-4 mr-2" />
-          {t('profile.edit')}
+          {t('tenantSpace.profile.edit')}
         </Button>
       ) : (
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
@@ -52,7 +52,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             className="w-full sm:w-auto"
           >
             <X className="h-4 w-4 mr-2" />
-            {t('profile.cancel')}
+            {t('tenantSpace.profile.cancel')}
           </Button>
           <Button 
             size={isMobile ? "sm" : "sm"}
@@ -61,7 +61,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             className="w-full sm:w-auto"
           >
             <Save className="h-4 w-4 mr-2" />
-            {isUpdating ? t('profile.saving') : t('profile.save')}
+            {isUpdating ? t('tenantSpace.profile.saving') : t('tenantSpace.profile.save')}
           </Button>
         </div>
       )}
