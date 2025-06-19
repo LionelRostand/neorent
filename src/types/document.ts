@@ -11,7 +11,9 @@ export interface DocumentData {
   uploadDate: string;
   status: string;
   storagePath?: string;
-  // Nouvelles propriétés pour le stockage binaire compressé
+  // Nouvelles propriétés pour le stockage base64 (sans compression)
+  base64Data?: string;
+  // Ancienne propriété pour compatibilité
   compressedData?: string;
   compressedSize?: number;
 }

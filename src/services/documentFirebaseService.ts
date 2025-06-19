@@ -1,22 +1,44 @@
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { DocumentData } from '@/types/document';
-import { compressFile } from '@/utils/fileCompression';
+
+const convertFileToBase64 = async (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    reader.onload = () => {
+      try {
+        const result = reader.result as string;
+        // Extraire seulement la partie base64 (après la virgule)
+        const base64Data = result.split(',')[1];
+        resolve(base64Data);
+      } catch (error) {
+        reject(new Error('Erreur lors de la conversion en base64'));
+      }
+    };
+    
+    reader.onerror = () => {
+      reject(new Error('Erreur lors de la lecture du fichier'));
+    };
+    
+    reader.readAsDataURL(file);
+  });
+};
 
 export const saveDocumentToFirestore = async (
   file: File, 
   documentType: string, 
   roommateId: string,
   tenantId?: string
-): Promise<{ docId: string; compressedSize: number }> => {
-  console.log('📁 Début compression et sauvegarde directe en Firestore');
+): Promise<{ docId: string; fileSize: number }> => {
+  console.log('📁 Début sauvegarde directe en Firestore (sans compression)');
   console.log('📤 Taille originale du fichier:', file.size, 'bytes');
 
   try {
-    // Validation préalable de la taille - réduite à 3MB
-    const maxFileSize = 3 * 1024 * 1024; // 3MB
+    // Validation préalable de la taille - limite à 2MB pour base64
+    const maxFileSize = 2 * 1024 * 1024; // 2MB
     if (file.size > maxFileSize) {
-      throw new Error(`Fichier trop volumineux (${(file.size / 1024 / 1024).toFixed(2)}MB). Limite: 3MB`);
+      throw new Error(`Fichier trop volumineux (${(file.size / 1024 / 1024).toFixed(2)}MB). Limite: 2MB`);
     }
 
     // Validation du type de fichier
@@ -25,19 +47,23 @@ export const saveDocumentToFirestore = async (
       throw new Error('Type de fichier non autorisé. Types acceptés: PDF, JPG, PNG, DOC, DOCX');
     }
 
-    // Compression du fichier avec validation améliorée
-    console.log('🗜️ Compression du fichier...');
-    const compressedData = await compressFile(file);
-    const compressedSize = compressedData.length;
-    console.log('✅ Fichier compressé, taille:', compressedSize, 'caractères');
+    // Conversion en base64 sans compression
+    console.log('🔄 Conversion du fichier en base64...');
+    const base64Data = await convertFileToBase64(file);
+    console.log('✅ Fichier converti, taille base64:', base64Data.length, 'caractères');
 
-    // Création des métadonnées du document - éviter les valeurs undefined
+    // Validation de la taille finale (Firestore limite ~1MB par document)
+    const maxBase64Size = 800000; // 800KB pour être sûr
+    if (base64Data.length > maxBase64Size) {
+      throw new Error(`Fichier trop volumineux après conversion (${(base64Data.length / 1024).toFixed(2)}KB). Veuillez choisir un fichier plus petit (max 1.5MB).`);
+    }
+
+    // Création des métadonnées du document
     const documentData: any = {
       fileName: file.name,
       fileType: file.type,
       fileSize: file.size,
-      compressedSize: compressedSize,
-      compressedData: compressedData,
+      base64Data: base64Data,
       documentType: documentType,
       roommateId: roommateId,
       uploadDate: new Date().toISOString(),
@@ -51,11 +77,11 @@ export const saveDocumentToFirestore = async (
       documentData.tenantId = tenantId;
     }
 
-    console.log('💾 Sauvegarde des métadonnées et données dans Firestore...');
+    console.log('💾 Sauvegarde des données dans Firestore...');
     console.log('📊 Taille des données à sauvegarder:', {
-      metadonnees: JSON.stringify({...documentData, compressedData: '[DONNEES_BINAIRES]'}).length,
-      donneesCompressees: compressedSize,
-      totalApproximatif: (JSON.stringify({...documentData, compressedData: '[DONNEES_BINAIRES]'}).length + compressedSize) + ' caractères'
+      metadonnees: JSON.stringify({...documentData, base64Data: '[DONNEES_BASE64]'}).length,
+      donneesBase64: base64Data.length,
+      totalApproximatif: (JSON.stringify({...documentData, base64Data: '[DONNEES_BASE64]'}).length + base64Data.length) + ' caractères'
     });
     
     const docRef = await addDoc(
@@ -64,21 +90,17 @@ export const saveDocumentToFirestore = async (
     );
     
     console.log('✅ Document sauvegardé avec succès! ID:', docRef.id);
-    return { docId: docRef.id, compressedSize };
+    return { docId: docRef.id, fileSize: file.size };
   } catch (error) {
     console.error('❌ Erreur lors de la sauvegarde:', error);
     
     // Messages d'erreur plus spécifiques
-    if (error.message.includes('Maximum call stack')) {
-      throw new Error('Fichier trop volumineux pour Firestore. Veuillez choisir un fichier plus petit (max 2MB).');
-    } else if (error.message.includes('too large')) {
-      throw new Error('Document trop volumineux pour Firestore. Veuillez choisir un fichier plus petit.');
-    } else if (error.message.includes('trop volumineux')) {
+    if (error.message.includes('trop volumineux')) {
       throw error; // Conserver notre message personnalisé
-    } else if (error.message.includes('compression')) {
-      throw new Error(`Erreur de compression: ${error.message}`);
     } else if (error.message.includes('Type de fichier')) {
       throw error; // Conserver le message de validation de type
+    } else if (error.message.includes('conversion')) {
+      throw new Error(`Erreur de conversion: ${error.message}`);
     }
     
     throw new Error(`Erreur Firestore: ${error.message}`);
@@ -111,8 +133,9 @@ export const getDocumentsFromFirestore = async (roommateId: string): Promise<Doc
         roommateId: data.roommateId as string || undefined,
         uploadDate: data.uploadDate as string || new Date().toISOString(),
         status: data.status as string || 'Uploadé',
-        compressedData: data.compressedData as string || '', // Nouvelles données
-        compressedSize: data.compressedSize as number || 0
+        // Nouvelle propriété pour les données base64
+        base64Data: data.base64Data as string || data.compressedData as string || '', // Fallback pour anciens documents
+        compressedSize: data.base64Data ? data.base64Data.length : (data.compressedSize as number || 0)
       });
     }
   });

@@ -21,7 +21,7 @@ const FileSelector: React.FC<FileSelectorProps> = ({ onFileSelect, uploading }) 
         className="cursor-pointer"
       />
       <p className="text-xs text-gray-500 mt-1">
-        Taille max: 3 MB • Types autorisés: PDF, Images, Documents Word
+        Taille max: 2 MB • Types autorisés: PDF, Images, Documents Word
       </p>
     </div>
   );

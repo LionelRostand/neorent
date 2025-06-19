@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { DocumentData, DocumentUploadParams } from '@/types/document';
 import { 
@@ -22,7 +21,7 @@ export const useDocumentStorage = () => {
     tenantId?: string, 
     roommateId?: string
   ): Promise<DocumentData> => {
-    console.log('=== DÉBUT UPLOAD DOCUMENT COMPRESSÉ ===');
+    console.log('=== DÉBUT UPLOAD DOCUMENT (SANS COMPRESSION) ===');
     console.log('Paramètres reçus:', { 
       fileName: file.name, 
       fileSize: file.size,
@@ -39,15 +38,15 @@ export const useDocumentStorage = () => {
       const uploadParams: DocumentUploadParams = { file, documentType, tenantId, roommateId };
       validateDocumentUpload(uploadParams);
 
-      console.log('📋 Validation OK, début compression et upload...');
+      console.log('📋 Validation OK, début conversion et upload...');
       setUploadProgress(10);
 
-      console.log('🗜️ Compression et sauvegarde directe en Firestore...');
+      console.log('🔄 Conversion et sauvegarde directe en Firestore...');
       
       // Nettoyer les valeurs avant l'envoi
       const cleanTenantId = tenantId && tenantId !== 'undefined' ? tenantId : undefined;
       
-      const { docId, compressedSize } = await saveDocumentToFirestore(
+      const { docId, fileSize } = await saveDocumentToFirestore(
         file, 
         documentType, 
         roommateId!, 
@@ -59,23 +58,21 @@ export const useDocumentStorage = () => {
         id: docId,
         fileName: file.name,
         fileType: file.type,
-        fileSize: file.size,
+        fileSize: fileSize,
         downloadURL: '', // Pas d'URL car stocké directement
         storagePath: '', // Pas de chemin car pas dans Storage
         documentType,
         tenantId: cleanTenantId,
         roommateId,
         uploadDate: new Date().toISOString(),
-        status: 'Uploadé',
-        compressedSize
+        status: 'Uploadé'
       };
 
       console.log('📋 Document final retourné:', savedDocument);
-      console.log('🗜️ Taille compressée:', compressedSize, 'caractères');
-      console.log('=== FIN UPLOAD DOCUMENT COMPRESSÉ (SUCCÈS) ===');
+      console.log('=== FIN UPLOAD DOCUMENT (SUCCÈS) ===');
       return savedDocument;
     } catch (error) {
-      console.error('❌ ERREUR lors de l\'upload compressé:', error);
+      console.error('❌ ERREUR lors de l\'upload:', error);
       console.error('Type d\'erreur:', error.constructor.name);
       console.error('Message d\'erreur:', error.message);
       
@@ -122,7 +119,6 @@ export const useDocumentStorage = () => {
 
   const deleteDocument = async (documentId: string, roommateId?: string) => {
     try {
-      // Plus besoin de supprimer de Storage, seulement de Firestore
       await deleteDocumentFromFirestore(documentId);
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload } from 'lucide-react';
@@ -40,10 +39,10 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       setSelectedFile(file);
       setUploadError('');
       
-      // Validation de la taille (3MB max pour éviter les erreurs de compression)
-      const maxFileSize = 3 * 1024 * 1024; // 3MB
+      // Validation de la taille (2MB max pour stockage direct base64)
+      const maxFileSize = 2 * 1024 * 1024; // 2MB
       if (file.size > maxFileSize) {
-        setUploadError(`Le fichier ne doit pas dépasser 3 MB (actuellement: ${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+        setUploadError(`Le fichier ne doit pas dépasser 2 MB (actuellement: ${(file.size / 1024 / 1024).toFixed(2)} MB)`);
         setSelectedFile(null);
         return;
       }

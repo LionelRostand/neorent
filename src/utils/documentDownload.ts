@@ -1,28 +1,53 @@
 
 import { DocumentData } from '@/types/document';
-import { decompressFile } from '@/utils/fileCompression';
 import { getDocumentById } from '@/services/documentFirebaseService';
+
+const base64ToBlob = (base64Data: string, fileType: string): Blob => {
+  try {
+    // Décoder le base64
+    const binaryString = atob(base64Data);
+    const bytes = new Uint8Array(binaryString.length);
+    
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    
+    return new Blob([bytes], { type: fileType });
+  } catch (error) {
+    console.error('Erreur lors de la conversion base64 vers blob:', error);
+    throw new Error('Erreur lors de la conversion du fichier');
+  }
+};
 
 export const downloadDocumentFile = async (documentData: DocumentData): Promise<void> => {
   try {
-    // Si le document a des données compressées, les utiliser
-    if (documentData.compressedData) {
-      console.log('📁 Téléchargement depuis données compressées');
-      const blob = decompressFile(documentData.compressedData, documentData.fileName, documentData.fileType);
+    // Si le document a des données base64, les utiliser
+    if (documentData.base64Data) {
+      console.log('📁 Téléchargement depuis données base64');
+      const blob = base64ToBlob(documentData.base64Data, documentData.fileType);
+      createDownloadLink(blob, documentData.fileName);
+    } else if (documentData.compressedData) {
+      // Fallback pour anciens documents compressés
+      console.log('📁 Téléchargement depuis données compressées (ancien format)');
+      const blob = base64ToBlob(documentData.compressedData, documentData.fileType);
       createDownloadLink(blob, documentData.fileName);
     } else if (documentData.id) {
-      // Récupérer les données compressées depuis Firestore
-      console.log('📁 Récupération des données compressées depuis Firestore');
+      // Récupérer les données depuis Firestore
+      console.log('📁 Récupération des données depuis Firestore');
       const docData = await getDocumentById(documentData.id);
       
-      if (docData?.compressedData) {
-        const blob = decompressFile(docData.compressedData, documentData.fileName, documentData.fileType);
+      if (docData?.base64Data) {
+        const blob = base64ToBlob(docData.base64Data, documentData.fileType);
+        createDownloadLink(blob, documentData.fileName);
+      } else if (docData?.compressedData) {
+        // Fallback pour anciens documents
+        const blob = base64ToBlob(docData.compressedData, documentData.fileType);
         createDownloadLink(blob, documentData.fileName);
       } else {
         throw new Error('Données du document non trouvées');
       }
     } else if (documentData.downloadURL) {
-      // Fallback pour les anciens documents avec URL
+      // Fallback pour les très anciens documents avec URL
       console.log('📁 Téléchargement depuis URL (ancien système)');
       const link = window.document.createElement('a');
       link.href = documentData.downloadURL;
