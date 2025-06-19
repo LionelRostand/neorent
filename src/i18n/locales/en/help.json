@@ -6,7 +6,7 @@
     "management": "Help Center",
     "description": "Find answers and get support",
     "searchHelp": "Search help articles",
-    "categories": "Categories",
+    "categories": "All Categories",
     "articles": "Articles",
     "faq": "Frequently Asked Questions",
     "tutorials": "Tutorials",
@@ -18,6 +18,7 @@
     "gettingStarted": "Getting Started",
     "userGuides": "User Guides",
     "troubleshooting": "Troubleshooting",
-    "apiReference": "API Reference"
+    "apiReference": "API Reference",
+    "clearFilters": "Clear all filters"
   }
 }

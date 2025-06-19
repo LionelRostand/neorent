@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 
 interface CategoryFiltersProps {
@@ -15,6 +16,8 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
   onCategoryClick,
   onClearFilters
 }) => {
+  const { t } = useTranslation();
+
   const handleCategoryClick = (category: string) => {
     if (selectedCategory === category) {
       onClearFilters();
@@ -34,8 +37,8 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
           }`}
           onClick={onClearFilters}
         >
-          <span className="hidden sm:inline">Toutes les catégories</span>
-          <span className="sm:hidden">Toutes</span>
+          <span className="hidden sm:inline">{t('help.categories')}</span>
+          <span className="sm:hidden">{t('help.categories')}</span>
         </Badge>
         {categories.map(category => (
           <Badge 
@@ -58,13 +61,13 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
       {/* Indicateur de filtre actif */}
       {selectedCategory && (
         <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-600 px-1">
-          <span>Filtré par :</span>
+          <span>{t('help.categories')} :</span>
           <Badge variant="secondary" className="text-xs">{selectedCategory}</Badge>
           <button
             onClick={onClearFilters}
             className="text-blue-600 hover:text-blue-800 underline text-xs md:text-sm"
           >
-            Effacer les filtres
+            {t('help.noResultsDescription')}
           </button>
         </div>
       )}
