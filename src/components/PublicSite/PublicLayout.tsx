@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -184,12 +185,37 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           <div className="mt-8 pt-8 border-t border-gray-800">
             <div className="text-center text-gray-400 text-sm space-y-2">
               <p className="font-medium">
-                {t('publicSite.footer.intellectualProperty')}
+                <a 
+                  href="https://neotech-consulting.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors underline"
+                >
+                  {t('publicSite.footer.intellectualProperty')}
+                </a>
               </p>
               <p>
-                {t('publicSite.footer.trademarks')}
+                <a 
+                  href="https://neotech-consulting.com/trademarks" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors underline"
+                >
+                  {t('publicSite.footer.trademarks')}
+                </a>
               </p>
-              <p>&copy; 2025 Neotech-consulting. {t('publicSite.footer.copyright')}</p>
+              <p>
+                &copy; 2025 
+                <a 
+                  href="https://neotech-consulting.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors underline ml-1"
+                >
+                  Neotech-consulting
+                </a>
+                . {t('publicSite.footer.copyright')}
+              </p>
             </div>
           </div>
         </div>
