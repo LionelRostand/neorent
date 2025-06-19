@@ -19,6 +19,8 @@
     "userGuides": "Guides Utilisateur",
     "troubleshooting": "Dépannage",
     "apiReference": "Référence API",
-    "clearFilters": "Effacer tous les filtres"
+    "clearFilters": "Effacer tous les filtres",
+    "technicalAspect": "Aspect technique",
+    "functionalUsage": "Utilisation fonctionnelle"
   }
 }

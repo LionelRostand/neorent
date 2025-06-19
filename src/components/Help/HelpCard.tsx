@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { LucideIcon } from 'lucide-react';
@@ -18,6 +19,7 @@ interface HelpCardProps {
 }
 
 const HelpCard: React.FC<HelpCardProps> = ({ section }) => {
+  const { t } = useTranslation();
   const Icon = section.icon;
 
   return (
@@ -43,7 +45,7 @@ const HelpCard: React.FC<HelpCardProps> = ({ section }) => {
         <div className="space-y-3">
           <div>
             <h4 className="font-semibold text-xs md:text-sm text-blue-700 mb-1">
-              Aspect technique
+              {t('help.technicalAspect')}
             </h4>
             <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
               {section.technical}
@@ -52,7 +54,7 @@ const HelpCard: React.FC<HelpCardProps> = ({ section }) => {
           
           <div>
             <h4 className="font-semibold text-xs md:text-sm text-green-700 mb-1">
-              Utilisation fonctionnelle
+              {t('help.functionalUsage')}
             </h4>
             <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
               {section.functional}

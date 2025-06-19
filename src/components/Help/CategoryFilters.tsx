@@ -67,7 +67,7 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
             onClick={onClearFilters}
             className="text-blue-600 hover:text-blue-800 underline text-xs md:text-sm"
           >
-            {t('help.noResultsDescription')}
+            {t('help.clearFilters')}
           </button>
         </div>
       )}
