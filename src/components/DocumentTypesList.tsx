@@ -44,6 +44,9 @@ const DocumentTypesList: React.FC<DocumentTypesListProps> = ({
     return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
   };
 
+  console.log('Documents disponibles:', documents);
+  console.log('Types de documents:', documentTypes.map(dt => dt.key));
+
   return (
     <div>
       <h3 className="text-lg font-semibold mb-4">
@@ -57,6 +60,9 @@ const DocumentTypesList: React.FC<DocumentTypesListProps> = ({
           {documentTypes.map((docType) => {
             const document = getDocumentByType(docType.key);
             const Icon = docType.icon;
+            const documentExists = !!document;
+            
+            console.log(`Document ${docType.key}:`, { document, documentExists });
             
             return (
               <Card key={docType.key}>
@@ -82,7 +88,7 @@ const DocumentTypesList: React.FC<DocumentTypesListProps> = ({
                       <DocumentStatusBadge
                         documentType={docType.key}
                         required={docType.required}
-                        documentExists={!!document}
+                        documentExists={documentExists}
                       />
                       <DocumentActions
                         document={document}

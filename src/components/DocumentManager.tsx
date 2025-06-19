@@ -61,7 +61,9 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
         return;
       }
       
+      console.log('Chargement des documents pour:', { tenantId, roommateId });
       const docs = await getDocuments(tenantId, roommateId);
+      console.log('Documents chargés:', docs);
       setDocuments(docs);
     } catch (error) {
       console.error('Error loading documents:', error);
@@ -95,6 +97,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
       );
       
       // Reload documents après upload réussi
+      console.log('Upload réussi, rechargement des documents...');
       await loadDocuments();
       
       toast({

@@ -16,6 +16,8 @@ const DocumentStatusBadge: React.FC<DocumentStatusBadgeProps> = ({
 }) => {
   const { t } = useTranslation();
   
+  console.log(`Badge pour ${documentType}:`, { required, documentExists });
+  
   if (documentExists) {
     return <Badge className="bg-green-100 text-green-800">✓ Uploadé</Badge>;
   } else {
