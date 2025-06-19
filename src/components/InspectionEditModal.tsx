@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +22,7 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
   onClose,
   onSave
 }) => {
+  const { t } = useTranslation();
   const { properties } = useFirebaseProperties();
   
   const [formData, setFormData] = useState({
@@ -66,7 +68,7 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
         // Générer la liste des chambres basée sur totalRooms
         const rooms = [];
         for (let i = 1; i <= (selectedProperty.totalRooms || 0); i++) {
-          rooms.push(`Chambre ${i}`);
+          rooms.push(`${t('inspections.room')} ${i}`);
         }
         setAvailableRooms(rooms);
       } else {
@@ -75,7 +77,7 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
     } else {
       setAvailableRooms([]);
     }
-  }, [formData.property, properties]);
+  }, [formData.property, properties, t]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,12 +99,12 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Modifier l'État des Lieux</DialogTitle>
+          <DialogTitle>{t('inspections.modifyInspection')}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="title">Titre *</Label>
+              <Label htmlFor="title">{t('inspections.inspectionTitle')} *</Label>
               <Input
                 id="title"
                 value={formData.title}
@@ -112,37 +114,37 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
             </div>
 
             <div>
-              <Label htmlFor="type">Type *</Label>
+              <Label htmlFor="type">{t('inspections.inspectionType')} *</Label>
               <Select value={formData.type} onValueChange={(value) => handleChange('type', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Type d'état des lieux" />
+                  <SelectValue placeholder={t('inspections.selectInspectionType')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Entrée">État des lieux d'entrée</SelectItem>
-                  <SelectItem value="Sortie">État des lieux de sortie</SelectItem>
-                  <SelectItem value="Intermédiaire">État des lieux intermédiaire</SelectItem>
+                  <SelectItem value="Entrée">{t('inspections.entryInspection')}</SelectItem>
+                  <SelectItem value="Sortie">{t('inspections.exitInspection')}</SelectItem>
+                  <SelectItem value="Intermédiaire">{t('inspections.intermediateInspection')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <Label htmlFor="contractType">Type de contrat *</Label>
+              <Label htmlFor="contractType">{t('inspections.contractType')} *</Label>
               <Select value={formData.contractType} onValueChange={(value) => handleChange('contractType', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Type de contrat" />
+                  <SelectValue placeholder={t('inspections.contractType')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Bail locatif">Bail locatif</SelectItem>
-                  <SelectItem value="Bail colocatif">Bail colocatif</SelectItem>
+                  <SelectItem value="Bail locatif">{t('inspections.rentalLease')}</SelectItem>
+                  <SelectItem value="Bail colocatif">{t('inspections.colocationLease')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <Label htmlFor="property">Bien immobilier *</Label>
+              <Label htmlFor="property">{t('inspections.property')} *</Label>
               <Select value={formData.property} onValueChange={(value) => handleChange('property', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un bien" />
+                  <SelectValue placeholder={t('inspections.selectProperty')} />
                 </SelectTrigger>
                 <SelectContent>
                   {properties.map((property) => (
@@ -156,10 +158,10 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
 
             {isColocatifContract && formData.property && (
               <div>
-                <Label htmlFor="roomNumber">Chambre</Label>
+                <Label htmlFor="roomNumber">{t('inspections.room')}</Label>
                 <Select value={formData.roomNumber} onValueChange={(value) => handleChange('roomNumber', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Sélectionner une chambre" />
+                    <SelectValue placeholder={t('inspections.selectRoom')} />
                   </SelectTrigger>
                   <SelectContent>
                     {availableRooms.map((room) => (
@@ -174,7 +176,7 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
 
             <div>
               <Label htmlFor="tenant">
-                {formData.contractType === 'Bail locatif' ? 'Locataire *' : 'Colocataire *'}
+                {formData.contractType === 'Bail locatif' ? `${t('inspections.tenant')} *` : `${t('inspections.roommate')} *`}
               </Label>
               <Input
                 id="tenant"
@@ -185,7 +187,7 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
             </div>
 
             <div>
-              <Label htmlFor="date">Date *</Label>
+              <Label htmlFor="date">{t('inspections.date')} *</Label>
               <Input
                 id="date"
                 type="date"
@@ -196,7 +198,7 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
             </div>
 
             <div>
-              <Label htmlFor="inspector">Inspecteur *</Label>
+              <Label htmlFor="inspector">{t('inspections.inspector')} *</Label>
               <Input
                 id="inspector"
                 value={formData.inspector}
@@ -206,48 +208,48 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
             </div>
 
             <div>
-              <Label htmlFor="status">Statut</Label>
+              <Label htmlFor="status">{t('inspections.status')}</Label>
               <Select value={formData.status} onValueChange={(value) => handleChange('status', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Statut de l'inspection" />
+                  <SelectValue placeholder={t('inspections.status')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Planifié">Planifié</SelectItem>
-                  <SelectItem value="En cours">En cours</SelectItem>
-                  <SelectItem value="Terminé">Terminé</SelectItem>
+                  <SelectItem value="Planifié">{t('inspections.planned')}</SelectItem>
+                  <SelectItem value="En cours">{t('inspections.inProgress')}</SelectItem>
+                  <SelectItem value="Terminé">{t('inspections.completed')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t('inspections.description')}</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => handleChange('description', e.target.value)}
-              placeholder="Description de l'état des lieux..."
+              placeholder={t('inspections.descriptionPlaceholder')}
               className="min-h-[80px]"
             />
           </div>
 
           <div>
-            <Label htmlFor="observations">Observations</Label>
+            <Label htmlFor="observations">{t('inspections.observations')}</Label>
             <Textarea
               id="observations"
               value={formData.observations}
               onChange={(e) => handleChange('observations', e.target.value)}
-              placeholder="Observations particulières..."
+              placeholder={t('inspections.observationsPlaceholder')}
               className="min-h-[80px]"
             />
           </div>
 
           <div className="flex justify-end space-x-3 pt-4">
             <Button type="button" variant="outline" onClick={onClose}>
-              Annuler
+              {t('inspections.cancel')}
             </Button>
             <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-              Sauvegarder
+              {t('inspections.save')}
             </Button>
           </div>
         </form>

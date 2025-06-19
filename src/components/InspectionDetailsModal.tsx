@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,6 +31,7 @@ interface InspectionDetailsModalProps {
 }
 
 const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: InspectionDetailsModalProps) => {
+  const { t } = useTranslation();
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
   const handleGeneratePDF = () => {
@@ -96,7 +98,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Détails de l'État des Lieux</DialogTitle>
+            <DialogTitle className="text-xl font-bold">{t('inspections.viewDetails')}</DialogTitle>
           </DialogHeader>
           
           <div className="space-y-6">
@@ -105,7 +107,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <ClipboardList className="h-5 w-5" />
-                  Informations Générales
+                  {t('inspections.generalInformation')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -115,10 +117,11 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
                     <p className="text-gray-600">{inspection.type}</p>
                   </div>
                   <Badge 
-                    variant={inspection.status === 'Terminé' ? 'default' : inspection.status === 'En cours' ? 'secondary' : 'outline'}
+                    variant={inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'default' : 
+                           inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'secondary' : 'outline'}
                     className={
-                      inspection.status === 'Terminé' ? 'bg-green-100 text-green-800' : 
-                      inspection.status === 'En cours' ? 'bg-yellow-100 text-yellow-800' : 
+                      inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'bg-green-100 text-green-800' : 
+                      inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800' : 
                       'bg-blue-100 text-blue-800'
                     }
                   >
@@ -129,11 +132,11 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center text-gray-600">
                     <Calendar className="mr-2 h-4 w-4" />
-                    <span>Date: {new Date(inspection.date).toLocaleDateString('fr-FR')}</span>
+                    <span>{t('inspections.date')}: {new Date(inspection.date).toLocaleDateString('fr-FR')}</span>
                   </div>
                   <div className="flex items-center text-gray-600">
                     <User className="mr-2 h-4 w-4" />
-                    <span>Inspecteur: {inspection.inspector}</span>
+                    <span>{t('inspections.inspector')}: {inspection.inspector}</span>
                   </div>
                 </div>
               </CardContent>
@@ -144,7 +147,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building2 className="h-5 w-5" />
-                  Détails du Bien Immobilier
+                  {t('inspections.propertyDetails')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -152,7 +155,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
                   <div className="flex items-center text-gray-600">
                     <Building2 className="mr-2 h-4 w-4" />
                     <div>
-                      <span className="font-medium">Propriété: </span>
+                      <span className="font-medium">{t('inspections.property')}: </span>
                       <span>{inspection.property}</span>
                     </div>
                   </div>
@@ -161,7 +164,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
                     <User className="mr-2 h-4 w-4" />
                     <div>
                       <span className="font-medium">
-                        {isColocatif ? 'Colocataire: ' : 'Locataire: '}
+                        {isColocatif ? `${t('inspections.roommate')}: ` : `${t('inspections.tenant')}: `}
                       </span>
                       <span>{inspection.tenant}</span>
                     </div>
@@ -171,7 +174,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
                     <div className="flex items-center text-gray-600">
                       <MapPin className="mr-2 h-4 w-4" />
                       <div>
-                        <span className="font-medium">Chambre: </span>
+                        <span className="font-medium">{t('inspections.room')}: </span>
                         <span>{inspection.roomNumber}</span>
                       </div>
                     </div>
@@ -179,8 +182,8 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
 
                   <div className="bg-gray-50 p-3 rounded-md">
                     <p className="text-sm text-gray-600">
-                      <span className="font-medium">Type de contrat: </span>
-                      {isColocatif ? 'Bail colocatif' : 'Bail locatif'}
+                      <span className="font-medium">{t('inspections.contractType')}: </span>
+                      {isColocatif ? t('inspections.colocationLease') : t('inspections.rentalLease')}
                     </p>
                   </div>
                 </div>
@@ -193,13 +196,13 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="h-5 w-5" />
-                    Détails de l'Inspection
+                    {t('inspections.inspectionDetails')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {inspection.description && (
                     <div>
-                      <h4 className="font-medium mb-2">Description</h4>
+                      <h4 className="font-medium mb-2">{t('inspections.description')}</h4>
                       <p className="text-gray-600 text-sm bg-gray-50 p-3 rounded-md">
                         {inspection.description}
                       </p>
@@ -207,7 +210,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
                   )}
                   {inspection.observations && (
                     <div>
-                      <h4 className="font-medium mb-2">Observations</h4>
+                      <h4 className="font-medium mb-2">{t('inspections.observations')}</h4>
                       <p className="text-gray-600 text-sm bg-gray-50 p-3 rounded-md">
                         {inspection.observations}
                       </p>
@@ -220,15 +223,15 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
             {/* Actions */}
             <div className="flex justify-between gap-4 pt-4 border-t">
               <Button variant="outline" onClick={onClose}>
-                Fermer
+                {t('inspections.close')}
               </Button>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={handleEditInspection}>
-                  Modifier l'état des lieux
+                  {t('inspections.modify')}
                 </Button>
                 <Button onClick={handleGeneratePDF} className="bg-blue-600 hover:bg-blue-700">
                   <FileText className="mr-2 h-4 w-4" />
-                  Générer PDF
+                  {t('inspections.generatePDF')}
                 </Button>
               </div>
             </div>

@@ -30,6 +30,7 @@
     "totalInspections": "total inspections",
     "inProgressInspections": "inspections in progress",
     "plannedInspections": "planned inspections",
+    "completedInspections": "completed inspections",
     "inspector": "Inspector",
     "newInspection": "New Inspection",
     "inspectionTitle": "Inspection Title",
@@ -61,6 +62,16 @@
     "observations": "Observations",
     "observationsPlaceholder": "Special observations...",
     "cancel": "Cancel",
-    "createInspection": "Create inspection"
+    "createInspection": "Create inspection",
+    "modifyInspection": "Modify Inspection",
+    "generalInformation": "General Information",
+    "propertyDetails": "Property Details",
+    "inspectionDetails": "Inspection Details",
+    "close": "Close",
+    "modify": "Modify inspection",
+    "generatePDF": "Generate PDF",
+    "save": "Save",
+    "status": "Status",
+    "actions": "Actions"
   }
 }
