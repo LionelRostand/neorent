@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -101,22 +103,22 @@ const LoginForm = () => {
     <Card className="w-full max-w-md mx-auto bg-white shadow-xl">
       <CardHeader className="text-center bg-green-500 text-white rounded-t-lg">
         <CardTitle className="text-2xl font-bold">
-          Connexion à Neo Rent
+          {t('publicSite.login.formTitle')}
         </CardTitle>
         <p className="text-green-100">
-          Accédez à votre espace de gestion immobilière
+          {t('publicSite.login.formSubtitle')}
         </p>
       </CardHeader>
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-gray-700">Email</Label>
+            <Label htmlFor="email" className="text-gray-700">{t('publicSite.login.email')}</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 id="email"
                 type="email"
-                placeholder="votre@email.com"
+                placeholder={t('publicSite.login.emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
@@ -127,13 +129,13 @@ const LoginForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-gray-700">Mot de passe</Label>
+            <Label htmlFor="password" className="text-gray-700">{t('publicSite.login.password')}</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
+                placeholder={t('publicSite.login.passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10 pr-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
@@ -152,12 +154,12 @@ const LoginForm = () => {
           </div>
 
           <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={isLoading}>
-            {isLoading ? 'Connexion...' : 'Se connecter'}
+            {isLoading ? t('publicSite.login.signingIn') : t('publicSite.login.signIn')}
           </Button>
           
           <div className="text-center">
             <a href="#" className="text-sm text-green-600 hover:underline">
-              Mot de passe oublié ?
+              {t('publicSite.login.forgotPassword')}
             </a>
           </div>
           
@@ -165,10 +167,9 @@ const LoginForm = () => {
             <div className="flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
               <div className="text-sm">
-                <p className="font-medium text-blue-800 mb-1">Information importante :</p>
+                <p className="font-medium text-blue-800 mb-1">{t('publicSite.login.importantInfo')}</p>
                 <p className="text-blue-700">
-                  Votre compte doit être configuré par votre gestionnaire immobilier avant la première connexion. 
-                  Si vous obtenez une erreur "Accès refusé", contactez votre gestionnaire pour activer votre compte.
+                  {t('publicSite.login.profileWarning')}
                 </p>
               </div>
             </div>

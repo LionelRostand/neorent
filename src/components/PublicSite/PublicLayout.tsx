@@ -148,6 +148,21 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                     {t('publicSite.contact.hero.title')}
                   </Link>
                 </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                    {t('publicSite.footer.legalNotice')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                    {t('publicSite.footer.privacyPolicy')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                    {t('publicSite.footer.termsOfService')}
+                  </a>
+                </li>
               </ul>
             </div>
             
@@ -166,8 +181,17 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             </div>
           </div>
           
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
-            <p>&copy; 2025 Neotech-consulting. {t('publicSite.footer.copyright')}</p>
+          {/* Copyright et protection intellectuelle */}
+          <div className="mt-8 pt-8 border-t border-gray-800">
+            <div className="text-center text-gray-400 text-sm space-y-2">
+              <p className="font-medium">
+                {t('publicSite.footer.intellectualProperty')}
+              </p>
+              <p>
+                {t('publicSite.footer.trademarks')}
+              </p>
+              <p>&copy; 2025 Neotech-consulting. {t('publicSite.footer.copyright')}</p>
+            </div>
           </div>
         </div>
       </footer>

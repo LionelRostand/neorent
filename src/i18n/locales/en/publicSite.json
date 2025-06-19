@@ -95,11 +95,31 @@
         "title": "Contact"
       }
     },
+    "login": {
+      "title": "Login to your space",
+      "subtitle": "Manage your real estate properties with ease",
+      "formTitle": "Login to Neo Rent",
+      "formSubtitle": "Access your property management space",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "signIn": "Sign in",
+      "signingIn": "Signing in...",
+      "forgotPassword": "Forgot password?",
+      "importantInfo": "Important information:",
+      "profileWarning": "Your account must be configured by your property manager before first login. If you get an \"Access denied\" error, contact your manager to activate your account."
+    },
     "footer": {
       "description": "The complete platform for modern property management. Simplify your operations and grow your business with Neo Rent.",
       "usefulLinks": "Useful Links",
       "contact": "Contact",
-      "copyright": "All rights reserved."
+      "copyright": "All rights reserved.",
+      "legalNotice": "Legal Notice",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "intellectualProperty": "© 2025 Neo Rent - Property Management Platform. All rights reserved. Any unauthorized reproduction, distribution or use of this content is strictly prohibited.",
+      "trademarks": "Neo Rent® is a registered trademark of Neotech-consulting. All other mentioned trademarks are the property of their respective owners."
     }
   }
 }

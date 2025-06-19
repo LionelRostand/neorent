@@ -95,11 +95,31 @@
         "title": "Contact"
       }
     },
+    "login": {
+      "title": "Connexion à votre espace",
+      "subtitle": "Gérez vos biens immobiliers en toute simplicité",
+      "formTitle": "Connexion à Neo Rent",
+      "formSubtitle": "Accédez à votre espace de gestion immobilière",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "signIn": "Se connecter",
+      "signingIn": "Connexion...",
+      "forgotPassword": "Mot de passe oublié ?",
+      "importantInfo": "Information importante :",
+      "profileWarning": "Votre compte doit être configuré par votre gestionnaire immobilier avant la première connexion. Si vous obtenez une erreur \"Accès refusé\", contactez votre gestionnaire pour activer votre compte."
+    },
     "footer": {
       "description": "La plateforme complète pour la gestion immobilière moderne. Simplifiez vos opérations et développez votre entreprise avec Neo Rent.",
       "usefulLinks": "Liens Utiles",
       "contact": "Contact",
-      "copyright": "Tous droits réservés."
+      "copyright": "Tous droits réservés.",
+      "legalNotice": "Mentions légales",
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfService": "Conditions d'utilisation",
+      "intellectualProperty": "© 2025 Neo Rent - Plateforme de gestion immobilière. Tous droits réservés. Toute reproduction, distribution ou utilisation non autorisée de ce contenu est strictement interdite.",
+      "trademarks": "Neo Rent® est une marque déposée de Neotech-consulting. Toutes les autres marques mentionnées sont la propriété de leurs propriétaires respectifs."
     }
   }
 }
