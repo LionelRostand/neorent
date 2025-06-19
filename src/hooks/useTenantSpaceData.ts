@@ -52,7 +52,7 @@ export const useTenantSpaceData = () => {
   // Tenant/roommate data for components - S'assurer que les données sont correctement formatées
   const mockTenantData = currentProfile ? {
     id: currentProfile.id || 1,
-    name: currentProfile.name || 'Nom non disponible',
+    name: currentProfile.name?.trim() || 'Nom non disponible',
     email: currentProfile.email || 'Email non disponible',
     phone: currentProfile.phone || "0123456789",
     address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
@@ -70,7 +70,7 @@ export const useTenantSpaceData = () => {
 
   console.log('Rendered data:', { mockPropertyData, mockTenantData });
   console.log('Current profile for header:', {
-    name: currentProfile?.name,
+    name: currentProfile?.name?.trim(),
     roomNumber: currentProfile?.roomNumber,
     type: currentType
   });
@@ -78,7 +78,7 @@ export const useTenantSpaceData = () => {
   return {
     currentProfile: currentProfile ? {
       ...currentProfile,
-      name: currentProfile.name || 'Nom non disponible',
+      name: currentProfile.name?.trim() || 'Nom non disponible',
       roomNumber: currentProfile.roomNumber || null
     } : null,
     currentType,

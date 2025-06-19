@@ -20,13 +20,16 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   // Convert French type to English for translation key
   const typeKey = currentType === 'colocataire' ? 'roommate' : 'tenant';
   const translatedType = t(`tenantSpace.${typeKey}`);
+  
+  // Clean the name by trimming whitespace
+  const cleanName = currentProfile?.name?.trim() || 'Utilisateur';
 
   console.log('TenantSpaceHeader render:', {
     currentProfile,
     currentType,
     typeKey,
     translatedType,
-    name: currentProfile?.name,
+    cleanName,
     roomNumber: currentProfile?.roomNumber
   });
 
@@ -38,7 +41,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {t('tenantSpace.title', { type: translatedType })}
           </h1>
           <p className="text-gray-600 mt-2 text-sm sm:text-base break-words">
-            {t('tenantSpace.welcome', { name: currentProfile?.name || 'Utilisateur' })}
+            {t('tenantSpace.welcome', { name: cleanName })}
           </p>
           {currentType === 'colocataire' && currentProfile?.roomNumber && (
             <p className="text-gray-500 mt-1 text-sm">
