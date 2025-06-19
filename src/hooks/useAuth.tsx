@@ -28,14 +28,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [userProfile, setUserProfile] = useState<any | null>(null);
   const [userType, setUserType] = useState<'locataire' | 'colocataire' | 'admin' | 'employee' | null>(null);
   const [dataLoaded, setDataLoaded] = useState(false);
-  
-  // Only initialize Firebase hooks after component mounts
   const [hooksInitialized, setHooksInitialized] = useState(false);
   
-  // Initialize hooks conditionally
-  const { tenants } = hooksInitialized ? useFirebaseTenants() : { tenants: [] };
-  const { roommates } = hooksInitialized ? useFirebaseRoommates() : { roommates: [] };
-  const { getUserRole, userRoles } = hooksInitialized ? useFirebaseUserRoles() : { getUserRole: async () => null, userRoles: [] };
+  // Always call hooks - never conditionally
+  const { tenants } = useFirebaseTenants();
+  const { roommates } = useFirebaseRoommates();
+  const { getUserRole, userRoles } = useFirebaseUserRoles();
 
   // Initialize hooks after mount
   useEffect(() => {
