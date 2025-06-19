@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Euro } from 'lucide-react';
@@ -10,18 +11,20 @@ interface CategoryStatsProps {
 }
 
 const CategoryStats = ({ categoryStats, propertyStats }: CategoryStatsProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>Répartition par priorité</CardTitle>
+          <CardTitle>{t('maintenance.maintenanceHistory.categoryStats')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {Object.entries(categoryStats).map(([category, count]) => (
               <div key={category} className="flex items-center justify-between">
                 <span className="text-sm font-medium">{category}</span>
-                <Badge variant="secondary">{count} intervention{count > 1 ? 's' : ''}</Badge>
+                <Badge variant="secondary">{count} {count > 1 ? t('maintenance.interventions').toLowerCase() : t('maintenance.intervention')}</Badge>
               </div>
             ))}
           </div>
@@ -30,7 +33,7 @@ const CategoryStats = ({ categoryStats, propertyStats }: CategoryStatsProps) => 
       
       <Card>
         <CardHeader>
-          <CardTitle>Coûts par bien</CardTitle>
+          <CardTitle>{t('maintenance.maintenanceHistory.propertyStats')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">

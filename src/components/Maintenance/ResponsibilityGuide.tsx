@@ -11,101 +11,101 @@ const ResponsibilityGuide = () => {
 
   const proprietaireResponsibilities = [
     {
-      category: t('maintenance.majorWork'),
+      category: t('maintenance.responsibilityGuide.majorWork'),
       items: [
-        t('maintenance.structuralWallRepairs'),
-        t('maintenance.roofWaterproofing'),
-        t('maintenance.thermalInsulation'),
-        t('maintenance.foundationsAndStructure')
+        t('maintenance.responsibilityGuide.structuralWallRepairs'),
+        t('maintenance.responsibilityGuide.roofWaterproofing'),
+        t('maintenance.responsibilityGuide.thermalInsulation'),
+        t('maintenance.responsibilityGuide.foundationsAndStructure')
       ]
     },
     {
-      category: t('maintenance.mainInstallations'),
+      category: t('maintenance.responsibilityGuide.mainInstallations'),
       items: [
-        t('maintenance.generalPlumbingAndPipes'),
-        t('maintenance.electricalInstallation'),
-        t('maintenance.collectiveHeatingSystem'),
-        t('maintenance.elevator'),
-        t('maintenance.intercomAndDigicode')
+        t('maintenance.responsibilityGuide.generalPlumbingAndPipes'),
+        t('maintenance.responsibilityGuide.electricalInstallation'),
+        t('maintenance.responsibilityGuide.collectiveHeatingSystem'),
+        t('maintenance.responsibilityGuide.elevator'),
+        t('maintenance.responsibilityGuide.intercomAndDigicode')
       ]
     },
     {
-      category: t('maintenance.securityEquipment'),
+      category: t('maintenance.responsibilityGuide.securityEquipment'),
       items: [
-        t('maintenance.smokeDetectorsSupply'),
-        t('maintenance.guardrailsAndRamps'),
-        t('maintenance.commonAreasLighting'),
-        t('maintenance.fireSecuritySystem')
+        t('maintenance.responsibilityGuide.smokeDetectorsSupply'),
+        t('maintenance.responsibilityGuide.guardrailsAndRamps'),
+        t('maintenance.responsibilityGuide.commonAreasLighting'),
+        t('maintenance.responsibilityGuide.fireSecuritySystem')
       ]
     },
     {
-      category: t('maintenance.exteriorJoinery'),
+      category: t('maintenance.responsibilityGuide.exteriorJoinery'),
       items: [
-        t('maintenance.windowsAndShutters'),
-        t('maintenance.apartmentEntranceDoor'),
-        t('maintenance.entranceDoorLockReplacement'),
-        t('maintenance.sealingJoints')
+        t('maintenance.responsibilityGuide.windowsAndShutters'),
+        t('maintenance.responsibilityGuide.apartmentEntranceDoor'),
+        t('maintenance.responsibilityGuide.entranceDoorLockReplacement'),
+        t('maintenance.responsibilityGuide.sealingJoints')
       ]
     }
   ];
 
   const locataireResponsibilities = [
     {
-      category: t('maintenance.currentMaintenance'),
+      category: t('maintenance.responsibilityGuide.currentMaintenance'),
       items: [
-        t('maintenance.regularHouseholdCleaning'),
-        t('maintenance.siliconeJointsMaintenance'),
-        t('maintenance.windowCleaning'),
-        t('maintenance.privateGreenSpacesMaintenance')
+        t('maintenance.responsibilityGuide.regularHouseholdCleaning'),
+        t('maintenance.responsibilityGuide.siliconeJointsMaintenance'),
+        t('maintenance.responsibilityGuide.windowCleaning'),
+        t('maintenance.responsibilityGuide.privateGreenSpacesMaintenance')
       ]
     },
     {
-      category: t('maintenance.minorRepairs'),
+      category: t('maintenance.responsibilityGuide.minorRepairs'),
       items: [
-        t('maintenance.lightBulbReplacement'),
-        t('maintenance.drainUnblocking'),
-        t('maintenance.leakyFaucetRepair'),
-        t('maintenance.plumbingJointsReplacement')
+        t('maintenance.responsibilityGuide.lightBulbReplacement'),
+        t('maintenance.responsibilityGuide.drainUnblocking'),
+        t('maintenance.responsibilityGuide.leakyFaucetRepair'),
+        t('maintenance.responsibilityGuide.plumbingJointsReplacement')
       ]
     },
     {
-      category: t('maintenance.equipmentInstallations'),
+      category: t('maintenance.responsibilityGuide.equipmentInstallations'),
       items: [
-        t('maintenance.individualBoilerMaintenance'),
-        t('maintenance.chimneySweeping'),
-        t('maintenance.vmcMaintenance'),
-        t('maintenance.smokeDetectorBattery')
+        t('maintenance.responsibilityGuide.individualBoilerMaintenance'),
+        t('maintenance.responsibilityGuide.chimneySweeping'),
+        t('maintenance.responsibilityGuide.vmcMaintenance'),
+        t('maintenance.responsibilityGuide.smokeDetectorBattery')
       ]
     },
     {
-      category: t('maintenance.normalWear'),
+      category: t('maintenance.responsibilityGuide.normalWear'),
       items: [
-        t('maintenance.paintAndWallpaper'),
-        t('maintenance.carpetAndFloorCoverings'),
-        t('maintenance.doorAndWindowHandles'),
-        t('maintenance.switchesAndOutlets')
+        t('maintenance.responsibilityGuide.paintAndWallpaper'),
+        t('maintenance.responsibilityGuide.carpetAndFloorCoverings'),
+        t('maintenance.responsibilityGuide.doorAndWindowHandles'),
+        t('maintenance.responsibilityGuide.switchesAndOutlets')
       ]
     }
   ];
 
   const specialCases = [
     {
-      title: t('maintenance.hiddenDefects'),
-      description: t('maintenance.hiddenDefectsDescription'),
-      responsibility: t('maintenance.ownerTag'),
-      details: t('maintenance.ownerDefectsDetail')
+      title: t('maintenance.responsibilityGuide.hiddenDefects'),
+      description: t('maintenance.responsibilityGuide.hiddenDefectsDescription'),
+      responsibility: t('maintenance.responsibilityGuide.ownerTag'),
+      details: t('maintenance.responsibilityGuide.ownerDefectsDetail')
     },
     {
-      title: t('maintenance.tenantDegradations'),
-      description: t('maintenance.tenantDegradationsDescription'),
-      responsibility: t('maintenance.tenantTag'),
-      details: t('maintenance.tenantDegradationsDetail')
+      title: t('maintenance.responsibilityGuide.tenantDegradations'),
+      description: t('maintenance.responsibilityGuide.tenantDegradationsDescription'),
+      responsibility: t('maintenance.responsibilityGuide.tenantTag'),
+      details: t('maintenance.responsibilityGuide.tenantDegradationsDetail')
     },
     {
-      title: t('maintenance.urgencies'),
-      description: t('maintenance.urgenciesDescription'),
-      responsibility: t('maintenance.ownerTag'),
-      details: t('maintenance.urgenciesDetail')
+      title: t('maintenance.responsibilityGuide.urgencies'),
+      description: t('maintenance.responsibilityGuide.urgenciesDescription'),
+      responsibility: t('maintenance.responsibilityGuide.ownerTag'),
+      details: t('maintenance.responsibilityGuide.urgenciesDetail')
     }
   ];
 
@@ -116,10 +116,10 @@ const ResponsibilityGuide = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Home className="h-5 w-5 text-blue-600" />
-              {t('maintenance.ownerResponsibility')}
+              {t('maintenance.responsibilityGuide.ownerResponsibility')}
             </CardTitle>
             <CardDescription>
-              {t('maintenance.ownerResponsibilityDescription')}
+              {t('maintenance.responsibilityGuide.ownerResponsibilityDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -149,10 +149,10 @@ const ResponsibilityGuide = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5 text-green-600" />
-              {t('maintenance.tenantResponsibility')}
+              {t('maintenance.responsibilityGuide.tenantResponsibility')}
             </CardTitle>
             <CardDescription>
-              {t('maintenance.tenantResponsibilityDescription')}
+              {t('maintenance.responsibilityGuide.tenantResponsibilityDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -183,10 +183,10 @@ const ResponsibilityGuide = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-orange-600" />
-            {t('maintenance.specialCases')}
+            {t('maintenance.responsibilityGuide.specialCases')}
           </CardTitle>
           <CardDescription>
-            {t('maintenance.specialSituationsDescription')}
+            {t('maintenance.responsibilityGuide.specialSituationsDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -198,7 +198,7 @@ const ResponsibilityGuide = () => {
                     {specialCase.title}
                   </CardTitle>
                   <Badge 
-                    variant={specialCase.responsibility === t('maintenance.ownerTag') ? 'default' : 'secondary'}
+                    variant={specialCase.responsibility === t('maintenance.responsibilityGuide.ownerTag') ? 'default' : 'secondary'}
                     className="w-fit"
                   >
                     {specialCase.responsibility}
@@ -220,17 +220,17 @@ const ResponsibilityGuide = () => {
 
       <Card className="bg-blue-50 border-blue-200">
         <CardHeader>
-          <CardTitle className="text-blue-800">{t('maintenance.legalReference')}</CardTitle>
+          <CardTitle className="text-blue-800">{t('maintenance.responsibilityGuide.legalReference')}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-blue-700">
-            {t('maintenance.maintenanceChargesFramework')}
+            {t('maintenance.responsibilityGuide.maintenanceChargesFramework')}
           </p>
           <ul className="mt-2 space-y-1 text-sm text-blue-700">
-            <li>• <strong>{t('maintenance.law1989')}</strong> {t('maintenance.rentalReports')}</li>
-            <li>• <strong>{t('maintenance.decree1987')}</strong> {t('maintenance.tenantRepairs')}</li>
-            <li>• <strong>{t('maintenance.article1724')}</strong> {t('maintenance.landlordObligations')}</li>
-            <li>• <strong>{t('maintenance.article1728')}</strong> {t('maintenance.tenantObligations')}</li>
+            <li>• <strong>{t('maintenance.responsibilityGuide.law1989')}</strong> {t('maintenance.responsibilityGuide.rentalReports')}</li>
+            <li>• <strong>{t('maintenance.responsibilityGuide.decree1987')}</strong> {t('maintenance.responsibilityGuide.tenantRepairs')}</li>
+            <li>• <strong>{t('maintenance.responsibilityGuide.article1724')}</strong> {t('maintenance.responsibilityGuide.landlordObligations')}</li>
+            <li>• <strong>{t('maintenance.responsibilityGuide.article1728')}</strong> {t('maintenance.responsibilityGuide.tenantObligations')}</li>
           </ul>
         </CardContent>
       </Card>
