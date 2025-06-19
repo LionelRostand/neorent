@@ -6,20 +6,18 @@ import {
   Home, 
   CreditCard, 
   FileText, 
-  User, 
-  Upload
+  MessageSquare, 
+  Settings,
+  ArrowUpCircle
 } from 'lucide-react';
-
-import TenantProfile from './TenantProfile';
-import PropertyInfo from './PropertyInfo';
-import RentPayment from './RentPayment';
+import TenantOverview from './TenantOverview';
 import RentHistory from './RentHistory';
-import TenantDocuments from './TenantDocuments';
-import DocumentUpload from './DocumentUpload';
+import DocumentManager from '../DocumentManager';
+import BankTransferDashboard from '../BankTransfer/BankTransferDashboard';
 
 interface TenantSpaceTabsProps {
   activeTab: string;
-  onTabChange: (value: string) => void;
+  onTabChange: (tab: string) => void;
   mockPropertyData: any;
   mockTenantData: any;
 }
@@ -32,54 +30,79 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const tabs = [
-    { id: 'overview', label: t('tenantSpace.tabs.overview'), icon: Home },
-    { id: 'payment', label: t('tenantSpace.tabs.payment'), icon: CreditCard },
-    { id: 'history', label: t('tenantSpace.tabs.history'), icon: FileText },
-    { id: 'documents', label: t('tenantSpace.tabs.documents'), icon: FileText },
-    { id: 'upload', label: t('tenantSpace.tabs.upload'), icon: Upload },
-    { id: 'profile', label: t('tenantSpace.tabs.profile'), icon: User }
-  ];
-
   return (
-    <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-      <div className="overflow-x-auto">
-        <TabsList className="grid w-full min-w-[600px] grid-cols-6 mb-4 md:mb-6 mx-1">
-          {tabs.map((tab) => (
-            <TabsTrigger 
-              key={tab.id} 
-              value={tab.id}
-              className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm p-2 sm:p-3"
-            >
-              <tab.icon className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="truncate text-[10px] sm:text-xs lg:text-sm">{tab.label}</span>
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </div>
+    <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-4">
+      <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 gap-1">
+        <TabsTrigger value="overview" className="flex items-center gap-2 text-xs sm:text-sm">
+          <Home className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('tenantSpace.tabs.overview')}</span>
+        </TabsTrigger>
+        <TabsTrigger value="payments" className="flex items-center gap-2 text-xs sm:text-sm">
+          <CreditCard className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('tenantSpace.tabs.payments')}</span>
+        </TabsTrigger>
+        <TabsTrigger value="transfers" className="flex items-center gap-2 text-xs sm:text-sm">
+          <ArrowUpCircle className="h-4 w-4" />
+          <span className="hidden sm:inline">Virements</span>
+        </TabsTrigger>
+        <TabsTrigger value="documents" className="flex items-center gap-2 text-xs sm:text-sm">
+          <FileText className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('tenantSpace.tabs.documents')}</span>
+        </TabsTrigger>
+        <TabsTrigger value="messages" className="flex items-center gap-2 text-xs sm:text-sm">
+          <MessageSquare className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('tenantSpace.tabs.messages')}</span>
+        </TabsTrigger>
+        <TabsTrigger value="settings" className="flex items-center gap-2 text-xs sm:text-sm">
+          <Settings className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('tenantSpace.tabs.settings')}</span>
+        </TabsTrigger>
+      </TabsList>
 
-      <TabsContent value="overview" className="space-y-4 md:space-y-6">
-        <PropertyInfo propertyData={mockPropertyData} />
+      <TabsContent value="overview">
+        <TenantOverview 
+          propertyData={mockPropertyData}
+          tenantData={mockTenantData}
+        />
       </TabsContent>
 
-      <TabsContent value="payment" className="space-y-4 md:space-y-6">
-        <RentPayment tenantData={mockTenantData} propertyData={mockPropertyData} />
-      </TabsContent>
-
-      <TabsContent value="history" className="space-y-4 md:space-y-6">
+      <TabsContent value="payments">
         <RentHistory />
       </TabsContent>
 
-      <TabsContent value="documents" className="space-y-4 md:space-y-6">
-        <TenantDocuments />
+      <TabsContent value="transfers">
+        <BankTransferDashboard />
       </TabsContent>
 
-      <TabsContent value="upload" className="space-y-4 md:space-y-6">
-        <DocumentUpload />
+      <TabsContent value="documents">
+        <DocumentManager 
+          tenantId="tenant-1"
+          tenantName={mockTenantData.name}
+        />
       </TabsContent>
 
-      <TabsContent value="profile" className="space-y-4 md:space-y-6">
-        <TenantProfile tenantData={mockTenantData} />
+      <TabsContent value="messages">
+        <div className="text-center py-8">
+          <MessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            {t('tenantSpace.messages.title')}
+          </h3>
+          <p className="text-gray-500">
+            {t('tenantSpace.messages.description')}
+          </p>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="settings">
+        <div className="text-center py-8">
+          <Settings className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            {t('tenantSpace.settings.title')}
+          </h3>
+          <p className="text-gray-500">
+            {t('tenantSpace.settings.description')}
+          </p>
+        </div>
       </TabsContent>
     </Tabs>
   );
