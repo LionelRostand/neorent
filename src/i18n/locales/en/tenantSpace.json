@@ -78,7 +78,7 @@
       "amountMustBePositive": "Amount must be greater than 0€.",
       "partialPaymentAlert": "Alert - Partial Payment",
       "overpaymentAlert": "Alert - Overpayment",
-      "amountDifference": "Attention - Different Amount",
+      "amountDifference": "Alert - Different Amount",
       "amountEntered": "Amount entered",
       "expectedAmount": "Expected amount",
       "missing": "Missing",
