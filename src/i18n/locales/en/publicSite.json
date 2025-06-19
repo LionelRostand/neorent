@@ -1,6 +1,8 @@
 
 {
   "publicSite": {
+    "home": "Home",
+    "login": "Login",
     "hero": {
       "title": "Simplify Your",
       "subtitle": "Property Management",
@@ -41,6 +43,63 @@
       "title": "Ready to Get Started?",
       "description": "Join thousands of property managers who are already using our platform to streamline their operations.",
       "startNow": "Start Now"
+    },
+    "about": {
+      "title": "About Us",
+      "subtitle": "Innovation in Property Management",
+      "description": "Discover our mission to revolutionize property management through innovative technology and exceptional service.",
+      "story": {
+        "title": "Our Story",
+        "paragraph1": "Founded with the vision of simplifying property management, Neo Rent has grown from a small startup to a leading platform trusted by thousands of property managers worldwide.",
+        "paragraph2": "Our team of experts combines years of real estate experience with cutting-edge technology to create solutions that truly make a difference in the daily lives of property managers.",
+        "paragraph3": "We believe that property management should be efficient, transparent, and stress-free for both landlords and tenants."
+      },
+      "values": {
+        "title": "Our Values",
+        "subtitle": "What drives us every day",
+        "clientProximity": {
+          "title": "Client Proximity",
+          "description": "We build lasting relationships with our clients through personalized support and attentive service."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "We continuously evolve our platform to meet the changing needs of the property management industry."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "We strive for excellence in everything we do, from product development to customer service."
+        },
+        "growth": {
+          "title": "Growth",
+          "description": "We support the growth of our clients' businesses through powerful tools and insights."
+        }
+      },
+      "stats": {
+        "title": "Our Impact",
+        "managedProperties": "Managed Properties",
+        "satisfiedClients": "Satisfied Clients",
+        "availability": "Uptime",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Our Team",
+        "subtitle": "Passionate experts dedicated to your success",
+        "dedication": {
+          "title": "Dedicated to Your Success",
+          "description": "Our diverse team of property management experts, developers, and customer success specialists work together to ensure you have the best possible experience with our platform."
+        }
+      }
+    },
+    "contact": {
+      "hero": {
+        "title": "Contact"
+      }
+    },
+    "footer": {
+      "description": "The complete platform for modern property management. Simplify your operations and grow your business with Neo Rent.",
+      "usefulLinks": "Useful Links",
+      "contact": "Contact",
+      "copyright": "All rights reserved."
     }
   }
 }
