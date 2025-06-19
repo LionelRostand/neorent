@@ -44,7 +44,7 @@ export const useDocumentStorage = () => {
     try {
       const base64Content = await convertFileToBase64(file);
       
-      // Créer l'objet document en s'assurant qu'on n'ajoute pas de valeurs undefined
+      // Créer l'objet document
       const documentData: any = {
         fileName: file.name,
         fileType: file.type,
@@ -67,12 +67,20 @@ export const useDocumentStorage = () => {
 
       console.log('Saving document to Firestore:', documentData);
 
-      const docRef = await addDoc(collection(db, 'documents'), documentData);
-      
-      return {
-        id: docRef.id,
-        ...documentData
-      };
+      // Stocker dans la sous-collection documents du colocataire
+      if (roommateId) {
+        const docRef = await addDoc(
+          collection(db, 'Rent_colocataires', roommateId, 'documents'), 
+          documentData
+        );
+        
+        return {
+          id: docRef.id,
+          ...documentData
+        };
+      } else {
+        throw new Error('RoommateId requis pour sauvegarder le document');
+      }
     } catch (error) {
       console.error('Erreur lors de l\'upload:', error);
       throw new Error('Erreur lors de l\'upload du document');
@@ -84,16 +92,15 @@ export const useDocumentStorage = () => {
   const getDocuments = async (tenantId?: string, roommateId?: string): Promise<DocumentData[]> => {
     setLoading(true);
     try {
-      let q;
-      if (tenantId) {
-        q = query(collection(db, 'documents'), where('tenantId', '==', tenantId));
-      } else if (roommateId) {
-        q = query(collection(db, 'documents'), where('roommateId', '==', roommateId));
-      } else {
-        throw new Error('TenantId ou RoommateId requis');
+      if (!roommateId) {
+        throw new Error('RoommateId requis pour récupérer les documents');
       }
 
-      const querySnapshot = await getDocs(q);
+      // Récupérer les documents de la sous-collection du colocataire
+      const querySnapshot = await getDocs(
+        collection(db, 'Rent_colocataires', roommateId, 'documents')
+      );
+      
       const documents: DocumentData[] = [];
       
       querySnapshot.docs.forEach(doc => {
@@ -143,18 +150,18 @@ export const useDocumentStorage = () => {
     }
   };
 
-  const deleteDocument = async (documentId: string) => {
+  const deleteDocument = async (documentId: string, roommateId: string) => {
     try {
-      await deleteDoc(doc(db, 'documents', documentId));
+      await deleteDoc(doc(db, 'Rent_colocataires', roommateId, 'documents', documentId));
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
       throw new Error('Erreur lors de la suppression du document');
     }
   };
 
-  const updateDocumentStatus = async (documentId: string, status: string) => {
+  const updateDocumentStatus = async (documentId: string, roommateId: string, status: string) => {
     try {
-      await updateDoc(doc(db, 'documents', documentId), {
+      await updateDoc(doc(db, 'Rent_colocataires', roommateId, 'documents', documentId), {
         status,
         updatedAt: new Date().toISOString()
       });

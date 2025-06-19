@@ -24,6 +24,12 @@ export const propertyManagementRules = `
     match /Rent_colocataires/{roommateId} {
       allow read: if isAuthenticated();
       allow write: if isManagerOrAdmin();
+      
+      // Sous-collection des documents du colocataire
+      match /documents/{documentId} {
+        allow read, write: if isManagerOrAdmin() || 
+          (isAuthenticated() && request.auth.uid == resource.data.roommateId);
+      }
     }
     
     // 4. Contrats de bail - Collection: Rent_contracts
