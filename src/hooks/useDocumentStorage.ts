@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -40,9 +39,25 @@ export const useDocumentStorage = () => {
     tenantId?: string, 
     roommateId?: string
   ): Promise<DocumentData> => {
+    console.log('=== DÉBUT UPLOAD DOCUMENT ===');
+    console.log('Paramètres reçus:', { 
+      fileName: file.name, 
+      fileSize: file.size,
+      documentType, 
+      tenantId, 
+      roommateId 
+    });
+
     setUploading(true);
     try {
+      if (!roommateId) {
+        console.error('❌ ERREUR: roommateId manquant');
+        throw new Error('RoommateId requis pour sauvegarder le document');
+      }
+
+      console.log('📄 Conversion du fichier en base64...');
       const base64Content = await convertFileToBase64(file);
+      console.log('✅ Conversion réussie, taille base64:', base64Content.length);
       
       // Créer l'objet document
       const documentData: any = {
@@ -58,34 +73,57 @@ export const useDocumentStorage = () => {
       // Ajouter tenantId seulement s'il est défini
       if (tenantId) {
         documentData.tenantId = tenantId;
+        console.log('✅ TenantId ajouté:', tenantId);
       }
 
       // Ajouter roommateId seulement s'il est défini
       if (roommateId) {
         documentData.roommateId = roommateId;
+        console.log('✅ RoommateId ajouté:', roommateId);
       }
 
-      console.log('Saving document to Firestore:', documentData);
+      console.log('📊 Document à sauvegarder:', {
+        ...documentData,
+        fileContent: `[BASE64 DATA - ${base64Content.length} chars]`
+      });
 
+      const collectionPath = `Rent_colocataires/${roommateId}/documents`;
+      console.log('📁 Chemin de la collection:', collectionPath);
+
+      // Vérifier que la collection parent existe
+      console.log('🔍 Vérification de la connexion à Firebase...');
+      
       // Stocker dans la sous-collection documents du colocataire
-      if (roommateId) {
-        const docRef = await addDoc(
-          collection(db, 'Rent_colocataires', roommateId, 'documents'), 
-          documentData
-        );
-        
-        return {
-          id: docRef.id,
-          ...documentData
-        };
-      } else {
-        throw new Error('RoommateId requis pour sauvegarder le document');
-      }
+      console.log('💾 Tentative de sauvegarde dans Firestore...');
+      const docRef = await addDoc(
+        collection(db, 'Rent_colocataires', roommateId, 'documents'), 
+        documentData
+      );
+      
+      console.log('✅ Document sauvegardé avec succès! ID:', docRef.id);
+      
+      const savedDocument = {
+        id: docRef.id,
+        ...documentData
+      };
+
+      console.log('📋 Document final retourné:', {
+        ...savedDocument,
+        fileContent: `[BASE64 DATA - ${base64Content.length} chars]`
+      });
+
+      return savedDocument;
     } catch (error) {
-      console.error('Erreur lors de l\'upload:', error);
-      throw new Error('Erreur lors de l\'upload du document');
+      console.error('❌ ERREUR lors de l\'upload:', error);
+      console.error('Détails de l\'erreur:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
+      throw new Error(`Erreur lors de l'upload du document: ${error.message}`);
     } finally {
       setUploading(false);
+      console.log('=== FIN UPLOAD DOCUMENT ===');
     }
   };
 

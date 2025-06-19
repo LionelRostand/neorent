@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -57,23 +56,42 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
     try {
       // S'assurer qu'on a au moins un ID valide
       if (!tenantId && !roommateId) {
-        console.log('No tenantId or roommateId provided');
+        console.log('❌ No tenantId or roommateId provided for document loading');
         return;
       }
       
-      console.log('Chargement des documents pour:', { tenantId, roommateId });
+      console.log('🔄 Chargement des documents pour:', { tenantId, roommateId });
       const docs = await getDocuments(tenantId, roommateId);
-      console.log('Documents chargés:', docs);
+      console.log('📄 Documents chargés:', docs.length, 'documents trouvés');
+      docs.forEach((doc, index) => {
+        console.log(`  Document ${index + 1}:`, {
+          id: doc.id,
+          fileName: doc.fileName,
+          documentType: doc.documentType,
+          uploadDate: doc.uploadDate
+        });
+      });
       setDocuments(docs);
     } catch (error) {
-      console.error('Error loading documents:', error);
+      console.error('❌ Error loading documents:', error);
     }
   };
 
   const handleUpload = async (file: File, documentType: string): Promise<void> => {
+    console.log('🚀 === DÉBUT HANDLEUPLOAD ===');
+    console.log('Paramètres handleUpload:', {
+      fileName: file.name,
+      fileSize: file.size,
+      documentType,
+      tenantId,
+      roommateId,
+      tenantName
+    });
+
     try {
       // S'assurer qu'on a au moins un ID pour l'upload
       if (!tenantId && !roommateId) {
+        console.error('❌ Aucun ID disponible pour l\'upload');
         toast({
           title: "Erreur",
           description: "Aucun locataire ou colocataire sélectionné",
@@ -82,35 +100,54 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
         return;
       }
 
-      console.log('Uploading document with:', { 
-        tenantId, 
-        roommateId, 
+      if (!roommateId) {
+        console.error('❌ RoommateId manquant pour l\'upload');
+        toast({
+          title: "Erreur",
+          description: "ID du colocataire manquant",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log('📤 Appel de uploadDocument avec:', { 
+        tenantId: tenantId || 'undefined', 
+        roommateId: roommateId || 'undefined', 
         documentType,
         fileName: file.name 
       });
 
-      await uploadDocument(
+      const uploadedDoc = await uploadDocument(
         file,
         documentType,
         tenantId || undefined,
         roommateId || undefined
       );
       
+      console.log('✅ Upload terminé, document retourné:', uploadedDoc.id);
+      
       // Reload documents après upload réussi
-      console.log('Upload réussi, rechargement des documents...');
+      console.log('🔄 Rechargement des documents après upload...');
       await loadDocuments();
       
       toast({
         title: "Succès",
         description: "Document uploadé avec succès",
       });
+
+      console.log('🚀 === FIN HANDLEUPLOAD (SUCCÈS) ===');
     } catch (error) {
-      console.error('Upload failed:', error);
+      console.error('❌ Upload failed in handleUpload:', error);
+      console.error('Détails de l\'erreur:', {
+        name: error.name,
+        message: error.message
+      });
       toast({
         title: "Erreur",
         description: "Erreur lors de l'upload du document",
         variant: "destructive",
       });
+      console.log('🚀 === FIN HANDLEUPLOAD (ERREUR) ===');
     }
   };
 
