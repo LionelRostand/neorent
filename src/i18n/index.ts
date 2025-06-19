@@ -26,6 +26,7 @@ import enWebsite from './locales/en/website.json';
 import enSettings from './locales/en/settings.json';
 import enHelp from './locales/en/help.json';
 import enPublicSite from './locales/en/publicSite.json';
+import enTenantSpace from './locales/en/tenantSpace.json';
 
 // French translations
 import frCommon from './locales/fr/common.json';
@@ -51,6 +52,7 @@ import frWebsite from './locales/fr/website.json';
 import frSettings from './locales/fr/settings.json';
 import frHelp from './locales/fr/help.json';
 import frPublicSite from './locales/fr/publicSite.json';
+import frTenantSpace from './locales/fr/tenantSpace.json';
 
 const resources = {
   en: {
@@ -77,7 +79,8 @@ const resources = {
       ...enWebsite,
       ...enSettings,
       ...enHelp,
-      ...enPublicSite
+      ...enPublicSite,
+      ...enTenantSpace
     }
   },
   fr: {
@@ -104,7 +107,8 @@ const resources = {
       ...frWebsite,
       ...frSettings,
       ...frHelp,
-      ...frPublicSite
+      ...frPublicSite,
+      ...frTenantSpace
     }
   }
 };
