@@ -20,21 +20,25 @@ export const saveDocumentToFirestore = async (
     const compressedSize = compressedData.length;
     console.log('✅ Fichier compressé, taille:', compressedSize, 'caractères');
 
-    // Création des métadonnées du document
-    const documentData = {
+    // Création des métadonnées du document - éviter les valeurs undefined
+    const documentData: any = {
       fileName: file.name,
       fileType: file.type,
       fileSize: file.size,
       compressedSize: compressedSize,
-      compressedData: compressedData, // Données binaires compressées
+      compressedData: compressedData,
       documentType: documentType,
       roommateId: roommateId,
-      tenantId: tenantId || undefined,
       uploadDate: new Date().toISOString(),
       status: 'Uploadé',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
+
+    // Ajouter tenantId seulement s'il est défini
+    if (tenantId && tenantId !== 'undefined') {
+      documentData.tenantId = tenantId;
+    }
 
     console.log('💾 Sauvegarde des métadonnées et données dans Firestore...');
     console.log('📊 Données à sauvegarder:', {

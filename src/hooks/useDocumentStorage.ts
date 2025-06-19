@@ -43,11 +43,15 @@ export const useDocumentStorage = () => {
       setUploadProgress(10);
 
       console.log('🗜️ Compression et sauvegarde directe en Firestore...');
+      
+      // Nettoyer les valeurs avant l'envoi
+      const cleanTenantId = tenantId && tenantId !== 'undefined' ? tenantId : undefined;
+      
       const { docId, compressedSize } = await saveDocumentToFirestore(
         file, 
         documentType, 
         roommateId!, 
-        tenantId
+        cleanTenantId
       );
       setUploadProgress(100);
       
@@ -59,7 +63,7 @@ export const useDocumentStorage = () => {
         downloadURL: '', // Pas d'URL car stocké directement
         storagePath: '', // Pas de chemin car pas dans Storage
         documentType,
-        tenantId,
+        tenantId: cleanTenantId,
         roommateId,
         uploadDate: new Date().toISOString(),
         status: 'Uploadé',
