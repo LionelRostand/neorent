@@ -6,20 +6,23 @@ import { Save, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import EmployeeSelection from './EmployeePermissions/EmployeeSelection';
 import PermissionManager from './EmployeePermissions/PermissionManager';
-import { usePermissionOperations } from './EmployeePermissions/usePermissionOperations';
+import { useEmployeePermissionsManagement } from '@/hooks/useEmployeePermissionsManagement';
 
 const EmployeePermissionsTab: React.FC = () => {
   const { t } = useTranslation();
   const {
     employees,
+    companies,
+    selectedEmployeeId,
     selectedEmployee,
     permissions,
     loading,
     saving,
-    setSelectedEmployee,
+    setSelectedEmployeeId,
     updatePermissions,
+    setAllPermissions,
     savePermissions
-  } = usePermissionOperations();
+  } = useEmployeePermissionsManagement();
 
   if (loading) {
     return (
@@ -43,7 +46,7 @@ const EmployeePermissionsTab: React.FC = () => {
             </div>
             <Button 
               onClick={savePermissions} 
-              disabled={saving || !selectedEmployee}
+              disabled={saving || !selectedEmployeeId}
             >
               <Save className="h-4 w-4 mr-2" />
               {saving ? t('settings.permissions.saving') : t('settings.permissions.save')}
@@ -60,15 +63,18 @@ const EmployeePermissionsTab: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EmployeeSelection
           employees={employees}
+          selectedEmployeeId={selectedEmployeeId}
           selectedEmployee={selectedEmployee}
-          onEmployeeSelect={setSelectedEmployee}
+          companies={companies}
+          onEmployeeSelect={setSelectedEmployeeId}
         />
 
-        {selectedEmployee ? (
+        {selectedEmployeeId ? (
           <PermissionManager
-            employee={selectedEmployee}
             permissions={permissions}
+            selectedEmployeeId={selectedEmployeeId}
             onPermissionChange={updatePermissions}
+            onSetAllPermissions={setAllPermissions}
           />
         ) : (
           <Card>

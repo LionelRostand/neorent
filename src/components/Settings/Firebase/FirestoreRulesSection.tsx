@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { firebaseConfig } from '@/lib/firebase';
 import { firestoreRules } from './FirestoreRulesData';
 import { FirestoreRulesDisplay } from './FirestoreRulesDisplay';
-import { FirestoreRulesInfo } from './FirestoreRulesInfo';
+import FirestoreRulesInfo from './FirestoreRulesInfo';
 import { firestoreRulesService } from '@/services/firestoreRulesService';
 import { useTranslation } from 'react-i18next';
 
