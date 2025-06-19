@@ -214,7 +214,16 @@
       "view": "View",
       "delete": "Delete",
       "upload": "Upload",
-      "file": "File"
+      "file": "File",
+      "documentManagement": "Document Management",
+      "uploadInstructions": "Upload Instructions",
+      "statusIndicators": "Status Indicators",
+      "documentValidation": "Document Validation",
+      "fileOperations": "File Operations",
+      "uploadProgress": "Upload Progress",
+      "requiredDocuments": "Required Documents",
+      "documentCategories": "Document Categories",
+      "uploadInterface": "Upload Interface"
     },
     "profile": {
       "title": "Profile",
@@ -254,7 +263,13 @@
       "preferredLanguage": "Preferred Language",
       "notifications": "Notifications",
       "emailNotifications": "Email Notifications",
-      "smsNotifications": "SMS Notifications"
+      "smsNotifications": "SMS Notifications",
+      "profileManagement": "Profile Management",
+      "accountSettings": "Account Settings",
+      "privacySettings": "Privacy Settings",
+      "communicationPreferences": "Communication Preferences",
+      "profileSecurity": "Profile Security",
+      "dataManagement": "Data Management"
     }
   }
 }
