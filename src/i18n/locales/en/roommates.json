@@ -30,6 +30,8 @@
     "emailExistsWarning": "Email already used, but roommate added successfully.",
     "addSuccessDescription": "Roommate added successfully.",
     "paymentAlerts": "Payment Alerts",
+    "roomNumber": "Room",
+    "monthlyRent": "monthly",
     "status": {
       "active": "Active",
       "inactive": "Inactive", 

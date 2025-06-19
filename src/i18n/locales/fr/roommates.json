@@ -30,6 +30,8 @@
     "emailExistsWarning": "L'email est déjà utilisé, mais le colocataire a été ajouté avec succès.",
     "addSuccessDescription": "Le colocataire a été ajouté avec succès.",
     "paymentAlerts": "Alertes de paiement",
+    "roomNumber": "Chambre",
+    "monthlyRent": "par mois",
     "status": {
       "active": "Actif",
       "inactive": "Inactif",

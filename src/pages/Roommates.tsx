@@ -328,12 +328,12 @@ const Roommates = () => {
                             <div className="flex items-center text-gray-600 text-xs">
                               <Home className="mr-2 h-3 w-3 text-orange-500 flex-shrink-0" />
                               <span className="truncate">
-                                {t('roommates.roommateForm.roomNumber')} {roommate.roomNumber} - <span className="font-medium text-blue-600">{roommate.rentAmount}€/mois</span>
+                                {t('roommates.roomNumber')} {roommate.roomNumber} - <span className="font-medium text-blue-600">{roommate.rentAmount}€/{t('roommates.monthlyRent')}</span>
                               </span>
                             </div>
                             <div className="flex items-center text-gray-600 text-xs">
                               <UserCheck className="mr-2 h-3 w-3 text-purple-500 flex-shrink-0" />
-                              <span className="truncate">{t('roommates.roommateForm.primaryTenant')}: {roommate.primaryTenant}</span>
+                              <span className="truncate">{t('roommateForm.primaryTenant')}: {roommate.primaryTenant}</span>
                             </div>
                           </div>
                           
