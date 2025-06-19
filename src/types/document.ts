@@ -11,6 +11,9 @@ export interface DocumentData {
   uploadDate: string;
   status: string;
   storagePath?: string;
+  // Nouvelles propriétés pour le stockage binaire compressé
+  compressedData?: string;
+  compressedSize?: number;
 }
 
 export interface DocumentUploadParams {

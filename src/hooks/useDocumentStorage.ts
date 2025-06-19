@@ -2,15 +2,13 @@
 import { useState } from 'react';
 import { DocumentData, DocumentUploadParams } from '@/types/document';
 import { 
-  uploadFileToStorage, 
-  saveDocumentMetadata, 
+  saveDocumentToFirestore,
   getDocumentsFromFirestore,
-  deleteDocumentFromStorage,
   deleteDocumentFromFirestore,
   updateDocumentStatusInFirestore,
   getDocumentById
 } from '@/services/documentFirebaseService';
-import { validateDocumentUpload, createDocumentMetadata } from '@/utils/documentValidation';
+import { validateDocumentUpload } from '@/utils/documentValidation';
 import { downloadDocumentFile } from '@/utils/documentDownload';
 
 export const useDocumentStorage = () => {
@@ -24,7 +22,7 @@ export const useDocumentStorage = () => {
     tenantId?: string, 
     roommateId?: string
   ): Promise<DocumentData> => {
-    console.log('=== DÉBUT UPLOAD DOCUMENT ===');
+    console.log('=== DÉBUT UPLOAD DOCUMENT COMPRESSÉ ===');
     console.log('Paramètres reçus:', { 
       fileName: file.name, 
       fileSize: file.size,
@@ -41,56 +39,53 @@ export const useDocumentStorage = () => {
       const uploadParams: DocumentUploadParams = { file, documentType, tenantId, roommateId };
       validateDocumentUpload(uploadParams);
 
-      console.log('📋 Validation OK, début upload...');
+      console.log('📋 Validation OK, début compression et upload...');
       setUploadProgress(10);
 
-      console.log('📤 Upload vers Firebase Storage...');
-      const { downloadURL, storagePath } = await uploadFileToStorage(file, roommateId!);
-      setUploadProgress(70);
-
-      console.log('📋 Création des métadonnées...');
-      const documentData = createDocumentMetadata(
+      console.log('🗜️ Compression et sauvegarde directe en Firestore...');
+      const { docId, compressedSize } = await saveDocumentToFirestore(
         file, 
         documentType, 
-        downloadURL, 
-        storagePath, 
-        tenantId, 
-        roommateId
+        roommateId!, 
+        tenantId
       );
-      setUploadProgress(80);
-
-      console.log('💾 Sauvegarde des métadonnées...');
-      const docId = await saveDocumentMetadata(documentData, roommateId!);
       setUploadProgress(100);
       
-      const savedDocument = {
+      const savedDocument: DocumentData = {
         id: docId,
-        ...documentData
+        fileName: file.name,
+        fileType: file.type,
+        fileSize: file.size,
+        downloadURL: '', // Pas d'URL car stocké directement
+        storagePath: '', // Pas de chemin car pas dans Storage
+        documentType,
+        tenantId,
+        roommateId,
+        uploadDate: new Date().toISOString(),
+        status: 'Uploadé',
+        compressedSize
       };
 
       console.log('📋 Document final retourné:', savedDocument);
-      console.log('=== FIN UPLOAD DOCUMENT (SUCCÈS) ===');
+      console.log('🗜️ Taille compressée:', compressedSize, 'caractères');
+      console.log('=== FIN UPLOAD DOCUMENT COMPRESSÉ (SUCCÈS) ===');
       return savedDocument;
     } catch (error) {
-      console.error('❌ ERREUR lors de l\'upload:', error);
+      console.error('❌ ERREUR lors de l\'upload compressé:', error);
       console.error('Type d\'erreur:', error.constructor.name);
       console.error('Message d\'erreur:', error.message);
       
-      // Gestion spécifique des erreurs courantes
+      // Gestion spécifique des erreurs
       let errorMessage = 'Erreur lors de l\'upload du document';
       
-      if (error.message.includes('storage/unknown')) {
-        errorMessage = 'Erreur de connexion au stockage. Veuillez réessayer.';
-      } else if (error.message.includes('storage/quota-exceeded')) {
-        errorMessage = 'Quota de stockage dépassé.';
-      } else if (error.message.includes('storage/unauthorized')) {
-        errorMessage = 'Accès non autorisé au stockage.';
-      } else if (error.message.includes('network')) {
+      if (error.message.includes('network')) {
         errorMessage = 'Erreur de réseau. Vérifiez votre connexion.';
       } else if (error.message.includes('timeout')) {
         errorMessage = 'Timeout lors de l\'upload. Le fichier est peut-être trop volumineux.';
       } else if (error.message.includes('RoommateId')) {
         errorMessage = 'ID du colocataire manquant. Veuillez rafraîchir la page.';
+      } else if (error.message.includes('Firestore')) {
+        errorMessage = 'Erreur de sauvegarde. Veuillez réessayer.';
       }
       
       throw new Error(`${errorMessage}: ${error.message}`);
@@ -123,12 +118,7 @@ export const useDocumentStorage = () => {
 
   const deleteDocument = async (documentId: string, roommateId?: string) => {
     try {
-      const docData = await getDocumentById(documentId);
-      
-      if (docData?.storagePath) {
-        await deleteDocumentFromStorage(docData.storagePath);
-      }
-
+      // Plus besoin de supprimer de Storage, seulement de Firestore
       await deleteDocumentFromFirestore(documentId);
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);

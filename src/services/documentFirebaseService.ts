@@ -1,59 +1,56 @@
+
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, getDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { db, storage } from '@/lib/firebase';
+import { db } from '@/lib/firebase';
 import { DocumentData } from '@/types/document';
+import { compressFile } from '@/utils/fileCompression';
 
-export const uploadFileToStorage = async (file: File, roommateId: string): Promise<{ downloadURL: string; storagePath: string }> => {
-  const timestamp = new Date().getTime();
-  const storagePath = `rent_documents/${roommateId}/${timestamp}_${file.name}`;
-  
-  console.log('📁 Chemin de stockage:', storagePath);
-  console.log('📤 Taille du fichier:', file.size, 'bytes');
-
-  try {
-    console.log('📤 Début upload vers Firebase Storage...');
-    const storageRef = ref(storage, storagePath);
-    
-    // Upload avec gestion d'erreur améliorée
-    const snapshot = await uploadBytes(storageRef, file);
-    console.log('✅ Fichier uploadé vers Storage, taille:', snapshot.metadata.size);
-
-    console.log('🔗 Récupération de l\'URL de téléchargement...');
-    const downloadURL = await getDownloadURL(snapshot.ref);
-    console.log('✅ URL obtenue:', downloadURL);
-
-    return { downloadURL, storagePath };
-  } catch (error) {
-    console.error('❌ Erreur lors de l\'upload Storage:', error);
-    throw new Error(`Erreur Storage: ${error.message}`);
-  }
-};
-
-export const saveDocumentMetadata = async (documentData: any, roommateId: string): Promise<string> => {
-  const collectionPath = 'rent_documents';
-  console.log('📁 Chemin de la collection Firestore:', collectionPath);
+export const saveDocumentToFirestore = async (
+  file: File, 
+  documentType: string, 
+  roommateId: string,
+  tenantId?: string
+): Promise<{ docId: string; compressedSize: number }> => {
+  console.log('📁 Début compression et sauvegarde directe en Firestore');
+  console.log('📤 Taille originale du fichier:', file.size, 'bytes');
 
   try {
-    // Ajouter le roommateId aux données du document
-    const documentWithRoommate = {
-      ...documentData,
+    // Compression du fichier
+    console.log('🗜️ Compression du fichier...');
+    const compressedData = await compressFile(file);
+    const compressedSize = compressedData.length;
+    console.log('✅ Fichier compressé, taille:', compressedSize, 'caractères');
+
+    // Création des métadonnées du document
+    const documentData = {
+      fileName: file.name,
+      fileType: file.type,
+      fileSize: file.size,
+      compressedSize: compressedSize,
+      compressedData: compressedData, // Données binaires compressées
+      documentType: documentType,
       roommateId: roommateId,
+      tenantId: tenantId || undefined,
+      uploadDate: new Date().toISOString(),
+      status: 'Uploadé',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
-    console.log('💾 Sauvegarde des métadonnées dans Firestore...');
-    console.log('📊 Données à sauvegarder:', documentWithRoommate);
+    console.log('💾 Sauvegarde des métadonnées et données dans Firestore...');
+    console.log('📊 Données à sauvegarder:', {
+      ...documentData,
+      compressedData: `[${compressedSize} caractères compressés]` // Pour le log seulement
+    });
     
     const docRef = await addDoc(
       collection(db, 'rent_documents'), 
-      documentWithRoommate
+      documentData
     );
     
-    console.log('✅ Métadonnées sauvegardées avec succès! ID:', docRef.id);
-    return docRef.id;
+    console.log('✅ Document sauvegardé avec succès! ID:', docRef.id);
+    return { docId: docRef.id, compressedSize };
   } catch (error) {
-    console.error('❌ Erreur lors de la sauvegarde Firestore:', error);
+    console.error('❌ Erreur lors de la sauvegarde:', error);
     throw new Error(`Erreur Firestore: ${error.message}`);
   }
 };
@@ -71,30 +68,26 @@ export const getDocumentsFromFirestore = async (roommateId: string): Promise<Doc
   querySnapshot.docs.forEach(doc => {
     const data = doc.data() as Record<string, any>;
     
-    if (data.fileName && data.fileType && data.documentType && data.downloadURL) {
+    if (data.fileName && data.fileType && data.documentType) {
       documents.push({
         id: doc.id,
         fileName: data.fileName as string,
         fileType: data.fileType as string,
         fileSize: data.fileSize as number || 0,
-        downloadURL: data.downloadURL as string,
-        storagePath: data.storagePath as string || '',
+        downloadURL: '', // Pas d'URL car stocké directement
+        storagePath: '', // Pas de chemin car pas dans Storage
         documentType: data.documentType as string,
         tenantId: data.tenantId as string || undefined,
         roommateId: data.roommateId as string || undefined,
         uploadDate: data.uploadDate as string || new Date().toISOString(),
-        status: data.status as string || 'Uploadé'
+        status: data.status as string || 'Uploadé',
+        compressedData: data.compressedData as string || '', // Nouvelles données
+        compressedSize: data.compressedSize as number || 0
       });
     }
   });
   
   return documents;
-};
-
-export const deleteDocumentFromStorage = async (storagePath: string): Promise<void> => {
-  const storageRef = ref(storage, storagePath);
-  await deleteObject(storageRef);
-  console.log('✅ Fichier supprimé de Storage');
 };
 
 export const deleteDocumentFromFirestore = async (documentId: string): Promise<void> => {
@@ -117,4 +110,17 @@ export const getDocumentById = async (documentId: string): Promise<any | null> =
     return docSnap.data();
   }
   return null;
+};
+
+// Fonctions obsolètes conservées pour compatibilité (ne seront plus utilisées)
+export const uploadFileToStorage = async (file: File, roommateId: string): Promise<{ downloadURL: string; storagePath: string }> => {
+  throw new Error('Cette fonction est obsolète - utiliser saveDocumentToFirestore');
+};
+
+export const saveDocumentMetadata = async (documentData: any, roommateId: string): Promise<string> => {
+  throw new Error('Cette fonction est obsolète - utiliser saveDocumentToFirestore');
+};
+
+export const deleteDocumentFromStorage = async (storagePath: string): Promise<void> => {
+  console.log('⚠️ Pas de suppression Storage nécessaire - document stocké en Firestore');
 };
