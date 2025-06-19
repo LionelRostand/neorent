@@ -1,0 +1,18 @@
+
+{
+  "tenantSpace": {
+    "title": "Espace {type}",
+    "welcome": "Bienvenue, {name}",
+    "room": "Chambre {number}",
+    "tenant": "Locataire",
+    "roommate": "Colocataire",
+    "tabs": {
+      "overview": "Aperçu",
+      "payment": "Paiement",
+      "history": "Historique",
+      "documents": "Documents",
+      "upload": "Télécharger",
+      "profile": "Profil"
+    }
+  }
+}

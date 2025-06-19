@@ -1,0 +1,18 @@
+
+{
+  "tenantSpace": {
+    "title": "{type} Space",
+    "welcome": "Welcome, {name}",
+    "room": "Room {number}",
+    "tenant": "Tenant",
+    "roommate": "Roommate",
+    "tabs": {
+      "overview": "Overview",
+      "payment": "Payment",
+      "history": "History",
+      "documents": "Documents",
+      "upload": "Upload",
+      "profile": "Profile"
+    }
+  }
+}
