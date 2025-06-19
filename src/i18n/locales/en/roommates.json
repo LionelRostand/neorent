@@ -113,7 +113,6 @@
     "saveChanges": "Save Changes",
     "cancel": "Cancel",
     "passwordNote": "Leave blank to keep current password",
-    "newPassword": "New password",
-    "passwordMinLength": "Minimum 6 characters"
+    "newPassword": "New password"
   }
 }
