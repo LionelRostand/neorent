@@ -40,9 +40,10 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       setSelectedFile(file);
       setUploadError('');
       
-      // Validation de la taille (10MB max)
-      if (file.size > 10 * 1024 * 1024) {
-        setUploadError('Le fichier ne doit pas dépasser 10 MB');
+      // Validation de la taille (5MB max pour éviter les erreurs Firestore)
+      const maxFileSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxFileSize) {
+        setUploadError(`Le fichier ne doit pas dépasser 5 MB (actuellement: ${(file.size / 1024 / 1024).toFixed(2)} MB)`);
         setSelectedFile(null);
         return;
       }

@@ -1,4 +1,3 @@
-
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { DocumentData } from '@/types/document';
@@ -14,7 +13,13 @@ export const saveDocumentToFirestore = async (
   console.log('📤 Taille originale du fichier:', file.size, 'bytes');
 
   try {
-    // Compression du fichier
+    // Validation préalable de la taille
+    const maxFileSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxFileSize) {
+      throw new Error(`Fichier trop volumineux (${(file.size / 1024 / 1024).toFixed(2)}MB). Limite: 5MB`);
+    }
+
+    // Compression du fichier avec validation
     console.log('🗜️ Compression du fichier...');
     const compressedData = await compressFile(file);
     const compressedSize = compressedData.length;
@@ -41,9 +46,10 @@ export const saveDocumentToFirestore = async (
     }
 
     console.log('💾 Sauvegarde des métadonnées et données dans Firestore...');
-    console.log('📊 Données à sauvegarder:', {
-      ...documentData,
-      compressedData: `[${compressedSize} caractères compressés]` // Pour le log seulement
+    console.log('📊 Taille des données à sauvegarder:', {
+      metadonnees: JSON.stringify({...documentData, compressedData: '[DONNEES_BINAIRES]'}).length,
+      donneesCompressees: compressedSize,
+      totalApproximatif: (JSON.stringify({...documentData, compressedData: '[DONNEES_BINAIRES]'}).length + compressedSize) + ' caractères'
     });
     
     const docRef = await addDoc(
@@ -55,6 +61,16 @@ export const saveDocumentToFirestore = async (
     return { docId: docRef.id, compressedSize };
   } catch (error) {
     console.error('❌ Erreur lors de la sauvegarde:', error);
+    
+    // Messages d'erreur plus spécifiques
+    if (error.message.includes('Maximum call stack')) {
+      throw new Error('Fichier trop volumineux pour Firestore. Veuillez choisir un fichier plus petit (max 3MB).');
+    } else if (error.message.includes('too large')) {
+      throw new Error('Document trop volumineux pour Firestore. Veuillez choisir un fichier plus petit.');
+    } else if (error.message.includes('trop volumineux')) {
+      throw error; // Conserver notre message personnalisé
+    }
+    
     throw new Error(`Erreur Firestore: ${error.message}`);
   }
 };
