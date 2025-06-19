@@ -1,0 +1,35 @@
+
+{
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Vue d'ensemble de votre activité immobilière",
+    "management": "Tableau de Bord",
+    "description": "Vue d'ensemble de votre activité immobilière",
+    "monthlyRevenue": "Revenus mensuels",
+    "managedProperties": "Biens gérés",
+    "activeTenants": "Locataires actifs",
+    "averageYield": "Rendement moyen",
+    "vsLastMonth": "vs mois dernier",
+    "newThisMonth": "nouveaux ce mois",
+    "occupancyRate": "taux d'occupation",
+    "vsQuarter": "vs trimestre",
+    "importantAlerts": "Alertes importantes",
+    "lateRent": "Loyer en retard",
+    "late": "En retard",
+    "expiringLease": "Bail expirant",
+    "days": "jours",
+    "urgentInspection": "Inspection urgente",
+    "urgent": "Urgent",
+    "recentActivity": "Activité récente",
+    "noRecentActivity": "Aucune activité récente",
+    "rentReceived": "Loyer reçu",
+    "newTenant": "Nouveau locataire",
+    "latePayment": "Loyer en retard",
+    "inspection": "Inspection",
+    "timeAgo": {
+      "hours": "Il y a {{hours}}h",
+      "days": "Il y a {{days}}j",
+      "weeks": "Il y a {{weeks}}sem"
+    }
+  }
+}

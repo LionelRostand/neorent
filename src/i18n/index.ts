@@ -1,15 +1,35 @@
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import frTranslations from './locales/fr.json';
-import enTranslations from './locales/en.json';
+
+// Import French translations
+import frNavigation from './locales/fr/navigation.json';
+import frDashboard from './locales/fr/dashboard.json';
+import frProperties from './locales/fr/properties.json';
+import frCommon from './locales/fr/common.json';
+
+// Import English translations
+import enNavigation from './locales/en/navigation.json';
+import enDashboard from './locales/en/dashboard.json';
+import enProperties from './locales/en/properties.json';
+import enCommon from './locales/en/common.json';
 
 const resources = {
   fr: {
-    translation: frTranslations
+    translation: {
+      ...frNavigation,
+      ...frDashboard,
+      ...frProperties,
+      ...frCommon
+    }
   },
   en: {
-    translation: enTranslations
+    translation: {
+      ...enNavigation,
+      ...enDashboard,
+      ...enProperties,
+      ...enCommon
+    }
   }
 };
 

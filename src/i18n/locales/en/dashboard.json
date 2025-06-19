@@ -1,0 +1,35 @@
+
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your real estate activity",
+    "management": "Dashboard",
+    "description": "Overview of your real estate activity",
+    "monthlyRevenue": "Monthly Revenue",
+    "managedProperties": "Managed Properties",
+    "activeTenants": "Active Tenants",
+    "averageYield": "Average Yield",
+    "vsLastMonth": "vs last month",
+    "newThisMonth": "new this month",
+    "occupancyRate": "occupancy rate",
+    "vsQuarter": "vs quarter",
+    "importantAlerts": "Important Alerts",
+    "lateRent": "Late Rent",
+    "late": "Late",
+    "expiringLease": "Expiring Lease",
+    "days": "days",
+    "urgentInspection": "Urgent Inspection",
+    "urgent": "Urgent",
+    "recentActivity": "Recent Activity",
+    "noRecentActivity": "No recent activity",
+    "rentReceived": "Rent received",
+    "newTenant": "New tenant",
+    "latePayment": "Late rent",
+    "inspection": "Inspection",
+    "timeAgo": {
+      "hours": "{{hours}}h ago",
+      "days": "{{days}}d ago",
+      "weeks": "{{weeks}}w ago"
+    }
+  }
+}

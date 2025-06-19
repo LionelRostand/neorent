@@ -1,0 +1,48 @@
+
+{
+  "properties": {
+    "title": "Propriétés",
+    "subtitle": "Gérez vos biens immobiliers",
+    "management": "Gestion des Propriétés",
+    "description": "Gérez et suivez tous vos biens immobiliers",
+    "addProperty": "Ajouter un bien",
+    "loading": "Chargement des propriétés...",
+    "addSuccess": "Bien ajouté avec succès",
+    "addError": "Erreur lors de l'ajout du bien",
+    "updateSuccess": "Bien mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du bien",
+    "deleteSuccess": "Bien supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du bien",
+    "totalProperties": "Total des Biens",
+    "occupancyRate": "Taux d'Occupation",
+    "colocationRooms": "Chambres Colocation",
+    "monthlyRevenue": "Revenus Mensuels",
+    "realRevenueReceived": "Revenus réels perçus",
+    "propertyList": "Liste des Biens Immobiliers",
+    "occupied": "occupés",
+    "available": "libres",
+    "propertiesOccupied": "biens occupés",
+    "roomsAvailable": "chambres disponibles",
+    "partiallyOccupied": "Partiellement occupé",
+    "fullyOccupied": "Complet",
+    "vacant": "Libre",
+    "perMonth": "/mois",
+    "metrics": {
+      "totalProperties": "Total des Propriétés",
+      "totalDescription": "{{count}} propriétés dans votre portefeuille",
+      "occupancyRate": "Taux d'Occupation",
+      "occupancyDescription": "{{rate}}% de vos propriétés sont occupées",
+      "colocationRooms": "Chambres en Colocation",
+      "colocationDescription": "{{occupied}}/{{total}} chambres occupées",
+      "monthlyRevenue": "Revenus Mensuels",
+      "revenueDescription": "Revenus totaux de ce mois"
+    },
+    "listTitle": "Liste des Propriétés",
+    "listDescription": "Gérez et visualisez toutes vos propriétés",
+    "noProperties": "Aucune propriété",
+    "noPropertiesDescription": "Commencez par ajouter votre première propriété",
+    "viewDetails": "Voir les détails",
+    "editProperty": "Modifier",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette propriété ?"
+  }
+}

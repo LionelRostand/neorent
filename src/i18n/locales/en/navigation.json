@@ -1,0 +1,20 @@
+
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "properties": "Properties",
+    "tenants": "Tenants",
+    "roommates": "Roommates",
+    "contracts": "Contracts",
+    "inspections": "Inspections",
+    "rentManagement": "Rent Management",
+    "rentalCharges": "Rental Charges",
+    "forecasting": "Forecasting",
+    "maintenance": "Maintenance",
+    "messages": "Messages",
+    "taxes": "Taxes",
+    "website": "Website",
+    "settings": "Settings",
+    "help": "Help"
+  }
+}
