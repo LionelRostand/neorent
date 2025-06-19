@@ -14,7 +14,12 @@ import enInspections from './locales/en/inspections.json';
 import enRentManagement from './locales/en/rentManagement.json';
 import enRentalCharges from './locales/en/rentalCharges.json';
 import enForecasting from './locales/en/forecasting.json';
-import enMaintenance from './locales/en/maintenance.json';
+import enMaintenanceCommon from './locales/en/maintenanceCommon.json';
+import enMaintenanceRequests from './locales/en/maintenanceRequests.json';
+import enMaintenanceInterventions from './locales/en/maintenanceInterventions.json';
+import enMaintenanceCosts from './locales/en/maintenanceCosts.json';
+import enMaintenanceHistory from './locales/en/maintenanceHistory.json';
+import enMaintenanceResponsibilities from './locales/en/maintenanceResponsibilities.json';
 import enMessages from './locales/en/messages.json';
 import enTaxes from './locales/en/taxes.json';
 import enWebsite from './locales/en/website.json';
@@ -34,7 +39,12 @@ import frInspections from './locales/fr/inspections.json';
 import frRentManagement from './locales/fr/rentManagement.json';
 import frRentalCharges from './locales/fr/rentalCharges.json';
 import frForecasting from './locales/fr/forecasting.json';
-import frMaintenance from './locales/fr/maintenance.json';
+import frMaintenanceCommon from './locales/fr/maintenanceCommon.json';
+import frMaintenanceRequests from './locales/fr/maintenanceRequests.json';
+import frMaintenanceInterventions from './locales/fr/maintenanceInterventions.json';
+import frMaintenanceCosts from './locales/fr/maintenanceCosts.json';
+import frMaintenanceHistory from './locales/fr/maintenanceHistory.json';
+import frMaintenanceResponsibilities from './locales/fr/maintenanceResponsibilities.json';
 import frMessages from './locales/fr/messages.json';
 import frTaxes from './locales/fr/taxes.json';
 import frWebsite from './locales/fr/website.json';
@@ -56,7 +66,12 @@ const resources = {
       ...enRentManagement,
       ...enRentalCharges,
       ...enForecasting,
-      ...enMaintenance,
+      ...enMaintenanceCommon,
+      ...enMaintenanceRequests,
+      ...enMaintenanceInterventions,
+      ...enMaintenanceCosts,
+      ...enMaintenanceHistory,
+      ...enMaintenanceResponsibilities,
       ...enMessages,
       ...enTaxes,
       ...enWebsite,
@@ -78,7 +93,12 @@ const resources = {
       ...frRentManagement,
       ...frRentalCharges,
       ...frForecasting,
-      ...frMaintenance,
+      ...frMaintenanceCommon,
+      ...frMaintenanceRequests,
+      ...frMaintenanceInterventions,
+      ...frMaintenanceCosts,
+      ...frMaintenanceHistory,
+      ...frMaintenanceResponsibilities,
       ...frMessages,
       ...frTaxes,
       ...frWebsite,

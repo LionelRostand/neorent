@@ -1,0 +1,26 @@
+
+{
+  "maintenanceHistory": {
+    "title": "Historique de Maintenance",
+    "subtitle": "Visualisez et analysez l'historique de maintenance",
+    "categoryStats": "Répartition par Catégorie",
+    "propertyStats": "Coûts par Propriété",
+    "monthlyTrend": "Évolution Mensuelle",
+    "filterByMonth": "Filtrer par mois",
+    "filterByYear": "Filtrer par année",
+    "exportData": "Exporter les données",
+    "printReport": "Imprimer le rapport",
+    "interventionDate": "Date d'intervention",
+    "interventionCost": "Coût de l'intervention",
+    "responsibility": "Responsabilité",
+    "interventionStatus": "Statut de l'intervention",
+    "viewIntervention": "Voir l'intervention",
+    "noInterventions": "Aucune intervention",
+    "noInterventionsDescription": "Aucune intervention trouvée pour les critères sélectionnés",
+    "loadingHistory": "Chargement de l'historique...",
+    "totalInterventions": "Total Interventions",
+    "totalCost": "Coût Total",
+    "ownerCosts": "Coûts Propriétaire",
+    "tenantCosts": "Coûts Locataire"
+  }
+}

@@ -22,7 +22,7 @@ const StatsCards = ({
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.maintenanceHistory.totalInterventions')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceHistory.totalInterventions')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalInterventions}</div>
@@ -31,7 +31,7 @@ const StatsCards = ({
       
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.maintenanceHistory.totalCost')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceHistory.totalCost')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalCost}€</div>
@@ -40,7 +40,7 @@ const StatsCards = ({
       
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.maintenanceHistory.ownerCosts')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceHistory.ownerCosts')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-blue-600">{proprietaireCost}€</div>
@@ -49,7 +49,7 @@ const StatsCards = ({
       
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">{t('maintenance.maintenanceHistory.tenantCosts')}</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('maintenanceHistory.tenantCosts')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-green-600">{locataireCost}€</div>
