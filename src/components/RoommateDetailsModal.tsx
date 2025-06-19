@@ -1,4 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -60,6 +62,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
   onClose,
   onUpdateRoommate
 }) => {
+  const { t } = useTranslation();
   const [selectedDocument, setSelectedDocument] = useState<{name: string, type: string} | null>(null);
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
 
@@ -133,11 +136,11 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
   const getPaymentStatus = () => {
     if (!roommate) return { status: '', color: '', icon: CheckCircle };
     if (isLate) {
-      return { status: 'En retard', color: 'bg-red-100 text-red-800', icon: XCircle };
+      return { status: t('roommates.status.late'), color: 'bg-red-100 text-red-800', icon: XCircle };
     } else if (isUpcoming) {
-      return { status: 'À venir', color: 'bg-yellow-100 text-yellow-800', icon: Clock };
+      return { status: t('roommates.status.upcoming'), color: 'bg-yellow-100 text-yellow-800', icon: Clock };
     } else {
-      return { status: 'À jour', color: 'bg-green-100 text-green-800', icon: CheckCircle };
+      return { status: t('roommates.upToDate'), color: 'bg-green-100 text-green-800', icon: CheckCircle };
     }
   };
   const paymentStatus = getPaymentStatus();
@@ -202,7 +205,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
           <div className="flex items-center justify-between bg-green-50 rounded-lg p-3">
             <span className="flex items-center text-green-700">
               <CheckCircle className="h-4 w-4 mr-1" />
-              Paiement complet
+              {t('roommates.completePayment')}
             </span>
             <span className="text-green-700 font-semibold">{montantAttendu.toLocaleString()}€</span>
           </div>
@@ -213,12 +216,12 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
     return (
       <div className="flex flex-col space-y-2 mt-2">
         <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
-          <span>Montant attendu :</span>
+          <span>{t('roommates.expectedAmount')}</span>
           <span className="font-semibold text-blue-700">{montantAttendu.toLocaleString()}€</span>
         </div>
         <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
           <label htmlFor="montant-paye" className="flex-1">
-            Montant payé :
+            {t('roommates.paidAmount')}
           </label>
           <input
             id="montant-paye"
@@ -228,7 +231,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
             value={montantPaye}
             onChange={e => setMontantPaye(Number(e.target.value))}
             className="w-28 px-2 py-1 border border-gray-300 rounded text-right font-semibold focus:outline-none focus:ring-2 focus:ring-blue-300 transition text-green-700"
-            aria-label="Montant payé"
+            aria-label={t('roommates.paidAmount')}
             disabled={isSaving}
           />
           <span className="ml-2 font-semibold text-green-700">{Number(montantPaye).toLocaleString()}€</span>
@@ -238,7 +241,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
             <>
               <span className="flex items-center text-green-700">
                 <CheckCircle className="h-4 w-4 mr-1" />
-                Payé en totalité
+                {t('roommates.completePayment')}
               </span>
               <span className="text-green-700 font-semibold">✔️</span>
             </>
@@ -246,7 +249,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
             <>
               <span className="flex items-center text-red-700">
                 <XCircle className="h-4 w-4 mr-1" />
-                Reste à verser
+                {t('roommates.remainingToPay')}
               </span>
               <span className="text-red-700 font-semibold">{resteAPayer.toLocaleString()}€</span>
             </>
@@ -276,7 +279,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">Détails du colocataire</DialogTitle>
+            <DialogTitle className="text-2xl font-bold">{t('roommates.detailsTitle')}</DialogTitle>
           </DialogHeader>
           {!roommate ? null : (
           <>
@@ -292,8 +295,8 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
             
             <Tabs defaultValue="general" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="general">Informations générales</TabsTrigger>
-                <TabsTrigger value="documents">Documents</TabsTrigger>
+                <TabsTrigger value="general">{t('roommates.generalInformation')}</TabsTrigger>
+                <TabsTrigger value="documents">{t('roommates.documents')}</TabsTrigger>
               </TabsList>
               
               <TabsContent value="general" className="space-y-6">
@@ -325,7 +328,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                           </div>
                           <div className="flex items-center text-gray-600">
                             <Home className="mr-2 h-4 w-4" />
-                            {roommate.property}
+                            {t('roommates.apartment')} {roommate.property}
                           </div>
                           <div className="flex items-center text-gray-600">
                             <Bed className="mr-2 h-4 w-4" />
@@ -333,11 +336,11 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                           </div>
                           <div className="flex items-center text-gray-600">
                             <User className="mr-2 h-4 w-4" />
-                            Locataire principal: {roommate.primaryTenant}
+                            {t('roommateForm.primaryTenant')}: {roommate.primaryTenant}
                           </div>
                           <div className="flex items-center text-gray-600">
                             <Calendar className="mr-2 h-4 w-4" />
-                            Emménagement: {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
+                            {t('roommates.moveIn')} {new Date(roommate.moveInDate).toLocaleDateString('fr-FR')}
                           </div>
                         </div>
                       </div>
@@ -348,19 +351,19 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                 {/* Statut de paiement */}
                 <Card>
                   <CardContent className="p-6">
-                    <h4 className="text-lg font-semibold mb-4">Statut de paiement</h4>
+                    <h4 className="text-lg font-semibold mb-4">{t('roommates.paymentStatus')}</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                         <div className="flex items-center">
                           <DollarSign className="mr-2 h-5 w-5 text-blue-600" />
-                          <span className="font-medium">Montant du loyer</span>
+                          <span className="font-medium">{t('roommates.rentAmount')}</span>
                         </div>
                         <span className="text-lg font-bold text-blue-600">{roommate.rentAmount}</span>
                       </div>
                       <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                         <div className="flex items-center">
                           <PaymentIcon className="mr-2 h-5 w-5" />
-                          <span className="font-medium">Statut du mois</span>
+                          <span className="font-medium">{t('roommates.monthlyStatus')}</span>
                         </div>
                         <Badge className={paymentStatus.color}>
                           {paymentStatus.status}
@@ -373,7 +376,7 @@ const RoommateDetailsModal: React.FC<RoommateDetailsModalProps> = ({
                       <div className="flex items-center text-blue-700">
                         <Calendar className="mr-2 h-4 w-4" />
                         <span className="font-medium">
-                          Prochain paiement: {nextPaymentDate.toLocaleDateString('fr-FR')}
+                          {t('roommates.nextPayment')} {nextPaymentDate.toLocaleDateString('fr-FR')}
                         </span>
                       </div>
                     </div>
