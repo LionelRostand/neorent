@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -48,12 +49,14 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
   notes,
   setNotes
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-green-800">
           <Calculator className="h-5 w-5" />
-          Simulation d'investissement
+          {t('forecasting.investmentSimulation')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -61,7 +64,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           <div>
             <Label htmlFor="propertyPrice" className="flex items-center gap-2">
               <Euro className="h-4 w-4" />
-              Prix du bien ciblé
+              {t('forecasting.targetPropertyPrice')}
             </Label>
             <Input
               id="propertyPrice"
@@ -74,7 +77,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="propertyRent">Loyer mensuel estimé</Label>
+            <Label htmlFor="propertyRent">{t('forecasting.estimatedMonthlyRent')}</Label>
             <Input
               id="propertyRent"
               type="number"
@@ -86,7 +89,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="downPayment">Apport personnel (%)</Label>
+            <Label htmlFor="downPayment">{t('forecasting.downPaymentPercent')}</Label>
             <Select value={downPaymentPercent} onValueChange={setDownPaymentPercent}>
               <SelectTrigger className="mt-1">
                 <SelectValue />
@@ -102,7 +105,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="loanRate">Taux d'intérêt (%)</Label>
+            <Label htmlFor="loanRate">{t('forecasting.interestRate')}</Label>
             <Input
               id="loanRate"
               type="number"
@@ -115,37 +118,37 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="loanDuration">Durée du prêt (années)</Label>
+            <Label htmlFor="loanDuration">{t('forecasting.loanDuration')}</Label>
             <Select value={loanDuration} onValueChange={setLoanDuration}>
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="15">15 ans</SelectItem>
-                <SelectItem value="20">20 ans</SelectItem>
-                <SelectItem value="25">25 ans</SelectItem>
-                <SelectItem value="30">30 ans</SelectItem>
+                <SelectItem value="15">{t('forecasting.fifteenYears')}</SelectItem>
+                <SelectItem value="20">{t('forecasting.twentyYears')}</SelectItem>
+                <SelectItem value="25">{t('forecasting.twentyFiveYears')}</SelectItem>
+                <SelectItem value="30">{t('forecasting.thirtyYears')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="propertyType">Type de bien</Label>
+            <Label htmlFor="propertyType">{t('forecasting.propertyType')}</Label>
             <Select value={propertyType} onValueChange={setPropertyType}>
               <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Sélectionner" />
+                <SelectValue placeholder={t('forecasting.selectPropertyType')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="apartment">Appartement</SelectItem>
-                <SelectItem value="house">Maison</SelectItem>
-                <SelectItem value="studio">Studio</SelectItem>
-                <SelectItem value="colocation">Colocation</SelectItem>
+                <SelectItem value="apartment">{t('forecasting.apartment')}</SelectItem>
+                <SelectItem value="house">{t('forecasting.house')}</SelectItem>
+                <SelectItem value="studio">{t('forecasting.studio')}</SelectItem>
+                <SelectItem value="colocation">{t('forecasting.colocation')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="monthlySavings">Épargne mensuelle possible</Label>
+            <Label htmlFor="monthlySavings">{t('forecasting.possibleMonthlySavings')}</Label>
             <Input
               id="monthlySavings"
               type="number"
@@ -157,27 +160,27 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="timeframe">Horizon d'investissement</Label>
+            <Label htmlFor="timeframe">{t('forecasting.investmentHorizon')}</Label>
             <Select value={timeframe} onValueChange={setTimeframe}>
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="6">6 mois</SelectItem>
-                <SelectItem value="12">1 an</SelectItem>
-                <SelectItem value="18">18 mois</SelectItem>
-                <SelectItem value="24">2 ans</SelectItem>
-                <SelectItem value="36">3 ans</SelectItem>
+                <SelectItem value="6">{t('forecasting.sixMonths')}</SelectItem>
+                <SelectItem value="12">{t('forecasting.oneYear')}</SelectItem>
+                <SelectItem value="18">{t('forecasting.eighteenMonths')}</SelectItem>
+                <SelectItem value="24">{t('forecasting.twoYears')}</SelectItem>
+                <SelectItem value="36">{t('forecasting.threeYears')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
         <div>
-          <Label htmlFor="notes">Notes sur le projet</Label>
+          <Label htmlFor="notes">{t('forecasting.projectNotes')}</Label>
           <Textarea
             id="notes"
-            placeholder="Décrivez votre projet d'investissement..."
+            placeholder={t('forecasting.describeYourProject')}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             className="mt-1"

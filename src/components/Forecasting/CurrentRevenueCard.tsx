@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -10,34 +11,36 @@ interface CurrentRevenueCardProps {
 }
 
 const CurrentRevenueCard: React.FC<CurrentRevenueCardProps> = ({ currentMonthlyRevenue }) => {
+  const { t } = useTranslation();
+
   return (
     <Card className="h-fit">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-blue-800">
           <PiggyBank className="h-5 w-5" />
-          Situation actuelle
+          {t('forecasting.currentSituation')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
-          <Label className="text-sm text-gray-600">Revenus mensuels réels</Label>
+          <Label className="text-sm text-gray-600">{t('forecasting.actualMonthlyRevenue')}</Label>
           <div className="text-2xl font-bold text-green-600">
             {Math.round(currentMonthlyRevenue).toLocaleString()}€
           </div>
           <p className="text-xs text-gray-500">
-            Basé sur les paiements reçus ce mois
+            {t('forecasting.basedOnPaymentsReceived')}
           </p>
         </div>
 
         <Separator />
 
         <div>
-          <Label className="text-sm text-gray-600">Capacité d'épargne recommandée</Label>
+          <Label className="text-sm text-gray-600">{t('forecasting.recommendedSavingsCapacity')}</Label>
           <div className="text-lg font-semibold text-blue-600">
             {Math.round(currentMonthlyRevenue * 0.3).toLocaleString()}€/mois
           </div>
           <p className="text-xs text-gray-500">
-            30% des revenus locatifs reçus
+            {t('forecasting.thirtyPercentOfRentalIncome')}
           </p>
         </div>
       </CardContent>
