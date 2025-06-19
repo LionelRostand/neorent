@@ -326,6 +326,15 @@
     "deleteSuccess": "Employé supprimé avec succès",
     "deleteError": "Erreur lors de la suppression de l'employé",
     "activateAccess": "Activer l'accès",
-    "accessActivated": "Accès activé"
+    "accessActivated": "Accès activé",
+    "creationDate": "Date de création",
+    "createdOn": "Créé le",
+    "passwordStatus": "Statut du mot de passe",
+    "actions": "Actions",
+    "passwordDefined": "Défini",
+    "passwordNotDefined": "Non défini",
+    "defined": "Défini",
+    "notDefined": "Non défini",
+    "managePassword": "Gérer le mot de passe"
   }
 }
