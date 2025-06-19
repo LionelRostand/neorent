@@ -28,6 +28,18 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
 
   if (!isImpersonating || !isAuthorizedAdmin) return null;
 
+  // Clean the name properly
+  const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || 'Utilisateur';
+  
+  // Get the consultation translation with the clean name
+  const consultationText = t('settings.adminModeConsultation', { name: cleanName });
+
+  console.log('AdminImpersonationBanner:', {
+    originalName: currentProfile?.name,
+    cleanName,
+    consultationText
+  });
+
   return (
     <Card className="border-blue-200 bg-blue-50">
       <CardContent className="p-3 sm:p-4">
@@ -36,7 +48,7 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
               <p className="font-medium text-blue-900 text-sm sm:text-base break-words leading-tight">
-                {t('settings.adminModeConsultation', { name: currentProfile.name })}
+                {consultationText}
               </p>
               <p className="text-xs sm:text-sm text-blue-700 mt-1">
                 {t('settings.viewingAsAdmin')}

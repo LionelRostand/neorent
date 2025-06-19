@@ -21,8 +21,8 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   const typeKey = currentType === 'colocataire' ? 'roommate' : 'tenant';
   const translatedType = t(`tenantSpace.${typeKey}`);
   
-  // Clean the name by trimming whitespace
-  const cleanName = currentProfile?.name?.trim() || 'Utilisateur';
+  // Clean the name by trimming whitespace and removing extra spaces
+  const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || 'Utilisateur';
 
   console.log('TenantSpaceHeader render:', {
     currentProfile,
@@ -33,19 +33,31 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
     roomNumber: currentProfile?.roomNumber
   });
 
+  // Prepare translation variables
+  const titleTranslation = t('tenantSpace.title', { type: translatedType });
+  const welcomeTranslation = t('tenantSpace.welcome', { name: cleanName });
+  const roomTranslation = currentProfile?.roomNumber ? 
+    t('tenantSpace.room', { number: currentProfile.roomNumber }) : '';
+
+  console.log('Translation results:', {
+    titleTranslation,
+    welcomeTranslation,
+    roomTranslation
+  });
+
   return (
     <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-            {t('tenantSpace.title', { type: translatedType })}
+            {titleTranslation}
           </h1>
           <p className="text-gray-600 mt-2 text-sm sm:text-base break-words">
-            {t('tenantSpace.welcome', { name: cleanName })}
+            {welcomeTranslation}
           </p>
           {currentType === 'colocataire' && currentProfile?.roomNumber && (
             <p className="text-gray-500 mt-1 text-sm">
-              {t('tenantSpace.room', { number: currentProfile.roomNumber })}
+              {roomTranslation}
             </p>
           )}
         </div>
