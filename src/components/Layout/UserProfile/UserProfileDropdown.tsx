@@ -29,13 +29,13 @@ export const UserProfileDropdown = () => {
     try {
       await logout();
       toast({
-        title: t('common.logout'),
+        title: "Déconnexion",
         description: "Vous avez été déconnecté avec succès.",
       });
       navigate('/login');
     } catch (error) {
       toast({
-        title: t('common.error'),
+        title: "Erreur",
         description: "Erreur lors de la déconnexion.",
         variant: "destructive",
       });
@@ -71,7 +71,7 @@ export const UserProfileDropdown = () => {
               </p>
               {isAdminOrEmployee && (
                 <p className="text-xs leading-none text-blue-600 font-medium">
-                  {userType === 'admin' ? t('common.administrator') : t('common.employee')}
+                  {userType === 'admin' ? 'Administrateur' : 'Employé'}
                 </p>
               )}
             </div>
@@ -82,15 +82,15 @@ export const UserProfileDropdown = () => {
             <>
               <DropdownMenuItem onClick={() => setIsProfileDialogOpen(true)}>
                 <UserCheck className="mr-2 h-4 w-4" />
-                <span>{t('common.myProfile')}</span>
+                <span>Mon profil</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setIsPasswordDialogOpen(true)}>
                 <Lock className="mr-2 h-4 w-4" />
-                <span>{t('common.changePassword')}</span>
+                <span>Changer mot de passe</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleTenantSpaceAccess}>
                 <Home className="mr-2 h-4 w-4" />
-                <span>{t('common.tenantSpace')}</span>
+                <span>Espace locataire</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
@@ -98,7 +98,7 @@ export const UserProfileDropdown = () => {
           
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>{t('common.logout')}</span>
+            <span>Déconnexion</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
