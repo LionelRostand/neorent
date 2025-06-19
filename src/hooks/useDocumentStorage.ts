@@ -44,17 +44,28 @@ export const useDocumentStorage = () => {
     try {
       const base64Content = await convertFileToBase64(file);
       
-      const documentData: Omit<DocumentData, 'id'> = {
+      // Créer l'objet document en s'assurant qu'on n'ajoute pas de valeurs undefined
+      const documentData: any = {
         fileName: file.name,
         fileType: file.type,
         fileSize: file.size,
         fileContent: base64Content,
         documentType,
-        tenantId,
-        roommateId,
         uploadDate: new Date().toISOString(),
         status: 'Uploadé'
       };
+
+      // Ajouter tenantId seulement s'il est défini
+      if (tenantId) {
+        documentData.tenantId = tenantId;
+      }
+
+      // Ajouter roommateId seulement s'il est défini
+      if (roommateId) {
+        documentData.roommateId = roommateId;
+      }
+
+      console.log('Saving document to Firestore:', documentData);
 
       const docRef = await addDoc(collection(db, 'documents'), documentData);
       
