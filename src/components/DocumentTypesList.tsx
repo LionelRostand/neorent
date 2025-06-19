@@ -77,7 +77,7 @@ const DocumentTypesList: React.FC<DocumentTypesListProps> = ({
                         </h4>
                         {document ? (
                           <p className="text-sm text-gray-600">
-                            {document.fileName} • {new Date(document.uploadDate).toLocaleDateString()} • {formatFileSize(document.fileSize)}
+                            Document uploadé • {document.fileName} • {new Date(document.uploadDate).toLocaleDateString()} • {formatFileSize(document.fileSize)}
                           </p>
                         ) : (
                           <p className="text-sm text-gray-500">{t('roommates.noDocumentUploaded')}</p>
