@@ -75,6 +75,11 @@
     "selectPaymentMethod": "Select payment method",
     "notes": "Notes",
     "notesPlaceholder": "Optional comments about this payment...",
-    "savePayment": "Save Payment"
+    "savePayment": "Save Payment",
+    "bankTransfer": "Bank Transfer",
+    "check": "Check",
+    "cash": "Cash",
+    "creditCard": "Credit Card",
+    "automaticDebit": "Automatic Debit"
   }
 }

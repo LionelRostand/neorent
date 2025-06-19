@@ -75,6 +75,11 @@
     "selectPaymentMethod": "Sélectionner le mode de paiement",
     "notes": "Notes",
     "notesPlaceholder": "Commentaires optionnels sur ce paiement...",
-    "savePayment": "Enregistrer le Paiement"
+    "savePayment": "Enregistrer le Paiement",
+    "bankTransfer": "Virement Bancaire",
+    "check": "Chèque",
+    "cash": "Espèces",
+    "creditCard": "Carte Bancaire",
+    "automaticDebit": "Prélèvement Automatique"
   }
 }
