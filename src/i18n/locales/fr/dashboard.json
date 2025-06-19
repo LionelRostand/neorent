@@ -6,6 +6,7 @@
     "management": "Aperçu du tableau de bord",
     "description": "Surveillez votre activité immobilière",
     "monthlyRevenue": "Revenus mensuels",
+    "rentalRevenue": "Revenus locatifs",
     "managedProperties": "Biens gérés",
     "activeTenants": "Locataires actifs",
     "averageYield": "Rendement moyen",
@@ -28,6 +29,7 @@
     "inspection": "Inspection de propriété",
     "viewAll": "Voir tout",
     "viewDetails": "Voir les détails",
+    "revenue": "Revenus",
     "timeAgo": {
       "hours": "Il y a {{hours}}h",
       "days": "Il y a {{days}}j",

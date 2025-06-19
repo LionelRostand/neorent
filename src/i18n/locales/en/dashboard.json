@@ -6,6 +6,7 @@
     "management": "Dashboard Overview",
     "description": "Monitor your real estate activity",
     "monthlyRevenue": "Monthly Revenue",
+    "rentalRevenue": "Rental Revenue",
     "managedProperties": "Managed Properties",
     "activeTenants": "Active Tenants",
     "averageYield": "Average Yield",
@@ -28,6 +29,7 @@
     "inspection": "Property inspection",
     "viewAll": "View All",
     "viewDetails": "View Details",
+    "revenue": "Revenue",
     "timeAgo": {
       "hours": "{{hours}}h ago",
       "days": "{{days}}d ago",
