@@ -190,26 +190,6 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           {/* Copyright et protection intellectuelle */}
           <div className="mt-8 pt-8 border-t border-gray-800">
             <div className="text-center text-gray-400 text-sm space-y-2">
-              <p className="font-medium">
-                <a 
-                  href="https://neotech-consulting.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors underline"
-                >
-                  {t('publicSite.footer.intellectualProperty')}
-                </a>
-              </p>
-              <p>
-                <a 
-                  href="https://neotech-consulting.com/trademarks" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors underline"
-                >
-                  {t('publicSite.footer.trademarks')}
-                </a>
-              </p>
               <p>
                 <button
                   onClick={handleCopyrightClick}
