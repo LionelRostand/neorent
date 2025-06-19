@@ -33,6 +33,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
   const { 
     loading, 
     uploading, 
+    uploadProgress,
     uploadDocument, 
     getDocuments, 
     downloadDocument
@@ -83,6 +84,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
     console.log('Paramètres handleUpload:', {
       fileName: file.name,
       fileSize: file.size,
+      fileSizeMB: (file.size / 1024 / 1024).toFixed(2) + ' MB',
       documentType,
       tenantId,
       roommateId,
@@ -142,7 +144,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
       });
       toast({
         title: "Erreur",
-        description: `Erreur lors de l'upload: ${error.message}`,
+        description: error.message || "Erreur lors de l'upload",
         variant: "destructive",
       });
       console.log('🚀 === FIN HANDLEUPLOAD (ERREUR) ===');
@@ -179,6 +181,7 @@ const DocumentManager: React.FC<DocumentManagerProps> = ({
         documentTypes={documentTypes}
         onUpload={handleUpload}
         uploading={uploading}
+        uploadProgress={uploadProgress}
       />
 
       <DocumentTypesList

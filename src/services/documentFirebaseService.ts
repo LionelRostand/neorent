@@ -1,4 +1,3 @@
-
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '@/lib/firebase';
@@ -9,39 +8,54 @@ export const uploadFileToStorage = async (file: File, roommateId: string): Promi
   const storagePath = `rent_documents/${roommateId}/${timestamp}_${file.name}`;
   
   console.log('📁 Chemin de stockage:', storagePath);
+  console.log('📤 Taille du fichier:', file.size, 'bytes');
 
-  console.log('📤 Upload vers Firebase Storage...');
-  const storageRef = ref(storage, storagePath);
-  const snapshot = await uploadBytes(storageRef, file);
-  console.log('✅ Fichier uploadé vers Storage');
+  try {
+    console.log('📤 Début upload vers Firebase Storage...');
+    const storageRef = ref(storage, storagePath);
+    
+    // Upload avec gestion d'erreur améliorée
+    const snapshot = await uploadBytes(storageRef, file);
+    console.log('✅ Fichier uploadé vers Storage, taille:', snapshot.metadata.size);
 
-  console.log('🔗 Récupération de l\'URL de téléchargement...');
-  const downloadURL = await getDownloadURL(snapshot.ref);
-  console.log('✅ URL obtenue:', downloadURL);
+    console.log('🔗 Récupération de l\'URL de téléchargement...');
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    console.log('✅ URL obtenue:', downloadURL);
 
-  return { downloadURL, storagePath };
+    return { downloadURL, storagePath };
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'upload Storage:', error);
+    throw new Error(`Erreur Storage: ${error.message}`);
+  }
 };
 
 export const saveDocumentMetadata = async (documentData: any, roommateId: string): Promise<string> => {
   const collectionPath = 'rent_documents';
   console.log('📁 Chemin de la collection Firestore:', collectionPath);
 
-  // Ajouter le roommateId aux données du document
-  const documentWithRoommate = {
-    ...documentData,
-    roommateId: roommateId,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  };
+  try {
+    // Ajouter le roommateId aux données du document
+    const documentWithRoommate = {
+      ...documentData,
+      roommateId: roommateId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
 
-  console.log('💾 Sauvegarde des métadonnées dans Firestore...');
-  const docRef = await addDoc(
-    collection(db, 'rent_documents'), 
-    documentWithRoommate
-  );
-  
-  console.log('✅ Métadonnées sauvegardées avec succès! ID:', docRef.id);
-  return docRef.id;
+    console.log('💾 Sauvegarde des métadonnées dans Firestore...');
+    console.log('📊 Données à sauvegarder:', documentWithRoommate);
+    
+    const docRef = await addDoc(
+      collection(db, 'rent_documents'), 
+      documentWithRoommate
+    );
+    
+    console.log('✅ Métadonnées sauvegardées avec succès! ID:', docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error('❌ Erreur lors de la sauvegarde Firestore:', error);
+    throw new Error(`Erreur Firestore: ${error.message}`);
+  }
 };
 
 export const getDocumentsFromFirestore = async (roommateId: string): Promise<DocumentData[]> => {

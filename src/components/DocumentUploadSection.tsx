@@ -1,92 +1,92 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
-import { Upload, FileText } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { Upload, File, X, AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface DocumentType {
   key: string;
+  icon: React.ComponentType<any>;
   label: string;
+  color: string;
+  required: boolean;
 }
 
 interface DocumentUploadSectionProps {
   documentTypes: DocumentType[];
   onUpload: (file: File, documentType: string) => Promise<void>;
   uploading: boolean;
+  uploadProgress?: number;
 }
 
 const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
   documentTypes,
   onUpload,
-  uploading
+  uploading,
+  uploadProgress = 0
 }) => {
   const { t } = useTranslation();
-  const { toast } = useToast();
-  const [selectedDocumentType, setSelectedDocumentType] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-
-  // Simulate upload progress
-  useEffect(() => {
-    if (uploading) {
-      const interval = setInterval(() => {
-        setUploadProgress(prev => {
-          if (prev >= 95) {
-            return prev;
-          }
-          return prev + Math.random() * 10;
-        });
-      }, 100);
-
-      return () => clearInterval(interval);
-    } else {
-      setUploadProgress(0);
-    }
-  }, [uploading]);
+  const [selectedDocumentType, setSelectedDocumentType] = useState<string>('');
+  const [uploadError, setUploadError] = useState<string>('');
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
+      setUploadError('');
+      
+      // Validation de la taille (10MB max)
+      if (file.size > 10 * 1024 * 1024) {
+        setUploadError('Le fichier ne doit pas dépasser 10 MB');
+        setSelectedFile(null);
+        return;
+      }
+      
+      console.log('📎 Fichier sélectionné:', {
+        name: file.name,
+        size: file.size,
+        sizeMB: (file.size / 1024 / 1024).toFixed(2) + ' MB',
+        type: file.type
+      });
     }
   };
 
   const handleUpload = async () => {
     if (!selectedFile || !selectedDocumentType) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner un fichier et un type de document",
-        variant: "destructive",
-      });
+      setUploadError('Veuillez sélectionner un fichier et un type de document');
       return;
     }
 
     try {
-      setUploadProgress(0);
+      setUploadError('');
+      console.log('🚀 Début upload:', selectedFile.name, 'Type:', selectedDocumentType);
+      
       await onUpload(selectedFile, selectedDocumentType);
       
-      setUploadProgress(100);
+      // Reset après succès
       setSelectedFile(null);
       setSelectedDocumentType('');
-      
-      // Reset input
       const input = document.getElementById('file-upload') as HTMLInputElement;
       if (input) input.value = '';
       
-      toast({
-        title: "Succès",
-        description: "Document uploadé avec succès",
-      });
     } catch (error) {
-      console.error('Upload failed:', error);
-      setUploadProgress(0);
+      console.error('❌ Erreur upload:', error);
+      setUploadError(error instanceof Error ? error.message : 'Erreur lors de l\'upload');
     }
+  };
+
+  const clearSelectedFile = () => {
+    setSelectedFile(null);
+    setUploadError('');
+    const input = document.getElementById('file-upload') as HTMLInputElement;
+    if (input) input.value = '';
   };
 
   const formatFileSize = (bytes: number) => {
@@ -97,81 +97,103 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
 
   return (
     <Card>
-      <CardContent className="p-6">
-        <div className="flex items-center space-x-2 mb-4">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          <h3 className="text-lg font-semibold">{t('roommates.uploadNewDocument')}</h3>
+          {t('roommates.uploadDocument')}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Sélection du type de document */}
+        <div>
+          <Label htmlFor="document-type">{t('roommates.documentType')}</Label>
+          <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType}>
+            <SelectTrigger>
+              <SelectValue placeholder={t('roommates.selectDocumentType')} />
+            </SelectTrigger>
+            <SelectContent>
+              {documentTypes.map((docType) => (
+                <SelectItem key={docType.key} value={docType.key}>
+                  {docType.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="document-type">{t('roommates.documentType')}</Label>
-            <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType}>
-              <SelectTrigger>
-                <SelectValue placeholder={t('roommates.selectType')} />
-              </SelectTrigger>
-              <SelectContent>
-                {documentTypes.map((type) => (
-                  <SelectItem key={type.key} value={type.key}>
-                    {type.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
 
-          <div>
-            <Label htmlFor="file-upload">{t('roommates.fileMaxSize')}</Label>
-            <Input
-              id="file-upload"
-              type="file"
-              accept="image/*,application/pdf"
-              onChange={handleFileSelect}
+        {/* Sélection du fichier */}
+        <div>
+          <Label htmlFor="file-upload">{t('roommates.selectFile')}</Label>
+          <Input
+            id="file-upload"
+            type="file"
+            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+            onChange={handleFileSelect}
+            disabled={uploading}
+            className="cursor-pointer"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Taille max: 10 MB • Types autorisés: PDF, Images, Documents Word
+          </p>
+        </div>
+
+        {/* Affichage du fichier sélectionné */}
+        {selectedFile && (
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div className="flex items-center space-x-3">
+              <File className="h-5 w-5 text-gray-500" />
+              <div>
+                <p className="text-sm font-medium">{selectedFile.name}</p>
+                <p className="text-xs text-gray-500">{formatFileSize(selectedFile.size)}</p>
+              </div>
+            </div>
+            <Button
+              onClick={clearSelectedFile}
               disabled={uploading}
-              className="cursor-pointer"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Taille max: 10 MB • Types autorisés: Images, PDF
+              size="sm"
+              variant="outline"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+
+        {/* Affichage des erreurs */}
+        {uploadError && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{uploadError}</AlertDescription>
+          </Alert>
+        )}
+
+        {/* Barre de progression */}
+        {uploading && (
+          <div className="space-y-2">
+            <Progress value={uploadProgress} className="w-full" />
+            <p className="text-xs text-center text-gray-500">
+              Upload en cours... {uploadProgress}%
             </p>
           </div>
+        )}
 
-          {selectedFile && (
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <FileText className="h-5 w-5 text-gray-500" />
-                <div>
-                  <p className="text-sm font-medium">{selectedFile.name}</p>
-                  <p className="text-xs text-gray-500">{formatFileSize(selectedFile.size)}</p>
-                </div>
-              </div>
-              <Button
-                onClick={handleUpload}
-                disabled={uploading || !selectedDocumentType}
-                size="sm"
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                {uploading ? (
-                  <>
-                    <Upload className="h-4 w-4 mr-2 animate-spin" />
-                    Upload...
-                  </>
-                ) : (
-                  <>
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload
-                  </>
-                )}
-              </Button>
-            </div>
+        {/* Bouton d'upload */}
+        <Button
+          onClick={handleUpload}
+          disabled={!selectedFile || !selectedDocumentType || uploading}
+          className="w-full"
+        >
+          {uploading ? (
+            <>
+              <Upload className="h-4 w-4 mr-2 animate-spin" />
+              Upload en cours...
+            </>
+          ) : (
+            <>
+              <Upload className="h-4 w-4 mr-2" />
+              {t('roommates.uploadDocument')}
+            </>
           )}
-
-          {uploading && (
-            <div className="space-y-2">
-              <Progress value={uploadProgress} className="w-full" />
-              <p className="text-xs text-center text-gray-500">Upload en cours... {Math.round(uploadProgress)}%</p>
-            </div>
-          )}
-        </div>
+        </Button>
       </CardContent>
     </Card>
   );
