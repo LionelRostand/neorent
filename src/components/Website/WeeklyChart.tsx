@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { AnalyticsData } from '@/hooks/useAnalyticsTracking';
@@ -10,13 +11,15 @@ interface WeeklyChartProps {
 }
 
 export const WeeklyChart: React.FC<WeeklyChartProps> = ({ analyticsData, hasRealData }) => {
+  const { t } = useTranslation();
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-base md:text-lg flex items-center gap-2">
-          Évolution hebdomadaire
+          {t('website.weeklyEvolution')}
           {!hasRealData && (
-            <span className="text-sm font-normal text-gray-500">(Données de démonstration)</span>
+            <span className="text-sm font-normal text-gray-500">({t('website.demoData')})</span>
           )}
         </CardTitle>
       </CardHeader>
@@ -49,7 +52,7 @@ export const WeeklyChart: React.FC<WeeklyChartProps> = ({ analyticsData, hasReal
                 dataKey="visitors" 
                 fill="#22c55e" 
                 radius={[4, 4, 0, 0]}
-                name="Visiteurs"
+                name={t('website.visitors')}
               />
             </BarChart>
           </ResponsiveContainer>

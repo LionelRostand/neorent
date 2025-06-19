@@ -32,6 +32,17 @@
     "virtualTours": "Virtual Tours",
     "publishChanges": "Publish Changes",
     "previewWebsite": "Preview Website",
-    "backupWebsite": "Backup Website"
+    "backupWebsite": "Backup Website",
+    "visitorsToday": "Visitors today",
+    "pagesViewed": "Pages viewed",
+    "contactRequests": "Contact requests",
+    "weeklyEvolution": "Weekly Evolution",
+    "demoData": "Demo data",
+    "trackingActive": "Tracking active",
+    "awaitingData": "Awaiting data",
+    "realTimeDataAvailable": "Real-time data available",
+    "demonstrationDataDisplayed": "Demonstration data displayed",
+    "refreshing": "Refreshing...",
+    "refresh": "Refresh"
   }
 }

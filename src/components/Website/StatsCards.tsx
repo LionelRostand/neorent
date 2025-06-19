@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Users, Eye, Mail } from 'lucide-react';
 import { AnalyticsData } from '@/hooks/useAnalyticsTracking';
@@ -10,23 +11,25 @@ interface StatsCardsProps {
 }
 
 export const StatsCards: React.FC<StatsCardsProps> = ({ analyticsData, hasRealData }) => {
+  const { t } = useTranslation();
+
   const stats = [
     {
       icon: Users,
       value: analyticsData.visitorsToday,
-      label: 'Visiteurs aujourd\'hui',
+      label: t('website.visitorsToday'),
       color: 'text-blue-500'
     },
     {
       icon: Eye,
       value: analyticsData.pageViews,
-      label: 'Pages vues',
+      label: t('website.pagesViewed'),
       color: 'text-green-500'
     },
     {
       icon: Mail,
       value: analyticsData.contactRequests,
-      label: 'Demandes contact',
+      label: t('website.contactRequests'),
       color: 'text-purple-500'
     }
   ];
