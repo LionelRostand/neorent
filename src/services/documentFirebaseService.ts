@@ -1,3 +1,4 @@
+
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { DocumentData } from '@/types/document';
@@ -35,10 +36,10 @@ export const saveDocumentToFirestore = async (
   console.log('📤 Taille originale du fichier:', file.size, 'bytes');
 
   try {
-    // Validation préalable de la taille - limite à 2MB pour base64
-    const maxFileSize = 2 * 1024 * 1024; // 2MB
+    // Validation préalable de la taille - limite à 1.5MB pour fichier original
+    const maxFileSize = 1.5 * 1024 * 1024; // 1.5MB
     if (file.size > maxFileSize) {
-      throw new Error(`Fichier trop volumineux (${(file.size / 1024 / 1024).toFixed(2)}MB). Limite: 2MB`);
+      throw new Error(`Fichier trop volumineux (${(file.size / 1024 / 1024).toFixed(2)}MB). Veuillez choisir un fichier plus petit (max 1.5MB).`);
     }
 
     // Validation du type de fichier
@@ -53,7 +54,7 @@ export const saveDocumentToFirestore = async (
     console.log('✅ Fichier converti, taille base64:', base64Data.length, 'caractères');
 
     // Validation de la taille finale (Firestore limite ~1MB par document)
-    const maxBase64Size = 800000; // 800KB pour être sûr
+    const maxBase64Size = 700000; // 700KB pour être sûr
     if (base64Data.length > maxBase64Size) {
       throw new Error(`Fichier trop volumineux après conversion (${(base64Data.length / 1024).toFixed(2)}KB). Veuillez choisir un fichier plus petit (max 1.5MB).`);
     }
