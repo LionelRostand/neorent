@@ -92,7 +92,8 @@
       "flooring": "Flooring",
       "roofing": "Roofing",
       "garden": "Garden",
-      "other": "Other"
+      "other": "Other",
+      "technician": "Technician"
     },
     "priorities": {
       "urgent": "Urgent",

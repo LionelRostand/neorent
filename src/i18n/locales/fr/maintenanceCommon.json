@@ -92,7 +92,8 @@
       "flooring": "Sol",
       "roofing": "Toiture",
       "garden": "Jardin",
-      "other": "Autre"
+      "other": "Autre",
+      "technician": "Technicien"
     },
     "priorities": {
       "urgent": "Urgent",
