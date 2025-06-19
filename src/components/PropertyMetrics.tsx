@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Building, Home, Users, DollarSign } from 'lucide-react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
@@ -7,6 +8,7 @@ import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 
 const PropertyMetrics: React.FC = () => {
+  const { t } = useTranslation();
   const { properties, loading } = useFirebaseProperties();
   const { roommates } = useFirebaseRoommates();
   const { tenants } = useFirebaseTenants();
@@ -17,11 +19,11 @@ const PropertyMetrics: React.FC = () => {
         {[...Array(4)].map((_, i) => (
           <Card key={i}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Chargement...</CardTitle>
+              <CardTitle className="text-sm font-medium">{t('properties.loading')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">-</div>
-              <p className="text-xs text-muted-foreground">Chargement...</p>
+              <p className="text-xs text-muted-foreground">{t('properties.loading')}</p>
             </CardContent>
           </Card>
         ))}
@@ -115,52 +117,52 @@ const PropertyMetrics: React.FC = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total des Biens</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('properties.totalProperties')}</CardTitle>
           <Building className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalProperties}</div>
           <p className="text-xs text-muted-foreground">
-            {occupiedProperties} occupés, {availableProperties} libres
+            {t('properties.metrics.totalDescription', { count: totalProperties })}
           </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Taux d'Occupation</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('properties.occupancyRate')}</CardTitle>
           <Home className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{occupancyRate}%</div>
           <p className="text-xs text-muted-foreground">
-            {occupiedProperties}/{totalProperties} biens occupés
+            {t('properties.metrics.occupancyDescription', { rate: occupancyRate })}
           </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Chambres Colocation</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('properties.colocationRooms')}</CardTitle>
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{occupiedColocationRooms}/{totalColocationRooms}</div>
           <p className="text-xs text-muted-foreground">
-            {availableColocationRooms} chambres disponibles
+            {t('properties.metrics.colocationDescription', { occupied: occupiedColocationRooms, total: totalColocationRooms })}
           </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Revenus Mensuels</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('properties.monthlyRevenue')}</CardTitle>
           <DollarSign className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{Math.round(totalRevenue).toLocaleString()}€</div>
           <p className="text-xs text-muted-foreground">
-            Revenus réels perçus
+            {t('properties.realRevenueReceived')}
           </p>
         </CardContent>
       </Card>
