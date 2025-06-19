@@ -195,8 +195,9 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                   onClick={handleCopyrightClick}
                   className="hover:text-white transition-colors underline cursor-pointer"
                 >
-                  &copy; 2025 Neotech-consulting. {t('publicSite.footer.copyright')}
+                  COPYRIGHT
                 </button>
+                {" "}&copy; 2025 Neotech-consulting. {t('publicSite.footer.copyright')}
               </p>
             </div>
           </div>
