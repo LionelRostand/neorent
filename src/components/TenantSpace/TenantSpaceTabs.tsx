@@ -35,11 +35,11 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
       <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 gap-1">
         <TabsTrigger value="overview" className="flex items-center gap-2 text-xs sm:text-sm">
           <Home className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('tenantSpace.tabs.overview')}</span>
+          <span className="hidden sm:inline">Aperçu</span>
         </TabsTrigger>
         <TabsTrigger value="payments" className="flex items-center gap-2 text-xs sm:text-sm">
           <CreditCard className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('tenantSpace.tabs.payments')}</span>
+          <span className="hidden sm:inline">Paiements</span>
         </TabsTrigger>
         <TabsTrigger value="transfers" className="flex items-center gap-2 text-xs sm:text-sm">
           <ArrowUpCircle className="h-4 w-4" />
@@ -47,15 +47,15 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
         </TabsTrigger>
         <TabsTrigger value="documents" className="flex items-center gap-2 text-xs sm:text-sm">
           <FileText className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('tenantSpace.tabs.documents')}</span>
+          <span className="hidden sm:inline">Documents</span>
         </TabsTrigger>
         <TabsTrigger value="messages" className="flex items-center gap-2 text-xs sm:text-sm">
           <MessageSquare className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('tenantSpace.tabs.messages')}</span>
+          <span className="hidden sm:inline">Messages</span>
         </TabsTrigger>
         <TabsTrigger value="settings" className="flex items-center gap-2 text-xs sm:text-sm">
           <Settings className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('tenantSpace.tabs.settings')}</span>
+          <span className="hidden sm:inline">Paramètres</span>
         </TabsTrigger>
       </TabsList>
 
@@ -77,7 +77,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
       <TabsContent value="documents">
         <DocumentManager 
           tenantId="tenant-1"
-          tenantName={mockTenantData.name}
+          tenantName={mockTenantData?.name || "Locataire"}
         />
       </TabsContent>
 
@@ -85,10 +85,10 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
         <div className="text-center py-8">
           <MessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {t('tenantSpace.messages.title')}
+            Messages
           </h3>
           <p className="text-gray-500">
-            {t('tenantSpace.messages.description')}
+            Communiquez avec votre gestionnaire immobilier
           </p>
         </div>
       </TabsContent>
@@ -97,10 +97,10 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
         <div className="text-center py-8">
           <Settings className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {t('tenantSpace.settings.title')}
+            Paramètres
           </h3>
           <p className="text-gray-500">
-            {t('tenantSpace.settings.description')}
+            Gérez vos préférences et informations personnelles
           </p>
         </div>
       </TabsContent>
