@@ -27,6 +27,8 @@
     "fullyOccupied": "Fully Occupied",
     "vacant": "Vacant",
     "perMonth": "/month",
+    "type": "Type",
+    "surface": "Surface",
     "metrics": {
       "totalProperties": "Total Properties",
       "totalDescription": "{{count}} properties in your portfolio",
@@ -101,6 +103,8 @@
     "roomCountError": "Number of rooms is required for shared housing",
     "addSuccessMessage": "Property has been added successfully",
     "addErrorMessage": "Error adding property",
+    "type": "Type",
+    "surface": "Surface",
     "propertyTypes": {
       "appartement": "Apartment",
       "studio": "Studio",
