@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Download, Eye } from 'lucide-react';
+import { Eye, Download } from 'lucide-react';
 import { DocumentData } from '@/types/document';
 
 interface DocumentActionsProps {
-  document: DocumentData | undefined;
+  document?: DocumentData;
   onView: (document: DocumentData) => void;
   onDownload: (document: DocumentData) => void;
 }
@@ -14,25 +15,54 @@ const DocumentActions: React.FC<DocumentActionsProps> = ({
   onView,
   onDownload
 }) => {
-  if (!document) return null;
+  if (!document) {
+    return (
+      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+        <Button 
+          disabled 
+          size="sm" 
+          variant="outline"
+          className="w-full sm:w-auto text-xs sm:text-sm px-2 sm:px-3"
+        >
+          <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+          <span className="hidden sm:inline">Voir</span>
+          <span className="sm:hidden">Voir</span>
+        </Button>
+        <Button 
+          disabled 
+          size="sm" 
+          variant="outline"
+          className="w-full sm:w-auto text-xs sm:text-sm px-2 sm:px-3"
+        >
+          <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+          <span className="hidden sm:inline">Télécharger</span>
+          <span className="sm:hidden">Télécharger</span>
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex gap-2">
-      <Button 
-        variant="outline" 
-        size="sm"
+    <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+      <Button
         onClick={() => onView(document)}
-      >
-        <Eye className="h-4 w-4 mr-2" />
-        Voir
-      </Button>
-      <Button 
-        variant="outline" 
         size="sm"
-        onClick={() => onDownload(document)}
+        variant="outline"
+        className="w-full sm:w-auto text-xs sm:text-sm px-2 sm:px-3 hover:bg-blue-50"
       >
-        <Download className="h-4 w-4 mr-2" />
-        Télécharger
+        <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+        <span className="hidden sm:inline">Voir</span>
+        <span className="sm:hidden">Voir</span>
+      </Button>
+      <Button
+        onClick={() => onDownload(document)}
+        size="sm"
+        variant="outline"
+        className="w-full sm:w-auto text-xs sm:text-sm px-2 sm:px-3 hover:bg-green-50"
+      >
+        <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+        <span className="hidden sm:inline">Télécharger</span>
+        <span className="sm:hidden">Télécharger</span>
       </Button>
     </div>
   );
