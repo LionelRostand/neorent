@@ -227,7 +227,7 @@ const Taxes = () => {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">{t('taxes.declarationList')}</h2>
             <div className="grid gap-4">
-              {fiscalities.map((fiscality) => (
+              {fiscalities && fiscalities.map((fiscality) => (
                 <Card key={fiscality.id}>
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start">
