@@ -6,12 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Shield, Lock, Key } from 'lucide-react';
 import { PasswordChangeDialog } from '@/components/Layout/UserProfile/PasswordChangeDialog';
 import { useState } from 'react';
+import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
 
 const TenantSecuritySettings: React.FC = () => {
   const { user } = useAuth();
+  const { currentProfile } = useTenantSpaceData();
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
 
-  if (!user) {
+  if (!user || !currentProfile) {
     return null;
   }
 
@@ -69,7 +71,7 @@ const TenantSecuritySettings: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-gray-50 rounded-lg">
               <h4 className="font-medium text-gray-900 mb-2">Email de connexion</h4>
-              <p className="text-sm text-gray-600">{user.email}</p>
+              <p className="text-sm text-gray-600">{currentProfile.email}</p>
             </div>
             <div className="p-4 bg-gray-50 rounded-lg">
               <h4 className="font-medium text-gray-900 mb-2">Dernière connexion</h4>
