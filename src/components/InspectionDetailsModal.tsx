@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import InspectionEditForm from './InspectionEditForm';
 import GeneralInfoSection from './InspectionDetails/GeneralInfoSection';
@@ -30,6 +31,7 @@ interface InspectionDetailsModalProps {
 }
 
 const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: InspectionDetailsModalProps) => {
+  const { t } = useTranslation();
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
   const handleEditInspection = () => {
@@ -52,7 +54,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
         <DialogContent className="max-w-4xl w-[95vw] sm:w-[90vw] lg:w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto p-3 sm:p-4 lg:p-6">
           <DialogHeader className="pb-3 sm:pb-4">
             <DialogTitle className="text-lg sm:text-xl font-bold text-center sm:text-left pr-6 sm:pr-8">
-              Détails de l'état des lieux
+              {t('inspections.inspectionDetails')}
             </DialogTitle>
           </DialogHeader>
           
