@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -135,13 +134,13 @@ const RentPaymentForm = () => {
           {t('rentManagement.addPayment')}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[650px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[95vw] max-w-[650px] max-h-[95vh] overflow-y-auto p-3 sm:p-4 lg:p-6">
         <PaymentFormHeader />
         
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Section Sélection du locataire/colocataire */}
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <TenantSelector
                 selectedTenant={selectedTenant}
                 onTenantChange={handleTenantChange}
@@ -161,7 +160,7 @@ const RentPaymentForm = () => {
             )}
 
             {/* Section Montant et Mode de paiement */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <PaymentAmountInput
                 amount={amount}
                 onAmountChange={setAmount}

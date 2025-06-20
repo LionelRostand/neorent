@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Home } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
 interface Tenant {
   id: string;
@@ -19,25 +19,23 @@ const PropertyInfoDisplay: React.FC<PropertyInfoDisplayProps> = ({ tenantData })
   const { t } = useTranslation();
 
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="p-2 bg-blue-100 rounded-lg">
-          <Home className="h-5 w-5 text-blue-600" />
+    <div className="bg-blue-50 p-3 sm:p-4 lg:p-5 rounded-lg border border-blue-200">
+      <h4 className="font-semibold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base flex items-center gap-2">
+        <Building2 className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+        <span className="truncate">Informations du bien</span>
+      </h4>
+      <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+          <span className="text-blue-700 font-medium">Type:</span>
+          <span className="text-blue-900 font-medium break-words">{tenantData.type}</span>
         </div>
-        <span className="font-semibold text-gray-800 text-lg">{t('rentManagement.propertyInformation')}</span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-lg p-4 border border-blue-100">
-          <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">{t('rentManagement.type')}</p>
-          <p className="text-sm font-semibold text-gray-800">{tenantData.type}</p>
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+          <span className="text-blue-700 font-medium">Bien:</span>
+          <span className="text-blue-900 font-medium break-words sm:text-right">{tenantData.property}</span>
         </div>
-        <div className="bg-white rounded-lg p-4 border border-blue-100">
-          <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">{t('rentManagement.property')}</p>
-          <p className="text-sm font-semibold text-gray-800">{tenantData.property}</p>
-        </div>
-        <div className="bg-white rounded-lg p-4 border border-blue-100">
-          <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">{t('rentManagement.monthlyRent')}</p>
-          <p className="text-sm font-semibold text-green-600">{tenantData.rentAmount}€</p>
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+          <span className="text-blue-700 font-medium">Loyer attendu:</span>
+          <span className="text-green-600 font-bold text-sm sm:text-base">{tenantData.rentAmount}€</span>
         </div>
       </div>
     </div>
