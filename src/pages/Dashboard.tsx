@@ -11,9 +11,9 @@ import { Building, Users, FileText, Euro } from 'lucide-react';
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const { metrics, loading } = useDashboardMetrics();
+  const dashboardData = useDashboardMetrics();
 
-  if (loading) {
+  if (dashboardData.loading) {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
@@ -36,27 +36,23 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
             title={t('dashboard.metrics.totalProperties')}
-            value={metrics.totalProperties}
+            value={dashboardData.totalProperties}
             icon={Building}
-            color="blue"
           />
           <MetricCard
             title={t('dashboard.metrics.totalTenants')}
-            value={metrics.totalTenants}
+            value={dashboardData.totalActiveTenants}
             icon={Users}
-            color="green"
           />
           <MetricCard
             title={t('dashboard.metrics.activeContracts')}
-            value={metrics.activeContracts}
+            value={dashboardData.expiringContracts}
             icon={FileText}
-            color="purple"
           />
           <MetricCard
             title={t('dashboard.metrics.monthlyRevenue')}
-            value={`${metrics.monthlyRevenue}€`}
+            value={`${dashboardData.monthlyRevenue}€`}
             icon={Euro}
-            color="orange"
           />
         </div>
 

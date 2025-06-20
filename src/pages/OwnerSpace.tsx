@@ -10,7 +10,7 @@ import { Building, Users, Euro, FileText } from 'lucide-react';
 
 const OwnerSpace = () => {
   const { t } = useTranslation();
-  const { ownerData, loading } = useOwnerSpaceData();
+  const { currentOwner, ownerProperties, ownerTenants, ownerRoommates, ownerContracts, loading } = useOwnerSpaceData();
 
   if (loading) {
     return (
@@ -22,10 +22,27 @@ const OwnerSpace = () => {
     );
   }
 
+  // Calculate monthly revenue from tenants and roommates
+  const monthlyRevenue = ownerTenants.reduce((total, tenant) => {
+    return total + (Number(tenant.rentAmount) || 0);
+  }, 0) + ownerRoommates.reduce((total, roommate) => {
+    return total + (Number(roommate.rentAmount) || 0);
+  }, 0);
+
   return (
     <MainLayout>
       <div className="space-y-6">
-        <OwnerSpaceHeader />
+        {currentOwner && (
+          <OwnerSpaceHeader 
+            owner={{
+              name: currentOwner.name || 'Propriétaire',
+              email: currentOwner.email || 'email@example.com'
+            }}
+            propertiesCount={ownerProperties.length}
+            tenantsCount={ownerTenants.length}
+            roommatesCount={ownerRoommates.length}
+          />
+        )}
         
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -35,7 +52,7 @@ const OwnerSpace = () => {
               <Building className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{ownerData?.totalProperties || 0}</div>
+              <div className="text-2xl font-bold">{ownerProperties.length}</div>
             </CardContent>
           </Card>
           
@@ -45,7 +62,7 @@ const OwnerSpace = () => {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{ownerData?.activeTenants || 0}</div>
+              <div className="text-2xl font-bold">{ownerTenants.length}</div>
             </CardContent>
           </Card>
           
@@ -55,7 +72,7 @@ const OwnerSpace = () => {
               <Euro className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{ownerData?.monthlyRevenue || 0}€</div>
+              <div className="text-2xl font-bold">{monthlyRevenue}€</div>
             </CardContent>
           </Card>
           
@@ -65,7 +82,7 @@ const OwnerSpace = () => {
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{ownerData?.activeContracts || 0}</div>
+              <div className="text-2xl font-bold">{ownerContracts.length}</div>
             </CardContent>
           </Card>
         </div>
