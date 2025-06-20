@@ -125,7 +125,10 @@ i18n
     interpolation: {
       escapeValue: false
     },
-    debug: false
+    debug: false,
+    react: {
+      useSuspense: false
+    }
   });
 
 export default i18n;
