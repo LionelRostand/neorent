@@ -102,39 +102,26 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-          <Upload className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="text-sm sm:text-base">Uploader un document</span>
+    <Card className="w-full max-w-none">
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
+          <Upload className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+          <span className="text-sm sm:text-base md:text-lg">Uploader un document</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 p-4 sm:p-6">
+      <CardContent className="p-3 sm:p-4 md:p-6">
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Type de document
-            </label>
-            <DocumentTypeSelector
-              documentTypes={documentTypes}
-              selectedDocumentType={selectedDocumentType}
-              onDocumentTypeChange={setSelectedDocumentType}
-              uploading={uploading}
-            />
-          </div>
+          <DocumentTypeSelector
+            documentTypes={documentTypes}
+            selectedDocumentType={selectedDocumentType}
+            onDocumentTypeChange={setSelectedDocumentType}
+            uploading={uploading}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Choisir un fichier
-            </label>
-            <FileSelector
-              onFileSelect={handleFileSelect}
-              uploading={uploading}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Taille max: 1.5 MB • Types autorisés: PDF, Images, Documents Word
-            </p>
-          </div>
+          <FileSelector
+            onFileSelect={handleFileSelect}
+            uploading={uploading}
+          />
 
           {selectedFile && (
             <SelectedFileDisplay

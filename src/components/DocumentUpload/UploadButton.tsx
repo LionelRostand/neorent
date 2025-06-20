@@ -18,17 +18,19 @@ const UploadButton: React.FC<UploadButtonProps> = ({
     <Button
       onClick={onUpload}
       disabled={disabled}
-      className="w-full"
+      className="w-full h-10 text-sm sm:text-base"
     >
       {uploading ? (
         <>
           <Upload className="h-4 w-4 mr-2 animate-spin" />
-          Upload en cours...
+          <span className="hidden sm:inline">Upload en cours...</span>
+          <span className="sm:hidden">Upload...</span>
         </>
       ) : (
         <>
           <Upload className="h-4 w-4 mr-2" />
-          Uploader le document
+          <span className="hidden sm:inline">Uploader le document</span>
+          <span className="sm:hidden">Uploader</span>
         </>
       )}
     </Button>
