@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -104,41 +103,21 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
     setLoading(true);
 
     try {
-      // Déterminer le statut selon le montant payé
+      // Déterminer le statut selon le montant payé et le mode de paiement
       let paymentStatus = 'Payé';
-      if (paidAmountNum < totalAmount) {
-        paymentStatus = 'Partiel';
-        
-        // Alerte backend pour paiement partiel
-        console.warn('🚨 ALERTE BACKEND - Paiement partiel détecté:', {
-          tenant: actualTenantName,
-          attendu: totalAmount,
-          paye: paidAmountNum,
-          difference: totalAmount - paidAmountNum,
-          pourcentage: ((paidAmountNum / totalAmount) * 100).toFixed(1) + '%'
-        });
-        
-        toast({
-          title: t('tenantSpace.payment.partialPaymentAlert'),
-          description: `${t('tenantSpace.payment.amountEntered')}: ${paidAmountNum}€ / ${t('tenantSpace.payment.expectedAmount')}: ${totalAmount}€. ${t('tenantSpace.payment.missing')}: ${(totalAmount - paidAmountNum).toFixed(2)}€`,
-          variant: "destructive",
-        });
-      } else if (paidAmountNum > totalAmount) {
-        paymentStatus = 'Trop-perçu';
-        
-        // Alerte backend pour trop-perçu
-        console.warn('🚨 ALERTE BACKEND - Trop-perçu détecté:', {
-          tenant: actualTenantName,
-          attendu: totalAmount,
-          paye: paidAmountNum,
-          surplus: paidAmountNum - totalAmount
-        });
-        
-        toast({
-          title: t('tenantSpace.payment.overpaymentAlert'),
-          description: `${t('tenantSpace.payment.amountEntered')}: ${paidAmountNum}€ / ${t('tenantSpace.payment.expectedAmount')}: ${totalAmount}€. ${t('tenantSpace.payment.surplus')}: ${(paidAmountNum - totalAmount).toFixed(2)}€`,
-          variant: "destructive",
-        });
+      let validationStatus = undefined;
+      
+      // Si c'est un virement, le mettre en attente de validation
+      if (paymentMethod === 'Virement') {
+        paymentStatus = 'En attente de validation';
+        validationStatus = 'pending';
+      } else {
+        // Pour les autres modes de paiement, traitement normal
+        if (paidAmountNum < totalAmount) {
+          paymentStatus = 'Partiel';
+        } else if (paidAmountNum > totalAmount) {
+          paymentStatus = 'Trop-perçu';
+        }
       }
 
       const paymentData = {
@@ -151,39 +130,47 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
         status: paymentStatus,
         paymentDate: paymentDate,
         paymentMethod,
-        notes: notes || null
+        notes: notes || null,
+        validationStatus,
+        receiptGenerated: false
       };
 
       console.log('💾 Données de paiement à enregistrer:', paymentData);
 
       await addPayment(paymentData);
 
-      // Générer automatiquement le reçu PDF seulement si paiement complet
-      if (isFullPayment) {
-        const currentDate = new Date(paymentDate);
-        const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-          'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-        const monthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-
-        console.log('Génération du reçu PDF pour:', actualTenantName);
-
-        generateReceipt({
-          month: monthYear,
-          rentAmount: monthlyRent,
-          charges: monthlyCharges,
-          paymentDate: paymentDate,
-          paymentMethod: paymentMethod
-        });
-
+      // Messages différents selon le mode de paiement
+      if (paymentMethod === 'Virement') {
         toast({
-          title: t('tenantSpace.payment.paymentRecorded'),
-          description: t('tenantSpace.payment.paymentSuccess'),
+          title: 'Virement déclaré',
+          description: 'Votre virement a été déclaré. Il sera validé par le bailleur sous 24h.',
         });
       } else {
-        toast({
-          title: t('tenantSpace.payment.paymentRecorded'),
-          description: `${t('tenantSpace.payment.paymentRecorded')}. ${t('tenantSpace.payment.noReceiptPartial')}.`,
-        });
+        // Générer automatiquement le reçu pour les autres modes de paiement
+        if (isFullPayment) {
+          const currentDate = new Date(paymentDate);
+          const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+            'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+          const monthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+          generateReceipt({
+            month: monthYear,
+            rentAmount: monthlyRent,
+            charges: monthlyCharges,
+            paymentDate: paymentDate,
+            paymentMethod: paymentMethod
+          });
+
+          toast({
+            title: t('tenantSpace.payment.paymentRecorded'),
+            description: t('tenantSpace.payment.paymentSuccess'),
+          });
+        } else {
+          toast({
+            title: t('tenantSpace.payment.paymentRecorded'),
+            description: `${t('tenantSpace.payment.paymentRecorded')}. ${t('tenantSpace.payment.noReceiptPartial')}.`,
+          });
+        }
       }
 
       // Reset form
