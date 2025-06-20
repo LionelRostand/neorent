@@ -5,14 +5,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
 import { useEmployeePassword } from '@/hooks/useEmployeePassword';
-import { Plus } from 'lucide-react';
+import { Plus, UserCog } from 'lucide-react';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import EmployeePasswordDialog from './EmployeePasswordDialog';
 import EmployeeForm from './EmployeeForm';
 import EmployeeTable from './EmployeeTable';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/hooks/useAuth';
 
 interface Employee {
   id: string;
@@ -38,6 +40,8 @@ const EmployeeManagement: React.FC = () => {
   const { companies, loading: companiesLoading } = useFirebaseCompanies();
   const { ensureEmployeeCanLogin } = useEmployeePassword();
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
@@ -48,6 +52,12 @@ const EmployeeManagement: React.FC = () => {
     role: 'employee',
     companyId: ''
   });
+
+  const isAdmin = user?.email === 'admin@neotech-consulting.com';
+
+  const handleOwnerSpaceAccess = () => {
+    navigate('/owner-space');
+  };
 
   const resetForm = () => {
     setFormData({
@@ -216,25 +226,37 @@ const EmployeeManagement: React.FC = () => {
             <div className="flex items-center gap-2">
               👥 {t('employees.management')}
             </div>
-            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  {t('employees.addEmployee')}
+            <div className="flex items-center gap-2">
+              {isAdmin && (
+                <Button 
+                  onClick={handleOwnerSpaceAccess}
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  <UserCog className="h-4 w-4" />
+                  Espace Propriétaire
                 </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{t('employees.addEmployee')}</DialogTitle>
-                </DialogHeader>
-                <EmployeeForm
-                  formData={formData}
-                  setFormData={setFormData}
-                  onSubmit={handleAddEmployee}
-                  companies={companies}
-                />
-              </DialogContent>
-            </Dialog>
+              )}
+              <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    {t('employees.addEmployee')}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{t('employees.addEmployee')}</DialogTitle>
+                  </DialogHeader>
+                  <EmployeeForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    onSubmit={handleAddEmployee}
+                    companies={companies}
+                  />
+                </DialogContent>
+              </Dialog>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 md:space-y-6">
