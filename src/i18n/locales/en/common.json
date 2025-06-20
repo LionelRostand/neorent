@@ -60,6 +60,15 @@
     "dashboard": "Dashboard",
     "home": "Home",
     "tenantNotFound": "Tenant not found",
-    "errorAccessingTenantSpace": "Error accessing tenant space"
+    "errorAccessingTenantSpace": "Error accessing tenant space",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "enterCurrentPassword": "Enter your current password",
+    "minimum6Characters": "Minimum 6 characters",
+    "confirmNewPassword": "Confirm new password",
+    "modifying": "Modifying...",
+    "modify": "Modify"
   }
 }

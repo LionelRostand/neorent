@@ -60,6 +60,15 @@
     "dashboard": "Tableau de bord",
     "home": "Accueil",
     "tenantNotFound": "Locataire non trouvé",
-    "errorAccessingTenantSpace": "Erreur lors de l'accès à l'espace locataire"
+    "errorAccessingTenantSpace": "Erreur lors de l'accès à l'espace locataire",
+    "changePassword": "Changer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "enterCurrentPassword": "Saisissez votre mot de passe actuel",
+    "minimum6Characters": "Minimum 6 caractères",
+    "confirmNewPassword": "Confirmez le nouveau mot de passe",
+    "modifying": "Modification...",
+    "modify": "Modifier"
   }
 }
