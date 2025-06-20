@@ -1,29 +1,22 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import WelcomeBanner from './WelcomeBanner';
 import PropertyInfoCard from './PropertyInfoCard';
 import PersonalInfoCard from './PersonalInfoCard';
+import ContractInfoCard from './ContractInfoCard';
+import RentPayment from './RentPayment';
 import QuickActionsCard from './QuickActionsCard';
 
 interface TenantOverviewProps {
   propertyData: any;
   tenantData: any;
+  onTabChange?: (tab: string) => void;
 }
 
-const TenantOverview: React.FC<TenantOverviewProps> = ({
-  propertyData,
-  tenantData
-}) => {
-  const { t } = useTranslation();
-
+const TenantOverview = ({ propertyData, tenantData, onTabChange }: TenantOverviewProps) => {
   if (!propertyData || !tenantData) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-500 text-lg">Chargement des données...</p>
-        </div>
+      <div className="flex items-center justify-center py-16">
+        <p className="text-gray-500">Chargement des données...</p>
       </div>
     );
   }
@@ -31,20 +24,26 @@ const TenantOverview: React.FC<TenantOverviewProps> = ({
   const isRoommate = tenantData.type === 'Colocataire';
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Welcome Banner */}
-      <WelcomeBanner tenantData={tenantData} isRoommate={isRoommate} />
-
+    <div className="space-y-6">
+      {onTabChange && <QuickActionsCard onTabChange={onTabChange} />}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Property Information */}
-        <PropertyInfoCard propertyData={propertyData} isRoommate={isRoommate} />
-
-        {/* Personal Information */}
-        <PersonalInfoCard tenantData={tenantData} isRoommate={isRoommate} />
+        <div className="space-y-6">
+          <PropertyInfoCard 
+            propertyData={propertyData}
+            isRoommate={isRoommate}
+          />
+          <PersonalInfoCard tenantData={tenantData} />
+        </div>
+        
+        <div className="space-y-6">
+          <RentPayment 
+            tenantData={tenantData}
+            propertyData={propertyData}
+          />
+          <ContractInfoCard tenantData={tenantData} />
+        </div>
       </div>
-
-      {/* Quick Actions */}
-      <QuickActionsCard />
     </div>
   );
 };

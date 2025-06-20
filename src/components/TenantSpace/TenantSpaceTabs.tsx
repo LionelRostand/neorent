@@ -73,6 +73,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
             <TenantOverview 
               propertyData={mockPropertyData}
               tenantData={mockTenantData}
+              onTabChange={onTabChange}
             />
           </TabsContent>
 
