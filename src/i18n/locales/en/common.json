@@ -69,6 +69,7 @@
     "minimum6Characters": "Minimum 6 characters",
     "confirmNewPassword": "Confirm new password",
     "modifying": "Modifying...",
-    "modify": "Modify"
+    "modify": "Modify",
+    "note": "Note"
   }
 }

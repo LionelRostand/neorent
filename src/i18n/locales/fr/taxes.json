@@ -35,6 +35,22 @@
     "overdue": "En Retard",
     "calculateTax": "Calculer l'Impôt",
     "generateReport": "Générer un Rapport Fiscal",
-    "exportData": "Exporter les Données Fiscales"
+    "exportData": "Exporter les Données Fiscales",
+    "fiscalities": "Gestion Fiscale",
+    "manageFiscalObligations": "Gérez les obligations fiscales et déclarations",
+    "taxEstimation2025": "Estimation Fiscale 2025",
+    "approximateTotal": "Total Approximatif",
+    "alreadyPaid": "Déjà Payé",
+    "remainingToPay": "Reste à Payer",
+    "estimationNote": "Cette estimation est basée sur les données actuelles et peut varier.",
+    "filterByYear": "Filtrer par année",
+    "paidTaxes": "Impôts Payés",
+    "taxPaid": "impôt payé",
+    "taxesToDeclare": "Impôts à Déclarer",
+    "declarationToDo": "déclaration à faire",
+    "taxesToPay": "Impôts à Payer",
+    "paymentToMake": "paiement à effectuer",
+    "totalObligation": "obligation totale",
+    "taxList2025": "Liste des Impôts {{year}}"
   }
 }

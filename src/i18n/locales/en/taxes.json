@@ -50,7 +50,6 @@
     "declarationToDo": "declaration to do",
     "taxesToPay": "Taxes to Pay",
     "paymentToMake": "payment to make",
-    "totalTaxes": "Total Taxes",
     "totalObligation": "total obligation",
     "taxList2025": "Tax List {{year}}"
   }
