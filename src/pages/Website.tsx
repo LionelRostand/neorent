@@ -32,11 +32,11 @@ const Website = () => {
     { id: 'pages', label: t('website.managePages'), icon: FileText },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
-    { id: 'theme', label: 'Theme', icon: Palette },
-    { id: 'footer', label: 'Footer', icon: LinkIcon },
-    { id: 'carte', label: 'Map', icon: MapPin },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'config', label: 'Config', icon: Settings }
+    { id: 'theme', label: t('common.theme'), icon: Palette },
+    { id: 'footer', label: t('common.footer'), icon: LinkIcon },
+    { id: 'carte', label: t('common.map'), icon: MapPin },
+    { id: 'analytics', label: t('common.analytics'), icon: BarChart3 },
+    { id: 'config', label: t('common.config'), icon: Settings }
   ];
 
   return (

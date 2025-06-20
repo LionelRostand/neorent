@@ -33,12 +33,12 @@ const PagesTab = () => {
       
       console.log('Saving pages:', { pages, newPage });
       
-      toast.success('Pages saved successfully!', {
-        description: 'Page configuration updated'
+      toast.success(t('website.updateSuccess'), {
+        description: t('website.updateSuccess')
       });
     } catch (error) {
-      toast.error('Error saving pages', {
-        description: 'Please try again'
+      toast.error(t('website.updateError'), {
+        description: t('common.error')
       });
     } finally {
       setIsSaving(false);
@@ -55,31 +55,31 @@ const PagesTab = () => {
       };
       setPages([...pages, page]);
       setNewPage({ title: '', url: '', content: '', metaDescription: '' });
-      toast.success('Page added successfully!');
+      toast.success('Page ajoutée avec succès !');
     }
   };
 
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📄 Page Management</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📄 {t('website.managePages')}</h2>
         <Button 
           onClick={handleSavePages} 
           disabled={isSaving}
           className="flex items-center gap-2 w-full sm:w-auto"
         >
           <Save className="h-4 w-4" />
-          {isSaving ? 'Saving...' : 'Save'}
+          {isSaving ? t('common.loading') : t('common.save')}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">
-        Create and manage your NeoRent website pages.
+        {t('website.description')}
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">Existing Pages</CardTitle>
+            <CardTitle className="text-base md:text-lg">{t('common.pages')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -93,7 +93,7 @@ const PagesTab = () => {
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
                     }`}>
-                      {page.status}
+                      {page.status === 'Published' ? t('common.published') : t('common.draft')}
                     </span>
                   </div>
                   <div className="flex gap-2">
@@ -112,13 +112,13 @@ const PagesTab = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">Add New Page</CardTitle>
+            <CardTitle className="text-base md:text-lg">{t('common.new')} {t('common.page')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Page Title</Label>
+              <Label>{t('common.page')} {t('common.name')}</Label>
               <Input 
-                placeholder="e.g. Our Services"
+                placeholder="ex: Nos Services"
                 value={newPage.title}
                 onChange={(e) => setNewPage({...newPage, title: e.target.value})}
               />
@@ -126,15 +126,15 @@ const PagesTab = () => {
             <div className="space-y-2">
               <Label>URL</Label>
               <Input 
-                placeholder="e.g. /services"
+                placeholder="ex: /services"
                 value={newPage.url}
                 onChange={(e) => setNewPage({...newPage, url: e.target.value})}
               />
             </div>
             <div className="space-y-2">
-              <Label>META Description</Label>
+              <Label>META {t('common.description')}</Label>
               <Textarea 
-                placeholder="Description for SEO..."
+                placeholder="Description pour le SEO..."
                 rows={2}
                 value={newPage.metaDescription}
                 onChange={(e) => setNewPage({...newPage, metaDescription: e.target.value})}
@@ -142,7 +142,7 @@ const PagesTab = () => {
             </div>
             <Button onClick={addNewPage} className="w-full">
               <Plus className="h-4 w-4 mr-2" />
-              Add Page
+              {t('common.add')} {t('common.page')}
             </Button>
           </CardContent>
         </Card>
