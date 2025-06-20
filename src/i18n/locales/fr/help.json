@@ -23,6 +23,8 @@
     "filterBy": "Filtrer par",
     "technicalAspect": "Aspect technique",
     "functionalUsage": "Utilisation fonctionnelle",
+    "paymentConfig": "Configuration des paiements",
+    "paymentConfigDescription": "Guide complet pour configurer les différents moyens de paiement",
     "categories": {
       "overview": "Vue d'ensemble",
       "realEstate": "Gestion immobilière",
@@ -33,7 +35,8 @@
       "communication": "Communication",
       "administration": "Administration",
       "marketing": "Marketing",
-      "configuration": "Configuration"
+      "configuration": "Configuration",
+      "payment": "Paiement"
     },
     "sections": {
       "dashboard": {
@@ -113,6 +116,12 @@
         "description": "Configuration générale de l'application",
         "technical": "Interface d'administration avec gestion des permissions et configuration système",
         "functional": "Configurer votre entreprise, gérer les utilisateurs et permissions, paramétrer les intégrations et sauvegardes"
+      },
+      "paymentSetup": {
+        "title": "Configuration des paiements",
+        "description": "Guide pour configurer tous les moyens de paiement disponibles",
+        "technical": "Configuration des APIs et intégrations de paiement avec Stripe, PayPal, virements et paiements mobiles",
+        "functional": "Paramétrer les méthodes de paiement pour vos locataires : cartes bancaires, virements, prélèvements automatiques et portefeuilles électroniques"
       }
     }
   }

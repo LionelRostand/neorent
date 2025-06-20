@@ -1,12 +1,15 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MainLayout from '@/components/Layout/MainLayout';
 import HelpSearch from '@/components/Help/HelpSearch';
 import CategoryFilters from '@/components/Help/CategoryFilters';
 import HelpCard from '@/components/Help/HelpCard';
 import NoResults from '@/components/Help/NoResults';
+import PaymentConfigurationTab from '@/components/Help/PaymentConfigurationTab';
 import { helpSectionsData } from '@/components/Help/helpData';
+import { CreditCard, HelpCircle } from 'lucide-react';
 
 const Help = () => {
   const { t } = useTranslation();
@@ -54,29 +57,48 @@ const Help = () => {
           </p>
         </div>
 
-        <HelpSearch 
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-        />
+        <Tabs defaultValue="general" className="space-y-4 md:space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="general" className="flex items-center gap-2">
+              <HelpCircle className="h-4 w-4" />
+              <span>Aide générale</span>
+            </TabsTrigger>
+            <TabsTrigger value="payments" className="flex items-center gap-2">
+              <CreditCard className="h-4 w-4" />
+              <span>Configuration paiements</span>
+            </TabsTrigger>
+          </TabsList>
 
-        <CategoryFilters
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryClick={handleCategoryClick}
-          onClearFilters={clearFilters}
-        />
+          <TabsContent value="general" className="space-y-4 md:space-y-6">
+            <HelpSearch 
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+            />
 
-        {/* Help sections - Responsive grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-          {filteredSections.map((section, index) => (
-            <HelpCard key={index} section={section} />
-          ))}
-        </div>
+            <CategoryFilters
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onCategoryClick={handleCategoryClick}
+              onClearFilters={clearFilters}
+            />
 
-        {/* No results message */}
-        {filteredSections.length === 0 && (
-          <NoResults onClearFilters={clearFilters} />
-        )}
+            {/* Help sections - Responsive grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+              {filteredSections.map((section, index) => (
+                <HelpCard key={index} section={section} />
+              ))}
+            </div>
+
+            {/* No results message */}
+            {filteredSections.length === 0 && (
+              <NoResults onClearFilters={clearFilters} />
+            )}
+          </TabsContent>
+
+          <TabsContent value="payments">
+            <PaymentConfigurationTab />
+          </TabsContent>
+        </Tabs>
       </div>
     </MainLayout>
   );

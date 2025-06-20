@@ -23,6 +23,8 @@
     "filterBy": "Filter by",
     "technicalAspect": "Technical aspect",
     "functionalUsage": "Functional usage",
+    "paymentConfig": "Payment Configuration",
+    "paymentConfigDescription": "Complete guide to configure different payment methods",
     "categories": {
       "overview": "Overview",
       "realEstate": "Real Estate Management",
@@ -33,7 +35,8 @@
       "communication": "Communication",
       "administration": "Administration",
       "marketing": "Marketing",
-      "configuration": "Configuration"
+      "configuration": "Configuration",
+      "payment": "Payment"
     },
     "sections": {
       "dashboard": {
@@ -113,6 +116,12 @@
         "description": "General application configuration",
         "technical": "Administration interface with permission management and system configuration",
         "functional": "Configure your company, manage users and permissions, set up integrations and backups"
+      },
+      "paymentSetup": {
+        "title": "Payment Configuration",
+        "description": "Guide to configure all available payment methods",
+        "technical": "Configuration of payment APIs and integrations with Stripe, PayPal, bank transfers and mobile payments",
+        "functional": "Set up payment methods for your tenants: credit cards, bank transfers, automatic debits and electronic wallets"
       }
     }
   }

@@ -11,7 +11,8 @@ import {
   UserCheck,
   Globe,
   Calculator,
-  MessageCircle
+  MessageCircle,
+  CreditCard
 } from 'lucide-react';
 
 export const helpSectionsData = [
@@ -78,6 +79,14 @@ export const helpSectionsData = [
     descriptionKey: 'help.sections.rentalCharges.description',
     technicalKey: 'help.sections.rentalCharges.technical',
     functionalKey: 'help.sections.rentalCharges.functional'
+  },
+  {
+    icon: CreditCard,
+    titleKey: 'help.sections.paymentSetup.title',
+    categoryKey: 'help.categories.payment',
+    descriptionKey: 'help.sections.paymentSetup.description',
+    technicalKey: 'help.sections.paymentSetup.technical',
+    functionalKey: 'help.sections.paymentSetup.functional'
   },
   {
     icon: Wrench,
