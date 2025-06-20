@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -10,6 +9,8 @@ import { auth } from '@/lib/firebase';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { useAdminOwnerAccess } from '@/hooks/useAdminOwnerAccess';
 
 interface AuthContextType {
   user: User | null;
@@ -34,11 +35,47 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
   const { getUserRole, userRoles } = useFirebaseUserRoles();
+  const { getCurrentProfile: getAdminTenantProfile, getCurrentUserType: getAdminTenantType } = useAdminTenantAccess();
+  const { getCurrentProfile: getAdminOwnerProfile, getCurrentUserType: getAdminOwnerType } = useAdminOwnerAccess();
 
   // Initialize hooks after mount
   useEffect(() => {
     setHooksInitialized(true);
   }, []);
+
+  // Get current profile considering admin access
+  const getCurrentEffectiveProfile = () => {
+    // Check if admin is accessing tenant space
+    const adminTenantProfile = getAdminTenantProfile();
+    if (adminTenantProfile && user?.email === 'admin@neotech-consulting.com' && adminTenantProfile !== userProfile) {
+      return adminTenantProfile;
+    }
+    
+    // Check if admin is accessing owner space
+    const adminOwnerProfile = getAdminOwnerProfile();
+    if (adminOwnerProfile && user?.email === 'admin@neotech-consulting.com' && adminOwnerProfile !== userProfile) {
+      return adminOwnerProfile;
+    }
+    
+    return userProfile;
+  };
+
+  // Get current user type considering admin access
+  const getCurrentEffectiveUserType = () => {
+    // Check if admin is accessing tenant space
+    const adminTenantType = getAdminTenantType();
+    if (adminTenantType && user?.email === 'admin@neotech-consulting.com' && (adminTenantType === 'locataire' || adminTenantType === 'colocataire')) {
+      return adminTenantType;
+    }
+    
+    // Check if admin is accessing owner space
+    const adminOwnerType = getAdminOwnerType();
+    if (adminOwnerType && user?.email === 'admin@neotech-consulting.com' && adminOwnerType === 'employee') {
+      return adminOwnerType;
+    }
+    
+    return userType;
+  };
 
   // Vérifier si l'utilisateur existe dans Firebase
   const checkUserProfile = async (currentUser: User | null) => {
@@ -181,8 +218,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const value = {
     user,
     loading,
-    userProfile,
-    userType,
+    userProfile: getCurrentEffectiveProfile(),
+    userType: getCurrentEffectiveUserType(),
     login,
     logout
   };
