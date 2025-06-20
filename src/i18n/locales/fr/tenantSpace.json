@@ -1,4 +1,3 @@
-
 {
   "tenantSpace": {
     "title": "Espace {type}",
@@ -22,6 +21,8 @@
       "monthlyCharges": "Charges Mensuelles",
       "securityDeposit": "Dépôt de Garantie",
       "totalMonthly": "Total mensuel (loyer + charges)",
+      "myProperty": "Mon Logement",
+      "myRoom": "Ma Chambre",
       "type": "Type",
       "surface": "Surface",
       "rooms": "Nombre de pièces",
@@ -30,6 +31,9 @@
       "elevator": "Ascenseur",
       "parking": "Parking",
       "equipment": "Équipements",
+      "rent": "Loyer",
+      "charges": "Charges",
+      "deposit": "Dépôt de garantie",
       "room": "pièce",
       "bedroom": "chambre",
       "sharedRoom": "Chambre partagée",
