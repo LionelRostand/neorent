@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -28,6 +29,8 @@ interface ContractCardProps {
 }
 
 const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: ContractCardProps) => {
+  const { t } = useTranslation();
+
   // Translate status to English
   const getStatusInEnglish = (status: string) => {
     switch (status) {
@@ -68,7 +71,9 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
         <div className="space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="font-semibold text-lg text-gray-900">{contract.title}</h3>
+              <h3 className="font-semibold text-lg text-gray-900">
+                {t('contracts.leaseContract')} - {contract.title}
+              </h3>
               <p className="text-sm text-gray-600 mt-1">{englishType}</p>
             </div>
             <div className="flex items-center space-x-2">
@@ -134,7 +139,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
               className="flex-1"
               onClick={() => onViewDetails(contract)}
             >
-              View Details
+              {t('contracts.viewDetails')}
             </Button>
             {englishStatus !== 'Signed' ? (
               <Button 
@@ -142,7 +147,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
                 size="sm"
                 onClick={() => onSign(contract)}
               >
-                Sign
+                {t('contracts.signContract')}
               </Button>
             ) : (
               <Button 
@@ -151,7 +156,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
                 className="flex-1"
                 onClick={() => onEdit(contract)}
               >
-                Edit
+                {t('contracts.editContract')}
               </Button>
             )}
           </div>

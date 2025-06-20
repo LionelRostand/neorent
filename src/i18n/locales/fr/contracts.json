@@ -32,7 +32,8 @@
     "signContract": "Signer",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce contrat ?",
     "downloadContract": "Télécharger le Contrat",
-    "generatePdf": "Générer PDF"
+    "generatePdf": "Générer PDF",
+    "leaseContract": "CONTRAT DE BAIL"
   },
   "contractForm": {
     "newContract": "Nouveau Contrat",
