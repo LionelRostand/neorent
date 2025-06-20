@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone, TrendingUp, TrendingDown } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import PropertyDetailsHeader from './PropertyDetails/PropertyDetailsHeader';
+import PropertyProfitabilitySection from './PropertyDetails/PropertyProfitabilitySection';
+import PropertyConfigurationSection from './PropertyDetails/PropertyConfigurationSection';
+import PropertyOccupantsList from './PropertyDetails/PropertyOccupantsList';
 
 interface Property {
   id: string;
@@ -51,7 +51,6 @@ interface PropertyDetailsModalProps {
 }
 
 const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, isOpen, onClose }) => {
-  const { t } = useTranslation();
   const { roommates } = useFirebaseRoommates();
 
   if (!property) return null;
@@ -150,11 +149,6 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
 
   const occupancyRate = calculateOccupancyRate();
 
-  // Fonction utilitaire pour formater les nombres
-  const formatNumber = (value: number) => {
-    return isNaN(value) ? '0' : value.toFixed(0);
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -164,234 +158,30 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
 
         <div className="space-y-6">
           {/* Image et informations principales */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
-              {property.image && property.image !== '/placeholder.svg' ? (
-                <img 
-                  src={property.image} 
-                  alt={property.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <Home className="h-16 w-16 text-gray-400" />
-              )}
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex gap-2 flex-wrap">
-                <Badge 
-                  variant={property.locationType === 'Colocation' ? 'default' : 'secondary'}
-                  className={property.locationType === 'Colocation' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}
-                >
-                  {property.locationType}
-                </Badge>
-                <Badge 
-                  variant={occupancyInfo.status === 'Libre' ? 'secondary' : 'default'}
-                  className={
-                    occupancyInfo.status === 'Libre' ? 'bg-gray-100 text-gray-800' :
-                    occupancyInfo.status === 'Occupé' || occupancyInfo.status === 'Complet' ? 'bg-green-100 text-green-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }
-                >
-                  {occupancyInfo.status}
-                </Badge>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center text-gray-600">
-                  <MapPin className="mr-2 h-5 w-5" />
-                  {property.address}
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="font-medium">Type:</span> {property.type}
-                  </div>
-                  <div>
-                    <span className="font-medium">Surface:</span> {property.surface}
-                  </div>
-                  {property.floor && (
-                    <>
-                      <div>
-                        <span className="font-medium">Étage:</span> {property.floor}
-                      </div>
-                      <div></div>
-                    </>
-                  )}
-                </div>
-
-                {property.locationType === 'Colocation' && (
-                  <div className="flex items-center text-gray-600">
-                    <Bed className="mr-2 h-5 w-5" />
-                    {occupancyInfo.availableRooms > 0 ? (
-                      <span className="text-green-600 font-medium">
-                        {occupancyInfo.availableRooms} chambre(s) disponible(s)
-                      </span>
-                    ) : (
-                      <span className="text-red-600 font-medium">
-                        Toutes les chambres sont occupées
-                      </span>
-                    )}
-                    <span className="ml-1">/ {occupancyInfo.totalRooms} total</span>
-                  </div>
-                )}
-
-                {property.locationType === 'Location' && occupants.length > 0 && (
-                  <div className="flex items-center text-green-600 font-medium">
-                    <User className="mr-2 h-5 w-5" />
-                    Appartement occupé
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <PropertyDetailsHeader 
+            property={property}
+            occupancyInfo={occupancyInfo}
+            occupantsCount={occupants.length}
+          />
 
           {/* Rentabilité et bénéfices */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Rentabilité du bien</h3>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <DollarSign className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                  <div className="font-medium text-green-600">Revenus</div>
-                  <div className="text-xl font-bold">{formatNumber(totalRevenue)}€</div>
-                  <div className="text-sm text-gray-600">Ce mois</div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <DollarSign className="h-8 w-8 mx-auto mb-2 text-red-600" />
-                  <div className="font-medium text-red-600">Charges</div>
-                  <div className="text-xl font-bold">{formatNumber(totalCharges)}€</div>
-                  <div className="text-sm text-gray-600">Ce mois</div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  {profit >= 0 ? (
-                    <TrendingUp className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                  ) : (
-                    <TrendingDown className="h-8 w-8 mx-auto mb-2 text-red-600" />
-                  )}
-                  <div className={`font-medium ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {profit >= 0 ? 'Bénéfice' : 'Perte'}
-                  </div>
-                  <div className={`text-xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {formatNumber(Math.abs(profit))}€
-                  </div>
-                  <div className="text-sm text-gray-600">Ce mois</div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <Users className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-                  <div className="font-medium text-blue-600">Taux d'Occupation</div>
-                  <div className="text-xl font-bold">{occupancyRate}%</div>
-                  <div className="text-sm text-gray-600">
-                    {occupants.length} occupant(s)
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+          <PropertyProfitabilitySection
+            totalRevenue={totalRevenue}
+            totalCharges={totalCharges}
+            profit={profit}
+            occupancyRate={occupancyRate}
+            occupantsCount={occupants.length}
+          />
 
           {/* Configuration du bien */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Configuration du bien</h3>
-            <Card>
-              <CardContent className="p-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-gray-50 rounded-lg">
-                    <Home className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-                    <div className="font-medium">{property.type}</div>
-                    <div className="text-sm text-gray-600">{property.surface}</div>
-                  </div>
-                  
-                  {property.locationType === 'Colocation' && (
-                    <div className="text-center p-4 bg-gray-50 rounded-lg">
-                      <Bed className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                      <div className="font-medium">{occupancyInfo.totalRooms} chambres</div>
-                      <div className="text-sm text-gray-600">
-                        {occupancyInfo.availableRooms} disponibles
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="text-center p-4 bg-gray-50 rounded-lg">
-                    <Users className="h-8 w-8 mx-auto mb-2 text-purple-600" />
-                    <div className="font-medium">{occupants.length} occupant(s)</div>
-                    <div className="text-sm text-gray-600">{property.locationType}</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <PropertyConfigurationSection
+            property={property}
+            occupancyInfo={occupancyInfo}
+            occupantsCount={occupants.length}
+          />
 
           {/* Liste des occupants */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">
-              Liste des occupants ({occupants.length})
-            </h3>
-            
-            {occupants.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {occupants.map((occupant) => (
-                  <Card key={occupant.id}>
-                    <CardContent className="p-4">
-                      <div className="flex items-start space-x-3">
-                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                          {occupant.type === 'Locataire principal' ? (
-                            <User className="h-5 w-5 text-gray-400" />
-                          ) : (
-                            <UserCheck className="h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                        
-                        <div className="flex-1 space-y-2">
-                          <div className="flex justify-between items-start">
-                            <h4 className="font-medium">{occupant.name}</h4>
-                            <Badge variant="outline" className="text-xs">
-                              {occupant.type === 'Locataire principal' ? 'Locataire principal' : 'Colocataire'}
-                            </Badge>
-                          </div>
-                          
-                          <div className="space-y-1 text-sm text-gray-600">
-                            <div className="flex items-center">
-                              <Mail className="mr-1 h-3 w-3" />
-                              {occupant.email}
-                            </div>
-                            <div className="flex items-center">
-                              <Phone className="mr-1 h-3 w-3" />
-                              {occupant.phone}
-                            </div>
-                            {occupant.roomNumber && (
-                              <div className="flex items-center">
-                                <Bed className="mr-1 h-3 w-3" />
-                                {occupant.roomNumber} - {occupant.rentAmount}/mois
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <Users className="h-12 w-12 mx-auto mb-3 text-gray-400" />
-                  <p className="text-gray-600">Aucun occupant pour cette propriété</p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Les occupants apparaîtront automatiquement une fois ajoutés dans la section Colocataires
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+          <PropertyOccupantsList occupants={occupants} />
         </div>
       </DialogContent>
     </Dialog>
