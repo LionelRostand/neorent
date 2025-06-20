@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -150,14 +151,14 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
 
   return (
     <div className={cn(
-      "flex flex-col h-full bg-gradient-to-b from-green-700 to-green-800 border-r border-green-600 transition-all duration-300",
+      "flex flex-col h-full bg-green-500 transition-all duration-300",
       collapsed ? "w-16" : "w-64"
     )}>
       {/* Logo */}
-      <div className="flex items-center justify-center h-16 border-b border-green-600">
+      <div className="flex items-center justify-center h-16 px-4">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-            <span className="text-green-700 font-bold text-sm">N</span>
+          <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
+            <span className="text-green-500 font-bold text-sm">■</span>
           </div>
           {!collapsed && (
             <span className="font-bold text-xl text-white">NeoRent</span>
@@ -181,9 +182,9 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
                 key={item.href}
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start text-left font-normal text-white hover:bg-green-600 hover:text-white",
+                  "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white",
                   collapsed ? "px-2" : "px-3",
-                  isActive && "bg-green-600 text-white border-r-2 border-white"
+                  isActive && "bg-green-400 text-white"
                 )}
                 onClick={() => handleNavigation(item.href)}
               >
@@ -196,13 +197,13 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
           {/* Owner space for employees */}
           {ownerSpaceItem && (
             <>
-              <div className="my-4 border-t border-green-600" />
+              <div className="my-4 border-t border-green-400" />
               <Button
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start text-left font-normal text-white hover:bg-green-600 hover:text-white",
+                  "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white",
                   collapsed ? "px-2" : "px-3",
-                  location.pathname === ownerSpaceItem.href && "bg-green-600 text-white border-r-2 border-white"
+                  location.pathname === ownerSpaceItem.href && "bg-green-400 text-white"
                 )}
                 onClick={() => handleNavigation(ownerSpaceItem.href)}
               >
@@ -213,7 +214,7 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
           )}
 
           {/* Bottom menu items */}
-          <div className="mt-8 pt-4 border-t border-green-600">
+          <div className="mt-8 pt-4 border-t border-green-400">
             {bottomMenuItems.map((item) => {
               const hasPermission = !item.permission || canAccessMenu(item.permission);
               if (!hasPermission) return null;
@@ -226,9 +227,9 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
                   key={item.href}
                   variant="ghost"
                   className={cn(
-                    "w-full justify-start text-left font-normal text-white hover:bg-green-600 hover:text-white",
+                    "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white",
                     collapsed ? "px-2" : "px-3",
-                    isActive && "bg-green-600 text-white border-r-2 border-white"
+                    isActive && "bg-green-400 text-white"
                   )}
                   onClick={() => handleNavigation(item.href)}
                 >
@@ -245,3 +246,4 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
 };
 
 export default Sidebar;
+
