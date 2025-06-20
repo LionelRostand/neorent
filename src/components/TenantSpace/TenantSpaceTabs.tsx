@@ -6,13 +6,11 @@ import {
   Home, 
   CreditCard, 
   FileText, 
-  MessageSquare, 
-  Settings
+  MessageSquare
 } from 'lucide-react';
 import TenantOverview from './TenantOverview';
 import RentHistory from './RentHistory';
 import DocumentManager from '../DocumentManager';
-import TenantSecuritySettings from './TenantSecuritySettings';
 
 interface TenantSpaceTabsProps {
   activeTab: string;
@@ -33,7 +31,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-6">
         <div className="overflow-x-auto pb-2">
-          <TabsList className="grid w-full min-w-fit grid-cols-5 gap-1 h-auto p-1 bg-gray-100">
+          <TabsList className="grid w-full min-w-fit grid-cols-4 gap-1 h-auto p-1 bg-gray-100">
             <TabsTrigger 
               value="overview" 
               className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
@@ -65,14 +63,6 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
               <MessageSquare className="h-4 w-4" />
               <span className="hidden sm:inline font-medium">Messages</span>
               <span className="sm:hidden font-medium">Msg.</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="settings" 
-              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-            >
-              <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline font-medium">Paramètres</span>
-              <span className="sm:hidden font-medium">Set.</span>
             </TabsTrigger>
           </TabsList>
         </div>
@@ -111,10 +101,6 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
                 Nouveau message
               </button>
             </div>
-          </TabsContent>
-
-          <TabsContent value="settings" className="mt-0">
-            <TenantSecuritySettings />
           </TabsContent>
         </div>
       </Tabs>
