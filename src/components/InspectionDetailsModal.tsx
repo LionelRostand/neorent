@@ -46,7 +46,40 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
     }
   };
 
+  const getTranslatedInspectionType = (type: string) => {
+    switch (type) {
+      case 'Entrée':
+        return t('inspections.entryInspection');
+      case 'Sortie':
+        return t('inspections.exitInspection');
+      case 'Intermédiaire':
+        return t('inspections.intermediateInspection');
+      default:
+        return type;
+    }
+  };
+
+  const getTranslatedStatus = (status: string) => {
+    switch (status) {
+      case 'Planifié':
+        return t('inspections.planned');
+      case 'En cours':
+        return t('inspections.inProgress');
+      case 'Terminé':
+        return t('inspections.completed');
+      default:
+        return status;
+    }
+  };
+
   if (!inspection) return null;
+
+  // Create a translated version of the inspection for display
+  const translatedInspection = {
+    ...inspection,
+    type: getTranslatedInspectionType(inspection.type),
+    status: getTranslatedStatus(inspection.status)
+  };
 
   return (
     <>
@@ -59,9 +92,9 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
           </DialogHeader>
           
           <div className="space-y-4 sm:space-y-6">
-            <GeneralInfoSection inspection={inspection} />
-            <PropertyDetailsSection inspection={inspection} />
-            <InspectionDetailsSection inspection={inspection} />
+            <GeneralInfoSection inspection={translatedInspection} />
+            <PropertyDetailsSection inspection={translatedInspection} />
+            <InspectionDetailsSection inspection={translatedInspection} />
             <ModalActions 
               inspection={inspection}
               onClose={onClose}

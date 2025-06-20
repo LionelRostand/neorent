@@ -18,6 +18,26 @@ interface GeneralInfoSectionProps {
 const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
   const { t } = useTranslation();
 
+  const getBadgeVariant = (status: string) => {
+    if (status === 'Terminé' || status === 'Completed' || status === t('inspections.completed')) {
+      return 'default';
+    } else if (status === 'En cours' || status === 'In Progress' || status === t('inspections.inProgress')) {
+      return 'secondary';
+    } else {
+      return 'outline';
+    }
+  };
+
+  const getBadgeClassName = (status: string) => {
+    if (status === 'Terminé' || status === 'Completed' || status === t('inspections.completed')) {
+      return 'bg-green-100 text-green-800';
+    } else if (status === 'En cours' || status === 'In Progress' || status === t('inspections.inProgress')) {
+      return 'bg-yellow-100 text-yellow-800';
+    } else {
+      return 'bg-blue-100 text-blue-800';
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="pb-3 sm:pb-4">
@@ -38,13 +58,8 @@ const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
           </div>
           <div className="flex-shrink-0 self-start sm:self-auto">
             <Badge 
-              variant={inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'default' : 
-                     inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'secondary' : 'outline'}
-              className={`text-xs sm:text-sm whitespace-nowrap ${
-                inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'bg-green-100 text-green-800' : 
-                inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800' : 
-                'bg-blue-100 text-blue-800'
-              }`}
+              variant={getBadgeVariant(inspection.status)}
+              className={`text-xs sm:text-sm whitespace-nowrap ${getBadgeClassName(inspection.status)}`}
             >
               {inspection.status}
             </Badge>
