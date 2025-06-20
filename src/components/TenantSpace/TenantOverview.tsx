@@ -5,14 +5,17 @@ import PersonalInfoCard from './PersonalInfoCard';
 import ContractInfoCard from './ContractInfoCard';
 import RentPayment from './RentPayment';
 import QuickActionsCard from './QuickActionsCard';
+import TenantProfile from './TenantProfile';
 
 interface TenantOverviewProps {
   propertyData: any;
   tenantData: any;
   onTabChange?: (tab: string) => void;
+  activeView?: 'overview' | 'profile';
+  onViewChange?: (view: 'overview' | 'profile') => void;
 }
 
-const TenantOverview = ({ propertyData, tenantData, onTabChange }: TenantOverviewProps) => {
+const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'overview', onViewChange }: TenantOverviewProps) => {
   if (!propertyData || !tenantData) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -23,9 +26,13 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange }: TenantOvervie
 
   const isRoommate = tenantData.type === 'Colocataire';
 
+  if (activeView === 'profile') {
+    return <TenantProfile tenantData={tenantData} />;
+  }
+
   return (
     <div className="space-y-6">
-      {onTabChange && <QuickActionsCard onTabChange={onTabChange} />}
+      {onTabChange && <QuickActionsCard onTabChange={onTabChange} onViewChange={onViewChange} />}
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
@@ -33,7 +40,10 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange }: TenantOvervie
             propertyData={propertyData}
             isRoommate={isRoommate}
           />
-          <PersonalInfoCard tenantData={tenantData} />
+          <PersonalInfoCard 
+            tenantData={tenantData}
+            isRoommate={isRoommate}
+          />
         </div>
         
         <div className="space-y-6">

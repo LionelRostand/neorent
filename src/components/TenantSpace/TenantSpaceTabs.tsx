@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
@@ -27,10 +27,25 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
   mockTenantData
 }) => {
   const { t } = useTranslation();
+  const [overviewView, setOverviewView] = useState<'overview' | 'profile'>('overview');
+
+  const handleTabChange = (tab: string) => {
+    if (tab === 'overview') {
+      setOverviewView('overview');
+    }
+    onTabChange(tab);
+  };
+
+  const handleViewChange = (view: 'overview' | 'profile') => {
+    setOverviewView(view);
+    if (activeTab !== 'overview') {
+      onTabChange('overview');
+    }
+  };
 
   return (
     <div className="space-y-6">
-      <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-6">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
         <div className="overflow-x-auto pb-2">
           <TabsList className="grid w-full min-w-fit grid-cols-4 gap-1 h-auto p-1 bg-gray-100">
             <TabsTrigger 
@@ -74,6 +89,8 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
               propertyData={mockPropertyData}
               tenantData={mockTenantData}
               onTabChange={onTabChange}
+              activeView={overviewView}
+              onViewChange={handleViewChange}
             />
           </TabsContent>
 

@@ -7,9 +7,10 @@ import MaintenanceRequestForm from '../Maintenance/MaintenanceRequestForm';
 
 interface QuickActionsCardProps {
   onTabChange: (tab: string) => void;
+  onViewChange?: (view: 'overview' | 'profile') => void;
 }
 
-const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange }) => {
+const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onViewChange }) => {
   const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
 
   const handlePaymentsClick = () => {
@@ -21,7 +22,11 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange }) => {
   };
 
   const handleProfileClick = () => {
-    onTabChange('overview');
+    if (onViewChange) {
+      onViewChange('profile');
+    } else {
+      onTabChange('overview');
+    }
   };
 
   return (
