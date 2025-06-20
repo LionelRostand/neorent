@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Shield, ArrowLeft } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 interface AdminImpersonationBannerProps {
   isImpersonating: boolean;
@@ -25,11 +26,18 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
   onBackToAdmin
 }) => {
   const { t } = useTranslation();
+  const { getDefaultRoute } = useAuth();
 
   if (!isImpersonating || !isAuthorizedAdmin) return null;
 
   // Clean the name properly
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || 'Utilisateur';
+
+  const handleBackToAdmin = () => {
+    onBackToAdmin();
+    // Rediriger vers la route par défaut de l'admin
+    window.location.href = getDefaultRoute();
+  };
 
   console.log('AdminImpersonationBanner:', {
     originalName: currentProfile?.name,
@@ -64,7 +72,7 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
           </div>
           <div className="flex justify-end sm:justify-start">
             <Button 
-              onClick={onBackToAdmin}
+              onClick={handleBackToAdmin}
               variant="outline"
               size="sm"
               className="flex items-center gap-1.5 text-xs px-2 py-1 h-8 sm:h-9 flex-shrink-0"

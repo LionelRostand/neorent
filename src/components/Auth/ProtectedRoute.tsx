@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children, 
   requiredUserTypes 
 }) => {
-  const { user, loading, userType } = useAuth();
+  const { user, loading, userType, getDefaultRoute } = useAuth();
   const location = useLocation();
 
   // Afficher un loader pendant la vérification de l'authentification
@@ -40,16 +40,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     }
     
     if (!requiredUserTypes.includes(userType)) {
-      // Rediriger selon le type d'utilisateur
-      if (userType === 'admin') {
-        return <Navigate to="/admin" replace />;
-      } else if (userType === 'employee') {
-        return <Navigate to="/owner-space" replace />;
-      } else if (userType === 'locataire' || userType === 'colocataire') {
-        return <Navigate to="/tenant-space" replace />;
-      } else {
-        return <Navigate to="/login" replace />;
-      }
+      // Rediriger vers la route par défaut basée sur le type d'utilisateur
+      const defaultRoute = getDefaultRoute();
+      return <Navigate to={defaultRoute} replace />;
     }
   }
 

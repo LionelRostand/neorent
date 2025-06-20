@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -18,6 +17,7 @@ interface AuthContextType {
   userType: 'locataire' | 'colocataire' | 'admin' | 'employee' | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  getDefaultRoute: () => string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -96,6 +96,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
     
     return userType;
+  };
+
+  // Get default route based on user type
+  const getDefaultRoute = () => {
+    const effectiveUserType = getCurrentEffectiveUserType();
+    
+    switch (effectiveUserType) {
+      case 'admin':
+        return '/admin/dashboard';
+      case 'employee':
+        return '/owner-space';
+      case 'locataire':
+      case 'colocataire':
+        return '/tenant-space';
+      default:
+        return '/login';
+    }
   };
 
   // Vérifier si l'utilisateur existe dans Firebase
@@ -244,7 +261,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     userProfile: getCurrentEffectiveProfile(),
     userType: getCurrentEffectiveUserType(),
     login,
-    logout
+    logout,
+    getDefaultRoute
   };
 
   return (

@@ -51,8 +51,18 @@ function App() {
             <Route 
               path="/tenant-space" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredUserTypes={['locataire', 'colocataire', 'admin']}>
                   <TenantSpace />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Owner Space - Protected for owners and admins */}
+            <Route 
+              path="/owner-space" 
+              element={
+                <ProtectedRoute requiredUserTypes={['employee', 'admin']}>
+                  <OwnerSpace />
                 </ProtectedRoute>
               } 
             />
