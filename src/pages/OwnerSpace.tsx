@@ -32,16 +32,25 @@ const OwnerSpace = () => {
   return (
     <MainLayout>
       <div className="space-y-6">
-        {currentOwner && (
+        {/* Only render header if currentOwner exists and has required properties */}
+        {currentOwner && currentOwner.name && (
           <OwnerSpaceHeader 
             owner={{
-              name: currentOwner.name || 'Propriétaire',
+              name: currentOwner.name,
               email: currentOwner.email || 'email@example.com'
             }}
             propertiesCount={ownerProperties.length}
             tenantsCount={ownerTenants.length}
             roommatesCount={ownerRoommates.length}
           />
+        )}
+        
+        {/* Show fallback if no current owner */}
+        {(!currentOwner || !currentOwner.name) && (
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h1 className="text-3xl font-bold text-gray-900">Espace Propriétaire</h1>
+            <p className="text-gray-600 mt-2">Chargement des informations...</p>
+          </div>
         )}
         
         {/* Quick Stats */}

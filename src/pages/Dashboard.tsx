@@ -13,7 +13,17 @@ const Dashboard = () => {
   const { t } = useTranslation();
   const dashboardData = useDashboardMetrics();
 
-  if (dashboardData.loading) {
+  // Add loading state since useDashboardMetrics doesn't provide it
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // Simulate loading completion after data is available
+    if (dashboardData.totalProperties !== undefined) {
+      setLoading(false);
+    }
+  }, [dashboardData]);
+
+  if (loading) {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
@@ -36,23 +46,35 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
             title={t('dashboard.metrics.totalProperties')}
-            value={dashboardData.totalProperties}
+            value={dashboardData.totalProperties.toString()}
             icon={Building}
+            change="0"
+            changeType="positive"
+            iconColor="blue"
           />
           <MetricCard
             title={t('dashboard.metrics.totalTenants')}
-            value={dashboardData.totalActiveTenants}
+            value={dashboardData.totalActiveTenants.toString()}
             icon={Users}
+            change="0"
+            changeType="positive"
+            iconColor="green"
           />
           <MetricCard
             title={t('dashboard.metrics.activeContracts')}
-            value={dashboardData.expiringContracts}
+            value={dashboardData.expiringContracts.toString()}
             icon={FileText}
+            change="0"
+            changeType="positive"
+            iconColor="purple"
           />
           <MetricCard
             title={t('dashboard.metrics.monthlyRevenue')}
             value={`${dashboardData.monthlyRevenue}€`}
             icon={Euro}
+            change="0"
+            changeType="positive"
+            iconColor="orange"
           />
         </div>
 
