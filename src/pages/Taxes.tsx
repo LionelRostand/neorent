@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -8,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Calculator, Calendar, Building2, DollarSign, CheckCircle, Clock, XCircle, Receipt, TrendingUp, FileText, Edit, Trash2 } from 'lucide-react';
 import MetricCard from '@/components/MetricCard';
 import TaxDeclarationForm from '@/components/TaxDeclarationForm';
+import TaxDetailsModal from '@/components/TaxDetails/TaxDetailsModal';
 import { useFirebaseFiscality } from '@/hooks/useFirebaseFiscality';
 
 // Génération dynamique des années à partir de 2025
@@ -30,6 +30,8 @@ const Taxes = () => {
   const { t } = useTranslation();
   const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [isDeclarationFormOpen, setIsDeclarationFormOpen] = useState(false);
+  const [selectedTax, setSelectedTax] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   
   const { fiscalities, loading, addFiscality, updateFiscality, deleteFiscality } = useFirebaseFiscality();
   
@@ -76,6 +78,11 @@ const Taxes = () => {
     } catch (error) {
       console.error('Erreur lors de l\'ajout de la déclaration:', error);
     }
+  };
+
+  const handleShowDetails = (tax: any) => {
+    setSelectedTax(tax);
+    setIsDetailsModalOpen(true);
   };
 
   const handleEditTax = (taxId: string) => {
@@ -283,7 +290,12 @@ const Taxes = () => {
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4 border-t">
-                    <Button variant="outline" size="sm" className="flex-1 text-xs sm:text-sm h-8 sm:h-9">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1 text-xs sm:text-sm h-8 sm:h-9"
+                      onClick={() => handleShowDetails(tax)}
+                    >
                       <FileText className="mr-1 h-3 w-3" />
                       <span className="hidden sm:inline">Détails</span>
                       <span className="sm:hidden">Voir</span>
@@ -321,6 +333,14 @@ const Taxes = () => {
           isOpen={isDeclarationFormOpen}
           onClose={() => setIsDeclarationFormOpen(false)}
           onSubmit={handleNewDeclaration}
+        />
+
+        <TaxDetailsModal
+          isOpen={isDetailsModalOpen}
+          onClose={() => setIsDetailsModalOpen(false)}
+          tax={selectedTax}
+          onEdit={handleEditTax}
+          onDelete={handleDeleteTax}
         />
       </div>
     </MainLayout>
