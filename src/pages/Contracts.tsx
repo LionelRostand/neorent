@@ -42,6 +42,11 @@ const Contracts = () => {
     }
   };
 
+  const handleEditContract = (contract: any) => {
+    // TODO: Implement edit functionality
+    console.log('Edit contract:', contract);
+  };
+
   const handleUpdateContract = async (id: string, updates: any) => {
     try {
       await updateContract(id, updates);
@@ -76,6 +81,16 @@ const Contracts = () => {
         });
       }
     }
+  };
+
+  const handleViewDetails = (contract: any) => {
+    // TODO: Implement view details functionality
+    console.log('View details:', contract);
+  };
+
+  const handleSignContract = (contract: any) => {
+    // TODO: Implement sign contract functionality
+    console.log('Sign contract:', contract);
   };
 
   if (loading) {
@@ -115,8 +130,10 @@ const Contracts = () => {
 
         <ContractsList
           contracts={filteredContracts}
-          onUpdateContract={handleUpdateContract}
-          onDeleteContract={handleDeleteContract}
+          onEdit={handleEditContract}
+          onDelete={handleDeleteContract}
+          onViewDetails={handleViewDetails}
+          onSign={handleSignContract}
         />
       </div>
     </MainLayout>
