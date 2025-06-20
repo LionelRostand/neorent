@@ -72,7 +72,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
           <div className="flex justify-between items-start">
             <div>
               <h3 className="font-semibold text-lg text-gray-900">
-                {t('contracts.leaseContract')} - {contract.title}
+                {contract.title}
               </h3>
               <p className="text-sm text-gray-600 mt-1">{englishType}</p>
             </div>
