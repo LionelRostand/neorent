@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,16 +37,17 @@ interface PropertyFormData {
 interface PropertyFormProps {
   onClose: () => void;
   onSubmit: (data: PropertyFormData & { imageBase64?: string }) => void;
+  initialType?: string;
 }
 
-const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
+const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit, initialType }) => {
   const { t } = useTranslation();
   const { toast } = useToast();
 
   const [formData, setFormData] = useState<PropertyFormData>({
     title: '',
     address: '',
-    type: '',
+    type: initialType || '',
     surface: '',
     creditImmobilier: '',
     description: '',
@@ -68,6 +69,13 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
   });
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Mettre à jour le type quand initialType change
+  useEffect(() => {
+    if (initialType) {
+      setFormData(prev => ({ ...prev, type: initialType }));
+    }
+  }, [initialType]);
 
   const handleInputChange = (field: keyof PropertyFormData, value: string) => {
     setFormData(prev => ({
@@ -238,7 +246,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="type">{t('propertyForm.typeRequired')}</Label>
-            <Select onValueChange={(value) => handleInputChange('type', value)} required>
+            <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)} required>
               <SelectTrigger>
                 <SelectValue placeholder={t('propertyForm.typeSelect')} />
               </SelectTrigger>

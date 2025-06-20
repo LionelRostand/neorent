@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Building } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Plus, Building, ChevronDown, Home, Building2, Castle } from 'lucide-react';
 import PropertyForm from '@/components/PropertyForm';
 import PropertyMetrics from '@/components/PropertyMetrics';
 import PropertyList from '@/components/PropertyList';
@@ -14,8 +14,22 @@ import { useToast } from '@/hooks/use-toast';
 const Properties = () => {
   const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedPropertyType, setSelectedPropertyType] = useState('');
   const { properties, loading, error, addProperty, updateProperty, deleteProperty } = useFirebaseProperties();
   const { toast } = useToast();
+
+  const propertyTypes = [
+    { value: 'Appartement', label: t('propertyForm.propertyTypes.appartement'), icon: Building2 },
+    { value: 'Studio', label: t('propertyForm.propertyTypes.studio'), icon: Home },
+    { value: 'Maison', label: t('propertyForm.propertyTypes.maison'), icon: Castle },
+    { value: 'Loft', label: t('propertyForm.propertyTypes.loft'), icon: Building },
+    { value: 'Duplex', label: t('propertyForm.propertyTypes.duplex'), icon: Building2 },
+  ];
+
+  const handlePropertyTypeSelect = (type: string) => {
+    setSelectedPropertyType(type);
+    setIsDialogOpen(true);
+  };
 
   const handleAddProperty = async (data: any) => {
     try {
@@ -122,22 +136,39 @@ const Properties = () => {
             </div>
           </div>
 
-          {/* État vide avec bouton d'ajout centré */}
+          {/* État vide avec menu déroulant d'ajout centré */}
           <div className="flex flex-col items-center justify-center py-16 bg-orange-50 rounded-lg border-2 border-dashed border-orange-200">
             <Building className="h-16 w-16 text-orange-400 mb-4" />
             <h2 className="text-xl font-semibold text-orange-800 mb-2">Add Real Estate Property</h2>
             <p className="text-orange-600 mb-6">No Property Selected</p>
             
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3">
                   <Plus className="mr-2 h-5 w-5" />
                   {t('properties.addProperty')}
+                  <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
-              </DialogTrigger>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                {propertyTypes.map((type) => (
+                  <DropdownMenuItem
+                    key={type.value}
+                    onClick={() => handlePropertyTypeSelect(type.value)}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <type.icon className="h-4 w-4" />
+                    {type.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <PropertyForm
                 onClose={() => setIsDialogOpen(false)}
                 onSubmit={handleAddProperty}
+                initialType={selectedPropertyType}
               />
             </Dialog>
           </div>
@@ -154,16 +185,33 @@ const Properties = () => {
             <h1 className="text-3xl font-bold text-gray-900">{t('properties.title')}</h1>
             <p className="text-gray-600 mt-2">{t('properties.subtitle')}</p>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
               <Button className="bg-blue-600 hover:bg-blue-700">
                 <Plus className="mr-2 h-4 w-4" />
                 {t('properties.addProperty')}
+                <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
-            </DialogTrigger>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              {propertyTypes.map((type) => (
+                <DropdownMenuItem
+                  key={type.value}
+                  onClick={() => handlePropertyTypeSelect(type.value)}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <type.icon className="h-4 w-4" />
+                  {type.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <PropertyForm
               onClose={() => setIsDialogOpen(false)}
               onSubmit={handleAddProperty}
+              initialType={selectedPropertyType}
             />
           </Dialog>
         </div>
