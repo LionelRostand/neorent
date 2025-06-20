@@ -113,15 +113,19 @@ const resources = {
   }
 };
 
+// Récupérer la langue sauvegardée ou utiliser français par défaut
+const savedLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en', // Changed default language to English
-    fallbackLng: 'en',
+    lng: savedLanguage,
+    fallbackLng: 'fr',
     interpolation: {
       escapeValue: false
-    }
+    },
+    debug: false
   });
 
 export default i18n;

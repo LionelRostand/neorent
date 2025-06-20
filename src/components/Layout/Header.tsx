@@ -34,9 +34,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-4">
-          <div className="hidden sm:block">
-            <LanguageSelector />
-          </div>
+          <LanguageSelector />
           <MessageNotification />
           <UserProfileDropdown />
         </div>

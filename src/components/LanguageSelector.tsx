@@ -20,8 +20,7 @@ const LanguageSelector: React.FC = () => {
     try {
       await i18n.changeLanguage(languageCode);
       localStorage.setItem('preferredLanguage', languageCode);
-      // Forcer un rechargement pour s'assurer que tous les composants utilisent la nouvelle langue
-      window.location.reload();
+      console.log('Langue changée vers:', languageCode);
     } catch (error) {
       console.error('Erreur lors du changement de langue:', error);
     }
@@ -31,6 +30,7 @@ const LanguageSelector: React.FC = () => {
   useEffect(() => {
     const savedLanguage = localStorage.getItem('preferredLanguage');
     if (savedLanguage && savedLanguage !== i18n.language) {
+      console.log('Chargement de la langue sauvegardée:', savedLanguage);
       i18n.changeLanguage(savedLanguage);
     }
   }, [i18n]);
