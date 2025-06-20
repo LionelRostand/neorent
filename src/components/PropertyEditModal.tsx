@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calculator } from 'lucide-react';
-import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
 
 interface Property {
   id: string;
@@ -48,7 +47,6 @@ interface PropertyEditModalProps {
 const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen, onClose, onSave }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState<Partial<Property>>({});
-  const { companies, loading: companiesLoading } = useFirebaseCompanies();
 
   useEffect(() => {
     if (property) {
@@ -67,17 +65,6 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
       });
     }
   }, [property]);
-
-  // Extraire la liste des propriétaires depuis les entreprises
-  const getOwnersList = () => {
-    const owners: string[] = [];
-    companies.forEach(company => {
-      if (company.subsidiaries && Array.isArray(company.subsidiaries)) {
-        owners.push(...company.subsidiaries);
-      }
-    });
-    return [...new Set(owners)]; // Éliminer les doublons
-  };
 
   const handleChargeChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -116,8 +103,6 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
 
   if (!property) return null;
 
-  const ownersList = getOwnersList();
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -137,27 +122,12 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
             </div>
             <div>
               <Label htmlFor="owner">{t('propertyForm.owner')}</Label>
-              <Select 
-                value={formData.owner || ''} 
-                onValueChange={(value) => setFormData({...formData, owner: value})}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={companiesLoading ? "Chargement..." : "Sélectionner un propriétaire"} />
-                </SelectTrigger>
-                <SelectContent className="bg-white z-50 max-h-60 overflow-y-auto">
-                  {companiesLoading ? (
-                    <SelectItem value="loading" disabled>Chargement...</SelectItem>
-                  ) : ownersList.length > 0 ? (
-                    ownersList.map((owner) => (
-                      <SelectItem key={owner} value={owner} className="hover:bg-gray-100">
-                        {owner}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <SelectItem value="no-owners" disabled>Aucun propriétaire trouvé</SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
+              <Input
+                id="owner"
+                value={formData.owner || ''}
+                onChange={(e) => setFormData({...formData, owner: e.target.value})}
+                placeholder={t('propertyForm.ownerPlaceholder')}
+              />
             </div>
           </div>
           <div>

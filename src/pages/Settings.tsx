@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -14,8 +15,6 @@ import {
   UserCog
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
 
 import FirebaseTab from '@/components/Settings/FirebaseTab';
 import DatabaseTab from '@/components/Settings/Database/DatabaseTab';
@@ -27,25 +26,17 @@ import EmployeePermissionsTab from '@/components/Settings/EmployeePermissionsTab
 import CompanyManagement from '@/components/Settings/CompanyManagement';
 import AdminTenantAccess from '@/components/AdminTenantAccess';
 import { useAuth } from '@/hooks/useAuth';
-import { useUserPermissions } from '@/hooks/useUserPermissions';
 
 const Settings = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('company');
   const { user } = useAuth();
-  const { isEmployee } = useUserPermissions();
-  const navigate = useNavigate();
   const isAdmin = user?.email === 'admin@neotech-consulting.com';
-
-  const handleOwnerSpaceAccess = () => {
-    navigate('/owner-space');
-  };
 
   const tabs = [
     { id: 'company', label: t('settings.tabs.company'), icon: Building },
     { id: 'employees', label: t('settings.tabs.employees'), icon: Users },
     { id: 'permissions', label: t('settings.tabs.permissions'), icon: ShieldCheck },
-    ...(isEmployee || isAdmin ? [{ id: 'owner-space', label: 'Espace Propriétaire', icon: UserCog }] : []),
     { id: 'firebase', label: t('settings.tabs.firebase'), icon: Database },
     { id: 'database', label: t('settings.tabs.database'), icon: Database },
     { id: 'email', label: t('settings.tabs.email'), icon: Mail },
@@ -71,7 +62,7 @@ const Settings = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto">
-            <TabsList className={`grid w-full min-w-[800px] ${isEmployee || isAdmin ? 'grid-cols-10' : 'grid-cols-9'} mb-4 md:mb-6 mx-1`}>
+            <TabsList className="grid w-full min-w-[800px] grid-cols-9 mb-4 md:mb-6 mx-1">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 
@@ -96,31 +87,6 @@ const Settings = () => {
           <TabsContent value="permissions" className="space-y-4 md:space-y-6">
             <EmployeePermissionsTab />
           </TabsContent>
-
-          {(isEmployee || isAdmin) && (
-            <TabsContent value="owner-space" className="space-y-4 md:space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900 flex items-center gap-2">
-                    <UserCog className="h-6 w-6" />
-                    Espace Propriétaire
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-6">
-                    Accédez à votre espace propriétaire pour gérer vos biens et locataires.
-                  </p>
-                  <Button 
-                    onClick={handleOwnerSpaceAccess}
-                    className="bg-green-500 hover:bg-green-600 text-white"
-                  >
-                    <UserCog className="h-4 w-4 mr-2" />
-                    Accéder à l'Espace Propriétaire
-                  </Button>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          )}
 
           <TabsContent value="firebase" className="space-y-4 md:space-y-6">
             <FirebaseTab />

@@ -1,11 +1,11 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone, TrendingUp, TrendingDown } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import PropertyDetailsHeader from './PropertyDetails/PropertyDetailsHeader';
-import PropertyProfitabilitySection from './PropertyDetails/PropertyProfitabilitySection';
-import PropertyConfigurationSection from './PropertyDetails/PropertyConfigurationSection';
-import PropertyOccupantsList from './PropertyDetails/PropertyOccupantsList';
 
 interface Property {
   id: string;
@@ -51,6 +51,7 @@ interface PropertyDetailsModalProps {
 }
 
 const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, isOpen, onClose }) => {
+  const { t } = useTranslation();
   const { roommates } = useFirebaseRoommates();
 
   if (!property) return null;
@@ -149,6 +150,11 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
 
   const occupancyRate = calculateOccupancyRate();
 
+  // Fonction utilitaire pour formater les nombres
+  const formatNumber = (value: number) => {
+    return isNaN(value) ? '0' : value.toFixed(0);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -158,30 +164,237 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
 
         <div className="space-y-6">
           {/* Image et informations principales */}
-          <PropertyDetailsHeader 
-            property={property}
-            occupancyInfo={occupancyInfo}
-            occupantsCount={occupants.length}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+              {property.image && property.image !== '/placeholder.svg' ? (
+                <img 
+                  src={property.image} 
+                  alt={property.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Home className="h-16 w-16 text-gray-400" />
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex gap-2 flex-wrap">
+                <Badge 
+                  variant={property.locationType === 'Colocation' ? 'default' : 'secondary'}
+                  className={property.locationType === 'Colocation' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}
+                >
+                  {t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`)}
+                </Badge>
+                <Badge 
+                  variant={occupancyInfo.status === 'Libre' ? 'secondary' : 'default'}
+                  className={
+                    occupancyInfo.status === 'Libre' ? 'bg-gray-100 text-gray-800' :
+                    occupancyInfo.status === 'Occupé' || occupancyInfo.status === 'Complet' ? 'bg-green-100 text-green-800' :
+                    'bg-yellow-100 text-yellow-800'
+                  }
+                >
+                  {occupancyInfo.status === 'Libre' ? t('properties.vacant') :
+                   occupancyInfo.status === 'Complet' ? t('properties.fullyOccupied') :
+                   occupancyInfo.status === 'Partiellement occupé' ? t('properties.partiallyOccupied') :
+                   occupancyInfo.status}
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center text-gray-600">
+                  <MapPin className="mr-2 h-5 w-5" />
+                  {property.address}
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="font-medium">{t('propertyForm.type')}:</span> {t(`propertyForm.propertyTypes.${property.type.toLowerCase()}`)}
+                  </div>
+                  <div>
+                    <span className="font-medium">{t('propertyForm.surface')}:</span> {property.surface}
+                  </div>
+                  {property.floor && (
+                    <>
+                      <div>
+                        <span className="font-medium">{t('propertyForm.floor')}:</span> {property.floor}
+                      </div>
+                      <div></div>
+                    </>
+                  )}
+                </div>
+
+                {property.locationType === 'Colocation' && (
+                  <div className="flex items-center text-gray-600">
+                    <Bed className="mr-2 h-5 w-5" />
+                    {occupancyInfo.availableRooms > 0 ? (
+                      <span className="text-green-600 font-medium">
+                        {occupancyInfo.availableRooms} {t('properties.roomsAvailable')}
+                      </span>
+                    ) : (
+                      <span className="text-red-600 font-medium">
+                        {t('properties.allRoomsOccupied')}
+                      </span>
+                    )}
+                    <span className="ml-1">/ {occupancyInfo.totalRooms} total</span>
+                  </div>
+                )}
+
+                {property.locationType === 'Location' && occupants.length > 0 && (
+                  <div className="flex items-center text-green-600 font-medium">
+                    <User className="mr-2 h-5 w-5" />
+                    {t('properties.apartmentOccupied')}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
 
           {/* Rentabilité et bénéfices */}
-          <PropertyProfitabilitySection
-            totalRevenue={totalRevenue}
-            totalCharges={totalCharges}
-            profit={profit}
-            occupancyRate={occupancyRate}
-            occupantsCount={occupants.length}
-          />
+          <div>
+            <h3 className="text-xl font-semibold mb-4">{t('properties.profitability')}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <DollarSign className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                  <div className="font-medium text-green-600">{t('properties.revenue')}</div>
+                  <div className="text-xl font-bold">{formatNumber(totalRevenue)}€</div>
+                  <div className="text-sm text-gray-600">{t('properties.thisMonth')}</div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <DollarSign className="h-8 w-8 mx-auto mb-2 text-red-600" />
+                  <div className="font-medium text-red-600">{t('properties.charges')}</div>
+                  <div className="text-xl font-bold">{formatNumber(totalCharges)}€</div>
+                  <div className="text-sm text-gray-600">{t('properties.thisMonth')}</div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4 text-center">
+                  {profit >= 0 ? (
+                    <TrendingUp className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                  ) : (
+                    <TrendingDown className="h-8 w-8 mx-auto mb-2 text-red-600" />
+                  )}
+                  <div className={`font-medium ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {profit >= 0 ? t('properties.profit') : t('properties.loss')}
+                  </div>
+                  <div className={`text-xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {formatNumber(Math.abs(profit))}€
+                  </div>
+                  <div className="text-sm text-gray-600">{t('properties.thisMonth')}</div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <Users className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                  <div className="font-medium text-blue-600">{t('properties.occupancyRate')}</div>
+                  <div className="text-xl font-bold">{occupancyRate}%</div>
+                  <div className="text-sm text-gray-600">
+                    {occupants.length} {t('properties.occupants')}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
 
           {/* Configuration du bien */}
-          <PropertyConfigurationSection
-            property={property}
-            occupancyInfo={occupancyInfo}
-            occupantsCount={occupants.length}
-          />
+          <div>
+            <h3 className="text-xl font-semibold mb-4">{t('properties.propertyConfiguration')}</h3>
+            <Card>
+              <CardContent className="p-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-gray-50 rounded-lg">
+                    <Home className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                    <div className="font-medium">{t(`propertyForm.propertyTypes.${property.type.toLowerCase()}`)}</div>
+                    <div className="text-sm text-gray-600">{property.surface}</div>
+                  </div>
+                  
+                  {property.locationType === 'Colocation' && (
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <Bed className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                      <div className="font-medium">{occupancyInfo.totalRooms} {t('properties.rooms')}</div>
+                      <div className="text-sm text-gray-600">
+                        {occupancyInfo.availableRooms} {t('properties.available')}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="text-center p-4 bg-gray-50 rounded-lg">
+                    <Users className="h-8 w-8 mx-auto mb-2 text-purple-600" />
+                    <div className="font-medium">{occupants.length} {t('properties.occupants')}</div>
+                    <div className="text-sm text-gray-600">{t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`)}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Liste des occupants */}
-          <PropertyOccupantsList occupants={occupants} />
+          <div>
+            <h3 className="text-xl font-semibold mb-4">
+              {t('properties.occupantsList')} ({occupants.length})
+            </h3>
+            
+            {occupants.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {occupants.map((occupant) => (
+                  <Card key={occupant.id}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                          {occupant.type === 'Locataire principal' ? (
+                            <User className="h-5 w-5 text-gray-400" />
+                          ) : (
+                            <UserCheck className="h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
+                        
+                        <div className="flex-1 space-y-2">
+                          <div className="flex justify-between items-start">
+                            <h4 className="font-medium">{occupant.name}</h4>
+                            <Badge variant="outline" className="text-xs">
+                              {occupant.type === 'Locataire principal' ? t('properties.mainTenant') : t('properties.roommate')}
+                            </Badge>
+                          </div>
+                          
+                          <div className="space-y-1 text-sm text-gray-600">
+                            <div className="flex items-center">
+                              <Mail className="mr-1 h-3 w-3" />
+                              {occupant.email}
+                            </div>
+                            <div className="flex items-center">
+                              <Phone className="mr-1 h-3 w-3" />
+                              {occupant.phone}
+                            </div>
+                            {occupant.roomNumber && (
+                              <div className="flex items-center">
+                                <Bed className="mr-1 h-3 w-3" />
+                                {occupant.roomNumber} - {occupant.rentAmount}{t('properties.perMonth')}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <Users className="h-12 w-12 mx-auto mb-3 text-gray-400" />
+                  <p className="text-gray-600">{t('properties.noOccupants')}</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {t('properties.noOccupantsDescription')}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

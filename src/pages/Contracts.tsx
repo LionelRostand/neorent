@@ -1,103 +1,49 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import ContractsHeader from '@/components/Contracts/ContractsHeader';
 import ContractsMetrics from '@/components/Contracts/ContractsMetrics';
 import ContractsList from '@/components/Contracts/ContractsList';
-import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
-import { useToast } from '@/hooks/use-toast';
-import { useOwnerFilter } from '@/hooks/useOwnerFilter';
+import ContractEditModal from '@/components/ContractEditModal';
+import ContractSigningModal from '@/components/ContractSigning/ContractSigningModal';
+import ContractDetailsModal from '@/components/ContractDetailsModal';
+import { useContractsActions } from '@/hooks/useContractsActions';
 
 const Contracts = () => {
   const { t } = useTranslation();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { contracts, loading, error, addContract, updateContract, deleteContract } = useFirebaseContracts();
-  const { toast } = useToast();
-  const { filterByOwner } = useOwnerFilter();
-
-  // Filtrer les contrats par propriétaire si nécessaire
-  const filteredContracts = filterByOwner(contracts);
-
-  // Calculate metrics from filtered contracts
-  const activeCount = filteredContracts.filter(c => c.status === 'Actif').length;
-  const expiredCount = filteredContracts.filter(c => c.status === 'Expiré').length;
-  const totalCount = filteredContracts.length;
-
-  const handleAddContract = async (data: any) => {
-    try {
-      await addContract(data);
-      toast({
-        title: t('common.success'),
-        description: t('contracts.addSuccess'),
-      });
-      setIsDialogOpen(false);
-    } catch (err) {
-      console.error('Erreur lors de l\'ajout du contrat:', err);
-      toast({
-        title: t('common.error'),
-        description: t('contracts.addError'),
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleEditContract = (contract: any) => {
-    // TODO: Implement edit functionality
-    console.log('Edit contract:', contract);
-  };
-
-  const handleUpdateContract = async (id: string, updates: any) => {
-    try {
-      await updateContract(id, updates);
-      toast({
-        title: t('common.success'),
-        description: t('contracts.updateSuccess'),
-      });
-    } catch (err) {
-      console.error('Erreur lors de la mise à jour du contrat:', err);
-      toast({
-        title: t('common.error'),
-        description: t('contracts.updateError'),
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleDeleteContract = async (id: string) => {
-    if (window.confirm(t('contracts.confirmDelete'))) {
-      try {
-        await deleteContract(id);
-        toast({
-          title: t('common.success'),
-          description: t('contracts.deleteSuccess'),
-        });
-      } catch (err) {
-        console.error('Erreur lors de la suppression du contrat:', err);
-        toast({
-          title: t('common.error'),
-          description: t('contracts.deleteError'),
-          variant: "destructive",
-        });
-      }
-    }
-  };
-
-  const handleViewDetails = (contract: any) => {
-    // TODO: Implement view details functionality
-    console.log('View details:', contract);
-  };
-
-  const handleSignContract = (contract: any) => {
-    // TODO: Implement sign contract functionality
-    console.log('Sign contract:', contract);
-  };
+  const {
+    contracts,
+    loading,
+    error,
+    activeCount,
+    expiredCount,
+    totalCount,
+    isDialogOpen,
+    setIsDialogOpen,
+    editingContract,
+    isEditModalOpen,
+    setIsEditModalOpen,
+    signingContract,
+    isSigningModalOpen,
+    setIsSigningModalOpen,
+    detailsContract,
+    isDetailsModalOpen,
+    setIsDetailsModalOpen,
+    handleAddContract,
+    handleEditContract,
+    handleUpdateContract,
+    handleSignContract,
+    handleSigningComplete,
+    handleDeleteContract,
+    handleViewDetails,
+  } = useContractsActions();
 
   if (loading) {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">{t('contracts.loading')}</div>
+          <div className="text-base sm:text-lg">Loading contracts...</div>
         </div>
       </MainLayout>
     );
@@ -107,7 +53,7 @@ const Contracts = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
+          <div className="text-base sm:text-lg text-red-600 text-center px-4">Error: {error}</div>
         </div>
       </MainLayout>
     );
@@ -115,25 +61,45 @@ const Contracts = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
         <ContractsHeader
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
           onAddContract={handleAddContract}
         />
 
-        <ContractsMetrics 
+        <ContractsMetrics
           activeCount={activeCount}
           expiredCount={expiredCount}
           totalCount={totalCount}
         />
 
         <ContractsList
-          contracts={filteredContracts}
+          contracts={contracts}
           onEdit={handleEditContract}
           onDelete={handleDeleteContract}
           onViewDetails={handleViewDetails}
           onSign={handleSignContract}
+        />
+
+        <ContractEditModal
+          contract={editingContract}
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleUpdateContract}
+        />
+
+        <ContractSigningModal
+          contract={signingContract}
+          isOpen={isSigningModalOpen}
+          onClose={() => setIsSigningModalOpen(false)}
+          onSigningComplete={handleSigningComplete}
+        />
+
+        <ContractDetailsModal
+          contract={detailsContract}
+          isOpen={isDetailsModalOpen}
+          onClose={() => setIsDetailsModalOpen(false)}
         />
       </div>
     </MainLayout>

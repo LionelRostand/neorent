@@ -20,10 +20,6 @@ const LanguageSelector: React.FC = () => {
     try {
       await i18n.changeLanguage(languageCode);
       localStorage.setItem('preferredLanguage', languageCode);
-      
-      // Force a page refresh to ensure all components re-render with new language
-      window.location.reload();
-      
       console.log('Langue changée vers:', languageCode);
     } catch (error) {
       console.error('Erreur lors du changement de langue:', error);

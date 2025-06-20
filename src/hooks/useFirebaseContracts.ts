@@ -15,7 +15,6 @@ interface Contract {
   status: string;
   tenant: string;
   jurisdiction: string;
-  owner?: string;
   signatures?: {
     owner?: {
       signatureDataUrl: string;

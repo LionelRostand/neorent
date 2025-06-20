@@ -1,301 +1,186 @@
 
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useUserPermissions } from '@/hooks/useUserPermissions';
-import { useAuth } from '@/hooks/useAuth';
 import { 
-  LayoutDashboard, 
+  Home, 
   Building, 
-  UserCheck, 
   Users, 
   FileText, 
-  ClipboardList,
-  Euro,
-  Calculator,
-  TrendingUp,
-  Wrench,
-  MessageSquare,
-  Receipt,
+  DollarSign, 
+  ClipboardList, 
+  Wrench, 
+  Settings, 
+  UserCheck,
   Globe,
-  Settings,
+  Calculator,
+  MessageCircle,
   HelpCircle,
-  UserCog,
-  Home
+  TrendingUp
 } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useUserPermissions } from '@/hooks/useUserPermissions';
+import { EmployeePermissions } from '@/components/Settings/types/permissions';
 
 interface SidebarProps {
-  collapsed?: boolean;
+  isCollapsed?: boolean;
+  onToggle?: () => void;
   onMobileClose?: () => void;
 }
 
-const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const { canAccessMenu, isAdmin, isEmployee, isTenant, isRoommate } = useUserPermissions();
-  const { userProfile, userType } = useAuth();
+  const currentYear = new Date().getFullYear();
+  const { canAccessMenu, isAdmin } = useUserPermissions();
 
-  // Vérifier si on est dans l'espace propriétaire ou si on vient de l'espace propriétaire
-  const isInOwnerSpace = location.pathname.includes('/owner-space');
-  const ownerParam = new URLSearchParams(location.search).get('owner');
-  const currentOwner = (userType === 'employee' || userType === 'admin') ? userProfile?.name : null;
-
-  const handleNavigation = (href: string) => {
-    let finalHref = href;
-    
-    // Si on est dans l'espace propriétaire ou qu'on a un paramètre owner, ajouter le paramètre owner aux URLs admin
-    if ((isInOwnerSpace || ownerParam) && currentOwner && href.startsWith('/admin/')) {
-      const url = new URL(href, window.location.origin);
-      url.searchParams.set('owner', currentOwner);
-      finalHref = url.pathname + url.search;
-    }
-    
-    navigate(finalHref);
-    // Call onMobileClose when navigating on mobile
-    if (onMobileClose) {
-      onMobileClose();
-    }
-  };
-
-  // Menu items for admin/employee
-  const adminMenuItems = [
-    {
-      title: t('navigation.dashboard'),
-      icon: LayoutDashboard,
-      href: '/admin',
-      permission: 'dashboard' as const
+  const menuItems = [
+    { 
+      icon: Home, 
+      label: t('navigation.dashboard'), 
+      path: '/admin/dashboard',
+      permission: 'dashboard' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.properties'),
-      icon: Building,
-      href: '/admin/properties',
-      permission: 'properties' as const
+    { 
+      icon: Building, 
+      label: t('navigation.properties'), 
+      path: '/admin/properties',
+      permission: 'properties' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.tenants'),
-      icon: UserCheck,
-      href: '/admin/tenants',
-      permission: 'tenants' as const
+    { 
+      icon: Users, 
+      label: t('navigation.tenants'), 
+      path: '/admin/tenants',
+      permission: 'tenants' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.roommates'),
-      icon: Users,
-      href: '/admin/roommates',
-      permission: 'roommates' as const
+    { 
+      icon: UserCheck, 
+      label: t('navigation.roommates'), 
+      path: '/admin/roommates',
+      permission: 'roommates' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.contracts'),
-      icon: FileText,
-      href: '/admin/contracts',
-      permission: 'contracts' as const
+    { 
+      icon: FileText, 
+      label: t('navigation.contracts'), 
+      path: '/admin/contracts',
+      permission: 'contracts' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.inspections'),
-      icon: ClipboardList,
-      href: '/admin/inspections',
-      permission: 'inspections' as const
+    { 
+      icon: ClipboardList, 
+      label: t('navigation.inspections'), 
+      path: '/admin/inspections',
+      permission: 'inspections' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.rentManagement'),
-      icon: Euro,
-      href: '/admin/rent-management',
-      permission: 'rentManagement' as const
+    { 
+      icon: DollarSign, 
+      label: t('navigation.rentManagement'), 
+      path: '/admin/rent-management',
+      permission: 'rentManagement' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.rentalCharges'),
-      icon: Calculator,
-      href: '/admin/rental-charges',
-      permission: 'rentalCharges' as const
+    { 
+      icon: Calculator, 
+      label: t('navigation.rentalCharges'), 
+      path: '/admin/rental-charges',
+      permission: 'rentalCharges' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.forecasting'),
-      icon: TrendingUp,
-      href: '/admin/forecasting',
-      permission: null
+    { 
+      icon: TrendingUp, 
+      label: t('navigation.forecasting'), 
+      path: '/admin/forecasting',
+      permission: 'dashboard' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.maintenance'),
-      icon: Wrench,
-      href: '/admin/maintenance',
-      permission: 'maintenance' as const
+    { 
+      icon: Wrench, 
+      label: t('navigation.maintenance'), 
+      path: '/admin/maintenance',
+      permission: 'maintenance' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.messages'),
-      icon: MessageSquare,
-      href: '/admin/messages',
-      permission: 'messages' as const
+    { 
+      icon: MessageCircle, 
+      label: t('navigation.messages'), 
+      path: '/admin/messages',
+      permission: 'messages' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.taxes'),
-      icon: Receipt,
-      href: '/admin/taxes',
-      permission: 'taxes' as const
+    { 
+      icon: FileText, 
+      label: t('navigation.taxes'), 
+      path: '/admin/taxes',
+      permission: 'taxes' as keyof EmployeePermissions
     },
-    {
-      title: t('navigation.website'),
-      icon: Globe,
-      href: '/admin/website',
-      permission: 'website' as const
+    { 
+      icon: Globe, 
+      label: t('navigation.website'), 
+      path: '/admin/website',
+      permission: 'website' as keyof EmployeePermissions
+    },
+    { 
+      icon: Settings, 
+      label: t('navigation.settings'), 
+      path: '/admin/settings',
+      permission: 'settings' as keyof EmployeePermissions
+    },
+    { 
+      icon: HelpCircle, 
+      label: t('navigation.help'), 
+      path: '/admin/help',
+      permission: 'dashboard' as keyof EmployeePermissions
     }
   ];
 
-  // Menu items for tenants/roommates
-  const tenantMenuItems = [
-    {
-      title: 'Mon Espace Locataire',
-      icon: Home,
-      href: '/tenant-space',
-      permission: null
-    }
-  ];
+  // Filtrer les éléments du menu selon les permissions
+  const filteredMenuItems = menuItems.filter(item => {
+    // Les admins voient tout
+    if (isAdmin) return true;
+    // Vérifier les permissions pour les autres utilisateurs
+    return canAccessMenu(item.permission);
+  });
 
-  const bottomMenuItems = [
-    {
-      title: t('navigation.settings'),
-      icon: Settings,
-      href: isAdmin || isEmployee ? '/admin/settings' : '/tenant-space',
-      permission: 'settings' as const
-    },
-    {
-      title: t('navigation.help'),
-      icon: HelpCircle,
-      href: isAdmin || isEmployee ? '/admin/help' : '/tenant-space',
-      permission: null
-    }
-  ];
-
-  // Ajouter l'espace propriétaire pour les employés ET les admins
-  const ownerSpaceItem = (isEmployee || isAdmin) ? {
-    title: 'Mon Espace Propriétaire',
-    icon: UserCog,
-    href: '/owner-space',
-    permission: null
-  } : null;
-
-  // Choose menu items based on user type
-  const menuItems = (isAdmin || isEmployee) ? adminMenuItems : tenantMenuItems;
-
-  const isPathActive = (href: string) => {
-    if (ownerParam && href.startsWith('/admin/')) {
-      // Si on a un paramètre owner, vérifier l'URL avec le paramètre
-      const url = new URL(href, window.location.origin);
-      url.searchParams.set('owner', ownerParam);
-      return location.pathname + location.search === url.pathname + url.search;
-    }
-    return location.pathname === href;
-  };
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className={cn(
-      "flex flex-col h-full bg-green-500 transition-all duration-300",
-      collapsed ? "w-16" : "w-64"
-    )}>
-      {/* Logo */}
-      <div className="flex items-center justify-center h-16 px-4">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-            <span className="text-green-500 font-bold text-sm">■</span>
-          </div>
-          {!collapsed && (
-            <span className="font-bold text-xl text-white">NeoRent</span>
-          )}
+    <div className="bg-green-500 w-64 h-screen flex flex-col">
+      <div className="p-6 flex-shrink-0">
+        <div className="flex items-center">
+          <Building className="h-6 w-6 text-white mr-2" />
+          <h1 className="text-xl font-bold text-white">NeoRent</h1>
         </div>
       </div>
-
-      {/* Navigation */}
-      <ScrollArea className="flex-1 py-4">
-        <nav className="space-y-1 px-3">
-          {/* Bouton retour vers l'espace propriétaire si on vient de là */}
-          {ownerParam && (
-            <Button
-              variant="ghost"
-              className={cn(
-                "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white mb-4 border border-green-400",
-                collapsed ? "px-2" : "px-3"
-              )}
-              onClick={() => navigate('/owner-space')}
-            >
-              <UserCog className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
-              {!collapsed && <span>← Espace Propriétaire</span>}
-            </Button>
-          )}
-          
-          {/* Main menu items */}
-          {menuItems.map((item) => {
-            const hasPermission = !item.permission || canAccessMenu(item.permission);
-            if (!hasPermission && (isAdmin || isEmployee)) return null;
-
-            const isActive = isPathActive(item.href);
-            const Icon = item.icon;
-
-            return (
-              <Button
-                key={item.href}
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white",
-                  collapsed ? "px-2" : "px-3",
-                  isActive && "bg-green-400 text-white"
-                )}
-                onClick={() => handleNavigation(item.href)}
-              >
-                <Icon className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
-                {!collapsed && <span>{item.title}</span>}
-              </Button>
-            );
-          })}
-
-          {/* Owner space for employees and admins */}
-          {ownerSpaceItem && !ownerParam && (
-            <>
-              <div className="my-4 border-t border-green-400" />
-              <Button
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white",
-                  collapsed ? "px-2" : "px-3",
-                  location.pathname === ownerSpaceItem.href && "bg-green-400 text-white"
-                )}
-                onClick={() => handleNavigation(ownerSpaceItem.href)}
-              >
-                <ownerSpaceItem.icon className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
-                {!collapsed && <span>{ownerSpaceItem.title}</span>}
-              </Button>
-            </>
-          )}
-
-          {/* Bottom menu items */}
-          <div className="mt-8 pt-4 border-t border-green-400">
-            {bottomMenuItems.map((item) => {
-              const hasPermission = !item.permission || canAccessMenu(item.permission);
-              if (!hasPermission && (isAdmin || isEmployee)) return null;
-
-              const isActive = isPathActive(item.href);
+      
+      <div className="flex-1 overflow-hidden">
+        <ScrollArea className="h-full">
+          <nav className="space-y-2 py-4 px-3">
+            {filteredMenuItems.map((item) => {
               const Icon = item.icon;
-
               return (
-                <Button
-                  key={item.href}
-                  variant="ghost"
-                  className={cn(
-                    "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white",
-                    collapsed ? "px-2" : "px-3",
-                    isActive && "bg-green-400 text-white"
-                  )}
-                  onClick={() => handleNavigation(item.href)}
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors ${
+                    isActive(item.path)
+                      ? 'bg-green-400 text-white'
+                      : 'text-white/90 hover:text-white hover:bg-green-400/50'
+                  }`}
+                  onClick={onMobileClose}
                 >
-                  <Icon className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
-                  {!collapsed && <span>{item.title}</span>}
-                </Button>
+                  <Icon className="mr-3 h-5 w-5" />
+                  {item.label}
+                </Link>
               );
             })}
+          </nav>
+        </ScrollArea>
+      </div>
+
+      <div className="p-4 border-t border-green-400 flex-shrink-0">
+        <div className="text-center">
+          <div className="text-white text-sm font-medium animate-pulse">
+            NEOTECH-CONSULTING
           </div>
-        </nav>
-      </ScrollArea>
+          <div className="text-white/80 text-xs mt-1">
+            Version 1.0 • {currentYear}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

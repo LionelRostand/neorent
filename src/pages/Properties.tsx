@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -10,19 +9,12 @@ import PropertyMetrics from '@/components/PropertyMetrics';
 import PropertyList from '@/components/PropertyList';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useToast } from '@/hooks/use-toast';
-import { useOwnerFilter } from '@/hooks/useOwnerFilter';
-import { useAuth } from '@/hooks/useAuth';
 
 const Properties = () => {
   const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { properties, loading, error, addProperty, updateProperty, deleteProperty } = useFirebaseProperties();
   const { toast } = useToast();
-  const { currentOwner, isOwnerFiltered, filterByOwner } = useOwnerFilter();
-  const { userType } = useAuth();
-
-  // Filtrer les propriétés par propriétaire si nécessaire
-  const filteredProperties = filterByOwner(properties);
 
   const handleAddProperty = async (data: any) => {
     try {
@@ -33,7 +25,7 @@ const Properties = () => {
         surface: data.surface,
         rent: data.creditImmobilier,
         creditImmobilier: data.creditImmobilier,
-        owner: data.owner || currentOwner, // Utiliser le propriétaire actuel si pas spécifié
+        owner: data.owner,
         charges: data.charges,
         floor: data.floor,
         status: 'Libre',
@@ -117,38 +109,13 @@ const Properties = () => {
     );
   }
 
-  // Déterminer le titre et sous-titre basé sur le type d'utilisateur et le filtrage
-  const getPageTitle = () => {
-    if (userType === 'admin' && !isOwnerFiltered) {
-      return t('properties.title'); // Titre normal pour admin
-    }
-    if (isOwnerFiltered && currentOwner) {
-      return `${t('properties.title')} - ${currentOwner}`;
-    }
-    return t('properties.title');
-  };
-
-  const getPageSubtitle = () => {
-    if (userType === 'admin' && !isOwnerFiltered) {
-      return t('properties.subtitle'); // Sous-titre normal pour admin
-    }
-    if (isOwnerFiltered && currentOwner) {
-      return `Propriétés de ${currentOwner}`;
-    }
-    return t('properties.subtitle');
-  };
-
   return (
     <MainLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              {getPageTitle()}
-            </h1>
-            <p className="text-gray-600 mt-2">
-              {getPageSubtitle()}
-            </p>
+            <h1 className="text-3xl font-bold text-gray-900">{t('properties.title')}</h1>
+            <p className="text-gray-600 mt-2">{t('properties.subtitle')}</p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
@@ -166,7 +133,7 @@ const Properties = () => {
 
         <PropertyMetrics />
         <PropertyList 
-          properties={filteredProperties} 
+          properties={properties} 
           onUpdateProperty={handleUpdateProperty}
           onDeleteProperty={handleDeleteProperty}
         />
