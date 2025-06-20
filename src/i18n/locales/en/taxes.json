@@ -60,6 +60,8 @@
     "paymentToMake": "payment to make",
     "totalObligation": "total obligation",
     "taxList2025": "Tax List {{year}}",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "marginalTaxBracket": "Marginal Tax Bracket",
+    "selectTaxBracket": "Select tax bracket"
   }
 }
