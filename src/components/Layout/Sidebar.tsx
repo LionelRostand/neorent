@@ -152,8 +152,8 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
     }
   ];
 
-  // Ajouter l'espace propriétaire pour les employés
-  const ownerSpaceItem = isEmployee ? {
+  // Ajouter l'espace propriétaire pour les employés ET les admins
+  const ownerSpaceItem = (isEmployee || isAdmin) ? {
     title: 'Mon Espace Propriétaire',
     icon: UserCog,
     href: '/owner-space',
@@ -208,7 +208,7 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
             );
           })}
 
-          {/* Owner space for employees */}
+          {/* Owner space for employees and admins */}
           {ownerSpaceItem && (
             <>
               <div className="my-4 border-t border-green-400" />

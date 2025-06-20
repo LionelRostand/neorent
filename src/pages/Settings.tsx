@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -46,7 +45,7 @@ const Settings = () => {
     { id: 'company', label: t('settings.tabs.company'), icon: Building },
     { id: 'employees', label: t('settings.tabs.employees'), icon: Users },
     { id: 'permissions', label: t('settings.tabs.permissions'), icon: ShieldCheck },
-    ...(isEmployee ? [{ id: 'owner-space', label: 'Espace Propriétaire', icon: UserCog }] : []),
+    ...(isEmployee || isAdmin ? [{ id: 'owner-space', label: 'Espace Propriétaire', icon: UserCog }] : []),
     { id: 'firebase', label: t('settings.tabs.firebase'), icon: Database },
     { id: 'database', label: t('settings.tabs.database'), icon: Database },
     { id: 'email', label: t('settings.tabs.email'), icon: Mail },
@@ -72,7 +71,7 @@ const Settings = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto">
-            <TabsList className={`grid w-full min-w-[800px] ${isEmployee ? 'grid-cols-10' : 'grid-cols-9'} mb-4 md:mb-6 mx-1`}>
+            <TabsList className={`grid w-full min-w-[800px] ${isEmployee || isAdmin ? 'grid-cols-10' : 'grid-cols-9'} mb-4 md:mb-6 mx-1`}>
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 
@@ -98,7 +97,7 @@ const Settings = () => {
             <EmployeePermissionsTab />
           </TabsContent>
 
-          {isEmployee && (
+          {(isEmployee || isAdmin) && (
             <TabsContent value="owner-space" className="space-y-4 md:space-y-6">
               <Card>
                 <CardHeader>
