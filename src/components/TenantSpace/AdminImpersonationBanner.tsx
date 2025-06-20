@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Shield, ArrowLeft } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
 
 interface AdminImpersonationBannerProps {
   isImpersonating: boolean;
@@ -26,7 +25,6 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
   onBackToAdmin
 }) => {
   const { t } = useTranslation();
-  const { getDefaultRoute } = useAuth();
 
   if (!isImpersonating || !isAuthorizedAdmin) return null;
 
@@ -34,9 +32,10 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || 'Utilisateur';
 
   const handleBackToAdmin = () => {
+    console.log('Retour vers l\'administration - nettoyage des données de session');
     onBackToAdmin();
-    // Rediriger vers la route par défaut de l'admin
-    window.location.href = getDefaultRoute();
+    // Force redirect to admin dashboard
+    window.location.href = '/admin/dashboard';
   };
 
   console.log('AdminImpersonationBanner:', {
