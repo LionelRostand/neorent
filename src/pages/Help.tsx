@@ -61,11 +61,11 @@ const Help = () => {
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="general" className="flex items-center gap-2">
               <HelpCircle className="h-4 w-4" />
-              <span>Aide générale</span>
+              <span>{t('help.gettingStarted')}</span>
             </TabsTrigger>
             <TabsTrigger value="payments" className="flex items-center gap-2">
               <CreditCard className="h-4 w-4" />
-              <span>Configuration paiements</span>
+              <span>{t('help.paymentConfig')}</span>
             </TabsTrigger>
           </TabsList>
 

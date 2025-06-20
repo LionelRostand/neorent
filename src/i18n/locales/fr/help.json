@@ -15,7 +15,7 @@
     "contactSupport": "Contacter le Support",
     "noResults": "Aucun résultat trouvé",
     "noResultsDescription": "Essayez d'ajuster vos termes de recherche",
-    "gettingStarted": "Démarrage",
+    "gettingStarted": "Aide générale",
     "userGuides": "Guides Utilisateur",
     "troubleshooting": "Dépannage",
     "apiReference": "Référence API",
@@ -25,6 +25,66 @@
     "functionalUsage": "Utilisation fonctionnelle",
     "paymentConfig": "Configuration des paiements",
     "paymentConfigDescription": "Guide complet pour configurer les différents moyens de paiement",
+    "configurationSteps": "Étapes de configuration",
+    "comingSoonMessage": "Cette fonctionnalité sera bientôt disponible. Restez connecté pour les mises à jour !",
+    "status": {
+      "available": "Disponible",
+      "comingSoon": "Bientôt disponible"
+    },
+    "complexity": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    },
+    "securityNote": {
+      "title": "Note de sécurité",
+      "description": "Toutes les transactions sont sécurisées avec un chiffrement de niveau bancaire. Vos données financières ne sont jamais stockées sur nos serveurs et sont traitées directement par les prestataires de paiement certifiés."
+    },
+    "paymentMethods": {
+      "creditCard": {
+        "name": "Cartes bancaires",
+        "description": "Acceptez les paiements par carte de crédit et de débit via Stripe",
+        "steps": [
+          "Créer un compte Stripe sur stripe.com",
+          "Obtenir vos clés API publiques et secrètes",
+          "Configurer les clés dans les paramètres de l'application",
+          "Tester les paiements en mode sandbox",
+          "Activer le mode production"
+        ]
+      },
+      "bankTransfer": {
+        "name": "Virements bancaires",
+        "description": "Permettez aux locataires de déclarer leurs virements pour validation",
+        "steps": [
+          "Configurer vos informations bancaires",
+          "Activer la déclaration de virements",
+          "Former vos locataires à l'utilisation",
+          "Valider les virements reçus",
+          "Générer automatiquement les quittances"
+        ]
+      },
+      "mobile": {
+        "name": "Paiements mobiles",
+        "description": "Apple Pay, Google Pay et autres portefeuilles numériques",
+        "steps": [
+          "Configuration automatique avec Stripe",
+          "Tests sur appareils mobiles",
+          "Activation des notifications push",
+          "Formation des utilisateurs"
+        ]
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Intégration avec PayPal pour des paiements internationaux",
+        "steps": [
+          "Créer un compte PayPal Business",
+          "Obtenir les identifiants API",
+          "Configurer les webhooks",
+          "Tester les paiements",
+          "Activer en production"
+        ]
+      }
+    },
     "categories": {
       "overview": "Vue d'ensemble",
       "realEstate": "Gestion immobilière",

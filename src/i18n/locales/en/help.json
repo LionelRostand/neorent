@@ -15,7 +15,7 @@
     "contactSupport": "Contact Support",
     "noResults": "No results found",
     "noResultsDescription": "Try adjusting your search terms",
-    "gettingStarted": "Getting Started",
+    "gettingStarted": "General Help",
     "userGuides": "User Guides",
     "troubleshooting": "Troubleshooting",
     "apiReference": "API Reference",
@@ -25,6 +25,66 @@
     "functionalUsage": "Functional usage",
     "paymentConfig": "Payment Configuration",
     "paymentConfigDescription": "Complete guide to configure different payment methods",
+    "configurationSteps": "Configuration Steps",
+    "comingSoonMessage": "This feature will be available soon. Stay tuned for updates!",
+    "status": {
+      "available": "Available",
+      "comingSoon": "Coming Soon"
+    },
+    "complexity": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "securityNote": {
+      "title": "Security Note",
+      "description": "All transactions are secured with bank-level encryption. Your financial data is never stored on our servers and is processed directly by certified payment providers."
+    },
+    "paymentMethods": {
+      "creditCard": {
+        "name": "Credit Cards",
+        "description": "Accept credit and debit card payments via Stripe",
+        "steps": [
+          "Create a Stripe account at stripe.com",
+          "Get your public and secret API keys",
+          "Configure keys in application settings",
+          "Test payments in sandbox mode",
+          "Enable production mode"
+        ]
+      },
+      "bankTransfer": {
+        "name": "Bank Transfers",
+        "description": "Allow tenants to declare their bank transfers for validation",
+        "steps": [
+          "Configure your bank information",
+          "Enable transfer declarations",
+          "Train your tenants on usage",
+          "Validate received transfers",
+          "Automatically generate receipts"
+        ]
+      },
+      "mobile": {
+        "name": "Mobile Payments",
+        "description": "Apple Pay, Google Pay and other digital wallets",
+        "steps": [
+          "Automatic configuration with Stripe",
+          "Testing on mobile devices",
+          "Enable push notifications",
+          "User training"
+        ]
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "PayPal integration for international payments",
+        "steps": [
+          "Create a PayPal Business account",
+          "Get API credentials",
+          "Configure webhooks",
+          "Test payments",
+          "Enable in production"
+        ]
+      }
+    },
     "categories": {
       "overview": "Overview",
       "realEstate": "Real Estate Management",

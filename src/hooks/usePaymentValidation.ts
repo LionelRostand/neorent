@@ -7,8 +7,12 @@ interface PaymentValidation {
   id: string;
   paymentId: string;
   tenantName: string;
+  tenantType: 'Locataire' | 'Colocataire';
+  property: string;
   amount: number;
   paymentDate: string;
+  paymentMethod: string;
+  notes?: string;
   validationStatus: 'pending' | 'validated' | 'rejected';
   validatedAt?: string;
   validatedBy?: string;
@@ -29,6 +33,19 @@ export const usePaymentValidation = () => {
       const paymentsSnapshot = await getDocs(collection(db, 'Rent_Payments'));
       const payments = paymentsSnapshot.docs.map(doc => ({
         id: doc.id,
+        paymentId: doc.id,
+        tenantName: doc.data().tenantName || 'Locataire inconnu',
+        tenantType: doc.data().tenantType || 'Locataire',
+        property: doc.data().property || 'Propriété inconnue',
+        amount: doc.data().amount || 0,
+        paymentDate: doc.data().paymentDate || new Date().toISOString(),
+        paymentMethod: doc.data().paymentMethod || 'Virement',
+        notes: doc.data().notes,
+        validationStatus: doc.data().validationStatus || 'pending',
+        validatedAt: doc.data().validatedAt,
+        validatedBy: doc.data().validatedBy,
+        validationComment: doc.data().validationComment,
+        receiptGenerated: doc.data().receiptGenerated || false,
         ...doc.data()
       }));
 
@@ -57,15 +74,13 @@ export const usePaymentValidation = () => {
       const updateData = {
         validationStatus: decision,
         validatedAt: new Date().toISOString(),
-        validatedBy: 'Bailleur', // À remplacer par l'utilisateur connecté
+        validatedBy: 'Bailleur',
         validationComment: comment || null,
         receiptGenerated: decision === 'validated' ? true : false
       };
 
-      // Mettre à jour le paiement
       await updateDoc(doc(db, 'Rent_Payments', paymentId), updateData);
 
-      // Si validé, créer une entrée dans les reçus générés
       if (decision === 'validated') {
         const payment = pendingValidations.find(p => p.id === paymentId);
         if (payment) {
@@ -81,9 +96,7 @@ export const usePaymentValidation = () => {
         }
       }
 
-      // Recharger les données
       await fetchPendingValidations();
-      
       return true;
     } catch (err) {
       console.error('Erreur lors de la validation:', err);
