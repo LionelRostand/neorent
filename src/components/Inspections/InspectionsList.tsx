@@ -34,29 +34,29 @@ const InspectionsList = ({
 
   return (
     <>
-      <div className="pt-4">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('inspections.listTitle')}</h2>
+      <div className="pt-2 sm:pt-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">{t('inspections.listTitle')}</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
         {inspections.map((inspection) => (
           <Card key={inspection.id} className="hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold text-lg text-gray-900">{inspection.title}</h3>
-                    <p className="text-sm text-gray-600 mt-1">{inspection.type}</p>
+            <CardContent className="p-4 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex justify-between items-start gap-2">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-base sm:text-lg text-gray-900 truncate">{inspection.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate">{inspection.type}</p>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                     <Badge 
                       variant={inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'default' : 
                              inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'secondary' : 'outline'}
-                      className={
+                      className={`text-xs ${
                         inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'bg-green-100 text-green-800' : 
                         inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800' : 
                         'bg-blue-100 text-blue-800'
-                      }
+                      }`}
                     >
                       {inspection.status}
                     </Badge>
@@ -64,44 +64,45 @@ const InspectionsList = ({
                       variant="outline"
                       size="sm"
                       onClick={() => onEditInspection(inspection)}
+                      className="h-8 w-8 p-0"
                     >
-                      <Edit className="h-4 w-4" />
+                      <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => onDeleteInspection(inspection.id)}
-                      className="text-red-600 hover:text-red-700"
+                      className="text-red-600 hover:text-red-700 h-8 w-8 p-0"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <div className="flex items-center text-gray-600 text-sm">
-                    <User className="mr-2 h-4 w-4" />
-                    {inspection.tenant}
+                  <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                    <User className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                    <span className="truncate">{inspection.tenant}</span>
                   </div>
-                  <div className="flex items-center text-gray-600 text-sm">
-                    <Building2 className="mr-2 h-4 w-4" />
-                    {inspection.property}
+                  <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                    <Building2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                    <span className="truncate">{inspection.property}</span>
                   </div>
-                  <div className="flex items-center text-gray-600 text-sm">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    {new Date(inspection.date).toLocaleDateString()}
+                  <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                    <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                    <span>{new Date(inspection.date).toLocaleDateString()}</span>
                   </div>
-                  <div className="flex items-center text-gray-600 text-sm">
-                    <ClipboardList className="mr-2 h-4 w-4" />
-                    {t('inspections.inspector')}: {inspection.inspector}
+                  <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                    <ClipboardList className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                    <span className="truncate">{t('inspections.inspector')}: {inspection.inspector}</span>
                   </div>
                 </div>
                 
-                <div className="flex space-x-2 pt-4 border-t">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 pt-3 sm:pt-4 border-t">
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="flex-1"
+                    className="flex-1 text-xs sm:text-sm"
                     onClick={() => onViewDetails(inspection)}
                   >
                     {t('inspections.viewDetails')}
@@ -109,7 +110,7 @@ const InspectionsList = ({
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="flex-1"
+                    className="flex-1 text-xs sm:text-sm"
                     onClick={() => onEditInspection(inspection)}
                   >
                     {t('inspections.editInspection')}

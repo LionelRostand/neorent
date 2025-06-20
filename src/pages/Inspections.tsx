@@ -103,7 +103,7 @@ const Inspections = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">{t('inspections.loading')}</div>
+          <div className="text-base sm:text-lg">{t('inspections.loading')}</div>
         </div>
       </MainLayout>
     );
@@ -113,7 +113,7 @@ const Inspections = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">{t('common.error')}: {error}</div>
+          <div className="text-base sm:text-lg text-red-600 text-center px-4">{t('common.error')}: {error}</div>
         </div>
       </MainLayout>
     );
@@ -121,7 +121,7 @@ const Inspections = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
         <InspectionsHeader
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
