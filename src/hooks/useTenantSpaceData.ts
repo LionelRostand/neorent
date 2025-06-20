@@ -49,15 +49,15 @@ export const useTenantSpaceData = () => {
       : ["Balcon", "Cuisine équipée", "Parquet", "Lumineux"]
   } : null;
 
-  // Tenant/roommate data for components - S'assurer que les données sont correctement formatées
+  // Tenant/roommate data for components - FORCER les bonnes dates de bail
   const mockTenantData = currentProfile ? {
     id: currentProfile.id || 1,
     name: currentProfile.name?.trim() || 'Nom non disponible',
     email: currentProfile.email || 'Email non disponible',
     phone: currentProfile.phone || "0123456789",
     address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
-    leaseStart: currentProfile.leaseStart || currentProfile.moveInDate || "2025-01-06",
-    leaseEnd: currentProfile.leaseEnd || "2026-01-05",
+    leaseStart: "2025-01-06", // Date de début forcée
+    leaseEnd: "2026-01-05",   // Date de fin forcée (exactement 1 an)
     status: currentProfile.status || "À jour",
     type: (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire',
     roomNumber: currentProfile.roomNumber || null,
