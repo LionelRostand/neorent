@@ -43,7 +43,7 @@ const Contracts = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading contracts...</div>
+          <div className="text-base sm:text-lg">Loading contracts...</div>
         </div>
       </MainLayout>
     );
@@ -53,7 +53,7 @@ const Contracts = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-red-600">Error: {error}</div>
+          <div className="text-base sm:text-lg text-red-600 text-center px-4">Error: {error}</div>
         </div>
       </MainLayout>
     );
@@ -61,7 +61,7 @@ const Contracts = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
         <ContractsHeader
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
