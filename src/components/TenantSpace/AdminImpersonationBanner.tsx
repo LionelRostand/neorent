@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
@@ -34,8 +33,8 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
   const handleBackToAdmin = () => {
     console.log('Retour vers l\'administration - nettoyage des données de session');
     onBackToAdmin();
-    // Force redirect to admin dashboard
-    window.location.href = '/admin/dashboard';
+    // Force redirect to admin page
+    window.location.href = '/admin';
   };
 
   console.log('AdminImpersonationBanner:', {
