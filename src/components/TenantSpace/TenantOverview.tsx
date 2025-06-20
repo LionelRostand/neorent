@@ -51,7 +51,7 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
             tenantData={tenantData}
             propertyData={propertyData}
           />
-          <ContractInfoCard tenantData={tenantData} />
+          <ContractInfoCard />
         </div>
       </div>
     </div>

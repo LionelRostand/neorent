@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
   const location = useLocation();
   const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
-  const { canAccessMenu, isAdmin } = useUserPermissions();
+  const { canAccessMenu, isAdmin, userType } = useUserPermissions();
 
   const menuItems = [
     { 
@@ -127,15 +127,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
     }
   ];
 
-  // Filtrer les éléments du menu selon les permissions
-  const filteredMenuItems = menuItems.filter(item => {
-    // Les admins voient tout
-    if (isAdmin) return true;
-    // Vérifier les permissions pour les autres utilisateurs
-    return canAccessMenu(item.permission);
-  });
+  // Filtrer les éléments du menu selon les permissions - seuls les admins voient la sidebar backend
+  const filteredMenuItems = isAdmin ? menuItems.filter(item => canAccessMenu(item.permission)) : [];
 
   const isActive = (path: string) => location.pathname === path;
+
+  // Si l'utilisateur n'est pas admin, ne pas afficher la sidebar
+  if (!isAdmin) {
+    return null;
+  }
 
   return (
     <div className="bg-green-500 w-64 h-screen flex flex-col">

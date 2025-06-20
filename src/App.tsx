@@ -21,6 +21,7 @@ import Taxes from "./pages/Taxes";
 import Website from "./pages/Website";
 import Messages from "./pages/Messages";
 import TenantSpace from "./pages/TenantSpace";
+import OwnerSpace from "./pages/OwnerSpace";
 import PublicHome from "./pages/PublicSite/Home";
 import PublicAbout from "./pages/PublicSite/About";
 import PublicContact from "./pages/PublicSite/Contact";

@@ -41,8 +41,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     
     if (!requiredUserTypes.includes(userType)) {
       // Rediriger selon le type d'utilisateur
-      if (userType === 'admin' || userType === 'employee') {
+      if (userType === 'admin') {
         return <Navigate to="/admin" replace />;
+      } else if (userType === 'employee') {
+        return <Navigate to="/owner-space" replace />;
       } else if (userType === 'locataire' || userType === 'colocataire') {
         return <Navigate to="/tenant-space" replace />;
       } else {
