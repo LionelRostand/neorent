@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -9,8 +10,6 @@ import { auth } from '@/lib/firebase';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
-import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
-import { useAdminOwnerAccess } from '@/hooks/useAdminOwnerAccess';
 
 interface AuthContextType {
   user: User | null;
@@ -31,30 +30,54 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [hooksInitialized, setHooksInitialized] = useState(false);
   
+  // État pour l'accès admin aux espaces locataires et propriétaires
+  const [selectedTenantProfile, setSelectedTenantProfile] = useState(() => {
+    const stored = sessionStorage.getItem('adminSelectedProfile');
+    return stored ? JSON.parse(stored) : null;
+  });
+  
+  const [selectedOwnerProfile, setSelectedOwnerProfile] = useState(() => {
+    const stored = sessionStorage.getItem('adminSelectedOwnerProfile');
+    return stored ? JSON.parse(stored) : null;
+  });
+  
   // Always call hooks - never conditionally
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
   const { getUserRole, userRoles } = useFirebaseUserRoles();
-  const { getCurrentProfile: getAdminTenantProfile, getCurrentUserType: getAdminTenantType } = useAdminTenantAccess();
-  const { getCurrentProfile: getAdminOwnerProfile, getCurrentUserType: getAdminOwnerType } = useAdminOwnerAccess();
 
   // Initialize hooks after mount
   useEffect(() => {
     setHooksInitialized(true);
   }, []);
 
+  // Persist selected profiles to sessionStorage
+  useEffect(() => {
+    if (selectedTenantProfile) {
+      sessionStorage.setItem('adminSelectedProfile', JSON.stringify(selectedTenantProfile));
+    } else {
+      sessionStorage.removeItem('adminSelectedProfile');
+    }
+  }, [selectedTenantProfile]);
+
+  useEffect(() => {
+    if (selectedOwnerProfile) {
+      sessionStorage.setItem('adminSelectedOwnerProfile', JSON.stringify(selectedOwnerProfile));
+    } else {
+      sessionStorage.removeItem('adminSelectedOwnerProfile');
+    }
+  }, [selectedOwnerProfile]);
+
   // Get current profile considering admin access
   const getCurrentEffectiveProfile = () => {
     // Check if admin is accessing tenant space
-    const adminTenantProfile = getAdminTenantProfile();
-    if (adminTenantProfile && user?.email === 'admin@neotech-consulting.com' && adminTenantProfile !== userProfile) {
-      return adminTenantProfile;
+    if (selectedTenantProfile && user?.email === 'admin@neotech-consulting.com' && selectedTenantProfile !== userProfile) {
+      return selectedTenantProfile;
     }
     
     // Check if admin is accessing owner space
-    const adminOwnerProfile = getAdminOwnerProfile();
-    if (adminOwnerProfile && user?.email === 'admin@neotech-consulting.com' && adminOwnerProfile !== userProfile) {
-      return adminOwnerProfile;
+    if (selectedOwnerProfile && user?.email === 'admin@neotech-consulting.com' && selectedOwnerProfile !== userProfile) {
+      return selectedOwnerProfile;
     }
     
     return userProfile;
@@ -63,15 +86,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Get current user type considering admin access
   const getCurrentEffectiveUserType = () => {
     // Check if admin is accessing tenant space
-    const adminTenantType = getAdminTenantType();
-    if (adminTenantType && user?.email === 'admin@neotech-consulting.com' && (adminTenantType === 'locataire' || adminTenantType === 'colocataire')) {
-      return adminTenantType;
+    if (selectedTenantProfile && user?.email === 'admin@neotech-consulting.com') {
+      return selectedTenantProfile.type === 'locataire' ? 'locataire' : 'colocataire';
     }
     
     // Check if admin is accessing owner space
-    const adminOwnerType = getAdminOwnerType();
-    if (adminOwnerType && user?.email === 'admin@neotech-consulting.com' && adminOwnerType === 'employee') {
-      return adminOwnerType;
+    if (selectedOwnerProfile && user?.email === 'admin@neotech-consulting.com') {
+      return 'employee';
     }
     
     return userType;
@@ -213,6 +234,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUserProfile(null);
     setUserType(null);
     setDataLoaded(false);
+    setSelectedTenantProfile(null);
+    setSelectedOwnerProfile(null);
   };
 
   const value = {

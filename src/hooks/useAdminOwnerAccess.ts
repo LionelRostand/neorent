@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 
 export const useAdminOwnerAccess = () => {
-  const { user, userProfile } = useAuth();
+  const { user } = useAuth();
   const { userRoles } = useFirebaseUserRoles();
   const [selectedOwnerProfile, setSelectedOwnerProfile] = useState(() => {
     // Restore from sessionStorage on initialization
@@ -74,8 +74,8 @@ export const useAdminOwnerAccess = () => {
       console.log('Returning selected admin owner profile:', selectedOwnerProfile);
       return selectedOwnerProfile;
     }
-    console.log('Returning user profile:', userProfile);
-    return userProfile;
+    console.log('Returning null owner profile');
+    return null;
   };
 
   const getCurrentUserType = () => {
@@ -83,9 +83,8 @@ export const useAdminOwnerAccess = () => {
       console.log('Returning selected profile type:', selectedOwnerProfile.type);
       return selectedOwnerProfile.type;
     }
-    const type = user?.email === 'admin@neotech-consulting.com' ? 'admin' : userProfile?.role || 'employee';
-    console.log('Returning user type:', type);
-    return type;
+    console.log('Returning null owner type');
+    return null;
   };
 
   // Debug current state
@@ -97,7 +96,7 @@ export const useAdminOwnerAccess = () => {
       currentUserType: getCurrentUserType(),
       isImpersonating: !!selectedOwnerProfile
     });
-  }, [selectedOwnerProfile, user, userProfile]);
+  }, [selectedOwnerProfile, user]);
 
   return {
     isAuthorizedAdmin: isAuthorizedAdmin(),
