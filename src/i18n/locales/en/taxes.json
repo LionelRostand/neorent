@@ -6,6 +6,14 @@
     "management": "Fiscal Management System",
     "description": "Handle tax declarations, calculations and compliance",
     "newDeclaration": "New Tax Declaration",
+    "newTaxDeclaration": "New Tax Declaration",
+    "declarationYear": "Declaration Year",
+    "taxResidenceCountry": "Tax Residence Country",
+    "addRealEstateProperty": "Add Real Estate Property",
+    "noPropertySelected": "No Property Selected",
+    "additionalDeductibleCharges": "Additional Deductible Charges",
+    "chargesPlaceholder": "Amount of deductible charges...",
+    "chargesDescription": "Enter the total amount of additional deductible charges (works, management fees, etc.)",
     "loading": "Loading tax data...",
     "addSuccess": "Tax declaration added successfully",
     "addError": "Error adding tax declaration",
@@ -51,6 +59,7 @@
     "taxesToPay": "Taxes to Pay",
     "paymentToMake": "payment to make",
     "totalObligation": "total obligation",
-    "taxList2025": "Tax List {{year}}"
+    "taxList2025": "Tax List {{year}}",
+    "cancel": "Cancel"
   }
 }

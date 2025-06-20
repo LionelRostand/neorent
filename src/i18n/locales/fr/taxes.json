@@ -6,6 +6,14 @@
     "management": "Système de Gestion Fiscale",
     "description": "Gérez les déclarations fiscales, calculs et conformité",
     "newDeclaration": "Nouvelle Déclaration Fiscale",
+    "newTaxDeclaration": "Nouvelle Déclaration Fiscale",
+    "declarationYear": "Année de Déclaration",
+    "taxResidenceCountry": "Pays de Résidence Fiscale",
+    "addRealEstateProperty": "Ajouter un Bien Immobilier",
+    "noPropertySelected": "Aucun Bien Sélectionné",
+    "additionalDeductibleCharges": "Charges Déductibles Supplémentaires",
+    "chargesPlaceholder": "Montant des charges déductibles...",
+    "chargesDescription": "Entrez le montant total des charges déductibles supplémentaires (travaux, frais de gestion, etc.)",
     "loading": "Chargement des données fiscales...",
     "addSuccess": "Déclaration fiscale ajoutée avec succès",
     "addError": "Erreur lors de l'ajout de la déclaration fiscale",
@@ -51,6 +59,7 @@
     "taxesToPay": "Impôts à Payer",
     "paymentToMake": "paiement à effectuer",
     "totalObligation": "obligation totale",
-    "taxList2025": "Liste des Impôts {{year}}"
+    "taxList2025": "Liste des Impôts {{year}}",
+    "cancel": "Annuler"
   }
 }
