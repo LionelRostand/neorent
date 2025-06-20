@@ -37,7 +37,7 @@ export const useTenantSpaceData = () => {
     type: currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement',
     surface: currentType === 'colocataire' ? '15 m²' : '45 m²',
     rooms: currentType === 'colocataire' ? '1 chambre' : '2 pièces',
-    rent: 400, // Corrigé: 400€ au lieu de 450€
+    rent: 400, // FIXÉ: 400€ - valeur forcée
     charges: 50,
     deposit: 450,
     furnished: true,
@@ -71,7 +71,7 @@ export const useTenantSpaceData = () => {
   console.log('Rendered data:', { mockPropertyData, mockTenantData });
   console.log('Current profile for header:', {
     name: currentProfile?.name?.trim(),
-    roomNumber: currentProfile?.roomNumber,
+    roomNumber: currentProfile.roomNumber,
     type: currentType
   });
 
