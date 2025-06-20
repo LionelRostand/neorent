@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,7 +61,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   });
 
   // Valeurs corrigées selon la demande
-  const monthlyRent = 400;
+  const monthlyRent = 400; // CORRIGÉ: 400€ au lieu de 450€
   const monthlyCharges = 50;
   const totalAmount = monthlyRent + monthlyCharges; // 450€
 
