@@ -19,6 +19,11 @@ const Contracts = () => {
   // Filtrer les contrats par propriétaire si nécessaire
   const filteredContracts = filterByOwner(contracts);
 
+  // Calculate metrics from filtered contracts
+  const activeCount = filteredContracts.filter(c => c.status === 'Actif').length;
+  const expiredCount = filteredContracts.filter(c => c.status === 'Expiré').length;
+  const totalCount = filteredContracts.length;
+
   const handleAddContract = async (data: any) => {
     try {
       await addContract(data);
@@ -102,7 +107,11 @@ const Contracts = () => {
           onAddContract={handleAddContract}
         />
 
-        <ContractsMetrics contracts={filteredContracts} />
+        <ContractsMetrics 
+          activeCount={activeCount}
+          expiredCount={expiredCount}
+          totalCount={totalCount}
+        />
 
         <ContractsList
           contracts={filteredContracts}
