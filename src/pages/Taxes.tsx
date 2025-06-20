@@ -18,7 +18,7 @@ const Taxes = () => {
   const [isDeclarationDialogOpen, setIsDeclarationDialogOpen] = useState(false);
   const [isPropertyDialogOpen, setIsPropertyDialogOpen] = useState(false);
   const [selectedPropertyType, setSelectedPropertyType] = useState('');
-  const { fiscalities, loading, error, addFiscality, updateFiscality, deleteFiscality } = useFirebaseFiscality();
+  const { declarations, loading, error, addDeclaration, updateDeclaration, deleteDeclaration } = useFirebaseFiscality();
   const { addProperty } = useFirebaseProperties();
   const { toast } = useToast();
 
@@ -74,7 +74,7 @@ const Taxes = () => {
 
   const handleAddDeclaration = async (data: any) => {
     try {
-      await addFiscality(data);
+      await addDeclaration(data);
       toast({
         title: t('common.success'),
         description: t('taxes.addSuccess'),
@@ -111,9 +111,9 @@ const Taxes = () => {
   }
 
   const currentYear = new Date().getFullYear();
-  const totalDeclarations = fiscalities?.length || 0;
-  const paidDeclarations = fiscalities?.filter(d => d.status === 'Payée')?.length || 0;
-  const pendingDeclarations = fiscalities?.filter(d => d.status === 'À déclarer')?.length || 0;
+  const totalDeclarations = declarations.length;
+  const paidDeclarations = declarations.filter(d => d.status === 'Payé').length;
+  const pendingDeclarations = declarations.filter(d => d.status === 'En attente').length;
 
   return (
     <MainLayout>
@@ -195,7 +195,7 @@ const Taxes = () => {
         </div>
 
         {/* État vide ou liste des déclarations */}
-        {!fiscalities || fiscalities.length === 0 ? (
+        {declarations.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 bg-orange-50 rounded-lg border-2 border-dashed border-orange-200">
             <Building className="h-16 w-16 text-orange-400 mb-4" />
             <h2 className="text-xl font-semibold text-orange-800 mb-2">{t('taxes.addRealEstateProperty')}</h2>
@@ -227,27 +227,27 @@ const Taxes = () => {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">{t('taxes.declarationList')}</h2>
             <div className="grid gap-4">
-              {fiscalities && fiscalities.map((fiscality) => (
-                <Card key={fiscality.id}>
+              {declarations.map((declaration) => (
+                <Card key={declaration.id}>
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="font-semibold">{fiscality.year}</h3>
-                        <p className="text-sm text-gray-600">{fiscality.property}</p>
+                        <h3 className="font-semibold">{declaration.year}</h3>
+                        <p className="text-sm text-gray-600">{declaration.country}</p>
                         <p className="text-sm text-gray-500 mt-1">
-                          {fiscality.type}
+                          {declaration.properties?.length || 0} bien(s) déclaré(s)
                         </p>
                       </div>
                       <div className="text-right">
                         <span className={`px-3 py-1 rounded-full text-sm ${
-                          fiscality.status === 'Payée' ? 'bg-green-100 text-green-800' :
-                          fiscality.status === 'À déclarer' ? 'bg-yellow-100 text-yellow-800' :
+                          declaration.status === 'Payé' ? 'bg-green-100 text-green-800' :
+                          declaration.status === 'En attente' ? 'bg-yellow-100 text-yellow-800' :
                           'bg-red-100 text-red-800'
                         }`}>
-                          {fiscality.status}
+                          {declaration.status}
                         </span>
                         <p className="text-lg font-bold mt-2">
-                          {fiscality.amount}€
+                          {declaration.totalTax?.toFixed(2) || '0.00'}€
                         </p>
                       </div>
                     </div>
@@ -267,11 +267,12 @@ const Taxes = () => {
           />
         </Dialog>
 
-        <TaxDeclarationForm
-          isOpen={isDeclarationDialogOpen}
-          onClose={() => setIsDeclarationDialogOpen(false)}
-          onSubmit={handleAddDeclaration}
-        />
+        <Dialog open={isDeclarationDialogOpen} onOpenChange={setIsDeclarationDialogOpen}>
+          <TaxDeclarationForm
+            onClose={() => setIsDeclarationDialogOpen(false)}
+            onSubmit={handleAddDeclaration}
+          />
+        </Dialog>
       </div>
     </MainLayout>
   );
