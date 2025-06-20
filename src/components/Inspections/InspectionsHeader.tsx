@@ -26,7 +26,7 @@ const InspectionsHeader = ({ isDialogOpen, setIsDialogOpen, onAddInspection }: I
           <Button className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-2">
             <Plus className="mr-1 sm:mr-2 h-4 w-4" />
             <span className="hidden sm:inline">{t('inspections.addInspection')}</span>
-            <span className="sm:hidden">Programmer État des Lieux</span>
+            <span className="sm:hidden">{t('inspections.addInspection')}</span>
           </Button>
         </DialogTrigger>
         <InspectionForm
