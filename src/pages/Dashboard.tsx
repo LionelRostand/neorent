@@ -5,7 +5,6 @@ import MainLayout from '@/components/Layout/MainLayout';
 import MetricCard from '@/components/Dashboard/MetricCard';
 import RecentActivity from '@/components/Dashboard/RecentActivity';
 import RevenueChart from '@/components/Dashboard/RevenueChart';
-import NavigationGrid from '@/components/Dashboard/NavigationGrid';
 import { useDashboardMetrics } from '@/hooks/useDashboardMetrics';
 import { Building, Users, FileText, Euro } from 'lucide-react';
 
@@ -76,12 +75,6 @@ const Dashboard = () => {
             changeType="positive"
             iconColor="orange"
           />
-        </div>
-
-        {/* Navigation Grid */}
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Accès rapide</h2>
-          <NavigationGrid />
         </div>
 
         {/* Charts and Activity */}
