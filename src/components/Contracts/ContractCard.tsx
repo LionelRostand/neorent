@@ -62,8 +62,17 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
     }
   };
 
+  // Translate contract title
+  const getTranslatedTitle = (title: string) => {
+    if (title.startsWith('CONTRAT DE BAIL')) {
+      return title.replace('CONTRAT DE BAIL', t('contracts.leaseContract'));
+    }
+    return title;
+  };
+
   const englishStatus = getStatusInEnglish(contract.status);
   const englishType = getTypeInEnglish(contract.type);
+  const translatedTitle = getTranslatedTitle(contract.title);
 
   return (
     <Card className="hover:shadow-lg transition-shadow">
@@ -72,7 +81,7 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
           <div className="flex justify-between items-start">
             <div>
               <h3 className="font-semibold text-lg text-gray-900">
-                {contract.title}
+                {translatedTitle}
               </h3>
               <p className="text-sm text-gray-600 mt-1">{englishType}</p>
             </div>
