@@ -37,7 +37,7 @@ export const useTenantSpaceData = () => {
     type: currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement',
     surface: currentType === 'colocataire' ? '15 m²' : '45 m²',
     rooms: currentType === 'colocataire' ? '1 chambre' : '2 pièces',
-    rent: 450,
+    rent: 400, // Corrigé: 400€ au lieu de 450€
     charges: 50,
     deposit: 450,
     furnished: true,
