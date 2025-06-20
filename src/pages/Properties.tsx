@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -10,6 +11,7 @@ import PropertyList from '@/components/PropertyList';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useToast } from '@/hooks/use-toast';
 import { useOwnerFilter } from '@/hooks/useOwnerFilter';
+import { useAuth } from '@/hooks/useAuth';
 
 const Properties = () => {
   const { t } = useTranslation();
@@ -17,6 +19,7 @@ const Properties = () => {
   const { properties, loading, error, addProperty, updateProperty, deleteProperty } = useFirebaseProperties();
   const { toast } = useToast();
   const { currentOwner, isOwnerFiltered, filterByOwner } = useOwnerFilter();
+  const { userType } = useAuth();
 
   // Filtrer les propriétés par propriétaire si nécessaire
   const filteredProperties = filterByOwner(properties);
@@ -114,19 +117,37 @@ const Properties = () => {
     );
   }
 
+  // Déterminer le titre et sous-titre basé sur le type d'utilisateur et le filtrage
+  const getPageTitle = () => {
+    if (userType === 'admin' && !isOwnerFiltered) {
+      return t('properties.title'); // Titre normal pour admin
+    }
+    if (isOwnerFiltered && currentOwner) {
+      return `${t('properties.title')} - ${currentOwner}`;
+    }
+    return t('properties.title');
+  };
+
+  const getPageSubtitle = () => {
+    if (userType === 'admin' && !isOwnerFiltered) {
+      return t('properties.subtitle'); // Sous-titre normal pour admin
+    }
+    if (isOwnerFiltered && currentOwner) {
+      return `Propriétés de ${currentOwner}`;
+    }
+    return t('properties.subtitle');
+  };
+
   return (
     <MainLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              {isOwnerFiltered ? `${t('properties.title')} - ${currentOwner}` : t('properties.title')}
+              {getPageTitle()}
             </h1>
             <p className="text-gray-600 mt-2">
-              {isOwnerFiltered 
-                ? `Propriétés de ${currentOwner}` 
-                : t('properties.subtitle')
-              }
+              {getPageSubtitle()}
             </p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
