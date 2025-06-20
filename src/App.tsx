@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import ProtectedRoute from '@/components/Auth/ProtectedRoute';
 
 // Admin pages
-import Login from '@/pages/Login';
+import PublicLogin from '@/pages/PublicSite/Login';
 import Dashboard from '@/pages/Dashboard';
 import Properties from '@/pages/Properties';
 import Tenants from '@/pages/Tenants';
@@ -29,12 +29,6 @@ import TenantSpace from '@/pages/TenantSpace';
 // Owner pages
 import OwnerSpace from '@/pages/OwnerSpace';
 
-import PropertyDetails from '@/pages/PropertyDetails';
-import ContractDetails from '@/pages/ContractDetails';
-import InspectionDetails from '@/pages/InspectionDetails';
-import TenantDetails from '@/pages/TenantDetails';
-import RoommateDetails from '@/pages/RoommateDetails';
-
 function App() {
   return (
     <AuthProvider>
@@ -42,7 +36,7 @@ function App() {
         <div className="min-h-screen bg-gray-50">
           <Routes>
             {/* Public routes */}
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<PublicLogin />} />
             
             {/* Admin routes */}
             <Route path="/admin" element={
@@ -55,19 +49,9 @@ function App() {
                 <Properties />
               </ProtectedRoute>
             } />
-            <Route path="/admin/properties/:id" element={
-              <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                <PropertyDetails />
-              </ProtectedRoute>
-            } />
             <Route path="/admin/tenants" element={
               <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
                 <Tenants />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/tenants/:id" element={
-              <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                <TenantDetails />
               </ProtectedRoute>
             } />
             <Route path="/admin/roommates" element={
@@ -75,29 +59,14 @@ function App() {
                 <Roommates />
               </ProtectedRoute>
             } />
-            <Route path="/admin/roommates/:id" element={
-              <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                <RoommateDetails />
-              </ProtectedRoute>
-            } />
             <Route path="/admin/contracts" element={
               <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
                 <Contracts />
               </ProtectedRoute>
             } />
-            <Route path="/admin/contracts/:id" element={
-              <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                <ContractDetails />
-              </ProtectedRoute>
-            } />
             <Route path="/admin/inspections" element={
               <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
                 <Inspections />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/inspections/:id" element={
-              <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                <InspectionDetails />
               </ProtectedRoute>
             } />
             <Route path="/admin/rent-management" element={

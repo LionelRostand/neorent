@@ -88,7 +88,7 @@ const Sidebar = ({ collapsed }: SidebarProps) => {
       title: t('navigation.forecasting'),
       icon: TrendingUp,
       href: '/admin/forecasting',
-      permission: 'forecasting' as const
+      permission: null
     },
     {
       title: t('navigation.maintenance'),
