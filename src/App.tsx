@@ -114,21 +114,21 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* Owner space routes */}
+          {/* Owner space routes - accessible by admin and employees */}
           <Route path="/owner-space" element={
             <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
               <OwnerSpace />
             </ProtectedRoute>
           } />
 
-          {/* Tenant/Roommate routes */}
+          {/* Tenant/Roommate routes - accessible by tenants, roommates, and admins */}
           <Route path="/tenant-space" element={
-            <ProtectedRoute requiredUserTypes={['locataire', 'colocataire']}>
+            <ProtectedRoute requiredUserTypes={['locataire', 'colocataire', 'admin']}>
               <TenantSpace />
             </ProtectedRoute>
           } />
 
-          {/* Default redirects */}
+          {/* Default redirects based on user type */}
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
         <Toaster />

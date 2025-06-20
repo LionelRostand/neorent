@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +22,8 @@ import {
   Globe,
   Settings,
   HelpCircle,
-  UserCog
+  UserCog,
+  Home
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -35,7 +35,7 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { canAccessMenu, isAdmin, isEmployee } = useUserPermissions();
+  const { canAccessMenu, isAdmin, isEmployee, isTenant, isRoommate } = useUserPermissions();
 
   const handleNavigation = (href: string) => {
     navigate(href);
@@ -45,7 +45,8 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
     }
   };
 
-  const menuItems = [
+  // Menu items for admin/employee
+  const adminMenuItems = [
     {
       title: t('navigation.dashboard'),
       icon: LayoutDashboard,
@@ -126,17 +127,27 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
     }
   ];
 
+  // Menu items for tenants/roommates
+  const tenantMenuItems = [
+    {
+      title: 'Mon Espace Locataire',
+      icon: Home,
+      href: '/tenant-space',
+      permission: null
+    }
+  ];
+
   const bottomMenuItems = [
     {
       title: t('navigation.settings'),
       icon: Settings,
-      href: '/admin/settings',
+      href: isAdmin || isEmployee ? '/admin/settings' : '/tenant-space',
       permission: 'settings' as const
     },
     {
       title: t('navigation.help'),
       icon: HelpCircle,
-      href: '/admin/help',
+      href: isAdmin || isEmployee ? '/admin/help' : '/tenant-space',
       permission: null
     }
   ];
@@ -148,6 +159,9 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
     href: '/owner-space',
     permission: null
   } : null;
+
+  // Choose menu items based on user type
+  const menuItems = (isAdmin || isEmployee) ? adminMenuItems : tenantMenuItems;
 
   return (
     <div className={cn(
@@ -172,7 +186,7 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
           {/* Main menu items */}
           {menuItems.map((item) => {
             const hasPermission = !item.permission || canAccessMenu(item.permission);
-            if (!hasPermission) return null;
+            if (!hasPermission && (isAdmin || isEmployee)) return null;
 
             const isActive = location.pathname === item.href;
             const Icon = item.icon;
@@ -217,7 +231,7 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
           <div className="mt-8 pt-4 border-t border-green-400">
             {bottomMenuItems.map((item) => {
               const hasPermission = !item.permission || canAccessMenu(item.permission);
-              if (!hasPermission) return null;
+              if (!hasPermission && (isAdmin || isEmployee)) return null;
 
               const isActive = location.pathname === item.href;
               const Icon = item.icon;
@@ -246,4 +260,3 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
 };
 
 export default Sidebar;
-
