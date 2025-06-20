@@ -11,6 +11,7 @@ import {
 import TenantOverview from './TenantOverview';
 import RentHistory from './RentHistory';
 import DocumentManager from '../DocumentManager';
+import { ChatWidget } from '../Chat/ChatWidget';
 
 interface TenantSpaceTabsProps {
   activeTab: string;
@@ -37,7 +38,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
               className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Home className="h-4 w-4" />
-              <span className="hidden sm:inline font-medium">Aperçu</span>
+              <span className="hidden sm:inline font-medium">{t('tenantSpace.tabs.overview')}</span>
               <span className="sm:hidden font-medium">Vue</span>
             </TabsTrigger>
             <TabsTrigger 
@@ -45,7 +46,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
               className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <CreditCard className="h-4 w-4" />
-              <span className="hidden sm:inline font-medium">Paiements</span>
+              <span className="hidden sm:inline font-medium">{t('tenantSpace.tabs.payment')}</span>
               <span className="sm:hidden font-medium">Pay.</span>
             </TabsTrigger>
             <TabsTrigger 
@@ -53,7 +54,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
               className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline font-medium">Documents</span>
+              <span className="hidden sm:inline font-medium">{t('tenantSpace.tabs.documents')}</span>
               <span className="sm:hidden font-medium">Doc.</span>
             </TabsTrigger>
             <TabsTrigger 
@@ -94,12 +95,10 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 Messages
               </h3>
-              <p className="text-gray-600 max-w-md">
+              <p className="text-gray-600 max-w-md mb-6">
                 Communiquez avec votre gestionnaire immobilier et recevez des notifications importantes
               </p>
-              <button className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                Nouveau message
-              </button>
+              <ChatWidget />
             </div>
           </TabsContent>
         </div>
