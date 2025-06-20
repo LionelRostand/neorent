@@ -30,6 +30,19 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
     return <TenantProfile tenantData={tenantData} />;
   }
 
+  // Create mock contract data based on tenant and property data
+  const mockContractData = {
+    tenant: tenantData.name,
+    property: propertyData.address,
+    amount: `${propertyData.rent}€`,
+    startDate: tenantData.leaseStart || '2025-01-06',
+    status: 'Actif'
+  };
+
+  const monthlyRent = propertyData.rent || 400;
+  const monthlyCharges = propertyData.charges || 50;
+  const totalMonthly = monthlyRent + monthlyCharges;
+
   return (
     <div className="space-y-6">
       {onTabChange && <QuickActionsCard onTabChange={onTabChange} onViewChange={onViewChange} />}
@@ -51,7 +64,12 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
             tenantData={tenantData}
             propertyData={propertyData}
           />
-          <ContractInfoCard />
+          <ContractInfoCard 
+            contractData={mockContractData}
+            monthlyRent={monthlyRent}
+            monthlyCharges={monthlyCharges}
+            totalMonthly={totalMonthly}
+          />
         </div>
       </div>
     </div>
