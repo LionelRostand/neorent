@@ -70,6 +70,12 @@
     "confirmNewPassword": "Confirm new password",
     "modifying": "Modifying...",
     "modify": "Modify",
-    "note": "Note"
+    "note": "Note",
+    "myProfile": "My Profile",
+    "role": "Role",
+    "administrator": "Administrator",
+    "employee": "Employee",
+    "permissions": "Permissions",
+    "notDefined": "Not defined"
   }
 }

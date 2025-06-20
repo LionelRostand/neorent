@@ -70,6 +70,12 @@
     "confirmNewPassword": "Confirmez le nouveau mot de passe",
     "modifying": "Modification...",
     "modify": "Modifier",
-    "note": "Note"
+    "note": "Note",
+    "myProfile": "Mon Profil",
+    "role": "Rôle",
+    "administrator": "Administrateur",
+    "employee": "Employé",
+    "permissions": "Permissions",
+    "notDefined": "Non défini"
   }
 }
