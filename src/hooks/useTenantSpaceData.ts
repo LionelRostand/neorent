@@ -41,7 +41,7 @@ export const useTenantSpaceData = () => {
     charges: 50,
     deposit: 450,
     furnished: true,
-    floor: "3ème étage",
+    floor: "1er étage",
     elevator: true,
     parking: false,
     features: currentType === 'colocataire' 
