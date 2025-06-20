@@ -14,6 +14,7 @@ import TenantOverview from './TenantOverview';
 import RentHistory from './RentHistory';
 import DocumentManager from '../DocumentManager';
 import BankTransferDashboard from '../BankTransfer/BankTransferDashboard';
+import TenantSecuritySettings from './TenantSecuritySettings';
 
 interface TenantSpaceTabsProps {
   activeTab: string;
@@ -127,20 +128,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
           </TabsContent>
 
           <TabsContent value="settings" className="mt-0">
-            <div className="flex flex-col items-center justify-center py-16 px-6 text-center bg-gray-50 rounded-xl">
-              <div className="p-4 bg-purple-100 rounded-full mb-6">
-                <Settings className="h-8 w-8 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Paramètres
-              </h3>
-              <p className="text-gray-600 max-w-md">
-                Gérez vos préférences, informations personnelles et paramètres de notification
-              </p>
-              <button className="mt-6 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                Modifier le profil
-              </button>
-            </div>
+            <TenantSecuritySettings />
           </TabsContent>
         </div>
       </Tabs>
