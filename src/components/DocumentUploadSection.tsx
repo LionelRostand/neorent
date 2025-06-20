@@ -40,7 +40,6 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       setSelectedFile(file);
       setUploadError('');
       
-      // Validation de la taille (1.5MB max pour éviter l'erreur base64)
       const maxFileSize = 1.5 * 1024 * 1024; // 1.5MB
       if (file.size > maxFileSize) {
         setUploadError(`Le fichier ne doit pas dépasser 1.5 MB (actuellement: ${(file.size / 1024 / 1024).toFixed(2)} MB)`);
@@ -48,7 +47,6 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
         return;
       }
 
-      // Validation du type de fichier
       const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
       if (!allowedTypes.includes(file.type)) {
         setUploadError('Type de fichier non autorisé. Types acceptés: PDF, JPG, PNG, DOC, DOCX');
@@ -77,7 +75,6 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       
       await onUpload(selectedFile, selectedDocumentType);
       
-      // Reset après succès
       setSelectedFile(null);
       setSelectedDocumentType('');
       const input = document.getElementById('file-upload') as HTMLInputElement;
@@ -105,48 +102,63 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Upload className="h-5 w-5" />
-          Uploader un document
+    <Card className="w-full">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+          <Upload className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="text-sm sm:text-base">Uploader un document</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <DocumentTypeSelector
-          documentTypes={documentTypes}
-          selectedDocumentType={selectedDocumentType}
-          onDocumentTypeChange={setSelectedDocumentType}
-          uploading={uploading}
-        />
+      <CardContent className="space-y-4 p-4 sm:p-6">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Type de document
+            </label>
+            <DocumentTypeSelector
+              documentTypes={documentTypes}
+              selectedDocumentType={selectedDocumentType}
+              onDocumentTypeChange={setSelectedDocumentType}
+              uploading={uploading}
+            />
+          </div>
 
-        <FileSelector
-          onFileSelect={handleFileSelect}
-          uploading={uploading}
-        />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Choisir un fichier
+            </label>
+            <FileSelector
+              onFileSelect={handleFileSelect}
+              uploading={uploading}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Taille max: 1.5 MB • Types autorisés: PDF, Images, Documents Word
+            </p>
+          </div>
 
-        {selectedFile && (
-          <SelectedFileDisplay
-            selectedFile={selectedFile}
-            onClearFile={clearSelectedFile}
+          {selectedFile && (
+            <SelectedFileDisplay
+              selectedFile={selectedFile}
+              onClearFile={clearSelectedFile}
+              uploading={uploading}
+            />
+          )}
+
+          <ErrorAlert error={uploadError} />
+
+          {uploading && (
+            <UploadProgress
+              uploadProgress={uploadProgress}
+              onCancelUpload={cancelUpload}
+            />
+          )}
+
+          <UploadButton
+            onUpload={handleUpload}
+            disabled={!selectedFile || !selectedDocumentType || uploading}
             uploading={uploading}
           />
-        )}
-
-        <ErrorAlert error={uploadError} />
-
-        {uploading && (
-          <UploadProgress
-            uploadProgress={uploadProgress}
-            onCancelUpload={cancelUpload}
-          />
-        )}
-
-        <UploadButton
-          onUpload={handleUpload}
-          disabled={!selectedFile || !selectedDocumentType || uploading}
-          uploading={uploading}
-        />
+        </div>
       </CardContent>
     </Card>
   );
