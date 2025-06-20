@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -26,14 +25,23 @@ import {
 } from 'lucide-react';
 
 interface SidebarProps {
-  collapsed: boolean;
+  collapsed?: boolean;
+  onMobileClose?: () => void;
 }
 
-const Sidebar = ({ collapsed }: SidebarProps) => {
+const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { canAccessMenu, isAdmin, isEmployee } = useUserPermissions();
+
+  const handleNavigation = (href: string) => {
+    navigate(href);
+    // Call onMobileClose when navigating on mobile
+    if (onMobileClose) {
+      onMobileClose();
+    }
+  };
 
   const menuItems = [
     {
@@ -176,7 +184,7 @@ const Sidebar = ({ collapsed }: SidebarProps) => {
                   collapsed ? "px-2" : "px-3",
                   isActive && "bg-blue-50 text-blue-700 border-r-2 border-blue-700"
                 )}
-                onClick={() => navigate(item.href)}
+                onClick={() => handleNavigation(item.href)}
               >
                 <Icon className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
                 {!collapsed && <span>{item.title}</span>}
@@ -195,7 +203,7 @@ const Sidebar = ({ collapsed }: SidebarProps) => {
                   collapsed ? "px-2" : "px-3",
                   location.pathname === ownerSpaceItem.href && "bg-green-50 text-green-700 border-r-2 border-green-700"
                 )}
-                onClick={() => navigate(ownerSpaceItem.href)}
+                onClick={() => handleNavigation(ownerSpaceItem.href)}
               >
                 <ownerSpaceItem.icon className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
                 {!collapsed && <span>{ownerSpaceItem.title}</span>}
@@ -221,7 +229,7 @@ const Sidebar = ({ collapsed }: SidebarProps) => {
                     collapsed ? "px-2" : "px-3",
                     isActive && "bg-blue-50 text-blue-700 border-r-2 border-blue-700"
                   )}
-                  onClick={() => navigate(item.href)}
+                  onClick={() => handleNavigation(item.href)}
                 >
                   <Icon className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
                   {!collapsed && <span>{item.title}</span>}
