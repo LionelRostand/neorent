@@ -20,7 +20,7 @@ const WebsiteHeader = () => {
         <Link to="/" target="_blank">
           <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
             <ExternalLink className="h-4 w-4" />
-            View website
+            {t('website.viewWebsite')}
           </Button>
         </Link>
       </div>

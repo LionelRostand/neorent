@@ -29,9 +29,9 @@ const Website = () => {
   const [activeTab, setActiveTab] = useState('pages');
 
   const tabs = [
-    { id: 'pages', label: 'Pages', icon: FileText },
-    { id: 'content', label: 'Content', icon: File },
-    { id: 'medias', label: 'Media', icon: Image },
+    { id: 'pages', label: t('website.managePages'), icon: FileText },
+    { id: 'content', label: t('website.editContent'), icon: File },
+    { id: 'medias', label: t('website.photoGallery'), icon: Image },
     { id: 'theme', label: 'Theme', icon: Palette },
     { id: 'footer', label: 'Footer', icon: LinkIcon },
     { id: 'carte', label: 'Map', icon: MapPin },
