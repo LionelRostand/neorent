@@ -7,13 +7,11 @@ import {
   CreditCard, 
   FileText, 
   MessageSquare, 
-  Settings,
-  ArrowUpCircle
+  Settings
 } from 'lucide-react';
 import TenantOverview from './TenantOverview';
 import RentHistory from './RentHistory';
 import DocumentManager from '../DocumentManager';
-import BankTransferDashboard from '../BankTransfer/BankTransferDashboard';
 import TenantSecuritySettings from './TenantSecuritySettings';
 
 interface TenantSpaceTabsProps {
@@ -35,7 +33,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-6">
         <div className="overflow-x-auto pb-2">
-          <TabsList className="grid w-full min-w-fit grid-cols-3 lg:grid-cols-6 gap-1 h-auto p-1 bg-gray-100">
+          <TabsList className="grid w-full min-w-fit grid-cols-5 gap-1 h-auto p-1 bg-gray-100">
             <TabsTrigger 
               value="overview" 
               className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
@@ -51,14 +49,6 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
               <CreditCard className="h-4 w-4" />
               <span className="hidden sm:inline font-medium">Paiements</span>
               <span className="sm:hidden font-medium">Pay.</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="transfers" 
-              className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-            >
-              <ArrowUpCircle className="h-4 w-4" />
-              <span className="hidden sm:inline font-medium">Virements</span>
-              <span className="sm:hidden font-medium">Vir.</span>
             </TabsTrigger>
             <TabsTrigger 
               value="documents" 
@@ -97,10 +87,6 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
 
           <TabsContent value="payments" className="mt-0">
             <RentHistory />
-          </TabsContent>
-
-          <TabsContent value="transfers" className="mt-0">
-            <BankTransferDashboard />
           </TabsContent>
 
           <TabsContent value="documents" className="mt-0">
