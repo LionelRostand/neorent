@@ -9,6 +9,7 @@ import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog
 import { useToast } from '@/hooks/use-toast';
 import { Upload, X, Calculator } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 
 interface PropertyFormData {
   title: string;
@@ -42,6 +43,10 @@ interface PropertyFormProps {
 const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { userRoles, loading: ownersLoading } = useFirebaseUserRoles();
+
+  // Filter to get only owners (employees)
+  const owners = userRoles.filter(user => user.role === 'employee' || user.role === 'admin');
 
   const [formData, setFormData] = useState<PropertyFormData>({
     title: '',
@@ -226,12 +231,18 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ onClose, onSubmit }) => {
           
           <div className="space-y-2">
             <Label htmlFor="owner">{t('propertyForm.owner')}</Label>
-            <Input
-              id="owner"
-              value={formData.owner}
-              onChange={(e) => handleInputChange('owner', e.target.value)}
-              placeholder={t('propertyForm.ownerPlaceholder')}
-            />
+            <Select onValueChange={(value) => handleInputChange('owner', value)} disabled={ownersLoading}>
+              <SelectTrigger>
+                <SelectValue placeholder={ownersLoading ? "Chargement..." : t('propertyForm.ownerPlaceholder')} />
+              </SelectTrigger>
+              <SelectContent>
+                {owners.map((owner) => (
+                  <SelectItem key={owner.id} value={owner.name}>
+                    {owner.name} ({owner.email})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
