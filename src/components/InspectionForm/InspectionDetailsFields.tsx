@@ -1,20 +1,22 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { InspectionFormData } from '@/types/inspection';
 
-interface AdditionalInfoFieldsProps {
-  formData: InspectionFormData;
-  onInputChange: (field: keyof InspectionFormData, value: string) => void;
+interface InspectionDetailsFieldsProps {
+  formData: any;
+  onInputChange: (field: string, value: string) => void;
 }
 
-const AdditionalInfoFields = ({ formData, onInputChange }: AdditionalInfoFieldsProps) => {
+const InspectionDetailsFields = ({ formData, onInputChange }: InspectionDetailsFieldsProps) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div>
-        <Label htmlFor="date">Date de l'état des lieux *</Label>
+        <Label htmlFor="date">{t('inspections.date')}</Label>
         <Input
           id="date"
           type="date"
@@ -25,38 +27,39 @@ const AdditionalInfoFields = ({ formData, onInputChange }: AdditionalInfoFieldsP
       </div>
 
       <div>
-        <Label htmlFor="inspector">Inspecteur</Label>
+        <Label htmlFor="inspector">{t('inspections.inspectorField')}</Label>
         <Input
           id="inspector"
           value={formData.inspector}
           onChange={(e) => onInputChange('inspector', e.target.value)}
-          placeholder="Nom de l'inspecteur"
+          required
+          placeholder={t('inspections.inspectorPlaceholder')}
         />
       </div>
 
-      <div className="md:col-span-2">
-        <Label htmlFor="description">Description</Label>
+      <div>
+        <Label htmlFor="description">{t('inspections.description')}</Label>
         <Textarea
           id="description"
           value={formData.description}
           onChange={(e) => onInputChange('description', e.target.value)}
-          placeholder="Description générale de l'état des lieux..."
+          placeholder={t('inspections.descriptionPlaceholder')}
           className="min-h-[80px]"
         />
       </div>
 
-      <div className="md:col-span-2">
-        <Label htmlFor="observations">Observations</Label>
+      <div>
+        <Label htmlFor="observations">{t('inspections.observations')}</Label>
         <Textarea
           id="observations"
           value={formData.observations}
           onChange={(e) => onInputChange('observations', e.target.value)}
-          placeholder="Observations particulières, défauts constatés..."
-          className="min-h-[100px]"
+          placeholder={t('inspections.observationsPlaceholder')}
+          className="min-h-[80px]"
         />
       </div>
     </>
   );
 };
 
-export default AdditionalInfoFields;
+export default InspectionDetailsFields;
