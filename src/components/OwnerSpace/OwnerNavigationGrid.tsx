@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   Building, 
   UserCheck, 
@@ -20,6 +21,9 @@ import {
 const OwnerNavigationGrid = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { userProfile, userType } = useAuth();
+  
+  const currentOwner = (userType === 'employee' || userType === 'admin') ? userProfile?.name : null;
 
   const ownerMenuItems = [
     {
@@ -91,7 +95,14 @@ const OwnerNavigationGrid = () => {
   ];
 
   const handleNavigation = (href: string) => {
-    navigate(href);
+    // Ajouter le paramètre owner à l'URL pour filtrer les données
+    if (currentOwner) {
+      const url = new URL(href, window.location.origin);
+      url.searchParams.set('owner', currentOwner);
+      navigate(url.pathname + url.search);
+    } else {
+      navigate(href);
+    }
   };
 
   return (

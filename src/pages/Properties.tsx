@@ -9,12 +9,17 @@ import PropertyMetrics from '@/components/PropertyMetrics';
 import PropertyList from '@/components/PropertyList';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useToast } from '@/hooks/use-toast';
+import { useOwnerFilter } from '@/hooks/useOwnerFilter';
 
 const Properties = () => {
   const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { properties, loading, error, addProperty, updateProperty, deleteProperty } = useFirebaseProperties();
   const { toast } = useToast();
+  const { currentOwner, isOwnerFiltered, filterByOwner } = useOwnerFilter();
+
+  // Filtrer les propriétés par propriétaire si nécessaire
+  const filteredProperties = filterByOwner(properties);
 
   const handleAddProperty = async (data: any) => {
     try {
@@ -25,7 +30,7 @@ const Properties = () => {
         surface: data.surface,
         rent: data.creditImmobilier,
         creditImmobilier: data.creditImmobilier,
-        owner: data.owner,
+        owner: data.owner || currentOwner, // Utiliser le propriétaire actuel si pas spécifié
         charges: data.charges,
         floor: data.floor,
         status: 'Libre',
@@ -114,8 +119,15 @@ const Properties = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{t('properties.title')}</h1>
-            <p className="text-gray-600 mt-2">{t('properties.subtitle')}</p>
+            <h1 className="text-3xl font-bold text-gray-900">
+              {isOwnerFiltered ? `${t('properties.title')} - ${currentOwner}` : t('properties.title')}
+            </h1>
+            <p className="text-gray-600 mt-2">
+              {isOwnerFiltered 
+                ? `Propriétés de ${currentOwner}` 
+                : t('properties.subtitle')
+              }
+            </p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
@@ -133,7 +145,7 @@ const Properties = () => {
 
         <PropertyMetrics />
         <PropertyList 
-          properties={properties} 
+          properties={filteredProperties} 
           onUpdateProperty={handleUpdateProperty}
           onDeleteProperty={handleDeleteProperty}
         />

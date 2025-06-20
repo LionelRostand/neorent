@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPermissions } from '@/hooks/useUserPermissions';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   LayoutDashboard, 
   Building, 
@@ -36,9 +37,24 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { canAccessMenu, isAdmin, isEmployee, isTenant, isRoommate } = useUserPermissions();
+  const { userProfile, userType } = useAuth();
+
+  // Vérifier si on est dans l'espace propriétaire ou si on vient de l'espace propriétaire
+  const isInOwnerSpace = location.pathname.includes('/owner-space');
+  const ownerParam = new URLSearchParams(location.search).get('owner');
+  const currentOwner = (userType === 'employee' || userType === 'admin') ? userProfile?.name : null;
 
   const handleNavigation = (href: string) => {
-    navigate(href);
+    let finalHref = href;
+    
+    // Si on est dans l'espace propriétaire ou qu'on a un paramètre owner, ajouter le paramètre owner aux URLs admin
+    if ((isInOwnerSpace || ownerParam) && currentOwner && href.startsWith('/admin/')) {
+      const url = new URL(href, window.location.origin);
+      url.searchParams.set('owner', currentOwner);
+      finalHref = url.pathname + url.search;
+    }
+    
+    navigate(finalHref);
     // Call onMobileClose when navigating on mobile
     if (onMobileClose) {
       onMobileClose();
@@ -163,6 +179,16 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
   // Choose menu items based on user type
   const menuItems = (isAdmin || isEmployee) ? adminMenuItems : tenantMenuItems;
 
+  const isPathActive = (href: string) => {
+    if (ownerParam && href.startsWith('/admin/')) {
+      // Si on a un paramètre owner, vérifier l'URL avec le paramètre
+      const url = new URL(href, window.location.origin);
+      url.searchParams.set('owner', ownerParam);
+      return location.pathname + location.search === url.pathname + url.search;
+    }
+    return location.pathname === href;
+  };
+
   return (
     <div className={cn(
       "flex flex-col h-full bg-green-500 transition-all duration-300",
@@ -183,12 +209,27 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
       {/* Navigation */}
       <ScrollArea className="flex-1 py-4">
         <nav className="space-y-1 px-3">
+          {/* Bouton retour vers l'espace propriétaire si on vient de là */}
+          {ownerParam && (
+            <Button
+              variant="ghost"
+              className={cn(
+                "w-full justify-start text-left font-normal text-white hover:bg-green-400 hover:text-white mb-4 border border-green-400",
+                collapsed ? "px-2" : "px-3"
+              )}
+              onClick={() => navigate('/owner-space')}
+            >
+              <UserCog className={cn("h-4 w-4", collapsed ? "mx-auto" : "mr-3")} />
+              {!collapsed && <span>← Espace Propriétaire</span>}
+            </Button>
+          )}
+          
           {/* Main menu items */}
           {menuItems.map((item) => {
             const hasPermission = !item.permission || canAccessMenu(item.permission);
             if (!hasPermission && (isAdmin || isEmployee)) return null;
 
-            const isActive = location.pathname === item.href;
+            const isActive = isPathActive(item.href);
             const Icon = item.icon;
 
             return (
@@ -209,7 +250,7 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
           })}
 
           {/* Owner space for employees and admins */}
-          {ownerSpaceItem && (
+          {ownerSpaceItem && !ownerParam && (
             <>
               <div className="my-4 border-t border-green-400" />
               <Button
@@ -233,7 +274,7 @@ const Sidebar = ({ collapsed = false, onMobileClose }: SidebarProps) => {
               const hasPermission = !item.permission || canAccessMenu(item.permission);
               if (!hasPermission && (isAdmin || isEmployee)) return null;
 
-              const isActive = location.pathname === item.href;
+              const isActive = isPathActive(item.href);
               const Icon = item.icon;
 
               return (
