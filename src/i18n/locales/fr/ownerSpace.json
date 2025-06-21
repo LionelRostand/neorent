@@ -1,0 +1,87 @@
+
+{
+  "ownerSpace": {
+    "title": "Espace Propriétaire",
+    "welcome": "Bienvenue",
+    "unauthorized": "Accès non autorisé",
+    "unauthorizedDescription": "Cet espace est réservé aux propriétaires.",
+    "backToDashboard": "Retour au tableau de bord",
+    "status": {
+      "active": "Actif",
+      "owner": "Propriétaire"
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "newProperty": {
+        "title": "Nouvelle propriété",
+        "description": "Ajouter un bien"
+      },
+      "newContract": {
+        "title": "Nouveau contrat",
+        "description": "Créer un bail"
+      },
+      "addTenant": {
+        "title": "Ajouter locataire",
+        "description": "Enregistrer un locataire"
+      },
+      "propertyInspection": {
+        "title": "État des lieux",
+        "description": "Programmer une visite"
+      },
+      "calculateCharges": {
+        "title": "Calculer charges",
+        "description": "Révision annuelle"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Demande d'intervention"
+      }
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "stats": {
+        "propertiesManaged": "Propriétés gérées",
+        "activeTenants": "Locataires actifs",
+        "monthlyRevenue": "Revenus mensuels",
+        "occupancyRate": "Taux d'occupation",
+        "thisMonth": "ce mois"
+      }
+    },
+    "propertyOverview": {
+      "title": "Aperçu des propriétés",
+      "viewAll": "Voir tout",
+      "viewDetails": "Voir détails",
+      "occupation": "Occupation",
+      "status": {
+        "active": "Actif",
+        "maintenance": "Maintenance"
+      }
+    },
+    "recentActivity": {
+      "title": "Activité récente",
+      "activities": {
+        "paymentReceived": "Paiement reçu - Apt {{number}}",
+        "paymentDescription": "{{tenant}} a payé le loyer de {{month}}",
+        "maintenanceRequest": "Demande de maintenance",
+        "maintenanceDescription": "Problème de plomberie signalé - Apt {{number}}",
+        "newTenant": "Nouveau locataire",
+        "newTenantDescription": "{{tenant}} a signé le contrat - Apt {{number}}",
+        "inspectionCompleted": "État des lieux terminé",
+        "inspectionDescription": "Inspection de sortie validée - Apt {{number}}",
+        "paymentDelay": "Retard de paiement",
+        "paymentDelayDescription": "{{tenant}} - Apt {{number}} ({{days}} jours de retard)"
+      },
+      "timeAgo": {
+        "hoursAgo": "Il y a {{count}} heures",
+        "yesterday": "Hier",
+        "daysAgo": "Il y a {{count}} jours"
+      },
+      "types": {
+        "payment": "paiement",
+        "maintenance": "maintenance",
+        "tenant": "locataire",
+        "inspection": "inspection"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,8 @@ interface OwnerPropertyOverviewProps {
 }
 
 const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProfile }) => {
+  const { t } = useTranslation();
+
   const properties = [
     {
       id: 1,
@@ -52,10 +55,10 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
           <Building className="h-5 w-5" />
-          Aperçu des propriétés
+          {t('ownerSpace.propertyOverview.title')}
         </h2>
         <Button variant="outline" size="sm">
-          Voir tout
+          {t('ownerSpace.propertyOverview.viewAll')}
         </Button>
       </div>
       
@@ -75,7 +78,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
                   </Badge>
                 </div>
                 <Badge className={`${property.statusColor} text-xs px-2 py-1`}>
-                  {property.status}
+                  {property.status === 'Actif' ? t('ownerSpace.propertyOverview.status.active') : t('ownerSpace.propertyOverview.status.maintenance')}
                 </Badge>
               </div>
 
@@ -83,7 +86,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center text-gray-600">
                     <Users className="h-3 w-3 mr-1" />
-                    Occupation
+                    {t('ownerSpace.propertyOverview.occupation')}
                   </div>
                   <span className="font-medium">
                     {property.occupied}/{property.units} ({getOccupancyRate(property.occupied, property.units)}%)
@@ -93,7 +96,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
 
               <Button variant="ghost" size="sm" className="w-full text-xs h-8">
                 <Eye className="h-3 w-3 mr-1" />
-                Voir détails
+                {t('ownerSpace.propertyOverview.viewDetails')}
               </Button>
             </CardContent>
           </Card>

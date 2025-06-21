@@ -1,0 +1,87 @@
+
+{
+  "ownerSpace": {
+    "title": "Owner Space",
+    "welcome": "Welcome",
+    "unauthorized": "Unauthorized access",
+    "unauthorizedDescription": "This space is reserved for owners.",
+    "backToDashboard": "Back to dashboard",
+    "status": {
+      "active": "Active",
+      "owner": "Owner"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "newProperty": {
+        "title": "New property",
+        "description": "Add a property"
+      },
+      "newContract": {
+        "title": "New contract",
+        "description": "Create a lease"
+      },
+      "addTenant": {
+        "title": "Add tenant",
+        "description": "Register a tenant"
+      },
+      "propertyInspection": {
+        "title": "Property inspection",
+        "description": "Schedule a visit"
+      },
+      "calculateCharges": {
+        "title": "Calculate charges",
+        "description": "Annual review"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Service request"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "stats": {
+        "propertiesManaged": "Properties managed",
+        "activeTenants": "Active tenants",
+        "monthlyRevenue": "Monthly revenue",
+        "occupancyRate": "Occupancy rate",
+        "thisMonth": "this month"
+      }
+    },
+    "propertyOverview": {
+      "title": "Property Overview",
+      "viewAll": "View all",
+      "viewDetails": "View details",
+      "occupation": "Occupation",
+      "status": {
+        "active": "Active",
+        "maintenance": "Maintenance"
+      }
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "activities": {
+        "paymentReceived": "Payment received - Apt {{number}}",
+        "paymentDescription": "{{tenant}} paid {{month}} rent",
+        "maintenanceRequest": "Maintenance request",
+        "maintenanceDescription": "Plumbing issue reported - Apt {{number}}",
+        "newTenant": "New tenant",
+        "newTenantDescription": "{{tenant}} signed the contract - Apt {{number}}",
+        "inspectionCompleted": "Inspection completed",
+        "inspectionDescription": "Move-out inspection validated - Apt {{number}}",
+        "paymentDelay": "Payment delay",
+        "paymentDelayDescription": "{{tenant}} - Apt {{number}} ({{days}} days late)"
+      },
+      "timeAgo": {
+        "hoursAgo": "{{count}} hours ago",
+        "yesterday": "Yesterday",
+        "daysAgo": "{{count}} days ago"
+      },
+      "types": {
+        "payment": "payment",
+        "maintenance": "maintenance",
+        "tenant": "tenant",
+        "inspection": "inspection"
+      }
+    }
+  }
+}

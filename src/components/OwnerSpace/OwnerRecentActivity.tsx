@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, CheckCircle, AlertCircle, User, Home } from 'lucide-react';
@@ -9,49 +10,51 @@ interface OwnerRecentActivityProps {
 }
 
 const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile }) => {
+  const { t } = useTranslation();
+
   const activities = [
     {
       id: 1,
       type: 'payment',
-      title: 'Paiement reçu - Apt 12',
-      description: 'Marie Dupont a payé le loyer de janvier',
-      time: 'Il y a 2 heures',
+      title: t('ownerSpace.recentActivity.activities.paymentReceived', { number: '12' }),
+      description: t('ownerSpace.recentActivity.activities.paymentDescription', { tenant: 'Marie Dupont', month: 'janvier' }),
+      time: t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: 2 }),
       status: 'success',
       icon: CheckCircle
     },
     {
       id: 2,
       type: 'maintenance',
-      title: 'Demande de maintenance',
-      description: 'Problème de plomberie signalé - Apt 8',
-      time: 'Il y a 4 heures',
+      title: t('ownerSpace.recentActivity.activities.maintenanceRequest'),
+      description: t('ownerSpace.recentActivity.activities.maintenanceDescription', { number: '8' }),
+      time: t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: 4 }),
       status: 'warning',
       icon: AlertCircle
     },
     {
       id: 3,
       type: 'tenant',
-      title: 'Nouveau locataire',
-      description: 'Jean Martin a signé le contrat - Apt 15',
-      time: 'Hier',
+      title: t('ownerSpace.recentActivity.activities.newTenant'),
+      description: t('ownerSpace.recentActivity.activities.newTenantDescription', { tenant: 'Jean Martin', number: '15' }),
+      time: t('ownerSpace.recentActivity.timeAgo.yesterday'),
       status: 'info',
       icon: User
     },
     {
       id: 4,
       type: 'inspection',
-      title: 'État des lieux terminé',
-      description: 'Inspection de sortie validée - Apt 3',
-      time: 'Il y a 2 jours',
+      title: t('ownerSpace.recentActivity.activities.inspectionCompleted'),
+      description: t('ownerSpace.recentActivity.activities.inspectionDescription', { number: '3' }),
+      time: t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: 2 }),
       status: 'success',
       icon: Home
     },
     {
       id: 5,
       type: 'payment',
-      title: 'Retard de paiement',
-      description: 'Paul Dubois - Apt 7 (5 jours de retard)',
-      time: 'Il y a 3 jours',
+      title: t('ownerSpace.recentActivity.activities.paymentDelay'),
+      description: t('ownerSpace.recentActivity.activities.paymentDelayDescription', { tenant: 'Paul Dubois', number: '7', days: 5 }),
+      time: t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: 3 }),
       status: 'error',
       icon: AlertCircle
     }
@@ -92,7 +95,7 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Clock className="h-5 w-5" />
-          Activité récente
+          {t('ownerSpace.recentActivity.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -108,7 +111,7 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
                   <div className="flex items-center justify-between mb-1">
                     <p className="font-medium text-gray-900 truncate">{activity.title}</p>
                     <Badge variant="secondary" className={getStatusColor(activity.status)}>
-                      {activity.type}
+                      {t(`ownerSpace.recentActivity.types.${activity.type}`)}
                     </Badge>
                   </div>
                   <p className="text-sm text-gray-600 mb-2">{activity.description}</p>
