@@ -31,13 +31,13 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
   const monthlyPayments = payments.filter(payment => {
-    const paymentDate = new Date(payment.date);
+    const paymentDate = new Date(payment.paymentDate || payment.dueDate);
     return paymentDate.getMonth() === currentMonth && 
            paymentDate.getFullYear() === currentYear &&
            ownerProperties.some(property => property.title === payment.property);
   });
 
-  const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.amount, 0);
+  const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
 
   // Calculer le taux d'occupation
   const totalRooms = ownerProperties.reduce((total, property) => {

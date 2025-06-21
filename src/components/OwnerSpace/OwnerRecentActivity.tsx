@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,7 +29,7 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
     // Paiements récents
     const recentPayments = payments
       .filter(payment => ownerProperties.some(prop => prop.title === payment.property))
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .sort((a, b) => new Date(b.paymentDate || b.dueDate).getTime() - new Date(a.paymentDate || a.dueDate).getTime())
       .slice(0, 3);
 
     recentPayments.forEach(payment => {
@@ -44,13 +43,13 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
           number: payment.property.split(' ').pop() || 'N/A' 
         }),
         description: t('ownerSpace.recentActivity.activities.paymentDescription', { 
-          tenant: tenant?.firstName + ' ' + tenant?.lastName || 'Locataire', 
-          month: new Date(payment.date).toLocaleDateString('fr-FR', { month: 'long' })
+          tenant: tenant?.name || 'Locataire', 
+          month: new Date(payment.paymentDate || payment.dueDate).toLocaleDateString('fr-FR', { month: 'long' })
         }),
-        time: getTimeAgo(payment.date),
+        time: getTimeAgo(payment.paymentDate || payment.dueDate),
         status: payment.status === 'Validé' ? 'success' : 'warning',
         icon: CheckCircle,
-        date: new Date(payment.date)
+        date: new Date(payment.paymentDate || payment.dueDate)
       });
     });
 
@@ -60,7 +59,7 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
         roommate.status === 'Actif' && 
         ownerProperties.some(prop => prop.title === roommate.property)
       )
-      .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+      .sort((a, b) => new Date(b.moveInDate || 0).getTime() - new Date(a.moveInDate || 0).getTime())
       .slice(0, 2);
 
     recentTenants.forEach(tenant => {
@@ -69,13 +68,13 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
         type: 'tenant',
         title: t('ownerSpace.recentActivity.activities.newTenant'),
         description: t('ownerSpace.recentActivity.activities.newTenantDescription', { 
-          tenant: tenant.firstName + ' ' + tenant.lastName,
+          tenant: tenant.name,
           number: tenant.property.split(' ').pop() || 'N/A'
         }),
-        time: getTimeAgo(tenant.createdAt || new Date().toISOString()),
+        time: getTimeAgo(tenant.moveInDate || new Date().toISOString()),
         status: 'info',
         icon: User,
-        date: new Date(tenant.createdAt || 0)
+        date: new Date(tenant.moveInDate || 0)
       });
     });
 
