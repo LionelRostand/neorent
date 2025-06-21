@@ -10,6 +10,7 @@ import OwnerDashboardStats from '@/components/OwnerSpace/OwnerDashboardStats';
 import OwnerQuickActions from '@/components/OwnerSpace/OwnerQuickActions';
 import OwnerRecentActivity from '@/components/OwnerSpace/OwnerRecentActivity';
 import OwnerPropertyOverview from '@/components/OwnerSpace/OwnerPropertyOverview';
+import OwnerActionsOverview from '@/components/OwnerSpace/OwnerActionsOverview';
 
 const OwnerSpace = () => {
   const navigate = useNavigate();
@@ -82,6 +83,9 @@ const OwnerSpace = () => {
               
               {/* Aperçu des propriétés */}
               <OwnerPropertyOverview ownerProfile={currentProfile} />
+              
+              {/* Aperçu des actions */}
+              <OwnerActionsOverview ownerProfile={currentProfile} />
               
               {/* Activité récente */}
               <OwnerRecentActivity ownerProfile={currentProfile} />
