@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
@@ -55,7 +56,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
-                {t('tenantSpace.title', { type: titleDisplay })}
+                {titleDisplay} Space
               </h1>
               <p className="text-gray-600 mt-1 text-lg">
                 Bienvenue {cleanName}
