@@ -65,7 +65,53 @@
     },
     "firebase": {
       "title": "Firebase Settings",
-      "subtitle": "Configure Firebase integration and services"
+      "subtitle": "Configure Firebase integration and services",
+      "firestoreRules": "Firestore Rules",
+      "copy": "Copy",
+      "copyInstructions": "Copy and apply these rules in your Firebase console",
+      "updateOptions": "Update Options",
+      "automatic": "Automatic",
+      "automaticDescription": "Attempt automatic rules update",
+      "manual": "Manual",
+      "manualDescription": "Instructions for manual update",
+      "copyDescription": "Copy rules to clipboard",
+      "important": "Important",
+      "automaticRequirements": "Automatic update requires special permissions",
+      "applyAuto": "Apply automatically",
+      "updating": "Updating...",
+      "manualUpdate": "Manual update",
+      "openConsole": "Open console",
+      "rulesUpdated": "Rules updated",
+      "rulesAppliedSuccess": "Rules have been applied successfully",
+      "automaticUpdateUnavailable": "Automatic update unavailable",
+      "useManualUpdate": "Use manual update",
+      "instructionsCopied": "Instructions copied",
+      "followInstructions": "Follow instructions to apply manually",
+      "manualUpdateInstructions": "Manual update instructions",
+      "config": {
+        "title": "Firebase Configuration",
+        "copy": "copied to clipboard",
+        "console": "Firebase Console",
+        "connectionStatus": {
+          "title": "Connection Status",
+          "firestore": "Firestore",
+          "authentication": "Authentication",
+          "storage": "Storage",
+          "region": "Region",
+          "connected": "Connected",
+          "configured": "Configured",
+          "available": "Available",
+          "europe": "Europe",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Security Information",
+          "apiKeyPublic": "API key is public and secure",
+          "rulesProtection": "Firestore rules protect your data",
+          "checkRules": "Regularly check your security rules",
+          "monitorUsage": "Monitor usage in Firebase console"
+        }
+      }
     }
   },
   "employees": {
