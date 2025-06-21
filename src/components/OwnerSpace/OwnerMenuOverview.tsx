@@ -127,39 +127,39 @@ const OwnerMenuOverview: React.FC<OwnerMenuOverviewProps> = ({ ownerProfile }) =
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold">
+    <Card className="shadow-lg border border-gray-200">
+      <CardHeader className="bg-gray-50 border-b border-gray-200">
+        <CardTitle className="text-xl font-bold text-gray-800">
           Aperçu des menus
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <CardContent className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {menuOverviews.map((menu) => {
             const Icon = menu.icon;
             return (
               <div
                 key={menu.title}
-                className="bg-white border rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="bg-white border-2 border-gray-100 rounded-xl p-5 shadow-md hover:shadow-lg hover:border-gray-300 transition-all duration-200 cursor-pointer"
               >
-                <div className="flex items-center space-x-3 mb-3">
-                  <div className={`p-2 rounded-lg ${menu.color} text-white`}>
-                    <Icon className="h-5 w-5" />
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className={`p-3 rounded-xl ${menu.color} text-white shadow-md`}>
+                    <Icon className="h-6 w-6" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 text-sm truncate">
+                    <h3 className="font-bold text-gray-900 text-base truncate">
                       {menu.title}
                     </h3>
                   </div>
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-gray-900">
+                    <span className="text-3xl font-bold text-gray-900">
                       {menu.count}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-600">{menu.description}</p>
-                  <p className="text-xs text-gray-500">{menu.details}</p>
+                  <p className="text-sm font-medium text-gray-700">{menu.description}</p>
+                  <p className="text-sm text-gray-500 border-t border-gray-100 pt-2">{menu.details}</p>
                 </div>
               </div>
             );
