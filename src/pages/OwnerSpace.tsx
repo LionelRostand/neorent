@@ -9,7 +9,6 @@ import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import OwnerDashboardStats from '@/components/OwnerSpace/OwnerDashboardStats';
 import OwnerQuickActions from '@/components/OwnerSpace/OwnerQuickActions';
 import OwnerRecentActivity from '@/components/OwnerSpace/OwnerRecentActivity';
-import OwnerPropertyOverview from '@/components/OwnerSpace/OwnerPropertyOverview';
 import OwnerMenuOverview from '@/components/OwnerSpace/OwnerMenuOverview';
 
 const OwnerSpace = () => {
@@ -80,9 +79,6 @@ const OwnerSpace = () => {
             <div className="lg:col-span-3 space-y-6">
               {/* Statistiques */}
               <OwnerDashboardStats ownerProfile={currentProfile} />
-              
-              {/* Aperçu des propriétés */}
-              <OwnerPropertyOverview ownerProfile={currentProfile} />
               
               {/* Aperçu des menus */}
               <OwnerMenuOverview ownerProfile={currentProfile} />
