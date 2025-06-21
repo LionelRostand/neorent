@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useOwnerRegistrationForm } from '@/hooks/useOwnerRegistrationForm';
+import { useOwnerRegistrationValidation } from '@/hooks/useOwnerRegistrationValidation';
+import { useOwnerRegistrationSubmission } from '@/hooks/useOwnerRegistrationSubmission';
+import PersonalInfoFields from './OwnerRegistrationForm/PersonalInfoFields';
+import BusinessInfoFields from './OwnerRegistrationForm/BusinessInfoFields';
+import InfoBanner from './OwnerRegistrationForm/InfoBanner';
 
 interface OwnerRegistrationFormProps {
   onSuccess: () => void;
@@ -14,201 +15,51 @@ interface OwnerRegistrationFormProps {
 
 const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess }) => {
   const { t } = useTranslation();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    address: '',
-    message: ''
-  });
-
-  // Fonction de validation d'email plus robuste
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email.trim());
-  };
+  const { formData, handleChange, resetForm } = useOwnerRegistrationForm();
+  const { emailError, validateEmail, handleEmailBlur, clearEmailError, setEmailError } = useOwnerRegistrationValidation();
+  const { isLoading, submitRegistration } = useOwnerRegistrationSubmission();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Valider l'email avant de soumettre
     if (!validateEmail(formData.email)) {
       setEmailError('Veuillez entrer une adresse email valide.');
       return;
     }
     
-    setEmailError('');
-    setIsLoading(true);
+    clearEmailError();
+    await submitRegistration(formData, onSuccess, resetForm);
+  };
 
-    try {
-      console.log('Tentative d\'envoi de la demande:', formData);
-      
-      const requestId = `owner_request_${Date.now()}`;
-      const registrationRequest = {
-        ...formData,
-        email: formData.email.trim(), // Nettoyer l'email
-        status: 'pending',
-        createdAt: new Date().toISOString(),
-        type: 'owner_registration'
-      };
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    handleChange(e);
 
-      console.log('Données à envoyer:', registrationRequest);
-
-      await setDoc(doc(db, 'owner_registration_requests', requestId), registrationRequest);
-      
-      console.log('Demande envoyée avec succès');
-      
-      toast({
-        title: t('publicSite.ownerRegistration.requestSent'),
-        description: t('publicSite.ownerRegistration.requestSentDescription'),
-      });
-      
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        address: '',
-        message: ''
-      });
-      
-      onSuccess();
-    } catch (error) {
-      console.error('Erreur détaillée lors de la soumission:', error);
-      
-      let errorMessage = 'Une erreur est survenue lors de l\'envoi de votre demande.';
-      
-      if (error instanceof Error) {
-        if (error.message.includes('permission')) {
-          errorMessage = 'Erreur de permission. Veuillez contacter l\'administrateur.';
-        } else if (error.message.includes('network')) {
-          errorMessage = 'Erreur de connexion. Vérifiez votre connexion internet.';
-        } else if (error.message.includes('quota')) {
-          errorMessage = 'Service temporairement indisponible. Réessayez plus tard.';
-        }
-      }
-      
-      toast({
-        title: 'Erreur',
-        description: errorMessage,
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+    if (e.target.name === 'email' && emailError) {
+      clearEmailError();
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-
-    // Réinitialiser l'erreur email quand l'utilisateur tape
-    if (name === 'email' && emailError) {
-      setEmailError('');
-    }
-  };
-
-  const handleEmailBlur = () => {
-    if (formData.email && !validateEmail(formData.email)) {
-      setEmailError('Veuillez entrer une adresse email valide.');
-    } else {
-      setEmailError('');
-    }
+  const handleEmailBlurEvent = () => {
+    handleEmailBlur(formData.email);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="name">{t('publicSite.ownerRegistration.fullName')} *</Label>
-          <Input
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            disabled={isLoading}
-          />
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="email">{t('publicSite.ownerRegistration.email')} *</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            onBlur={handleEmailBlur}
-            required
-            disabled={isLoading}
-            className={emailError ? 'border-red-500 focus:border-red-500' : ''}
-          />
-          {emailError && (
-            <p className="text-sm text-red-600 mt-1">{emailError}</p>
-          )}
-        </div>
-      </div>
+      <PersonalInfoFields
+        formData={formData}
+        onChange={handleFormChange}
+        onEmailBlur={handleEmailBlurEvent}
+        emailError={emailError}
+        isLoading={isLoading}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="phone">{t('publicSite.ownerRegistration.phone')}</Label>
-          <Input
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            disabled={isLoading}
-          />
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="company">{t('publicSite.ownerRegistration.company')}</Label>
-          <Input
-            id="company"
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
-            disabled={isLoading}
-          />
-        </div>
-      </div>
+      <BusinessInfoFields
+        formData={formData}
+        onChange={handleFormChange}
+        isLoading={isLoading}
+      />
 
-      <div className="space-y-2">
-        <Label htmlFor="address">{t('publicSite.ownerRegistration.address')}</Label>
-        <Input
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          disabled={isLoading}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="message">{t('publicSite.ownerRegistration.messageOptional')}</Label>
-        <Textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          placeholder={t('publicSite.ownerRegistration.messagePlaceholder')}
-          disabled={isLoading}
-        />
-      </div>
-
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <p className="text-sm text-blue-700">
-          <strong>{t('publicSite.ownerRegistration.importantInfo')}:</strong> {t('publicSite.ownerRegistration.importantInfoText')}
-        </p>
-      </div>
+      <InfoBanner />
 
       <Button 
         type="submit" 
