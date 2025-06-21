@@ -64,7 +64,7 @@ const OwnerMenuOverview: React.FC<OwnerMenuOverviewProps> = ({ ownerProfile }) =
   const pendingPayments = ownerPayments.filter(payment => payment.status === 'En attente');
 
   const ownerCharges = charges.filter(charge => 
-    ownerProperties.some(property => property.title === charge.property)
+    ownerProperties.some(property => property.title === charge.propertyName)
   );
 
   const menuOverviews = [
@@ -122,7 +122,7 @@ const OwnerMenuOverview: React.FC<OwnerMenuOverviewProps> = ({ ownerProfile }) =
       color: 'bg-yellow-500',
       count: ownerCharges.length,
       description: `${ownerCharges.length} charges gérées`,
-      details: `${ownerCharges.filter(c => c.status === 'En cours').length} en cours`
+      details: `${ownerCharges.length} enregistrées`
     }
   ];
 
