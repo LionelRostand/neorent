@@ -73,6 +73,27 @@
       "addSubsidiary": "Ajouter Filiale",
       "noCompanies": "Aucune entreprise enregistrée"
     },
+    "ownerRegistrations": {
+      "title": "Demandes d'Inscription de Propriétaires",
+      "subtitle": "Gérez les demandes d'inscription des propriétaires",
+      "pendingCount": "en attente",
+      "noRequests": "Aucune demande d'inscription",
+      "noRequestsDescription": "Aucune demande d'inscription en attente pour le moment",
+      "requestCreated": "Demande créée le",
+      "loading": "Chargement des demandes...",
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "delete": "Supprimer",
+      "message": "Message",
+      "phone": "Téléphone",
+      "company": "Entreprise",
+      "address": "Adresse",
+      "status": {
+        "pending": "En attente",
+        "approved": "Approuvée",
+        "rejected": "Rejetée"
+      }
+    },
     "security": {
       "title": "Paramètres de Sécurité",
       "subtitle": "Configurez les paramètres et politiques de sécurité",
