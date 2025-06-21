@@ -53,10 +53,10 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
-                {t('tenantSpace.title', { type: translatedType })}
+                {translatedType} Space
               </h1>
               <p className="text-gray-600 mt-1 text-lg">
-                {t('tenantSpace.welcome', { name: cleanName })}
+                Welcome, {cleanName}
               </p>
             </div>
           </div>
@@ -65,7 +65,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {isRoommate && currentProfile?.roomNumber && (
               <div className="flex items-center gap-2">
                 <Key className="h-4 w-4" />
-                <span>{t('tenantSpace.room', { number: currentProfile.roomNumber })}</span>
+                <span>Room {currentProfile.roomNumber}</span>
               </div>
             )}
             {currentProfile?.address && (
@@ -77,7 +77,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {currentProfile?.leaseStart && (
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{t('tenantSpace.history.since')} {new Date(currentProfile.leaseStart).toLocaleDateString()}</span>
+                <span>Since {new Date(currentProfile.leaseStart).toLocaleDateString()}</span>
               </div>
             )}
           </div>
@@ -95,7 +95,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             variant="outline" 
             className="border-blue-200 text-blue-700 text-sm px-4 py-2"
           >
-            {t('common.activeAccount')}
+            Active Account
           </Badge>
         </div>
       </div>
