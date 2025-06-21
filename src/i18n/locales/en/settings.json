@@ -87,6 +87,16 @@
         "fromName": "From Name",
         "testConnection": "Test Connection"
       },
+      "imap": {
+        "title": "IMAP Configuration",
+        "server": "IMAP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "folder": "Folder",
+        "testConnection": "Test Connection"
+      },
       "securityOptions": {
         "none": "None",
         "tls": "TLS",
