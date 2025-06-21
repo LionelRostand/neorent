@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
@@ -10,6 +10,7 @@ import PaymentHistoryList from './PaymentHistoryList';
 import PaymentInfoCard from './PaymentInfoCard';
 
 const RentHistory = () => {
+  const { i18n } = useTranslation();
   const [contractData, setContractData] = useState<any>(null);
   const [rentPayments, setRentPayments] = useState<any[]>([]);
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
@@ -60,6 +61,17 @@ const RentHistory = () => {
     return { rent, charges };
   };
 
+  // Fonction pour obtenir les noms de mois selon la langue
+  const getMonthNames = () => {
+    if (i18n.language === 'en') {
+      return ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+    } else {
+      return ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    }
+  };
+
   // Fonction pour générer l'historique des paiements depuis la date du contrat
   const generatePaymentHistory = (contract: any) => {
     if (!contract) return [];
@@ -75,11 +87,9 @@ const RentHistory = () => {
 
     let paymentId = 1;
     let currentMonth = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+    const monthNames = getMonthNames();
 
     while (currentMonth <= currentDate) {
-      const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-      
       const monthLabel = `${monthNames[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`;
       const dueDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
       
@@ -124,13 +134,14 @@ const RentHistory = () => {
     const defaultRent = 400; // CORRIGÉ: 400€ au lieu de 450€
     const defaultCharges = 50;
     const totalMonthly = defaultRent + defaultCharges;
+    const monthNames = getMonthNames();
 
     // Historique par défaut depuis septembre 2023
     return [
       // 2023 - Depuis septembre (début du contrat)
       {
         id: 1,
-        month: 'Septembre 2023',
+        month: `${monthNames[8]} 2023`, // September
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -142,7 +153,7 @@ const RentHistory = () => {
       },
       {
         id: 2,
-        month: 'Octobre 2023',
+        month: `${monthNames[9]} 2023`, // October
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -154,7 +165,7 @@ const RentHistory = () => {
       },
       {
         id: 3,
-        month: 'Novembre 2023',
+        month: `${monthNames[10]} 2023`, // November
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -166,7 +177,7 @@ const RentHistory = () => {
       },
       {
         id: 4,
-        month: 'Décembre 2023',
+        month: `${monthNames[11]} 2023`, // December
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -179,7 +190,7 @@ const RentHistory = () => {
       // 2024
       {
         id: 5,
-        month: 'Janvier 2024',
+        month: `${monthNames[0]} 2024`, // January
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -191,7 +202,7 @@ const RentHistory = () => {
       },
       {
         id: 6,
-        month: 'Février 2024',
+        month: `${monthNames[1]} 2024`, // February
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -203,7 +214,7 @@ const RentHistory = () => {
       },
       {
         id: 7,
-        month: 'Mars 2024',
+        month: `${monthNames[2]} 2024`, // March
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -215,7 +226,7 @@ const RentHistory = () => {
       },
       {
         id: 8,
-        month: 'Avril 2024',
+        month: `${monthNames[3]} 2024`, // April
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -227,7 +238,7 @@ const RentHistory = () => {
       },
       {
         id: 9,
-        month: 'Mai 2024',
+        month: `${monthNames[4]} 2024`, // May
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -239,7 +250,7 @@ const RentHistory = () => {
       },
       {
         id: 10,
-        month: 'Juin 2024',
+        month: `${monthNames[5]} 2024`, // June
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -251,7 +262,7 @@ const RentHistory = () => {
       },
       {
         id: 11,
-        month: 'Juillet 2024',
+        month: `${monthNames[6]} 2024`, // July
         amount: totalMonthly,
         rent: defaultRent,
         charges: defaultCharges,
@@ -281,7 +292,7 @@ const RentHistory = () => {
         setRentPayments(defaultPayments);
       }
     }
-  }, [contracts, contractsLoading, actualTenantName]);
+  }, [contracts, contractsLoading, actualTenantName, i18n.language]);
 
   // Données du locataire avec le nom réel
   const tenantData = {
