@@ -34,7 +34,9 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
     typeKey,
     translatedType,
     cleanName,
-    roomNumber: currentProfile?.roomNumber
+    roomNumber: currentProfile?.roomNumber,
+    tFunction: typeof t,
+    testTranslation: t('tenantSpace.title', { type: 'Test' })
   });
 
   return (

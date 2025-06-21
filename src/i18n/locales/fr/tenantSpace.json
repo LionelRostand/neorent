@@ -9,7 +9,7 @@
     "tabs": {
       "overview": "Aperçu",
       "payment": "Paiement",
-      "history": "Historique",
+      "history": "Historique", 
       "documents": "Documents",
       "upload": "Téléverser",
       "profile": "Profil"
@@ -51,6 +51,41 @@
         "3": "3ème étage",
         "ground": "Rez-de-chaussée"
       }
+    },
+    "history": {
+      "title": "Historique des paiements",
+      "rentHistory": "Historique des loyers",
+      "since": "Depuis le",
+      "dueDate": "Date d'échéance",
+      "paidOn": "Payé le",
+      "amountPaid": "Montant payé",
+      "amountToPay": "Montant à payer",
+      "rent": "Loyer",
+      "charges": "Charges",
+      "status": {
+        "paid": "Payé",
+        "pending": "En attente",
+        "overdue": "En retard",
+        "partial": "Partiel",
+        "overpaid": "Surpayé"
+      },
+      "receiptPdf": "Reçu PDF",
+      "notAvailable": "Non disponible",
+      "paymentSummary": "Résumé des paiements",
+      "totalPaid": "Total payé",
+      "paymentsCount": "Paiements effectués",
+      "averagePayment": "Paiement moyen",
+      "contractInfo": "Informations du contrat",
+      "contractStart": "Début du contrat",
+      "monthlyRent": "Loyer mensuel",
+      "monthlyCharges": "Charges mensuelles",
+      "totalMonthly": "Total mensuel",
+      "paymentInfo": "Informations de paiement",
+      "bankDetails": "Coordonnées bancaires",
+      "accountHolder": "Titulaire du compte",
+      "iban": "IBAN",
+      "bic": "BIC",
+      "reference": "Référence de paiement"
     },
     "payment": {
       "title": "Paiement du loyer",
@@ -103,41 +138,6 @@
       "monthlyRent": "Loyer mensuel",
       "charges": "Charges",
       "totalToPay": "Total à payer"
-    },
-    "history": {
-      "title": "Historique des paiements",
-      "rentHistory": "Historique des loyers",
-      "since": "Depuis",
-      "dueDate": "Date d'échéance",
-      "paidOn": "Payé le",
-      "amountPaid": "Montant payé",
-      "amountToPay": "Montant à payer",
-      "rent": "Loyer",
-      "charges": "Charges",
-      "status": {
-        "paid": "Payé",
-        "pending": "En attente",
-        "overdue": "En retard",
-        "partial": "Partiel",
-        "overpaid": "Surpayé"
-      },
-      "receiptPdf": "Reçu PDF",
-      "notAvailable": "Non disponible",
-      "paymentSummary": "Résumé des paiements",
-      "totalPaid": "Total payé",
-      "paymentsCount": "Paiements effectués",
-      "averagePayment": "Paiement moyen",
-      "contractInfo": "Informations du contrat",
-      "contractStart": "Début du contrat",
-      "monthlyRent": "Loyer mensuel",
-      "monthlyCharges": "Charges mensuelles",
-      "totalMonthly": "Total mensuel",
-      "paymentInfo": "Informations de paiement",
-      "bankDetails": "Coordonnées bancaires",
-      "accountHolder": "Titulaire du compte",
-      "iban": "IBAN",
-      "bic": "BIC",
-      "reference": "Référence de paiement"
     },
     "documents": {
       "title": "Documents",
