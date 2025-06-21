@@ -54,7 +54,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
             >
               <Home className="h-4 w-4" />
               <span className="hidden sm:inline font-medium">{t('tenantSpace.tabs.overview')}</span>
-              <span className="sm:hidden font-medium">Aperçu</span>
+              <span className="sm:hidden font-medium">{t('tenantSpace.tabs.overview')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="payments" 
@@ -62,7 +62,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
             >
               <CreditCard className="h-4 w-4" />
               <span className="hidden sm:inline font-medium">{t('tenantSpace.tabs.payment')}</span>
-              <span className="sm:hidden font-medium">Paiement</span>
+              <span className="sm:hidden font-medium">{t('tenantSpace.tabs.payment')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="documents" 
@@ -70,15 +70,15 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
             >
               <FileText className="h-4 w-4" />
               <span className="hidden sm:inline font-medium">{t('tenantSpace.tabs.documents')}</span>
-              <span className="sm:hidden font-medium">Documents</span>
+              <span className="sm:hidden font-medium">{t('tenantSpace.tabs.documents')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="messages" 
               className="flex items-center gap-2 text-xs sm:text-sm px-3 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <MessageSquare className="h-4 w-4" />
-              <span className="hidden sm:inline font-medium">Messages</span>
-              <span className="sm:hidden font-medium">Msg</span>
+              <span className="hidden sm:inline font-medium">{t('messages.title')}</span>
+              <span className="sm:hidden font-medium">{t('messages.short')}</span>
             </TabsTrigger>
           </TabsList>
         </div>
@@ -111,7 +111,7 @@ const TenantSpaceTabs: React.FC<TenantSpaceTabsProps> = ({
                 <MessageSquare className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Messages
+                {t('messages.title')}
               </h3>
               <p className="text-gray-600 max-w-md mb-6">
                 {t('tenantSpace.messages.description')}
