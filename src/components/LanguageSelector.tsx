@@ -9,8 +9,8 @@ const LanguageSelector: React.FC = () => {
   const { i18n } = useTranslation();
 
   const languages = [
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'en', name: 'English', flag: '🇺🇸' }
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'fr', name: 'Français', flag: '🇫🇷' }
   ];
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
@@ -20,9 +20,9 @@ const LanguageSelector: React.FC = () => {
     try {
       await i18n.changeLanguage(languageCode);
       localStorage.setItem('preferredLanguage', languageCode);
-      console.log('Langue changée vers:', languageCode);
+      console.log('Language changed to:', languageCode);
     } catch (error) {
-      console.error('Erreur lors du changement de langue:', error);
+      console.error('Error changing language:', error);
     }
   };
 
@@ -30,7 +30,7 @@ const LanguageSelector: React.FC = () => {
   useEffect(() => {
     const savedLanguage = localStorage.getItem('preferredLanguage');
     if (savedLanguage && savedLanguage !== i18n.language) {
-      console.log('Chargement de la langue sauvegardée:', savedLanguage);
+      console.log('Loading saved language:', savedLanguage);
       i18n.changeLanguage(savedLanguage);
     }
   }, [i18n]);

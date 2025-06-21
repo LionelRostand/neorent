@@ -73,56 +73,56 @@ const OwnerMenuOverview: React.FC<OwnerMenuOverviewProps> = ({ ownerProfile }) =
       icon: Building,
       color: 'bg-blue-500',
       count: ownerProperties.length,
-      description: `${ownerProperties.length} propriétés gérées`,
-      details: `${ownerProperties.filter(p => p.status === 'Occupé').length} occupées`
+      description: `${ownerProperties.length} properties managed`,
+      details: `${ownerProperties.filter(p => p.status === 'Occupé').length} occupied`
     },
     {
       title: t('navigation.tenants'),
       icon: Users,
       color: 'bg-green-500',
       count: activeTenants.length,
-      description: `${activeTenants.length} locataires actifs`,
-      details: `${tenants.filter(t => t.status === 'Inactif').length} inactifs`
+      description: `${activeTenants.length} active tenants`,
+      details: `${tenants.filter(t => t.status === 'Inactif').length} inactive`
     },
     {
       title: t('navigation.roommates'),
       icon: UserCheck,
       color: 'bg-purple-500',
       count: activeRoommates.length,
-      description: `${activeRoommates.length} colocataires actifs`,
-      details: `${roommates.filter(r => r.status === 'Inactif').length} inactifs`
+      description: `${activeRoommates.length} active roommates`,
+      details: `${roommates.filter(r => r.status === 'Inactif').length} inactive`
     },
     {
       title: t('navigation.contracts'),
       icon: FileText,
       color: 'bg-orange-500',
       count: activeContracts.length,
-      description: `${activeContracts.length} contrats actifs`,
-      details: `${contracts.filter(c => c.status === 'Expiré').length} expirés`
+      description: `${activeContracts.length} active contracts`,
+      details: `${contracts.filter(c => c.status === 'Expiré').length} expired`
     },
     {
       title: t('navigation.inspections'),
       icon: ClipboardList,
       color: 'bg-indigo-500',
       count: recentInspections.length,
-      description: `${recentInspections.length} états des lieux`,
-      details: `${recentInspections.filter(i => i.status === 'Planifié').length} planifiés`
+      description: `${recentInspections.length} property inspections`,
+      details: `${recentInspections.filter(i => i.status === 'Planifié').length} scheduled`
     },
     {
       title: t('navigation.rentManagement'),
       icon: DollarSign,
       color: 'bg-red-500',
       count: ownerPayments.length,
-      description: `${ownerPayments.length} paiements suivis`,
-      details: `${pendingPayments.length} en attente`
+      description: `${ownerPayments.length} payments tracked`,
+      details: `${pendingPayments.length} pending`
     },
     {
       title: t('navigation.rentalCharges'),
       icon: Calculator,
       color: 'bg-yellow-500',
       count: ownerCharges.length,
-      description: `${ownerCharges.length} charges gérées`,
-      details: `${ownerCharges.length} enregistrées`
+      description: `${ownerCharges.length} charges managed`,
+      details: `${ownerCharges.length} recorded`
     }
   ];
 
@@ -130,7 +130,7 @@ const OwnerMenuOverview: React.FC<OwnerMenuOverviewProps> = ({ ownerProfile }) =
     <Card className="shadow-lg border border-gray-200">
       <CardHeader className="bg-gray-50 border-b border-gray-200">
         <CardTitle className="text-xl font-bold text-gray-800">
-          Aperçu des menus
+          Menu Overview
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6">
