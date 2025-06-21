@@ -10,15 +10,9 @@ import RoommateForm from '@/components/RoommateForm';
 import InspectionForm from '@/components/InspectionForm';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useToast } from '@/hooks/use-toast';
-
-// Import des composants d'aperçu
-import PropertyPreview from './QuickActionPreviews/PropertyPreview';
-import ContractPreview from './QuickActionPreviews/ContractPreview';
-import TenantPreview from './QuickActionPreviews/TenantPreview';
-import InspectionPreview from './QuickActionPreviews/InspectionPreview';
-import ChargesPreview from './QuickActionPreviews/ChargesPreview';
-import MaintenancePreview from './QuickActionPreviews/MaintenancePreview';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
@@ -28,7 +22,9 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
   const { t } = useTranslation();
   const { toast } = useToast();
   const { properties, addProperty } = useFirebaseProperties();
-  const { addRoommate } = useFirebaseRoommates();
+  const { roommates, addRoommate } = useFirebaseRoommates();
+  const { contracts } = useFirebaseContracts();
+  const { payments } = useFirebasePayments();
   
   const [openDialog, setOpenDialog] = useState<string | null>(null);
 
@@ -77,6 +73,29 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     setOpenDialog(null);
   };
 
+  // Filtrer les données selon le propriétaire connecté
+  const ownerProperties = properties.filter(property => 
+    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
+  );
+
+  const activeTenants = roommates.filter(roommate => 
+    roommate.status === 'Actif' && 
+    ownerProperties.some(property => property.title === roommate.property)
+  );
+
+  const expiringContracts = contracts.filter(contract => {
+    if (!contract.endDate) return false;
+    const endDate = new Date(contract.endDate);
+    const today = new Date();
+    const daysUntilExpiry = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    return daysUntilExpiry <= 30 && daysUntilExpiry > 0;
+  }).length;
+
+  const pendingPayments = payments.filter(payment => 
+    payment.status === 'En attente' && 
+    ownerProperties.some(property => property.title === payment.property)
+  ).length;
+
   const quickActions = [
     {
       title: t('ownerSpace.quickActions.newProperty.title'),
@@ -84,7 +103,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: Plus,
       color: 'bg-blue-500',
       action: () => setOpenDialog('property'),
-      preview: <PropertyPreview ownerProfile={ownerProfile} />
+      preview: `${ownerProperties.length} propriétés`
     },
     {
       title: t('ownerSpace.quickActions.newContract.title'),
@@ -92,7 +111,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: FileText,
       color: 'bg-green-500',
       action: () => console.log('Nouveau contrat - À implémenter'),
-      preview: <ContractPreview />
+      preview: `${expiringContracts} contrats expirent bientôt`
     },
     {
       title: t('ownerSpace.quickActions.addTenant.title'),
@@ -100,7 +119,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: Users,
       color: 'bg-purple-500',
       action: () => setOpenDialog('roommate'),
-      preview: <TenantPreview ownerProfile={ownerProfile} />
+      preview: `${activeTenants.length} locataires actifs`
     },
     {
       title: t('ownerSpace.quickActions.propertyInspection.title'),
@@ -108,7 +127,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: Home,
       color: 'bg-orange-500',
       action: () => setOpenDialog('inspection'),
-      preview: <InspectionPreview />
+      preview: '2 inspections programmées'
     },
     {
       title: t('ownerSpace.quickActions.calculateCharges.title'),
@@ -116,7 +135,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: Calculator,
       color: 'bg-indigo-500',
       action: () => console.log('Calculer charges - À implémenter'),
-      preview: <ChargesPreview />
+      preview: `${pendingPayments} paiements en attente`
     },
     {
       title: t('ownerSpace.quickActions.maintenance.title'),
@@ -124,7 +143,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: Wrench,
       color: 'bg-red-500',
       action: () => console.log('Maintenance - À implémenter'),
-      preview: <MaintenancePreview />
+      preview: '1 demande urgente'
     }
   ];
 
@@ -137,30 +156,27 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
             {t('ownerSpace.quickActions.title')}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4 p-4 pt-0">
+        <CardContent className="space-y-1 p-4 pt-0">
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
-              <div key={action.title} className="space-y-2">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
-                  onClick={action.action}
-                >
-                  <div className="flex items-center space-x-3 w-full min-w-0">
-                    <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
-                      <Icon className="h-4 w-4" />
-                    </div>
-                    <div className="text-left flex-1 min-w-0 overflow-hidden">
-                      <p className="font-medium text-gray-900 text-sm leading-tight truncate">{action.title}</p>
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">{action.description}</p>
-                    </div>
+              <Button
+                key={action.title}
+                variant="ghost"
+                className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
+                onClick={action.action}
+              >
+                <div className="flex items-center space-x-3 w-full min-w-0">
+                  <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
+                    <Icon className="h-4 w-4" />
                   </div>
-                </Button>
-                
-                {/* Aperçu de l'action */}
-                {action.preview}
-              </div>
+                  <div className="text-left flex-1 min-w-0 overflow-hidden">
+                    <p className="font-medium text-gray-900 text-sm leading-tight truncate">{action.title}</p>
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">{action.description}</p>
+                    <p className="text-xs text-blue-600 font-medium mt-1">{action.preview}</p>
+                  </div>
+                </div>
+              </Button>
             );
           })}
         </CardContent>
