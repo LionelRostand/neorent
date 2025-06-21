@@ -1,139 +1,180 @@
 
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, LogIn, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, AlertCircle } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import OwnerRegistrationForm from '@/components/Auth/OwnerRegistrationForm';
+import { useToast } from '@/hooks/use-toast';
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { login } = useAuth();
-  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showRegistration, setShowRegistration] = useState(false);
-
-  const from = location.state?.from?.pathname || '/admin';
-
-  if (showRegistration) {
-    return <OwnerRegistrationForm onBack={() => setShowRegistration(false)} />;
-  }
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login, userProfile, userType } = useAuth();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
+    setIsLoading(true);
 
     try {
       await login(email, password);
-      navigate(from, { replace: true });
-    } catch (err: any) {
-      console.error('Login error:', err);
-      setError(err.message || 'Erreur de connexion');
+      
+      // Attendre un peu plus pour que les données Firebase se chargent
+      setTimeout(() => {
+        console.log('Vérification du profil utilisateur:', { userProfile, userType });
+        
+        // Vérifier si l'utilisateur a un profil valide
+        if (!userProfile || !userType) {
+          console.log('Aucun profil trouvé pour:', email);
+          toast({
+            title: "Profil non configuré",
+            description: `Aucun profil trouvé pour ${email}. Veuillez contacter votre gestionnaire immobilier pour configurer votre compte.`,
+            variant: "destructive",
+          });
+          return;
+        }
+
+        console.log('Connexion réussie avec profil:', userProfile);
+        toast({
+          title: "Connexion réussie",
+          description: `Bienvenue ${userProfile.name || 'Utilisateur'}`,
+        });
+
+        // Récupérer l'URL de redirection depuis l'état de navigation
+        const from = location.state?.from?.pathname || null;
+        
+        // Rediriger selon le type d'utilisateur et l'URL demandée
+        if (userType === 'admin' || userType === 'employee') {
+          // Si l'utilisateur venait d'une page admin, le rediriger là-bas
+          if (from && from.startsWith('/admin')) {
+            navigate(from);
+          } else {
+            navigate('/admin');
+          }
+        } else {
+          // Si l'utilisateur venait de tenant-space, le rediriger là-bas
+          if (from && from.startsWith('/tenant-space')) {
+            navigate(from);
+          } else {
+            navigate('/tenant-space');
+          }
+        }
+      }, 1500); // Augmenter le délai pour laisser plus de temps au chargement
+      
+    } catch (error: any) {
+      console.error('Erreur de connexion:', error);
+      
+      let errorMessage = "Email ou mot de passe incorrect.";
+      
+      if (error.code === 'auth/user-not-found') {
+        errorMessage = "Aucun compte trouvé avec cette adresse email.";
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = "Mot de passe incorrect.";
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = "Adresse email invalide.";
+      } else if (error.code === 'auth/user-disabled') {
+        errorMessage = "Ce compte a été désactivé.";
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
+      } else if (error.code === 'auth/invalid-credential') {
+        errorMessage = "Identifiants invalides. Vérifiez votre email et mot de passe.";
+      }
+      
+      toast({
+        title: "Erreur de connexion",
+        description: errorMessage,
+        variant: "destructive",
+      });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">
-          {t('publicSite.auth.login.title')}
+    <Card className="w-full max-w-md mx-auto bg-white shadow-xl">
+      <CardHeader className="text-center bg-green-500 text-white rounded-t-lg">
+        <CardTitle className="text-2xl font-bold">
+          {t('publicSite.login.formTitle')}
         </CardTitle>
-        <p className="text-center text-gray-600">
-          {t('publicSite.auth.login.subtitle')}
+        <p className="text-green-100">
+          {t('publicSite.login.formSubtitle')}
         </p>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {error && (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-        
+      <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">{t('publicSite.auth.login.email')}</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder={t('publicSite.auth.login.emailPlaceholder')}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="password">{t('publicSite.auth.login.password')}</Label>
+            <Label htmlFor="email" className="text-gray-700">{t('publicSite.login.email')}</Label>
             <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder={t('publicSite.auth.login.passwordPlaceholder')}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                id="email"
+                type="email"
+                placeholder={t('publicSite.login.emailPlaceholder')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                 required
+                disabled={isLoading}
               />
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </Button>
             </div>
           </div>
           
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {t('publicSite.auth.login.loggingIn')}
-              </>
-            ) : (
-              <>
-                <LogIn className="mr-2 h-4 w-4" />
-                {t('publicSite.auth.login.loginButton')}
-              </>
-            )}
-          </Button>
-        </form>
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-gray-700">{t('publicSite.login.password')}</Label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder={t('publicSite.login.passwordPlaceholder')}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="pl-10 pr-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                required
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                disabled={isLoading}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+          </div>
 
-        <div className="text-center space-y-2">
-          <p className="text-sm text-gray-600">
-            Vous êtes propriétaire ?
-          </p>
-          <Button 
-            variant="outline" 
-            onClick={() => setShowRegistration(true)}
-            className="w-full"
-          >
-            Créer un compte propriétaire
+          <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={isLoading}>
+            {isLoading ? t('publicSite.login.signingIn') : t('publicSite.login.signIn')}
           </Button>
-        </div>
+          
+          <div className="text-center">
+            <a href="#" className="text-sm text-green-600 hover:underline">
+              {t('publicSite.login.forgotPassword')}
+            </a>
+          </div>
+          
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="text-sm">
+                <p className="font-medium text-blue-800 mb-1">{t('publicSite.login.importantInfo')}</p>
+                <p className="text-blue-700">
+                  {t('publicSite.login.profileWarning')}
+                </p>
+              </div>
+            </div>
+          </div>
+        </form>
       </CardContent>
     </Card>
   );
