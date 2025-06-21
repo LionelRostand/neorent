@@ -22,7 +22,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <User className="h-5 w-5 text-green-600" />
-          {t('tenantSpace.profile.personalInfo')}
+          {t('tenantProfile.personalInfo')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -30,7 +30,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
         <div className="flex items-center gap-2">
           <User className="h-4 w-4 text-gray-500" />
           <div>
-            <p className="text-sm text-gray-500">{t('tenantSpace.profile.name')}</p>
+            <p className="text-sm text-gray-500">{t('tenantProfile.name')}</p>
             <p className="font-medium">{tenantData.name}</p>
           </div>
         </div>
@@ -39,7 +39,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
         <div className="flex items-center gap-2">
           <Mail className="h-4 w-4 text-gray-500" />
           <div>
-            <p className="text-sm text-gray-500">{t('tenantSpace.profile.email')}</p>
+            <p className="text-sm text-gray-500">{t('tenantProfile.email')}</p>
             <p className="font-medium">{tenantData.email || 'entrepreneurpro19@gmail.com'}</p>
           </div>
         </div>
@@ -48,7 +48,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
         <div className="flex items-center gap-2">
           <Phone className="h-4 w-4 text-gray-500" />
           <div>
-            <p className="text-sm text-gray-500">{t('tenantSpace.profile.phone')}</p>
+            <p className="text-sm text-gray-500">{t('tenantProfile.phone')}</p>
             <p className="font-medium">{tenantData.phone || '+33 7 53 42 53 53'}</p>
           </div>
         </div>
@@ -58,14 +58,14 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-blue-500" />
             <div>
-              <p className="text-sm text-gray-500">{t('tenantSpace.profile.leaseStart')}</p>
+              <p className="text-sm text-gray-500">{t('tenantProfile.leaseStart')}</p>
               <p className="font-medium text-blue-600">06/01/2025</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-orange-500" />
             <div>
-              <p className="text-sm text-gray-500">{t('tenantSpace.profile.leaseEnd')}</p>
+              <p className="text-sm text-gray-500">{t('tenantProfile.leaseEnd')}</p>
               <p className="font-medium text-orange-600">05/01/2026</p>
             </div>
           </div>
@@ -75,7 +75,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-            <span className="text-sm text-gray-500">{t('tenantSpace.profile.status')}</span>
+            <span className="text-sm text-gray-500">{t('tenantProfile.status')}</span>
           </div>
           <Badge className="bg-red-100 text-red-800 border-red-200">
             {t('common.active')}
@@ -87,7 +87,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
           <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg">
             <Key className="h-4 w-4 text-blue-500" />
             <div>
-              <p className="text-sm text-gray-500">{t('tenantSpace.overview.roomNumber')}</p>
+              <p className="text-sm text-gray-500">{t('tenantOverview.roomNumber')}</p>
               <p className="font-medium text-blue-600">{t('tenantSpace.room', { number: '2' })}</p>
             </div>
           </div>

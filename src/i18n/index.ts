@@ -27,6 +27,12 @@ import enSettings from './locales/en/settings.json';
 import enHelp from './locales/en/help.json';
 import enPublicSite from './locales/en/publicSite.json';
 import enTenantSpace from './locales/en/tenantSpace.json';
+import enTenantOverview from './locales/en/tenantOverview.json';
+import enTenantPayments from './locales/en/tenantPayments.json';
+import enTenantHistory from './locales/en/tenantHistory.json';
+import enTenantDocuments from './locales/en/tenantDocuments.json';
+import enTenantUpload from './locales/en/tenantUpload.json';
+import enTenantProfile from './locales/en/tenantProfile.json';
 import enOwnerSpace from './locales/en/ownerSpace.json';
 
 // French translations
@@ -83,6 +89,12 @@ const resources = {
       ...enHelp,
       ...enPublicSite,
       ...enTenantSpace,
+      ...enTenantOverview,
+      ...enTenantPayments,
+      ...enTenantHistory,
+      ...enTenantDocuments,
+      ...enTenantUpload,
+      ...enTenantProfile,
       ...enOwnerSpace
     }
   },

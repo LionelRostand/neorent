@@ -1,0 +1,42 @@
+
+{
+  "tenantOverview": {
+    "generalInfo": "General Information",
+    "financialInfo": "Financial Information",
+    "characteristics": "Property Characteristics",
+    "monthlyRent": "Monthly Rent",
+    "monthlyCharges": "Monthly Charges",
+    "securityDeposit": "Security Deposit",
+    "totalMonthly": "Total monthly (rent + charges)",
+    "myProperty": "My Property",
+    "myRoom": "My Room",
+    "type": "Type",
+    "surface": "Surface",
+    "rooms": "Number of rooms",
+    "floor": "Floor",
+    "furnished": "Furnished",
+    "elevator": "Elevator",
+    "parking": "Parking",
+    "equipment": "Equipment",
+    "rent": "Rent",
+    "charges": "Charges",
+    "deposit": "Security deposit",
+    "room": "room",
+    "bedroom": "bedroom",
+    "sharedRoom": "Shared room",
+    "apartment": "Apartment",
+    "studio": "Studio",
+    "house": "House",
+    "roomInSharedFlat": "Room in shared flat",
+    "roomNumber": "Room number",
+    "ordinalFloor": {
+      "1": "1st floor",
+      "2": "2nd floor", 
+      "3": "3rd floor",
+      "ground": "Ground floor"
+    },
+    "contractInfo": "Contract Information",
+    "contractDetails": "Contract Details",
+    "generatedHistory": "Generated History"
+  }
+}

@@ -1,0 +1,38 @@
+
+{
+  "tenantHistory": {
+    "title": "Payment History",
+    "rentHistory": "Rent History",
+    "since": "Since",
+    "dueDate": "Due Date",
+    "paidOn": "Paid on",
+    "amountPaid": "Amount Paid",
+    "amountToPay": "Amount to Pay",
+    "rent": "Rent",
+    "charges": "Charges",
+    "status": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "overdue": "Overdue",
+      "partial": "Partial",
+      "overpaid": "Overpaid"
+    },
+    "receiptPdf": "Receipt PDF",
+    "notAvailable": "Not Available",
+    "paymentSummary": "Payment Summary",
+    "totalPaid": "Total Paid",
+    "paymentsCount": "Payments Made",
+    "averagePayment": "Average Payment",
+    "contractInfo": "Contract Information",
+    "contractStart": "Contract Start",
+    "monthlyRent": "Monthly Rent",
+    "monthlyCharges": "Monthly Charges",
+    "totalMonthly": "Total Monthly",
+    "paymentInfo": "Payment Information",
+    "bankDetails": "Bank Details",
+    "accountHolder": "Account Holder",
+    "iban": "IBAN",
+    "bic": "BIC",
+    "reference": "Payment Reference"
+  }
+}

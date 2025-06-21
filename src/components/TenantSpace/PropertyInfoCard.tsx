@@ -24,7 +24,7 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Home className="h-5 w-5 text-blue-600" />
-          {isRoommate ? t('tenantSpace.overview.myRoom') : t('tenantSpace.overview.myProperty')}
+          {isRoommate ? t('tenantOverview.myRoom') : t('tenantOverview.myProperty')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -43,8 +43,8 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
           <div className="flex items-center gap-2">
             <Home className="h-4 w-4 text-blue-500" />
             <div>
-              <p className="text-sm text-gray-500">{t('tenantSpace.overview.type')}</p>
-              <p className="font-medium">{t(`tenantSpace.overview.${propertyType}`)}</p>
+              <p className="text-sm text-gray-500">{t('tenantOverview.type')}</p>
+              <p className="font-medium">{t(`tenantOverview.${propertyType}`)}</p>
             </div>
           </div>
 
@@ -52,7 +52,7 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
           <div className="flex items-center gap-2">
             <Ruler className="h-4 w-4 text-blue-500" />
             <div>
-              <p className="text-sm text-gray-500">{t('tenantSpace.overview.surface')}</p>
+              <p className="text-sm text-gray-500">{t('tenantOverview.surface')}</p>
               <p className="font-medium">{propertyData.surface}</p>
             </div>
           </div>
@@ -61,7 +61,7 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
           <div className="flex items-center gap-2">
             <Euro className="h-4 w-4 text-green-500" />
             <div>
-              <p className="text-sm text-gray-500">{t('tenantSpace.overview.rent')}</p>
+              <p className="text-sm text-gray-500">{t('tenantOverview.rent')}</p>
               <p className="font-medium text-green-600">{propertyData.rent}€/{t('common.month')}</p>
             </div>
           </div>
@@ -70,7 +70,7 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
           <div className="flex items-center gap-2">
             <Euro className="h-4 w-4 text-orange-500" />
             <div>
-              <p className="text-sm text-gray-500">{t('tenantSpace.overview.charges')}</p>
+              <p className="text-sm text-gray-500">{t('tenantOverview.charges')}</p>
               <p className="font-medium text-orange-600">{propertyData.charges}€/{t('common.month')}</p>
             </div>
           </div>
@@ -80,7 +80,7 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
         <div className="flex items-center gap-2 p-3 bg-purple-50 rounded-lg">
           <Shield className="h-4 w-4 text-purple-500" />
           <div>
-            <p className="text-sm text-gray-500">{t('tenantSpace.overview.securityDeposit')}</p>
+            <p className="text-sm text-gray-500">{t('tenantOverview.securityDeposit')}</p>
             <p className="font-medium text-purple-600">{propertyData.deposit}€</p>
           </div>
         </div>
@@ -88,7 +88,7 @@ const PropertyInfoCard: React.FC<PropertyInfoCardProps> = ({ propertyData, isRoo
         {/* Equipment */}
         {propertyData.features && propertyData.features.length > 0 && (
           <div>
-            <p className="text-sm text-gray-500 mb-2">{t('tenantSpace.overview.equipment')}</p>
+            <p className="text-sm text-gray-500 mb-2">{t('tenantOverview.equipment')}</p>
             <div className="flex flex-wrap gap-2">
               {propertyData.features.map((feature: string, index: number) => (
                 <Badge key={index} variant="secondary" className="text-xs">
