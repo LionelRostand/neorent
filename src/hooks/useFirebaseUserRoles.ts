@@ -13,6 +13,7 @@ interface UserRole {
   permissions?: string[];
   detailedPermissions?: EmployeePermissions;
   hasPassword?: boolean;
+  isOwner?: boolean;
 }
 
 export const useFirebaseUserRoles = () => {
