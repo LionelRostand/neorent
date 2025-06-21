@@ -17,6 +17,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [emailError, setEmailError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,14 +27,29 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
     message: ''
   });
 
+  // Fonction de validation d'email plus robuste
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email.trim());
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Valider l'email avant de soumettre
+    if (!validateEmail(formData.email)) {
+      setEmailError('Veuillez entrer une adresse email valide.');
+      return;
+    }
+    
+    setEmailError('');
     setIsLoading(true);
 
     try {
       const requestId = `owner_request_${Date.now()}`;
       const registrationRequest = {
         ...formData,
+        email: formData.email.trim(), // Nettoyer l'email
         status: 'pending',
         createdAt: new Date().toISOString(),
         type: 'owner_registration'
@@ -69,10 +85,24 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Réinitialiser l'erreur email quand l'utilisateur tape
+    if (name === 'email' && emailError) {
+      setEmailError('');
+    }
+  };
+
+  const handleEmailBlur = () => {
+    if (formData.email && !validateEmail(formData.email)) {
+      setEmailError('Veuillez entrer une adresse email valide.');
+    } else {
+      setEmailError('');
+    }
   };
 
   return (
@@ -98,9 +128,14 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
             type="email"
             value={formData.email}
             onChange={handleChange}
+            onBlur={handleEmailBlur}
             required
             disabled={isLoading}
+            className={emailError ? 'border-red-500 focus:border-red-500' : ''}
           />
+          {emailError && (
+            <p className="text-sm text-red-600 mt-1">{emailError}</p>
+          )}
         </div>
       </div>
 
@@ -157,7 +192,11 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
         </p>
       </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button 
+        type="submit" 
+        className="w-full" 
+        disabled={isLoading || !!emailError}
+      >
         {isLoading ? t('publicSite.ownerRegistration.sending') : t('publicSite.ownerRegistration.sendRequest')}
       </Button>
     </form>
