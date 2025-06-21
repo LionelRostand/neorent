@@ -55,7 +55,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
   ];
 
   return (
-    <Card className="h-fit">
+    <Card className="h-fit w-full">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base font-semibold">
           <Plus className="h-4 w-4" />
@@ -72,13 +72,13 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
               className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
               onClick={action.action}
             >
-              <div className="flex items-center space-x-3 w-full">
+              <div className="flex items-center space-x-3 w-full min-w-0">
                 <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
                   <Icon className="h-4 w-4" />
                 </div>
-                <div className="text-left flex-1">
-                  <p className="font-medium text-gray-900 text-sm leading-tight">{action.title}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{action.description}</p>
+                <div className="text-left flex-1 min-w-0 overflow-hidden">
+                  <p className="font-medium text-gray-900 text-sm leading-tight truncate">{action.title}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 truncate">{action.description}</p>
                 </div>
               </div>
             </Button>
