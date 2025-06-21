@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -29,52 +28,56 @@ const LoginForm = () => {
     setIsLoading(true);
 
     try {
+      console.log('🔐 Tentative de connexion pour:', email);
       await login(email, password);
       
-      // Attendre un peu plus pour que les données Firebase se chargent
+      console.log('✅ Connexion Firebase réussie');
+      
+      // Attendre que les données se chargent
       setTimeout(() => {
-        console.log('Vérification du profil utilisateur:', { userProfile, userType });
+        console.log('📊 Vérification du profil:', { userProfile, userType, email });
         
-        // Vérifier si l'utilisateur a un profil valide
+        // Si aucun profil n'est trouvé, rediriger vers une page d'attente
         if (!userProfile || !userType) {
-          console.log('Aucun profil trouvé pour:', email);
+          console.log('⚠️ Aucun profil trouvé, redirection vers la page d'attente');
           toast({
-            title: "Profil non configuré",
-            description: `Aucun profil trouvé pour ${email}. Veuillez contacter votre gestionnaire immobilier pour configurer votre compte.`,
-            variant: "destructive",
+            title: "Compte en attente",
+            description: `Votre compte ${email} est en cours de configuration. Veuillez contacter votre gestionnaire.`,
+            variant: "default",
           });
+          
+          // Rediriger vers une page neutre ou rester sur login
+          navigate('/login');
           return;
         }
 
-        console.log('Connexion réussie avec profil:', userProfile);
+        console.log('✅ Profil trouvé:', userProfile);
         toast({
           title: "Connexion réussie",
           description: `Bienvenue ${userProfile.name || 'Utilisateur'}`,
         });
 
-        // Récupérer l'URL de redirection depuis l'état de navigation
+        // Récupérer l'URL de redirection
         const from = location.state?.from?.pathname || null;
         
-        // Rediriger selon le type d'utilisateur et l'URL demandée
+        // Rediriger selon le type d'utilisateur
         if (userType === 'admin' || userType === 'employee') {
-          // Si l'utilisateur venait d'une page admin, le rediriger là-bas
           if (from && from.startsWith('/admin')) {
             navigate(from);
           } else {
             navigate('/admin');
           }
         } else {
-          // Si l'utilisateur venait de tenant-space, le rediriger là-bas
           if (from && from.startsWith('/tenant-space')) {
             navigate(from);
           } else {
             navigate('/tenant-space');
           }
         }
-      }, 1500); // Augmenter le délai pour laisser plus de temps au chargement
+      }, 2000);
       
     } catch (error: any) {
-      console.error('Erreur de connexion:', error);
+      console.error('❌ Erreur de connexion:', error);
       
       let errorMessage = "Email ou mot de passe incorrect.";
       

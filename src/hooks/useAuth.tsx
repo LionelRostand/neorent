@@ -30,17 +30,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [hooksInitialized, setHooksInitialized] = useState(false);
   
-  // Always call hooks - never conditionally
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
   const { getUserRole, userRoles } = useFirebaseUserRoles();
 
-  // Initialize hooks after mount
   useEffect(() => {
     setHooksInitialized(true);
   }, []);
 
-  // Vérifier si l'utilisateur existe dans Firebase
   const checkUserProfile = async (currentUser: User | null) => {
     if (!currentUser || !hooksInitialized) {
       setUserProfile(null);
@@ -51,7 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('🔍 Vérification du profil pour:', currentUser.email);
 
     try {
-      // D'abord vérifier dans user_roles par UID (admin/employee)
+      // Chercher d'abord par UID dans user_roles
       let userRole = await getUserRole(currentUser.uid);
       
       // Si pas trouvé par UID, chercher par email
@@ -69,7 +66,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           email: userRole.email,
           role: userRole.role,
           permissions: userRole.permissions || [],
-          hasPassword: userRole.hasPassword || false
+          hasPassword: userRole.hasPassword || false,
+          isOwner: userRole.isOwner || false
         });
         setUserType(userRole.role);
         return;
@@ -99,8 +97,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
 
-      // Si aucun profil trouvé après chargement des données
+      // Si aucun profil trouvé
       console.log('❌ Aucun profil trouvé pour:', currentUser.email);
+      console.log('📊 Données disponibles:', { 
+        userRoles: userRoles.length, 
+        tenants: tenants.length, 
+        roommates: roommates.length 
+      });
+      
+      // Ne pas définir comme null immédiatement pour les comptes en attente
       setUserProfile(null);
       setUserType(null);
     } catch (error) {
@@ -119,10 +124,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(firebaseUser);
       
       if (firebaseUser && hooksInitialized) {
-        // Utilisateur connecté, vérifier son profil
         await checkUserProfile(firebaseUser);
       } else {
-        // Utilisateur déconnecté
         setUserProfile(null);
         setUserType(null);
       }
@@ -137,8 +140,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!hooksInitialized) return;
     
-    // Considérer les données comme chargées même si les listes sont vides
-    // pour éviter d'attendre indéfiniment
     if (!dataLoaded) {
       const timer = setTimeout(() => {
         console.log('📊 Données Firebase marquées comme chargées:', { 
@@ -148,12 +149,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         });
         setDataLoaded(true);
         
-        // Si un utilisateur est connecté, vérifier son profil avec les données disponibles
         if (user && !userProfile) {
           console.log('🔄 Re-vérification du profil avec données disponibles...');
           checkUserProfile(user);
         }
-      }, 2000); // Attendre 2 secondes max pour charger les données
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
