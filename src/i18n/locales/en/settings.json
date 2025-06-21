@@ -117,6 +117,21 @@
     },
     "adminAccess": "Admin Access",
     "adminAccessDescription": "Manage administrative access to tenant accounts",
+    "adminModeConsultation": "Administrator Mode - Viewing {name}'s space",
+    "adminModeTitle": "Admin Mode",
+    "returnButton": "Return",
+    "viewingAsAdmin": "You are viewing this space as an administrator",
+    "viewTenantSpace": "View Tenant Space",
+    "tenantType": "Type",
+    "tenantEmail": "Email",
+    "tenantAddress": "Address",
+    "selectTenantRoommate": "Select a tenant/roommate",
+    "chooseProfileToView": "Choose a profile to view",
+    "accessTenantSpace": "Access Tenant Space",
+    "featureReservedForAdmin": "Feature reserved for admin@neotech-consulting.com",
+    "accessingTenantSpace": "Accessing {name}'s space",
+    "viewingTenantType": "You are now viewing the {type} space",
+    "returnedToAdmin": "Returned to administrator space",
     "company": {
       "title": "Company Management",
       "subtitle": "Manage company information and settings",
@@ -319,5 +334,9 @@
     "creationDate": "Creation Date",
     "passwordStatus": "Password Status",
     "actions": "Actions"
+  },
+  "common": {
+    "tenantNotFound": "Tenant not found",
+    "errorAccessingTenantSpace": "Error accessing tenant space"
   }
 }
