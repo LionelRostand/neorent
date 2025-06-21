@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Shield, ArrowLeft, LogOut } from 'lucide-react';
+import { Shield, ArrowLeft } from 'lucide-react';
 
 interface AdminImpersonationBannerProps {
   isImpersonating: boolean;
@@ -30,13 +30,6 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
 
   // Clean the name properly
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || 'Utilisateur';
-
-  const handleBackToAdmin = () => {
-    console.log('Retour vers l\'administration - nettoyage des données de session');
-    onBackToAdmin();
-    // Force redirect to admin page
-    window.location.href = '/admin';
-  };
 
   console.log('AdminImpersonationBanner:', {
     originalName: currentProfile?.name,
@@ -69,24 +62,15 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2 justify-end sm:justify-start">
+          <div className="flex justify-end sm:justify-start">
             <Button 
-              onClick={handleBackToAdmin}
+              onClick={onBackToAdmin}
               variant="outline"
               size="sm"
-              className="flex items-center gap-1.5 text-xs px-3 py-2 h-8 sm:h-9 flex-shrink-0 bg-white hover:bg-gray-50"
+              className="flex items-center gap-1.5 text-xs px-2 py-1 h-8 sm:h-9 flex-shrink-0"
             >
               <ArrowLeft className="h-3 w-3" />
               <span>{t('settings.returnButton')}</span>
-            </Button>
-            <Button 
-              onClick={handleBackToAdmin}
-              variant="default"
-              size="sm"
-              className="flex items-center gap-1.5 text-xs px-3 py-2 h-8 sm:h-9 flex-shrink-0 bg-red-600 hover:bg-red-700 text-white"
-            >
-              <LogOut className="h-3 w-3" />
-              <span>Quitter le mode admin</span>
             </Button>
           </div>
         </div>

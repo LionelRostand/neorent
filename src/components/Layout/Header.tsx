@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, Home, Settings } from 'lucide-react';
+import { Menu, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
 import { UserProfileDropdown } from './UserProfile/UserProfileDropdown';
 import { MessageNotification } from '@/components/Messages/MessageNotification';
 import LanguageSelector from '@/components/LanguageSelector';
@@ -13,11 +12,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
-  const { user, userType } = useAuth();
-  
-  // Vérifier si l'utilisateur est un admin ou employé
-  const isAdminOrEmployee = userType === 'admin' || userType === 'employee' || user?.email === 'admin@neotech-consulting.com';
-
   return (
     <header className="bg-white border-b border-gray-200 px-3 sm:px-4 py-3">
       <div className="flex items-center justify-between">
@@ -40,18 +34,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-4">
-          {isAdminOrEmployee && (
-            <Link to="/admin">
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-1 text-xs px-2 py-1 h-8"
-              >
-                <Settings className="h-3 w-3" />
-                <span className="hidden sm:inline">Admin</span>
-              </Button>
-            </Link>
-          )}
           <LanguageSelector />
           <MessageNotification />
           <UserProfileDropdown />

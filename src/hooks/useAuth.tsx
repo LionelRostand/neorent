@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { 
   User, 
@@ -17,7 +18,6 @@ interface AuthContextType {
   userType: 'locataire' | 'colocataire' | 'admin' | 'employee' | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  getDefaultRoute: () => string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,17 +30,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [hooksInitialized, setHooksInitialized] = useState(false);
   
-  // État pour l'accès admin aux espaces locataires et propriétaires
-  const [selectedTenantProfile, setSelectedTenantProfile] = useState(() => {
-    const stored = sessionStorage.getItem('adminSelectedProfile');
-    return stored ? JSON.parse(stored) : null;
-  });
-  
-  const [selectedOwnerProfile, setSelectedOwnerProfile] = useState(() => {
-    const stored = sessionStorage.getItem('adminSelectedOwnerProfile');
-    return stored ? JSON.parse(stored) : null;
-  });
-  
   // Always call hooks - never conditionally
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
@@ -50,70 +39,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     setHooksInitialized(true);
   }, []);
-
-  // Persist selected profiles to sessionStorage
-  useEffect(() => {
-    if (selectedTenantProfile) {
-      sessionStorage.setItem('adminSelectedProfile', JSON.stringify(selectedTenantProfile));
-    } else {
-      sessionStorage.removeItem('adminSelectedProfile');
-    }
-  }, [selectedTenantProfile]);
-
-  useEffect(() => {
-    if (selectedOwnerProfile) {
-      sessionStorage.setItem('adminSelectedOwnerProfile', JSON.stringify(selectedOwnerProfile));
-    } else {
-      sessionStorage.removeItem('adminSelectedOwnerProfile');
-    }
-  }, [selectedOwnerProfile]);
-
-  // Get current profile considering admin access
-  const getCurrentEffectiveProfile = () => {
-    // Check if admin is accessing tenant space
-    if (selectedTenantProfile && user?.email === 'admin@neotech-consulting.com' && selectedTenantProfile !== userProfile) {
-      return selectedTenantProfile;
-    }
-    
-    // Check if admin is accessing owner space
-    if (selectedOwnerProfile && user?.email === 'admin@neotech-consulting.com' && selectedOwnerProfile !== userProfile) {
-      return selectedOwnerProfile;
-    }
-    
-    return userProfile;
-  };
-
-  // Get current user type considering admin access
-  const getCurrentEffectiveUserType = () => {
-    // Check if admin is accessing tenant space
-    if (selectedTenantProfile && user?.email === 'admin@neotech-consulting.com') {
-      return selectedTenantProfile.type === 'locataire' ? 'locataire' : 'colocataire';
-    }
-    
-    // Check if admin is accessing owner space
-    if (selectedOwnerProfile && user?.email === 'admin@neotech-consulting.com') {
-      return 'employee';
-    }
-    
-    return userType;
-  };
-
-  // Get default route based on user type
-  const getDefaultRoute = () => {
-    const effectiveUserType = getCurrentEffectiveUserType();
-    
-    switch (effectiveUserType) {
-      case 'admin':
-        return '/admin/dashboard';
-      case 'employee':
-        return '/owner-space';
-      case 'locataire':
-      case 'colocataire':
-        return '/tenant-space';
-      default:
-        return '/login';
-    }
-  };
 
   // Vérifier si l'utilisateur existe dans Firebase
   const checkUserProfile = async (currentUser: User | null) => {
@@ -251,18 +176,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUserProfile(null);
     setUserType(null);
     setDataLoaded(false);
-    setSelectedTenantProfile(null);
-    setSelectedOwnerProfile(null);
   };
 
   const value = {
     user,
     loading,
-    userProfile: getCurrentEffectiveProfile(),
-    userType: getCurrentEffectiveUserType(),
+    userProfile,
+    userType,
     login,
-    logout,
-    getDefaultRoute
+    logout
   };
 
   return (

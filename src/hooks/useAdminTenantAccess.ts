@@ -5,7 +5,7 @@ import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 
 export const useAdminTenantAccess = () => {
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
   const [selectedTenantProfile, setSelectedTenantProfile] = useState(() => {
@@ -97,8 +97,8 @@ export const useAdminTenantAccess = () => {
       console.log('Returning selected admin profile:', selectedTenantProfile);
       return selectedTenantProfile;
     }
-    console.log('Returning null profile');
-    return null;
+    console.log('Returning user profile:', userProfile);
+    return userProfile;
   };
 
   const getCurrentUserType = () => {
@@ -106,8 +106,9 @@ export const useAdminTenantAccess = () => {
       console.log('Returning selected profile type:', selectedTenantProfile.type);
       return selectedTenantProfile.type;
     }
-    console.log('Returning null user type');
-    return null;
+    const type = user?.email === 'admin@neotech-consulting.com' ? 'admin' : userProfile?.role || 'locataire';
+    console.log('Returning user type:', type);
+    return type;
   };
 
   // Debug current state
@@ -119,7 +120,7 @@ export const useAdminTenantAccess = () => {
       currentUserType: getCurrentUserType(),
       isImpersonating: !!selectedTenantProfile
     });
-  }, [selectedTenantProfile, user]);
+  }, [selectedTenantProfile, user, userProfile]);
 
   return {
     isAuthorizedAdmin: isAuthorizedAdmin(),

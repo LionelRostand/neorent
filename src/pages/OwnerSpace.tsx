@@ -10,31 +10,19 @@ import OwnerSpaceTabs from '@/components/OwnerSpace/OwnerSpaceTabs';
 const OwnerSpace = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
-  const { userProfile, userType, getDefaultRoute } = useAuth();
+  const { userProfile, userType } = useAuth();
 
-  // Vérifier que l'utilisateur est bien un propriétaire ou admin
-  if (userType !== 'employee' && userType !== 'admin') {
+  // Vérifier que l'utilisateur est bien un propriétaire
+  if (userType !== 'employee' || !userProfile) {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <p className="text-lg text-gray-600">Accès non autorisé</p>
             <p className="text-gray-500">Cet espace est réservé aux propriétaires.</p>
-            <Button onClick={() => navigate(getDefaultRoute())} className="mt-4">
-              Retour
+            <Button onClick={() => navigate('/admin/dashboard')} className="mt-4">
+              Retour au tableau de bord
             </Button>
-          </div>
-        </div>
-      </MainLayout>
-    );
-  }
-
-  if (!userProfile) {
-    return (
-      <MainLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <p className="text-lg text-gray-600">Chargement du profil...</p>
           </div>
         </div>
       </MainLayout>

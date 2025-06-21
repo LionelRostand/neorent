@@ -12,8 +12,7 @@ import {
   CreditCard, 
   Settings as SettingsIcon,
   ShieldCheck,
-  UserCog,
-  Home
+  UserCog
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -26,7 +25,6 @@ import EmployeeManagement from '@/components/Settings/EmployeeManagement';
 import EmployeePermissionsTab from '@/components/Settings/EmployeePermissionsTab';
 import CompanyManagement from '@/components/Settings/CompanyManagement';
 import AdminTenantAccess from '@/components/AdminTenantAccess';
-import AdminOwnerAccess from '@/components/AdminOwnerAccess';
 import { useAuth } from '@/hooks/useAuth';
 
 const Settings = () => {
@@ -44,10 +42,7 @@ const Settings = () => {
     { id: 'email', label: t('settings.tabs.email'), icon: Mail },
     { id: 'security', label: t('settings.tabs.security'), icon: Shield },
     { id: 'payment', label: t('settings.tabs.payment'), icon: CreditCard },
-    ...(isAdmin ? [
-      { id: 'admin-access', label: t('settings.tabs.adminAccess'), icon: UserCog },
-      { id: 'owner-access', label: 'Accès Propriétaires', icon: Home }
-    ] : [])
+    ...(isAdmin ? [{ id: 'admin-access', label: t('settings.tabs.adminAccess'), icon: UserCog }] : [])
   ];
 
   return (
@@ -67,7 +62,7 @@ const Settings = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto">
-            <TabsList className="grid w-full min-w-[900px] grid-cols-10 mb-4 md:mb-6 mx-1">
+            <TabsList className="grid w-full min-w-[800px] grid-cols-9 mb-4 md:mb-6 mx-1">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 
@@ -114,43 +109,23 @@ const Settings = () => {
           </TabsContent>
 
           {isAdmin && (
-            <>
-              <TabsContent value="admin-access" className="space-y-4 md:space-y-6">
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
-                        🔑 {t('settings.adminAccess')}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-600 mb-6">
-                        {t('settings.adminAccessDescription')}
-                      </p>
-                      <AdminTenantAccess />
-                    </CardContent>
-                  </Card>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="owner-access" className="space-y-4 md:space-y-6">
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
-                        🏠 Accès Espace Propriétaires
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-600 mb-6">
-                        Accédez à l'espace propriétaire des propriétaires enregistrés pour consulter leurs données et actions en mode administrateur.
-                      </p>
-                      <AdminOwnerAccess />
-                    </CardContent>
-                  </Card>
-                </div>
-              </TabsContent>
-            </>
+            <TabsContent value="admin-access" className="space-y-4 md:space-y-6">
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
+                      🔑 {t('settings.adminAccess')}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-6">
+                      {t('settings.adminAccessDescription')}
+                    </p>
+                    <AdminTenantAccess />
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
           )}
         </Tabs>
       </div>

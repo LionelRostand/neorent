@@ -7,35 +7,29 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ChatWidget } from "@/components/Chat/ChatWidget";
 import ProtectedRoute from "@/components/Auth/ProtectedRoute";
-
-// Public pages
-import PublicHome from "@/pages/PublicSite/Home";
-import PublicAbout from "@/pages/PublicSite/About";
-import PublicContact from "@/pages/PublicSite/Contact";
-import PublicLogin from "@/pages/PublicSite/Login";
-
-// User space pages
-import TenantSpace from "@/pages/TenantSpace";
-import OwnerSpace from "@/pages/OwnerSpace";
-
-// Admin pages
-import Dashboard from "@/pages/Dashboard";
-import Properties from "@/pages/Properties";
-import Tenants from "@/pages/Tenants";
-import Roommates from "@/pages/Roommates";
-import Contracts from "@/pages/Contracts";
-import Leases from "@/pages/Leases";
-import Inspections from "@/pages/Inspections";
-import RentManagement from "@/pages/RentManagement";
-import RentalCharges from "@/pages/RentalCharges";
-import Forecasting from "@/pages/Forecasting";
-import Taxes from "@/pages/Taxes";
-import Website from "@/pages/Website";
-import Messages from "@/pages/Messages";
-import Settings from '@/pages/Settings';
-import Maintenance from '@/pages/Maintenance';
-import Help from '@/pages/Help';
+import Dashboard from "./pages/Dashboard";
+import Properties from "./pages/Properties";
+import Tenants from "./pages/Tenants";
+import Roommates from "./pages/Roommates";
+import Contracts from "./pages/Contracts";
+import Leases from "./pages/Leases";
+import Inspections from "./pages/Inspections";
+import RentManagement from "./pages/RentManagement";
+import RentalCharges from "./pages/RentalCharges";
+import Forecasting from "./pages/Forecasting";
+import Taxes from "./pages/Taxes";
+import Website from "./pages/Website";
+import Messages from "./pages/Messages";
+import TenantSpace from "./pages/TenantSpace";
+import OwnerSpace from "./pages/OwnerSpace";
+import PublicHome from "./pages/PublicSite/Home";
+import PublicAbout from "./pages/PublicSite/About";
+import PublicContact from "./pages/PublicSite/Contact";
+import PublicLogin from "./pages/PublicSite/Login";
 import NotFound from "./pages/NotFound";
+import Settings from './pages/Settings';
+import Maintenance from './pages/Maintenance';
+import Help from './pages/Help';
 
 const queryClient = new QueryClient();
 
@@ -47,31 +41,23 @@ function App() {
           <Toaster />
           <Sonner />
           <Routes>
-            {/* Public Routes */}
+            {/* Public Site Routes - Now at root */}
             <Route path="/" element={<PublicHome />} />
             <Route path="/about" element={<PublicAbout />} />
             <Route path="/contact" element={<PublicContact />} />
             <Route path="/login" element={<PublicLogin />} />
-
-            {/* User Space Routes */}
+            
+            {/* Tenant Space - Protected for tenants and roommates */}
             <Route 
               path="/tenant-space" 
               element={
-                <ProtectedRoute requiredUserTypes={['locataire', 'colocataire', 'admin']}>
+                <ProtectedRoute>
                   <TenantSpace />
                 </ProtectedRoute>
               } 
             />
-            <Route 
-              path="/owner-space" 
-              element={
-                <ProtectedRoute requiredUserTypes={['employee', 'admin']}>
-                  <OwnerSpace />
-                </ProtectedRoute>
-              } 
-            />
-
-            {/* Admin Routes */}
+            
+            {/* Admin Routes - Protected for admin and employees */}
             <Route 
               path="/admin" 
               element={
@@ -209,10 +195,11 @@ function App() {
               } 
             />
             
-            {/* Catch-all route for 404 */}
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           
+          {/* Chat Widget disponible sur toutes les pages publiques */}
           <ChatWidget />
         </TooltipProvider>
       </AuthProvider>
