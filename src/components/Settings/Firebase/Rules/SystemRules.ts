@@ -18,27 +18,37 @@ export const systemRules = `
       allow write: if isAdmin();
     }
     
+    // ====== DEMANDES D'INSCRIPTION ======
+    
+    // 3. Demandes d'inscription propriétaires - Collection: owner_registration_requests
+    match /owner_registration_requests/{requestId} {
+      // Permettre la création par des utilisateurs non authentifiés (site public)
+      allow create: if true;
+      // Seuls les admins et managers peuvent lire, modifier et supprimer
+      allow read, write, delete: if isManagerOrAdmin();
+    }
+    
     // ====== CONFIGURATION ET PARAMÈTRES ======
     
-    // 3. Configuration du site web - Collection: website_config
+    // 4. Configuration du site web - Collection: website_config
     match /website_config/{configId} {
       allow read: if true; // Public pour le site web
       allow write: if isAdmin();
     }
     
-    // 4. Configuration de l'entreprise - Collection: company_config
+    // 5. Configuration de l'entreprise - Collection: company_config
     match /company_config/{configId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
     
-    // 5. Paramètres de sécurité - Collection: security_settings
+    // 6. Paramètres de sécurité - Collection: security_settings
     match /security_settings/{settingId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
     
-    // 6. Paramètres email - Collection: email_settings
+    // 7. Paramètres email - Collection: email_settings
     match /email_settings/{settingId} {
       allow read: if isManagerOrAdmin();
       allow write: if isAdmin();
@@ -46,7 +56,7 @@ export const systemRules = `
     
     // ====== SYSTÈME DE COMMUNICATION ======
     
-    // 7. Conversations - Collection: conversations
+    // 8. Conversations - Collection: conversations
     match /conversations/{conversationId} {
       allow create: if true; // Visiteurs peuvent créer des conversations
       allow read: if isAuthenticated(); // Staff authentifié peut lire
@@ -59,7 +69,7 @@ export const systemRules = `
       }
     }
     
-    // 8. Messages de chat - Collection: rent_messages
+    // 9. Messages de chat - Collection: rent_messages
     match /rent_messages/{messageId} {
       allow create: if true; // Visiteurs et utilisateurs peuvent créer des messages
       allow read: if isAuthenticated(); // Staff peut lire tous les messages
@@ -68,7 +78,7 @@ export const systemRules = `
         (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read'])); // Marquer comme lu
     }
     
-    // 9. Notifications - Collection: notifications
+    // 10. Notifications - Collection: notifications
     match /notifications/{notificationId} {
       allow read: if isAuthenticated() && 
         resource.data.userId == request.auth.uid;
@@ -78,13 +88,13 @@ export const systemRules = `
     
     // ====== DOCUMENTS ET FICHIERS ======
     
-    // 10. Documents des locataires - Collection: tenant_documents
+    // 11. Documents des locataires - Collection: tenant_documents
     match /tenant_documents/{documentId} {
       allow read, write: if isManagerOrAdmin() ||
         (isAuthenticated() && resource.data.tenantId == request.auth.uid);
     }
     
-    // 11. Fichiers uploadés - Collection: uploaded_files
+    // 12. Fichiers uploadés - Collection: uploaded_files
     match /uploaded_files/{fileId} {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated() && 
@@ -94,7 +104,7 @@ export const systemRules = `
     
     // ====== ANALYTICS ET AUDIT ======
     
-    // 12. Analytics du site web - Collection: rent_analytics
+    // 13. Analytics du site web - Collection: rent_analytics
     match /rent_analytics/{analyticsId} {
       // Permettre l'écriture anonyme pour le tracking public du site
       allow create: if true;
@@ -104,13 +114,13 @@ export const systemRules = `
       allow update, delete: if isAdmin();
     }
     
-    // 13. Logs d'audit - Collection: audit_logs
+    // 14. Logs d'audit - Collection: audit_logs
     match /audit_logs/{logId} {
       allow read: if isAdmin();
       allow create: if isAuthenticated();
     }
     
-    // 14. Sessions utilisateur - Collection: user_sessions
+    // 15. Sessions utilisateur - Collection: user_sessions
     match /user_sessions/{sessionId} {
       allow read, write: if isAuthenticated() && 
         resource.data.userId == request.auth.uid;
