@@ -33,6 +33,8 @@ const InspectionsList = ({
   const { t } = useTranslation();
 
   const getStatusColor = (status: string) => {
+    if (!status) return 'bg-gray-100 text-gray-800';
+    
     const lowerStatus = status.toLowerCase();
     if (lowerStatus.includes('completed') || lowerStatus.includes('terminé')) {
       return 'bg-green-100 text-green-800';
@@ -44,6 +46,8 @@ const InspectionsList = ({
   };
 
   const getStatusVariant = (status: string) => {
+    if (!status) return 'outline';
+    
     const lowerStatus = status.toLowerCase();
     if (lowerStatus.includes('completed') || lowerStatus.includes('terminé')) {
       return 'default';
@@ -75,7 +79,7 @@ const InspectionsList = ({
                       variant={getStatusVariant(inspection.status)}
                       className={`text-xs ${getStatusColor(inspection.status)}`}
                     >
-                      {inspection.status}
+                      {inspection.status || t('inspections.planned')}
                     </Badge>
                     <Button
                       variant="outline"
