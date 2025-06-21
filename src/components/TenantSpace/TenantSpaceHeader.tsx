@@ -28,7 +28,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || t('common.user');
   const isRoommate = currentType === 'colocataire';
 
-  // For the title, use room number if available, otherwise use translated type
+  // For the title, ALWAYS use room number if available, regardless of type
   const titleDisplay = currentProfile?.roomNumber 
     ? t('tenantSpace.room', { number: currentProfile.roomNumber })
     : translatedType;
