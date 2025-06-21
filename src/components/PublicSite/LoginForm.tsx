@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, EyeOff, Lock, Mail, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import OwnerRegistrationForm from '@/components/Auth/OwnerRegistrationForm';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -16,6 +18,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showRegistration, setShowRegistration] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { login, userProfile, userType } = useAuth();
@@ -157,22 +160,24 @@ const LoginForm = () => {
             {isLoading ? t('publicSite.login.signingIn') : t('publicSite.login.signIn')}
           </Button>
           
-          <div className="text-center">
-            <a href="#" className="text-sm text-green-600 hover:underline">
+          <div className="text-center space-y-2">
+            <a href="#" className="text-sm text-green-600 hover:underline block">
               {t('publicSite.login.forgotPassword')}
             </a>
-          </div>
-          
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-medium text-blue-800 mb-1">{t('publicSite.login.importantInfo')}</p>
-                <p className="text-blue-700">
-                  {t('publicSite.login.profileWarning')}
-                </p>
-              </div>
-            </div>
+            
+            <Dialog open={showRegistration} onOpenChange={setShowRegistration}>
+              <DialogTrigger asChild>
+                <button type="button" className="text-sm text-blue-600 hover:underline">
+                  Vous êtes propriétaire ? Créer un compte
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Demande de création de compte propriétaire</DialogTitle>
+                </DialogHeader>
+                <OwnerRegistrationForm onSuccess={() => setShowRegistration(false)} />
+              </DialogContent>
+            </Dialog>
           </div>
         </form>
       </CardContent>

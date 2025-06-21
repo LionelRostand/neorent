@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 import { useFirebaseCompanies } from '@/hooks/useFirebaseCompanies';
 import { useEmployeePassword } from '@/hooks/useEmployeePassword';
-import { Plus } from 'lucide-react';
+import { Plus, UserPlus } from 'lucide-react';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import EmployeePasswordDialog from './EmployeePasswordDialog';
 import EmployeeForm from './EmployeeForm';
 import EmployeeTable from './EmployeeTable';
+import OwnerRegistrations from './OwnerRegistrations';
 import { useTranslation } from 'react-i18next';
 
 interface Employee {
@@ -216,42 +218,63 @@ const EmployeeManagement: React.FC = () => {
             <div className="flex items-center gap-2">
               👥 {t('employees.management')}
             </div>
-            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  {t('employees.addEmployee')}
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{t('employees.addEmployee')}</DialogTitle>
-                </DialogHeader>
-                <EmployeeForm
-                  formData={formData}
-                  setFormData={setFormData}
-                  onSubmit={handleAddEmployee}
-                  companies={companies}
-                />
-              </DialogContent>
-            </Dialog>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 md:space-y-6">
-          <p className="text-gray-600 text-sm md:text-base">
-            {t('employees.description')}
-          </p>
+          <Tabs defaultValue="employees" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="employees" className="flex items-center gap-2">
+                <Plus className="h-4 w-4" />
+                Propriétaires
+              </TabsTrigger>
+              <TabsTrigger value="requests" className="flex items-center gap-2">
+                <UserPlus className="h-4 w-4" />
+                Demandes
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="employees" className="space-y-4">
+              <div className="flex justify-between items-center">
+                <p className="text-gray-600 text-sm md:text-base">
+                  {t('employees.description')}
+                </p>
+                <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="flex items-center gap-2">
+                      <Plus className="h-4 w-4" />
+                      {t('employees.addEmployee')}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t('employees.addEmployee')}</DialogTitle>
+                    </DialogHeader>
+                    <EmployeeForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onSubmit={handleAddEmployee}
+                      companies={companies}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
 
-          <EmployeeTable
-            employees={userRoles}
-            companies={companies}
-            onEdit={openEditDialog}
-            onDelete={handleDeleteEmployee}
-            onPasswordClick={openPasswordDialog}
-            onActivateAccess={handleActivateAccess}
-            getPermissionsDisplay={getPermissionsDisplay}
-            getCompanyName={getCompanyName}
-          />
+              <EmployeeTable
+                employees={userRoles}
+                companies={companies}
+                onEdit={openEditDialog}
+                onDelete={handleDeleteEmployee}
+                onPasswordClick={openPasswordDialog}
+                onActivateAccess={handleActivateAccess}
+                getPermissionsDisplay={getPermissionsDisplay}
+                getCompanyName={getCompanyName}
+              />
+            </TabsContent>
+            
+            <TabsContent value="requests">
+              <OwnerRegistrations />
+            </TabsContent>
+          </Tabs>
 
           {/* Edit Dialog */}
           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
