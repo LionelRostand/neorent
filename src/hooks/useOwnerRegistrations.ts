@@ -1,7 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { collection, getDocs, doc, updateDoc, setDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db, auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 
 interface OwnerRegistrationRequest {
@@ -43,6 +43,15 @@ export const useOwnerRegistrations = () => {
 
   const approveRequest = async (request: OwnerRegistrationRequest) => {
     try {
+      // Générer un mot de passe temporaire
+      const temporaryPassword = `Temp${Date.now().toString().slice(-6)}!`;
+      
+      // Créer le compte dans Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, request.email, temporaryPassword);
+      const firebaseUser = userCredential.user;
+      
+      console.log('Compte Firebase Auth créé pour:', request.email);
+
       // Vérifier si un profil utilisateur existe déjà
       const userRolesSnapshot = await getDocs(collection(db, 'user_roles'));
       const existingUser = userRolesSnapshot.docs.find(doc => 
@@ -50,7 +59,7 @@ export const useOwnerRegistrations = () => {
       );
 
       if (existingUser) {
-        // Mettre à jour le profil existant
+        // Mettre à jour le profil existant avec l'UID Firebase
         const userData = existingUser.data();
         const updatedProfile = {
           ...userData,
@@ -60,6 +69,9 @@ export const useOwnerRegistrations = () => {
           company: request.company || userData.company || '',
           address: request.address || userData.address || '',
           isOwner: true,
+          firebaseUid: firebaseUser.uid,
+          hasPassword: true,
+          temporaryPassword: temporaryPassword,
           updatedAt: new Date().toISOString()
         };
 
@@ -67,22 +79,24 @@ export const useOwnerRegistrations = () => {
 
         toast({
           title: "Demande approuvée",
-          description: `Le profil de ${request.name} a été mis à jour et apparaît maintenant dans l'onglet Propriétaires.`,
+          description: `Le profil de ${request.name} a été mis à jour et apparaît maintenant dans l'onglet Propriétaires. Mot de passe temporaire : ${temporaryPassword}`,
         });
       } else {
-        // Créer un nouveau profil propriétaire
-        const ownerId = `owner_${Date.now()}_${request.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        // Créer un nouveau profil propriétaire avec l'UID Firebase
+        const ownerId = firebaseUser.uid; // Utiliser l'UID Firebase comme ID du document
         const ownerProfile = {
           role: 'employee' as const,
           email: request.email,
           name: request.name,
           createdAt: new Date().toISOString(),
           permissions: ['read'],
-          hasPassword: false, // L'admin pourra définir le mot de passe
+          hasPassword: true,
           isOwner: true,
           phone: request.phone || '',
           company: request.company || '',
           address: request.address || '',
+          firebaseUid: firebaseUser.uid,
+          temporaryPassword: temporaryPassword,
           fromRegistrationRequest: true
         };
 
@@ -90,22 +104,35 @@ export const useOwnerRegistrations = () => {
 
         toast({
           title: "Demande approuvée",
-          description: `Le profil de ${request.name} a été créé et apparaît maintenant dans l'onglet Propriétaires. Vous pouvez maintenant lui attribuer un mot de passe.`,
+          description: `Le profil de ${request.name} a été créé avec succès. Mot de passe temporaire : ${temporaryPassword}. L'utilisateur peut maintenant se connecter.`,
         });
       }
 
       // Mettre à jour le statut de la demande
       await updateDoc(doc(db, 'owner_registration_requests', request.id), {
         status: 'approved',
-        approvedAt: new Date().toISOString()
+        approvedAt: new Date().toISOString(),
+        firebaseUid: firebaseUser.uid,
+        temporaryPassword: temporaryPassword
       });
 
       fetchRequests();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error approving request:', error);
+      
+      let errorMessage = "Une erreur est survenue lors de l'approbation du compte.";
+      
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = `Un compte Firebase existe déjà pour ${request.email}. Veuillez vérifier les paramètres d'authentification.`;
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = "Erreur de mot de passe. Veuillez réessayer.";
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = "L'adresse email n'est pas valide.";
+      }
+      
       toast({
         title: "Erreur",
-        description: "Une erreur est survenue lors de l'approbation du compte.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
