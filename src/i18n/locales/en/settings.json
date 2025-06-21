@@ -174,7 +174,49 @@
     },
     "payment": {
       "title": "Payment Settings", 
-      "subtitle": "Configure payment methods and billing"
+      "subtitle": "Configure payment methods and billing",
+      "stripe": {
+        "title": "Stripe Configuration",
+        "description": "Accept credit card payments with Stripe",
+        "enable": "Enable Stripe",
+        "publicKey": "Public Key",
+        "secretKey": "Secret Key",
+        "webhookSecret": "Webhook Secret",
+        "save": "Save"
+      },
+      "paypal": {
+        "title": "PayPal Configuration",
+        "description": "Accept payments via PayPal",
+        "enable": "Enable PayPal",
+        "clientId": "Client ID",
+        "clientSecret": "Client Secret",
+        "clientIdPlaceholder": "Your PayPal client ID",
+        "clientSecretPlaceholder": "Your PayPal client secret",
+        "save": "Save"
+      },
+      "bank": {
+        "title": "Bank Transfer",
+        "description": "Accept direct bank transfers",
+        "enable": "Enable Bank Transfer",
+        "iban": "IBAN",
+        "bic": "BIC/SWIFT",
+        "bankName": "Bank Name",
+        "accountHolder": "Account Holder",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 789",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolderPlaceholder": "Account holder name",
+        "save": "Save"
+      },
+      "mobile": {
+        "title": "Mobile Payment",
+        "description": "Accept mobile money payments",
+        "enable": "Enable Mobile Payment",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Mobile Money",
+        "moovMoney": "Moov Money",
+        "save": "Save"
+      }
     },
     "firebase": {
       "title": "Firebase Settings",
