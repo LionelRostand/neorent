@@ -57,6 +57,16 @@ function App() {
               } 
             />
             
+            {/* Owner Space - Protected for owners/employees and admin */}
+            <Route 
+              path="/owner-space" 
+              element={
+                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                  <OwnerSpace />
+                </ProtectedRoute>
+              } 
+            />
+            
             {/* Admin Routes - Protected for admin and employees */}
             <Route 
               path="/admin" 
