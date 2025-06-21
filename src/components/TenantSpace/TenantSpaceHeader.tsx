@@ -28,8 +28,8 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || t('common.user');
   const isRoommate = currentType === 'colocataire';
 
-  // For roommates, display room number instead of type
-  const displayType = isRoommate && currentProfile?.roomNumber 
+  // Display room number if available, regardless of type (tenant or roommate)
+  const displayType = currentProfile?.roomNumber 
     ? t('tenantSpace.room', { number: currentProfile.roomNumber })
     : translatedType;
 
@@ -67,7 +67,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
           </div>
           
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-            {isRoommate && currentProfile?.roomNumber && (
+            {currentProfile?.roomNumber && (
               <div className="flex items-center gap-2">
                 <Key className="h-4 w-4" />
                 <span>{t('tenantSpace.room', { number: currentProfile.roomNumber })}</span>
