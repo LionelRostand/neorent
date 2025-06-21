@@ -18,13 +18,17 @@ interface SMTPConfigProps {
   onSettingsChange: (settings: SMTPSettings) => void;
   onTestConnection: () => void;
   testing?: boolean;
+  onSendTestEmail?: (testEmailData: { to: string; subject: string; message: string }) => Promise<{ success: boolean }>;
+  sendingTestEmail?: boolean;
 }
 
 const SMTPConfig: React.FC<SMTPConfigProps> = ({
   settings,
   onSettingsChange,
   onTestConnection,
-  testing = false
+  testing = false,
+  onSendTestEmail,
+  sendingTestEmail = false
 }) => {
   const { t } = useTranslation();
   const [testEmailOpen, setTestEmailOpen] = useState(false);
@@ -33,7 +37,6 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
     subject: 'Test d\'envoi depuis NeoRent',
     message: 'Ceci est un email de test envoyé depuis la configuration SMTP de NeoRent.\n\nSi vous recevez cet email, la configuration fonctionne correctement.'
   });
-  const [sendingTestEmail, setSendingTestEmail] = useState(false);
 
   const handleChange = (field: keyof SMTPSettings, value: string | number) => {
     onSettingsChange({
@@ -43,33 +46,14 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
   };
 
   const handleSendTestEmail = async () => {
-    if (!testEmailData.to) {
-      toast.error('Veuillez saisir une adresse email de destination');
+    if (!onSendTestEmail) {
+      toast.error('Fonction d\'envoi non disponible');
       return;
     }
 
-    setSendingTestEmail(true);
-    try {
-      // Simulation de l'envoi d'email de test
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      console.log('Test email envoyé:', {
-        smtp: settings,
-        testData: testEmailData
-      });
-      
-      toast.success('Email de test envoyé!', {
-        description: `L'email a été envoyé à ${testEmailData.to}`
-      });
-      
+    const result = await onSendTestEmail(testEmailData);
+    if (result.success) {
       setTestEmailOpen(false);
-    } catch (error) {
-      console.error('Erreur envoi email de test:', error);
-      toast.error('Échec de l\'envoi', {
-        description: 'Vérifiez votre configuration SMTP'
-      });
-    } finally {
-      setSendingTestEmail(false);
     }
   };
 
@@ -175,7 +159,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
           <Dialog open={testEmailOpen} onOpenChange={setTestEmailOpen}>
             <DialogTrigger asChild>
               <Button 
-                disabled={!settings.host || !settings.username || !settings.fromEmail}
+                disabled={!settings.host || !settings.username || !settings.fromEmail || !onSendTestEmail}
                 variant="default"
               >
                 <TestTube className="h-4 w-4 mr-2" />

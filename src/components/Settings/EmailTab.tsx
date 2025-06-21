@@ -18,10 +18,12 @@ const EmailTab: React.FC = () => {
     saving, 
     testingSMTP,
     testingIMAP,
+    sendingTestEmail,
     saveSettings, 
     updateSettings,
     testSMTPConnection,
-    testIMAPConnection
+    testIMAPConnection,
+    sendTestEmail
   } = useEmailSettings();
 
   const handleSave = () => {
@@ -94,6 +96,8 @@ const EmailTab: React.FC = () => {
             }
             onTestConnection={testSMTPConnection}
             testing={testingSMTP}
+            onSendTestEmail={sendTestEmail}
+            sendingTestEmail={sendingTestEmail}
           />
 
           <IMAPConfig
