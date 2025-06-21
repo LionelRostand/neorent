@@ -117,15 +117,15 @@ const resources = {
   }
 };
 
-// Set English as default language
-const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+// Set French as default language to match the interface
+const savedLanguage = localStorage.getItem('preferredLanguage') || 'fr';
 
 i18n
   .use(initReactI18next)
   .init({
     resources,
     lng: savedLanguage,
-    fallbackLng: 'en',
+    fallbackLng: 'fr',
     interpolation: {
       escapeValue: false
     },
