@@ -39,7 +39,7 @@ const LoginForm = () => {
         
         // Si aucun profil n'est trouvé, rediriger vers une page d'attente
         if (!userProfile || !userType) {
-          console.log('⚠️ Aucun profil trouvé, redirection vers la page d'attente');
+          console.log('⚠️ Aucun profil trouvé, redirection vers la page d\'attente');
           toast({
             title: "Compte en attente",
             description: `Votre compte ${email} est en cours de configuration. Veuillez contacter votre gestionnaire.`,
