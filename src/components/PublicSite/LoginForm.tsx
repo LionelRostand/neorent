@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -91,7 +92,7 @@ const LoginForm = () => {
         errorMessage = "Ce compte a été désactivé.";
       } else if (error.code === 'auth/too-many-requests') {
         errorMessage = "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
-      } else if (error.code === 'auth/invalid-credential') {
+      } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
         errorMessage = "Identifiants invalides. Vérifiez votre email et mot de passe.";
       }
       
