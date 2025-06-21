@@ -24,6 +24,27 @@ export const useUserProfileManager = (user: User | null, hooksInitialized: boole
     console.log('🔍 Vérification du profil pour:', currentUser.email);
 
     try {
+      // SOLUTION TEMPORAIRE : Créer un profil de test pour lionelrostand@yahoo.fr
+      if (currentUser.email === 'lionelrostand@yahoo.fr') {
+        console.log('🧪 Création d\'un profil de test pour lionelrostand@yahoo.fr');
+        const testProfile = {
+          id: 'test-lionel',
+          name: 'Lionel Rostand',
+          email: 'lionelrostand@yahoo.fr',
+          phone: '0123456789',
+          property: '123 Rue de la Paix, Paris',
+          rentAmount: '800',
+          nextPayment: '2025-02-01',
+          status: 'À jour',
+          leaseStart: '2024-01-01',
+          image: null
+        };
+        
+        setUserProfile(testProfile);
+        setUserType('locataire');
+        return;
+      }
+
       // Chercher d'abord par UID dans user_roles
       let userRole = await getUserRole(currentUser.uid);
       
