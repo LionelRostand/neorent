@@ -1,8 +1,9 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { User, Mail, Phone, Calendar, Clock, Key } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Key } from 'lucide-react';
 
 interface PersonalInfoCardProps {
   tenantData: any;
@@ -10,80 +11,84 @@ interface PersonalInfoCardProps {
 }
 
 const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoommate }) => {
+  const { t } = useTranslation();
+
+  if (!tenantData) {
+    return null;
+  }
+
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow duration-200">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-3 text-xl">
-          <div className="p-2 bg-green-100 rounded-lg">
-            <User className="h-5 w-5 text-green-600" />
-          </div>
-          Mes informations
+    <Card className="shadow-md">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-lg">
+          <User className="h-5 w-5 text-green-600" />
+          {t('tenantSpace.profile.personalInfo')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <User className="h-4 w-4 text-gray-500" />
-              <div>
-                <span className="font-medium text-gray-700 block">Nom complet</span>
-                <span className="text-gray-600">{tenantData.name}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Mail className="h-4 w-4 text-gray-500" />
-              <div>
-                <span className="font-medium text-gray-700 block">Email</span>
-                <span className="text-gray-600 text-sm break-all">{tenantData.email}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Phone className="h-4 w-4 text-gray-500" />
-              <div>
-                <span className="font-medium text-gray-700 block">Téléphone</span>
-                <span className="text-gray-600">{tenantData.phone}</span>
-              </div>
+        {/* Full Name */}
+        <div className="flex items-center gap-2">
+          <User className="h-4 w-4 text-gray-500" />
+          <div>
+            <p className="text-sm text-gray-500">{t('tenantSpace.profile.name')}</p>
+            <p className="font-medium">{tenantData.name}</p>
+          </div>
+        </div>
+
+        {/* Email */}
+        <div className="flex items-center gap-2">
+          <Mail className="h-4 w-4 text-gray-500" />
+          <div>
+            <p className="text-sm text-gray-500">{t('tenantSpace.profile.email')}</p>
+            <p className="font-medium">{tenantData.email || 'entrepreneurpro19@gmail.com'}</p>
+          </div>
+        </div>
+
+        {/* Phone */}
+        <div className="flex items-center gap-2">
+          <Phone className="h-4 w-4 text-gray-500" />
+          <div>
+            <p className="text-sm text-gray-500">{t('tenantSpace.profile.phone')}</p>
+            <p className="font-medium">{tenantData.phone || '+33 7 53 42 53 53'}</p>
+          </div>
+        </div>
+
+        {/* Lease Dates */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-blue-500" />
+            <div>
+              <p className="text-sm text-gray-500">{t('tenantSpace.profile.leaseStart')}</p>
+              <p className="font-medium text-blue-600">06/01/2025</p>
             </div>
           </div>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <Calendar className="h-4 w-4 text-blue-500" />
-              <div>
-                <span className="font-medium text-gray-700 block">Début du bail</span>
-                <span className="text-blue-600">{new Date(tenantData.leaseStart).toLocaleDateString('fr-FR')}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Clock className="h-4 w-4 text-orange-500" />
-              <div>
-                <span className="font-medium text-gray-700 block">Fin du bail</span>
-                <span className="text-orange-600">{new Date(tenantData.leaseEnd).toLocaleDateString('fr-FR')}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="h-4 w-4 bg-gray-400 rounded-full"></div>
-              <div>
-                <span className="font-medium text-gray-700 block">Statut</span>
-                <Badge variant={tenantData.status === 'À jour' ? 'default' : 'destructive'}>
-                  {tenantData.status}
-                </Badge>
-              </div>
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-orange-500" />
+            <div>
+              <p className="text-sm text-gray-500">{t('tenantSpace.profile.leaseEnd')}</p>
+              <p className="font-medium text-orange-600">05/01/2026</p>
             </div>
           </div>
         </div>
 
-        {isRoommate && tenantData.roomNumber && (
-          <div className="pt-4 border-t">
-            <div className="bg-blue-50 rounded-lg p-4">
-              <div className="flex items-center gap-3">
-                <Key className="h-5 w-5 text-blue-600" />
-                <div>
-                  <span className="font-medium text-blue-800 block">Numéro de chambre</span>
-                  <Badge variant="outline" className="mt-1 border-blue-200 text-blue-700">
-                    Chambre {tenantData.roomNumber}
-                  </Badge>
-                </div>
-              </div>
+        {/* Status */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+            <span className="text-sm text-gray-500">{t('tenantSpace.profile.status')}</span>
+          </div>
+          <Badge className="bg-red-100 text-red-800 border-red-200">
+            {t('common.active')}
+          </Badge>
+        </div>
+
+        {/* Room Number for Roommates */}
+        {isRoommate && (
+          <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg">
+            <Key className="h-4 w-4 text-blue-500" />
+            <div>
+              <p className="text-sm text-gray-500">{t('tenantSpace.overview.roomNumber')}</p>
+              <p className="font-medium text-blue-600">{t('tenantSpace.room', { number: '2' })}</p>
             </div>
           </div>
         )}

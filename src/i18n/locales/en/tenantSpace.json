@@ -1,3 +1,4 @@
+
 {
   "tenantSpace": {
     "title": "{type} Space",
@@ -51,12 +52,16 @@
       "studio": "Studio",
       "house": "House",
       "roomInSharedFlat": "Room in shared flat",
+      "roomNumber": "Room number",
       "ordinalFloor": {
         "1": "1st floor",
         "2": "2nd floor", 
         "3": "3rd floor",
         "ground": "Ground floor"
-      }
+      },
+      "contractInfo": "Contract Information",
+      "contractDetails": "Contract Details",
+      "generatedHistory": "Generated History"
     },
     "payment": {
       "title": "Rent Payment",
@@ -248,7 +253,7 @@
       "contactInfo": "Contact Information",
       "emergencyContact": "Emergency Contact",
       "leaseInfo": "Lease Information",
-      "name": "Name",
+      "name": "Full Name",
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
