@@ -30,6 +30,11 @@ export const utilityFunctions = `
     function isManagerOrAdmin() {
       return hasAnyRole(['admin', 'manager']);
     }
+    
+    // Fonction pour vérifier si l'utilisateur est propriétaire ou admin
+    function isOwnerOrAdmin() {
+      return hasAnyRole(['admin', 'manager', 'employee']);
+    }
 `;
 
 export const rulesHeader = `rules_version = '2';

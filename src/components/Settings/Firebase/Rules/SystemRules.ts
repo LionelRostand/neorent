@@ -96,8 +96,11 @@ export const systemRules = `
     
     // 12. Analytics du site web - Collection: rent_analytics
     match /rent_analytics/{analyticsId} {
-      allow create: if true; // Écriture anonyme autorisée pour le tracking public
+      // Permettre l'écriture anonyme pour le tracking public du site
+      allow create: if true;
+      // Permettre la lecture pour les administrateurs et managers
       allow read: if isManagerOrAdmin();
+      // Seuls les admins peuvent modifier/supprimer
       allow update, delete: if isAdmin();
     }
     
