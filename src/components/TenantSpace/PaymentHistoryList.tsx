@@ -35,20 +35,20 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
         return (
           <Badge className={`bg-green-100 text-green-800 ${className}`}>
             <CheckCircle className="h-3 w-3 mr-1" />
-            {t('tenantSpace.history.status.paid')}
+            {t('tenantHistory.status.paid')}
           </Badge>
         );
       case 'En attente':
         return (
           <Badge className={`bg-yellow-100 text-yellow-800 ${className}`}>
             <Clock className="h-3 w-3 mr-1" />
-            {t('tenantSpace.history.status.pending')}
+            {t('tenantHistory.status.pending')}
           </Badge>
         );
       case 'En retard':
         return (
           <Badge variant="destructive" className={className}>
-            ⚠️ {t('tenantSpace.history.status.overdue')}
+            ⚠️ {t('tenantHistory.status.overdue')}
           </Badge>
         );
       default:
@@ -61,7 +61,7 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
           <Receipt className="h-4 w-4 md:h-5 md:w-5" />
-          {t('tenantSpace.history.rentHistory')} {contractData ? `- ${t('tenantSpace.history.since')} ${new Date(contractData.startDate).toLocaleDateString('en-US')}` : `- ${t('tenantSpace.history.since')} September 2023`}
+          {t('tenantHistory.rentHistory')} {contractData ? `- ${t('tenantHistory.since')} ${new Date(contractData.startDate).toLocaleDateString()}` : `- ${t('tenantHistory.since')} September 2023`}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -75,9 +75,9 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium text-sm md:text-base">{payment.month}</h3>
                   <div className={`flex ${isMobile ? 'flex-col space-y-1' : 'items-center gap-4'} text-xs md:text-sm text-gray-600 mt-1`}>
-                    <span>{t('tenantSpace.history.dueDate')}: {new Date(payment.dueDate).toLocaleDateString('en-US')}</span>
+                    <span>{t('tenantHistory.dueDate')}: {new Date(payment.dueDate).toLocaleDateString()}</span>
                     {payment.paymentDate && (
-                      <span>{t('tenantSpace.history.paidOn')}: {new Date(payment.paymentDate).toLocaleDateString('en-US')}</span>
+                      <span>{t('tenantHistory.paidOn')}: {new Date(payment.paymentDate).toLocaleDateString()}</span>
                     )}
                   </div>
                 </div>
@@ -91,7 +91,7 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
                       <div className="mb-2">
                         <div className="flex items-center gap-1 justify-end">
                           <Euro className="h-3 w-3 text-green-600" />
-                          <span className="text-xs text-green-600 font-medium">{t('tenantSpace.history.amountPaid')}</span>
+                          <span className="text-xs text-green-600 font-medium">{t('tenantHistory.amountPaid')}</span>
                         </div>
                         <p className="font-bold text-base md:text-lg text-green-600">{payment.amount}€</p>
                       </div>
@@ -100,14 +100,14 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
                     {/* Montant à payer - Pour les paiements en attente */}
                     {payment.status !== 'Payé' && (
                       <div className="mb-2">
-                        <span className="text-xs text-gray-500">{t('tenantSpace.history.amountToPay')}</span>
+                        <span className="text-xs text-gray-500">{t('tenantHistory.amountToPay')}</span>
                         <p className="font-semibold text-sm md:text-base text-gray-900">{payment.amount}€</p>
                       </div>
                     )}
                     
                     {/* Détail loyer + charges */}
                     <p className="text-xs md:text-sm text-gray-600">
-                      {t('tenantSpace.history.rent')}: {payment.rent}€ + {t('tenantSpace.history.charges')}: {payment.charges}€
+                      {t('tenantHistory.rent')}: {payment.rent}€ + {t('tenantHistory.charges')}: {payment.charges}€
                     </p>
                   </div>
                 </div>
@@ -123,11 +123,11 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
                       onClick={() => onDownloadReceipt(payment)}
                     >
                       <FileText className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
-                      {t('tenantSpace.history.receiptPdf')}
+                      {t('tenantHistory.receiptPdf')}
                     </Button>
                   ) : (
                     <Button variant="outline" size="sm" disabled className={isMobile ? 'text-xs px-3 py-1' : ''}>
-                      {t('tenantSpace.history.notAvailable')}
+                      {t('tenantHistory.notAvailable')}
                     </Button>
                   )}
                 </div>
