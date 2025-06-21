@@ -11,6 +11,9 @@ const OwnerRegistrations: React.FC = () => {
   const { t } = useTranslation();
   const { requests, loading, approveRequest, rejectRequest, deleteRequest } = useOwnerRegistrations();
 
+  // Filtrer pour ne montrer que les demandes en attente
+  const pendingRequests = requests.filter(request => request.status === 'pending');
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
@@ -43,19 +46,20 @@ const OwnerRegistrations: React.FC = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">{t('settings.ownerRegistrations.title')}</h2>
         <Badge variant="outline">
-          {requests.filter(r => r.status === 'pending').length} {t('settings.ownerRegistrations.pendingCount')}
+          {pendingRequests.length} {t('settings.ownerRegistrations.pendingCount')}
         </Badge>
       </div>
 
-      {requests.length === 0 ? (
+      {pendingRequests.length === 0 ? (
         <Card>
           <CardContent className="text-center py-8">
             <p className="text-gray-500">{t('settings.ownerRegistrations.noRequests')}</p>
+            <p className="text-sm text-gray-400 mt-2">{t('settings.ownerRegistrations.noRequestsDescription')}</p>
           </CardContent>
         </Card>
       ) : (
         <div className="space-y-4">
-          {requests.map((request) => (
+          {pendingRequests.map((request) => (
             <Card key={request.id} className="border-l-4 border-l-blue-500">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
@@ -106,41 +110,25 @@ const OwnerRegistrations: React.FC = () => {
                   </div>
                 )}
 
-                {request.status === 'pending' && (
-                  <div className="flex gap-2 pt-2">
-                    <Button
-                      size="sm"
-                      onClick={() => approveRequest(request)}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      <Check className="h-4 w-4 mr-1" />
-                      {t('settings.ownerRegistrations.approve')}
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => rejectRequest(request.id)}
-                      className="border-red-200 text-red-600 hover:bg-red-50"
-                    >
-                      <X className="h-4 w-4 mr-1" />
-                      {t('settings.ownerRegistrations.reject')}
-                    </Button>
-                  </div>
-                )}
-
-                {request.status !== 'pending' && (
-                  <div className="flex justify-end pt-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => deleteRequest(request.id)}
-                      className="border-red-200 text-red-600 hover:bg-red-50"
-                    >
-                      <Trash2 className="h-4 w-4 mr-1" />
-                      {t('settings.ownerRegistrations.delete')}
-                    </Button>
-                  </div>
-                )}
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    size="sm"
+                    onClick={() => approveRequest(request)}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    <Check className="h-4 w-4 mr-1" />
+                    {t('settings.ownerRegistrations.approve')}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => rejectRequest(request.id)}
+                    className="border-red-200 text-red-600 hover:bg-red-50"
+                  >
+                    <X className="h-4 w-4 mr-1" />
+                    {t('settings.ownerRegistrations.reject')}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
