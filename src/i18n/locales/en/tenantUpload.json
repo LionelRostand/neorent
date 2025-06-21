@@ -69,6 +69,12 @@
     "uploadProgress": "Upload Progress",
     "requiredDocuments": "Required Documents",
     "documentCategories": "Document Categories",
-    "uploadInterface": "Upload Interface"
+    "uploadInterface": "Upload Interface",
+    "uploadDocument": "Upload Document",
+    "selectDocumentType": "Select a document type",
+    "chooseFile": "Choose File",
+    "noFileChosen": "No file chosen",
+    "maxSizeInfo": "Max size: 1.5 MB • Allowed types: PDF, Images, Word Documents",
+    "uploadTheDocument": "Upload the Document"
   }
 }

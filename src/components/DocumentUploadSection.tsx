@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload } from 'lucide-react';
 import DocumentTypeSelector from './DocumentUpload/DocumentTypeSelector';
@@ -30,6 +31,7 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
   uploading,
   uploadProgress = 0
 }) => {
+  const { t } = useTranslation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedDocumentType, setSelectedDocumentType] = useState<string>('');
   const [uploadError, setUploadError] = useState<string>('');
@@ -106,7 +108,7 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       <CardHeader className="pb-3 sm:pb-4">
         <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
           <Upload className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-          <span className="text-sm sm:text-base md:text-lg">Uploader un document</span>
+          <span className="text-sm sm:text-base md:text-lg">{t('tenantUpload.uploadDocument')}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-6">

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Upload } from 'lucide-react';
 
@@ -14,6 +15,8 @@ const UploadButton: React.FC<UploadButtonProps> = ({
   disabled,
   uploading
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Button
       onClick={onUpload}
@@ -23,14 +26,14 @@ const UploadButton: React.FC<UploadButtonProps> = ({
       {uploading ? (
         <>
           <Upload className="h-4 w-4 mr-2 animate-spin" />
-          <span className="hidden sm:inline">Upload en cours...</span>
-          <span className="sm:hidden">Upload...</span>
+          <span className="hidden sm:inline">{t('tenantUpload.uploading')}</span>
+          <span className="sm:hidden">{t('tenantUpload.upload')}</span>
         </>
       ) : (
         <>
           <Upload className="h-4 w-4 mr-2" />
-          <span className="hidden sm:inline">Uploader le document</span>
-          <span className="sm:hidden">Uploader</span>
+          <span className="hidden sm:inline">{t('tenantUpload.uploadTheDocument')}</span>
+          <span className="sm:hidden">{t('tenantUpload.upload')}</span>
         </>
       )}
     </Button>
