@@ -71,16 +71,19 @@ export const useTenantSpaceData = () => {
   console.log('Rendered data:', { mockPropertyData, mockTenantData });
   console.log('Current profile for header:', {
     name: currentProfile?.name?.trim(),
-    roomNumber: currentProfile.roomNumber,
+    roomNumber: currentProfile?.roomNumber,
     type: currentType
   });
 
+  // Fix the null reference error by properly checking currentProfile before accessing properties
+  const safeCurrentProfile = currentProfile ? {
+    ...currentProfile,
+    name: currentProfile.name?.trim() || 'Nom non disponible',
+    roomNumber: currentProfile.roomNumber || null
+  } : null;
+
   return {
-    currentProfile: currentProfile ? {
-      ...currentProfile,
-      name: currentProfile.name?.trim() || 'Nom non disponible',
-      roomNumber: currentProfile.roomNumber || null
-    } : null,
+    currentProfile: safeCurrentProfile,
     currentType,
     isAuthorizedAdmin,
     isImpersonating,
