@@ -130,8 +130,12 @@
     "editEmployee": "Edit Owner", 
     "deleteEmployee": "Delete Owner",
     "confirmDelete": "Are you sure you want to delete this owner?",
+    "fullName": "Full Name",
+    "role": "Role",
     "employee": "Owner",
     "administrator": "Administrator",
+    "company": "Company",
+    "selectCompany": "Select a company",
     "loading": "Loading...",
     "addSuccess": "Owner added successfully",
     "addError": "Error adding owner",
@@ -141,6 +145,9 @@
     "deleteError": "Error deleting owner",
     "noPermissions": "No permissions",
     "noCompany": "No company",
-    "unknownCompany": "Unknown company"
+    "unknownCompany": "Unknown company",
+    "creationDate": "Creation Date",
+    "passwordStatus": "Password Status",
+    "actions": "Actions"
   }
 }
