@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
@@ -11,6 +12,7 @@ import TenantSpaceTabs from '@/components/TenantSpace/TenantSpaceTabs';
 const TenantSpace = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     currentProfile,
@@ -34,11 +36,11 @@ const TenantSpace = () => {
       <MainLayout>
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
-            <p className="text-lg text-gray-600">Aucun profil trouvé</p>
-            <p className="text-gray-500">Contactez l'administrateur pour résoudre ce problème.</p>
+            <p className="text-lg text-gray-600">{t('common.tenantNotFound')}</p>
+            <p className="text-gray-500">{t('common.contactAdminForHelp')}</p>
             {isAuthorizedAdmin && (
               <Button onClick={() => navigate('/admin/settings')} className="mt-4">
-                Retour à l'administration
+                {t('common.backToAdmin')}
               </Button>
             )}
           </div>

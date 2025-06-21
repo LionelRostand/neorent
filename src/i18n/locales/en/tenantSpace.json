@@ -1,3 +1,4 @@
+
 {
   "tenantSpace": {
     "title": "{type} Space",
@@ -12,6 +13,9 @@
       "documents": "Documents",
       "upload": "Upload",
       "profile": "Profile"
+    },
+    "messages": {
+      "description": "Communicate with your property manager and receive important notifications"
     },
     "overview": {
       "generalInfo": "General Information",
