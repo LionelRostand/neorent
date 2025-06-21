@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -46,6 +45,8 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
     setIsLoading(true);
 
     try {
+      console.log('Tentative d\'envoi de la demande:', formData);
+      
       const requestId = `owner_request_${Date.now()}`;
       const registrationRequest = {
         ...formData,
@@ -55,7 +56,11 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
         type: 'owner_registration'
       };
 
+      console.log('Données à envoyer:', registrationRequest);
+
       await setDoc(doc(db, 'owner_registration_requests', requestId), registrationRequest);
+      
+      console.log('Demande envoyée avec succès');
       
       toast({
         title: t('publicSite.ownerRegistration.requestSent'),
@@ -73,10 +78,23 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
       
       onSuccess();
     } catch (error) {
-      console.error('Error submitting registration request:', error);
+      console.error('Erreur détaillée lors de la soumission:', error);
+      
+      let errorMessage = 'Une erreur est survenue lors de l\'envoi de votre demande.';
+      
+      if (error instanceof Error) {
+        if (error.message.includes('permission')) {
+          errorMessage = 'Erreur de permission. Veuillez contacter l\'administrateur.';
+        } else if (error.message.includes('network')) {
+          errorMessage = 'Erreur de connexion. Vérifiez votre connexion internet.';
+        } else if (error.message.includes('quota')) {
+          errorMessage = 'Service temporairement indisponible. Réessayez plus tard.';
+        }
+      }
+      
       toast({
-        title: t('common.error'),
-        description: t('publicSite.ownerRegistration.submitError'),
+        title: 'Erreur',
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
