@@ -1,17 +1,11 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
-import { Mail, Send, TestTube } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { SMTPSettings } from '../types/email';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
+import SMTPFormFields from './SMTPFormFields';
+import SMTPActions from './SMTPActions';
 
 interface SMTPConfigProps {
   settings: SMTPSettings;
@@ -31,31 +25,6 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
   sendingTestEmail = false
 }) => {
   const { t } = useTranslation();
-  const [testEmailOpen, setTestEmailOpen] = useState(false);
-  const [testEmailData, setTestEmailData] = useState({
-    to: '',
-    subject: 'Test d\'envoi depuis NeoRent',
-    message: 'Ceci est un email de test envoyé depuis la configuration SMTP de NeoRent.\n\nSi vous recevez cet email, la configuration fonctionne correctement.'
-  });
-
-  const handleChange = (field: keyof SMTPSettings, value: string | number) => {
-    onSettingsChange({
-      ...settings,
-      [field]: value
-    });
-  };
-
-  const handleSendTestEmail = async () => {
-    if (!onSendTestEmail) {
-      toast.error('Fonction d\'envoi non disponible');
-      return;
-    }
-
-    const result = await onSendTestEmail(testEmailData);
-    if (result.success) {
-      setTestEmailOpen(false);
-    }
-  };
 
   return (
     <Card>
@@ -66,162 +35,18 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="smtp-host">{t('settings.email.smtp.server')}</Label>
-            <Input
-              id="smtp-host"
-              value={settings.host}
-              onChange={(e) => handleChange('host', e.target.value)}
-              placeholder="smtp.gmail.com"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="smtp-port">{t('settings.email.smtp.port')}</Label>
-            <Input
-              id="smtp-port"
-              type="number"
-              value={settings.port}
-              onChange={(e) => handleChange('port', parseInt(e.target.value) || 587)}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="smtp-username">{t('settings.email.smtp.username')}</Label>
-            <Input
-              id="smtp-username"
-              value={settings.username}
-              onChange={(e) => handleChange('username', e.target.value)}
-              placeholder="votre@email.com"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="smtp-password">{t('settings.email.smtp.password')}</Label>
-            <Input
-              id="smtp-password"
-              type="password"
-              value={settings.password}
-              onChange={(e) => handleChange('password', e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="smtp-security">{t('settings.email.smtp.security')}</Label>
-          <Select 
-            value={settings.security} 
-            onValueChange={(value: 'none' | 'tls' | 'ssl') => handleChange('security', value)}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">{t('settings.email.securityOptions.none')}</SelectItem>
-              <SelectItem value="tls">{t('settings.email.securityOptions.tls')}</SelectItem>
-              <SelectItem value="ssl">{t('settings.email.securityOptions.ssl')}</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="from-email">{t('settings.email.smtp.fromEmail')}</Label>
-            <Input
-              id="from-email"
-              value={settings.fromEmail}
-              onChange={(e) => handleChange('fromEmail', e.target.value)}
-              placeholder="noreply@votre-domaine.com"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="from-name">{t('settings.email.smtp.fromName')}</Label>
-            <Input
-              id="from-name"
-              value={settings.fromName}
-              onChange={(e) => handleChange('fromName', e.target.value)}
-              placeholder="NeoRent"
-            />
-          </div>
-        </div>
-
-        <div className="flex gap-3 justify-end">
-          <Button 
-            onClick={onTestConnection} 
-            disabled={testing || !settings.host || !settings.username}
-            variant="outline"
-          >
-            <Mail className="h-4 w-4 mr-2" />
-            {testing ? t('settings.email.testing') : t('settings.email.smtp.testConnection')}
-          </Button>
-
-          <Dialog open={testEmailOpen} onOpenChange={setTestEmailOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                disabled={!settings.host || !settings.username || !settings.fromEmail || !onSendTestEmail}
-                variant="default"
-              >
-                <TestTube className="h-4 w-4 mr-2" />
-                Tester l'envoi
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-md">
-              <DialogHeader>
-                <DialogTitle>Test d'envoi d'email</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="test-email-to">Destinataire</Label>
-                  <Input
-                    id="test-email-to"
-                    type="email"
-                    placeholder="test@example.com"
-                    value={testEmailData.to}
-                    onChange={(e) => setTestEmailData(prev => ({ ...prev, to: e.target.value }))}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="test-email-subject">Sujet</Label>
-                  <Input
-                    id="test-email-subject"
-                    value={testEmailData.subject}
-                    onChange={(e) => setTestEmailData(prev => ({ ...prev, subject: e.target.value }))}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="test-email-message">Message</Label>
-                  <Textarea
-                    id="test-email-message"
-                    rows={4}
-                    value={testEmailData.message}
-                    onChange={(e) => setTestEmailData(prev => ({ ...prev, message: e.target.value }))}
-                    className="resize-none"
-                  />
-                </div>
-                
-                <div className="flex gap-2 justify-end">
-                  <Button
-                    variant="outline"
-                    onClick={() => setTestEmailOpen(false)}
-                    disabled={sendingTestEmail}
-                  >
-                    Annuler
-                  </Button>
-                  <Button
-                    onClick={handleSendTestEmail}
-                    disabled={sendingTestEmail || !testEmailData.to}
-                  >
-                    <Send className="h-4 w-4 mr-2" />
-                    {sendingTestEmail ? 'Envoi...' : 'Envoyer'}
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
+        <SMTPFormFields
+          settings={settings}
+          onSettingsChange={onSettingsChange}
+        />
+        
+        <SMTPActions
+          settings={settings}
+          onTestConnection={onTestConnection}
+          testing={testing}
+          onSendTestEmail={onSendTestEmail}
+          sendingTestEmail={sendingTestEmail}
+        />
       </CardContent>
     </Card>
   );
