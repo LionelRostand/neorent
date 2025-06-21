@@ -12,6 +12,14 @@ import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useToast } from '@/hooks/use-toast';
 
+// Import des composants d'aperçu
+import PropertyPreview from './QuickActionPreviews/PropertyPreview';
+import ContractPreview from './QuickActionPreviews/ContractPreview';
+import TenantPreview from './QuickActionPreviews/TenantPreview';
+import InspectionPreview from './QuickActionPreviews/InspectionPreview';
+import ChargesPreview from './QuickActionPreviews/ChargesPreview';
+import MaintenancePreview from './QuickActionPreviews/MaintenancePreview';
+
 interface OwnerQuickActionsProps {
   ownerProfile: any;
 }
@@ -75,42 +83,48 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       description: t('ownerSpace.quickActions.newProperty.description'),
       icon: Plus,
       color: 'bg-blue-500',
-      action: () => setOpenDialog('property')
+      action: () => setOpenDialog('property'),
+      preview: <PropertyPreview ownerProfile={ownerProfile} />
     },
     {
       title: t('ownerSpace.quickActions.newContract.title'),
       description: t('ownerSpace.quickActions.newContract.description'),
       icon: FileText,
       color: 'bg-green-500',
-      action: () => console.log('Nouveau contrat - À implémenter')
+      action: () => console.log('Nouveau contrat - À implémenter'),
+      preview: <ContractPreview />
     },
     {
       title: t('ownerSpace.quickActions.addTenant.title'),
       description: t('ownerSpace.quickActions.addTenant.description'),
       icon: Users,
       color: 'bg-purple-500',
-      action: () => setOpenDialog('roommate')
+      action: () => setOpenDialog('roommate'),
+      preview: <TenantPreview ownerProfile={ownerProfile} />
     },
     {
       title: t('ownerSpace.quickActions.propertyInspection.title'),
       description: t('ownerSpace.quickActions.propertyInspection.description'),
       icon: Home,
       color: 'bg-orange-500',
-      action: () => setOpenDialog('inspection')
+      action: () => setOpenDialog('inspection'),
+      preview: <InspectionPreview />
     },
     {
       title: t('ownerSpace.quickActions.calculateCharges.title'),
       description: t('ownerSpace.quickActions.calculateCharges.description'),
       icon: Calculator,
       color: 'bg-indigo-500',
-      action: () => console.log('Calculer charges - À implémenter')
+      action: () => console.log('Calculer charges - À implémenter'),
+      preview: <ChargesPreview />
     },
     {
       title: t('ownerSpace.quickActions.maintenance.title'),
       description: t('ownerSpace.quickActions.maintenance.description'),
       icon: Wrench,
       color: 'bg-red-500',
-      action: () => console.log('Maintenance - À implémenter')
+      action: () => console.log('Maintenance - À implémenter'),
+      preview: <MaintenancePreview />
     }
   ];
 
@@ -123,26 +137,30 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
             {t('ownerSpace.quickActions.title')}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-1 p-4 pt-0">
+        <CardContent className="space-y-4 p-4 pt-0">
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
-              <Button
-                key={action.title}
-                variant="ghost"
-                className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
-                onClick={action.action}
-              >
-                <div className="flex items-center space-x-3 w-full min-w-0">
-                  <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
-                    <Icon className="h-4 w-4" />
+              <div key={action.title} className="space-y-2">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
+                  onClick={action.action}
+                >
+                  <div className="flex items-center space-x-3 w-full min-w-0">
+                    <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div className="text-left flex-1 min-w-0 overflow-hidden">
+                      <p className="font-medium text-gray-900 text-sm leading-tight truncate">{action.title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 truncate">{action.description}</p>
+                    </div>
                   </div>
-                  <div className="text-left flex-1 min-w-0 overflow-hidden">
-                    <p className="font-medium text-gray-900 text-sm leading-tight truncate">{action.title}</p>
-                    <p className="text-xs text-gray-500 mt-0.5 truncate">{action.description}</p>
-                  </div>
-                </div>
-              </Button>
+                </Button>
+                
+                {/* Aperçu de l'action */}
+                {action.preview}
+              </div>
             );
           })}
         </CardContent>
