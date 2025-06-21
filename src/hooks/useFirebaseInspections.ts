@@ -35,7 +35,7 @@ export const useFirebaseInspections = () => {
       setError(null);
     } catch (err) {
       console.error('Error fetching inspections:', err);
-      setError('Erreur lors du chargement des états des lieux');
+      setError('Error loading inspections');
     } finally {
       setLoading(false);
     }
@@ -49,7 +49,7 @@ export const useFirebaseInspections = () => {
       return newInspection;
     } catch (err) {
       console.error('Error adding inspection:', err);
-      setError('Erreur lors de l\'ajout de l\'état des lieux');
+      setError('Error adding inspection');
       throw err;
     }
   };
@@ -62,7 +62,7 @@ export const useFirebaseInspections = () => {
       ));
     } catch (err) {
       console.error('Error updating inspection:', err);
-      setError('Erreur lors de la mise à jour de l\'état des lieux');
+      setError('Error updating inspection');
       throw err;
     }
   };
@@ -73,7 +73,7 @@ export const useFirebaseInspections = () => {
       setInspections(prev => prev.filter(inspection => inspection.id !== id));
     } catch (err) {
       console.error('Error deleting inspection:', err);
-      setError('Erreur lors de la suppression de l\'état des lieux');
+      setError('Error deleting inspection');
       throw err;
     }
   };

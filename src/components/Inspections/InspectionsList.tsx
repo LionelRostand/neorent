@@ -32,6 +32,28 @@ const InspectionsList = ({
 }: InspectionsListProps) => {
   const { t } = useTranslation();
 
+  const getStatusColor = (status: string) => {
+    const lowerStatus = status.toLowerCase();
+    if (lowerStatus.includes('completed') || lowerStatus.includes('terminé')) {
+      return 'bg-green-100 text-green-800';
+    } else if (lowerStatus.includes('progress') || lowerStatus.includes('cours')) {
+      return 'bg-yellow-100 text-yellow-800';
+    } else {
+      return 'bg-blue-100 text-blue-800';
+    }
+  };
+
+  const getStatusVariant = (status: string) => {
+    const lowerStatus = status.toLowerCase();
+    if (lowerStatus.includes('completed') || lowerStatus.includes('terminé')) {
+      return 'default';
+    } else if (lowerStatus.includes('progress') || lowerStatus.includes('cours')) {
+      return 'secondary';
+    } else {
+      return 'outline';
+    }
+  };
+
   return (
     <>
       <div className="pt-2 sm:pt-4">
@@ -50,13 +72,8 @@ const InspectionsList = ({
                   </div>
                   <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                     <Badge 
-                      variant={inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'default' : 
-                             inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'secondary' : 'outline'}
-                      className={`text-xs ${
-                        inspection.status === 'Terminé' || inspection.status === 'Completed' ? 'bg-green-100 text-green-800' : 
-                        inspection.status === 'En cours' || inspection.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800' : 
-                        'bg-blue-100 text-blue-800'
-                      }`}
+                      variant={getStatusVariant(inspection.status)}
+                      className={`text-xs ${getStatusColor(inspection.status)}`}
                     >
                       {inspection.status}
                     </Badge>
