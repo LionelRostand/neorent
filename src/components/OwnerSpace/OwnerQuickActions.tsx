@@ -55,30 +55,30 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <Card className="h-fit">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg font-semibold">
           <Plus className="h-5 w-5" />
           Actions rapides
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-2 p-4 pt-0">
         {quickActions.map((action) => {
           const Icon = action.icon;
           return (
             <Button
               key={action.title}
               variant="ghost"
-              className="w-full justify-start h-auto p-4 hover:bg-gray-50"
+              className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
               onClick={action.action}
             >
-              <div className="flex items-center space-x-3">
-                <div className={`p-2 rounded-lg ${action.color} text-white`}>
-                  <Icon className="h-4 w-4" />
+              <div className="flex items-center space-x-3 w-full">
+                <div className={`p-2.5 rounded-lg ${action.color} text-white flex-shrink-0`}>
+                  <Icon className="h-5 w-5" />
                 </div>
-                <div className="text-left">
-                  <p className="font-medium text-gray-900">{action.title}</p>
-                  <p className="text-sm text-gray-500">{action.description}</p>
+                <div className="text-left flex-1">
+                  <p className="font-medium text-gray-900 text-sm leading-tight">{action.title}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{action.description}</p>
                 </div>
               </div>
             </Button>
