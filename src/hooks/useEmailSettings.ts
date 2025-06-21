@@ -4,6 +4,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { EmailSettings, defaultEmailSettings } from '@/components/Settings/types/email';
+import { emailTestService } from '@/services/emailTestService';
 
 export const useEmailSettings = () => {
   const [settings, setSettings] = useState<EmailSettings>(defaultEmailSettings);
@@ -72,25 +73,36 @@ export const useEmailSettings = () => {
         return;
       }
 
-      console.log('🧪 Test de connexion SMTP avec:', {
+      console.log('🧪 Test de connexion SMTP réel avec:', {
         host: settings.smtp.host,
         port: settings.smtp.port,
         username: settings.smtp.username,
         security: settings.smtp.security
       });
 
-      // Simulation du test de connexion SMTP
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      toast({
-        title: "Test SMTP réussi",
-        description: "La connexion SMTP fonctionne correctement",
+      const result = await emailTestService.testSMTPConnection({
+        host: settings.smtp.host,
+        port: settings.smtp.port,
+        username: settings.smtp.username,
+        password: settings.smtp.password,
+        security: settings.smtp.security,
+        fromEmail: settings.smtp.fromEmail,
+        fromName: settings.smtp.fromName
       });
-    } catch (error) {
-      console.error('Erreur test SMTP:', error);
+
+      if (result.success) {
+        toast({
+          title: "✅ Test SMTP réussi",
+          description: "La connexion SMTP fonctionne correctement",
+        });
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error: any) {
+      console.error('❌ Erreur test SMTP:', error);
       toast({
-        title: "Échec du test SMTP",
-        description: "Vérifiez vos paramètres de connexion",
+        title: "❌ Échec du test SMTP",
+        description: error.message || "Vérifiez vos paramètres de connexion",
         variant: "destructive",
       });
     } finally {
@@ -101,18 +113,46 @@ export const useEmailSettings = () => {
   const testIMAPConnection = async () => {
     try {
       setTestingIMAP(true);
-      // Simulation du test de connexion IMAP
-      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      toast({
-        title: "Test IMAP réussi",
-        description: "La connexion IMAP fonctionne correctement",
+      // Vérifier que les paramètres IMAP sont configurés
+      if (!settings.imap.host || !settings.imap.username || !settings.imap.password) {
+        toast({
+          title: "Configuration incomplète",
+          description: "Veuillez configurer tous les paramètres IMAP obligatoires",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log('🧪 Test de connexion IMAP réel avec:', {
+        host: settings.imap.host,
+        port: settings.imap.port,
+        username: settings.imap.username,
+        security: settings.imap.security
       });
-    } catch (error) {
-      console.error('Erreur test IMAP:', error);
+
+      const result = await emailTestService.testIMAPConnection({
+        host: settings.imap.host,
+        port: settings.imap.port,
+        username: settings.imap.username,
+        password: settings.imap.password,
+        security: settings.imap.security,
+        folder: settings.imap.folder
+      });
+
+      if (result.success) {
+        toast({
+          title: "✅ Test IMAP réussi",
+          description: "La connexion IMAP fonctionne correctement",
+        });
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error: any) {
+      console.error('❌ Erreur test IMAP:', error);
       toast({
-        title: "Échec du test IMAP",
-        description: "Vérifiez vos paramètres de connexion",
+        title: "❌ Échec du test IMAP",
+        description: error.message || "Vérifiez vos paramètres de connexion",
         variant: "destructive",
       });
     } finally {
@@ -143,7 +183,7 @@ export const useEmailSettings = () => {
         return { success: false };
       }
 
-      console.log('📧 Tentative d\'envoi d\'email de test:', {
+      console.log('📧 Envoi d\'email de test réel:', {
         smtp: {
           host: settings.smtp.host,
           port: settings.smtp.port,
@@ -159,22 +199,35 @@ export const useEmailSettings = () => {
         }
       });
 
-      // Simulation de l'envoi d'email avec les vrais paramètres SMTP
-      // En production, ici vous feriez appel à votre service d'envoi d'email
-      // qui utiliserait les paramètres SMTP configurés
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      toast({
-        title: "Email de test envoyé!",
-        description: `L'email a été envoyé à ${testEmailData.to} depuis ${settings.smtp.fromEmail}`,
+      const result = await emailTestService.sendTestEmail({
+        smtp: {
+          host: settings.smtp.host,
+          port: settings.smtp.port,
+          username: settings.smtp.username,
+          password: settings.smtp.password,
+          security: settings.smtp.security,
+          fromEmail: settings.smtp.fromEmail,
+          fromName: settings.smtp.fromName
+        },
+        to: testEmailData.to,
+        subject: testEmailData.subject,
+        message: testEmailData.message
       });
-      
-      return { success: true };
-    } catch (error) {
+
+      if (result.success) {
+        toast({
+          title: "✅ Email de test envoyé!",
+          description: `L'email a été envoyé avec succès à ${testEmailData.to}`,
+        });
+        return { success: true };
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error: any) {
       console.error('❌ Erreur envoi email de test:', error);
       toast({
-        title: "Échec de l'envoi",
-        description: "Vérifiez votre configuration SMTP et votre connexion internet",
+        title: "❌ Échec de l'envoi",
+        description: error.message || "Vérifiez votre configuration SMTP et votre connexion internet",
         variant: "destructive",
       });
       return { success: false };
