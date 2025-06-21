@@ -44,6 +44,11 @@
     "privacySettings": "Privacy Settings",
     "communicationPreferences": "Communication Preferences",
     "profileSecurity": "Profile Security",
-    "dataManagement": "Data Management"
+    "dataManagement": "Data Management",
+    "equipment": "Equipment",
+    "furnishedRoom": "Furnished room",
+    "sharedKitchen": "Shared kitchen",
+    "sharedBathroom": "Shared bathroom",
+    "luminous": "Bright"
   }
 }
