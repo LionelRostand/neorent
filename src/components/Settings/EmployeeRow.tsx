@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, Lock } from 'lucide-react';
+import { Edit, Trash2, Lock, Eye } from 'lucide-react';
 import { Company } from '@/hooks/useFirebaseCompanies';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface Employee {
   id: string;
@@ -36,6 +36,24 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
   getCompanyName
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleViewOwnerSpace = () => {
+    // Create a mock owner profile for admin access
+    const ownerProfile = {
+      id: employee.id,
+      name: employee.name,
+      email: employee.email,
+      role: employee.role,
+      type: 'employee'
+    };
+    
+    // Store the owner profile in sessionStorage for admin access
+    sessionStorage.setItem('adminSelectedProfile', JSON.stringify(ownerProfile));
+    
+    // Navigate to owner space
+    navigate('/owner-space');
+  };
 
   return (
     <>
@@ -50,6 +68,16 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
             <p className="text-sm text-gray-500">{getCompanyName(employee.companyId)}</p>
           </div>
           <div className="flex gap-1">
+            {employee.role === 'employee' && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleViewOwnerSpace}
+                title="Voir l'espace propriétaire"
+              >
+                <Eye className="h-4 w-4" />
+              </Button>
+            )}
             <Button 
               variant="ghost" 
               size="sm" 
@@ -79,7 +107,19 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
 
       {/* Desktop view */}
       <div className="hidden md:grid grid-cols-8 gap-4 p-4 border-b border-gray-200">
-        <div className="font-medium">{employee.name}</div>
+        <div className="font-medium">
+          {employee.role === 'employee' ? (
+            <button
+              onClick={handleViewOwnerSpace}
+              className="text-blue-600 hover:text-blue-800 hover:underline text-left"
+              title="Voir l'espace propriétaire"
+            >
+              {employee.name}
+            </button>
+          ) : (
+            employee.name
+          )}
+        </div>
         <div className="text-sm text-gray-600 truncate">{employee.email}</div>
         <div className="text-sm text-gray-600">
           {employee.role === 'admin' ? t('employees.administrator') : t('employees.employee')}
@@ -101,6 +141,16 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
           )}
         </div>
         <div className="flex gap-2">
+          {employee.role === 'employee' && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleViewOwnerSpace}
+              title="Voir l'espace propriétaire"
+            >
+              <Eye className="h-4 w-4" />
+            </Button>
+          )}
           <Button 
             variant="ghost" 
             size="sm" 

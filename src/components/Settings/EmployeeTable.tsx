@@ -2,8 +2,9 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Edit, Trash2, Lock, CheckCircle, XCircle, UserPlus } from 'lucide-react';
+import { Edit, Trash2, Lock, CheckCircle, XCircle, UserPlus, Eye } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Company } from '@/hooks/useFirebaseCompanies';
 
 interface Employee {
@@ -39,6 +40,24 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
   getCompanyName
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleViewOwnerSpace = (employee: Employee) => {
+    // Create a mock owner profile for admin access
+    const ownerProfile = {
+      id: employee.id,
+      name: employee.name,
+      email: employee.email,
+      role: employee.role,
+      type: 'employee'
+    };
+    
+    // Store the owner profile in sessionStorage for admin access
+    sessionStorage.setItem('adminSelectedProfile', JSON.stringify(ownerProfile));
+    
+    // Navigate to owner space
+    navigate('/owner-space');
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -58,7 +77,19 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
         <TableBody>
           {employees.map((employee) => (
             <TableRow key={employee.id}>
-              <TableCell className="font-medium">{employee.name}</TableCell>
+              <TableCell className="font-medium">
+                {employee.role === 'employee' ? (
+                  <button
+                    onClick={() => handleViewOwnerSpace(employee)}
+                    className="text-blue-600 hover:text-blue-800 hover:underline text-left"
+                    title="Voir l'espace propriétaire"
+                  >
+                    {employee.name}
+                  </button>
+                ) : (
+                  employee.name
+                )}
+              </TableCell>
               <TableCell>{employee.email}</TableCell>
               <TableCell>
                 <span className={`px-2 py-1 rounded-full text-xs ${
@@ -89,6 +120,17 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-1">
+                  {employee.role === 'employee' && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleViewOwnerSpace(employee)}
+                      className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700"
+                      title="Voir l'espace propriétaire"
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
                     size="sm"

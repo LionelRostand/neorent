@@ -79,7 +79,9 @@ export const useAdminTenantAccess = () => {
       moveInDate: tenantProfile.moveInDate || null,
       // For tenants
       property: tenantProfile.property || null,
-      nextPayment: tenantProfile.nextPayment || null
+      nextPayment: tenantProfile.nextPayment || null,
+      // For owners/employees
+      role: tenantProfile.role || null
     };
     
     console.log('Setting enriched profile:', enrichedProfile);
