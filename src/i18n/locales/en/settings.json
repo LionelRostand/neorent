@@ -44,7 +44,76 @@
       "passwordPolicy": "Password Policy",
       "twoFactor": "Two-Factor Authentication",
       "sessionSecurity": "Session Security",
-      "minLength": "Minimum Length"
+      "minLength": "Minimum Length",
+      "passwordExpiry": "Password Expiry",
+      "complexityRequirements": "Complexity Requirements",
+      "requireUppercase": "Require Uppercase",
+      "requireLowercase": "Require Lowercase", 
+      "requireNumbers": "Require Numbers",
+      "requireSpecialChars": "Require Special Characters",
+      "preventCommonPasswords": "Prevent Common Passwords",
+      "preventCommonPasswordsDescription": "Block commonly used passwords",
+      "sessionTimeout": "Session Timeout",
+      "maxLoginAttempts": "Max Login Attempts",
+      "lockoutDuration": "Lockout Duration",
+      "expiryOptions": {
+        "30days": "30 days",
+        "60days": "60 days", 
+        "90days": "90 days",
+        "120days": "120 days",
+        "never": "Never"
+      },
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours",
+        "8hours": "8 hours",
+        "never": "Never"
+      },
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours"
+      },
+      "recommendations": {
+        "title": "Security Recommendations",
+        "sessionTimeout": "Set session timeout for inactive users",
+        "loginAttempts": "Limit login attempts to prevent brute force attacks",
+        "twoFactor": "Enable two-factor authentication for enhanced security",
+        "checkLogs": "Regularly monitor security logs"
+      },
+      "twoFactor": {
+        "title": "Two-Factor Authentication",
+        "enable": "Enable 2FA",
+        "enableDescription": "Add an extra layer of security to your account",
+        "enabled": "Two-factor authentication enabled",
+        "enabledDescription": "Your account is now protected with 2FA",
+        "disabled": "Two-factor authentication disabled", 
+        "disabledDescription": "2FA has been turned off for your account",
+        "enableError": "Failed to enable two-factor authentication",
+        "verificationMethod": "Verification Method",
+        "methods": {
+          "email": "Email",
+          "sms": "SMS",
+          "authenticator": "Authenticator App"
+        },
+        "backupCodes": "Backup Codes",
+        "backupCodesDescription": "Save these codes in a secure location",
+        "copy": "Copy",
+        "codesCopied": "Backup codes copied",
+        "codesCopiedDescription": "Backup codes have been copied to clipboard",
+        "generateNewCodes": "Generate New Codes",
+        "enableTitle": "Enable Two-Factor Authentication",
+        "emailDescription": "We'll send a verification code to your email",
+        "smsDescription": "We'll send a verification code to your phone",
+        "authenticatorDescription": "Scan the QR code with your authenticator app",
+        "qrCodeDescription": "Scan this QR code with your authenticator app",
+        "verificationCode": "Verification Code",
+        "enable2FA": "Enable 2FA"
+      }
     },
     "adminAccess": "Admin Access",
     "adminAccessDescription": "Manage administrative access to tenant accounts",
