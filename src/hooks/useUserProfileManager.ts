@@ -32,12 +32,28 @@ export const useUserProfileManager = (user: User | null, hooksInitialized: boole
           email: 'lionelrostand@yahoo.fr',
           role: 'employee',
           isOwner: true,
-          permissions: ['dashboard', 'properties', 'tenants', 'contracts'],
+          permissions: ['dashboard', 'properties', 'tenants', 'contracts', 'inspections', 'rentManagement', 'maintenance', 'messages'],
           hasPassword: true,
           phone: '0123456789',
           company: 'Rostand Immobilier',
           propertyCount: 5,
-          activeContracts: 8
+          activeContracts: 8,
+          // Permissions détaillées pour toutes les actions
+          detailedPermissions: {
+            dashboard: { read: true, write: true, view: true, delete: false },
+            properties: { read: true, write: true, view: true, delete: true },
+            tenants: { read: true, write: true, view: true, delete: true },
+            roommates: { read: true, write: true, view: true, delete: true },
+            contracts: { read: true, write: true, view: true, delete: true },
+            inspections: { read: true, write: true, view: true, delete: true },
+            rentManagement: { read: true, write: true, view: true, delete: false },
+            rentalCharges: { read: true, write: true, view: true, delete: true },
+            maintenance: { read: true, write: true, view: true, delete: true },
+            messages: { read: true, write: true, view: true, delete: true },
+            taxes: { read: true, write: true, view: true, delete: false },
+            website: { read: true, write: false, view: true, delete: false },
+            settings: { read: true, write: false, view: true, delete: false },
+          }
         };
         
         setUserProfile(ownerProfile);

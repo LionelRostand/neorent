@@ -5,6 +5,8 @@ import { EmployeePermissions, MenuPermission } from '@/components/Settings/types
 export const useUserPermissions = () => {
   const { userProfile, userType } = useAuth();
 
+  const isOwner = userType === 'employee' && userProfile?.isOwner;
+
   const hasPermission = (
     menu: keyof EmployeePermissions,
     action: keyof MenuPermission
@@ -12,6 +14,12 @@ export const useUserPermissions = () => {
     // Les admins ont tous les droits
     if (userType === 'admin') {
       return true;
+    }
+
+    // Les propriétaires ont des droits étendus
+    if (isOwner && userProfile?.detailedPermissions) {
+      const menuPermissions = userProfile.detailedPermissions[menu];
+      return menuPermissions ? menuPermissions[action] : false;
     }
 
     // Les locataires et colocataires ont des permissions limitées
@@ -23,7 +31,7 @@ export const useUserPermissions = () => {
       return false;
     }
 
-    // Pour les employés, vérifier les permissions détaillées
+    // Pour les employés normaux, vérifier les permissions détaillées
     if (userType === 'employee' && userProfile?.detailedPermissions) {
       const menuPermissions = userProfile.detailedPermissions[menu];
       return menuPermissions ? menuPermissions[action] : false;
@@ -58,6 +66,7 @@ export const useUserPermissions = () => {
     userType,
     isAdmin: userType === 'admin',
     isEmployee: userType === 'employee',
+    isOwner,
     isTenant: userType === 'locataire',
     isRoommate: userType === 'colocataire'
   };
