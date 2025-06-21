@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -61,14 +60,33 @@ const LoginForm = () => {
         // Récupérer l'URL de redirection
         const from = location.state?.from?.pathname || null;
         
-        // Rediriger selon le type d'utilisateur
-        if (userType === 'admin' || userType === 'employee') {
+        // Rediriger selon le type d'utilisateur et les propriétés du profil
+        if (userType === 'admin') {
+          // Les admins vont toujours vers l'admin
           if (from && from.startsWith('/admin')) {
             navigate(from);
           } else {
             navigate('/admin');
           }
+        } else if (userType === 'employee') {
+          // Vérifier si c'est un propriétaire
+          if (userProfile.isOwner) {
+            console.log('🏠 Propriétaire détecté, redirection vers l\'espace propriétaire');
+            if (from && from.startsWith('/owner-space')) {
+              navigate(from);
+            } else {
+              navigate('/owner-space');
+            }
+          } else {
+            // Employé normal, vers l'admin
+            if (from && from.startsWith('/admin')) {
+              navigate(from);
+            } else {
+              navigate('/admin');
+            }
+          }
         } else {
+          // Locataires et colocataires
           if (from && from.startsWith('/tenant-space')) {
             navigate(from);
           } else {
