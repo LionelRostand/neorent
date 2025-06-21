@@ -1,21 +1,9 @@
-import { useState, useEffect } from 'react';
-import { collection, getDocs, doc, updateDoc, setDoc, deleteDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { db, auth } from '@/lib/firebase';
-import { useToast } from '@/hooks/use-toast';
 
-interface OwnerRegistrationRequest {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  company?: string;
-  address?: string;
-  message?: string;
-  status: 'pending' | 'approved' | 'rejected';
-  createdAt: string;
-  type: 'owner_registration';
-}
+import { useState, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { OwnerRegistrationRequest } from '@/types/ownerRegistration';
+import { ownerRegistrationService } from '@/services/ownerRegistrationService';
+import { ownerAccountService } from '@/services/ownerAccountService';
 
 export const useOwnerRegistrations = () => {
   const [requests, setRequests] = useState<OwnerRegistrationRequest[]>([]);
@@ -25,15 +13,8 @@ export const useOwnerRegistrations = () => {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      const querySnapshot = await getDocs(collection(db, 'owner_registration_requests'));
-      const requestsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as OwnerRegistrationRequest[];
-      
-      setRequests(requestsData.sort((a, b) => 
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      ));
+      const requestsData = await ownerRegistrationService.fetchRequests();
+      setRequests(requestsData);
     } catch (error) {
       console.error('Error fetching registration requests:', error);
     } finally {
@@ -44,38 +25,26 @@ export const useOwnerRegistrations = () => {
   const approveRequest = async (request: OwnerRegistrationRequest) => {
     try {
       // Générer un mot de passe temporaire
-      const temporaryPassword = `Temp${Date.now().toString().slice(-6)}!`;
+      const temporaryPassword = ownerAccountService.generateTemporaryPassword();
       
       // Créer le compte dans Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, request.email, temporaryPassword);
-      const firebaseUser = userCredential.user;
+      const firebaseUser = await ownerAccountService.createFirebaseAccount(request.email, temporaryPassword);
       
       console.log('Compte Firebase Auth créé pour:', request.email);
 
       // Vérifier si un profil utilisateur existe déjà
-      const userRolesSnapshot = await getDocs(collection(db, 'user_roles'));
-      const existingUser = userRolesSnapshot.docs.find(doc => 
-        doc.data().email === request.email
-      );
+      const existingUser = await ownerAccountService.findExistingUser(request.email);
 
       if (existingUser) {
         // Mettre à jour le profil existant avec l'UID Firebase
         const userData = existingUser.data();
-        const updatedProfile = {
-          ...userData,
-          role: 'employee' as const,
-          name: request.name,
-          phone: request.phone || userData.phone || '',
-          company: request.company || userData.company || '',
-          address: request.address || userData.address || '',
-          isOwner: true,
-          firebaseUid: firebaseUser.uid,
-          hasPassword: true,
-          temporaryPassword: temporaryPassword,
-          updatedAt: new Date().toISOString()
-        };
-
-        await updateDoc(doc(db, 'user_roles', existingUser.id), updatedProfile);
+        await ownerAccountService.updateExistingProfile(
+          existingUser.id, 
+          request, 
+          firebaseUser.uid, 
+          temporaryPassword, 
+          userData
+        );
 
         toast({
           title: "Demande approuvée",
@@ -83,24 +52,7 @@ export const useOwnerRegistrations = () => {
         });
       } else {
         // Créer un nouveau profil propriétaire avec l'UID Firebase
-        const ownerId = firebaseUser.uid; // Utiliser l'UID Firebase comme ID du document
-        const ownerProfile = {
-          role: 'employee' as const,
-          email: request.email,
-          name: request.name,
-          createdAt: new Date().toISOString(),
-          permissions: ['read'],
-          hasPassword: true,
-          isOwner: true,
-          phone: request.phone || '',
-          company: request.company || '',
-          address: request.address || '',
-          firebaseUid: firebaseUser.uid,
-          temporaryPassword: temporaryPassword,
-          fromRegistrationRequest: true
-        };
-
-        await setDoc(doc(db, 'user_roles', ownerId), ownerProfile);
+        await ownerAccountService.createNewProfile(firebaseUser.uid, request, temporaryPassword);
 
         toast({
           title: "Demande approuvée",
@@ -109,12 +61,7 @@ export const useOwnerRegistrations = () => {
       }
 
       // Mettre à jour le statut de la demande
-      await updateDoc(doc(db, 'owner_registration_requests', request.id), {
-        status: 'approved',
-        approvedAt: new Date().toISOString(),
-        firebaseUid: firebaseUser.uid,
-        temporaryPassword: temporaryPassword
-      });
+      await ownerRegistrationService.updateRequestStatus(request.id, firebaseUser.uid, temporaryPassword);
 
       fetchRequests();
     } catch (error: any) {
@@ -140,10 +87,7 @@ export const useOwnerRegistrations = () => {
 
   const rejectRequest = async (requestId: string) => {
     try {
-      await updateDoc(doc(db, 'owner_registration_requests', requestId), {
-        status: 'rejected',
-        rejectedAt: new Date().toISOString()
-      });
+      await ownerRegistrationService.rejectRequest(requestId);
 
       toast({
         title: "Demande rejetée",
@@ -163,7 +107,7 @@ export const useOwnerRegistrations = () => {
 
   const deleteRequest = async (requestId: string) => {
     try {
-      await deleteDoc(doc(db, 'owner_registration_requests', requestId));
+      await ownerRegistrationService.deleteRequest(requestId);
       toast({
         title: "Demande supprimée",
         description: "La demande a été supprimée.",
