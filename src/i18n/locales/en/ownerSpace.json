@@ -52,9 +52,12 @@
       "viewAll": "View all",
       "viewDetails": "View details",
       "occupation": "Occupation",
+      "noProperties": "No properties found",
       "status": {
         "active": "Active",
-        "maintenance": "Maintenance"
+        "maintenance": "Maintenance",
+        "vacant": "Vacant",
+        "partiallyOccupied": "Partially occupied"
       }
     },
     "recentActivity": {

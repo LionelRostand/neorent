@@ -52,9 +52,12 @@
       "viewAll": "Voir tout",
       "viewDetails": "Voir détails",
       "occupation": "Occupation",
+      "noProperties": "Aucune propriété trouvée",
       "status": {
         "active": "Actif",
-        "maintenance": "Maintenance"
+        "maintenance": "Maintenance",
+        "vacant": "Vacant",
+        "partiallyOccupied": "Partiellement occupé"
       }
     },
     "recentActivity": {
