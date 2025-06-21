@@ -1,0 +1,42 @@
+
+{
+  "tenantOverview": {
+    "generalInfo": "Informations générales",
+    "financialInfo": "Informations financières",
+    "characteristics": "Caractéristiques du bien",
+    "monthlyRent": "Loyer mensuel",
+    "monthlyCharges": "Charges mensuelles",
+    "securityDeposit": "Dépôt de garantie",
+    "totalMonthly": "Total mensuel (loyer + charges)",
+    "myProperty": "Mon logement",
+    "myRoom": "Ma chambre",
+    "type": "Type",
+    "surface": "Surface",
+    "rooms": "Nombre de pièces",
+    "floor": "Étage",
+    "furnished": "Meublé",
+    "elevator": "Ascenseur",
+    "parking": "Parking",
+    "equipment": "Équipements",
+    "rent": "Loyer",
+    "charges": "Charges",
+    "deposit": "Caution",
+    "room": "chambre",
+    "bedroom": "chambre",
+    "sharedRoom": "Chambre partagée",
+    "apartment": "Appartement",
+    "studio": "Studio",
+    "house": "Maison",
+    "roomInSharedFlat": "Chambre en colocation",
+    "roomNumber": "Numéro de chambre",
+    "ordinalFloor": {
+      "1": "1er étage",
+      "2": "2ème étage",
+      "3": "3ème étage",
+      "ground": "Rez-de-chaussée"
+    },
+    "contractInfo": "Informations du contrat",
+    "contractDetails": "Détails du contrat",
+    "generatedHistory": "Historique généré"
+  }
+}
