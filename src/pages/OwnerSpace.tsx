@@ -58,7 +58,7 @@ const OwnerSpace = () => {
                     {t('ownerSpace.welcome')}, {currentProfile?.name || t('ownerSpace.status.owner')}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {currentProfile?.role || t('ownerSpace.status.owner')} • {currentProfile?.email}
+                    {currentProfile?.email}
                   </p>
                 </div>
               </div>
