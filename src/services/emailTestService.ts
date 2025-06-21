@@ -1,7 +1,8 @@
 
-import { supabase } from '@/lib/supabase';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/lib/firebase';
 
-export interface SMTPTestRequest {
+interface SMTPConfig {
   host: string;
   port: number;
   username: string;
@@ -11,7 +12,7 @@ export interface SMTPTestRequest {
   fromName: string;
 }
 
-export interface IMAPTestRequest {
+interface IMAPConfig {
   host: string;
   port: number;
   username: string;
@@ -20,62 +21,44 @@ export interface IMAPTestRequest {
   folder: string;
 }
 
-export interface SendTestEmailRequest {
-  smtp: SMTPTestRequest;
+interface TestEmailRequest {
+  smtp: SMTPConfig;
   to: string;
   subject: string;
   message: string;
 }
 
 export const emailTestService = {
-  async testSMTPConnection(smtpConfig: SMTPTestRequest) {
+  async testSMTPConnection(config: SMTPConfig) {
     try {
-      const { data, error } = await supabase.functions.invoke('test-smtp-connection', {
-        body: smtpConfig
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return { success: true, data };
+      const testSMTP = httpsCallable(functions, 'testSMTPConnection');
+      const result = await testSMTP(config);
+      return result.data as { success: boolean; error?: string };
     } catch (error: any) {
-      console.error('❌ Erreur test SMTP:', error);
-      return { success: false, error: error.message };
+      console.error('Erreur lors du test SMTP:', error);
+      throw new Error(error.message || 'Erreur de connexion SMTP');
     }
   },
 
-  async testIMAPConnection(imapConfig: IMAPTestRequest) {
+  async testIMAPConnection(config: IMAPConfig) {
     try {
-      const { data, error } = await supabase.functions.invoke('test-imap-connection', {
-        body: imapConfig
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return { success: true, data };
+      const testIMAP = httpsCallable(functions, 'testIMAPConnection');
+      const result = await testIMAP(config);
+      return result.data as { success: boolean; error?: string };
     } catch (error: any) {
-      console.error('❌ Erreur test IMAP:', error);
-      return { success: false, error: error.message };
+      console.error('Erreur lors du test IMAP:', error);
+      throw new Error(error.message || 'Erreur de connexion IMAP');
     }
   },
 
-  async sendTestEmail(emailData: SendTestEmailRequest) {
+  async sendTestEmail(request: TestEmailRequest) {
     try {
-      const { data, error } = await supabase.functions.invoke('send-test-email', {
-        body: emailData
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return { success: true, data };
+      const sendEmail = httpsCallable(functions, 'sendTestEmail');
+      const result = await sendEmail(request);
+      return result.data as { success: boolean; error?: string };
     } catch (error: any) {
-      console.error('❌ Erreur envoi email test:', error);
-      return { success: false, error: error.message };
+      console.error('Erreur lors de l\'envoi d\'email:', error);
+      throw new Error(error.message || 'Erreur d\'envoi d\'email');
     }
   }
 };
