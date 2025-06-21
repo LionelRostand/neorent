@@ -8,7 +8,6 @@ interface PersonalInfoFieldsProps {
   formData: {
     name: string;
     email: string;
-    phone: string;
   };
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onEmailBlur: () => void;
@@ -55,17 +54,6 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({
         {emailError && (
           <p className="text-sm text-red-600 mt-1">{emailError}</p>
         )}
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="phone">{t('publicSite.ownerRegistration.phone')}</Label>
-        <Input
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={onChange}
-          disabled={isLoading}
-        />
       </div>
     </div>
   );
