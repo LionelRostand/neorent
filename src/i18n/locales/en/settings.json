@@ -35,7 +35,18 @@
       "write": "Write",
       "view": "View",
       "delete": "Delete"
-    }
+    },
+    "security": {
+      "title": "Security Settings",
+      "subtitle": "Configure security and authentication settings",
+      "loadingSettings": "Loading security settings...",
+      "saving": "Saving...",
+      "passwordPolicy": "Password Policy",
+      "twoFactor": "Two-Factor Authentication",
+      "sessionSecurity": "Session Security"
+    },
+    "adminAccess": "Admin Access",
+    "adminAccessDescription": "Manage administrative access to tenant accounts"
   },
   "employees": {
     "management": "Owner Management",
@@ -45,6 +56,16 @@
     "deleteEmployee": "Delete Owner",
     "confirmDelete": "Are you sure you want to delete this owner?",
     "employee": "Owner",
-    "administrator": "Administrator"
+    "administrator": "Administrator",
+    "loading": "Loading...",
+    "addSuccess": "Owner added successfully",
+    "addError": "Error adding owner",
+    "updateSuccess": "Owner updated successfully",
+    "updateError": "Error updating owner",
+    "deleteSuccess": "Owner deleted successfully",
+    "deleteError": "Error deleting owner",
+    "noPermissions": "No permissions",
+    "noCompany": "No company",
+    "unknownCompany": "Unknown company"
   }
 }
