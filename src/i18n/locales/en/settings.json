@@ -49,7 +49,14 @@
     "adminAccessDescription": "Manage administrative access to tenant accounts",
     "company": {
       "title": "Company Management",
-      "subtitle": "Manage company information and settings"
+      "subtitle": "Manage company information and settings",
+      "companyName": "Company Name",
+      "companyAddress": "Company Address",
+      "companyPhone": "Company Phone",
+      "companyEmail": "Company Email",
+      "addCompany": "Add Company",
+      "editCompany": "Edit Company",
+      "confirmDelete": "Are you sure you want to delete this company?"
     },
     "database": {
       "title": "Database Settings",
