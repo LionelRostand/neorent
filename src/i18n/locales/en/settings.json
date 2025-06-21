@@ -46,9 +46,31 @@
       "sessionSecurity": "Session Security"
     },
     "adminAccess": "Admin Access",
-    "adminAccessDescription": "Manage administrative access to tenant accounts"
+    "adminAccessDescription": "Manage administrative access to tenant accounts",
+    "company": {
+      "title": "Company Management",
+      "subtitle": "Manage company information and settings"
+    },
+    "database": {
+      "title": "Database Settings",
+      "subtitle": "Configure database connections and settings"
+    },
+    "email": {
+      "title": "Email Settings",
+      "subtitle": "Configure email server and notifications"
+    },
+    "payment": {
+      "title": "Payment Settings", 
+      "subtitle": "Configure payment methods and billing"
+    },
+    "firebase": {
+      "title": "Firebase Settings",
+      "subtitle": "Configure Firebase integration and services"
+    }
   },
   "employees": {
+    "title": "Owner Management",
+    "subtitle": "Manage owners and their access permissions",
     "management": "Owner Management",
     "description": "Manage your owners and their access",
     "addEmployee": "Add Owner",
