@@ -13,6 +13,28 @@
       "security": "Security",
       "payment": "Payment",
       "adminAccess": "Admin Access"
+    },
+    "permissions": {
+      "title": "Permission Management",
+      "subtitle": "Configure owner permissions",
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "save": "Save",
+      "noEmployees": "No owners found",
+      "selectEmployee": "Select an owner",
+      "chooseEmployee": "Choose an owner",
+      "selectedEmployeeInfo": "Selected owner information",
+      "name": "Name",
+      "email": "Email",
+      "company": "Company",
+      "noCompany": "No company",
+      "unknownCompany": "Unknown company",
+      "allowAll": "Allow all",
+      "denyAll": "Deny all",
+      "read": "Read",
+      "write": "Write",
+      "view": "View",
+      "delete": "Delete"
     }
   },
   "employees": {
