@@ -66,7 +66,32 @@
     "email": {
       "title": "Email Settings",
       "subtitle": "Configure email server and notifications",
-      "enabled": "Email enabled"
+      "enabled": "Email enabled",
+      "loadingSettings": "Loading email settings...",
+      "saving": "Saving...",
+      "testMode": "Test mode",
+      "testing": "Testing...",
+      "recommendedConfig": "Recommended Configuration",
+      "gmailConfig": "For Gmail: Use smtp.gmail.com with TLS on port 587",
+      "outlookConfig": "For Outlook: Use smtp-mail.outlook.com with TLS on port 587",
+      "appPasswordRecommendation": "Use app-specific passwords for better security",
+      "testConnectionRecommendation": "Always test your connection before saving",
+      "smtp": {
+        "title": "SMTP Configuration",
+        "server": "SMTP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "fromEmail": "From Email",
+        "fromName": "From Name",
+        "testConnection": "Test Connection"
+      },
+      "securityOptions": {
+        "none": "None",
+        "tls": "TLS",
+        "ssl": "SSL"
+      }
     },
     "payment": {
       "title": "Payment Settings", 
