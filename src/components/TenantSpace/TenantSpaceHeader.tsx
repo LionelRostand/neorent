@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
@@ -20,29 +19,21 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
 }) => {
   const { t } = useTranslation();
   
-  // Convert French type to English for translation key
-  const typeKey = currentType === 'colocataire' ? 'roommate' : 'tenant';
-  const translatedType = t(`tenantSpace.${typeKey}`);
-  
   // Clean the name by trimming whitespace and removing extra spaces
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || t('common.user');
   const isRoommate = currentType === 'colocataire';
 
-  // For the title, use room number if available, otherwise use translated type
-  const titleDisplay = currentProfile?.roomNumber 
-    ? t('tenantSpace.room', { number: currentProfile.roomNumber })
-    : translatedType;
+  // Force "Roommate" for the title display
+  const titleDisplay = "Roommate";
 
   // For the badge, display room number if available, otherwise use translated type
   const displayType = currentProfile?.roomNumber 
     ? t('tenantSpace.room', { number: currentProfile.roomNumber })
-    : translatedType;
+    : t(`tenantSpace.${currentType === 'colocataire' ? 'roommate' : 'tenant'}`);
 
   console.log('TenantSpaceHeader render:', {
     currentProfile,
     currentType,
-    typeKey,
-    translatedType,
     cleanName,
     roomNumber: currentProfile?.roomNumber,
     titleDisplay,
