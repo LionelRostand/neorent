@@ -3,6 +3,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, Home, Users, DollarSign, Calendar } from 'lucide-react';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 
 interface OwnerDashboardStatsProps {
   ownerProfile: any;
@@ -10,11 +13,47 @@ interface OwnerDashboardStatsProps {
 
 const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile }) => {
   const { t } = useTranslation();
+  const { properties } = useFirebaseProperties();
+  const { roommates } = useFirebaseRoommates();
+  const { payments } = useFirebasePayments();
+
+  // Filtrer les données selon le propriétaire connecté
+  const ownerProperties = properties.filter(property => 
+    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
+  );
+
+  const activeTenants = roommates.filter(roommate => 
+    roommate.status === 'Actif' && 
+    ownerProperties.some(property => property.title === roommate.property)
+  );
+
+  // Calculer les revenus mensuels
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  const monthlyPayments = payments.filter(payment => {
+    const paymentDate = new Date(payment.date);
+    return paymentDate.getMonth() === currentMonth && 
+           paymentDate.getFullYear() === currentYear &&
+           ownerProperties.some(property => property.title === payment.property);
+  });
+
+  const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.amount, 0);
+
+  // Calculer le taux d'occupation
+  const totalRooms = ownerProperties.reduce((total, property) => {
+    if (property.locationType === 'Colocation') {
+      return total + (property.totalRooms || 0);
+    }
+    return total + 1;
+  }, 0);
+
+  const occupiedRooms = activeTenants.length;
+  const occupancyRate = totalRooms > 0 ? Math.round((occupiedRooms / totalRooms) * 100) : 0;
 
   const stats = [
     {
       title: t('ownerSpace.dashboard.stats.propertiesManaged'),
-      value: '8',
+      value: ownerProperties.length.toString(),
       change: `+2 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: Home,
       color: 'text-blue-600',
@@ -22,7 +61,7 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     },
     {
       title: t('ownerSpace.dashboard.stats.activeTenants'),
-      value: '15',
+      value: activeTenants.length.toString(),
       change: `+3 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: Users,
       color: 'text-green-600',
@@ -30,7 +69,7 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     },
     {
       title: t('ownerSpace.dashboard.stats.monthlyRevenue'),
-      value: '12,450€',
+      value: `${monthlyRevenue.toLocaleString()}€`,
       change: `+8.2% ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: DollarSign,
       color: 'text-yellow-600',
@@ -38,7 +77,7 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     },
     {
       title: t('ownerSpace.dashboard.stats.occupancyRate'),
-      value: '94%',
+      value: `${occupancyRate}%`,
       change: `+2% ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: TrendingUp,
       color: 'text-purple-600',

@@ -3,7 +3,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, CheckCircle, AlertCircle, User, Home } from 'lucide-react';
+import { Clock, CheckCircle, AlertCircle, User, Home, DollarSign, Wrench } from 'lucide-react';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface OwnerRecentActivityProps {
   ownerProfile: any;
@@ -11,54 +14,115 @@ interface OwnerRecentActivityProps {
 
 const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile }) => {
   const { t } = useTranslation();
+  const { payments } = useFirebasePayments();
+  const { roommates } = useFirebaseRoommates();
+  const { properties } = useFirebaseProperties();
 
-  const activities = [
-    {
-      id: 1,
-      type: 'payment',
-      title: t('ownerSpace.recentActivity.activities.paymentReceived', { number: '12' }),
-      description: t('ownerSpace.recentActivity.activities.paymentDescription', { tenant: 'Marie Dupont', month: 'janvier' }),
-      time: t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: 2 }),
-      status: 'success',
-      icon: CheckCircle
-    },
-    {
-      id: 2,
-      type: 'maintenance',
-      title: t('ownerSpace.recentActivity.activities.maintenanceRequest'),
-      description: t('ownerSpace.recentActivity.activities.maintenanceDescription', { number: '8' }),
-      time: t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: 4 }),
-      status: 'warning',
-      icon: AlertCircle
-    },
-    {
-      id: 3,
-      type: 'tenant',
-      title: t('ownerSpace.recentActivity.activities.newTenant'),
-      description: t('ownerSpace.recentActivity.activities.newTenantDescription', { tenant: 'Jean Martin', number: '15' }),
-      time: t('ownerSpace.recentActivity.timeAgo.yesterday'),
-      status: 'info',
-      icon: User
-    },
-    {
-      id: 4,
-      type: 'inspection',
-      title: t('ownerSpace.recentActivity.activities.inspectionCompleted'),
-      description: t('ownerSpace.recentActivity.activities.inspectionDescription', { number: '3' }),
-      time: t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: 2 }),
-      status: 'success',
-      icon: Home
-    },
-    {
-      id: 5,
-      type: 'payment',
-      title: t('ownerSpace.recentActivity.activities.paymentDelay'),
-      description: t('ownerSpace.recentActivity.activities.paymentDelayDescription', { tenant: 'Paul Dubois', number: '7', days: 5 }),
-      time: t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: 3 }),
-      status: 'error',
-      icon: AlertCircle
+  // Filtrer les propriétés du propriétaire
+  const ownerProperties = properties.filter(property => 
+    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
+  );
+
+  // Récupérer les activités récentes
+  const getRecentActivities = () => {
+    const activities = [];
+
+    // Paiements récents
+    const recentPayments = payments
+      .filter(payment => ownerProperties.some(prop => prop.title === payment.property))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 3);
+
+    recentPayments.forEach(payment => {
+      const tenant = roommates.find(r => 
+        r.property === payment.property && r.status === 'Actif'
+      );
+      activities.push({
+        id: `payment-${payment.id}`,
+        type: 'payment',
+        title: t('ownerSpace.recentActivity.activities.paymentReceived', { 
+          number: payment.property.split(' ').pop() || 'N/A' 
+        }),
+        description: t('ownerSpace.recentActivity.activities.paymentDescription', { 
+          tenant: tenant?.firstName + ' ' + tenant?.lastName || 'Locataire', 
+          month: new Date(payment.date).toLocaleDateString('fr-FR', { month: 'long' })
+        }),
+        time: getTimeAgo(payment.date),
+        status: payment.status === 'Validé' ? 'success' : 'warning',
+        icon: CheckCircle,
+        date: new Date(payment.date)
+      });
+    });
+
+    // Nouveaux locataires
+    const recentTenants = roommates
+      .filter(roommate => 
+        roommate.status === 'Actif' && 
+        ownerProperties.some(prop => prop.title === roommate.property)
+      )
+      .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+      .slice(0, 2);
+
+    recentTenants.forEach(tenant => {
+      activities.push({
+        id: `tenant-${tenant.id}`,
+        type: 'tenant',
+        title: t('ownerSpace.recentActivity.activities.newTenant'),
+        description: t('ownerSpace.recentActivity.activities.newTenantDescription', { 
+          tenant: tenant.firstName + ' ' + tenant.lastName,
+          number: tenant.property.split(' ').pop() || 'N/A'
+        }),
+        time: getTimeAgo(tenant.createdAt || new Date().toISOString()),
+        status: 'info',
+        icon: User,
+        date: new Date(tenant.createdAt || 0)
+      });
+    });
+
+    // Ajouter quelques activités fictives pour l'exemple
+    activities.push(
+      {
+        id: 'maintenance-1',
+        type: 'maintenance',
+        title: t('ownerSpace.recentActivity.activities.maintenanceRequest'),
+        description: t('ownerSpace.recentActivity.activities.maintenanceDescription', { number: '8' }),
+        time: t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: 4 }),
+        status: 'warning',
+        icon: Wrench,
+        date: new Date(Date.now() - 4 * 60 * 60 * 1000)
+      },
+      {
+        id: 'inspection-1',
+        type: 'inspection',
+        title: t('ownerSpace.recentActivity.activities.inspectionCompleted'),
+        description: t('ownerSpace.recentActivity.activities.inspectionDescription', { number: '3' }),
+        time: t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: 2 }),
+        status: 'success',
+        icon: Home,
+        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+      }
+    );
+
+    // Trier par date et retourner les 5 plus récentes
+    return activities
+      .sort((a, b) => b.date.getTime() - a.date.getTime())
+      .slice(0, 5);
+  };
+
+  const getTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+
+    if (diffInHours < 24) {
+      return t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: diffInHours });
+    } else if (diffInHours < 48) {
+      return t('ownerSpace.recentActivity.timeAgo.yesterday');
+    } else {
+      const diffInDays = Math.floor(diffInHours / 24);
+      return t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: diffInDays });
     }
-  ];
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -90,6 +154,8 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
     }
   };
 
+  const activities = getRecentActivities();
+
   return (
     <Card>
       <CardHeader>
@@ -100,26 +166,33 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {activities.map((activity) => {
-            const Icon = activity.icon;
-            return (
-              <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors">
-                <div className={`p-2 rounded-full ${getIconColor(activity.status)}`}>
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="font-medium text-gray-900 truncate">{activity.title}</p>
-                    <Badge variant="secondary" className={getStatusColor(activity.status)}>
-                      {t(`ownerSpace.recentActivity.types.${activity.type}`)}
-                    </Badge>
+          {activities.length === 0 ? (
+            <div className="text-center py-8">
+              <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">Aucune activité récente</p>
+            </div>
+          ) : (
+            activities.map((activity) => {
+              const Icon = activity.icon;
+              return (
+                <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className={`p-2 rounded-full ${getIconColor(activity.status)}`}>
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <p className="text-sm text-gray-600 mb-2">{activity.description}</p>
-                  <p className="text-xs text-gray-500">{activity.time}</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="font-medium text-gray-900 truncate">{activity.title}</p>
+                      <Badge variant="secondary" className={getStatusColor(activity.status)}>
+                        {t(`ownerSpace.recentActivity.types.${activity.type}`)}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-2">{activity.description}</p>
+                    <p className="text-xs text-gray-500">{activity.time}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </CardContent>
     </Card>
