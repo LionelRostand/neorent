@@ -37,33 +37,33 @@ const OwnerSpace = () => {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="min-h-screen bg-gray-50">
         {/* Header avec profil propriétaire */}
-        <div className="bg-white shadow-sm border-b mb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="bg-white shadow-sm border-b mb-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-lg font-bold">
                     {currentProfile?.name?.charAt(0).toUpperCase() || 'P'}
                   </span>
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-gray-900">
                     Espace Propriétaire
                   </h1>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-gray-600 text-sm">
                     Bienvenue, {currentProfile?.name || 'Propriétaire'}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs text-gray-500">
                     {currentProfile?.role || 'Propriétaire'} • {currentProfile?.email}
                   </p>
                 </div>
               </div>
-              <div className="mt-4 md:mt-0">
-                <div className="flex items-center space-x-2 bg-green-100 px-4 py-2 rounded-full">
+              <div className="mt-3 md:mt-0">
+                <div className="flex items-center space-x-2 bg-green-100 px-3 py-1 rounded-full">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-green-800 text-sm font-medium">Actif</span>
+                  <span className="text-green-800 text-xs font-medium">Actif</span>
                 </div>
               </div>
             </div>
@@ -71,10 +71,10 @@ const OwnerSpace = () => {
         </div>
 
         {/* Contenu principal */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Colonne principale */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-3 space-y-6">
               {/* Statistiques */}
               <OwnerDashboardStats ownerProfile={currentProfile} />
               
@@ -86,7 +86,7 @@ const OwnerSpace = () => {
             </div>
 
             {/* Barre latérale */}
-            <div className="space-y-6">
+            <div className="lg:col-span-1 space-y-4">
               {/* Actions rapides */}
               <OwnerQuickActions ownerProfile={currentProfile} />
             </div>
