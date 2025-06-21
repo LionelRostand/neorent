@@ -61,6 +61,8 @@ import frHelp from './locales/fr/help.json';
 import frPublicSite from './locales/fr/publicSite.json';
 import frTenantSpace from './locales/fr/tenantSpace.json';
 import frTenantHistory from './locales/fr/tenantHistory.json';
+import frTenantUpload from './locales/fr/tenantUpload.json';
+import frTenantProfile from './locales/fr/tenantProfile.json';
 import frOwnerSpace from './locales/fr/ownerSpace.json';
 
 const resources = {
@@ -126,6 +128,8 @@ const resources = {
       ...frPublicSite,
       ...frTenantSpace,
       ...frTenantHistory,
+      ...frTenantUpload,
+      ...frTenantProfile,
       ...frOwnerSpace
     }
   }
