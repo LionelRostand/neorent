@@ -43,7 +43,8 @@
       "saving": "Saving...",
       "passwordPolicy": "Password Policy",
       "twoFactor": "Two-Factor Authentication",
-      "sessionSecurity": "Session Security"
+      "sessionSecurity": "Session Security",
+      "minLength": "Minimum Length"
     },
     "adminAccess": "Admin Access",
     "adminAccessDescription": "Manage administrative access to tenant accounts",
@@ -64,7 +65,8 @@
     },
     "email": {
       "title": "Email Settings",
-      "subtitle": "Configure email server and notifications"
+      "subtitle": "Configure email server and notifications",
+      "enabled": "Email enabled"
     },
     "payment": {
       "title": "Payment Settings", 
