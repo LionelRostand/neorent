@@ -75,7 +75,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {currentProfile?.leaseStart && (
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{t('common.since')} {new Date(currentProfile.leaseStart).toLocaleDateString()}</span>
+                <span>{t('tenantSpace.history.since')} {new Date(currentProfile.leaseStart).toLocaleDateString()}</span>
               </div>
             )}
           </div>
