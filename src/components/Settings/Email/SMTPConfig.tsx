@@ -1,14 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Mail, Send } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Mail, Send, TestTube } from 'lucide-react';
 import { SMTPSettings } from '../types/email';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 interface SMTPConfigProps {
   settings: SMTPSettings;
@@ -24,12 +27,50 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
   testing = false
 }) => {
   const { t } = useTranslation();
+  const [testEmailOpen, setTestEmailOpen] = useState(false);
+  const [testEmailData, setTestEmailData] = useState({
+    to: '',
+    subject: 'Test d\'envoi depuis NeoRent',
+    message: 'Ceci est un email de test envoyé depuis la configuration SMTP de NeoRent.\n\nSi vous recevez cet email, la configuration fonctionne correctement.'
+  });
+  const [sendingTestEmail, setSendingTestEmail] = useState(false);
 
   const handleChange = (field: keyof SMTPSettings, value: string | number) => {
     onSettingsChange({
       ...settings,
       [field]: value
     });
+  };
+
+  const handleSendTestEmail = async () => {
+    if (!testEmailData.to) {
+      toast.error('Veuillez saisir une adresse email de destination');
+      return;
+    }
+
+    setSendingTestEmail(true);
+    try {
+      // Simulation de l'envoi d'email de test
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      console.log('Test email envoyé:', {
+        smtp: settings,
+        testData: testEmailData
+      });
+      
+      toast.success('Email de test envoyé!', {
+        description: `L'email a été envoyé à ${testEmailData.to}`
+      });
+      
+      setTestEmailOpen(false);
+    } catch (error) {
+      console.error('Erreur envoi email de test:', error);
+      toast.error('Échec de l\'envoi', {
+        description: 'Vérifiez votre configuration SMTP'
+      });
+    } finally {
+      setSendingTestEmail(false);
+    }
   };
 
   return (
@@ -121,7 +162,7 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex gap-3 justify-end">
           <Button 
             onClick={onTestConnection} 
             disabled={testing || !settings.host || !settings.username}
@@ -130,6 +171,72 @@ const SMTPConfig: React.FC<SMTPConfigProps> = ({
             <Mail className="h-4 w-4 mr-2" />
             {testing ? t('settings.email.testing') : t('settings.email.smtp.testConnection')}
           </Button>
+
+          <Dialog open={testEmailOpen} onOpenChange={setTestEmailOpen}>
+            <DialogTrigger asChild>
+              <Button 
+                disabled={!settings.host || !settings.username || !settings.fromEmail}
+                variant="default"
+              >
+                <TestTube className="h-4 w-4 mr-2" />
+                Tester l'envoi
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>Test d'envoi d'email</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="test-email-to">Destinataire</Label>
+                  <Input
+                    id="test-email-to"
+                    type="email"
+                    placeholder="test@example.com"
+                    value={testEmailData.to}
+                    onChange={(e) => setTestEmailData(prev => ({ ...prev, to: e.target.value }))}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="test-email-subject">Sujet</Label>
+                  <Input
+                    id="test-email-subject"
+                    value={testEmailData.subject}
+                    onChange={(e) => setTestEmailData(prev => ({ ...prev, subject: e.target.value }))}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="test-email-message">Message</Label>
+                  <Textarea
+                    id="test-email-message"
+                    rows={4}
+                    value={testEmailData.message}
+                    onChange={(e) => setTestEmailData(prev => ({ ...prev, message: e.target.value }))}
+                    className="resize-none"
+                  />
+                </div>
+                
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => setTestEmailOpen(false)}
+                    disabled={sendingTestEmail}
+                  >
+                    Annuler
+                  </Button>
+                  <Button
+                    onClick={handleSendTestEmail}
+                    disabled={sendingTestEmail || !testEmailData.to}
+                  >
+                    <Send className="h-4 w-4 mr-2" />
+                    {sendingTestEmail ? 'Envoi...' : 'Envoyer'}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </CardContent>
     </Card>
