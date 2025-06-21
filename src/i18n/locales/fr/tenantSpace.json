@@ -1,4 +1,3 @@
-
 {
   "tenantSpace": {
     "title": "Espace {type}",
@@ -6,6 +5,13 @@
     "room": "Chambre {number}",
     "tenant": "Locataire",
     "roommate": "Colocataire",
+    "quickActions": {
+      "title": "Actions rapides",
+      "payments": "Paiements",
+      "maintenance": "Maintenance",
+      "messages": "Messages",
+      "profile": "Profil"
+    },
     "tabs": {
       "overview": "Aperçu",
       "payment": "Paiement",
