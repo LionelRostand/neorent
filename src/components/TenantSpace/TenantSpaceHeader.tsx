@@ -29,7 +29,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
 
   // For the badge, display room number if available, otherwise use translated type
   const displayType = currentProfile?.roomNumber 
-    ? t('tenantSpace.room', { number: currentProfile.roomNumber })
+    ? `${t('tenantSpace.room').replace('{number}', currentProfile.roomNumber)}`
     : t(`tenantSpace.${currentType === 'colocataire' ? 'roommate' : 'tenant'}`);
 
   console.log('TenantSpaceHeader render:', {
@@ -59,7 +59,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
                 {titleDisplay} Space
               </h1>
               <p className="text-gray-600 mt-1 text-lg">
-                {t('tenantSpace.welcome', { name: cleanName })}
+                {t('tenantSpace.welcome').replace('{name}', cleanName)}
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {currentProfile?.roomNumber && (
               <div className="flex items-center gap-2">
                 <Key className="h-4 w-4" />
-                <span>{t('tenantSpace.room', { number: currentProfile.roomNumber })}</span>
+                <span>{t('tenantSpace.room').replace('{number}', currentProfile.roomNumber)}</span>
               </div>
             )}
             {currentProfile?.address && (
