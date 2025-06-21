@@ -19,9 +19,12 @@ const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
   const { t } = useTranslation();
 
   const getBadgeVariant = (status: string) => {
-    if (status === 'Terminé' || status === 'Completed' || status === t('inspections.completed')) {
+    if (!status) return 'outline';
+    
+    const lowerStatus = status.toLowerCase();
+    if (lowerStatus.includes('completed') || lowerStatus.includes('terminé')) {
       return 'default';
-    } else if (status === 'En cours' || status === 'In Progress' || status === t('inspections.inProgress')) {
+    } else if (lowerStatus.includes('progress') || lowerStatus.includes('cours')) {
       return 'secondary';
     } else {
       return 'outline';
@@ -29,13 +32,31 @@ const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
   };
 
   const getBadgeClassName = (status: string) => {
-    if (status === 'Terminé' || status === 'Completed' || status === t('inspections.completed')) {
+    if (!status) return 'bg-gray-100 text-gray-800';
+    
+    const lowerStatus = status.toLowerCase();
+    if (lowerStatus.includes('completed') || lowerStatus.includes('terminé')) {
       return 'bg-green-100 text-green-800';
-    } else if (status === 'En cours' || status === 'In Progress' || status === t('inspections.inProgress')) {
+    } else if (lowerStatus.includes('progress') || lowerStatus.includes('cours')) {
       return 'bg-yellow-100 text-yellow-800';
     } else {
       return 'bg-blue-100 text-blue-800';
     }
+  };
+
+  // Translate inspection type
+  const getTranslatedType = (type: string) => {
+    if (!type) return '';
+    
+    const lowerType = type.toLowerCase();
+    if (lowerType.includes('entrée') || lowerType.includes('entry')) {
+      return t('inspections.entryInspection');
+    } else if (lowerType.includes('sortie') || lowerType.includes('exit')) {
+      return t('inspections.exitInspection');
+    } else if (lowerType.includes('intermédiaire') || lowerType.includes('intermediate')) {
+      return t('inspections.intermediateInspection');
+    }
+    return type;
   };
 
   return (
@@ -53,7 +74,7 @@ const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
               {inspection.title}
             </h3>
             <p className="text-sm sm:text-base text-gray-600 mt-1 break-words">
-              {inspection.type}
+              {getTranslatedType(inspection.type)}
             </p>
           </div>
           <div className="flex-shrink-0 self-start sm:self-auto">
@@ -61,7 +82,7 @@ const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
               variant={getBadgeVariant(inspection.status)}
               className={`text-xs sm:text-sm whitespace-nowrap ${getBadgeClassName(inspection.status)}`}
             >
-              {inspection.status}
+              {inspection.status || t('inspections.planned')}
             </Badge>
           </div>
         </div>
@@ -71,7 +92,7 @@ const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
             <Calendar className="mr-2 sm:mr-3 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
             <span className="truncate">
               <span className="font-medium">{t('inspections.date')}: </span>
-              {new Date(inspection.date).toLocaleDateString('fr-FR')}
+              {new Date(inspection.date).toLocaleDateString()}
             </span>
           </div>
           <div className="flex items-center text-gray-600 text-sm sm:text-base">

@@ -16,7 +16,9 @@ interface PropertyDetailsSectionProps {
 const PropertyDetailsSection = ({ inspection }: PropertyDetailsSectionProps) => {
   const { t } = useTranslation();
   
-  const isColocatif = inspection.contractType === 'Bail colocatif' || (inspection.tenant && inspection.tenant.includes('Colocataire'));
+  const isColocatif = inspection.contractType === 'Bail colocatif' || 
+                     inspection.contractType === 'Shared lease' ||
+                     (inspection.tenant && (inspection.tenant.includes('Colocataire') || inspection.tenant.includes('Roommate')));
 
   return (
     <Card>

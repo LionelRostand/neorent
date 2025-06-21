@@ -29,11 +29,11 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
   const handleGeneratePDF = () => {
     if (!inspection) return;
 
-    // Générer le PDF avec toutes les informations de l'état des lieux
+    // Generate PDF with all inspection information
     const pdfDocument = {
       id: Date.now(),
-      name: `Etat_lieux_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
-      type: 'etat_lieux',
+      name: `Inspection_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
+      type: 'inspection_report',
       uploadDate: new Date().toISOString(),
       inspectionId: inspection.id,
       tenantName: inspection.tenant,
@@ -56,17 +56,17 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
       }
     };
 
-    console.log('Document PDF généré avec contenu complet:', pdfDocument);
-    console.log(`PDF stocké dans le profil de ${inspection.tenant} - Onglet Documents`);
+    console.log('PDF document generated with complete content:', pdfDocument);
+    console.log(`PDF stored in ${inspection.tenant}'s profile - Documents tab`);
     
-    // Simulation de l'envoi vers l'API backend
-    console.log('Envoi vers l\'API:', {
+    // Simulate sending to backend API
+    console.log('Sending to API:', {
       endpoint: '/api/documents/generate-pdf',
       method: 'POST',
       data: pdfDocument
     });
     
-    alert(`PDF généré avec succès et stocké dans le profil de ${inspection.tenant}!\n\nNom du fichier: ${pdfDocument.name}`);
+    alert(`${t('inspections.generatePDF')} ${t('common.success')}!\n\n${t('common.fileName')}: ${pdfDocument.name}`);
   };
 
   return (
