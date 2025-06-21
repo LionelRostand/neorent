@@ -1,12 +1,8 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
-import { 
-  CreditCard, 
-  CheckCircle, 
-  Euro,
-  TrendingUp
-} from 'lucide-react';
+import { Euro, CheckCircle, Home, TrendingUp } from 'lucide-react';
 
 interface PaymentSummaryCardsProps {
   totalPaid: number;
@@ -21,55 +17,56 @@ const PaymentSummaryCards: React.FC<PaymentSummaryCardsProps> = ({
   monthlyRent,
   monthlyCharges
 }) => {
+  const { t } = useTranslation();
+
+  const summaryCards = [
+    {
+      title: t('tenantHistory.totalPaid'),
+      value: `${totalPaid}€`,
+      icon: Euro,
+      color: 'text-green-600',
+      bgColor: 'bg-green-100'
+    },
+    {
+      title: t('tenantHistory.paymentsCount'),
+      value: paidPayments.toString(),
+      icon: CheckCircle,
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-100'
+    },
+    {
+      title: t('tenantHistory.monthlyRent'),
+      value: `${monthlyRent}€`,
+      icon: Home,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-100'
+    },
+    {
+      title: t('tenantHistory.monthlyCharges'),
+      value: `${monthlyCharges}€`,
+      icon: TrendingUp,
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-100'
+    }
+  ];
+
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-      <Card>
-        <CardContent className="pt-4 md:pt-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs md:text-sm text-gray-600">Total payé</p>
-              <p className="text-lg md:text-2xl font-bold text-green-600">{totalPaid.toLocaleString()}€</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {summaryCards.map((card, index) => (
+        <Card key={index} className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-3">
+              <div className={`p-2 rounded-lg ${card.bgColor}`}>
+                <card.icon className={`h-5 w-5 ${card.color}`} />
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">{card.title}</p>
+                <p className="text-xl font-bold text-gray-900">{card.value}</p>
+              </div>
             </div>
-            <Euro className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardContent className="pt-4 md:pt-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs md:text-sm text-gray-600">Paiements effectués</p>
-              <p className="text-lg md:text-2xl font-bold text-blue-600">{paidPayments}</p>
-            </div>
-            <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-blue-500" />
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardContent className="pt-4 md:pt-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs md:text-sm text-gray-600">Loyer mensuel</p>
-              <p className="text-lg md:text-2xl font-bold text-purple-600">{monthlyRent}€</p>
-            </div>
-            <CreditCard className="h-6 w-6 md:h-8 md:w-8 text-purple-500" />
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardContent className="pt-4 md:pt-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs md:text-sm text-gray-600">Charges mensuelles</p>
-              <p className="text-lg md:text-2xl font-bold text-orange-600">{monthlyCharges}€</p>
-            </div>
-            <TrendingUp className="h-6 w-6 md:h-8 md:w-8 text-orange-500" />
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 };
