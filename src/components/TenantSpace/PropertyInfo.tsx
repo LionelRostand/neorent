@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -75,6 +74,22 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
     return t('tenantSpace.overview.ordinalFloor.1');
   };
 
+  // Function to translate equipment features
+  const translateFeature = (feature: string) => {
+    switch (feature.toLowerCase()) {
+      case 'chambre meublée':
+        return t('tenantProfile.furnishedRoom');
+      case 'cuisine partagée':
+        return t('tenantProfile.sharedKitchen');
+      case 'salle de bain partagée':
+        return t('tenantProfile.sharedBathroom');
+      case 'lumineux':
+        return t('tenantProfile.luminous');
+      default:
+        return feature;
+    }
+  };
+
   return (
     <div className="space-y-4 md:space-y-6">
       {/* Informations générales */}
@@ -127,7 +142,7 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
             
             <div className="space-y-4">
               <div>
-                <p className="text-xs md:text-sm text-gray-600 mb-2">{t('tenantSpace.overview.equipment')}</p>
+                <p className="text-xs md:text-sm text-gray-600 mb-2">{t('tenantProfile.equipment')}</p>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-sm md:text-base">{t('tenantSpace.overview.furnished')}</span>
@@ -204,7 +219,7 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ propertyData }) => {
                 variant="secondary" 
                 className="justify-center py-2 text-xs md:text-sm"
               >
-                {feature}
+                {translateFeature(feature)}
               </Badge>
             ))}
           </div>
