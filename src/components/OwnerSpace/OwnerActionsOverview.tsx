@@ -40,13 +40,12 @@ const OwnerActionsOverview: React.FC<OwnerActionsOverviewProps> = ({ ownerProfil
     new Date(inspection.date).getMonth() === new Date().getMonth()
   ).length;
 
+  // Simpler logic for contracts to renew (using moveInDate to estimate renewal needs)
   const contractsToRenew = ownerTenants.filter(tenant => {
-    // Simpler logic pour les contrats à renouveler (dans les 3 prochains mois)
-    const endDate = new Date(tenant.leaseEnd || '2025-12-31');
-    const today = new Date();
-    const threeMonthsFromNow = new Date();
-    threeMonthsFromNow.setMonth(today.getMonth() + 3);
-    return endDate <= threeMonthsFromNow;
+    // Simple estimation: if tenant moved in more than 10 months ago, might need renewal soon
+    const moveInDate = new Date(tenant.moveInDate);
+    const monthsSinceMove = (new Date().getTime() - moveInDate.getTime()) / (1000 * 60 * 60 * 24 * 30);
+    return monthsSinceMove > 10;
   }).length;
 
   // Calcul des revenus mensuels
