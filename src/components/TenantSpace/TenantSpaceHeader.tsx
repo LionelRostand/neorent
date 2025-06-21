@@ -28,6 +28,11 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || t('common.user');
   const isRoommate = currentType === 'colocataire';
 
+  // For roommates, display room number instead of type
+  const displayType = isRoommate && currentProfile?.roomNumber 
+    ? t('tenantSpace.room', { number: currentProfile.roomNumber })
+    : translatedType;
+
   console.log('TenantSpaceHeader render:', {
     currentProfile,
     currentType,
@@ -35,8 +40,8 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
     translatedType,
     cleanName,
     roomNumber: currentProfile?.roomNumber,
-    tFunction: typeof t,
-    testTranslation: t('tenantSpace.title', { type: translatedType })
+    displayType,
+    isRoommate
   });
 
   return (
@@ -77,7 +82,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {currentProfile?.leaseStart && (
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{t('tenantSpace.history.since')} {new Date(currentProfile.leaseStart).toLocaleDateString()}</span>
+                <span>{t('tenantHistory.since')} {new Date(currentProfile.leaseStart).toLocaleDateString()}</span>
               </div>
             )}
           </div>
@@ -89,7 +94,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             className="bg-green-100 text-green-800 border-green-200 text-sm px-4 py-2 font-medium"
           >
             <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-            {translatedType}
+            {displayType}
           </Badge>
           <Badge 
             variant="outline" 

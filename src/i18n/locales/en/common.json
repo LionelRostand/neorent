@@ -67,6 +67,8 @@
     "tenantNotFound": "Tenant profile not found",
     "contactAdminForHelp": "Please contact an administrator for assistance",
     "backToAdmin": "Back to Administration",
-    "month": "Month"
+    "month": "Month",
+    "user": "User",
+    "activeAccount": "Active Account"
   }
 }
