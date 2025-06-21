@@ -28,7 +28,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || t('common.user');
   const isRoommate = currentType === 'colocataire';
 
-  // For the title, always show Room Space when there's a room number, otherwise use type
+  // For the title, use room number if available, otherwise use translated type
   const titleDisplay = currentProfile?.roomNumber 
     ? t('tenantSpace.room', { number: currentProfile.roomNumber })
     : translatedType;
@@ -64,13 +64,10 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
-                {currentProfile?.roomNumber 
-                  ? `${titleDisplay} Space`
-                  : `${titleDisplay} Space`
-                }
+                {t('tenantSpace.title', { type: titleDisplay })}
               </h1>
               <p className="text-gray-600 mt-1 text-lg">
-                Welcome {cleanName}
+                {t('tenantSpace.welcome', { name: cleanName })}
               </p>
             </div>
           </div>
