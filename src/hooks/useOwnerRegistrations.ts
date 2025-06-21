@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs, doc, updateDoc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { useToast } from '@/hooks/use-toast';
 
 interface OwnerRegistrationRequest {
@@ -21,7 +20,6 @@ interface OwnerRegistrationRequest {
 export const useOwnerRegistrations = () => {
   const [requests, setRequests] = useState<OwnerRegistrationRequest[]>([]);
   const [loading, setLoading] = useState(true);
-  const { createUserAccount } = useFirebaseAuth();
   const { toast } = useToast();
 
   const fetchRequests = async () => {
@@ -45,14 +43,14 @@ export const useOwnerRegistrations = () => {
 
   const approveRequest = async (request: OwnerRegistrationRequest) => {
     try {
-      // Vérifier d'abord si un profil utilisateur existe déjà
+      // Vérifier si un profil utilisateur existe déjà
       const userRolesSnapshot = await getDocs(collection(db, 'user_roles'));
       const existingUser = userRolesSnapshot.docs.find(doc => 
         doc.data().email === request.email
       );
 
       if (existingUser) {
-        // Si un profil existe déjà, on met simplement à jour ses informations
+        // Mettre à jour le profil existant
         const userData = existingUser.data();
         const updatedProfile = {
           ...userData,
@@ -67,99 +65,39 @@ export const useOwnerRegistrations = () => {
 
         await updateDoc(doc(db, 'user_roles', existingUser.id), updatedProfile);
 
-        // Mettre à jour le statut de la demande
-        await updateDoc(doc(db, 'owner_registration_requests', request.id), {
-          status: 'approved',
-          approvedAt: new Date().toISOString(),
-          note: 'Compte existant mis à jour'
-        });
-
         toast({
           title: "Demande approuvée",
-          description: `Le profil de ${request.name} a été mis à jour. Le compte existant peut maintenant accéder à l'espace propriétaire.`,
+          description: `Le profil de ${request.name} a été mis à jour et apparaît maintenant dans l'onglet Propriétaires.`,
         });
-
-        fetchRequests();
-        return;
-      }
-
-      // Si aucun profil n'existe, créer un nouveau compte
-      const tempPassword = `Owner${Math.random().toString(36).substring(2, 10)}!`;
-      
-      const result = await createUserAccount(request.email, tempPassword);
-      
-      if (result.emailAlreadyExists) {
-        // Si le compte Firebase existe mais pas le profil Firestore, créer le profil
-        toast({
-          title: "Information",
-          description: "Un compte Firebase existe déjà. Création du profil propriétaire...",
-        });
-
-        // Créer le profil propriétaire même si le compte Firebase existe
+      } else {
+        // Créer un nouveau profil propriétaire
+        const ownerId = `owner_${Date.now()}_${request.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
         const ownerProfile = {
           role: 'employee' as const,
           email: request.email,
           name: request.name,
           createdAt: new Date().toISOString(),
           permissions: ['read'],
-          hasPassword: true,
+          hasPassword: false, // L'admin pourra définir le mot de passe
           isOwner: true,
           phone: request.phone || '',
           company: request.company || '',
           address: request.address || '',
-          note: 'Profil créé pour compte Firebase existant'
+          fromRegistrationRequest: true
         };
 
-        // Utiliser l'email comme ID temporaire (à remplacer par l'UID si nécessaire)
-        const profileId = `profile_${Date.now()}_${request.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
-        await setDoc(doc(db, 'user_roles', profileId), ownerProfile);
-
-        await updateDoc(doc(db, 'owner_registration_requests', request.id), {
-          status: 'approved',
-          approvedAt: new Date().toISOString(),
-          note: 'Profil créé pour compte existant'
-        });
+        await setDoc(doc(db, 'user_roles', ownerId), ownerProfile);
 
         toast({
-          title: "Profil créé",
-          description: `Le profil propriétaire de ${request.name} a été créé. L'utilisateur peut maintenant se connecter avec son mot de passe existant.`,
+          title: "Demande approuvée",
+          description: `Le profil de ${request.name} a été créé et apparaît maintenant dans l'onglet Propriétaires. Vous pouvez maintenant lui attribuer un mot de passe.`,
         });
-
-        fetchRequests();
-        return;
       }
-
-      if (!result.user) {
-        throw new Error('Échec de la création du compte');
-      }
-
-      // Créer le profil propriétaire avec le nouvel UID
-      const ownerProfile = {
-        role: 'employee' as const,
-        email: request.email,
-        name: request.name,
-        createdAt: new Date().toISOString(),
-        permissions: ['read'],
-        hasPassword: true,
-        isOwner: true,
-        phone: request.phone || '',
-        company: request.company || '',
-        address: request.address || '',
-        tempPassword: tempPassword
-      };
-
-      await setDoc(doc(db, 'user_roles', result.user.uid), ownerProfile);
 
       // Mettre à jour le statut de la demande
       await updateDoc(doc(db, 'owner_registration_requests', request.id), {
         status: 'approved',
-        approvedAt: new Date().toISOString(),
-        tempPassword: tempPassword
-      });
-
-      toast({
-        title: "Compte approuvé",
-        description: `Le compte de ${request.name} a été créé. Mot de passe temporaire: ${tempPassword}`,
+        approvedAt: new Date().toISOString()
       });
 
       fetchRequests();
