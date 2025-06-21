@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,6 +14,7 @@ interface OwnerRegistrationFormProps {
 }
 
 const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess }) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -40,8 +42,8 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
       await setDoc(doc(db, 'owner_registration_requests', requestId), registrationRequest);
       
       toast({
-        title: "Demande envoyée",
-        description: "Votre demande de création de compte a été envoyée. Un administrateur l'examinera prochainement.",
+        title: t('publicSite.ownerRegistration.requestSent'),
+        description: t('publicSite.ownerRegistration.requestSentDescription'),
       });
       
       setFormData({
@@ -57,8 +59,8 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
     } catch (error) {
       console.error('Error submitting registration request:', error);
       toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de l'envoi de votre demande.",
+        title: t('common.error'),
+        description: t('publicSite.ownerRegistration.submitError'),
         variant: "destructive",
       });
     } finally {
@@ -77,7 +79,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Nom complet *</Label>
+          <Label htmlFor="name">{t('publicSite.ownerRegistration.fullName')} *</Label>
           <Input
             id="name"
             name="name"
@@ -89,7 +91,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="email">Email *</Label>
+          <Label htmlFor="email">{t('publicSite.ownerRegistration.email')} *</Label>
           <Input
             id="email"
             name="email"
@@ -104,7 +106,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="phone">Téléphone</Label>
+          <Label htmlFor="phone">{t('publicSite.ownerRegistration.phone')}</Label>
           <Input
             id="phone"
             name="phone"
@@ -115,7 +117,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="company">Société</Label>
+          <Label htmlFor="company">{t('publicSite.ownerRegistration.company')}</Label>
           <Input
             id="company"
             name="company"
@@ -127,7 +129,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="address">Adresse</Label>
+        <Label htmlFor="address">{t('publicSite.ownerRegistration.address')}</Label>
         <Input
           id="address"
           name="address"
@@ -138,26 +140,25 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message">Message (optionnel)</Label>
+        <Label htmlFor="message">{t('publicSite.ownerRegistration.messageOptional')}</Label>
         <Textarea
           id="message"
           name="message"
           value={formData.message}
           onChange={handleChange}
-          placeholder="Informations complémentaires..."
+          placeholder={t('publicSite.ownerRegistration.messagePlaceholder')}
           disabled={isLoading}
         />
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <p className="text-sm text-blue-700">
-          <strong>Information importante :</strong> Votre demande sera examinée par un administrateur. 
-          Vous recevrez un email de confirmation une fois votre compte activé.
+          <strong>{t('publicSite.ownerRegistration.importantInfo')}:</strong> {t('publicSite.ownerRegistration.importantInfoText')}
         </p>
       </div>
 
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? 'Envoi en cours...' : 'Envoyer la demande'}
+        {isLoading ? t('publicSite.ownerRegistration.sending') : t('publicSite.ownerRegistration.sendRequest')}
       </Button>
     </form>
   );

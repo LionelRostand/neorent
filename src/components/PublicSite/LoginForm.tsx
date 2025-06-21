@@ -168,12 +168,12 @@ const LoginForm = () => {
             <Dialog open={showRegistration} onOpenChange={setShowRegistration}>
               <DialogTrigger asChild>
                 <button type="button" className="text-sm text-blue-600 hover:underline">
-                  Vous êtes propriétaire ? Créer un compte
+                  {t('publicSite.ownerRegistration.createAccountLink')}
                 </button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>Demande de création de compte propriétaire</DialogTitle>
+                  <DialogTitle>{t('publicSite.ownerRegistration.dialogTitle')}</DialogTitle>
                 </DialogHeader>
                 <OwnerRegistrationForm onSuccess={() => setShowRegistration(false)} />
               </DialogContent>

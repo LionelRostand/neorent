@@ -173,6 +173,24 @@
       "importantInfo": "Important information:",
       "profileWarning": "Your account must be configured by your property manager before first login. If you get an \"Access denied\" error, contact your manager to activate your account."
     },
+    "ownerRegistration": {
+      "createAccountLink": "Are you an owner? Create an account",
+      "dialogTitle": "Owner Account Creation Request",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company",
+      "address": "Address",
+      "messageOptional": "Message (optional)",
+      "messagePlaceholder": "Additional information...",
+      "importantInfo": "Important information",
+      "importantInfoText": "Your request will be reviewed by an administrator. You will receive a confirmation email once your account is activated.",
+      "sendRequest": "Send Request",
+      "sending": "Sending...",
+      "requestSent": "Request sent",
+      "requestSentDescription": "Your account creation request has been sent. An administrator will review it shortly.",
+      "submitError": "An error occurred while sending your request."
+    },
     "chat": {
       "startConversation": "Start a conversation",
       "fillForm": "Fill out the form to start chatting with our team",
