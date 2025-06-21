@@ -30,12 +30,12 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
 
   // For the title, use room number if available, otherwise use translated type
   const titleDisplay = currentProfile?.roomNumber 
-    ? `Room ${currentProfile.roomNumber}`
+    ? t('tenantSpace.room', { number: currentProfile.roomNumber })
     : translatedType;
 
   // For the badge, display room number if available, otherwise use translated type
   const displayType = currentProfile?.roomNumber 
-    ? `Room ${currentProfile.roomNumber}`
+    ? t('tenantSpace.room', { number: currentProfile.roomNumber })
     : translatedType;
 
   console.log('TenantSpaceHeader render:', {
