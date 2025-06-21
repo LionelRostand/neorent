@@ -143,6 +143,7 @@
     "updateError": "Error updating owner",
     "deleteSuccess": "Owner deleted successfully",
     "deleteError": "Error deleting owner",
+    "permissions": "Permissions",
     "noPermissions": "No permissions",
     "noCompany": "No company",
     "unknownCompany": "Unknown company",
