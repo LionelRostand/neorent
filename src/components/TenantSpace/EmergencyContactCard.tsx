@@ -38,19 +38,19 @@ const EmergencyContactCard: React.FC<EmergencyContactCardProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
           <Contact className="h-4 w-4 md:h-5 md:w-5" />
-          {t('tenantSpace.profile.emergencyContact')}
+          {t('tenantProfile.emergencyContact')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <Label className="text-xs md:text-sm">{t('tenantSpace.profile.emergencyName')}</Label>
+            <Label className="text-xs md:text-sm">{t('tenantProfile.emergencyName')}</Label>
             {isEditing ? (
               <Input
                 value={formData.emergencyName}
                 onChange={(e) => onFormDataChange('emergencyName', e.target.value)}
                 className="mt-1 text-sm md:text-base"
-                placeholder={t('tenantSpace.profile.emergencyName')}
+                placeholder={t('tenantProfile.emergencyName')}
                 disabled={isUpdating}
               />
             ) : (
@@ -59,13 +59,13 @@ const EmergencyContactCard: React.FC<EmergencyContactCardProps> = ({
           </div>
           
           <div>
-            <Label className="text-xs md:text-sm">{t('tenantSpace.profile.emergencyPhone')}</Label>
+            <Label className="text-xs md:text-sm">{t('tenantProfile.emergencyPhone')}</Label>
             {isEditing ? (
               <Input
                 value={formData.emergencyPhone}
                 onChange={(e) => onFormDataChange('emergencyPhone', e.target.value)}
                 className="mt-1 text-sm md:text-base"
-                placeholder={t('tenantSpace.profile.emergencyPhone')}
+                placeholder={t('tenantProfile.emergencyPhone')}
                 disabled={isUpdating}
               />
             ) : (
@@ -74,13 +74,13 @@ const EmergencyContactCard: React.FC<EmergencyContactCardProps> = ({
           </div>
           
           <div>
-            <Label className="text-xs md:text-sm">{t('tenantSpace.profile.emergencyRelation')}</Label>
+            <Label className="text-xs md:text-sm">{t('tenantProfile.emergencyRelation')}</Label>
             {isEditing ? (
               <Input
                 value={formData.emergencyRelation}
                 onChange={(e) => onFormDataChange('emergencyRelation', e.target.value)}
                 className="mt-1 text-sm md:text-base"
-                placeholder={t('tenantSpace.profile.emergencyRelation')}
+                placeholder={t('tenantProfile.emergencyRelation')}
                 disabled={isUpdating}
               />
             ) : (
