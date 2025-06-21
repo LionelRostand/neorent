@@ -5,25 +5,27 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useOwnerRegistrations } from '@/hooks/useOwnerRegistrations';
 import { Check, X, Trash2, Mail, Phone, Building, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const OwnerRegistrations: React.FC = () => {
+  const { t } = useTranslation();
   const { requests, loading, approveRequest, rejectRequest, deleteRequest } = useOwnerRegistrations();
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">En attente</Badge>;
+        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">{t('settings.ownerRegistrations.status.pending')}</Badge>;
       case 'approved':
-        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Approuvé</Badge>;
+        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">{t('settings.ownerRegistrations.status.approved')}</Badge>;
       case 'rejected':
-        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Rejeté</Badge>;
+        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">{t('settings.ownerRegistrations.status.rejected')}</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString(undefined, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -33,22 +35,22 @@ const OwnerRegistrations: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Chargement des demandes...</div>;
+    return <div>{t('settings.ownerRegistrations.loading')}</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Demandes d'inscription propriétaire</h2>
+        <h2 className="text-xl font-semibold">{t('settings.ownerRegistrations.title')}</h2>
         <Badge variant="outline">
-          {requests.filter(r => r.status === 'pending').length} en attente
+          {requests.filter(r => r.status === 'pending').length} {t('settings.ownerRegistrations.pendingCount')}
         </Badge>
       </div>
 
       {requests.length === 0 ? (
         <Card>
           <CardContent className="text-center py-8">
-            <p className="text-gray-500">Aucune demande d'inscription</p>
+            <p className="text-gray-500">{t('settings.ownerRegistrations.noRequests')}</p>
           </CardContent>
         </Card>
       ) : (
@@ -60,7 +62,7 @@ const OwnerRegistrations: React.FC = () => {
                   <div>
                     <CardTitle className="text-lg">{request.name}</CardTitle>
                     <p className="text-sm text-gray-500">
-                      Demande créée le {formatDate(request.createdAt)}
+                      {t('settings.ownerRegistrations.requestCreated')} {formatDate(request.createdAt)}
                     </p>
                   </div>
                   {getStatusBadge(request.status)}
@@ -99,7 +101,7 @@ const OwnerRegistrations: React.FC = () => {
                 {request.message && (
                   <div className="bg-gray-50 p-3 rounded-lg">
                     <p className="text-sm text-gray-700">
-                      <strong>Message :</strong> {request.message}
+                      <strong>{t('settings.ownerRegistrations.message')}:</strong> {request.message}
                     </p>
                   </div>
                 )}
@@ -112,7 +114,7 @@ const OwnerRegistrations: React.FC = () => {
                       className="bg-green-600 hover:bg-green-700"
                     >
                       <Check className="h-4 w-4 mr-1" />
-                      Approuver
+                      {t('settings.ownerRegistrations.approve')}
                     </Button>
                     <Button
                       size="sm"
@@ -121,7 +123,7 @@ const OwnerRegistrations: React.FC = () => {
                       className="border-red-200 text-red-600 hover:bg-red-50"
                     >
                       <X className="h-4 w-4 mr-1" />
-                      Rejeter
+                      {t('settings.ownerRegistrations.reject')}
                     </Button>
                   </div>
                 )}
@@ -135,7 +137,7 @@ const OwnerRegistrations: React.FC = () => {
                       className="border-red-200 text-red-600 hover:bg-red-50"
                     >
                       <Trash2 className="h-4 w-4 mr-1" />
-                      Supprimer
+                      {t('settings.ownerRegistrations.delete')}
                     </Button>
                   </div>
                 )}

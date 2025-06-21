@@ -119,6 +119,27 @@
           "monitorUsage": "Monitor usage in Firebase console"
         }
       }
+    },
+    "ownerRegistrations": {
+      "title": "Owner Registration Requests",
+      "subtitle": "Manage owner registration requests",
+      "pendingCount": "pending",
+      "noRequests": "No registration requests",
+      "noRequestsDescription": "No pending registration requests at the moment",
+      "requestCreated": "Request created on",
+      "loading": "Loading requests...",
+      "approve": "Approve",
+      "reject": "Reject",
+      "delete": "Delete",
+      "message": "Message",
+      "phone": "Phone",
+      "company": "Company",
+      "address": "Address",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      }
     }
   },
   "employees": {
