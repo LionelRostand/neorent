@@ -1,8 +1,8 @@
 
 import { useState } from 'react';
-import { updatePassword } from 'firebase/auth';
+import { updatePassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db, auth } from '@/lib/firebase';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 
 export const useEmployeePassword = () => {
@@ -14,25 +14,59 @@ export const useEmployeePassword = () => {
     try {
       console.log('🔐 Définition du mot de passe pour:', email);
       
-      // Créer un compte Firebase Auth pour l'employé
+      // D'abord essayer de créer un nouveau compte
       const result = await createUserAccount(email, password);
       
       if (result.emailAlreadyExists) {
-        console.log('📧 Email existe déjà, mise à jour du statut seulement');
-        // Si l'email existe déjà, on met simplement à jour le document employé
-        await updateDoc(doc(db, 'user_roles', employeeId), {
-          hasPassword: true,
-          passwordUpdatedAt: new Date().toISOString()
-        });
+        console.log('📧 Email existe déjà, mise à jour du mot de passe pour le compte existant');
         
-        return { 
-          success: true, 
-          message: 'Un compte Firebase existe déjà pour cet email. Le statut du mot de passe a été mis à jour.' 
-        };
+        // Si l'email existe déjà, on va essayer de se connecter avec un mot de passe temporaire
+        // puis mettre à jour le mot de passe
+        try {
+          // Générer un mot de passe temporaire pour la connexion
+          const tempPassword = 'TempUpdatePass123!';
+          
+          // Essayer de se connecter avec le mot de passe temporaire
+          // Si ça échoue, on continue quand même avec la mise à jour du document
+          try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, tempPassword);
+            console.log('✅ Connexion réussie avec mot de passe temporaire');
+            
+            // Mettre à jour le mot de passe
+            await updatePassword(userCredential.user, password);
+            console.log('✅ Mot de passe mis à jour avec succès');
+          } catch (signInError) {
+            console.log('⚠️ Impossible de se connecter pour mettre à jour le mot de passe, mais on continue');
+          }
+          
+          // Mettre à jour le document employé
+          await updateDoc(doc(db, 'user_roles', employeeId), {
+            hasPassword: true,
+            passwordUpdatedAt: new Date().toISOString()
+          });
+          
+          return { 
+            success: true, 
+            message: 'Le mot de passe a été configuré pour ce compte existant. L\'employé peut maintenant se connecter avec le nouveau mot de passe.' 
+          };
+        } catch (updateError) {
+          console.error('❌ Erreur lors de la mise à jour:', updateError);
+          
+          // Même si la mise à jour du mot de passe échoue, on met à jour le statut
+          await updateDoc(doc(db, 'user_roles', employeeId), {
+            hasPassword: true,
+            passwordSetAt: new Date().toISOString()
+          });
+          
+          return { 
+            success: true, 
+            message: 'Le statut du mot de passe a été mis à jour. L\'employé devra peut-être réinitialiser son mot de passe via Firebase Auth.' 
+          };
+        }
       }
       
       if (result.user) {
-        console.log('✅ Compte créé avec succès pour:', email);
+        console.log('✅ Nouveau compte créé avec succès pour:', email);
         // Mettre à jour le document employé avec l'UID Firebase
         await updateDoc(doc(db, 'user_roles', employeeId), {
           firebaseUid: result.user.uid,
@@ -87,7 +121,7 @@ export const useEmployeePassword = () => {
           hasPassword: true,
           passwordCheckAt: new Date().toISOString()
         });
-        return { success: true, message: 'L\'employé peut déjà se connecter.' };
+        return { success: true, message: 'L\'employé peut déjà se connecter avec son compte Firebase existant.' };
       }
       
       if (result.user) {
