@@ -67,7 +67,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
                 {t('tenantSpace.title', { type: titleDisplay })}
               </h1>
               <p className="text-gray-600 mt-1 text-lg">
-                {t('tenantSpace.welcome', { name: cleanName })}
+                Bienvenue {cleanName}
               </p>
             </div>
           </div>
