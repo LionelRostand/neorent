@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -69,6 +68,7 @@ const OwnerSpace = () => {
                 console.log('Property data:', data);
                 setActiveView('dashboard');
               }}
+              isInDialog={false}
             />
           </div>
         );
@@ -83,6 +83,7 @@ const OwnerSpace = () => {
                 console.log('Contract data:', data);
                 setActiveView('dashboard');
               }}
+              isInDialog={false}
             />
           </div>
         );
@@ -97,6 +98,7 @@ const OwnerSpace = () => {
                 console.log('Roommate data:', data);
                 setActiveView('dashboard');
               }}
+              isInDialog={false}
             />
           </div>
         );
@@ -111,6 +113,7 @@ const OwnerSpace = () => {
                 console.log('Inspection data:', data);
                 setActiveView('dashboard');
               }}
+              isInDialog={false}
             />
           </div>
         );

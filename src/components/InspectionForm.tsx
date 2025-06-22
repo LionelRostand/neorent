@@ -12,9 +12,10 @@ import { useInspectionFormLogic } from '@/hooks/useInspectionFormLogic';
 interface InspectionFormProps {
   onClose: () => void;
   onSubmit: (data: any) => void;
+  isInDialog?: boolean;
 }
 
-const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
+const InspectionForm = ({ onClose, onSubmit, isInDialog = true }: InspectionFormProps) => {
   const { t } = useTranslation();
   const {
     formData,
@@ -44,8 +45,8 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
     onClose();
   };
 
-  return (
-    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+  const formContent = (
+    <>
       <InspectionFormHeader />
       
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,7 +72,21 @@ const InspectionForm = ({ onClose, onSubmit }: InspectionFormProps) => {
 
         <InspectionFormActions onClose={onClose} />
       </form>
-    </DialogContent>
+    </>
+  );
+
+  if (isInDialog) {
+    return (
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        {formContent}
+      </DialogContent>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {formContent}
+    </div>
   );
 };
 
