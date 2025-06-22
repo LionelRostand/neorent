@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +61,6 @@ const OwnerSpace = () => {
       case 'property':
         return (
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Nouvelle propriété</h2>
             <PropertyForm 
               onClose={() => setActiveView('dashboard')}
               onSubmit={async (data) => {
@@ -75,7 +75,6 @@ const OwnerSpace = () => {
       case 'contract':
         return (
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Nouveau contrat</h2>
             <ContractForm 
               onClose={() => setActiveView('dashboard')}
               onSubmit={async (data) => {
@@ -90,7 +89,6 @@ const OwnerSpace = () => {
       case 'roommate':
         return (
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Ajouter locataire</h2>
             <RoommateForm 
               onClose={() => setActiveView('dashboard')}
               onSubmit={async (data) => {
@@ -105,7 +103,6 @@ const OwnerSpace = () => {
       case 'inspection':
         return (
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Inspection immobilière</h2>
             <InspectionForm 
               onClose={() => setActiveView('dashboard')}
               onSubmit={(data) => {
