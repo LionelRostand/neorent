@@ -88,8 +88,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'forecasting',
-    title: 'Prévisions financières',
-    description: 'Financial forecasting',
+    title: 'Financial forecasting',
+    description: 'Revenue projections',
     icon: TrendingUp,
     color: 'bg-emerald-500',
     action: () => {
@@ -127,8 +127,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'taxes',
-    title: 'Gestion fiscale',
-    description: 'Tax management',
+    title: 'Tax management',
+    description: 'Tax declarations',
     icon: FileText,
     color: 'bg-cyan-500',
     action: () => {
