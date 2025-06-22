@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Plus, FileText, Users, Home, Calculator, Wrench } from 'lucide-react';
 import PropertyForm from '@/components/PropertyForm';
 import RoommateForm from '@/components/RoommateForm';
@@ -21,26 +21,27 @@ interface OwnerQuickActionsProps {
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) => {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const { properties, addProperty } = useFirebaseProperties();
-  const { roommates, addRoommate } = useFirebaseRoommates();
-  const { contracts } = useFirebaseContracts();
-  const { payments } = useFirebasePayments();
+  const { properties = [], addProperty } = useFirebaseProperties();
+  const { roommates = [], addRoommate } = useFirebaseRoommates();
+  const { contracts = [] } = useFirebaseContracts();
+  const { payments = [] } = useFirebasePayments();
   
   const [openDialog, setOpenDialog] = useState<string | null>(null);
 
   const handlePropertySubmit = async (propertyData: any) => {
     try {
+      console.log('Ajout de propriété:', propertyData);
       await addProperty(propertyData);
       toast({
-        title: t('properties.addSuccess'),
-        description: t('properties.addSuccessDescription'),
+        title: "Succès",
+        description: "Propriété ajoutée avec succès",
       });
       setOpenDialog(null);
     } catch (error) {
       console.error('Error adding property:', error);
       toast({
-        title: t('common.error'),
-        description: t('properties.addError'),
+        title: "Erreur",
+        description: "Erreur lors de l'ajout de la propriété",
         variant: "destructive",
       });
     }
@@ -48,17 +49,18 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
 
   const handleRoommateSubmit = async (roommateData: any) => {
     try {
+      console.log('Ajout de locataire:', roommateData);
       await addRoommate(roommateData);
       toast({
-        title: t('roommates.addSuccess'),
-        description: t('roommates.addSuccessDescription'),
+        title: "Succès",
+        description: "Locataire ajouté avec succès",
       });
       setOpenDialog(null);
     } catch (error) {
       console.error('Error adding roommate:', error);
       toast({
-        title: t('common.error'),
-        description: t('roommates.addError'),
+        title: "Erreur",
+        description: "Erreur lors de l'ajout du locataire",
         variant: "destructive",
       });
     }
@@ -67,82 +69,115 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
   const handleInspectionSubmit = (inspectionData: any) => {
     console.log('Inspection data:', inspectionData);
     toast({
-      title: t('inspections.addSuccess'),
-      description: t('inspections.addSuccessDescription'),
+      title: "Succès",
+      description: "Inspection programmée avec succès",
     });
     setOpenDialog(null);
   };
 
-  // Filtrer les données selon le propriétaire connecté
-  const ownerProperties = properties.filter(property => 
+  // Calculs sécurisés pour éviter les erreurs
+  const ownerProperties = Array.isArray(properties) ? properties.filter(property => 
     property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
-  );
+  ) : [];
 
-  const activeTenants = roommates.filter(roommate => 
+  const activeTenants = Array.isArray(roommates) ? roommates.filter(roommate => 
     roommate.status === 'Actif' && 
     ownerProperties.some(property => property.title === roommate.property)
-  );
+  ) : [];
 
-  const expiringContracts = contracts.filter(contract => {
+  const expiringContracts = Array.isArray(contracts) ? contracts.filter(contract => {
     if (!contract.endDate) return false;
     const endDate = new Date(contract.endDate);
     const today = new Date();
     const daysUntilExpiry = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     return daysUntilExpiry <= 30 && daysUntilExpiry > 0;
-  }).length;
+  }).length : 0;
 
-  const pendingPayments = payments.filter(payment => 
+  const pendingPayments = Array.isArray(payments) ? payments.filter(payment => 
     payment.status === 'En attente' && 
     ownerProperties.some(property => property.title === payment.property)
-  ).length;
+  ).length : 0;
 
   const quickActions = [
     {
-      title: t('ownerSpace.quickActions.newProperty.title'),
-      description: t('ownerSpace.quickActions.newProperty.description'),
+      id: 'property',
+      title: "Nouvelle propriété",
+      description: "Ajouter un bien",
       icon: Plus,
       color: 'bg-blue-500',
-      action: () => setOpenDialog('property'),
+      action: () => {
+        console.log('Opening property dialog');
+        setOpenDialog('property');
+      },
       preview: `${ownerProperties.length} propriétés`
     },
     {
-      title: t('ownerSpace.quickActions.newContract.title'),
-      description: t('ownerSpace.quickActions.newContract.description'),
+      id: 'contract',
+      title: "Nouveau contrat",
+      description: "Créer un bail",
       icon: FileText,
       color: 'bg-green-500',
-      action: () => console.log('Nouveau contrat - À implémenter'),
+      action: () => {
+        console.log('Contract action - À implémenter');
+        toast({
+          title: "Information",
+          description: "Fonctionnalité en cours de développement",
+        });
+      },
       preview: `${expiringContracts} contrats expirent bientôt`
     },
     {
-      title: t('ownerSpace.quickActions.addTenant.title'),
-      description: t('ownerSpace.quickActions.addTenant.description'),
+      id: 'tenant',
+      title: "Ajouter locataire",
+      description: "Enregistrer un locataire",
       icon: Users,
       color: 'bg-purple-500',
-      action: () => setOpenDialog('roommate'),
+      action: () => {
+        console.log('Opening tenant dialog');
+        setOpenDialog('roommate');
+      },
       preview: `${activeTenants.length} locataires actifs`
     },
     {
-      title: t('ownerSpace.quickActions.propertyInspection.title'),
-      description: t('ownerSpace.quickActions.propertyInspection.description'),
+      id: 'inspection',
+      title: "État des lieux",
+      description: "Programmer une visite",
       icon: Home,
       color: 'bg-orange-500',
-      action: () => setOpenDialog('inspection'),
+      action: () => {
+        console.log('Opening inspection dialog');
+        setOpenDialog('inspection');
+      },
       preview: '2 inspections programmées'
     },
     {
-      title: t('ownerSpace.quickActions.calculateCharges.title'),
-      description: t('ownerSpace.quickActions.calculateCharges.description'),
+      id: 'charges',
+      title: "Calculer charges",
+      description: "Révision annuelle",
       icon: Calculator,
       color: 'bg-indigo-500',
-      action: () => console.log('Calculer charges - À implémenter'),
+      action: () => {
+        console.log('Charges calculation - À implémenter');
+        toast({
+          title: "Information",
+          description: "Fonctionnalité en cours de développement",
+        });
+      },
       preview: `${pendingPayments} paiements en attente`
     },
     {
-      title: t('ownerSpace.quickActions.maintenance.title'),
-      description: t('ownerSpace.quickActions.maintenance.description'),
+      id: 'maintenance',
+      title: "Maintenance",
+      description: "Demande d'intervention",
       icon: Wrench,
       color: 'bg-red-500',
-      action: () => console.log('Maintenance - À implémenter'),
+      action: () => {
+        console.log('Maintenance action - À implémenter');
+        toast({
+          title: "Information",
+          description: "Fonctionnalité en cours de développement",
+        });
+      },
       preview: '1 demande urgente'
     }
   ];
@@ -153,7 +188,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base font-semibold">
             <Plus className="h-4 w-4" />
-            {t('ownerSpace.quickActions.title')}
+            Actions rapides
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">
@@ -161,10 +196,15 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
             const Icon = action.icon;
             return (
               <Button
-                key={action.title}
+                key={action.id}
                 variant="ghost"
                 className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
-                onClick={action.action}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log(`Clicking action: ${action.id}`);
+                  action.action();
+                }}
               >
                 <div className="flex items-center space-x-3 w-full min-w-0">
                   <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
@@ -183,29 +223,50 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       </Card>
 
       {/* Property Form Dialog */}
-      <Dialog open={openDialog === 'property'} onOpenChange={() => setOpenDialog(null)}>
-        <PropertyForm 
-          onSubmit={handlePropertySubmit}
-          onClose={() => setOpenDialog(null)}
-        />
-      </Dialog>
+      {openDialog === 'property' && (
+        <Dialog open={true} onOpenChange={() => setOpenDialog(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Ajouter une nouvelle propriété</DialogTitle>
+            </DialogHeader>
+            <PropertyForm 
+              onSubmit={handlePropertySubmit}
+              onClose={() => setOpenDialog(null)}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
 
       {/* Roommate Form Dialog */}
-      <Dialog open={openDialog === 'roommate'} onOpenChange={() => setOpenDialog(null)}>
-        <RoommateForm 
-          onSubmit={handleRoommateSubmit}
-          onClose={() => setOpenDialog(null)}
-          properties={properties}
-        />
-      </Dialog>
+      {openDialog === 'roommate' && (
+        <Dialog open={true} onOpenChange={() => setOpenDialog(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Ajouter un nouveau locataire</DialogTitle>
+            </DialogHeader>
+            <RoommateForm 
+              onSubmit={handleRoommateSubmit}
+              onClose={() => setOpenDialog(null)}
+              properties={properties}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
 
       {/* Inspection Form Dialog */}
-      <Dialog open={openDialog === 'inspection'} onOpenChange={() => setOpenDialog(null)}>
-        <InspectionForm 
-          onSubmit={handleInspectionSubmit}
-          onClose={() => setOpenDialog(null)}
-        />
-      </Dialog>
+      {openDialog === 'inspection' && (
+        <Dialog open={true} onOpenChange={() => setOpenDialog(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Programmer un état des lieux</DialogTitle>
+            </DialogHeader>
+            <InspectionForm 
+              onSubmit={handleInspectionSubmit}
+              onClose={() => setOpenDialog(null)}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 };
