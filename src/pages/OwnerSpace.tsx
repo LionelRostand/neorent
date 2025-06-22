@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import Header from '@/components/Layout/Header';
@@ -67,7 +66,10 @@ const OwnerSpace = () => {
       
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
-        <Header />
+        <Header 
+          onToggleOwnerSidebar={() => setIsMobileSidebarOpen(true)}
+          showOwnerSidebarToggle={true}
+        />
         
         <main className="flex-1 overflow-auto">
           <div className="bg-gray-50 min-h-full">
