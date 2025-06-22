@@ -38,7 +38,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     <div className="px-3 py-4 border-t border-green-400/30">
       <div className="flex items-center px-3 py-2 text-white/70 text-xs font-semibold uppercase tracking-wider">
         <Plus className="mr-2 h-4 w-4" />
-        Actions rapides
+        Quick Actions
       </div>
       <div className="space-y-1">
         {quickActions.map((action) => {

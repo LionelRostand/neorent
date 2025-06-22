@@ -44,7 +44,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base font-semibold">
             <Plus className="h-4 w-4" />
-            Actions rapides
+            Quick Actions
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">

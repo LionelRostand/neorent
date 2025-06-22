@@ -22,80 +22,80 @@ export const createQuickActionsConfig = (
 ): QuickAction[] => [
   {
     id: 'property',
-    title: "Nouvelle propriété",
-    description: "Ajouter un bien",
+    title: "New Property",
+    description: "Add a property",
     icon: Plus,
     color: 'bg-blue-500',
     action: () => {
       console.log('Opening property dialog');
       setOpenDialog('property');
     },
-    preview: `${ownerProperties.length} propriétés`,
+    preview: `${ownerProperties.length} properties`,
     navigationAction: () => navigate('/admin/properties')
   },
   {
     id: 'contract',
-    title: "Nouveau contrat",
-    description: "Créer un bail",
+    title: "New Contract",
+    description: "Create a lease",
     icon: FileText,
     color: 'bg-green-500',
     action: () => {
       console.log('Navigating to contracts');
       navigate('/admin/contracts');
     },
-    preview: `${expiringContracts} contrats expirent bientôt`,
+    preview: `${expiringContracts} contracts expiring soon`,
     navigationAction: () => navigate('/admin/contracts')
   },
   {
     id: 'tenant',
-    title: "Ajouter locataire",
-    description: "Enregistrer un locataire",
+    title: "Add Tenant",
+    description: "Register a tenant",
     icon: Users,
     color: 'bg-purple-500',
     action: () => {
       console.log('Opening tenant dialog');
       setOpenDialog('roommate');
     },
-    preview: `${activeTenants.length} locataires actifs`,
+    preview: `${activeTenants.length} active tenants`,
     navigationAction: () => navigate('/admin/roommates')
   },
   {
     id: 'inspection',
-    title: "État des lieux",
-    description: "Programmer une visite",
+    title: "Property Inspection",
+    description: "Schedule a visit",
     icon: Home,
     color: 'bg-orange-500',
     action: () => {
       console.log('Opening inspection dialog');
       setOpenDialog('inspection');
     },
-    preview: '2 inspections programmées',
+    preview: '2 scheduled inspections',
     navigationAction: () => navigate('/admin/inspections')
   },
   {
     id: 'charges',
-    title: "Calculer charges",
-    description: "Révision annuelle",
+    title: "Calculate Charges",
+    description: "Annual review",
     icon: Calculator,
     color: 'bg-indigo-500',
     action: () => {
       console.log('Navigating to rental charges');
       navigate('/admin/rental-charges');
     },
-    preview: `${pendingPayments} paiements en attente`,
+    preview: `${pendingPayments} pending payments`,
     navigationAction: () => navigate('/admin/rental-charges')
   },
   {
     id: 'maintenance',
     title: "Maintenance",
-    description: "Demande d'intervention",
+    description: "Request intervention",
     icon: Wrench,
     color: 'bg-red-500',
     action: () => {
       console.log('Navigating to maintenance');
       navigate('/admin/maintenance');
     },
-    preview: '1 demande urgente',
+    preview: '1 urgent request',
     navigationAction: () => navigate('/admin/maintenance')
   }
 ];

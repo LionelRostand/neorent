@@ -53,7 +53,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
           <div className="flex items-center justify-between p-6">
             <div className="flex items-center">
               <Building className="h-6 w-6 text-white mr-2" />
-              <h1 className="text-xl font-bold text-white">Actions Rapides</h1>
+              <h1 className="text-xl font-bold text-white">Quick Actions</h1>
             </div>
             <button
               onClick={onClose}
