@@ -41,7 +41,7 @@ const RoommateForm = ({ onClose, onSubmit, isInDialog = true, properties }: Room
 
   const formContent = (
     <>
-      <RoommateFormHeader />
+      <RoommateFormHeader isInDialog={isInDialog} />
       
       <form onSubmit={handleFormSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
