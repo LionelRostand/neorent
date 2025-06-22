@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Building, Home, Users, DollarSign, FileText, CheckCircle, AlertTriangle, Calendar } from 'lucide-react';
@@ -235,9 +234,9 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
 
       case 'charges':
         // For charges view, we'll show general property metrics
-        const chargesPropertiesCount = ownerProperties.length;
-        const chargesRentedProperties = ownerProperties.filter(p => p.status === 'Loué').length;
-        const chargesAvgRent = ownerProperties.length > 0 
+        const totalProperties = ownerProperties.length;
+        const rentedProperties = ownerProperties.filter(p => p.status === 'Loué').length;
+        const avgRent = ownerProperties.length > 0 
           ? Math.round(ownerProperties.reduce((sum, p) => sum + (Number(p.rent) || 0), 0) / ownerProperties.length)
           : 0;
         const totalRooms = ownerProperties.reduce((sum, p) => sum + (p.totalRooms || 0), 0);
@@ -245,23 +244,23 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
         return [
           {
             title: 'Total Properties',
-            value: chargesPropertiesCount,
-            description: `${chargesPropertiesCount} properties in portfolio`,
+            value: totalProperties,
+            description: `${totalProperties} properties in portfolio`,
             icon: Building,
             iconColor: 'text-blue-600',
             bgColor: 'bg-blue-50'
           },
           {
             title: 'Rented Properties',
-            value: chargesRentedProperties,
-            description: `${chargesRentedProperties} properties occupied`,
+            value: rentedProperties,
+            description: `${rentedProperties} properties occupied`,
             icon: CheckCircle,
             iconColor: 'text-green-600',
             bgColor: 'bg-green-50'
           },
           {
             title: 'Average Rent',
-            value: `${chargesAvgRent}€`,
+            value: `${avgRent}€`,
             description: 'Average rent per property',
             icon: DollarSign,
             iconColor: 'text-amber-600',
