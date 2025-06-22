@@ -52,7 +52,7 @@ export const createQuickActionsConfig = (
     title: 'New contract',
     description: 'Create a lease',
     icon: FileText,
-    color: 'bg-green-500',
+    color: 'bg-yellow-500',
     action: () => {
       console.log('Showing contract form');
       setActiveView('contract');
@@ -91,7 +91,7 @@ export const createQuickActionsConfig = (
     title: 'Calculate charges',
     description: 'Annual review',
     icon: Calculator,
-    color: 'bg-green-500',
+    color: 'bg-teal-500',
     action: () => {
       console.log('Navigating to rental charges');
       navigate('/admin/rental-charges');
