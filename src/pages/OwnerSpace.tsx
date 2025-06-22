@@ -10,6 +10,7 @@ import OwnerDashboardStats from '@/components/OwnerSpace/OwnerDashboardStats';
 import OwnerRecentActivity from '@/components/OwnerSpace/OwnerRecentActivity';
 import OwnerActivityChart from '@/components/OwnerSpace/OwnerActivityChart';
 import OwnerSpaceQuickActionsSidebar from '@/components/OwnerSpace/OwnerSpaceQuickActionsSidebar';
+import OwnerSpaceMetrics from '@/components/OwnerSpace/OwnerSpaceMetrics';
 import PropertyForm from '@/components/PropertyForm';
 import ContractForm from '@/components/ContractForm';
 import RoommateForm from '@/components/RoommateForm';
@@ -60,58 +61,78 @@ const OwnerSpace = () => {
         );
       case 'property':
         return (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <PropertyForm 
-              onClose={() => setActiveView('dashboard')}
-              onSubmit={async (data) => {
-                // Handle property submission
-                console.log('Property data:', data);
-                setActiveView('dashboard');
-              }}
-              isInDialog={false}
-            />
+          <div className="space-y-6">
+            {/* Métriques pour les formulaires */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <PropertyForm 
+                onClose={() => setActiveView('dashboard')}
+                onSubmit={async (data) => {
+                  // Handle property submission
+                  console.log('Property data:', data);
+                  setActiveView('dashboard');
+                }}
+                isInDialog={false}
+              />
+            </div>
           </div>
         );
       case 'contract':
         return (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <ContractForm 
-              onClose={() => setActiveView('dashboard')}
-              onSubmit={async (data) => {
-                // Handle contract submission
-                console.log('Contract data:', data);
-                setActiveView('dashboard');
-              }}
-              isInDialog={false}
-            />
+          <div className="space-y-6">
+            {/* Métriques pour les formulaires */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <ContractForm 
+                onClose={() => setActiveView('dashboard')}
+                onSubmit={async (data) => {
+                  // Handle contract submission
+                  console.log('Contract data:', data);
+                  setActiveView('dashboard');
+                }}
+                isInDialog={false}
+              />
+            </div>
           </div>
         );
       case 'roommate':
         return (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <RoommateForm 
-              onClose={() => setActiveView('dashboard')}
-              onSubmit={async (data) => {
-                // Handle roommate submission
-                console.log('Roommate data:', data);
-                setActiveView('dashboard');
-              }}
-              isInDialog={false}
-            />
+          <div className="space-y-6">
+            {/* Métriques pour les formulaires */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <RoommateForm 
+                onClose={() => setActiveView('dashboard')}
+                onSubmit={async (data) => {
+                  // Handle roommate submission
+                  console.log('Roommate data:', data);
+                  setActiveView('dashboard');
+                }}
+                isInDialog={false}
+              />
+            </div>
           </div>
         );
       case 'inspection':
         return (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <InspectionForm 
-              onClose={() => setActiveView('dashboard')}
-              onSubmit={(data) => {
-                // Handle inspection submission
-                console.log('Inspection data:', data);
-                setActiveView('dashboard');
-              }}
-              isInDialog={false}
-            />
+          <div className="space-y-6">
+            {/* Métriques pour les formulaires */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <InspectionForm 
+                onClose={() => setActiveView('dashboard')}
+                onSubmit={(data) => {
+                  // Handle inspection submission
+                  console.log('Inspection data:', data);
+                  setActiveView('dashboard');
+                }}
+                isInDialog={false}
+              />
+            </div>
           </div>
         );
       default:
