@@ -169,8 +169,8 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
         const completedInspections = inspections.filter(i => i.status === 'Terminée').length;
         const pendingInspections = inspections.filter(i => i.status === 'Programmée').length;
         const thisMonthInspections = inspections.filter(i => {
-          if (!i.inspectionDate) return false;
-          const inspectionDate = new Date(i.inspectionDate);
+          if (!i.date) return false;
+          const inspectionDate = new Date(i.date);
           const now = new Date();
           return inspectionDate.getMonth() === now.getMonth() && inspectionDate.getFullYear() === now.getFullYear();
         }).length;
