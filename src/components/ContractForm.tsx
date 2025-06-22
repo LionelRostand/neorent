@@ -55,10 +55,14 @@ const ContractForm = ({ onClose, onSubmit, isInDialog = true }: ContractFormProp
 
   const formContent = (
     <>
-      {isInDialog && (
+      {isInDialog ? (
         <DialogHeader>
           <DialogTitle>{t('contractForm.newContract')}</DialogTitle>
         </DialogHeader>
+      ) : (
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold">{t('contractForm.newContract')}</h2>
+        </div>
       )}
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
