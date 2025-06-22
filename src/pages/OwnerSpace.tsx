@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
+import { Menu } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import Header from '@/components/Layout/Header';
@@ -16,6 +17,7 @@ const OwnerSpace = () => {
   const { userProfile, userType } = useAuth();
   const { getCurrentProfile, isAuthorizedAdmin } = useAdminTenantAccess();
   const [activeView, setActiveView] = useState('dashboard');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Get current profile (logged user or profile selected by admin)
   const currentProfile = getCurrentProfile();
@@ -40,18 +42,44 @@ const OwnerSpace = () => {
 
   return (
     <div className="min-h-screen flex w-full">
+      {/* Mobile sidebar overlay */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
+
       {/* Quick actions sidebar - responsive */}
-      <div className="hidden md:block flex-shrink-0">
+      <div className={`
+        ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+        md:translate-x-0 transition-transform duration-300 ease-in-out
+        fixed md:static inset-y-0 left-0 z-50 md:z-auto
+        md:block flex-shrink-0
+      `}>
         <OwnerSpaceQuickActionsSidebar 
           ownerProfile={currentProfile} 
           activeView={activeView}
           setActiveView={setActiveView}
+          onMobileClose={() => setIsMobileSidebarOpen(false)}
         />
       </div>
       
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         <Header />
+        
+        {/* Mobile menu button */}
+        <div className="md:hidden p-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="bg-white shadow-md"
+          >
+            <Menu className="h-4 w-4" />
+          </Button>
+        </div>
         
         <main className="flex-1 overflow-auto">
           <div className="bg-gray-50 min-h-full">
@@ -68,11 +96,6 @@ const OwnerSpace = () => {
             </div>
           </div>
         </main>
-      </div>
-
-      {/* Mobile sidebar - displayed as drawer on mobile */}
-      <div className="md:hidden">
-        {/* Mobile menu button could be added here if needed */}
       </div>
     </div>
   );

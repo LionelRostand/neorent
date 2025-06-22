@@ -10,12 +10,14 @@ interface OwnerSpaceQuickActionsSidebarProps {
   ownerProfile: any;
   activeView: string;
   setActiveView: (view: string) => void;
+  onMobileClose?: () => void;
 }
 
 const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps> = ({ 
   ownerProfile, 
   activeView, 
-  setActiveView 
+  setActiveView,
+  onMobileClose
 }) => {
   const { t } = useTranslation();
 
@@ -35,6 +37,14 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     pendingPayments,
     t
   );
+
+  const handleActionClick = (action: any) => {
+    action.action();
+    // Close mobile sidebar after selection
+    if (onMobileClose) {
+      onMobileClose();
+    }
+  };
 
   return (
     <div className="bg-green-500 w-64 sm:w-72 md:w-80 lg:w-96 h-full flex flex-col">
@@ -60,7 +70,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setActiveView(action.id);
+                    handleActionClick(action);
                   }}
                   className={`w-full flex items-center p-3 lg:p-4 rounded-lg transition-colors text-left group ${
                     isActive 

@@ -1,5 +1,5 @@
 
-import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard } from 'lucide-react';
+import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard, TrendingUp, MessageSquare } from 'lucide-react';
 
 export interface QuickAction {
   id: string;
@@ -87,17 +87,17 @@ export const createQuickActionsConfig = (
     navigationAction: () => setActiveView('inspection')
   },
   {
-    id: 'charges',
-    title: 'Calculate charges',
-    description: 'Annual review',
-    icon: Calculator,
-    color: 'bg-teal-500',
+    id: 'forecasting',
+    title: 'Prévisions financières',
+    description: 'Financial forecasting',
+    icon: TrendingUp,
+    color: 'bg-emerald-500',
     action: () => {
-      console.log('Navigating to rental charges');
-      navigate('/admin/rental-charges');
+      console.log('Navigating to forecasting');
+      navigate('/admin/forecasting');
     },
-    preview: '0 pending payments',
-    navigationAction: () => navigate('/admin/rental-charges')
+    preview: 'Revenue projections',
+    navigationAction: () => navigate('/admin/forecasting')
   },
   {
     id: 'maintenance',
@@ -111,5 +111,44 @@ export const createQuickActionsConfig = (
     },
     preview: '1 urgent request',
     navigationAction: () => navigate('/admin/maintenance')
+  },
+  {
+    id: 'messages',
+    title: 'Messages',
+    description: 'Chat with tenants',
+    icon: MessageSquare,
+    color: 'bg-indigo-500',
+    action: () => {
+      console.log('Navigating to messages');
+      navigate('/admin/messages');
+    },
+    preview: 'Communication center',
+    navigationAction: () => navigate('/admin/messages')
+  },
+  {
+    id: 'taxes',
+    title: 'Gestion fiscale',
+    description: 'Tax management',
+    icon: FileText,
+    color: 'bg-cyan-500',
+    action: () => {
+      console.log('Navigating to taxes');
+      navigate('/admin/taxes');
+    },
+    preview: 'Tax declarations',
+    navigationAction: () => navigate('/admin/taxes')
+  },
+  {
+    id: 'charges',
+    title: 'Calculate charges',
+    description: 'Annual review',
+    icon: Calculator,
+    color: 'bg-teal-500',
+    action: () => {
+      console.log('Navigating to rental charges');
+      navigate('/admin/rental-charges');
+    },
+    preview: '0 pending payments',
+    navigationAction: () => navigate('/admin/rental-charges')
   }
 ];
