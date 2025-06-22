@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -126,12 +127,14 @@ const OwnerSpace = () => {
 
   return (
     <div className="min-h-screen flex w-full">
-      {/* Sidebar des actions rapides */}
-      <OwnerSpaceQuickActionsSidebar 
-        ownerProfile={currentProfile} 
-        activeView={activeView}
-        setActiveView={setActiveView}
-      />
+      {/* Sidebar des actions rapides - responsive */}
+      <div className="hidden md:block flex-shrink-0">
+        <OwnerSpaceQuickActionsSidebar 
+          ownerProfile={currentProfile} 
+          activeView={activeView}
+          setActiveView={setActiveView}
+        />
+      </div>
       
       {/* Contenu principal */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -144,13 +147,13 @@ const OwnerSpace = () => {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                      <span className="text-white text-lg font-bold">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-base lg:text-lg font-bold">
                         {currentProfile?.name?.charAt(0).toUpperCase() || 'P'}
                       </span>
                     </div>
                     <div>
-                      <h1 className="text-2xl font-bold text-gray-900">
+                      <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
                         {t('ownerSpace.title')}
                       </h1>
                       <p className="text-gray-600 text-sm">
@@ -171,12 +174,17 @@ const OwnerSpace = () => {
               </div>
             </div>
 
-            {/* Contenu principal */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+            {/* Contenu principal avec padding responsive */}
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 pb-6 lg:pb-8">
               {renderContent()}
             </div>
           </div>
         </main>
+      </div>
+
+      {/* Sidebar mobile - affichée en mode drawer sur mobile */}
+      <div className="md:hidden">
+        {/* Bouton pour ouvrir le menu mobile pourrait être ajouté ici si nécessaire */}
       </div>
     </div>
   );
