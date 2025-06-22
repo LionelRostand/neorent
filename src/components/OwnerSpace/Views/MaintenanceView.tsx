@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Plus, Wrench, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
@@ -14,13 +14,13 @@ interface MaintenanceViewProps {
 
 const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onViewChange }) => {
   const [isNewMaintenanceDialogOpen, setIsNewMaintenanceDialogOpen] = useState(false);
-  const { maintenances = [] } = useFirebaseMaintenances();
+  const { requests = [] } = useFirebaseMaintenances();
 
   // Calculs des métriques
-  const totalMaintenances = maintenances.length;
-  const completedMaintenances = maintenances.filter(m => m.status === 'Terminée').length;
-  const pendingMaintenances = maintenances.filter(m => m.status === 'En attente' || m.status === 'Programmée').length;
-  const urgentMaintenances = maintenances.filter(m => m.priority === 'Urgent' && m.status !== 'Terminée').length;
+  const totalMaintenances = requests.length;
+  const completedMaintenances = requests.filter(m => m.status === 'Terminée').length;
+  const pendingMaintenances = requests.filter(m => m.status === 'En attente' || m.status === 'Programmée').length;
+  const urgentMaintenances = requests.filter(m => m.priority === 'Urgent' && m.status !== 'Terminée').length;
 
   const metrics = [
     {
@@ -98,13 +98,17 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
               Nouvelle Demande
             </Button>
           </DialogTrigger>
-          <MaintenanceForm
-            onClose={() => setIsNewMaintenanceDialogOpen(false)}
-            onSubmit={(data) => {
-              console.log('Maintenance data:', data);
-              setIsNewMaintenanceDialogOpen(false);
-            }}
-          />
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Nouvelle Demande de Maintenance</DialogTitle>
+            </DialogHeader>
+            <MaintenanceForm
+              onSubmit={(data) => {
+                console.log('Maintenance data:', data);
+                setIsNewMaintenanceDialogOpen(false);
+              }}
+            />
+          </DialogContent>
         </Dialog>
       </div>
       
