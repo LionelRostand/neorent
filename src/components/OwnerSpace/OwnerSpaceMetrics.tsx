@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Building, Home, Users, DollarSign, FileText, CheckCircle, AlertTriangle, Calendar } from 'lucide-react';
@@ -230,6 +229,50 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
             icon: AlertTriangle,
             iconColor: 'text-amber-600',
             bgColor: 'bg-amber-50'
+          }
+        ];
+
+      case 'charges':
+        // For charges view, we'll show general property metrics
+        const totalProperties = ownerProperties.length;
+        const rentedProperties = ownerProperties.filter(p => p.status === 'Loué').length;
+        const avgRent = ownerProperties.length > 0 
+          ? Math.round(ownerProperties.reduce((sum, p) => sum + (Number(p.rent) || 0), 0) / ownerProperties.length)
+          : 0;
+        const totalRooms = ownerProperties.reduce((sum, p) => sum + (p.totalRooms || 0), 0);
+
+        return [
+          {
+            title: 'Total Properties',
+            value: totalProperties,
+            description: `${totalProperties} properties in portfolio`,
+            icon: Building,
+            iconColor: 'text-blue-600',
+            bgColor: 'bg-blue-50'
+          },
+          {
+            title: 'Rented Properties',
+            value: rentedProperties,
+            description: `${rentedProperties} properties occupied`,
+            icon: CheckCircle,
+            iconColor: 'text-green-600',
+            bgColor: 'bg-green-50'
+          },
+          {
+            title: 'Average Rent',
+            value: `${avgRent}€`,
+            description: 'Average rent per property',
+            icon: DollarSign,
+            iconColor: 'text-amber-600',
+            bgColor: 'bg-amber-50'
+          },
+          {
+            title: 'Total Rooms',
+            value: totalRooms,
+            description: 'Total rooms across properties',
+            icon: Home,
+            iconColor: 'text-purple-600',
+            bgColor: 'bg-purple-50'
           }
         ];
 
