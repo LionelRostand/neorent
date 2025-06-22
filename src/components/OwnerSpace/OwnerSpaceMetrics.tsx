@@ -233,50 +233,6 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
           }
         ];
 
-      case 'charges':
-        // For charges view, we'll show general property metrics with unique variable names
-        const chargesViewTotalProperties = ownerProperties.length;
-        const chargesViewRentedProperties = ownerProperties.filter(p => p.status === 'Loué').length;
-        const chargesViewAvgRent = ownerProperties.length > 0 
-          ? Math.round(ownerProperties.reduce((sum, p) => sum + (Number(p.rent) || 0), 0) / ownerProperties.length)
-          : 0;
-        const totalRooms = ownerProperties.reduce((sum, p) => sum + (p.totalRooms || 0), 0);
-
-        return [
-          {
-            title: 'Total Properties',
-            value: chargesViewTotalProperties,
-            description: `${chargesViewTotalProperties} properties in portfolio`,
-            icon: Building,
-            iconColor: 'text-blue-600',
-            bgColor: 'bg-blue-50'
-          },
-          {
-            title: 'Rented Properties',
-            value: chargesViewRentedProperties,
-            description: `${chargesViewRentedProperties} properties occupied`,
-            icon: CheckCircle,
-            iconColor: 'text-green-600',
-            bgColor: 'bg-green-50'
-          },
-          {
-            title: 'Average Rent',
-            value: `${chargesViewAvgRent}€`,
-            description: 'Average rent per property',
-            icon: DollarSign,
-            iconColor: 'text-amber-600',
-            bgColor: 'bg-amber-50'
-          },
-          {
-            title: 'Total Rooms',
-            value: totalRooms,
-            description: 'Total rooms across properties',
-            icon: Home,
-            iconColor: 'text-purple-600',
-            bgColor: 'bg-purple-50'
-          }
-        ];
-
       default:
         return [];
     }

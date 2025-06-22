@@ -5,7 +5,6 @@ import PropertyView from './PropertyView';
 import ContractView from './ContractView';
 import RoommateView from './RoommateView';
 import InspectionView from './InspectionView';
-import RentalChargesView from './RentalChargesView';
 
 interface ViewRendererProps {
   activeView: string;
@@ -25,8 +24,6 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({ activeView, currentProfile,
       return <RoommateView currentProfile={currentProfile} onViewChange={onViewChange} />;
     case 'inspection':
       return <InspectionView currentProfile={currentProfile} onViewChange={onViewChange} />;
-    case 'charges':
-      return <RentalChargesView currentProfile={currentProfile} />;
     default:
       return <DashboardView currentProfile={currentProfile} />;
   }
