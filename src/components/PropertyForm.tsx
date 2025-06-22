@@ -27,15 +27,16 @@ interface PropertyFormProps {
   onClose: () => void;
   onSubmit: (data: PropertyFormData & { imageBase64?: string }) => Promise<void>;
   isInDialog?: boolean;
+  initialType?: string;
 }
 
-const PropertyForm = ({ onClose, onSubmit, isInDialog = true }: PropertyFormProps) => {
+const PropertyForm = ({ onClose, onSubmit, isInDialog = true, initialType }: PropertyFormProps) => {
   const { t } = useTranslation();
   const {
     formData,
     handleInputChange,
     handleSubmit: handleFormSubmit
-  } = usePropertyFormLogic(onSubmit, onClose);
+  } = usePropertyFormLogic(onSubmit, onClose, initialType);
 
   const formContent = (
     <>

@@ -9,13 +9,29 @@ import RoommateDetailsFields from './RoommateForm/RoommateDetailsFields';
 import RoommateFormActions from './RoommateForm/RoommateFormActions';
 import { useRoommateFormLogic } from '@/hooks/useRoommateFormLogic';
 
+interface Property {
+  id: string;
+  title: string;
+  address: string;
+  type: string;
+  surface: string;
+  rent: string;
+  status: string;
+  tenant: string | null;
+  image: string;
+  locationType: string;
+  totalRooms: number;
+  availableRooms: number;
+}
+
 interface RoommateFormProps {
   onClose: () => void;
   onSubmit: (data: any) => Promise<void>;
   isInDialog?: boolean;
+  properties?: Property[];
 }
 
-const RoommateForm = ({ onClose, onSubmit, isInDialog = true }: RoommateFormProps) => {
+const RoommateForm = ({ onClose, onSubmit, isInDialog = true, properties }: RoommateFormProps) => {
   const { t } = useTranslation();
   const {
     formData,
@@ -37,6 +53,7 @@ const RoommateForm = ({ onClose, onSubmit, isInDialog = true }: RoommateFormProp
           <PropertyRoomFields
             formData={formData}
             onInputChange={handleInputChange}
+            properties={properties}
           />
 
           <RoommateDetailsFields

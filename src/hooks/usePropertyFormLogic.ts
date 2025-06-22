@@ -1,15 +1,16 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PropertyFormData } from '@/components/PropertyForm';
 
 export const usePropertyFormLogic = (
   onSubmit: (data: PropertyFormData & { imageBase64?: string }) => Promise<void>,
-  onClose: () => void
+  onClose: () => void,
+  initialType?: string
 ) => {
   const [formData, setFormData] = useState<PropertyFormData>({
     title: '',
     address: '',
-    type: '',
+    type: initialType || '',
     surface: '',
     rent: '',
     locationType: 'Entier',
@@ -19,6 +20,15 @@ export const usePropertyFormLogic = (
     charges: {},
     image: null
   });
+
+  useEffect(() => {
+    if (initialType) {
+      setFormData(prev => ({
+        ...prev,
+        type: initialType
+      }));
+    }
+  }, [initialType]);
 
   const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({
