@@ -12,9 +12,10 @@ import DateAmountFields from './ContractForm/DateAmountFields';
 interface ContractFormProps {
   onClose: () => void;
   onSubmit: (data: any) => Promise<void>;
+  isInDialog?: boolean;
 }
 
-const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
+const ContractForm = ({ onClose, onSubmit, isInDialog = true }: ContractFormProps) => {
   const { t } = useTranslation();
   const {
     formData,
@@ -52,11 +53,13 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
     }
   };
 
-  return (
-    <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-      <DialogHeader>
-        <DialogTitle>{t('contractForm.newContract')}</DialogTitle>
-      </DialogHeader>
+  const formContent = (
+    <>
+      {isInDialog && (
+        <DialogHeader>
+          <DialogTitle>{t('contractForm.newContract')}</DialogTitle>
+        </DialogHeader>
+      )}
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
         <BasicContractFields
@@ -99,7 +102,21 @@ const ContractForm = ({ onClose, onSubmit }: ContractFormProps) => {
           </Button>
         </div>
       </form>
-    </DialogContent>
+    </>
+  );
+
+  if (isInDialog) {
+    return (
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        {formContent}
+      </DialogContent>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {formContent}
+    </div>
   );
 };
 
