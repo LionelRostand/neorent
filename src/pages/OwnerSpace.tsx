@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +7,7 @@ import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import Header from '@/components/Layout/Header';
 import OwnerDashboardStats from '@/components/OwnerSpace/OwnerDashboardStats';
 import OwnerRecentActivity from '@/components/OwnerSpace/OwnerRecentActivity';
-import OwnerMenuOverview from '@/components/OwnerSpace/OwnerMenuOverview';
+import OwnerActivityChart from '@/components/OwnerSpace/OwnerActivityChart';
 import OwnerSpaceQuickActionsSidebar from '@/components/OwnerSpace/OwnerSpaceQuickActionsSidebar';
 import PropertyForm from '@/components/PropertyForm';
 import ContractForm from '@/components/ContractForm';
@@ -51,8 +50,8 @@ const OwnerSpace = () => {
             {/* Statistiques */}
             <OwnerDashboardStats ownerProfile={currentProfile} />
             
-            {/* Aperçu des menus */}
-            <OwnerMenuOverview ownerProfile={currentProfile} />
+            {/* Graphiques d'activité */}
+            <OwnerActivityChart ownerProfile={currentProfile} />
             
             {/* Activité récente */}
             <OwnerRecentActivity ownerProfile={currentProfile} />
@@ -118,7 +117,7 @@ const OwnerSpace = () => {
         return (
           <div className="space-y-6">
             <OwnerDashboardStats ownerProfile={currentProfile} />
-            <OwnerMenuOverview ownerProfile={currentProfile} />
+            <OwnerActivityChart ownerProfile={currentProfile} />
             <OwnerRecentActivity ownerProfile={currentProfile} />
           </div>
         );
