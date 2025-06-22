@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect, useCallback } from 'react';
 import { User } from 'firebase/auth';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
@@ -13,7 +14,7 @@ export const useUserProfileManager = (user: User | null, hooksInitialized: boole
   const { roommates } = useFirebaseRoommates();
   const { getUserRole, userRoles } = useFirebaseUserRoles();
 
-  const checkUserProfile = async (currentUser: User | null) => {
+  const checkUserProfile = useCallback(async (currentUser: User | null) => {
     if (!currentUser || !hooksInitialized) {
       setUserProfile(null);
       setUserType(null);
@@ -38,7 +39,6 @@ export const useUserProfileManager = (user: User | null, hooksInitialized: boole
           company: 'Rostand Immobilier',
           propertyCount: 5,
           activeContracts: 8,
-          // Permissions détaillées pour toutes les actions
           detailedPermissions: {
             dashboard: { read: true, write: true, view: true, delete: false },
             properties: { read: true, write: true, view: true, delete: true },
@@ -110,15 +110,7 @@ export const useUserProfileManager = (user: User | null, hooksInitialized: boole
         return;
       }
 
-      // Si aucun profil trouvé
       console.log('❌ Aucun profil trouvé pour:', currentUser.email);
-      console.log('📊 Données disponibles:', { 
-        userRoles: userRoles.length, 
-        tenants: tenants.length, 
-        roommates: roommates.length 
-      });
-      
-      // Ne pas définir comme null immédiatement pour les comptes en attente
       setUserProfile(null);
       setUserType(null);
     } catch (error) {
@@ -126,44 +118,25 @@ export const useUserProfileManager = (user: User | null, hooksInitialized: boole
       setUserProfile(null);
       setUserType(null);
     }
-  };
+  }, [hooksInitialized, getUserRole, userRoles, tenants, roommates, dataLoaded]);
 
-  // Marquer les données comme chargées et vérifier le profil
+  // Marquer les données comme chargées
   useEffect(() => {
     if (!hooksInitialized) return;
     
-    if (!dataLoaded) {
-      const timer = setTimeout(() => {
-        console.log('📊 Données Firebase marquées comme chargées:', { 
-          tenants: tenants.length, 
-          roommates: roommates.length,
-          userRoles: userRoles.length 
-        });
-        setDataLoaded(true);
-        
-        if (user && !userProfile) {
-          console.log('🔄 Re-vérification du profil avec données disponibles...');
-          checkUserProfile(user);
-        }
-      }, 2000);
+    const timer = setTimeout(() => {
+      console.log('📊 Données Firebase marquées comme chargées');
+      setDataLoaded(true);
+    }, 1000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [tenants, roommates, userRoles, user, userProfile, dataLoaded, hooksInitialized]);
+    return () => clearTimeout(timer);
+  }, [hooksInitialized]);
 
-  // Re-vérifier le profil quand les données changent
-  useEffect(() => {
-    if (dataLoaded && user && !userProfile && hooksInitialized) {
-      console.log('🔄 Nouvelles données disponibles, re-vérification du profil...');
-      checkUserProfile(user);
-    }
-  }, [tenants, roommates, userRoles, dataLoaded, user, userProfile, hooksInitialized]);
-
-  const resetProfile = () => {
+  const resetProfile = useCallback(() => {
     setUserProfile(null);
     setUserType(null);
     setDataLoaded(false);
-  };
+  }, []);
 
   return {
     userProfile,

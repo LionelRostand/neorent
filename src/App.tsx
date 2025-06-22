@@ -36,6 +36,7 @@ const queryClient = new QueryClient({
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
     },
   },
 });
@@ -45,179 +46,175 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <Toaster />
-          <Sonner />
-          <Routes>
-            {/* Public Site Routes - Now at root */}
-            <Route path="/" element={<PublicHome />} />
-            <Route path="/about" element={<PublicAbout />} />
-            <Route path="/contact" element={<PublicContact />} />
-            <Route path="/login" element={<PublicLogin />} />
+          <div className="min-h-screen">
+            <Toaster />
+            <Sonner />
+            <Routes>
+              <Route path="/" element={<PublicHome />} />
+              <Route path="/about" element={<PublicAbout />} />
+              <Route path="/contact" element={<PublicContact />} />
+              <Route path="/login" element={<PublicLogin />} />
+              
+              <Route 
+                path="/tenant-space" 
+                element={
+                  <ProtectedRoute>
+                    <TenantSpace />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/owner-space" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <OwnerSpace />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/admin" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/dashboard" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/properties" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Properties />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/tenants" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Tenants />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/roommates" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Roommates />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/contracts" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Contracts />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/leases" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Leases />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/inspections" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Inspections />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/rent-management" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <RentManagement />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/rental-charges" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <RentalCharges />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/forecasting" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Forecasting />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/maintenance" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Maintenance />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/messages" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Messages />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/taxes" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Taxes />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/website" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Website />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/settings" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Settings />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/help" 
+                element={
+                  <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+                    <Help />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route path="*" element={<NotFound />} />
+            </Routes>
             
-            {/* Tenant Space - Protected for tenants and roommates */}
-            <Route 
-              path="/tenant-space" 
-              element={
-                <ProtectedRoute>
-                  <TenantSpace />
-                </ProtectedRoute>
-              } 
-            />
-            
-            {/* Owner Space - Protected for owners/employees and admin */}
-            <Route 
-              path="/owner-space" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <OwnerSpace />
-                </ProtectedRoute>
-              } 
-            />
-            
-            {/* Admin Routes - Protected for admin and employees */}
-            <Route 
-              path="/admin" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/dashboard" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/properties" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Properties />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/tenants" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Tenants />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/roommates" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Roommates />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/contracts" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Contracts />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/leases" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Leases />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/inspections" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Inspections />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/rent-management" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <RentManagement />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/rental-charges" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <RentalCharges />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/forecasting" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Forecasting />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/maintenance" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Maintenance />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/messages" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Messages />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/taxes" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Taxes />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/website" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Website />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/settings" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Settings />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/admin/help" 
-              element={
-                <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
-                  <Help />
-                </ProtectedRoute>
-              } 
-            />
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          
-          {/* Chat Widget disponible sur toutes les pages publiques */}
-          <ChatWidget />
+            <ChatWidget />
+          </div>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

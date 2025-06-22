@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   User, 
   signInWithEmailAndPassword, 
@@ -21,6 +21,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setHooksInitialized(true);
   }, []);
 
+  const handleUserProfileCheck = useCallback(async (firebaseUser: User | null) => {
+    if (firebaseUser && hooksInitialized) {
+      await checkUserProfile(firebaseUser);
+    } else {
+      resetProfile();
+    }
+  }, [hooksInitialized, checkUserProfile, resetProfile]);
+
   // Surveiller les changements d'authentification
   useEffect(() => {
     console.log('🔐 Initialisation de l\'écoute auth...');
@@ -28,18 +36,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       console.log('🔐 Auth state changed:', firebaseUser?.email || 'déconnecté');
       setUser(firebaseUser);
-      
-      if (firebaseUser && hooksInitialized) {
-        await checkUserProfile(firebaseUser);
-      } else {
-        resetProfile();
-      }
-      
+      await handleUserProfileCheck(firebaseUser);
       setLoading(false);
     });
 
     return unsubscribe;
-  }, [hooksInitialized, checkUserProfile, resetProfile]);
+  }, [handleUserProfileCheck]);
 
   const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
