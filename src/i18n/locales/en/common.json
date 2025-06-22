@@ -79,6 +79,11 @@
   "backToAdmin": "Back to admin",
   "quickActions": {
     "title": "Quick Actions",
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Overview",
+      "preview": "General statistics"
+    },
     "newProperty": {
       "title": "New Property",
       "description": "Add a property",

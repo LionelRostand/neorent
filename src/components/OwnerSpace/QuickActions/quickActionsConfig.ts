@@ -1,5 +1,5 @@
 
-import { FileText, Users, Home, Calculator, Wrench, Plus } from 'lucide-react';
+import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard } from 'lucide-react';
 
 export interface QuickAction {
   id: string;
@@ -22,6 +22,19 @@ export const createQuickActionsConfig = (
   t: (key: string, options?: any) => string
 ): QuickAction[] => [
   {
+    id: 'dashboard',
+    title: t('quickActions.dashboard.title'),
+    description: t('quickActions.dashboard.description'),
+    icon: LayoutDashboard,
+    color: 'bg-slate-500',
+    action: () => {
+      console.log('Navigating to dashboard');
+      navigate('/admin/dashboard');
+    },
+    preview: t('quickActions.dashboard.preview'),
+    navigationAction: () => navigate('/admin/dashboard')
+  },
+  {
     id: 'property',
     title: t('quickActions.newProperty.title'),
     description: t('quickActions.newProperty.description'),
@@ -41,8 +54,8 @@ export const createQuickActionsConfig = (
     icon: FileText,
     color: 'bg-green-500',
     action: () => {
-      console.log('Navigating to contracts');
-      navigate('/admin/contracts');
+      console.log('Opening contract dialog');
+      setOpenDialog('contract');
     },
     preview: t('quickActions.newContract.preview', { count: expiringContracts }),
     navigationAction: () => navigate('/admin/contracts')

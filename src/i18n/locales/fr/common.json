@@ -20,7 +20,7 @@
   "next": "Suivant",
   "previous": "Précédent",
   "finish": "Terminer",
-  "submit": "Valider",
+  "submit": "Soumettre",
   "reset": "Réinitialiser",
   "clear": "Effacer",
   "select": "Sélectionner",
@@ -60,9 +60,9 @@
   "password": "Mot de passe",
   "username": "Nom d'utilisateur",
   "required": "Requis",
-  "optional": "Optionnel",
+  "optional": "Facultatif",
   "error": "Erreur",
-  "warning": "Avertissement",
+  "warning": "Attention",
   "info": "Information",
   "success": "Succès",
   "validation": {
@@ -76,9 +76,14 @@
   "noResults": "Aucun résultat trouvé",
   "tenantNotFound": "Locataire non trouvé",
   "contactAdminForHelp": "Contactez l'administrateur pour obtenir de l'aide",
-  "backToAdmin": "Retour à l'administration",
+  "backToAdmin": "Retour à l'admin",
   "quickActions": {
     "title": "Actions rapides",
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Vue d'ensemble",
+      "preview": "Statistiques générales"
+    },
     "newProperty": {
       "title": "Nouvelle propriété",
       "description": "Ajouter un bien",
@@ -87,7 +92,7 @@
     "newContract": {
       "title": "Nouveau contrat",
       "description": "Créer un bail",
-      "preview": "{{count}} contrats expirent bientôt"
+      "preview": "{{count}} contrats expirant bientôt"
     },
     "addTenant": {
       "title": "Ajouter locataire",
@@ -95,18 +100,18 @@
       "preview": "{{count}} locataires actifs"
     },
     "inspection": {
-      "title": "État des lieux",
+      "title": "Inspection immobilière",
       "description": "Programmer une visite",
       "preview": "2 inspections programmées"
     },
     "charges": {
-      "title": "Calculer charges",
+      "title": "Calculer les charges",
       "description": "Révision annuelle",
       "preview": "{{count}} paiements en attente"
     },
     "maintenance": {
       "title": "Maintenance",
-      "description": "Demande d'intervention",
+      "description": "Demander intervention",
       "preview": "1 demande urgente"
     }
   }
