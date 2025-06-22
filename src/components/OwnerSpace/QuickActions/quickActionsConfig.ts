@@ -88,28 +88,28 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'charges',
-    title: t('quickActions.charges.title'),
-    description: t('quickActions.charges.description'),
+    title: 'Calculer les charges',
+    description: 'Révision annuelle',
     icon: Calculator,
-    color: 'bg-indigo-500',
+    color: 'bg-green-500',
     action: () => {
       console.log('Navigating to rental charges');
       navigate('/admin/rental-charges');
     },
-    preview: t('quickActions.charges.preview', { count: pendingPayments }),
+    preview: '0 paiements en attente',
     navigationAction: () => navigate('/admin/rental-charges')
   },
   {
     id: 'maintenance',
-    title: t('quickActions.maintenance.title'),
-    description: t('quickActions.maintenance.description'),
+    title: 'Maintenance',
+    description: 'Demander intervention',
     icon: Wrench,
     color: 'bg-red-500',
     action: () => {
       console.log('Navigating to maintenance');
       navigate('/admin/maintenance');
     },
-    preview: t('quickActions.maintenance.preview'),
+    preview: '1 demande urgente',
     navigationAction: () => navigate('/admin/maintenance')
   }
 ];
