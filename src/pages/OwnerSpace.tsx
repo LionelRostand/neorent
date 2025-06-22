@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import MainLayout from '@/components/Layout/MainLayout';
+import MainLayoutWithQuickActions from '@/components/Layout/MainLayoutWithQuickActions';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
@@ -23,7 +23,7 @@ const OwnerSpace = () => {
   // Vérifier que l'utilisateur est bien un propriétaire/employé ou un administrateur
   if ((userType !== 'employee' && userType !== 'admin') || !currentProfile) {
     return (
-      <MainLayout>
+      <MainLayoutWithQuickActions>
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <p className="text-lg text-gray-600">{t('ownerSpace.unauthorized')}</p>
@@ -33,12 +33,12 @@ const OwnerSpace = () => {
             </Button>
           </div>
         </div>
-      </MainLayout>
+      </MainLayoutWithQuickActions>
     );
   }
 
   return (
-    <MainLayout>
+    <MainLayoutWithQuickActions>
       <div className="min-h-screen bg-gray-50">
         {/* Header avec profil propriétaire */}
         <div className="bg-white shadow-sm border-b mb-6">
@@ -95,7 +95,7 @@ const OwnerSpace = () => {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </MainLayoutWithQuickActions>
   );
 };
 
