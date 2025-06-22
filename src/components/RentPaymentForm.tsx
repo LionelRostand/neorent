@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -135,7 +136,7 @@ const RentPaymentForm = () => {
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-[650px] max-h-[95vh] overflow-y-auto p-3 sm:p-4 lg:p-6">
-        <PaymentFormHeader />
+        <PaymentFormHeader isInDialog={true} />
         
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Section Sélection du locataire/colocataire */}
