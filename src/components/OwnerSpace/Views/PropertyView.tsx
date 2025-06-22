@@ -5,6 +5,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus } from 'lucide-react';
 import OwnerSpaceMetrics from '@/components/OwnerSpace/OwnerSpaceMetrics';
 import PropertyForm from '@/components/PropertyForm';
+import PropertyListTable from '@/components/OwnerSpace/PropertyListTable';
 
 interface PropertyViewProps {
   currentProfile: any;
@@ -40,17 +41,8 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
         </Dialog>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <PropertyForm 
-          onClose={() => onViewChange('dashboard')}
-          onSubmit={async (data) => {
-            // Handle property submission
-            console.log('Property data:', data);
-            onViewChange('dashboard');
-          }}
-          isInDialog={false}
-        />
-      </div>
+      {/* Tableau des propriétés */}
+      <PropertyListTable ownerProfile={currentProfile} viewType="property" />
     </div>
   );
 };

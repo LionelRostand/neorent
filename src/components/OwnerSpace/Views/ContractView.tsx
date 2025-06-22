@@ -6,6 +6,7 @@ import { Plus } from 'lucide-react';
 import { useContractsActions } from '@/hooks/useContractsActions';
 import OwnerSpaceMetrics from '@/components/OwnerSpace/OwnerSpaceMetrics';
 import ContractForm from '@/components/ContractForm';
+import PropertyListTable from '@/components/OwnerSpace/PropertyListTable';
 
 interface ContractViewProps {
   currentProfile: any;
@@ -41,17 +42,8 @@ const ContractView: React.FC<ContractViewProps> = ({ currentProfile, onViewChang
         </Dialog>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <ContractForm 
-          onClose={() => onViewChange('dashboard')}
-          onSubmit={async (data) => {
-            // Handle contract submission
-            console.log('Contract data:', data);
-            onViewChange('dashboard');
-          }}
-          isInDialog={false}
-        />
-      </div>
+      {/* Tableau des propriétés avec vue contrats */}
+      <PropertyListTable ownerProfile={currentProfile} viewType="contract" />
     </div>
   );
 };

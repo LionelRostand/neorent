@@ -5,6 +5,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus } from 'lucide-react';
 import OwnerSpaceMetrics from '@/components/OwnerSpace/OwnerSpaceMetrics';
 import RoommateForm from '@/components/RoommateForm';
+import PropertyListTable from '@/components/OwnerSpace/PropertyListTable';
 
 interface RoommateViewProps {
   currentProfile: any;
@@ -40,17 +41,8 @@ const RoommateView: React.FC<RoommateViewProps> = ({ currentProfile, onViewChang
         </Dialog>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <RoommateForm 
-          onClose={() => onViewChange('dashboard')}
-          onSubmit={async (data) => {
-            // Handle roommate submission
-            console.log('Roommate data:', data);
-            onViewChange('dashboard');
-          }}
-          isInDialog={false}
-        />
-      </div>
+      {/* Tableau des propriétés avec vue colocataires */}
+      <PropertyListTable ownerProfile={currentProfile} viewType="roommate" />
     </div>
   );
 };

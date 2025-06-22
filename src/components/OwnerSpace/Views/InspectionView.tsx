@@ -5,6 +5,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Plus } from 'lucide-react';
 import OwnerSpaceMetrics from '@/components/OwnerSpace/OwnerSpaceMetrics';
 import InspectionForm from '@/components/InspectionForm';
+import PropertyListTable from '@/components/OwnerSpace/PropertyListTable';
 
 interface InspectionViewProps {
   currentProfile: any;
@@ -40,17 +41,8 @@ const InspectionView: React.FC<InspectionViewProps> = ({ currentProfile, onViewC
         </Dialog>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <InspectionForm 
-          onClose={() => onViewChange('dashboard')}
-          onSubmit={(data) => {
-            // Handle inspection submission
-            console.log('Inspection data:', data);
-            onViewChange('dashboard');
-          }}
-          isInDialog={false}
-        />
-      </div>
+      {/* Tableau des propriétés avec vue inspections */}
+      <PropertyListTable ownerProfile={currentProfile} viewType="inspection" />
     </div>
   );
 };
