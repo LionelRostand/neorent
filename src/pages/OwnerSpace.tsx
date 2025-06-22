@@ -10,12 +10,17 @@ import OwnerDashboardStats from '@/components/OwnerSpace/OwnerDashboardStats';
 import OwnerRecentActivity from '@/components/OwnerSpace/OwnerRecentActivity';
 import OwnerMenuOverview from '@/components/OwnerSpace/OwnerMenuOverview';
 import OwnerSpaceQuickActionsSidebar from '@/components/OwnerSpace/OwnerSpaceQuickActionsSidebar';
+import PropertyForm from '@/components/PropertyForm';
+import ContractForm from '@/components/ContractForm';
+import RoommateForm from '@/components/RoommateForm';
+import InspectionForm from '@/components/InspectionForm';
 
 const OwnerSpace = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { userProfile, userType } = useAuth();
   const { getCurrentProfile, isAuthorizedAdmin } = useAdminTenantAccess();
+  const [activeView, setActiveView] = useState('dashboard');
 
   // Obtenir le profil actuel (utilisateur connecté ou profil sélectionné par l'admin)
   const currentProfile = getCurrentProfile();
@@ -38,10 +43,96 @@ const OwnerSpace = () => {
     );
   }
 
+  const renderContent = () => {
+    switch (activeView) {
+      case 'dashboard':
+        return (
+          <div className="space-y-6">
+            {/* Statistiques */}
+            <OwnerDashboardStats ownerProfile={currentProfile} />
+            
+            {/* Aperçu des menus */}
+            <OwnerMenuOverview ownerProfile={currentProfile} />
+            
+            {/* Activité récente */}
+            <OwnerRecentActivity ownerProfile={currentProfile} />
+          </div>
+        );
+      case 'property':
+        return (
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-xl font-semibold mb-4">Nouvelle propriété</h2>
+            <PropertyForm 
+              onClose={() => setActiveView('dashboard')}
+              onSubmit={async (data) => {
+                // Handle property submission
+                console.log('Property data:', data);
+                setActiveView('dashboard');
+              }}
+            />
+          </div>
+        );
+      case 'contract':
+        return (
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-xl font-semibold mb-4">Nouveau contrat</h2>
+            <ContractForm 
+              onClose={() => setActiveView('dashboard')}
+              onSubmit={async (data) => {
+                // Handle contract submission
+                console.log('Contract data:', data);
+                setActiveView('dashboard');
+              }}
+            />
+          </div>
+        );
+      case 'roommate':
+        return (
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-xl font-semibold mb-4">Ajouter locataire</h2>
+            <RoommateForm 
+              onClose={() => setActiveView('dashboard')}
+              onSubmit={async (data) => {
+                // Handle roommate submission
+                console.log('Roommate data:', data);
+                setActiveView('dashboard');
+              }}
+            />
+          </div>
+        );
+      case 'inspection':
+        return (
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-xl font-semibold mb-4">Inspection immobilière</h2>
+            <InspectionForm 
+              onClose={() => setActiveView('dashboard')}
+              onSubmit={(data) => {
+                // Handle inspection submission
+                console.log('Inspection data:', data);
+                setActiveView('dashboard');
+              }}
+            />
+          </div>
+        );
+      default:
+        return (
+          <div className="space-y-6">
+            <OwnerDashboardStats ownerProfile={currentProfile} />
+            <OwnerMenuOverview ownerProfile={currentProfile} />
+            <OwnerRecentActivity ownerProfile={currentProfile} />
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="min-h-screen flex w-full">
       {/* Sidebar des actions rapides */}
-      <OwnerSpaceQuickActionsSidebar ownerProfile={currentProfile} />
+      <OwnerSpaceQuickActionsSidebar 
+        ownerProfile={currentProfile} 
+        activeView={activeView}
+        setActiveView={setActiveView}
+      />
       
       {/* Contenu principal */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -83,16 +174,7 @@ const OwnerSpace = () => {
 
             {/* Contenu principal */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-              <div className="space-y-6">
-                {/* Statistiques */}
-                <OwnerDashboardStats ownerProfile={currentProfile} />
-                
-                {/* Aperçu des menus */}
-                <OwnerMenuOverview ownerProfile={currentProfile} />
-                
-                {/* Activité récente */}
-                <OwnerRecentActivity ownerProfile={currentProfile} />
-              </div>
+              {renderContent()}
             </div>
           </div>
         </main>

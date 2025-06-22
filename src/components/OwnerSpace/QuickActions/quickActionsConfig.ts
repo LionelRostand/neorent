@@ -1,3 +1,4 @@
+
 import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard } from 'lucide-react';
 
 export interface QuickAction {
@@ -13,7 +14,7 @@ export interface QuickAction {
 
 export const createQuickActionsConfig = (
   navigate: (path: string) => void,
-  setOpenDialog: (dialogId: string | null) => void,
+  setActiveView: (view: string) => void,
   ownerProperties: any[],
   activeTenants: any[],
   expiringContracts: number,
@@ -27,11 +28,11 @@ export const createQuickActionsConfig = (
     icon: LayoutDashboard,
     color: 'bg-slate-500',
     action: () => {
-      console.log('Navigating to owner dashboard');
-      navigate('/owner-space');
+      console.log('Showing dashboard view');
+      setActiveView('dashboard');
     },
     preview: t('quickActions.dashboard.preview'),
-    navigationAction: () => navigate('/owner-space')
+    navigationAction: () => setActiveView('dashboard')
   },
   {
     id: 'property',
@@ -40,11 +41,11 @@ export const createQuickActionsConfig = (
     icon: Plus,
     color: 'bg-blue-500',
     action: () => {
-      console.log('Opening property dialog');
-      setOpenDialog('property');
+      console.log('Showing property form');
+      setActiveView('property');
     },
     preview: t('quickActions.newProperty.preview', { count: ownerProperties.length }),
-    navigationAction: () => navigate('/admin/properties')
+    navigationAction: () => setActiveView('property')
   },
   {
     id: 'contract',
@@ -53,24 +54,24 @@ export const createQuickActionsConfig = (
     icon: FileText,
     color: 'bg-green-500',
     action: () => {
-      console.log('Opening contract dialog');
-      setOpenDialog('contract');
+      console.log('Showing contract form');
+      setActiveView('contract');
     },
     preview: t('quickActions.newContract.preview', { count: expiringContracts }),
-    navigationAction: () => navigate('/admin/contracts')
+    navigationAction: () => setActiveView('contract')
   },
   {
-    id: 'tenant',
+    id: 'roommate',
     title: t('quickActions.addTenant.title'),
     description: t('quickActions.addTenant.description'),
     icon: Users,
     color: 'bg-purple-500',
     action: () => {
-      console.log('Opening tenant dialog');
-      setOpenDialog('roommate');
+      console.log('Showing tenant form');
+      setActiveView('roommate');
     },
     preview: t('quickActions.addTenant.preview', { count: activeTenants.length }),
-    navigationAction: () => navigate('/admin/roommates')
+    navigationAction: () => setActiveView('roommate')
   },
   {
     id: 'inspection',
@@ -79,11 +80,11 @@ export const createQuickActionsConfig = (
     icon: Home,
     color: 'bg-orange-500',
     action: () => {
-      console.log('Opening inspection dialog');
-      setOpenDialog('inspection');
+      console.log('Showing inspection form');
+      setActiveView('inspection');
     },
     preview: t('quickActions.inspection.preview'),
-    navigationAction: () => navigate('/admin/inspections')
+    navigationAction: () => setActiveView('inspection')
   },
   {
     id: 'charges',
