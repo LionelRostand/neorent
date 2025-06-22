@@ -16,7 +16,7 @@ interface ViewRendererProps {
 const ViewRenderer: React.FC<ViewRendererProps> = ({ activeView, currentProfile, onViewChange }) => {
   switch (activeView) {
     case 'dashboard':
-      return <DashboardView currentProfile={currentProfile} onViewChange={onViewChange} />;
+      return <DashboardView currentProfile={currentProfile} />;
     case 'property':
       return <PropertyView currentProfile={currentProfile} onViewChange={onViewChange} />;
     case 'contract':
@@ -26,9 +26,9 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({ activeView, currentProfile,
     case 'inspection':
       return <InspectionView currentProfile={currentProfile} onViewChange={onViewChange} />;
     case 'charges':
-      return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
+      return <RentalChargesView currentProfile={currentProfile} />;
     default:
-      return <DashboardView currentProfile={currentProfile} onViewChange={onViewChange} />;
+      return <DashboardView currentProfile={currentProfile} />;
   }
 };
 

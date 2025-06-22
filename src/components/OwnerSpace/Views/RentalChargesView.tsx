@@ -16,10 +16,9 @@ import { useToast } from '@/hooks/use-toast';
 
 interface RentalChargesViewProps {
   currentProfile: any;
-  onViewChange: (view: string) => void;
 }
 
-const RentalChargesView: React.FC<RentalChargesViewProps> = ({ currentProfile, onViewChange }) => {
+const RentalChargesView: React.FC<RentalChargesViewProps> = ({ currentProfile }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('2024-12');
   const [selectedView, setSelectedView] = useState<'monthly' | 'annual'>('monthly');
