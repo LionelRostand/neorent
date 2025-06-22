@@ -5,7 +5,6 @@ import { Plus } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
-import QuickActionsSummaryTable from './QuickActionsSummaryTable';
 
 interface OwnerSpaceQuickActionsSidebarProps {
   ownerProfile: any;
@@ -80,14 +79,6 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
                 </button>
               );
             })}
-
-            {/* Summary Table */}
-            <QuickActionsSummaryTable
-              ownerProperties={ownerProperties}
-              activeTenants={activeTenants}
-              expiringContracts={expiringContracts}
-              pendingPayments={pendingPayments}
-            />
           </div>
         </ScrollArea>
       </div>
