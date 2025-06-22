@@ -12,7 +12,7 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
   const navigate = useNavigate();
   const { properties = [], addProperty } = useFirebaseProperties();
   const { roommates = [], addRoommate } = useFirebaseRoommates();
-  const { contracts = [] } = useFirebaseContracts();
+  const { contracts = [], addContract } = useFirebaseContracts();
   const { payments = [] } = useFirebasePayments();
   
   const [openDialog, setOpenDialog] = useState<string | null>(null);
@@ -64,6 +64,25 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
     setOpenDialog(null);
   };
 
+  const handleContractSubmit = async (contractData: any) => {
+    try {
+      console.log('Ajout de contrat:', contractData);
+      await addContract(contractData);
+      toast({
+        title: "Succès",
+        description: "Contrat créé avec succès",
+      });
+      setOpenDialog(null);
+    } catch (error) {
+      console.error('Error adding contract:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la création du contrat",
+        variant: "destructive",
+      });
+    }
+  };
+
   // Calculs sécurisés pour éviter les erreurs
   const ownerProperties = Array.isArray(properties) ? properties.filter(property => 
     property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
@@ -95,6 +114,7 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
     handlePropertySubmit,
     handleRoommateSubmit,
     handleInspectionSubmit,
+    handleContractSubmit,
     ownerProperties,
     activeTenants,
     expiringContracts,

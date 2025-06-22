@@ -22,6 +22,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     handlePropertySubmit,
     handleRoommateSubmit,
     handleInspectionSubmit,
+    handleContractSubmit,
     ownerProperties,
     activeTenants,
     expiringContracts,
@@ -101,6 +102,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         onPropertySubmit={handlePropertySubmit}
         onRoommateSubmit={handleRoommateSubmit}
         onInspectionSubmit={handleInspectionSubmit}
+        onContractSubmit={handleContractSubmit}
       />
     </>
   );
