@@ -62,8 +62,8 @@ const OwnerSpace = () => {
       case 'property':
         return (
           <div className="space-y-6">
-            {/* Métriques pour les formulaires */}
-            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            {/* Métriques pour les propriétés */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} activeView={activeView} />
             
             <div className="bg-white rounded-lg shadow-sm p-6">
               <PropertyForm 
@@ -81,8 +81,8 @@ const OwnerSpace = () => {
       case 'contract':
         return (
           <div className="space-y-6">
-            {/* Métriques pour les formulaires */}
-            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            {/* Métriques pour les contrats */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} activeView={activeView} />
             
             <div className="bg-white rounded-lg shadow-sm p-6">
               <ContractForm 
@@ -100,8 +100,8 @@ const OwnerSpace = () => {
       case 'roommate':
         return (
           <div className="space-y-6">
-            {/* Métriques pour les formulaires */}
-            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            {/* Métriques pour les colocataires */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} activeView={activeView} />
             
             <div className="bg-white rounded-lg shadow-sm p-6">
               <RoommateForm 
@@ -119,8 +119,8 @@ const OwnerSpace = () => {
       case 'inspection':
         return (
           <div className="space-y-6">
-            {/* Métriques pour les formulaires */}
-            <OwnerSpaceMetrics ownerProfile={currentProfile} />
+            {/* Métriques pour les inspections */}
+            <OwnerSpaceMetrics ownerProfile={currentProfile} activeView={activeView} />
             
             <div className="bg-white rounded-lg shadow-sm p-6">
               <InspectionForm 
