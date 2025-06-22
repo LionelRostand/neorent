@@ -46,7 +46,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         </div>
       </div>
 
-      {/* Content */}
+      {/* Content with ScrollArea */}
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
           <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
