@@ -1,30 +1,11 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { 
-  Home, 
-  Building, 
-  Users, 
-  FileText, 
-  DollarSign, 
-  ClipboardList, 
-  Wrench, 
-  Settings, 
-  UserCheck,
-  Globe,
-  Calculator,
-  MessageCircle,
-  HelpCircle,
-  TrendingUp,
-  Plus
-} from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPermissions } from '@/hooks/useUserPermissions';
-import { EmployeePermissions } from '@/components/Settings/types/permissions';
-import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
-import { createQuickActionsConfig } from '@/components/OwnerSpace/QuickActions/quickActionsConfig';
-import { useAuth } from '@/hooks/useAuth';
+import SidebarHeader from './SidebarComponents/SidebarHeader';
+import SidebarNavigation from './SidebarComponents/SidebarNavigation';
+import SidebarQuickActions from './SidebarComponents/SidebarQuickActions';
+import SidebarFooter from './SidebarComponents/SidebarFooter';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -33,130 +14,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose }) => {
-  const location = useLocation();
-  const { t } = useTranslation();
-  const currentYear = new Date().getFullYear();
-  const { canAccessMenu, isAdmin, userType } = useUserPermissions();
-  const { userProfile } = useAuth();
-
-  // Hook pour les actions rapides
-  const {
-    openDialog,
-    setOpenDialog,
-    navigate,
-    ownerProperties,
-    activeTenants,
-    expiringContracts,
-    pendingPayments
-  } = useOwnerQuickActions(userProfile);
-
-  const menuItems = [
-    { 
-      icon: Home, 
-      label: t('navigation.dashboard'), 
-      path: '/admin/dashboard',
-      permission: 'dashboard' as keyof EmployeePermissions
-    },
-    { 
-      icon: Building, 
-      label: t('navigation.properties'), 
-      path: '/admin/properties',
-      permission: 'properties' as keyof EmployeePermissions
-    },
-    { 
-      icon: Users, 
-      label: t('navigation.tenants'), 
-      path: '/admin/tenants',
-      permission: 'tenants' as keyof EmployeePermissions
-    },
-    { 
-      icon: UserCheck, 
-      label: t('navigation.roommates'), 
-      path: '/admin/roommates',
-      permission: 'roommates' as keyof EmployeePermissions
-    },
-    { 
-      icon: FileText, 
-      label: t('navigation.contracts'), 
-      path: '/admin/contracts',
-      permission: 'contracts' as keyof EmployeePermissions
-    },
-    { 
-      icon: ClipboardList, 
-      label: t('navigation.inspections'), 
-      path: '/admin/inspections',
-      permission: 'inspections' as keyof EmployeePermissions
-    },
-    { 
-      icon: DollarSign, 
-      label: t('navigation.rentManagement'), 
-      path: '/admin/rent-management',
-      permission: 'rentManagement' as keyof EmployeePermissions
-    },
-    { 
-      icon: Calculator, 
-      label: t('navigation.rentalCharges'), 
-      path: '/admin/rental-charges',
-      permission: 'rentalCharges' as keyof EmployeePermissions
-    },
-    { 
-      icon: TrendingUp, 
-      label: t('navigation.forecasting'), 
-      path: '/admin/forecasting',
-      permission: 'dashboard' as keyof EmployeePermissions
-    },
-    { 
-      icon: Wrench, 
-      label: t('navigation.maintenance'), 
-      path: '/admin/maintenance',
-      permission: 'maintenance' as keyof EmployeePermissions
-    },
-    { 
-      icon: MessageCircle, 
-      label: t('navigation.messages'), 
-      path: '/admin/messages',
-      permission: 'messages' as keyof EmployeePermissions
-    },
-    { 
-      icon: FileText, 
-      label: t('navigation.taxes'), 
-      path: '/admin/taxes',
-      permission: 'taxes' as keyof EmployeePermissions
-    },
-    { 
-      icon: Globe, 
-      label: t('navigation.website'), 
-      path: '/admin/website',
-      permission: 'website' as keyof EmployeePermissions
-    },
-    { 
-      icon: Settings, 
-      label: t('navigation.settings'), 
-      path: '/admin/settings',
-      permission: 'settings' as keyof EmployeePermissions
-    },
-    { 
-      icon: HelpCircle, 
-      label: t('navigation.help'), 
-      path: '/admin/help',
-      permission: 'dashboard' as keyof EmployeePermissions
-    }
-  ];
-
-  // Actions rapides pour la sidebar
-  const quickActions = userProfile ? createQuickActionsConfig(
-    navigate,
-    setOpenDialog,
-    ownerProperties,
-    activeTenants,
-    expiringContracts,
-    pendingPayments
-  ) : [];
-
-  // Filtrer les éléments du menu selon les permissions - seuls les admins voient la sidebar backend
-  const filteredMenuItems = isAdmin ? menuItems.filter(item => canAccessMenu(item.permission)) : [];
-
-  const isActive = (path: string) => location.pathname === path;
+  const { isAdmin } = useUserPermissions();
 
   // Si l'utilisateur n'est pas admin, ne pas afficher la sidebar
   if (!isAdmin) {
@@ -165,83 +23,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
 
   return (
     <div className="bg-green-500 w-64 h-screen flex flex-col">
-      <div className="p-6 flex-shrink-0">
-        <div className="flex items-center">
-          <Building className="h-6 w-6 text-white mr-2" />
-          <h1 className="text-xl font-bold text-white">NeoRent</h1>
-        </div>
-      </div>
+      <SidebarHeader />
       
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
-          <nav className="space-y-2 py-4 px-3">
-            {filteredMenuItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors ${
-                    isActive(item.path)
-                      ? 'bg-green-400 text-white'
-                      : 'text-white/90 hover:text-white hover:bg-green-400/50'
-                  }`}
-                  onClick={onMobileClose}
-                >
-                  <Icon className="mr-3 h-5 w-5" />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Section Actions rapides */}
-          {quickActions.length > 0 && (
-            <div className="px-3 py-4 border-t border-green-400/30">
-              <div className="flex items-center px-3 py-2 text-white/70 text-xs font-semibold uppercase tracking-wider">
-                <Plus className="mr-2 h-4 w-4" />
-                Actions rapides
-              </div>
-              <div className="space-y-1">
-                {quickActions.map((action) => {
-                  const Icon = action.icon;
-                  return (
-                    <button
-                      key={action.id}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        action.action();
-                        if (onMobileClose) onMobileClose();
-                      }}
-                      className="w-full flex items-center px-3 py-2 text-sm text-white/90 hover:text-white hover:bg-green-400/50 rounded-md transition-colors text-left"
-                    >
-                      <div className={`p-1.5 rounded ${action.color} mr-3 flex-shrink-0`}>
-                        <Icon className="h-3 w-3 text-white" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium truncate">{action.title}</div>
-                        <div className="text-xs text-white/60 truncate">{action.preview}</div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+          <SidebarNavigation onMobileClose={onMobileClose} />
+          <SidebarQuickActions onMobileClose={onMobileClose} />
         </ScrollArea>
       </div>
 
-      <div className="p-4 border-t border-green-400 flex-shrink-0">
-        <div className="text-center">
-          <div className="text-white text-sm font-medium animate-pulse">
-            NEOTECH-CONSULTING
-          </div>
-          <div className="text-white/80 text-xs mt-1">
-            Version 1.0 • {currentYear}
-          </div>
-        </div>
-      </div>
+      <SidebarFooter />
     </div>
   );
 };
