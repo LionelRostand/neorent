@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,7 @@ interface OwnerQuickActionsProps {
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { properties = [], addProperty } = useFirebaseProperties();
   const { roommates = [], addRoommate } = useFirebaseRoommates();
   const { contracts = [] } = useFirebaseContracts();
@@ -109,7 +111,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
         console.log('Opening property dialog');
         setOpenDialog('property');
       },
-      preview: `${ownerProperties.length} propriétés`
+      preview: `${ownerProperties.length} propriétés`,
+      navigationAction: () => navigate('/admin/properties')
     },
     {
       id: 'contract',
@@ -118,13 +121,11 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: FileText,
       color: 'bg-green-500',
       action: () => {
-        console.log('Contract action - À implémenter');
-        toast({
-          title: "Information",
-          description: "Fonctionnalité en cours de développement",
-        });
+        console.log('Navigating to contracts');
+        navigate('/admin/contracts');
       },
-      preview: `${expiringContracts} contrats expirent bientôt`
+      preview: `${expiringContracts} contrats expirent bientôt`,
+      navigationAction: () => navigate('/admin/contracts')
     },
     {
       id: 'tenant',
@@ -136,7 +137,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
         console.log('Opening tenant dialog');
         setOpenDialog('roommate');
       },
-      preview: `${activeTenants.length} locataires actifs`
+      preview: `${activeTenants.length} locataires actifs`,
+      navigationAction: () => navigate('/admin/roommates')
     },
     {
       id: 'inspection',
@@ -148,7 +150,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
         console.log('Opening inspection dialog');
         setOpenDialog('inspection');
       },
-      preview: '2 inspections programmées'
+      preview: '2 inspections programmées',
+      navigationAction: () => navigate('/admin/inspections')
     },
     {
       id: 'charges',
@@ -157,13 +160,11 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: Calculator,
       color: 'bg-indigo-500',
       action: () => {
-        console.log('Charges calculation - À implémenter');
-        toast({
-          title: "Information",
-          description: "Fonctionnalité en cours de développement",
-        });
+        console.log('Navigating to rental charges');
+        navigate('/admin/rental-charges');
       },
-      preview: `${pendingPayments} paiements en attente`
+      preview: `${pendingPayments} paiements en attente`,
+      navigationAction: () => navigate('/admin/rental-charges')
     },
     {
       id: 'maintenance',
@@ -172,13 +173,11 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       icon: Wrench,
       color: 'bg-red-500',
       action: () => {
-        console.log('Maintenance action - À implémenter');
-        toast({
-          title: "Information",
-          description: "Fonctionnalité en cours de développement",
-        });
+        console.log('Navigating to maintenance');
+        navigate('/admin/maintenance');
       },
-      preview: '1 demande urgente'
+      preview: '1 demande urgente',
+      navigationAction: () => navigate('/admin/maintenance')
     }
   ];
 
