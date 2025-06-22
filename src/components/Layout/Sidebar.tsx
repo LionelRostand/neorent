@@ -16,11 +16,15 @@ import {
   Calculator,
   MessageCircle,
   HelpCircle,
-  TrendingUp
+  TrendingUp,
+  Plus
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPermissions } from '@/hooks/useUserPermissions';
 import { EmployeePermissions } from '@/components/Settings/types/permissions';
+import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { createQuickActionsConfig } from '@/components/OwnerSpace/QuickActions/quickActionsConfig';
+import { useAuth } from '@/hooks/useAuth';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -33,6 +37,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
   const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
   const { canAccessMenu, isAdmin, userType } = useUserPermissions();
+  const { userProfile } = useAuth();
+
+  // Hook pour les actions rapides
+  const {
+    openDialog,
+    setOpenDialog,
+    navigate,
+    ownerProperties,
+    activeTenants,
+    expiringContracts,
+    pendingPayments
+  } = useOwnerQuickActions(userProfile);
 
   const menuItems = [
     { 
@@ -127,6 +143,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
     }
   ];
 
+  // Actions rapides pour la sidebar
+  const quickActions = userProfile ? createQuickActionsConfig(
+    navigate,
+    setOpenDialog,
+    ownerProperties,
+    activeTenants,
+    expiringContracts,
+    pendingPayments
+  ) : [];
+
   // Filtrer les éléments du menu selon les permissions - seuls les admins voient la sidebar backend
   const filteredMenuItems = isAdmin ? menuItems.filter(item => canAccessMenu(item.permission)) : [];
 
@@ -168,6 +194,41 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
               );
             })}
           </nav>
+
+          {/* Section Actions rapides */}
+          {quickActions.length > 0 && (
+            <div className="px-3 py-4 border-t border-green-400/30">
+              <div className="flex items-center px-3 py-2 text-white/70 text-xs font-semibold uppercase tracking-wider">
+                <Plus className="mr-2 h-4 w-4" />
+                Actions rapides
+              </div>
+              <div className="space-y-1">
+                {quickActions.map((action) => {
+                  const Icon = action.icon;
+                  return (
+                    <button
+                      key={action.id}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        action.action();
+                        if (onMobileClose) onMobileClose();
+                      }}
+                      className="w-full flex items-center px-3 py-2 text-sm text-white/90 hover:text-white hover:bg-green-400/50 rounded-md transition-colors text-left"
+                    >
+                      <div className={`p-1.5 rounded ${action.color} mr-3 flex-shrink-0`}>
+                        <Icon className="h-3 w-3 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium truncate">{action.title}</div>
+                        <div className="text-xs text-white/60 truncate">{action.preview}</div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </ScrollArea>
       </div>
 
