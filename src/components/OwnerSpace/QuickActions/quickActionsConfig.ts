@@ -18,84 +18,85 @@ export const createQuickActionsConfig = (
   ownerProperties: any[],
   activeTenants: any[],
   expiringContracts: number,
-  pendingPayments: number
+  pendingPayments: number,
+  t: (key: string, options?: any) => string
 ): QuickAction[] => [
   {
     id: 'property',
-    title: "New Property",
-    description: "Add a property",
+    title: t('quickActions.newProperty.title'),
+    description: t('quickActions.newProperty.description'),
     icon: Plus,
     color: 'bg-blue-500',
     action: () => {
       console.log('Opening property dialog');
       setOpenDialog('property');
     },
-    preview: `${ownerProperties.length} properties`,
+    preview: t('quickActions.newProperty.preview', { count: ownerProperties.length }),
     navigationAction: () => navigate('/admin/properties')
   },
   {
     id: 'contract',
-    title: "New Contract",
-    description: "Create a lease",
+    title: t('quickActions.newContract.title'),
+    description: t('quickActions.newContract.description'),
     icon: FileText,
     color: 'bg-green-500',
     action: () => {
       console.log('Navigating to contracts');
       navigate('/admin/contracts');
     },
-    preview: `${expiringContracts} contracts expiring soon`,
+    preview: t('quickActions.newContract.preview', { count: expiringContracts }),
     navigationAction: () => navigate('/admin/contracts')
   },
   {
     id: 'tenant',
-    title: "Add Tenant",
-    description: "Register a tenant",
+    title: t('quickActions.addTenant.title'),
+    description: t('quickActions.addTenant.description'),
     icon: Users,
     color: 'bg-purple-500',
     action: () => {
       console.log('Opening tenant dialog');
       setOpenDialog('roommate');
     },
-    preview: `${activeTenants.length} active tenants`,
+    preview: t('quickActions.addTenant.preview', { count: activeTenants.length }),
     navigationAction: () => navigate('/admin/roommates')
   },
   {
     id: 'inspection',
-    title: "Property Inspection",
-    description: "Schedule a visit",
+    title: t('quickActions.inspection.title'),
+    description: t('quickActions.inspection.description'),
     icon: Home,
     color: 'bg-orange-500',
     action: () => {
       console.log('Opening inspection dialog');
       setOpenDialog('inspection');
     },
-    preview: '2 scheduled inspections',
+    preview: t('quickActions.inspection.preview'),
     navigationAction: () => navigate('/admin/inspections')
   },
   {
     id: 'charges',
-    title: "Calculate Charges",
-    description: "Annual review",
+    title: t('quickActions.charges.title'),
+    description: t('quickActions.charges.description'),
     icon: Calculator,
     color: 'bg-indigo-500',
     action: () => {
       console.log('Navigating to rental charges');
       navigate('/admin/rental-charges');
     },
-    preview: `${pendingPayments} pending payments`,
+    preview: t('quickActions.charges.preview', { count: pendingPayments }),
     navigationAction: () => navigate('/admin/rental-charges')
   },
   {
     id: 'maintenance',
-    title: "Maintenance",
-    description: "Request intervention",
+    title: t('quickActions.maintenance.title'),
+    description: t('quickActions.maintenance.description'),
     icon: Wrench,
     color: 'bg-red-500',
     action: () => {
       console.log('Navigating to maintenance');
       navigate('/admin/maintenance');
     },
-    preview: '1 urgent request',
+    preview: t('quickActions.maintenance.preview'),
     navigationAction: () => navigate('/admin/maintenance')
   }
 ];

@@ -35,7 +35,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     ownerProperties,
     activeTenants,
     expiringContracts,
-    pendingPayments
+    pendingPayments,
+    t
   );
 
   return (
@@ -44,7 +45,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base font-semibold">
             <Plus className="h-4 w-4" />
-            Quick Actions
+            {t('quickActions.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">
