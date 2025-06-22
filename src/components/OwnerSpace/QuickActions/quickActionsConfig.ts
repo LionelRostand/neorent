@@ -1,4 +1,3 @@
-
 import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard } from 'lucide-react';
 
 export interface QuickAction {
@@ -28,11 +27,11 @@ export const createQuickActionsConfig = (
     icon: LayoutDashboard,
     color: 'bg-slate-500',
     action: () => {
-      console.log('Navigating to dashboard');
-      navigate('/admin/dashboard');
+      console.log('Navigating to owner dashboard');
+      navigate('/owner-space');
     },
     preview: t('quickActions.dashboard.preview'),
-    navigationAction: () => navigate('/admin/dashboard')
+    navigationAction: () => navigate('/owner-space')
   },
   {
     id: 'property',
