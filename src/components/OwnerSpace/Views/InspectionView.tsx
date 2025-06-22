@@ -17,12 +17,12 @@ const InspectionView: React.FC<InspectionViewProps> = ({ currentProfile, onViewC
 
   return (
     <div className="space-y-6">
-      {/* Métriques pour les inspections */}
+      {/* Inspection metrics */}
       <OwnerSpaceMetrics ownerProfile={currentProfile} activeView="inspection" />
       
-      {/* Bouton New Inspection */}
+      {/* New Inspection button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Gestion des États des Lieux</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Inspection Management</h3>
         <Dialog open={isNewInspectionDialogOpen} onOpenChange={setIsNewInspectionDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700">
@@ -41,7 +41,7 @@ const InspectionView: React.FC<InspectionViewProps> = ({ currentProfile, onViewC
         </Dialog>
       </div>
       
-      {/* Tableau des propriétés avec vue inspections */}
+      {/* Properties table with inspection view */}
       <PropertyListTable ownerProfile={currentProfile} viewType="inspection" />
     </div>
   );

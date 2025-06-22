@@ -16,7 +16,7 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
   const [isNewMaintenanceDialogOpen, setIsNewMaintenanceDialogOpen] = useState(false);
   const { requests = [] } = useFirebaseMaintenances();
 
-  // Calculs des métriques
+  // Calculate metrics
   const totalMaintenances = requests.length;
   const completedMaintenances = requests.filter(m => m.status === 'Terminée').length;
   const pendingMaintenances = requests.filter(m => m.status === 'En attente' || m.status === 'Programmée').length;
@@ -24,33 +24,33 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
 
   const metrics = [
     {
-      title: 'Total Demandes',
+      title: 'Total Requests',
       value: totalMaintenances,
-      description: `${totalMaintenances} demandes au total`,
+      description: `${totalMaintenances} total requests`,
       icon: Wrench,
       iconColor: 'text-blue-600',
       bgColor: 'bg-blue-50'
     },
     {
-      title: 'Terminées',
+      title: 'Completed',
       value: completedMaintenances,
-      description: `${completedMaintenances} demandes résolues`,
+      description: `${completedMaintenances} resolved requests`,
       icon: CheckCircle,
       iconColor: 'text-green-600',
       bgColor: 'bg-green-50'
     },
     {
-      title: 'En Attente',
+      title: 'Pending',
       value: pendingMaintenances,
-      description: `${pendingMaintenances} demandes en cours`,
+      description: `${pendingMaintenances} ongoing requests`,
       icon: Clock,
       iconColor: 'text-purple-600',
       bgColor: 'bg-purple-50'
     },
     {
-      title: 'Urgentes',
+      title: 'Urgent',
       value: urgentMaintenances,
-      description: `${urgentMaintenances} demandes urgentes`,
+      description: `${urgentMaintenances} urgent requests`,
       icon: AlertTriangle,
       iconColor: 'text-red-600',
       bgColor: 'bg-red-50'
@@ -59,7 +59,7 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
 
   return (
     <div className="space-y-6">
-      {/* Métriques de maintenance */}
+      {/* Maintenance metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {metrics.map((metric, index) => {
           const Icon = metric.icon;
@@ -88,19 +88,19 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
         })}
       </div>
       
-      {/* Header avec bouton d'action */}
+      {/* Header with action button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Gestion de la Maintenance</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Maintenance Management</h3>
         <Dialog open={isNewMaintenanceDialogOpen} onOpenChange={setIsNewMaintenanceDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-red-600 hover:bg-red-700">
               <Plus className="mr-2 h-4 w-4" />
-              Nouvelle Demande
+              New Request
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Nouvelle Demande de Maintenance</DialogTitle>
+              <DialogTitle>New Maintenance Request</DialogTitle>
             </DialogHeader>
             <MaintenanceForm
               onSubmit={(data) => {
@@ -112,14 +112,14 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
         </Dialog>
       </div>
       
-      {/* Contenu principal - tableau des maintenances */}
+      {/* Main content - maintenance table */}
       <Card>
         <CardContent className="p-6">
           <div className="text-center py-8">
             <Wrench className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Demandes de Maintenance</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Maintenance Requests</h3>
             <p className="text-gray-500">
-              Gérez les demandes d'intervention et de maintenance de vos propriétés
+              Manage intervention requests and maintenance for your properties
             </p>
           </div>
         </CardContent>

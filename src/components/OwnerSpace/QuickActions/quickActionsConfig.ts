@@ -23,93 +23,93 @@ export const createQuickActionsConfig = (
 ): QuickAction[] => [
   {
     id: 'dashboard',
-    title: t('quickActions.dashboard.title'),
-    description: t('quickActions.dashboard.description'),
+    title: 'Dashboard',
+    description: 'View overview',
     icon: LayoutDashboard,
     color: 'bg-slate-500',
     action: () => {
       console.log('Showing dashboard view');
       setActiveView('dashboard');
     },
-    preview: t('quickActions.dashboard.preview'),
+    preview: 'System overview',
     navigationAction: () => setActiveView('dashboard')
   },
   {
     id: 'property',
-    title: t('quickActions.newProperty.title'),
-    description: t('quickActions.newProperty.description'),
+    title: 'New property',
+    description: 'Add a property',
     icon: Plus,
     color: 'bg-blue-500',
     action: () => {
       console.log('Showing property form');
       setActiveView('property');
     },
-    preview: t('quickActions.newProperty.preview', { count: ownerProperties.length }),
+    preview: `${ownerProperties.length} properties`,
     navigationAction: () => setActiveView('property')
   },
   {
     id: 'contract',
-    title: t('quickActions.newContract.title'),
-    description: t('quickActions.newContract.description'),
+    title: 'New contract',
+    description: 'Create a lease',
     icon: FileText,
     color: 'bg-green-500',
     action: () => {
       console.log('Showing contract form');
       setActiveView('contract');
     },
-    preview: t('quickActions.newContract.preview', { count: expiringContracts }),
+    preview: `${expiringContracts} expiring`,
     navigationAction: () => setActiveView('contract')
   },
   {
     id: 'roommate',
-    title: t('quickActions.addTenant.title'),
-    description: t('quickActions.addTenant.description'),
+    title: 'Add tenant',
+    description: 'Register a tenant',
     icon: Users,
     color: 'bg-purple-500',
     action: () => {
       console.log('Showing tenant form');
       setActiveView('roommate');
     },
-    preview: t('quickActions.addTenant.preview', { count: activeTenants.length }),
+    preview: `${activeTenants.length} active tenants`,
     navigationAction: () => setActiveView('roommate')
   },
   {
     id: 'inspection',
-    title: t('quickActions.inspection.title'),
-    description: t('quickActions.inspection.description'),
+    title: 'Inspection',
+    description: 'Schedule a visit',
     icon: Home,
     color: 'bg-orange-500',
     action: () => {
       console.log('Showing inspection form');
       setActiveView('inspection');
     },
-    preview: t('quickActions.inspection.preview'),
+    preview: 'Property inspections',
     navigationAction: () => setActiveView('inspection')
   },
   {
     id: 'charges',
-    title: 'Calculer les charges',
-    description: 'Révision annuelle',
+    title: 'Calculate charges',
+    description: 'Annual review',
     icon: Calculator,
     color: 'bg-green-500',
     action: () => {
       console.log('Navigating to rental charges');
       navigate('/admin/rental-charges');
     },
-    preview: '0 paiements en attente',
+    preview: '0 pending payments',
     navigationAction: () => navigate('/admin/rental-charges')
   },
   {
     id: 'maintenance',
     title: 'Maintenance',
-    description: 'Demander intervention',
+    description: 'Request intervention',
     icon: Wrench,
     color: 'bg-red-500',
     action: () => {
       console.log('Navigating to maintenance');
       navigate('/admin/maintenance');
     },
-    preview: '1 demande urgente',
+    preview: '1 urgent request',
     navigationAction: () => navigate('/admin/maintenance')
   }
 ];

@@ -17,12 +17,12 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
 
   return (
     <div className="space-y-6">
-      {/* Métriques pour les propriétés */}
+      {/* Property metrics */}
       <OwnerSpaceMetrics ownerProfile={currentProfile} activeView="property" />
       
-      {/* Bouton Add Property */}
+      {/* Add Property button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Gestion des Propriétés</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Property Management</h3>
         <Dialog open={isNewPropertyDialogOpen} onOpenChange={setIsNewPropertyDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700">
@@ -41,7 +41,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
         </Dialog>
       </div>
       
-      {/* Tableau des propriétés */}
+      {/* Properties table */}
       <PropertyListTable ownerProfile={currentProfile} viewType="property" />
     </div>
   );

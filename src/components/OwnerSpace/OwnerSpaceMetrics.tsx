@@ -41,33 +41,33 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
 
         return [
           {
-            title: 'Total des Biens',
+            title: 'Total Properties',
             value: totalProperties,
-            description: `${totalProperties} propriétés dans votre portefeuille`,
+            description: `${totalProperties} properties in your portfolio`,
             icon: Building,
             iconColor: 'text-blue-600',
             bgColor: 'bg-blue-50'
           },
           {
-            title: 'Biens Disponibles',
+            title: 'Available Properties',
             value: availableProperties,
-            description: `${availableProperties} propriétés libres`,
+            description: `${availableProperties} vacant properties`,
             icon: Home,
             iconColor: 'text-green-600',
             bgColor: 'bg-green-50'
           },
           {
-            title: 'Biens Loués',
+            title: 'Rented Properties',
             value: rentedProperties,
-            description: `${rentedProperties} propriétés occupées`,
+            description: `${rentedProperties} occupied properties`,
             icon: CheckCircle,
             iconColor: 'text-purple-600',
             bgColor: 'bg-purple-50'
           },
           {
-            title: 'Loyer Moyen',
+            title: 'Average Rent',
             value: `${avgRent}€`,
-            description: 'Loyer moyen par propriété',
+            description: 'Average rent per property',
             icon: DollarSign,
             iconColor: 'text-amber-600',
             bgColor: 'bg-amber-50'
@@ -88,33 +88,33 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
 
         return [
           {
-            title: 'Total Contrats',
+            title: 'Total Contracts',
             value: totalContracts,
-            description: `${totalContracts} contrats au total`,
+            description: `${totalContracts} total contracts`,
             icon: FileText,
             iconColor: 'text-blue-600',
             bgColor: 'bg-blue-50'
           },
           {
-            title: 'Contrats Actifs',
+            title: 'Active Contracts',
             value: activeContracts,
-            description: `${activeContracts} contrats en cours`,
+            description: `${activeContracts} ongoing contracts`,
             icon: CheckCircle,
             iconColor: 'text-green-600',
             bgColor: 'bg-green-50'
           },
           {
-            title: 'Expirent Bientôt',
+            title: 'Expiring Soon',
             value: expiringContracts,
-            description: `${expiringContracts} contrats dans 30 jours`,
+            description: `${expiringContracts} contracts in 30 days`,
             icon: AlertTriangle,
             iconColor: 'text-orange-600',
             bgColor: 'bg-orange-50'
           },
           {
-            title: 'En Attente',
+            title: 'Pending',
             value: pendingContracts,
-            description: `${pendingContracts} contrats à valider`,
+            description: `${pendingContracts} contracts to validate`,
             icon: Calendar,
             iconColor: 'text-purple-600',
             bgColor: 'bg-purple-50'
@@ -131,33 +131,33 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
 
         return [
           {
-            title: 'Total Colocataires',
+            title: 'Total Roommates',
             value: totalRoommates,
-            description: `${totalRoommates} colocataires enregistrés`,
+            description: `${totalRoommates} registered roommates`,
             icon: Users,
             iconColor: 'text-blue-600',
             bgColor: 'bg-blue-50'
           },
           {
-            title: 'Colocataires Actifs',
+            title: 'Active Roommates',
             value: activeRoommates,
-            description: `${activeRoommates} colocataires présents`,
+            description: `${activeRoommates} current roommates`,
             icon: CheckCircle,
             iconColor: 'text-green-600',
             bgColor: 'bg-green-50'
           },
           {
-            title: 'Chambres Libres',
+            title: 'Available Rooms',
             value: availableRooms,
-            description: `${availableRooms} chambres disponibles`,
+            description: `${availableRooms} rooms available`,
             icon: Home,
             iconColor: 'text-purple-600',
             bgColor: 'bg-purple-50'
           },
           {
-            title: 'Loyer Moyen',
+            title: 'Average Rent',
             value: `${avgRoommateRent}€`,
-            description: 'Loyer moyen par chambre',
+            description: 'Average rent per room',
             icon: DollarSign,
             iconColor: 'text-amber-600',
             bgColor: 'bg-amber-50'
@@ -179,31 +179,31 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
           {
             title: 'Total Inspections',
             value: totalInspections,
-            description: `${totalInspections} inspections au total`,
+            description: `${totalInspections} total inspections`,
             icon: CheckCircle,
             iconColor: 'text-blue-600',
             bgColor: 'bg-blue-50'
           },
           {
-            title: 'Terminées',
+            title: 'Completed',
             value: completedInspections,
-            description: `${completedInspections} inspections réalisées`,
+            description: `${completedInspections} completed inspections`,
             icon: CheckCircle,
             iconColor: 'text-green-600',
             bgColor: 'bg-green-50'
           },
           {
-            title: 'Programmées',
+            title: 'Scheduled',
             value: pendingInspections,
-            description: `${pendingInspections} inspections planifiées`,
+            description: `${pendingInspections} planned inspections`,
             icon: Calendar,
             iconColor: 'text-purple-600',
             bgColor: 'bg-purple-50'
           },
           {
-            title: 'Ce Mois',
+            title: 'This Month',
             value: thisMonthInspections,
-            description: `${thisMonthInspections} inspections ce mois`,
+            description: `${thisMonthInspections} inspections this month`,
             icon: AlertTriangle,
             iconColor: 'text-amber-600',
             bgColor: 'bg-amber-50'

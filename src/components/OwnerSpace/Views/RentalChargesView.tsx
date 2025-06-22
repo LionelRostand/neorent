@@ -19,31 +19,31 @@ const RentalChargesView: React.FC<RentalChargesViewProps> = ({ currentProfile, o
     {
       title: 'Total Charges',
       value: 12,
-      description: '12 charges au total',
+      description: '12 total charges',
       icon: Calculator,
       iconColor: 'text-blue-600',
       bgColor: 'bg-blue-50'
     },
     {
-      title: 'Calculées',
+      title: 'Calculated',
       value: 8,
-      description: '8 charges calculées',
+      description: '8 calculated charges',
       icon: FileText,
       iconColor: 'text-green-600',
       bgColor: 'bg-green-50'
     },
     {
-      title: 'En Attente',
+      title: 'Pending',
       value: 4,
-      description: '4 charges en attente',
+      description: '4 pending charges',
       icon: Clock,
       iconColor: 'text-purple-600',
       bgColor: 'bg-purple-50'
     },
     {
-      title: 'Ce Mois',
+      title: 'This Month',
       value: 3,
-      description: '3 charges ce mois',
+      description: '3 charges this month',
       icon: Euro,
       iconColor: 'text-amber-600',
       bgColor: 'bg-amber-50'
@@ -52,7 +52,7 @@ const RentalChargesView: React.FC<RentalChargesViewProps> = ({ currentProfile, o
 
   return (
     <div className="space-y-6">
-      {/* Métriques des charges */}
+      {/* Charge metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {metrics.map((metric, index) => {
           const Icon = metric.icon;
@@ -81,19 +81,19 @@ const RentalChargesView: React.FC<RentalChargesViewProps> = ({ currentProfile, o
         })}
       </div>
       
-      {/* Header avec bouton d'action */}
+      {/* Header with action button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Gestion des Charges Locatives</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Rental Charges Management</h3>
         <Dialog open={isNewChargeDialogOpen} onOpenChange={setIsNewChargeDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-green-600 hover:bg-green-700">
               <Plus className="mr-2 h-4 w-4" />
-              Nouvelle Charge
+              New Charge
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Nouvelle Charge Locative</DialogTitle>
+              <DialogTitle>New Rental Charge</DialogTitle>
             </DialogHeader>
             <RentalChargeForm
               isOpen={true}
@@ -107,14 +107,14 @@ const RentalChargesView: React.FC<RentalChargesViewProps> = ({ currentProfile, o
         </Dialog>
       </div>
       
-      {/* Contenu principal - tableau des charges */}
+      {/* Main content - charges table */}
       <Card>
         <CardContent className="p-6">
           <div className="text-center py-8">
             <Calculator className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Gestion des Charges</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Charges Management</h3>
             <p className="text-gray-500">
-              Créez et gérez les charges locatives pour vos propriétés
+              Create and manage rental charges for your properties
             </p>
           </div>
         </CardContent>

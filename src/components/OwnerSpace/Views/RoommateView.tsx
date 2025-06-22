@@ -17,12 +17,12 @@ const RoommateView: React.FC<RoommateViewProps> = ({ currentProfile, onViewChang
 
   return (
     <div className="space-y-6">
-      {/* Métriques pour les colocataires */}
+      {/* Roommate metrics */}
       <OwnerSpaceMetrics ownerProfile={currentProfile} activeView="roommate" />
       
-      {/* Bouton Add Tenant */}
+      {/* Add Tenant button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Gestion des Locataires</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Tenant Management</h3>
         <Dialog open={isNewTenantDialogOpen} onOpenChange={setIsNewTenantDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700">
@@ -41,7 +41,7 @@ const RoommateView: React.FC<RoommateViewProps> = ({ currentProfile, onViewChang
         </Dialog>
       </div>
       
-      {/* Tableau des propriétés avec vue colocataires */}
+      {/* Properties table with roommate view */}
       <PropertyListTable ownerProfile={currentProfile} viewType="roommate" />
     </div>
   );

@@ -19,17 +19,17 @@ const ContractView: React.FC<ContractViewProps> = ({ currentProfile, onViewChang
 
   return (
     <div className="space-y-6">
-      {/* Métriques pour les contrats */}
+      {/* Contract metrics */}
       <OwnerSpaceMetrics ownerProfile={currentProfile} activeView="contract" />
       
-      {/* Bouton New Contract */}
+      {/* New Contract button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Gestion des Contrats</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Contract Management</h3>
         <Dialog open={isNewContractDialogOpen} onOpenChange={setIsNewContractDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700">
               <Plus className="mr-2 h-4 w-4" />
-              Nouveau Contrat
+              New Contract
             </Button>
           </DialogTrigger>
           <ContractForm
@@ -42,7 +42,7 @@ const ContractView: React.FC<ContractViewProps> = ({ currentProfile, onViewChang
         </Dialog>
       </div>
       
-      {/* Tableau des propriétés avec vue contrats */}
+      {/* Properties table with contract view */}
       <PropertyListTable ownerProfile={currentProfile} viewType="contract" />
     </div>
   );
