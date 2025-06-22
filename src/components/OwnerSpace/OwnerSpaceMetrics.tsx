@@ -24,31 +24,9 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
   const { contracts = [] } = useFirebaseContracts();
   const { inspections = [] } = useFirebaseInspections();
 
-  // Filter owner's properties
+  // Calculate owner properties
   const ownerProperties = properties.filter(property => 
     property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
-  );
-
-  // Get property titles for filtering
-  const ownerPropertyTitles = ownerProperties.map(p => p.title);
-
-  // Filter tenants and roommates based on owner's properties
-  const ownerTenants = tenants.filter(tenant => 
-    ownerPropertyTitles.includes(tenant.property)
-  );
-
-  const ownerRoommates = roommates.filter(roommate => 
-    ownerPropertyTitles.includes(roommate.property)
-  );
-
-  // Filter contracts based on owner's properties
-  const ownerContracts = contracts.filter(contract => 
-    ownerPropertyTitles.includes(contract.property)
-  );
-
-  // Filter inspections based on owner's properties
-  const ownerInspections = inspections.filter(inspection => 
-    ownerPropertyTitles.includes(inspection.property)
   );
 
   const getMetricsForView = () => {
@@ -97,16 +75,16 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
         ];
 
       case 'contract':
-        const totalContracts = ownerContracts.length;
-        const activeContracts = ownerContracts.filter(c => c.status === 'Actif').length;
-        const expiringContracts = ownerContracts.filter(contract => {
+        const totalContracts = contracts.length;
+        const activeContracts = contracts.filter(c => c.status === 'Actif').length;
+        const expiringContracts = contracts.filter(contract => {
           if (!contract.endDate) return false;
           const endDate = new Date(contract.endDate);
           const today = new Date();
           const daysUntilExpiry = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
           return daysUntilExpiry <= 30 && daysUntilExpiry > 0;
         }).length;
-        const pendingContracts = ownerContracts.filter(c => c.status === 'En attente').length;
+        const pendingContracts = contracts.filter(c => c.status === 'En attente').length;
 
         return [
           {
@@ -144,12 +122,11 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
         ];
 
       case 'roommate':
-        const totalRoommates = ownerRoommates.length;
-        const activeRoommates = ownerRoommates.filter(r => r.status === 'Actif').length;
-        const totalRoomsInProperties = ownerProperties.reduce((sum, p) => sum + (p.totalRooms || 0), 0);
-        const availableRooms = totalRoomsInProperties - activeRoommates;
+        const totalRoommates = roommates.length;
+        const activeRoommates = roommates.filter(r => r.status === 'Actif').length;
+        const availableRooms = ownerProperties.length * 2 - activeRoommates; // Assuming 2 rooms per property
         const avgRoommateRent = activeRoommates > 0 
-          ? Math.round(ownerRoommates.filter(r => r.status === 'Actif').reduce((sum, r) => sum + (Number(r.rentAmount) || 0), 0) / activeRoommates)
+          ? Math.round(roommates.filter(r => r.status === 'Actif').reduce((sum, r) => sum + (Number(r.rentAmount) || 0), 0) / activeRoommates)
           : 0;
 
         return [
@@ -188,10 +165,10 @@ const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, act
         ];
 
       case 'inspection':
-        const totalInspections = ownerInspections.length;
-        const completedInspections = ownerInspections.filter(i => i.status === 'Terminée' || i.status === 'Terminé').length;
-        const pendingInspections = ownerInspections.filter(i => i.status === 'Programmée' || i.status === 'Planifié').length;
-        const thisMonthInspections = ownerInspections.filter(i => {
+        const totalInspections = inspections.length;
+        const completedInspections = inspections.filter(i => i.status === 'Terminée').length;
+        const pendingInspections = inspections.filter(i => i.status === 'Programmée').length;
+        const thisMonthInspections = inspections.filter(i => {
           if (!i.date) return false;
           const inspectionDate = new Date(i.date);
           const now = new Date();
