@@ -69,20 +69,20 @@ const OwnerSpace = () => {
       <div className="flex-1 flex flex-col min-w-0">
         <Header />
         
-        {/* Mobile menu button */}
-        <div className="md:hidden p-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="bg-white shadow-md"
-          >
-            <Menu className="h-4 w-4" />
-          </Button>
-        </div>
-        
         <main className="flex-1 overflow-auto">
           <div className="bg-gray-50 min-h-full">
+            {/* Mobile menu button - only visible when sidebar is hidden */}
+            <div className="md:hidden p-4">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsMobileSidebarOpen(true)}
+                className="bg-white shadow-md"
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+            </div>
+
             {/* Header with owner profile */}
             <OwnerSpaceProfileHeader currentProfile={currentProfile} />
 
