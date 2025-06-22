@@ -4,7 +4,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPermissions } from '@/hooks/useUserPermissions';
 import SidebarHeader from './SidebarComponents/SidebarHeader';
 import SidebarNavigation from './SidebarComponents/SidebarNavigation';
-import SidebarQuickActions from './SidebarComponents/SidebarQuickActions';
 import SidebarFooter from './SidebarComponents/SidebarFooter';
 
 interface SidebarProps {
@@ -28,7 +27,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose 
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
           <SidebarNavigation onMobileClose={onMobileClose} />
-          <SidebarQuickActions onMobileClose={onMobileClose} />
         </ScrollArea>
       </div>
 
