@@ -83,7 +83,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
                   action.action();
                   if (onMobileClose) onMobileClose();
                 }}
-                className="w-full flex items-center px-3 py-2 text-sm text-white/90 hover:text-white hover:bg-green-400/50 rounded-md transition-colors text-left relative"
+                className="w-full flex items-center px-3 py-2 text-sm text-white/90 hover:text-white hover:bg-green-400/50 rounded-md transition-colors text-left"
               >
                 <div className={`p-1.5 rounded ${action.color} mr-3 flex-shrink-0`}>
                   <Icon className="h-3 w-3 text-white" />
@@ -92,20 +92,18 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
                   <div className="font-medium truncate">{action.title}</div>
                   <div className="text-xs text-white/60 truncate">{action.preview}</div>
                 </div>
-                
-                {/* Bouton de suppression pour les admins */}
-                {isAdmin && (
-                  <div className="ml-2 flex-shrink-0">
-                    <button
-                      onClick={(e) => handleDelete(e, action.id)}
-                      className="p-1 bg-red-500/80 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg border border-white/20"
-                      title={getLocalizedText('delete')}
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </div>
-                )}
               </button>
+              
+              {/* Petit bouton rouge de suppression pour les admins */}
+              {isAdmin && (
+                <button
+                  onClick={(e) => handleDelete(e, action.id)}
+                  className="absolute top-1 right-1 p-1 bg-red-500/90 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 shadow-sm"
+                  title={getLocalizedText('delete')}
+                >
+                  <X className="h-2.5 w-2.5" />
+                </button>
+              )}
             </div>
           );
         })}
