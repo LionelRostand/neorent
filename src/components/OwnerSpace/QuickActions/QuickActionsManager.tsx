@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,11 +7,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Settings, Trash2, GripVertical, Loader2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Plus, Settings, Trash2, GripVertical, Loader2, Shield, User } from 'lucide-react';
 import { useQuickActionsManager, QuickActionConfig } from '@/hooks/useQuickActionsManager';
+import { useAuth } from '@/hooks/useAuth';
 
 const QuickActionsManager: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const { userType, userProfile } = useAuth();
   const { quickActions, isAdmin, toggleAction, removeAction, addCustomAction, saving } = useQuickActionsManager();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
@@ -155,7 +157,50 @@ const QuickActionsManager: React.FC = () => {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardContent className="p-4 sm:p-6">
-          <p className="text-gray-600 text-center text-sm sm:text-base">{getLocalizedText('adminOnly')}</p>
+          <div className="flex items-center gap-3 mb-4">
+            <Shield className="h-5 w-5 text-orange-500" />
+            <h3 className="text-lg font-semibold">Permissions insuffisantes</h3>
+          </div>
+          
+          <div className="space-y-3">
+            <p className="text-gray-600 text-sm sm:text-base">{getLocalizedText('adminOnly')}</p>
+            
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <User className="h-4 w-4 text-gray-500" />
+                <span className="text-sm font-medium">Informations utilisateur :</span>
+              </div>
+              <div className="space-y-1 text-xs text-gray-600">
+                <p><strong>Type :</strong> {userType || 'Non défini'}</p>
+                <p><strong>Email :</strong> {userProfile?.email || 'Non disponible'}</p>
+                <p><strong>Nom :</strong> {userProfile?.name || 'Non disponible'}</p>
+                {userProfile?.permissions && (
+                  <div>
+                    <strong>Permissions :</strong>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {Array.isArray(userProfile.permissions) ? (
+                        userProfile.permissions.map((permission: string) => (
+                          <Badge key={permission} variant="outline" className="text-xs">
+                            {permission}
+                          </Badge>
+                        ))
+                      ) : (
+                        <Badge variant="outline" className="text-xs">
+                          {userProfile.permissions}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400">
+              <p className="text-sm text-blue-800">
+                <strong>Note :</strong> Pour gérer les actions rapides, vous devez être connecté en tant qu'administrateur.
+              </p>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -168,7 +213,12 @@ const QuickActionsManager: React.FC = () => {
           <div className="flex items-center gap-2">
             <Settings className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
             <span className="text-base sm:text-lg font-semibold truncate">{getLocalizedText('manageActions')}</span>
+            <Badge variant="outline" className="text-xs">
+              <Shield className="h-3 w-3 mr-1" />
+              Admin
+            </Badge>
           </div>
+          
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm" className="w-full sm:w-auto text-sm">
@@ -283,7 +333,20 @@ const QuickActionsManager: React.FC = () => {
             </DialogContent>
           </Dialog>
         </CardTitle>
+        
+        {/* Affichage des permissions utilisateur */}
+        <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+          <div className="flex items-center gap-2 mb-2">
+            <User className="h-4 w-4 text-green-600" />
+            <span className="text-sm font-medium text-green-800">Connecté en tant qu'administrateur</span>
+          </div>
+          <div className="text-xs text-green-700">
+            <p><strong>Utilisateur :</strong> {userProfile?.name || userProfile?.email}</p>
+            <p><strong>Type :</strong> {userType}</p>
+          </div>
+        </div>
       </CardHeader>
+      
       <CardContent className="p-3 sm:p-6">
         <div className="space-y-2 sm:space-y-3">
           {quickActions.map((action) => (

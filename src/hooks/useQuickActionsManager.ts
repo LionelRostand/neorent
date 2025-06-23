@@ -131,7 +131,7 @@ export const defaultQuickActions: QuickActionConfig[] = [
 ];
 
 export const useQuickActionsManager = () => {
-  const { userType } = useAuth();
+  const { userType, user } = useAuth();
   const { toast } = useToast();
   const [quickActions, setQuickActions] = useState<QuickActionConfig[]>(defaultQuickActions);
   const [loading, setLoading] = useState(true);
@@ -179,13 +179,25 @@ export const useQuickActionsManager = () => {
       return false;
     }
 
+    if (!user) {
+      toast({
+        title: "Erreur",
+        description: "Utilisateur non authentifié",
+        variant: "destructive",
+      });
+      return false;
+    }
+
     setSaving(true);
     try {
       console.log('Saving quick actions to Firebase:', actions);
+      
+      // Utiliser merge: true pour éviter les problèmes de permissions
       await setDoc(doc(db, 'system_config', 'quick_actions'), {
         actions: actions,
-        updatedAt: new Date().toISOString()
-      });
+        updatedAt: new Date().toISOString(),
+        updatedBy: user.uid
+      }, { merge: true });
 
       setQuickActions(actions);
       // Force refresh with a new key
