@@ -40,8 +40,34 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   console.log('OwnerSpaceQuickActionsSidebar - Loading:', loading);
   
   const quickActionsConfig = createQuickActionsConfig(
-    () => {}, // navigate function not needed here
-    setActiveView, // use setActiveView instead of setOpenDialog
+    (path: string) => {
+      // Convertir les routes admin en vues pour l'espace propriétaire
+      const adminToOwnerView: Record<string, string> = {
+        '/admin/dashboard': 'admin-dashboard',
+        '/admin/properties': 'admin-properties',
+        '/admin/tenants': 'admin-tenants',
+        '/admin/roommates': 'admin-roommates',
+        '/admin/contracts': 'admin-contracts',
+        '/admin/inspections': 'admin-inspections',
+        '/admin/rent-management': 'admin-rent-management',
+        '/admin/rental-charges': 'admin-rental-charges',
+        '/admin/forecasting': 'admin-forecasting',
+        '/admin/maintenance': 'admin-maintenance',
+        '/admin/messages': 'admin-messages',
+        '/admin/taxes': 'admin-taxes',
+        '/admin/website': 'admin-website',
+        '/admin/settings': 'admin-settings',
+        '/admin/help': 'admin-help'
+      };
+      
+      const ownerView = adminToOwnerView[path];
+      if (ownerView) {
+        setActiveView(ownerView);
+      } else {
+        console.log('Navigation not handled for path:', path);
+      }
+    },
+    setActiveView, // use setActiveView for dialog actions
     ownerProperties,
     activeTenants,
     expiringContracts,
@@ -125,7 +151,8 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
               ) : (
                 quickActionsConfig.map((action) => {
                   const Icon = action.icon;
-                  const isActive = activeView === action.id;
+                  const isActive = activeView === action.id || 
+                    (action.id.startsWith('admin-') && activeView === action.id);
                   
                   return (
                     <div key={`${action.id}-${refreshKey}`} className="relative group">
