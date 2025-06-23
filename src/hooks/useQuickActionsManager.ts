@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -213,8 +212,8 @@ export const useQuickActionsManager = () => {
     } catch (error) {
       console.error('Error saving quick actions:', error);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la sauvegarde: " + (error as Error).message,
+        title: "Erreur de permissions",
+        description: "Vérifiez les règles Firestore et vos permissions administrateur",
         variant: "destructive",
       });
       return false;
@@ -230,7 +229,7 @@ export const useQuickActionsManager = () => {
         description: "Seuls les administrateurs peuvent modifier les actions",
         variant: "destructive",
       });
-      return;
+      return false;
     }
 
     console.log('Toggling action:', actionId);
@@ -252,6 +251,8 @@ export const useQuickActionsManager = () => {
       console.log('Save failed, reverting toggle');
       setQuickActions(quickActions);
     }
+    
+    return success;
   };
 
   const removeAction = async (actionId: string) => {
@@ -261,7 +262,7 @@ export const useQuickActionsManager = () => {
         description: "Seuls les administrateurs peuvent supprimer des actions",
         variant: "destructive",
       });
-      return;
+      return false;
     }
 
     console.log('Removing action:', actionId);
@@ -285,6 +286,16 @@ export const useQuickActionsManager = () => {
         description: "Action rapide supprimée",
       });
     }
+    return success;
+  };
+
+  const addCustomAction = async (newAction: Omit<QuickActionConfig, 'order'>) => {
+    const actionWithOrder = {
+      ...newAction,
+      order: quickActions.length + 1
+    };
+    const updatedActions = [...quickActions, actionWithOrder];
+    return await saveQuickActions(updatedActions);
   };
 
   const getEnabledActions = () => {
@@ -317,16 +328,9 @@ export const useQuickActionsManager = () => {
         order: index + 1
       }));
       
-      await saveQuickActions(reorderedActions);
+      return await saveQuickActions(reorderedActions);
     },
-    addCustomAction: async (newAction: Omit<QuickActionConfig, 'order'>) => {
-      const actionWithOrder = {
-        ...newAction,
-        order: quickActions.length + 1
-      };
-      const updatedActions = [...quickActions, actionWithOrder];
-      await saveQuickActions(updatedActions);
-    },
+    addCustomAction,
     removeAction,
     getEnabledActions,
     refreshKey
