@@ -1,3 +1,4 @@
+
 import {
   LayoutDashboard,
   Plus,
@@ -15,6 +16,16 @@ import {
   Settings,
   HelpCircle
 } from 'lucide-react';
+
+export interface QuickAction {
+  id: string;
+  title: string;
+  description: string;
+  preview: string;
+  icon: any;
+  color: string;
+  action: () => void;
+}
 
 const getPreviewForAction = (
   actionId: string,
@@ -57,22 +68,6 @@ export const createQuickActionsConfig = (
     inspection: () => setOpenDialog('inspection'),
     charges: () => setOpenDialog('charges'),
     maintenance: () => setOpenDialog('maintenance'),
-    
-    // Navigation handlers for admin pages
-    properties: () => navigate('/admin/properties'),
-    tenants: () => navigate('/admin/tenants'),
-    roommates: () => navigate('/admin/roommates'),
-    contracts: () => navigate('/admin/contracts'),
-    inspections: () => navigate('/admin/inspections'),
-    'rent-management': () => navigate('/admin/rent-management'),
-    'rental-charges': () => navigate('/admin/rental-charges'),
-    forecasting: () => navigate('/admin/forecasting'),
-    maintenance: () => navigate('/admin/maintenance'),
-    messages: () => navigate('/admin/messages'),
-    taxes: () => navigate('/admin/taxes'),
-    website: () => navigate('/admin/website'),
-    settings: () => navigate('/admin/settings'),
-    help: () => navigate('/admin/help')
   };
 
   return enabledActions.map(actionConfig => {
