@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
+import { Menu } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import OwnerSpaceQuickActionsSidebar from '@/components/OwnerSpace/OwnerSpaceQuickActionsSidebar';
@@ -64,6 +65,18 @@ const OwnerSpace = () => {
       
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Mobile menu button */}
+        <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="p-2"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </div>
+        
         <main className="flex-1 overflow-auto">
           <div className="bg-gray-50 min-h-full">
             {/* Header with owner profile */}
