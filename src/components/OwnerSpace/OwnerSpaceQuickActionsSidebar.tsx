@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -22,6 +22,12 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
 }) => {
   const { t } = useTranslation();
   const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
+  const [enabledActions, setEnabledActions] = useState(getEnabledActions());
+
+  // Update enabled actions when refreshKey changes
+  useEffect(() => {
+    setEnabledActions(getEnabledActions());
+  }, [refreshKey, getEnabledActions]);
 
   const {
     ownerProperties,
@@ -30,8 +36,6 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
-  // Force re-calculation of enabled actions when refreshKey changes
-  const enabledActions = getEnabledActions();
   const quickActionsConfig = createQuickActionsConfig(
     () => {}, // navigate function not needed here
     setActiveView, // use setActiveView instead of setOpenDialog
@@ -58,7 +62,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   };
 
   return (
-    <div className="bg-green-500 w-64 sm:w-72 md:w-80 lg:w-96 h-full flex flex-col" key={refreshKey}>
+    <div className="bg-green-500 w-64 sm:w-72 md:w-80 lg:w-96 h-full flex flex-col">
       {/* Header */}
       <div className="p-4 lg:p-6 flex-shrink-0 border-b border-green-400/30">
         <div className="flex items-center">

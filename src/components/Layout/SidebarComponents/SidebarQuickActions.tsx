@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
@@ -15,6 +15,12 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
   const { userProfile } = useAuth();
   const { i18n } = useTranslation();
   const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
+  const [enabledActions, setEnabledActions] = useState(getEnabledActions());
+
+  // Update enabled actions when refreshKey changes
+  useEffect(() => {
+    setEnabledActions(getEnabledActions());
+  }, [refreshKey, getEnabledActions]);
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -43,8 +49,6 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     pendingPayments
   } = useOwnerQuickActions(userProfile);
 
-  // Force re-calculation of enabled actions when refreshKey changes
-  const enabledActions = getEnabledActions();
   const quickActionsConfig = userProfile ? createQuickActionsConfig(
     navigate,
     setOpenDialog,
@@ -67,7 +71,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
   }
 
   return (
-    <div className="px-3 py-4 border-t border-green-400/30" key={refreshKey}>
+    <div className="px-3 py-4 border-t border-green-400/30">
       <div className="flex items-center px-3 py-2 text-white/70 text-xs font-semibold uppercase tracking-wider">
         <Plus className="mr-2 h-4 w-4" />
         {getLocalizedText('quickActionsTitle')}
