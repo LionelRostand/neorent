@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -145,11 +146,14 @@ export const useQuickActionsManager = () => {
 
   const loadQuickActions = async () => {
     try {
+      console.log('Loading quick actions from Firebase...');
       const configDoc = await getDoc(doc(db, 'system_config', 'quick_actions'));
       if (configDoc.exists()) {
         const data = configDoc.data();
+        console.log('Loaded quick actions from Firebase:', data.actions);
         setQuickActions(data.actions || defaultQuickActions);
       } else {
+        console.log('No quick actions found in Firebase, using default');
         setQuickActions(defaultQuickActions);
       }
     } catch (error) {
@@ -172,13 +176,18 @@ export const useQuickActionsManager = () => {
 
     setSaving(true);
     try {
+      console.log('Saving quick actions to Firebase:', actions);
       await setDoc(doc(db, 'system_config', 'quick_actions'), {
         actions: actions,
         updatedAt: new Date().toISOString()
       });
 
       setQuickActions(actions);
-      setRefreshKey(prev => prev + 1); // Force refresh
+      // Force refresh with a new key
+      const newRefreshKey = Date.now();
+      console.log('Setting new refresh key:', newRefreshKey);
+      setRefreshKey(newRefreshKey);
+      
       toast({
         title: "Succès",
         description: "Configuration des actions rapides mise à jour",
@@ -206,6 +215,8 @@ export const useQuickActionsManager = () => {
     }
 
     console.log('Removing action:', actionId);
+    console.log('Current actions before removal:', quickActions);
+    
     const updatedActions = quickActions.filter(action => action.id !== actionId);
     console.log('Updated actions after removal:', updatedActions);
     
@@ -215,6 +226,8 @@ export const useQuickActionsManager = () => {
       order: index + 1
     }));
     
+    console.log('Reordered actions:', reorderedActions);
+    
     try {
       await saveQuickActions(reorderedActions);
       toast({
@@ -222,6 +235,7 @@ export const useQuickActionsManager = () => {
         description: "Action rapide supprimée",
       });
     } catch (error) {
+      console.error('Error in removeAction:', error);
       toast({
         title: "Erreur",
         description: "Erreur lors de la suppression",
@@ -235,7 +249,8 @@ export const useQuickActionsManager = () => {
       .filter(action => action.enabled)
       .sort((a, b) => a.order - b.order);
     
-    console.log('Enabled actions:', enabledActions);
+    console.log('Getting enabled actions:', enabledActions);
+    console.log('Current refresh key:', refreshKey);
     return enabledActions;
   };
 

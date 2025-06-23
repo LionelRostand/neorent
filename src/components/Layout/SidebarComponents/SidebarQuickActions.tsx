@@ -16,6 +16,8 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
   const { i18n } = useTranslation();
   const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
 
+  console.log('SidebarQuickActions render, refreshKey:', refreshKey);
+
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
     const currentLang = i18n.language;
@@ -45,6 +47,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
 
   // Use only enabled actions
   const enabledActions = getEnabledActions();
+  console.log('SidebarQuickActions enabledActions:', enabledActions);
   
   const quickActionsConfig = userProfile ? createQuickActionsConfig(
     navigate,
@@ -57,18 +60,22 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     enabledActions // Pass only enabled actions
   ) : [];
 
-  const handleDelete = (e: React.MouseEvent, actionId: string) => {
+  console.log('SidebarQuickActions quickActionsConfig:', quickActionsConfig);
+
+  const handleDelete = async (e: React.MouseEvent, actionId: string) => {
     e.stopPropagation();
     e.preventDefault();
-    removeAction(actionId);
+    console.log('handleDelete called for actionId:', actionId);
+    await removeAction(actionId);
   };
 
   if (quickActionsConfig.length === 0) {
+    console.log('No quick actions to display');
     return null;
   }
 
   return (
-    <div className="px-3 py-4 border-t border-green-400/30">
+    <div className="px-3 py-4 border-t border-green-400/30" key={`sidebar-quick-actions-${refreshKey}`}>
       <div className="flex items-center px-3 py-2 text-white/70 text-xs font-semibold uppercase tracking-wider">
         <Plus className="mr-2 h-4 w-4" />
         {getLocalizedText('quickActionsTitle')}
