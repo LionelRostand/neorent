@@ -57,170 +57,35 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({ activeView, currentProfile,
     
     // Pages admin intégrées dans l'espace propriétaire avec filtrage
     case 'admin-dashboard':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Tableau de bord filtré pour {currentProfile?.name || 'le propriétaire'}
-            </p>
-          </div>
-          <Dashboard />
-        </div>
-      );
+      return <Dashboard />;
     case 'admin-properties':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Propriétés appartenant à {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Properties />
-        </div>
-      );
+      return <Properties />;
     case 'admin-tenants':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Locataires des propriétés de {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Tenants />
-        </div>
-      );
+      return <Tenants />;
     case 'admin-roommates':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Colocataires des propriétés de {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Roommates />
-        </div>
-      );
+      return <Roommates />;
     case 'admin-contracts':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Contrats des propriétés de {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Contracts />
-        </div>
-      );
+      return <Contracts />;
     case 'admin-inspections':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Inspections des propriétés de {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Inspections />
-        </div>
-      );
+      return <Inspections />;
     case 'admin-rent-management':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Gestion des loyers pour {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <RentManagement />
-        </div>
-      );
+      return <RentManagement />;
     case 'admin-rental-charges':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Charges locatives pour {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <RentalCharges />
-        </div>
-      );
+      return <RentalCharges />;
     case 'admin-forecasting':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Prévisions financières pour {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Forecasting />
-        </div>
-      );
+      return <Forecasting />;
     case 'admin-maintenance':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Maintenance des propriétés de {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Maintenance />
-        </div>
-      );
+      return <Maintenance />;
     case 'admin-messages':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Messages concernant {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Messages />
-        </div>
-      );
+      return <Messages />;
     case 'admin-taxes':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Gestion fiscale pour {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Taxes />
-        </div>
-      );
+      return <Taxes />;
     case 'admin-website':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Configuration du site web
-            </p>
-          </div>
-          <Website />
-        </div>
-      );
+      return <Website />;
     case 'admin-settings':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Paramètres du compte de {currentProfile?.name || 'ce propriétaire'}
-            </p>
-          </div>
-          <Settings />
-        </div>
-      );
+      return <Settings />;
     case 'admin-help':
-      return (
-        <div className="owner-filtered-content">
-          <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
-            <p className="text-sm text-blue-800">
-              <strong>Vue Propriétaire:</strong> Aide et documentation
-            </p>
-          </div>
-          <Help />
-        </div>
-      );
+      return <Help />;
     
     default:
       return <DashboardView currentProfile={currentProfile} />;
