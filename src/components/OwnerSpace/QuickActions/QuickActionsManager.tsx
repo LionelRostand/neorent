@@ -273,6 +273,9 @@ const QuickActionsManager: React.FC = () => {
                   <div className="text-sm text-gray-500">
                     {action.description[i18n.language as 'fr' | 'en'] || action.description.fr}
                   </div>
+                  <div className="text-xs text-gray-400">
+                    {action.action === 'navigate' ? `→ ${action.actionValue}` : `Dialog: ${action.actionValue}`}
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -280,16 +283,15 @@ const QuickActionsManager: React.FC = () => {
                   checked={action.enabled}
                   onCheckedChange={() => toggleAction(action.id)}
                 />
-                {action.id.startsWith('custom_') && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeAction(action.id)}
-                    className="text-red-600 hover:text-red-700"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeAction(action.id)}
+                  className="text-red-600 hover:text-red-700"
+                  title={getLocalizedText('delete')}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
               </div>
             </div>
           ))}

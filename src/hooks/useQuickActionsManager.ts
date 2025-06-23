@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -180,7 +179,7 @@ export const useQuickActionsManager = () => {
       setQuickActions(actions);
       toast({
         title: "Succès",
-        description: "Configuration des actions rapides mise à jour",
+        description: "Menu ajouté aux actions rapides avec succès",
       });
     } catch (error) {
       console.error('Error saving quick actions:', error);
@@ -227,7 +226,12 @@ export const useQuickActionsManager = () => {
 
   const removeAction = async (actionId: string) => {
     const updatedActions = quickActions.filter(action => action.id !== actionId);
-    await saveQuickActions(updatedActions);
+    // Réorganiser les numéros d'ordre
+    const reorderedActions = updatedActions.map((action, index) => ({
+      ...action,
+      order: index + 1
+    }));
+    await saveQuickActions(reorderedActions);
   };
 
   const getEnabledActions = () => {

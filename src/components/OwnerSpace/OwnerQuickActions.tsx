@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus } from 'lucide-react';
@@ -9,6 +9,7 @@ import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
 import QuickActionItem from './QuickActions/QuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
 import QuickActionsManager from './QuickActions/QuickActionsManager';
+import SidebarMenuSelector from './QuickActions/SidebarMenuSelector';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
@@ -17,6 +18,7 @@ interface OwnerQuickActionsProps {
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) => {
   const { i18n } = useTranslation();
   const { getEnabledActions, isAdmin } = useQuickActionsManager();
+  const [showMenuSelector, setShowMenuSelector] = useState(false);
   
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -26,6 +28,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
       quickActionsTitle: {
         fr: 'Actions rapides',
         en: 'Quick Actions'
+      },
+      addMenu: {
+        fr: 'Ajouter un menu',
+        en: 'Add Menu'
       }
     };
 
@@ -62,9 +68,20 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     <>
       <Card className="h-fit w-full">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-base font-semibold">
-            <Plus className="h-4 w-4" />
-            {getLocalizedText('quickActionsTitle')}
+          <CardTitle className="flex items-center justify-between text-base font-semibold">
+            <div className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              {getLocalizedText('quickActionsTitle')}
+            </div>
+            {isAdmin && (
+              <button
+                onClick={() => setShowMenuSelector(true)}
+                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                title={getLocalizedText('addMenu')}
+              >
+                <Plus className="h-4 w-4 text-gray-600" />
+              </button>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">
@@ -76,6 +93,16 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
 
       {isAdmin && (
         <QuickActionsManager />
+      )}
+
+      {showMenuSelector && (
+        <SidebarMenuSelector
+          onClose={() => setShowMenuSelector(false)}
+          onMenuSelect={(menuItem) => {
+            console.log('Menu sélectionné:', menuItem);
+            setShowMenuSelector(false);
+          }}
+        />
       )}
 
       <QuickActionDialogs
