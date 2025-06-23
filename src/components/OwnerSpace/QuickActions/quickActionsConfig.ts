@@ -23,7 +23,7 @@ export const createQuickActionsConfig = (
 ): QuickAction[] => [
   {
     id: 'dashboard',
-    title: 'Dashboard',
+    title: t('ownerSpace.dashboard.title'),
     description: 'View overview',
     icon: LayoutDashboard,
     color: 'bg-slate-500',
@@ -36,8 +36,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'property',
-    title: 'New property',
-    description: 'Add a property',
+    title: t('ownerSpace.quickActions.newProperty.title'),
+    description: t('ownerSpace.quickActions.newProperty.description'),
     icon: Plus,
     color: 'bg-blue-500',
     action: () => {
@@ -49,8 +49,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'contract',
-    title: 'New contract',
-    description: 'Create a lease',
+    title: t('ownerSpace.quickActions.newContract.title'),
+    description: t('ownerSpace.quickActions.newContract.description'),
     icon: FileText,
     color: 'bg-yellow-500',
     action: () => {
@@ -62,8 +62,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'roommate',
-    title: 'Add tenant',
-    description: 'Register a tenant',
+    title: t('ownerSpace.quickActions.addTenant.title'),
+    description: t('ownerSpace.quickActions.addTenant.description'),
     icon: Users,
     color: 'bg-purple-500',
     action: () => {
@@ -75,8 +75,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'inspection',
-    title: 'Inspection',
-    description: 'Schedule a visit',
+    title: t('ownerSpace.quickActions.propertyInspection.title'),
+    description: t('ownerSpace.quickActions.propertyInspection.description'),
     icon: Home,
     color: 'bg-orange-500',
     action: () => {
@@ -101,8 +101,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'maintenance',
-    title: 'Maintenance',
-    description: 'Request intervention',
+    title: t('ownerSpace.quickActions.maintenance.title'),
+    description: t('ownerSpace.quickActions.maintenance.description'),
     icon: Wrench,
     color: 'bg-red-500',
     action: () => {
@@ -140,8 +140,8 @@ export const createQuickActionsConfig = (
   },
   {
     id: 'charges',
-    title: 'Calculate charges',
-    description: 'Annual review',
+    title: t('ownerSpace.quickActions.calculateCharges.title'),
+    description: t('ownerSpace.quickActions.calculateCharges.description'),
     icon: Calculator,
     color: 'bg-teal-500',
     action: () => {

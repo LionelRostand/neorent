@@ -21,10 +21,10 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
             </div>
             <div>
               <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
-                Owner Space
+                {t('ownerSpace.title')}
               </h1>
               <p className="text-gray-600 text-sm">
-                Welcome, {currentProfile?.name || 'Owner'}
+                {t('ownerSpace.welcome')}, {currentProfile?.name || t('ownerSpace.status.owner')}
               </p>
               <p className="text-xs text-gray-500">
                 {currentProfile?.email}
@@ -34,7 +34,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
           <div className="mt-3 md:mt-0">
             <div className="flex items-center space-x-2 bg-green-100 px-3 py-1 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-green-800 text-xs font-medium">Active</span>
+              <span className="text-green-800 text-xs font-medium">{t('ownerSpace.status.active')}</span>
             </div>
           </div>
         </div>

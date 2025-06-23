@@ -52,7 +52,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
       <div className="p-4 lg:p-6 flex-shrink-0 border-b border-green-400/30">
         <div className="flex items-center">
           <Plus className="h-5 w-5 lg:h-6 lg:w-6 text-white mr-2" />
-          <h2 className="text-lg lg:text-xl font-bold text-white">Quick Actions</h2>
+          <h2 className="text-lg lg:text-xl font-bold text-white">{t('ownerSpace.quickActions.title')}</h2>
         </div>
       </div>
 
