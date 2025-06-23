@@ -20,135 +20,267 @@ export const createQuickActionsConfig = (
   expiringContracts: number,
   pendingPayments: number,
   t: (key: string, options?: any) => string
-): QuickAction[] => [
-  {
-    id: 'dashboard',
-    title: t('ownerSpace.dashboard.title'),
-    description: t('ownerSpace.dashboard.description'),
-    icon: LayoutDashboard,
-    color: 'bg-slate-500',
-    action: () => {
-      console.log('Showing dashboard view');
-      setActiveView('dashboard');
+): QuickAction[] => {
+  // Get current language for localized texts
+  const currentLang = document.documentElement.lang || 'fr';
+  
+  const getLocalizedText = (key: string, fallback: string = '') => {
+    const texts: Record<string, Record<string, string>> = {
+      dashboard: {
+        fr: 'Tableau de bord',
+        en: 'Dashboard'
+      },
+      dashboardDesc: {
+        fr: 'Vue d\'ensemble',
+        en: 'Overview'
+      },
+      dashboardPreview: {
+        fr: 'Aperçu du système',
+        en: 'System overview'
+      },
+      newProperty: {
+        fr: 'Nouvelle propriété',
+        en: 'New Property'
+      },
+      newPropertyDesc: {
+        fr: 'Ajouter un bien',
+        en: 'Add a property'
+      },
+      newContract: {
+        fr: 'Nouveau contrat',
+        en: 'New Contract'
+      },
+      newContractDesc: {
+        fr: 'Créer un bail',
+        en: 'Create a lease'
+      },
+      addTenant: {
+        fr: 'Ajouter locataire',
+        en: 'Add Tenant'
+      },
+      addTenantDesc: {
+        fr: 'Enregistrer un locataire',
+        en: 'Register a tenant'
+      },
+      propertyInspection: {
+        fr: 'État des lieux',
+        en: 'Property Inspection'
+      },
+      propertyInspectionDesc: {
+        fr: 'Programmer une visite',
+        en: 'Schedule a visit'
+      },
+      propertyInspectionPreview: {
+        fr: 'Inspections des propriétés',
+        en: 'Property inspections'
+      },
+      forecasting: {
+        fr: 'Prévisions financières',
+        en: 'Financial Forecasting'
+      },
+      forecastingDesc: {
+        fr: 'Projections de revenus',
+        en: 'Revenue projections'
+      },
+      forecastingPreview: {
+        fr: 'Projections de revenus',
+        en: 'Revenue projections'
+      },
+      maintenance: {
+        fr: 'Maintenance',
+        en: 'Maintenance'
+      },
+      maintenanceDesc: {
+        fr: 'Demande d\'intervention',
+        en: 'Service request'
+      },
+      maintenancePreview: {
+        fr: '1 demande urgente',
+        en: '1 urgent request'
+      },
+      messages: {
+        fr: 'Messages',
+        en: 'Messages'
+      },
+      messagesDesc: {
+        fr: 'Discuter avec les locataires',
+        en: 'Chat with tenants'
+      },
+      messagesPreview: {
+        fr: 'Centre de communication',
+        en: 'Communication center'
+      },
+      taxes: {
+        fr: 'Gestion fiscale',
+        en: 'Tax Management'
+      },
+      taxesDesc: {
+        fr: 'Déclarations fiscales',
+        en: 'Tax declarations'
+      },
+      taxesPreview: {
+        fr: 'Déclarations fiscales',
+        en: 'Tax declarations'
+      },
+      charges: {
+        fr: 'Calculer charges',
+        en: 'Calculate Charges'
+      },
+      chargesDesc: {
+        fr: 'Révision annuelle',
+        en: 'Annual review'
+      },
+      chargesPreview: {
+        fr: '0 paiements en attente',
+        en: '0 pending payments'
+      },
+      properties: {
+        fr: 'propriétés',
+        en: 'properties'
+      },
+      expiring: {
+        fr: 'expirent',
+        en: 'expiring'
+      },
+      activeTenants: {
+        fr: 'locataires actifs',
+        en: 'active tenants'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || fallback;
+  };
+
+  return [
+    {
+      id: 'dashboard',
+      title: getLocalizedText('dashboard'),
+      description: getLocalizedText('dashboardDesc'),
+      icon: LayoutDashboard,
+      color: 'bg-slate-500',
+      action: () => {
+        console.log('Showing dashboard view');
+        setActiveView('dashboard');
+      },
+      preview: getLocalizedText('dashboardPreview'),
+      navigationAction: () => setActiveView('dashboard')
     },
-    preview: t('ownerSpace.dashboard.preview'),
-    navigationAction: () => setActiveView('dashboard')
-  },
-  {
-    id: 'property',
-    title: t('ownerSpace.quickActions.newProperty.title'),
-    description: t('ownerSpace.quickActions.newProperty.description'),
-    icon: Plus,
-    color: 'bg-blue-500',
-    action: () => {
-      console.log('Showing property form');
-      setActiveView('property');
+    {
+      id: 'property',
+      title: getLocalizedText('newProperty'),
+      description: getLocalizedText('newPropertyDesc'),
+      icon: Plus,
+      color: 'bg-blue-500',
+      action: () => {
+        console.log('Showing property form');
+        setActiveView('property');
+      },
+      preview: `${ownerProperties.length} ${getLocalizedText('properties')}`,
+      navigationAction: () => setActiveView('property')
     },
-    preview: t('ownerSpace.quickActions.newProperty.preview', { count: ownerProperties.length }),
-    navigationAction: () => setActiveView('property')
-  },
-  {
-    id: 'contract',
-    title: t('ownerSpace.quickActions.newContract.title'),
-    description: t('ownerSpace.quickActions.newContract.description'),
-    icon: FileText,
-    color: 'bg-yellow-500',
-    action: () => {
-      console.log('Showing contract form');
-      setActiveView('contract');
+    {
+      id: 'contract',
+      title: getLocalizedText('newContract'),
+      description: getLocalizedText('newContractDesc'),
+      icon: FileText,
+      color: 'bg-yellow-500',
+      action: () => {
+        console.log('Showing contract form');
+        setActiveView('contract');
+      },
+      preview: `${expiringContracts} ${getLocalizedText('expiring')}`,
+      navigationAction: () => setActiveView('contract')
     },
-    preview: t('ownerSpace.quickActions.newContract.preview', { count: expiringContracts }),
-    navigationAction: () => setActiveView('contract')
-  },
-  {
-    id: 'roommate',
-    title: t('ownerSpace.quickActions.addTenant.title'),
-    description: t('ownerSpace.quickActions.addTenant.description'),
-    icon: Users,
-    color: 'bg-purple-500',
-    action: () => {
-      console.log('Showing tenant form');
-      setActiveView('roommate');
+    {
+      id: 'roommate',
+      title: getLocalizedText('addTenant'),
+      description: getLocalizedText('addTenantDesc'),
+      icon: Users,
+      color: 'bg-purple-500',
+      action: () => {
+        console.log('Showing tenant form');
+        setActiveView('roommate');
+      },
+      preview: `${activeTenants.length} ${getLocalizedText('activeTenants')}`,
+      navigationAction: () => setActiveView('roommate')
     },
-    preview: t('ownerSpace.quickActions.addTenant.preview', { count: activeTenants.length }),
-    navigationAction: () => setActiveView('roommate')
-  },
-  {
-    id: 'inspection',
-    title: t('ownerSpace.quickActions.propertyInspection.title'),
-    description: t('ownerSpace.quickActions.propertyInspection.description'),
-    icon: Home,
-    color: 'bg-orange-500',
-    action: () => {
-      console.log('Showing inspection form');
-      setActiveView('inspection');
+    {
+      id: 'inspection',
+      title: getLocalizedText('propertyInspection'),
+      description: getLocalizedText('propertyInspectionDesc'),
+      icon: Home,
+      color: 'bg-orange-500',
+      action: () => {
+        console.log('Showing inspection form');
+        setActiveView('inspection');
+      },
+      preview: getLocalizedText('propertyInspectionPreview'),
+      navigationAction: () => setActiveView('inspection')
     },
-    preview: t('ownerSpace.quickActions.propertyInspection.preview'),
-    navigationAction: () => setActiveView('inspection')
-  },
-  {
-    id: 'forecasting',
-    title: t('ownerSpace.quickActions.forecasting.title'),
-    description: t('ownerSpace.quickActions.forecasting.description'),
-    icon: TrendingUp,
-    color: 'bg-emerald-500',
-    action: () => {
-      console.log('Navigating to forecasting');
-      navigate('/admin/forecasting');
+    {
+      id: 'forecasting',
+      title: getLocalizedText('forecasting'),
+      description: getLocalizedText('forecastingDesc'),
+      icon: TrendingUp,
+      color: 'bg-emerald-500',
+      action: () => {
+        console.log('Navigating to forecasting');
+        navigate('/admin/forecasting');
+      },
+      preview: getLocalizedText('forecastingPreview'),
+      navigationAction: () => navigate('/admin/forecasting')
     },
-    preview: t('ownerSpace.quickActions.forecasting.preview'),
-    navigationAction: () => navigate('/admin/forecasting')
-  },
-  {
-    id: 'maintenance',
-    title: t('ownerSpace.quickActions.maintenance.title'),
-    description: t('ownerSpace.quickActions.maintenance.description'),
-    icon: Wrench,
-    color: 'bg-red-500',
-    action: () => {
-      console.log('Navigating to maintenance');
-      navigate('/admin/maintenance');
+    {
+      id: 'maintenance',
+      title: getLocalizedText('maintenance'),
+      description: getLocalizedText('maintenanceDesc'),
+      icon: Wrench,
+      color: 'bg-red-500',
+      action: () => {
+        console.log('Navigating to maintenance');
+        navigate('/admin/maintenance');
+      },
+      preview: getLocalizedText('maintenancePreview'),
+      navigationAction: () => navigate('/admin/maintenance')
     },
-    preview: t('ownerSpace.quickActions.maintenance.preview'),
-    navigationAction: () => navigate('/admin/maintenance')
-  },
-  {
-    id: 'messages',
-    title: t('ownerSpace.quickActions.messages.title'),
-    description: t('ownerSpace.quickActions.messages.description'),
-    icon: MessageSquare,
-    color: 'bg-indigo-500',
-    action: () => {
-      console.log('Navigating to messages');
-      navigate('/admin/messages');
+    {
+      id: 'messages',
+      title: getLocalizedText('messages'),
+      description: getLocalizedText('messagesDesc'),
+      icon: MessageSquare,
+      color: 'bg-indigo-500',
+      action: () => {
+        console.log('Navigating to messages');
+        navigate('/admin/messages');
+      },
+      preview: getLocalizedText('messagesPreview'),
+      navigationAction: () => navigate('/admin/messages')
     },
-    preview: t('ownerSpace.quickActions.messages.preview'),
-    navigationAction: () => navigate('/admin/messages')
-  },
-  {
-    id: 'taxes',
-    title: t('ownerSpace.quickActions.taxes.title'),
-    description: t('ownerSpace.quickActions.taxes.description'),
-    icon: FileText,
-    color: 'bg-cyan-500',
-    action: () => {
-      console.log('Navigating to taxes');
-      navigate('/admin/taxes');
+    {
+      id: 'taxes',
+      title: getLocalizedText('taxes'),
+      description: getLocalizedText('taxesDesc'),
+      icon: FileText,
+      color: 'bg-cyan-500',
+      action: () => {
+        console.log('Navigating to taxes');
+        navigate('/admin/taxes');
+      },
+      preview: getLocalizedText('taxesPreview'),
+      navigationAction: () => navigate('/admin/taxes')
     },
-    preview: t('ownerSpace.quickActions.taxes.preview'),
-    navigationAction: () => navigate('/admin/taxes')
-  },
-  {
-    id: 'charges',
-    title: t('ownerSpace.quickActions.calculateCharges.title'),
-    description: t('ownerSpace.quickActions.calculateCharges.description'),
-    icon: Calculator,
-    color: 'bg-teal-500',
-    action: () => {
-      console.log('Navigating to rental charges');
-      navigate('/admin/rental-charges');
-    },
-    preview: t('ownerSpace.quickActions.calculateCharges.preview'),
-    navigationAction: () => navigate('/admin/rental-charges')
-  }
-];
+    {
+      id: 'charges',
+      title: getLocalizedText('charges'),
+      description: getLocalizedText('chargesDesc'),
+      icon: Calculator,
+      color: 'bg-teal-500',
+      action: () => {
+        console.log('Navigating to rental charges');
+        navigate('/admin/rental-charges');
+      },
+      preview: getLocalizedText('chargesPreview'),
+      navigationAction: () => navigate('/admin/rental-charges')
+    }
+  ];
+};

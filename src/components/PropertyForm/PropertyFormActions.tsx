@@ -8,15 +8,33 @@ interface PropertyFormActionsProps {
 }
 
 const PropertyFormActions = ({ onClose }: PropertyFormActionsProps) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      cancel: {
+        fr: 'Annuler',
+        en: 'Cancel'
+      },
+      addProperty: {
+        fr: 'Ajouter propriété',
+        en: 'Add Property'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
 
   return (
     <div className="flex justify-end space-x-2 pt-4">
       <Button type="button" variant="outline" onClick={onClose}>
-        {t('common.cancel')}
+        {getLocalizedText('cancel')}
       </Button>
       <Button type="submit">
-        {t('properties.addProperty')}
+        {getLocalizedText('addProperty')}
       </Button>
     </div>
   );

@@ -12,8 +12,42 @@ interface QuickActionsCardProps {
 }
 
 const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onViewChange }) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
+
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      quickActionsTitle: {
+        fr: 'Actions rapides',
+        en: 'Quick Actions'
+      },
+      payments: {
+        fr: 'Paiements',
+        en: 'Payments'
+      },
+      maintenance: {
+        fr: 'Maintenance',
+        en: 'Maintenance'
+      },
+      messages: {
+        fr: 'Messages',
+        en: 'Messages'
+      },
+      profile: {
+        fr: 'Profil',
+        en: 'Profile'
+      },
+      newRequest: {
+        fr: 'Nouvelle demande',
+        en: 'New Request'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
 
   const handlePaymentsClick = () => {
     onTabChange('payments');
@@ -34,7 +68,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   return (
     <Card className="shadow-md">
       <CardHeader>
-        <CardTitle className="text-lg">{t('tenantSpace.quickActions.title')}</CardTitle>
+        <CardTitle className="text-lg">{getLocalizedText('quickActionsTitle')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -43,19 +77,19 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             className="flex flex-col items-center gap-2 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
           >
             <CreditCard className="h-6 w-6 text-blue-600" />
-            <span className="text-sm font-medium text-blue-800">{t('tenantSpace.quickActions.payments')}</span>
+            <span className="text-sm font-medium text-blue-800">{getLocalizedText('payments')}</span>
           </button>
 
           <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
             <DialogTrigger asChild>
               <button className="flex flex-col items-center gap-2 p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
                 <Home className="h-6 w-6 text-green-600" />
-                <span className="text-sm font-medium text-green-800">{t('tenantSpace.quickActions.maintenance')}</span>
+                <span className="text-sm font-medium text-green-800">{getLocalizedText('maintenance')}</span>
               </button>
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>{t('maintenanceRequests.newRequest')}</DialogTitle>
+                <DialogTitle>{getLocalizedText('newRequest')}</DialogTitle>
               </DialogHeader>
               <div className="mt-4">
                 <MaintenanceRequestForm />
@@ -68,7 +102,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             className="flex flex-col items-center gap-2 p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
           >
             <Mail className="h-6 w-6 text-purple-600" />
-            <span className="text-sm font-medium text-purple-800">{t('tenantSpace.quickActions.messages')}</span>
+            <span className="text-sm font-medium text-purple-800">{getLocalizedText('messages')}</span>
           </button>
 
           <button 
@@ -76,7 +110,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             className="flex flex-col items-center gap-2 p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
           >
             <User className="h-6 w-6 text-orange-600" />
-            <span className="text-sm font-medium text-orange-800">{t('tenantSpace.quickActions.profile')}</span>
+            <span className="text-sm font-medium text-orange-800">{getLocalizedText('profile')}</span>
           </button>
         </div>
       </CardContent>

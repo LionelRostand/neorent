@@ -13,9 +13,23 @@ interface QuickActionsSidebarProps {
 }
 
 const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClose }) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
   const { userProfile } = useAuth();
+
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      quickActionsTitle: {
+        fr: 'Actions rapides',
+        en: 'Quick Actions'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
 
   const {
     openDialog,
@@ -34,7 +48,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     activeTenants,
     expiringContracts,
     pendingPayments,
-    t
+    () => '' // dummy t function since we're using getLocalizedText
   ) : [];
 
   if (!isOpen) return null;
@@ -54,7 +68,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
           <div className="flex items-center justify-between p-6">
             <div className="flex items-center">
               <Building className="h-6 w-6 text-white mr-2" />
-              <h1 className="text-xl font-bold text-white">{t('quickActions.title')}</h1>
+              <h1 className="text-xl font-bold text-white">{getLocalizedText('quickActionsTitle')}</h1>
             </div>
             <button
               onClick={onClose}
