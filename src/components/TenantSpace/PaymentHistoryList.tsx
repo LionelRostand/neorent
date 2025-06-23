@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -73,7 +72,7 @@ const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({
                   <Calendar className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-medium text-sm md:text-base">{payment.month}</h3>
+                  <h3 className="font-medium text-sm md:text-base">Mois: {payment.month}</h3>
                   <div className={`flex ${isMobile ? 'flex-col space-y-1' : 'items-center gap-4'} text-xs md:text-sm text-gray-600 mt-1`}>
                     <span>{t('tenantHistory.dueDate')}: {new Date(payment.dueDate).toLocaleDateString()}</span>
                     {payment.paymentDate && (
