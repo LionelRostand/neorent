@@ -52,17 +52,20 @@ const QuickActionItem: React.FC<QuickActionItemProps> = ({ action }) => {
           <div className="text-xs text-white/70">{action.description}</div>
           <div className="text-xs text-white/50 mt-1">{action.preview}</div>
         </div>
+        
+        {/* Bouton de suppression pour les admins - visible au hover */}
+        {isAdmin && (
+          <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <button
+              onClick={handleDelete}
+              className="p-1.5 bg-red-500/90 hover:bg-red-600 text-white rounded-full shadow-lg border border-white/20"
+              title={getLocalizedText('delete')}
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </div>
+        )}
       </button>
-      
-      {isAdmin && (
-        <button
-          onClick={handleDelete}
-          className="absolute top-1 right-1 p-1.5 bg-red-500/90 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 shadow-lg border border-white/20"
-          title={getLocalizedText('delete')}
-        >
-          <X className="h-3 w-3" />
-        </button>
-      )}
     </div>
   );
 };
