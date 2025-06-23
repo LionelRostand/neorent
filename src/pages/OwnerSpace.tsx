@@ -24,7 +24,7 @@ const OwnerSpace = () => {
   // Check that user is owner/employee or administrator
   if ((userType !== 'employee' && userType !== 'admin') || !currentProfile) {
     return (
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-gray-50">
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <p className="text-lg text-gray-600">Unauthorized access</p>
@@ -39,7 +39,7 @@ const OwnerSpace = () => {
   }
 
   return (
-    <div className="min-h-screen flex w-full">
+    <div className="min-h-screen flex w-full bg-gray-50">
       {/* Mobile sidebar overlay */}
       {isMobileSidebarOpen && (
         <div 
