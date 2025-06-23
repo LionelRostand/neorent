@@ -1,6 +1,8 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
+import { X } from 'lucide-react';
+import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { QuickAction } from './quickActionsConfig';
 
 interface QuickActionItemProps {
@@ -8,30 +10,55 @@ interface QuickActionItemProps {
 }
 
 const QuickActionItem: React.FC<QuickActionItemProps> = ({ action }) => {
-  const Icon = action.icon;
+  const { i18n } = useTranslation();
+  const { isAdmin, removeAction } = useQuickActionsManager();
+
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      delete: {
+        fr: 'Supprimer',
+        en: 'Delete'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    removeAction(action.id);
+  };
+
+  const IconComponent = action.icon;
 
   return (
-    <Button
-      variant="ghost"
-      className="w-full justify-start h-auto p-3 hover:bg-gray-50 rounded-lg border-0"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log(`Clicking action: ${action.id}`);
-        action.action();
-      }}
-    >
-      <div className="flex items-center space-x-3 w-full min-w-0">
-        <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
-          <Icon className="h-4 w-4" />
+    <div className="relative group">
+      <button
+        onClick={action.action}
+        className="w-full flex items-center gap-3 p-3 text-left hover:bg-white/10 rounded-lg transition-colors"
+      >
+        <div className={`p-2 rounded-lg ${action.color}`}>
+          <IconComponent className="h-4 w-4 text-white" />
         </div>
-        <div className="text-left flex-1 min-w-0 overflow-hidden">
-          <p className="font-medium text-gray-900 text-sm leading-tight truncate">{action.title}</p>
-          <p className="text-xs text-gray-500 mt-0.5 truncate">{action.description}</p>
-          <p className="text-xs text-blue-600 font-medium mt-1">{action.preview}</p>
+        <div className="flex-1">
+          <div className="text-sm font-medium text-white">{action.title}</div>
+          <div className="text-xs text-white/70">{action.description}</div>
+          <div className="text-xs text-white/50 mt-1">{action.preview}</div>
         </div>
-      </div>
-    </Button>
+      </button>
+      
+      {isAdmin && (
+        <button
+          onClick={handleDelete}
+          className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          title={getLocalizedText('delete')}
+        >
+          <X className="h-3 w-3" />
+        </button>
+      )}
+    </div>
   );
 };
 

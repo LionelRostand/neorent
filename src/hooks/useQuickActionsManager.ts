@@ -179,7 +179,7 @@ export const useQuickActionsManager = () => {
       setQuickActions(actions);
       toast({
         title: "Succès",
-        description: "Menu ajouté aux actions rapides avec succès",
+        description: "Configuration des actions rapides mise à jour",
       });
     } catch (error) {
       console.error('Error saving quick actions:', error);
@@ -225,13 +225,35 @@ export const useQuickActionsManager = () => {
   };
 
   const removeAction = async (actionId: string) => {
+    if (!isAdmin) {
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent supprimer des actions",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const updatedActions = quickActions.filter(action => action.id !== actionId);
     // Réorganiser les numéros d'ordre
     const reorderedActions = updatedActions.map((action, index) => ({
       ...action,
       order: index + 1
     }));
-    await saveQuickActions(reorderedActions);
+    
+    try {
+      await saveQuickActions(reorderedActions);
+      toast({
+        title: "Succès",
+        description: "Action rapide supprimée",
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la suppression",
+        variant: "destructive",
+      });
+    }
   };
 
   const getEnabledActions = () => {
