@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -196,37 +195,6 @@ export const useQuickActionsManager = () => {
     }
   };
 
-  const toggleAction = async (actionId: string) => {
-    const updatedActions = quickActions.map(action =>
-      action.id === actionId ? { ...action, enabled: !action.enabled } : action
-    );
-    await saveQuickActions(updatedActions);
-  };
-
-  const reorderActions = async (dragIndex: number, hoverIndex: number) => {
-    const dragAction = quickActions[dragIndex];
-    const updatedActions = [...quickActions];
-    updatedActions.splice(dragIndex, 1);
-    updatedActions.splice(hoverIndex, 0, dragAction);
-    
-    // Update order numbers
-    const reorderedActions = updatedActions.map((action, index) => ({
-      ...action,
-      order: index + 1
-    }));
-    
-    await saveQuickActions(reorderedActions);
-  };
-
-  const addCustomAction = async (newAction: Omit<QuickActionConfig, 'order'>) => {
-    const actionWithOrder = {
-      ...newAction,
-      order: quickActions.length + 1
-    };
-    const updatedActions = [...quickActions, actionWithOrder];
-    await saveQuickActions(updatedActions);
-  };
-
   const removeAction = async (actionId: string) => {
     if (!isAdmin) {
       toast({
@@ -237,7 +205,10 @@ export const useQuickActionsManager = () => {
       return;
     }
 
+    console.log('Removing action:', actionId);
     const updatedActions = quickActions.filter(action => action.id !== actionId);
+    console.log('Updated actions after removal:', updatedActions);
+    
     // Réorganiser les numéros d'ordre
     const reorderedActions = updatedActions.map((action, index) => ({
       ...action,
@@ -260,9 +231,12 @@ export const useQuickActionsManager = () => {
   };
 
   const getEnabledActions = () => {
-    return quickActions
+    const enabledActions = quickActions
       .filter(action => action.enabled)
       .sort((a, b) => a.order - b.order);
+    
+    console.log('Enabled actions:', enabledActions);
+    return enabledActions;
   };
 
   return {
@@ -270,9 +244,34 @@ export const useQuickActionsManager = () => {
     loading,
     saving,
     isAdmin,
-    toggleAction,
-    reorderActions,
-    addCustomAction,
+    toggleAction: async (actionId: string) => {
+      const updatedActions = quickActions.map(action =>
+        action.id === actionId ? { ...action, enabled: !action.enabled } : action
+      );
+      await saveQuickActions(updatedActions);
+    },
+    reorderActions: async (dragIndex: number, hoverIndex: number) => {
+      const dragAction = quickActions[dragIndex];
+      const updatedActions = [...quickActions];
+      updatedActions.splice(dragIndex, 1);
+      updatedActions.splice(hoverIndex, 0, dragAction);
+      
+      // Update order numbers
+      const reorderedActions = updatedActions.map((action, index) => ({
+        ...action,
+        order: index + 1
+      }));
+      
+      await saveQuickActions(reorderedActions);
+    },
+    addCustomAction: async (newAction: Omit<QuickActionConfig, 'order'>) => {
+      const actionWithOrder = {
+        ...newAction,
+        order: quickActions.length + 1
+      };
+      const updatedActions = [...quickActions, actionWithOrder];
+      await saveQuickActions(updatedActions);
+    },
     removeAction,
     getEnabledActions,
     refreshKey

@@ -1,4 +1,3 @@
-
 import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard, TrendingUp, MessageSquare } from 'lucide-react';
 
 export interface QuickAction {
@@ -84,12 +83,11 @@ export const createQuickActionsConfig = (
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || fallback;
   };
 
-  // Filter enabled actions here
-  const enabledActions = allActions ? allActions.filter(action => action.enabled).sort((a, b) => a.order - b.order) : [];
-
-  // Use managed actions if available, otherwise fall back to default
-  if (enabledActions.length > 0) {
-    return enabledActions.map((actionConfig) => ({
+  // Use managed actions if available - this should ONLY contain enabled actions
+  if (allActions && allActions.length > 0) {
+    console.log('Creating quick actions config with enabled actions:', allActions);
+    
+    return allActions.map((actionConfig) => ({
       id: actionConfig.id,
       title: actionConfig.title[currentLang] || actionConfig.title.fr,
       description: actionConfig.description[currentLang] || actionConfig.description.fr,
@@ -113,7 +111,8 @@ export const createQuickActionsConfig = (
     }));
   }
 
-  // Default actions if no managed configuration
+  // Default actions if no managed configuration (fallback)
+  console.log('Using default actions as fallback');
   return [
     {
       id: 'dashboard',
