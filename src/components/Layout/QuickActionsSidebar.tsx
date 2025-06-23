@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Building, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from '@/components/OwnerSpace/QuickActions/quickActionsConfig';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -16,6 +17,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
   const { i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
   const { userProfile } = useAuth();
+  const { getEnabledActions, refreshKey } = useQuickActionsManager();
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -41,6 +43,9 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     pendingPayments
   } = useOwnerQuickActions(userProfile);
 
+  // Use only enabled actions
+  const enabledActions = getEnabledActions();
+  
   const quickActions = userProfile ? createQuickActionsConfig(
     navigate,
     setOpenDialog,
@@ -48,7 +53,8 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     activeTenants,
     expiringContracts,
     pendingPayments,
-    () => '' // dummy t function since we're using getLocalizedText
+    () => '', // dummy t function since we're using getLocalizedText
+    enabledActions // Pass only enabled actions
   ) : [];
 
   if (!isOpen) return null;
@@ -81,7 +87,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
           {/* Content */}
           <div className="flex-1 overflow-hidden">
             <ScrollArea className="h-full">
-              <nav className="space-y-2 py-4 px-3">
+              <nav className="space-y-2 py-4 px-3" key={refreshKey}>
                 {quickActions.map((action) => {
                   const Icon = action.icon;
                   return (

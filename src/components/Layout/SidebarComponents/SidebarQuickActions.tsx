@@ -14,7 +14,7 @@ interface SidebarQuickActionsProps {
 const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose }) => {
   const { userProfile } = useAuth();
   const { i18n } = useTranslation();
-  const { isAdmin, removeAction, quickActions, refreshKey } = useQuickActionsManager();
+  const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -43,7 +43,9 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     pendingPayments
   } = useOwnerQuickActions(userProfile);
 
-  // Pass all actions to config, let it handle the filtering
+  // Use only enabled actions
+  const enabledActions = getEnabledActions();
+  
   const quickActionsConfig = userProfile ? createQuickActionsConfig(
     navigate,
     setOpenDialog,
@@ -52,7 +54,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     expiringContracts,
     pendingPayments,
     () => '', // dummy t function since we're using getLocalizedText
-    quickActions // Pass all actions, not just enabled ones
+    enabledActions // Pass only enabled actions
   ) : [];
 
   const handleDelete = (e: React.MouseEvent, actionId: string) => {

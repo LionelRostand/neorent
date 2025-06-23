@@ -21,7 +21,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   onMobileClose
 }) => {
   const { t } = useTranslation();
-  const { isAdmin, removeAction, quickActions, refreshKey } = useQuickActionsManager();
+  const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
 
   const {
     ownerProperties,
@@ -30,7 +30,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
-  // Pass all actions to config, let it handle the filtering
+  // Use only enabled actions
+  const enabledActions = getEnabledActions();
+  
   const quickActionsConfig = createQuickActionsConfig(
     () => {}, // navigate function not needed here
     setActiveView, // use setActiveView instead of setOpenDialog
@@ -39,7 +41,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     expiringContracts,
     pendingPayments,
     t,
-    quickActions // Pass all actions, not just enabled ones
+    enabledActions // Pass only enabled actions
   );
 
   const handleActionClick = (action: any) => {
@@ -69,13 +71,13 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
       {/* Content with ScrollArea */}
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
-          <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
+          <div className="p-3 lg:p-4 space-y-2 lg:space-y-3" key={refreshKey}>
             {quickActionsConfig.map((action) => {
               const Icon = action.icon;
               const isActive = activeView === action.id;
               
               return (
-                <div key={`${action.id}-${refreshKey}`} className="relative group">
+                <div key={action.id} className="relative group">
                   <button
                     onClick={(e) => {
                       e.preventDefault();
