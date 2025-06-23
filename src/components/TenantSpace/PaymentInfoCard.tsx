@@ -30,9 +30,9 @@ const PaymentInfoCard: React.FC<PaymentInfoCardProps> = ({
           <div>
             <h4 className="font-medium mb-2 text-sm md:text-base">{t('tenantHistory.paymentDetails')}</h4>
             <ul className="space-y-1 text-xs md:text-sm">
-              <li>• {t('tenantHistory.monthlyRent')}: {monthlyRent}€</li>
-              <li>• {t('tenantHistory.monthlyCharges')}: {monthlyCharges}€</li>
-              <li>• {t('tenantHistory.totalMonthly')}: {totalMonthly}€</li>
+              <li>• {t('tenantHistory.monthlyRent')}: {monthlyRent}€/mois</li>
+              <li>• {t('tenantHistory.monthlyCharges')}: {monthlyCharges}€/mois</li>
+              <li>• {t('tenantHistory.totalMonthly')}: {totalMonthly}€/mois</li>
               <li>• {t('tenantHistory.dueDate')}: {t('tenantHistory.firstOfMonth')}</li>
             </ul>
           </div>
