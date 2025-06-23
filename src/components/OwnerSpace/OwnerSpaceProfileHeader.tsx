@@ -1,6 +1,10 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
 interface OwnerSpaceProfileHeaderProps {
   currentProfile: any;
@@ -8,6 +12,13 @@ interface OwnerSpaceProfileHeaderProps {
 
 const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { isAuthorizedAdmin, switchBackToAdmin } = useAdminTenantAccess();
+
+  const handleBackToAdmin = () => {
+    switchBackToAdmin();
+    navigate('/admin/dashboard');
+  };
 
   return (
     <div className="bg-white shadow-sm border-b mb-6">
@@ -31,7 +42,20 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
               </p>
             </div>
           </div>
-          <div className="mt-3 md:mt-0">
+          <div className="mt-3 md:mt-0 flex items-center space-x-3">
+            {/* Bouton de retour admin */}
+            {isAuthorizedAdmin && (
+              <Button
+                onClick={handleBackToAdmin}
+                variant="outline"
+                size="sm"
+                className="flex items-center space-x-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span>Retour Admin</span>
+              </Button>
+            )}
+            
             <div className="flex items-center space-x-2 bg-green-100 px-3 py-1 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
               <span className="text-green-800 text-xs font-medium">{t('ownerSpace.status.active')}</span>
