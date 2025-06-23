@@ -1,5 +1,5 @@
-
 import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard, TrendingUp, MessageSquare } from 'lucide-react';
+import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 
 export interface QuickAction {
   id: string;
@@ -12,6 +12,18 @@ export interface QuickAction {
   navigationAction?: () => void;
 }
 
+const iconMap: Record<string, any> = {
+  FileText,
+  Users,
+  Home,
+  Calculator,
+  Wrench,
+  Plus,
+  LayoutDashboard,
+  TrendingUp,
+  MessageSquare
+};
+
 export const createQuickActionsConfig = (
   navigate: (path: string) => void,
   setActiveView: (view: string) => void,
@@ -19,121 +31,14 @@ export const createQuickActionsConfig = (
   activeTenants: any[],
   expiringContracts: number,
   pendingPayments: number,
-  t: (key: string, options?: any) => string
+  t: (key: string, options?: any) => string,
+  enabledActions?: any[]
 ): QuickAction[] => {
   // Get current language for localized texts
   const currentLang = document.documentElement.lang || 'fr';
   
   const getLocalizedText = (key: string, fallback: string = '') => {
     const texts: Record<string, Record<string, string>> = {
-      dashboard: {
-        fr: 'Tableau de bord',
-        en: 'Dashboard'
-      },
-      dashboardDesc: {
-        fr: 'Vue d\'ensemble',
-        en: 'Overview'
-      },
-      dashboardPreview: {
-        fr: 'Aperçu du système',
-        en: 'System overview'
-      },
-      newProperty: {
-        fr: 'Nouvelle propriété',
-        en: 'New Property'
-      },
-      newPropertyDesc: {
-        fr: 'Ajouter un bien',
-        en: 'Add a property'
-      },
-      newContract: {
-        fr: 'Nouveau contrat',
-        en: 'New Contract'
-      },
-      newContractDesc: {
-        fr: 'Créer un bail',
-        en: 'Create a lease'
-      },
-      addTenant: {
-        fr: 'Ajouter locataire',
-        en: 'Add Tenant'
-      },
-      addTenantDesc: {
-        fr: 'Enregistrer un locataire',
-        en: 'Register a tenant'
-      },
-      propertyInspection: {
-        fr: 'État des lieux',
-        en: 'Property Inspection'
-      },
-      propertyInspectionDesc: {
-        fr: 'Programmer une visite',
-        en: 'Schedule a visit'
-      },
-      propertyInspectionPreview: {
-        fr: 'Inspections des propriétés',
-        en: 'Property inspections'
-      },
-      forecasting: {
-        fr: 'Prévisions financières',
-        en: 'Financial Forecasting'
-      },
-      forecastingDesc: {
-        fr: 'Projections de revenus',
-        en: 'Revenue projections'
-      },
-      forecastingPreview: {
-        fr: 'Projections de revenus',
-        en: 'Revenue projections'
-      },
-      maintenance: {
-        fr: 'Maintenance',
-        en: 'Maintenance'
-      },
-      maintenanceDesc: {
-        fr: 'Demande d\'intervention',
-        en: 'Service request'
-      },
-      maintenancePreview: {
-        fr: '1 demande urgente',
-        en: '1 urgent request'
-      },
-      messages: {
-        fr: 'Messages',
-        en: 'Messages'
-      },
-      messagesDesc: {
-        fr: 'Discuter avec les locataires',
-        en: 'Chat with tenants'
-      },
-      messagesPreview: {
-        fr: 'Centre de communication',
-        en: 'Communication center'
-      },
-      taxes: {
-        fr: 'Gestion fiscale',
-        en: 'Tax Management'
-      },
-      taxesDesc: {
-        fr: 'Déclarations fiscales',
-        en: 'Tax declarations'
-      },
-      taxesPreview: {
-        fr: 'Déclarations fiscales',
-        en: 'Tax declarations'
-      },
-      charges: {
-        fr: 'Calculer charges',
-        en: 'Calculate Charges'
-      },
-      chargesDesc: {
-        fr: 'Révision annuelle',
-        en: 'Annual review'
-      },
-      chargesPreview: {
-        fr: '0 paiements en attente',
-        en: '0 pending payments'
-      },
       properties: {
         fr: 'propriétés',
         en: 'properties'
@@ -145,24 +50,79 @@ export const createQuickActionsConfig = (
       activeTenants: {
         fr: 'locataires actifs',
         en: 'active tenants'
+      },
+      systemOverview: {
+        fr: 'Aperçu du système',
+        en: 'System overview'
+      },
+      propertyInspections: {
+        fr: 'Inspections des propriétés',
+        en: 'Property inspections'
+      },
+      revenueProjections: {
+        fr: 'Projections de revenus',
+        en: 'Revenue projections'
+      },
+      urgentRequest: {
+        fr: '1 demande urgente',
+        en: '1 urgent request'
+      },
+      communicationCenter: {
+        fr: 'Centre de communication',
+        en: 'Communication center'
+      },
+      taxDeclarations: {
+        fr: 'Déclarations fiscales',
+        en: 'Tax declarations'
+      },
+      pendingPayments: {
+        fr: '0 paiements en attente',
+        en: '0 pending payments'
       }
     };
 
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || fallback;
   };
 
+  // Use managed actions if available, otherwise fall back to default
+  if (enabledActions && enabledActions.length > 0) {
+    return enabledActions.map((actionConfig) => ({
+      id: actionConfig.id,
+      title: actionConfig.title[currentLang] || actionConfig.title.fr,
+      description: actionConfig.description[currentLang] || actionConfig.description.fr,
+      icon: iconMap[actionConfig.icon] || Plus,
+      color: actionConfig.color,
+      action: () => {
+        if (actionConfig.action === 'navigate') {
+          navigate(actionConfig.actionValue);
+        } else {
+          setActiveView(actionConfig.actionValue);
+        }
+      },
+      preview: getPreviewForAction(actionConfig.id, ownerProperties, activeTenants, expiringContracts, pendingPayments, getLocalizedText),
+      navigationAction: () => {
+        if (actionConfig.action === 'navigate') {
+          navigate(actionConfig.actionValue);
+        } else {
+          setActiveView(actionConfig.actionValue);
+        }
+      }
+    }));
+  }
+
+  // Default actions if no managed configuration
   return [
     {
       id: 'dashboard',
-      title: getLocalizedText('dashboard'),
-      description: getLocalizedText('dashboardDesc'),
+      title: getLocalizedText('dashboard', 'Tableau de bord'),
+      description: getLocalizedText('dashboardDesc', 'Vue d\'ensemble'),
       icon: LayoutDashboard,
       color: 'bg-slate-500',
       action: () => {
         console.log('Showing dashboard view');
         setActiveView('dashboard');
       },
-      preview: getLocalizedText('dashboardPreview'),
+      preview: getLocalizedText('systemOverview'),
       navigationAction: () => setActiveView('dashboard')
     },
     {
@@ -284,3 +244,36 @@ export const createQuickActionsConfig = (
     }
   ];
 };
+
+function getPreviewForAction(
+  actionId: string,
+  ownerProperties: any[],
+  activeTenants: any[],
+  expiringContracts: number,
+  pendingPayments: number,
+  getLocalizedText: (key: string, fallback?: string) => string
+): string {
+  switch (actionId) {
+    case 'property':
+      return `${ownerProperties.length} ${getLocalizedText('properties')}`;
+    case 'contract':
+      return `${expiringContracts} ${getLocalizedText('expiring')}`;
+    case 'roommate':
+      return `${activeTenants.length} ${getLocalizedText('activeTenants')}`;
+    case 'inspection':
+      return getLocalizedText('propertyInspections');
+    case 'forecasting':
+      return getLocalizedText('revenueProjections');
+    case 'maintenance':
+      return getLocalizedText('urgentRequest');
+    case 'messages':
+      return getLocalizedText('communicationCenter');
+    case 'taxes':
+      return getLocalizedText('taxDeclarations');
+    case 'charges':
+      return getLocalizedText('pendingPayments');
+    case 'dashboard':
+    default:
+      return getLocalizedText('systemOverview');
+  }
+}

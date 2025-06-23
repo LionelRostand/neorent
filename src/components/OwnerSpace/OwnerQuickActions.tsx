@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus } from 'lucide-react';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
 import QuickActionItem from './QuickActions/QuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
+import QuickActionsManager from './QuickActions/QuickActionsManager';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
@@ -14,6 +16,7 @@ interface OwnerQuickActionsProps {
 
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) => {
   const { i18n } = useTranslation();
+  const { getEnabledActions, isAdmin } = useQuickActionsManager();
   
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -43,6 +46,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
+  const enabledActions = getEnabledActions();
   const quickActions = createQuickActionsConfig(
     navigate,
     setOpenDialog,
@@ -50,7 +54,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     activeTenants,
     expiringContracts,
     pendingPayments,
-    () => '' // dummy t function since we're using getLocalizedText
+    () => '', // dummy t function since we're using getLocalizedText
+    enabledActions
   );
 
   return (
@@ -68,6 +73,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
           ))}
         </CardContent>
       </Card>
+
+      {isAdmin && (
+        <QuickActionsManager />
+      )}
 
       <QuickActionDialogs
         openDialog={openDialog}
