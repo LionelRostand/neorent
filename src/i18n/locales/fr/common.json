@@ -80,6 +80,8 @@
   "employee": "Employé",
   "permissions": "Permissions",
   "role": "Rôle",
+  "user": "Utilisateur",
+  "activeAccount": "Compte actif",
   "validation": {
     "required": "Ce champ est requis",
     "email": "Veuillez entrer un email valide",

@@ -80,6 +80,8 @@
   "employee": "Employee",
   "permissions": "Permissions",
   "role": "Role",
+  "user": "User",
+  "activeAccount": "Active Account",
   "validation": {
     "required": "This field is required",
     "email": "Please enter a valid email",
