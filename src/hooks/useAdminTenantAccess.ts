@@ -81,7 +81,9 @@ export const useAdminTenantAccess = () => {
       property: tenantProfile.property || null,
       nextPayment: tenantProfile.nextPayment || null,
       // For owners/employees
-      role: tenantProfile.role || null
+      role: tenantProfile.role || null,
+      companyId: tenantProfile.companyId || null,
+      permissions: tenantProfile.permissions || null
     };
     
     console.log('Setting enriched profile:', enrichedProfile);
