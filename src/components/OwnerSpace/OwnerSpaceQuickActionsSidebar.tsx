@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -22,9 +22,6 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
 }) => {
   const { t } = useTranslation();
   const { isAdmin, removeAction, quickActions, refreshKey } = useQuickActionsManager();
-  
-  // Use quickActions directly and filter enabled ones locally
-  const enabledActions = quickActions.filter(action => action.enabled).sort((a, b) => a.order - b.order);
 
   const {
     ownerProperties,
@@ -33,6 +30,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
+  // Pass all actions to config, let it handle the filtering
   const quickActionsConfig = createQuickActionsConfig(
     () => {}, // navigate function not needed here
     setActiveView, // use setActiveView instead of setOpenDialog
@@ -41,7 +39,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     expiringContracts,
     pendingPayments,
     t,
-    enabledActions
+    quickActions // Pass all actions, not just enabled ones
   );
 
   const handleActionClick = (action: any) => {

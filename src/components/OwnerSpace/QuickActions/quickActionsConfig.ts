@@ -1,5 +1,5 @@
+
 import { FileText, Users, Home, Calculator, Wrench, Plus, LayoutDashboard, TrendingUp, MessageSquare } from 'lucide-react';
-import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 
 export interface QuickAction {
   id: string;
@@ -32,7 +32,7 @@ export const createQuickActionsConfig = (
   expiringContracts: number,
   pendingPayments: number,
   t: (key: string, options?: any) => string,
-  enabledActions?: any[]
+  allActions?: any[] // Receive all actions, filter here
 ): QuickAction[] => {
   // Get current language for localized texts
   const currentLang = document.documentElement.lang || 'fr';
@@ -84,8 +84,11 @@ export const createQuickActionsConfig = (
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || fallback;
   };
 
+  // Filter enabled actions here
+  const enabledActions = allActions ? allActions.filter(action => action.enabled).sort((a, b) => a.order - b.order) : [];
+
   // Use managed actions if available, otherwise fall back to default
-  if (enabledActions && enabledActions.length > 0) {
+  if (enabledActions.length > 0) {
     return enabledActions.map((actionConfig) => ({
       id: actionConfig.id,
       title: actionConfig.title[currentLang] || actionConfig.title.fr,

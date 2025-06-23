@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Plus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
@@ -15,9 +15,6 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
   const { userProfile } = useAuth();
   const { i18n } = useTranslation();
   const { isAdmin, removeAction, quickActions, refreshKey } = useQuickActionsManager();
-  
-  // Use quickActions directly and filter enabled ones locally
-  const enabledActions = quickActions.filter(action => action.enabled).sort((a, b) => a.order - b.order);
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -46,6 +43,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     pendingPayments
   } = useOwnerQuickActions(userProfile);
 
+  // Pass all actions to config, let it handle the filtering
   const quickActionsConfig = userProfile ? createQuickActionsConfig(
     navigate,
     setOpenDialog,
@@ -54,7 +52,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     expiringContracts,
     pendingPayments,
     () => '', // dummy t function since we're using getLocalizedText
-    enabledActions
+    quickActions // Pass all actions, not just enabled ones
   ) : [];
 
   const handleDelete = (e: React.MouseEvent, actionId: string) => {
