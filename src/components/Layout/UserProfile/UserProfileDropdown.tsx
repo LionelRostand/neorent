@@ -21,7 +21,7 @@ export const UserProfileDropdown = () => {
   const { user, logout, userProfile, userType } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
   const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
 
@@ -48,6 +48,40 @@ export const UserProfileDropdown = () => {
 
   const isAdminOrEmployee = userType === 'admin' || userType === 'employee';
 
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      myProfile: {
+        fr: 'Mon profil',
+        en: 'My Profile'
+      },
+      changePassword: {
+        fr: 'Changer mot de passe',
+        en: 'Change Password'
+      },
+      tenantSpace: {
+        fr: 'Espace locataire',
+        en: 'Tenant Space'
+      },
+      logout: {
+        fr: 'Déconnexion',
+        en: 'Logout'
+      },
+      administrator: {
+        fr: 'Administrateur',
+        en: 'Administrator'
+      },
+      employee: {
+        fr: 'Employé',
+        en: 'Employee'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
+
   if (!user) {
     return null;
   }
@@ -71,7 +105,7 @@ export const UserProfileDropdown = () => {
               </p>
               {isAdminOrEmployee && (
                 <p className="text-xs leading-none text-blue-600 font-medium">
-                  {userType === 'admin' ? 'Administrateur' : 'Employé'}
+                  {userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('employee')}
                 </p>
               )}
             </div>
@@ -82,15 +116,15 @@ export const UserProfileDropdown = () => {
             <>
               <DropdownMenuItem onClick={() => setIsProfileDialogOpen(true)}>
                 <UserCheck className="mr-2 h-4 w-4" />
-                <span>Mon profil</span>
+                <span>{getLocalizedText('myProfile')}</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setIsPasswordDialogOpen(true)}>
                 <Lock className="mr-2 h-4 w-4" />
-                <span>Changer mot de passe</span>
+                <span>{getLocalizedText('changePassword')}</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleTenantSpaceAccess}>
                 <Home className="mr-2 h-4 w-4" />
-                <span>Espace locataire</span>
+                <span>{getLocalizedText('tenantSpace')}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
@@ -98,7 +132,7 @@ export const UserProfileDropdown = () => {
           
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Déconnexion</span>
+            <span>{getLocalizedText('logout')}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

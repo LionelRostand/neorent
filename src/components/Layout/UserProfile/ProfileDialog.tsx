@@ -27,42 +27,88 @@ export const ProfileDialog = ({
   userProfile, 
   userType 
 }: ProfileDialogProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      myProfile: {
+        fr: 'Mon profil',
+        en: 'My Profile'
+      },
+      name: {
+        fr: 'Nom',
+        en: 'Name'
+      },
+      email: {
+        fr: 'Email',
+        en: 'Email'
+      },
+      role: {
+        fr: 'Rôle',
+        en: 'Role'
+      },
+      permissions: {
+        fr: 'Permissions',
+        en: 'Permissions'
+      },
+      close: {
+        fr: 'Fermer',
+        en: 'Close'
+      },
+      notDefined: {
+        fr: 'Non défini',
+        en: 'Not defined'
+      },
+      administrator: {
+        fr: 'Administrateur',
+        en: 'Administrator'
+      },
+      employee: {
+        fr: 'Employé',
+        en: 'Employee'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle>Mon profil</DialogTitle>
+          <DialogTitle>{getLocalizedText('myProfile')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>{t('common.name')}</Label>
+            <Label>{getLocalizedText('name')}</Label>
             <Input
-              value={userProfile?.name || t('common.notDefined')}
+              value={userProfile?.name || getLocalizedText('notDefined')}
               readOnly
               className="bg-gray-50"
             />
           </div>
           <div className="space-y-2">
-            <Label>{t('common.email')}</Label>
+            <Label>{getLocalizedText('email')}</Label>
             <Input
-              value={user.email || t('common.notDefined')}
+              value={user.email || getLocalizedText('notDefined')}
               readOnly
               className="bg-gray-50"
             />
           </div>
           <div className="space-y-2">
-            <Label>{t('common.role')}</Label>
+            <Label>{getLocalizedText('role')}</Label>
             <Input
-              value={userType === 'admin' ? t('common.administrator') : t('common.employee')}
+              value={userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('employee')}
               readOnly
               className="bg-gray-50"
             />
           </div>
           {userProfile?.permissions && Array.isArray(userProfile.permissions) && userProfile.permissions.length > 0 && (
             <div className="space-y-2">
-              <Label>{t('common.permissions')}</Label>
+              <Label>{getLocalizedText('permissions')}</Label>
               <div className="bg-gray-50 p-3 rounded-md">
                 <div className="flex flex-wrap gap-1">
                   {userProfile.permissions.map((permission: string) => (
@@ -83,7 +129,7 @@ export const ProfileDialog = ({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              {t('common.close')}
+              {getLocalizedText('close')}
             </Button>
           </div>
         </div>
