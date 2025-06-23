@@ -25,7 +25,7 @@ export const PasswordChangeDialog = ({
   onOpenChange, 
   user 
 }: PasswordChangeDialogProps) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const {
     currentPassword,
     setCurrentPassword,
@@ -43,15 +43,65 @@ export const PasswordChangeDialog = ({
     handlePasswordChange,
   } = usePasswordChange(user, onOpenChange);
 
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      changePassword: {
+        fr: 'Changer le mot de passe',
+        en: 'Change Password'
+      },
+      currentPassword: {
+        fr: 'Mot de passe actuel',
+        en: 'Current Password'
+      },
+      enterCurrentPassword: {
+        fr: 'Entrez le mot de passe actuel',
+        en: 'Enter current password'
+      },
+      newPassword: {
+        fr: 'Nouveau mot de passe',
+        en: 'New Password'
+      },
+      minimum6Characters: {
+        fr: 'Minimum 6 caractères',
+        en: 'Minimum 6 characters'
+      },
+      confirmPassword: {
+        fr: 'Confirmer le mot de passe',
+        en: 'Confirm Password'
+      },
+      confirmNewPassword: {
+        fr: 'Confirmez le nouveau mot de passe',
+        en: 'Confirm new password'
+      },
+      cancel: {
+        fr: 'Annuler',
+        en: 'Cancel'
+      },
+      modify: {
+        fr: 'Modifier',
+        en: 'Modify'
+      },
+      modifying: {
+        fr: 'Modification...',
+        en: 'Modifying...'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle>{t('common.changePassword')}</DialogTitle>
+          <DialogTitle>{getLocalizedText('changePassword')}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handlePasswordChange} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="current-password">{t('common.currentPassword')}</Label>
+            <Label htmlFor="current-password">{getLocalizedText('currentPassword')}</Label>
             <div className="relative">
               <Input
                 id="current-password"
@@ -59,7 +109,7 @@ export const PasswordChangeDialog = ({
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 required
-                placeholder={t('common.enterCurrentPassword')}
+                placeholder={getLocalizedText('enterCurrentPassword')}
               />
               <Button
                 type="button"
@@ -77,7 +127,7 @@ export const PasswordChangeDialog = ({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="new-password">{t('common.newPassword')}</Label>
+            <Label htmlFor="new-password">{getLocalizedText('newPassword')}</Label>
             <div className="relative">
               <Input
                 id="new-password"
@@ -85,7 +135,7 @@ export const PasswordChangeDialog = ({
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
-                placeholder={t('common.minimum6Characters')}
+                placeholder={getLocalizedText('minimum6Characters')}
               />
               <Button
                 type="button"
@@ -103,7 +153,7 @@ export const PasswordChangeDialog = ({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirm-password">{t('common.confirmPassword')}</Label>
+            <Label htmlFor="confirm-password">{getLocalizedText('confirmPassword')}</Label>
             <div className="relative">
               <Input
                 id="confirm-password"
@@ -111,7 +161,7 @@ export const PasswordChangeDialog = ({
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                placeholder={t('common.confirmNewPassword')}
+                placeholder={getLocalizedText('confirmNewPassword')}
               />
               <Button
                 type="button"
@@ -134,10 +184,10 @@ export const PasswordChangeDialog = ({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              {t('common.cancel')}
+              {getLocalizedText('cancel')}
             </Button>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? t('common.modifying') : t('common.modify')}
+              {isLoading ? getLocalizedText('modifying') : getLocalizedText('modify')}
             </Button>
           </div>
         </form>
