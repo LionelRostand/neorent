@@ -34,8 +34,7 @@ export const useOwnerData = (ownerProfile: any) => {
     // Filtrer les propriétés du propriétaire connecté
     const ownerProperties = properties.filter(property => 
       property.owner === ownerProfile.name || 
-      property.owner === ownerProfile.email ||
-      property.ownerId === ownerProfile.id
+      property.owner === ownerProfile.email
     );
 
     // Obtenir les titres des propriétés pour filtrer les autres données
