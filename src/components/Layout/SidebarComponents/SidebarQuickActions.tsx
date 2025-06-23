@@ -14,7 +14,7 @@ interface SidebarQuickActionsProps {
 const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose }) => {
   const { userProfile } = useAuth();
   const { i18n } = useTranslation();
-  const { isAdmin, removeAction, getEnabledActions } = useQuickActionsManager();
+  const { isAdmin, removeAction, getEnabledActions, quickActions } = useQuickActionsManager();
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -44,7 +44,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
   } = useOwnerQuickActions(userProfile);
 
   const enabledActions = getEnabledActions();
-  const quickActions = userProfile ? createQuickActionsConfig(
+  const quickActionsConfig = userProfile ? createQuickActionsConfig(
     navigate,
     setOpenDialog,
     ownerProperties,
@@ -61,7 +61,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     removeAction(actionId);
   };
 
-  if (quickActions.length === 0) {
+  if (quickActionsConfig.length === 0) {
     return null;
   }
 
@@ -72,7 +72,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
         {getLocalizedText('quickActionsTitle')}
       </div>
       <div className="space-y-1">
-        {quickActions.map((action) => {
+        {quickActionsConfig.map((action) => {
           const Icon = action.icon;
           return (
             <div key={action.id} className="relative group">

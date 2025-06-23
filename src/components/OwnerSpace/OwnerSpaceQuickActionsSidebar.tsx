@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -21,7 +21,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   onMobileClose
 }) => {
   const { t } = useTranslation();
-  const { isAdmin, removeAction, getEnabledActions } = useQuickActionsManager();
+  const { isAdmin, removeAction, getEnabledActions, quickActions } = useQuickActionsManager();
 
   const {
     ownerProperties,
@@ -31,7 +31,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   } = useOwnerQuickActions(ownerProfile);
 
   const enabledActions = getEnabledActions();
-  const quickActions = createQuickActionsConfig(
+  const quickActionsConfig = createQuickActionsConfig(
     () => {}, // navigate function not needed here
     setActiveView, // use setActiveView instead of setOpenDialog
     ownerProperties,
@@ -70,7 +70,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
           <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
-            {quickActions.map((action) => {
+            {quickActionsConfig.map((action) => {
               const Icon = action.icon;
               const isActive = activeView === action.id;
               
