@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Settings } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
@@ -166,32 +168,26 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         </div>
       </div>
 
-      {/* Modals de gestion */}
+      {/* Modal pour le gestionnaire des actions rapides - amélioration de la visibilité */}
+      <Dialog open={showQuickActionsManager} onOpenChange={setShowQuickActionsManager}>
+        <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] overflow-y-auto p-0">
+          <DialogHeader className="p-6 pb-0">
+            <DialogTitle className="text-xl font-semibold">
+              Gestionnaire des Actions Rapides
+            </DialogTitle>
+          </DialogHeader>
+          <div className="p-6 pt-4">
+            <QuickActionsManager />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal pour le sélecteur de menu */}
       {showMenuSelector && (
         <SidebarMenuSelector
           onClose={() => setShowMenuSelector(false)}
           onMenuSelect={handleMenuSelect}
         />
-      )}
-
-      {showQuickActionsManager && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
-            <div className="p-4 border-b flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Gestionnaire des Actions Rapides</h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowQuickActionsManager(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="p-4">
-              <QuickActionsManager />
-            </div>
-          </div>
-        </div>
       )}
     </>
   );
