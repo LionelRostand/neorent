@@ -135,9 +135,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
           </div>
         </div>
 
-        {/* Content with ScrollArea */}
+        {/* Content with hidden scrollbar */}
         <div className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full">
+          <div className="h-full overflow-y-auto scrollbar-hide">
             <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
               {quickActionsConfig.length === 0 ? (
                 <div className="text-center py-8">
@@ -193,7 +193,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
                 })
               )}
             </div>
-          </ScrollArea>
+          </div>
         </div>
 
         {/* Footer */}
