@@ -33,7 +33,7 @@ export const ProfileDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle>{t('common.myProfile')}</DialogTitle>
+          <DialogTitle>Mon profil</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
