@@ -31,7 +31,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
           <User className="h-4 w-4 text-gray-500" />
           <div>
             <p className="text-sm text-gray-500">{t('tenantProfile.name')}</p>
-            <p className="font-medium">{tenantData.name}</p>
+            <p className="font-medium">{tenantData.name || 'Nom non disponible'}</p>
           </div>
         </div>
 
@@ -77,7 +77,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
             <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
             <span className="text-sm text-gray-500">{t('tenantProfile.status')}</span>
           </div>
-          <Badge className="bg-red-100 text-red-800 border-red-200">
+          <Badge className="bg-green-100 text-green-800 border-green-200">
             Active
           </Badge>
         </div>
