@@ -8,7 +8,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
-import SidebarMenuSelector from './QuickActions/SidebarMenuSelector';
 import QuickActionsManager from './QuickActions/QuickActionsManager';
 
 interface OwnerSpaceQuickActionsSidebarProps {
@@ -25,8 +24,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   onMobileClose
 }) => {
   const { t } = useTranslation();
-  const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
-  const [showMenuSelector, setShowMenuSelector] = useState(false);
+  const { isAdmin, removeAction, getEnabledActions, refreshKey, loading } = useQuickActionsManager();
   const [showQuickActionsManager, setShowQuickActionsManager] = useState(false);
 
   const {
@@ -36,9 +34,10 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
-  // Use ONLY enabled actions - this is the key change
+  // Use ONLY enabled actions
   const enabledActions = getEnabledActions();
   console.log('OwnerSpaceQuickActionsSidebar - Enabled actions:', enabledActions);
+  console.log('OwnerSpaceQuickActionsSidebar - Loading:', loading);
   
   const quickActionsConfig = createQuickActionsConfig(
     () => {}, // navigate function not needed here
@@ -68,10 +67,20 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     await removeAction(actionId);
   };
 
-  const handleMenuSelect = (menuItem: any) => {
-    console.log('Menu sélectionné:', menuItem);
-    setShowMenuSelector(false);
-  };
+  if (loading) {
+    return (
+      <div className="bg-green-500 w-64 sm:w-72 md:w-80 lg:w-96 h-full flex flex-col">
+        <div className="p-4 lg:p-6 flex-shrink-0 border-b border-green-400/30">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg lg:text-xl font-bold text-white">{t('ownerSpace.quickActions.title')}</h2>
+          </div>
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-white/70 text-sm">Chargement des actions...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -107,6 +116,11 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
               {quickActionsConfig.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-white/70 text-sm">Aucune action rapide activée</p>
+                  {isAdmin && (
+                    <p className="text-white/50 text-xs mt-2">
+                      Cliquez sur l'icône paramètres pour configurer les actions rapides
+                    </p>
+                  )}
                 </div>
               ) : (
                 quickActionsConfig.map((action) => {
@@ -168,7 +182,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         </div>
       </div>
 
-      {/* Modal pour le gestionnaire des actions rapides - amélioration de la visibilité */}
+      {/* Modal pour le gestionnaire des actions rapides */}
       <Dialog open={showQuickActionsManager} onOpenChange={setShowQuickActionsManager}>
         <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] overflow-y-auto p-0">
           <DialogHeader className="p-6 pb-0">
@@ -181,14 +195,6 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
           </div>
         </DialogContent>
       </Dialog>
-
-      {/* Modal pour le sélecteur de menu */}
-      {showMenuSelector && (
-        <SidebarMenuSelector
-          onClose={() => setShowMenuSelector(false)}
-          onMenuSelect={handleMenuSelect}
-        />
-      )}
     </>
   );
 };
