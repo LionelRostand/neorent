@@ -21,13 +21,10 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   onMobileClose
 }) => {
   const { t } = useTranslation();
-  const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
-  const [enabledActions, setEnabledActions] = useState(getEnabledActions());
-
-  // Update enabled actions when refreshKey changes
-  useEffect(() => {
-    setEnabledActions(getEnabledActions());
-  }, [refreshKey, getEnabledActions]);
+  const { isAdmin, removeAction, quickActions, refreshKey } = useQuickActionsManager();
+  
+  // Use quickActions directly and filter enabled ones locally
+  const enabledActions = quickActions.filter(action => action.enabled).sort((a, b) => a.order - b.order);
 
   const {
     ownerProperties,
@@ -80,7 +77,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
               const isActive = activeView === action.id;
               
               return (
-                <div key={action.id} className="relative group">
+                <div key={`${action.id}-${refreshKey}`} className="relative group">
                   <button
                     onClick={(e) => {
                       e.preventDefault();

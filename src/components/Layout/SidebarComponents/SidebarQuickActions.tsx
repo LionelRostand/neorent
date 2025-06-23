@@ -14,13 +14,10 @@ interface SidebarQuickActionsProps {
 const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose }) => {
   const { userProfile } = useAuth();
   const { i18n } = useTranslation();
-  const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
-  const [enabledActions, setEnabledActions] = useState(getEnabledActions());
-
-  // Update enabled actions when refreshKey changes
-  useEffect(() => {
-    setEnabledActions(getEnabledActions());
-  }, [refreshKey, getEnabledActions]);
+  const { isAdmin, removeAction, quickActions, refreshKey } = useQuickActionsManager();
+  
+  // Use quickActions directly and filter enabled ones locally
+  const enabledActions = quickActions.filter(action => action.enabled).sort((a, b) => a.order - b.order);
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -80,7 +77,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
         {quickActionsConfig.map((action) => {
           const Icon = action.icon;
           return (
-            <div key={action.id} className="relative group">
+            <div key={`${action.id}-${refreshKey}`} className="relative group">
               <button
                 onClick={(e) => {
                   e.preventDefault();
