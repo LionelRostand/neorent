@@ -28,6 +28,7 @@ const QuickActionItem: React.FC<QuickActionItemProps> = ({ action }) => {
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     removeAction(action.id);
   };
 
@@ -36,7 +37,11 @@ const QuickActionItem: React.FC<QuickActionItemProps> = ({ action }) => {
   return (
     <div className="relative group">
       <button
-        onClick={action.action}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          action.action();
+        }}
         className="w-full flex items-center gap-3 p-3 text-left hover:bg-white/10 rounded-lg transition-colors"
       >
         <div className={`p-2 rounded-lg ${action.color}`}>
@@ -52,7 +57,7 @@ const QuickActionItem: React.FC<QuickActionItemProps> = ({ action }) => {
       {isAdmin && (
         <button
           onClick={handleDelete}
-          className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute top-1 right-1 p-1.5 bg-red-500/90 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 shadow-lg border border-white/20"
           title={getLocalizedText('delete')}
         >
           <X className="h-3 w-3" />
