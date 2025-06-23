@@ -21,7 +21,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   onMobileClose
 }) => {
   const { t } = useTranslation();
-  const { isAdmin, removeAction, getEnabledActions, quickActions } = useQuickActionsManager();
+  const { isAdmin, removeAction, getEnabledActions, refreshKey } = useQuickActionsManager();
 
   const {
     ownerProperties,
@@ -30,6 +30,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
+  // Force re-calculation of enabled actions when refreshKey changes
   const enabledActions = getEnabledActions();
   const quickActionsConfig = createQuickActionsConfig(
     () => {}, // navigate function not needed here
@@ -57,7 +58,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   };
 
   return (
-    <div className="bg-green-500 w-64 sm:w-72 md:w-80 lg:w-96 h-full flex flex-col">
+    <div className="bg-green-500 w-64 sm:w-72 md:w-80 lg:w-96 h-full flex flex-col" key={refreshKey}>
       {/* Header */}
       <div className="p-4 lg:p-6 flex-shrink-0 border-b border-green-400/30">
         <div className="flex items-center">

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -135,12 +136,13 @@ export const useQuickActionsManager = () => {
   const [quickActions, setQuickActions] = useState<QuickActionConfig[]>(defaultQuickActions);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const isAdmin = userType === 'admin';
 
   useEffect(() => {
     loadQuickActions();
-  }, []);
+  }, [refreshKey]);
 
   const loadQuickActions = async () => {
     try {
@@ -177,6 +179,7 @@ export const useQuickActionsManager = () => {
       });
 
       setQuickActions(actions);
+      setRefreshKey(prev => prev + 1); // Force refresh
       toast({
         title: "Succès",
         description: "Configuration des actions rapides mise à jour",
@@ -271,6 +274,7 @@ export const useQuickActionsManager = () => {
     reorderActions,
     addCustomAction,
     removeAction,
-    getEnabledActions
+    getEnabledActions,
+    refreshKey
   };
 };
