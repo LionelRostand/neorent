@@ -245,13 +245,33 @@ export const useQuickActionsManager = () => {
   };
 
   const getEnabledActions = () => {
+    // Filter to only return enabled actions, sorted by order
     const enabledActions = quickActions
-      .filter(action => action.enabled)
+      .filter(action => action.enabled === true)
       .sort((a, b) => a.order - b.order);
     
     console.log('Getting enabled actions:', enabledActions);
+    console.log('All actions:', quickActions);
     console.log('Current refresh key:', refreshKey);
     return enabledActions;
+  };
+
+  const toggleAction = async (actionId: string) => {
+    if (!isAdmin) {
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent modifier les actions",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    console.log('Toggling action:', actionId);
+    const updatedActions = quickActions.map(action =>
+      action.id === actionId ? { ...action, enabled: !action.enabled } : action
+    );
+    console.log('Updated actions after toggle:', updatedActions);
+    await saveQuickActions(updatedActions);
   };
 
   return {
@@ -259,12 +279,7 @@ export const useQuickActionsManager = () => {
     loading,
     saving,
     isAdmin,
-    toggleAction: async (actionId: string) => {
-      const updatedActions = quickActions.map(action =>
-        action.id === actionId ? { ...action, enabled: !action.enabled } : action
-      );
-      await saveQuickActions(updatedActions);
-    },
+    toggleAction,
     reorderActions: async (dragIndex: number, hoverIndex: number) => {
       const dragAction = quickActions[dragIndex];
       const updatedActions = [...quickActions];

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Settings } from 'lucide-react';
@@ -35,8 +34,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
-  // Use only enabled actions
+  // Use ONLY enabled actions - this is the key change
   const enabledActions = getEnabledActions();
+  console.log('OwnerSpaceQuickActionsSidebar - Enabled actions:', enabledActions);
   
   const quickActionsConfig = createQuickActionsConfig(
     () => {}, // navigate function not needed here
@@ -48,6 +48,8 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     t,
     enabledActions // Pass only enabled actions
   );
+
+  console.log('OwnerSpaceQuickActionsSidebar - Quick actions config:', quickActionsConfig);
 
   const handleActionClick = (action: any) => {
     action.action();
@@ -100,47 +102,53 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         <div className="flex-1 overflow-hidden">
           <ScrollArea className="h-full">
             <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
-              {quickActionsConfig.map((action) => {
-                const Icon = action.icon;
-                const isActive = activeView === action.id;
-                
-                return (
-                  <div key={`${action.id}-${refreshKey}`} className="relative group">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleActionClick(action);
-                      }}
-                      className={`w-full flex items-center p-3 lg:p-4 rounded-lg transition-colors text-left ${
-                        isActive 
-                          ? 'bg-green-400/70 text-white' 
-                          : 'text-white/90 hover:text-white hover:bg-green-400/50'
-                      }`}
-                    >
-                      <div className={`p-2 lg:p-3 rounded-lg ${action.color} mr-3 lg:mr-4 flex-shrink-0 group-hover:scale-105 transition-transform`}>
-                        <Icon className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-semibold text-sm lg:text-base truncate">{action.title}</div>
-                        <div className="text-xs lg:text-sm text-white/70 truncate mt-1">{action.description}</div>
-                        <div className="text-xs lg:text-sm text-green-200 font-medium mt-1 lg:mt-2">{action.preview}</div>
-                      </div>
-                    </button>
-
-                    {/* Bouton rouge de suppression pour les admins */}
-                    {isAdmin && (
+              {quickActionsConfig.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-white/70 text-sm">Aucune action rapide activée</p>
+                </div>
+              ) : (
+                quickActionsConfig.map((action) => {
+                  const Icon = action.icon;
+                  const isActive = activeView === action.id;
+                  
+                  return (
+                    <div key={`${action.id}-${refreshKey}`} className="relative group">
                       <button
-                        onClick={(e) => handleDelete(e, action.id)}
-                        className="absolute top-2 right-2 p-1.5 bg-red-500/90 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 shadow-lg border border-white/20"
-                        title="Supprimer cette action"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleActionClick(action);
+                        }}
+                        className={`w-full flex items-center p-3 lg:p-4 rounded-lg transition-colors text-left ${
+                          isActive 
+                            ? 'bg-green-400/70 text-white' 
+                            : 'text-white/90 hover:text-white hover:bg-green-400/50'
+                        }`}
                       >
-                        <X className="h-3 w-3" />
+                        <div className={`p-2 lg:p-3 rounded-lg ${action.color} mr-3 lg:mr-4 flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                          <Icon className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-sm lg:text-base truncate">{action.title}</div>
+                          <div className="text-xs lg:text-sm text-white/70 truncate mt-1">{action.description}</div>
+                          <div className="text-xs lg:text-sm text-green-200 font-medium mt-1 lg:mt-2">{action.preview}</div>
+                        </div>
                       </button>
-                    )}
-                  </div>
-                );
-              })}
+
+                      {/* Bouton rouge de suppression pour les admins */}
+                      {isAdmin && (
+                        <button
+                          onClick={(e) => handleDelete(e, action.id)}
+                          className="absolute top-2 right-2 p-1.5 bg-red-500/90 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 shadow-lg border border-white/20"
+                          title="Supprimer cette action"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      )}
+                    </div>
+                  );
+                })
+              )}
             </div>
           </ScrollArea>
         </div>
