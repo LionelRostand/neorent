@@ -74,6 +74,12 @@
   "confirmNewPassword": "Confirmez le nouveau mot de passe",
   "modifying": "Modification...",
   "modify": "Modifier",
+  "myProfile": "Mon Profil",
+  "notDefined": "Non défini",
+  "administrator": "Administrateur",
+  "employee": "Employé",
+  "permissions": "Permissions",
+  "role": "Rôle",
   "validation": {
     "required": "Ce champ est requis",
     "email": "Veuillez entrer un email valide",
