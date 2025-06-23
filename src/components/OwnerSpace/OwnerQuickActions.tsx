@@ -13,7 +13,21 @@ interface OwnerQuickActionsProps {
 }
 
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      quickActionsTitle: {
+        fr: 'Actions rapides',
+        en: 'Quick Actions'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
   
   const {
     openDialog,
@@ -36,7 +50,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     activeTenants,
     expiringContracts,
     pendingPayments,
-    t
+    () => '' // dummy t function since we're using getLocalizedText
   );
 
   return (
@@ -45,7 +59,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base font-semibold">
             <Plus className="h-4 w-4" />
-            {t('quickActions.title')}
+            {getLocalizedText('quickActionsTitle')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">
