@@ -3,9 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, Home, Users, DollarSign, Calendar } from 'lucide-react';
-import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
-import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useOwnerData } from '@/hooks/useOwnerData';
 
 interface OwnerDashboardStatsProps {
   ownerProfile: any;
@@ -13,34 +11,22 @@ interface OwnerDashboardStatsProps {
 
 const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile }) => {
   const { t } = useTranslation();
-  const { properties } = useFirebaseProperties();
-  const { roommates } = useFirebaseRoommates();
-  const { payments } = useFirebasePayments();
-
-  // Filtrer les données selon le propriétaire connecté
-  const ownerProperties = properties.filter(property => 
-    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
-  );
-
-  const activeTenants = roommates.filter(roommate => 
-    roommate.status === 'Actif' && 
-    ownerProperties.some(property => property.title === roommate.property)
-  );
+  const ownerData = useOwnerData(ownerProfile);
 
   // Calculer les revenus mensuels
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
-  const monthlyPayments = payments.filter(payment => {
+  const monthlyPayments = ownerData.payments.filter(payment => {
     const paymentDate = new Date(payment.paymentDate || payment.dueDate);
     return paymentDate.getMonth() === currentMonth && 
-           paymentDate.getFullYear() === currentYear &&
-           ownerProperties.some(property => property.title === payment.property);
+           paymentDate.getFullYear() === currentYear;
   });
 
   const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
 
   // Calculer le taux d'occupation
-  const totalRooms = ownerProperties.reduce((total, property) => {
+  const activeTenants = [...ownerData.roommates, ...ownerData.tenants].filter(t => t.status === 'Actif');
+  const totalRooms = ownerData.properties.reduce((total, property) => {
     if (property.locationType === 'Colocation') {
       return total + (property.totalRooms || 0);
     }
@@ -53,7 +39,7 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
   const stats = [
     {
       title: t('ownerSpace.dashboard.stats.propertiesManaged'),
-      value: ownerProperties.length.toString(),
+      value: ownerData.properties.length.toString(),
       change: `+2 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: Home,
       color: 'text-blue-600',

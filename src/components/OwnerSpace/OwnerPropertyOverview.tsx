@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Building, MapPin, Users, Eye } from 'lucide-react';
-import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
-import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useOwnerData } from '@/hooks/useOwnerData';
 
 interface OwnerPropertyOverviewProps {
   ownerProfile: any;
@@ -14,13 +13,7 @@ interface OwnerPropertyOverviewProps {
 
 const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProfile }) => {
   const { t } = useTranslation();
-  const { properties, loading } = useFirebaseProperties();
-  const { roommates } = useFirebaseRoommates();
-
-  // Filtrer les propriétés selon le propriétaire connecté
-  const ownerProperties = properties.filter(property => 
-    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
-  );
+  const ownerData = useOwnerData(ownerProfile);
 
   const getOccupancyRate = (occupied: number, total: number) => {
     if (total === 0) return 0;
@@ -28,7 +21,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
   };
 
   const getRealStatus = (property: any) => {
-    const activeRoommates = roommates.filter(roommate => 
+    const activeRoommates = ownerData.roommates.filter(roommate => 
       roommate.property === property.title && roommate.status === 'Actif'
     );
 
@@ -67,7 +60,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
 
   const getOccupancyInfo = (property: any) => {
     if (property.locationType === 'Colocation') {
-      const activeRoommates = roommates.filter(roommate => 
+      const activeRoommates = ownerData.roommates.filter(roommate => 
         roommate.property === property.title && roommate.status === 'Actif'
       );
       const totalRooms = property.totalRooms || 0;
@@ -77,7 +70,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
         total: totalRooms
       };
     } else {
-      const isOccupied = roommates.some(roommate => 
+      const isOccupied = ownerData.roommates.some(roommate => 
         roommate.property === property.title && roommate.status === 'Actif'
       );
       return {
@@ -87,31 +80,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
     }
   };
 
-  if (loading) {
-    return (
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-            <Building className="h-5 w-5" />
-            {t('ownerSpace.propertyOverview.title')}
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1, 2, 3].map((i) => (
-            <Card key={i} className="border border-gray-200 animate-pulse">
-              <CardContent className="p-4">
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded"></div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (ownerProperties.length === 0) {
+  if (ownerData.properties.length === 0) {
     return (
       <div>
         <div className="flex items-center justify-between mb-4">
@@ -143,7 +112,7 @@ const OwnerPropertyOverview: React.FC<OwnerPropertyOverviewProps> = ({ ownerProf
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {ownerProperties.map((property) => {
+        {ownerData.properties.map((property) => {
           const statusInfo = getRealStatus(property);
           const occupancyInfo = getOccupancyInfo(property);
           

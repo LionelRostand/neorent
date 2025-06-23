@@ -1,11 +1,6 @@
 
 import React from 'react';
-import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
-import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
-import { useFirebasePayments } from '@/hooks/useFirebasePayments';
-import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
-import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
+import { useOwnerData } from '@/hooks/useOwnerData';
 import { usePropertyMetrics } from './Metrics/PropertyMetrics';
 import { useContractMetrics } from './Metrics/ContractMetrics';
 import { useRoommateMetrics } from './Metrics/RoommateMetrics';
@@ -18,40 +13,21 @@ interface OwnerSpaceMetricsProps {
 }
 
 const OwnerSpaceMetrics: React.FC<OwnerSpaceMetricsProps> = ({ ownerProfile, activeView }) => {
-  const { properties = [] } = useFirebaseProperties();
-  const { roommates = [] } = useFirebaseRoommates();
-  const { tenants = [] } = useFirebaseTenants();
-  const { payments = [] } = useFirebasePayments();
-  const { contracts = [] } = useFirebaseContracts();
-  const { inspections = [] } = useFirebaseInspections();
-
-  // Calculate owner properties
-  const ownerProperties = properties.filter(property => 
-    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
-  );
-
-  // Get property titles owned by this owner
-  const ownerPropertyTitles = ownerProperties.map(p => p.title);
-
-  // Filter roommates and tenants for owner properties only
-  const ownerRoommates = roommates.filter(roommate => 
-    ownerPropertyTitles.includes(roommate.property)
-  );
-
-  const ownerTenants = tenants.filter(tenant => 
-    ownerPropertyTitles.includes(tenant.property)
-  );
+  const ownerData = useOwnerData(ownerProfile);
 
   const getMetricsForView = () => {
     switch (activeView) {
       case 'property':
-        return usePropertyMetrics({ ownerProperties });
+        return usePropertyMetrics({ ownerProperties: ownerData.properties });
       case 'contract':
-        return useContractMetrics({ contracts });
+        return useContractMetrics({ contracts: ownerData.contracts });
       case 'roommate':
-        return useRoommateMetrics({ ownerRoommates, ownerProperties });
+        return useRoommateMetrics({ 
+          ownerRoommates: ownerData.roommates, 
+          ownerProperties: ownerData.properties 
+        });
       case 'inspection':
-        return useInspectionMetrics({ inspections });
+        return useInspectionMetrics({ inspections: ownerData.inspections });
       default:
         return [];
     }
