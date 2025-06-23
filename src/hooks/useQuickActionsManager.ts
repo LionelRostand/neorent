@@ -290,12 +290,31 @@ export const useQuickActionsManager = () => {
   };
 
   const addCustomAction = async (newAction: Omit<QuickActionConfig, 'order'>) => {
+    if (!isAdmin) {
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent ajouter des actions",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    console.log('Adding custom action:', newAction);
+    
     const actionWithOrder = {
       ...newAction,
       order: quickActions.length + 1
     };
     const updatedActions = [...quickActions, actionWithOrder];
-    return await saveQuickActions(updatedActions);
+    
+    const success = await saveQuickActions(updatedActions);
+    if (success) {
+      toast({
+        title: "Succès",
+        description: "Action rapide ajoutée avec succès",
+      });
+    }
+    return success;
   };
 
   const getEnabledActions = () => {
