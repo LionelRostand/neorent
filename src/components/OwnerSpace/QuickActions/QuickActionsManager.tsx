@@ -8,13 +8,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Settings, Trash2, GripVertical } from 'lucide-react';
+import { Plus, Settings, Trash2, GripVertical, Loader2 } from 'lucide-react';
 import { useQuickActionsManager, QuickActionConfig } from '@/hooks/useQuickActionsManager';
 
 const QuickActionsManager: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { quickActions, isAdmin, toggleAction, removeAction, addCustomAction, saving } = useQuickActionsManager();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
   const [newAction, setNewAction] = useState<Partial<QuickActionConfig>>({
     enabled: true,
     action: 'navigate',
@@ -116,6 +117,18 @@ const QuickActionsManager: React.FC = () => {
     { value: 'bg-pink-500', label: 'Pink' },
     { value: 'bg-gray-500', label: 'Gray' }
   ];
+
+  const handleToggleAction = async (actionId: string) => {
+    // Set loading state for this specific toggle
+    setToggleStates(prev => ({ ...prev, [actionId]: true }));
+    
+    try {
+      await toggleAction(actionId);
+    } finally {
+      // Clear loading state
+      setToggleStates(prev => ({ ...prev, [actionId]: false }));
+    }
+  };
 
   const handleAddAction = async () => {
     if (newAction.title?.fr && newAction.title?.en && newAction.description?.fr && newAction.description?.en) {
@@ -262,6 +275,7 @@ const QuickActionsManager: React.FC = () => {
                     {getLocalizedText('cancel')}
                   </Button>
                   <Button onClick={handleAddAction} disabled={saving} className="text-xs sm:text-sm h-8 sm:h-10">
+                    {saving && <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />}
                     {getLocalizedText('save')}
                   </Button>
                 </div>
@@ -292,15 +306,20 @@ const QuickActionsManager: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0 ml-2">
-                <Switch
-                  checked={action.enabled}
-                  onCheckedChange={() => toggleAction(action.id)}
-                  className="scale-75 sm:scale-100"
-                />
+                <div className="flex items-center">
+                  {toggleStates[action.id] && <Loader2 className="h-3 w-3 mr-1 animate-spin" />}
+                  <Switch
+                    checked={action.enabled}
+                    onCheckedChange={() => handleToggleAction(action.id)}
+                    disabled={toggleStates[action.id] || saving}
+                    className="scale-75 sm:scale-100"
+                  />
+                </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => removeAction(action.id)}
+                  disabled={saving}
                   className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1 sm:p-2 h-auto"
                   title={getLocalizedText('delete')}
                 >

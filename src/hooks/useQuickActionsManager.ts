@@ -159,6 +159,11 @@ export const useQuickActionsManager = () => {
     } catch (error) {
       console.error('Error loading quick actions:', error);
       setQuickActions(defaultQuickActions);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors du chargement des actions rapides",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -171,7 +176,7 @@ export const useQuickActionsManager = () => {
         description: "Seuls les administrateurs peuvent modifier cette configuration",
         variant: "destructive",
       });
-      return;
+      return false;
     }
 
     setSaving(true);
@@ -192,15 +197,48 @@ export const useQuickActionsManager = () => {
         title: "Succès",
         description: "Configuration des actions rapides mise à jour",
       });
+      return true;
     } catch (error) {
       console.error('Error saving quick actions:', error);
       toast({
         title: "Erreur",
-        description: "Erreur lors de la sauvegarde",
+        description: "Erreur lors de la sauvegarde: " + (error as Error).message,
         variant: "destructive",
       });
+      return false;
     } finally {
       setSaving(false);
+    }
+  };
+
+  const toggleAction = async (actionId: string) => {
+    if (!isAdmin) {
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent modifier les actions",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    console.log('Toggling action:', actionId);
+    console.log('Current actions before toggle:', quickActions);
+    
+    const updatedActions = quickActions.map(action =>
+      action.id === actionId ? { ...action, enabled: !action.enabled } : action
+    );
+    
+    console.log('Updated actions after toggle:', updatedActions);
+    
+    // Optimistic update
+    setQuickActions(updatedActions);
+    
+    const success = await saveQuickActions(updatedActions);
+    
+    // If save failed, revert the optimistic update
+    if (!success) {
+      console.log('Save failed, reverting toggle');
+      setQuickActions(quickActions);
     }
   };
 
@@ -228,18 +266,11 @@ export const useQuickActionsManager = () => {
     
     console.log('Reordered actions:', reorderedActions);
     
-    try {
-      await saveQuickActions(reorderedActions);
+    const success = await saveQuickActions(reorderedActions);
+    if (success) {
       toast({
         title: "Succès",
         description: "Action rapide supprimée",
-      });
-    } catch (error) {
-      console.error('Error in removeAction:', error);
-      toast({
-        title: "Erreur",
-        description: "Erreur lors de la suppression",
-        variant: "destructive",
       });
     }
   };
@@ -254,24 +285,6 @@ export const useQuickActionsManager = () => {
     console.log('All actions:', quickActions);
     console.log('Current refresh key:', refreshKey);
     return enabledActions;
-  };
-
-  const toggleAction = async (actionId: string) => {
-    if (!isAdmin) {
-      toast({
-        title: "Erreur",
-        description: "Seuls les administrateurs peuvent modifier les actions",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    console.log('Toggling action:', actionId);
-    const updatedActions = quickActions.map(action =>
-      action.id === actionId ? { ...action, enabled: !action.enabled } : action
-    );
-    console.log('Updated actions after toggle:', updatedActions);
-    await saveQuickActions(updatedActions);
   };
 
   return {
