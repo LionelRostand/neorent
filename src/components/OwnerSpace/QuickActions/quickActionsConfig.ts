@@ -24,14 +24,14 @@ export const createQuickActionsConfig = (
   {
     id: 'dashboard',
     title: t('ownerSpace.dashboard.title'),
-    description: 'View overview',
+    description: t('ownerSpace.dashboard.description'),
     icon: LayoutDashboard,
     color: 'bg-slate-500',
     action: () => {
       console.log('Showing dashboard view');
       setActiveView('dashboard');
     },
-    preview: 'System overview',
+    preview: t('ownerSpace.dashboard.preview'),
     navigationAction: () => setActiveView('dashboard')
   },
   {
@@ -44,7 +44,7 @@ export const createQuickActionsConfig = (
       console.log('Showing property form');
       setActiveView('property');
     },
-    preview: `${ownerProperties.length} properties`,
+    preview: t('ownerSpace.quickActions.newProperty.preview', { count: ownerProperties.length }),
     navigationAction: () => setActiveView('property')
   },
   {
@@ -57,7 +57,7 @@ export const createQuickActionsConfig = (
       console.log('Showing contract form');
       setActiveView('contract');
     },
-    preview: `${expiringContracts} expiring`,
+    preview: t('ownerSpace.quickActions.newContract.preview', { count: expiringContracts }),
     navigationAction: () => setActiveView('contract')
   },
   {
@@ -70,7 +70,7 @@ export const createQuickActionsConfig = (
       console.log('Showing tenant form');
       setActiveView('roommate');
     },
-    preview: `${activeTenants.length} active tenants`,
+    preview: t('ownerSpace.quickActions.addTenant.preview', { count: activeTenants.length }),
     navigationAction: () => setActiveView('roommate')
   },
   {
@@ -83,20 +83,20 @@ export const createQuickActionsConfig = (
       console.log('Showing inspection form');
       setActiveView('inspection');
     },
-    preview: 'Property inspections',
+    preview: t('ownerSpace.quickActions.propertyInspection.preview'),
     navigationAction: () => setActiveView('inspection')
   },
   {
     id: 'forecasting',
-    title: 'Financial forecasting',
-    description: 'Revenue projections',
+    title: t('ownerSpace.quickActions.forecasting.title'),
+    description: t('ownerSpace.quickActions.forecasting.description'),
     icon: TrendingUp,
     color: 'bg-emerald-500',
     action: () => {
       console.log('Navigating to forecasting');
       navigate('/admin/forecasting');
     },
-    preview: 'Revenue projections',
+    preview: t('ownerSpace.quickActions.forecasting.preview'),
     navigationAction: () => navigate('/admin/forecasting')
   },
   {
@@ -109,33 +109,33 @@ export const createQuickActionsConfig = (
       console.log('Navigating to maintenance');
       navigate('/admin/maintenance');
     },
-    preview: '1 urgent request',
+    preview: t('ownerSpace.quickActions.maintenance.preview'),
     navigationAction: () => navigate('/admin/maintenance')
   },
   {
     id: 'messages',
-    title: 'Messages',
-    description: 'Chat with tenants',
+    title: t('ownerSpace.quickActions.messages.title'),
+    description: t('ownerSpace.quickActions.messages.description'),
     icon: MessageSquare,
     color: 'bg-indigo-500',
     action: () => {
       console.log('Navigating to messages');
       navigate('/admin/messages');
     },
-    preview: 'Communication center',
+    preview: t('ownerSpace.quickActions.messages.preview'),
     navigationAction: () => navigate('/admin/messages')
   },
   {
     id: 'taxes',
-    title: 'Tax management',
-    description: 'Tax declarations',
+    title: t('ownerSpace.quickActions.taxes.title'),
+    description: t('ownerSpace.quickActions.taxes.description'),
     icon: FileText,
     color: 'bg-cyan-500',
     action: () => {
       console.log('Navigating to taxes');
       navigate('/admin/taxes');
     },
-    preview: 'Tax declarations',
+    preview: t('ownerSpace.quickActions.taxes.preview'),
     navigationAction: () => navigate('/admin/taxes')
   },
   {
@@ -148,7 +148,7 @@ export const createQuickActionsConfig = (
       console.log('Navigating to rental charges');
       navigate('/admin/rental-charges');
     },
-    preview: '0 pending payments',
+    preview: t('ownerSpace.quickActions.calculateCharges.preview'),
     navigationAction: () => navigate('/admin/rental-charges')
   }
 ];

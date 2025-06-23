@@ -14,31 +14,54 @@
       "title": "Quick Actions",
       "newProperty": {
         "title": "New property",
-        "description": "Add a property"
+        "description": "Add a property",
+        "preview": "{{count}} properties"
       },
       "newContract": {
         "title": "New contract",
-        "description": "Create a lease"
+        "description": "Create a lease",
+        "preview": "{{count}} expiring"
       },
       "addTenant": {
         "title": "Add tenant",
-        "description": "Register a tenant"
+        "description": "Register a tenant",
+        "preview": "{{count}} active tenants"
       },
       "propertyInspection": {
         "title": "Property inspection",
-        "description": "Schedule a visit"
+        "description": "Schedule a visit",
+        "preview": "Property inspections"
       },
       "calculateCharges": {
         "title": "Calculate charges",
-        "description": "Annual review"
+        "description": "Annual review",
+        "preview": "0 pending payments"
       },
       "maintenance": {
         "title": "Maintenance",
-        "description": "Service request"
+        "description": "Service request",
+        "preview": "1 urgent request"
+      },
+      "forecasting": {
+        "title": "Financial forecasting",
+        "description": "Revenue projections",
+        "preview": "Revenue projections"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Chat with tenants",
+        "preview": "Communication center"
+      },
+      "taxes": {
+        "title": "Tax management",
+        "description": "Tax declarations",
+        "preview": "Tax declarations"
       }
     },
     "dashboard": {
       "title": "Dashboard",
+      "description": "View overview",
+      "preview": "System overview",
       "stats": {
         "propertiesManaged": "Properties managed",
         "activeTenants": "Active tenants",

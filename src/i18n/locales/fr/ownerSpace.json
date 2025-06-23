@@ -14,31 +14,54 @@
       "title": "Actions rapides",
       "newProperty": {
         "title": "Nouvelle propriété",
-        "description": "Ajouter un bien"
+        "description": "Ajouter un bien",
+        "preview": "{{count}} propriétés"
       },
       "newContract": {
         "title": "Nouveau contrat",
-        "description": "Créer un bail"
+        "description": "Créer un bail",
+        "preview": "{{count}} expirent"
       },
       "addTenant": {
         "title": "Ajouter locataire",
-        "description": "Enregistrer un locataire"
+        "description": "Enregistrer un locataire",
+        "preview": "{{count}} locataires actifs"
       },
       "propertyInspection": {
         "title": "État des lieux",
-        "description": "Programmer une visite"
+        "description": "Programmer une visite",
+        "preview": "Inspections des propriétés"
       },
       "calculateCharges": {
         "title": "Calculer charges",
-        "description": "Révision annuelle"
+        "description": "Révision annuelle",
+        "preview": "0 paiements en attente"
       },
       "maintenance": {
         "title": "Maintenance",
-        "description": "Demande d'intervention"
+        "description": "Demande d'intervention",
+        "preview": "1 demande urgente"
+      },
+      "forecasting": {
+        "title": "Prévisions financières",
+        "description": "Projections de revenus",
+        "preview": "Projections de revenus"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Discuter avec les locataires",
+        "preview": "Centre de communication"
+      },
+      "taxes": {
+        "title": "Gestion fiscale",
+        "description": "Déclarations fiscales",
+        "preview": "Déclarations fiscales"
       }
     },
     "dashboard": {
       "title": "Tableau de bord",
+      "description": "Vue d'ensemble",
+      "preview": "Aperçu du système",
       "stats": {
         "propertiesManaged": "Propriétés gérées",
         "activeTenants": "Locataires actifs",
