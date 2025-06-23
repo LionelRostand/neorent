@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, X, Settings } from 'lucide-react';
+import { X, Settings } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
@@ -76,22 +76,12 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         <div className="p-4 lg:p-6 flex-shrink-0 border-b border-green-400/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Plus className="h-5 w-5 lg:h-6 lg:w-6 text-white mr-2" />
               <h2 className="text-lg lg:text-xl font-bold text-white">{t('ownerSpace.quickActions.title')}</h2>
             </div>
             
-            {/* Boutons de gestion pour les admins */}
+            {/* Bouton de gestion pour les admins seulement */}
             {isAdmin && (
               <div className="flex items-center gap-2">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setShowMenuSelector(true)}
-                  className="text-white hover:bg-green-400/30 p-2"
-                  title="Ajouter un menu"
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
                 <Button
                   size="sm"
                   variant="ghost"
