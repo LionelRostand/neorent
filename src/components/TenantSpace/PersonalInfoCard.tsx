@@ -78,7 +78,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
             <span className="text-sm text-gray-500">{t('tenantProfile.status')}</span>
           </div>
           <Badge className="bg-red-100 text-red-800 border-red-200">
-            {t('common.active')}
+            Active
           </Badge>
         </div>
 

@@ -98,7 +98,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             variant="outline" 
             className="border-blue-200 text-blue-700 text-sm px-4 py-2"
           >
-            {t('common.activeAccount')}
+            Active
           </Badge>
         </div>
       </div>
