@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building, ExternalLink } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
-import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { PropertySelectionModal } from './PropertySelectionModal';
 import { useAuth } from '@/hooks/useAuth';
+import { useOwnerData } from '@/hooks/useOwnerData';
 
 interface PropertiesListProps {
   properties: any[];
@@ -25,57 +26,77 @@ export const PropertiesList = ({
   getStatusBadgeVariant
 }: PropertiesListProps) => {
   const { userProfile } = useAuth();
-  const { setOpenDialog } = useOwnerQuickActions(userProfile);
+  const { properties: allAdminProperties } = useOwnerData(userProfile);
+  const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
 
   const handleAddProperty = () => {
-    setOpenDialog('property');
+    setShowPropertySelectionModal(true);
   };
 
+  const handleSelectProperty = (property: any) => {
+    // Toggle la visibilité de la propriété sélectionnée
+    onToggleVisibility(property.id);
+  };
+
+  const selectedPropertyIds = properties
+    ?.filter(p => propertySettings[p.id]?.visible)
+    .map(p => p.id) || [];
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Building className="h-5 w-5" />
-            Gestion des Propriétés ({properties?.length || 0})
-          </div>
-          <Button variant="outline" size="sm">
-            <ExternalLink className="h-4 w-4 mr-2" />
-            Aperçu site
-          </Button>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {properties && properties.length > 0 ? (
-          <div className="space-y-4">
-            {properties.map((property) => (
-              <PropertyCard
-                key={property.id}
-                property={property}
-                propertySettings={propertySettings}
-                onToggleVisibility={onToggleVisibility}
-                onToggleFeatured={onToggleFeatured}
-                onEdit={onEditProperty}
-                getStatusBadgeVariant={getStatusBadgeVariant}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12 bg-gray-50 rounded-lg">
-            <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-700 mb-2">
-              Aucune propriété trouvée
-            </h3>
-            <p className="text-gray-500 text-sm mb-4">
-              Ajoutez des propriétés depuis la section Propriétés pour les afficher sur votre site web
-            </p>
-            <Button variant="outline" onClick={handleAddProperty}>
-              <Building className="h-4 w-4 mr-2" />
-              Ajouter une propriété
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Building className="h-5 w-5" />
+              Gestion des Propriétés ({properties?.length || 0})
+            </div>
+            <Button variant="outline" size="sm">
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Aperçu site
             </Button>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {properties && properties.length > 0 ? (
+            <div className="space-y-4">
+              {properties.map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  propertySettings={propertySettings}
+                  onToggleVisibility={onToggleVisibility}
+                  onToggleFeatured={onToggleFeatured}
+                  onEdit={onEditProperty}
+                  getStatusBadgeVariant={getStatusBadgeVariant}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-lg">
+              <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-700 mb-2">
+                Aucune propriété trouvée
+              </h3>
+              <p className="text-gray-500 text-sm mb-4">
+                Ajoutez des propriétés depuis la section Propriétés pour les afficher sur votre site web
+              </p>
+              <Button variant="outline" onClick={handleAddProperty}>
+                <Building className="h-4 w-4 mr-2" />
+                Ajouter une propriété
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <PropertySelectionModal
+        isOpen={showPropertySelectionModal}
+        onClose={() => setShowPropertySelectionModal(false)}
+        properties={allAdminProperties || []}
+        onSelectProperty={handleSelectProperty}
+        selectedProperties={selectedPropertyIds}
+      />
+    </>
   );
 };
