@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
@@ -47,7 +46,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
   }, 0);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <div className="p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
