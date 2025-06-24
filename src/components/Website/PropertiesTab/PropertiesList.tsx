@@ -36,6 +36,7 @@ export const PropertiesList = ({
   console.log('🚀 PropertiesList render');
   console.log('🚀 Modal state:', showPropertySelectionModal);
   console.log('🚀 All admin properties:', allAdminProperties);
+  console.log('🚀 Owner properties:', ownerProperties);
   console.log('🚀 Loading properties:', loadingProperties);
 
   const handleAddProperty = () => {
@@ -78,14 +79,27 @@ export const PropertiesList = ({
 
   console.log('Selected property IDs:', selectedPropertyIds);
 
-  // S'assurer que nous avons les données nécessaires
+  // Combiner toutes les propriétés (owner + admin) disponibles
+  const allAvailableProperties = [
+    ...(ownerProperties || []),
+    ...(allAdminProperties || [])
+  ];
+
+  // Supprimer les doublons basés sur l'ID
+  const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
+    index === self.findIndex((p) => p.id === property.id)
+  );
+
+  // S'assurer que nous avons les données nécessaires pour le modal
   const modalProperties = allAdminProperties || [];
   
   // Filtrer les propriétés non sélectionnées pour le champ de sélection
-  const availablePropertiesForSelect = modalProperties.filter(prop => 
+  const availablePropertiesForSelect = uniqueProperties.filter(prop => 
     !selectedPropertyIds.includes(prop.id)
   );
 
+  console.log('🚀 All available properties:', uniqueProperties);
+  console.log('🚀 Available for select:', availablePropertiesForSelect);
   console.log('🚀 Modal properties pour le rendu:', modalProperties);
   console.log('🚀 showPropertySelectionModal avant rendu:', showPropertySelectionModal);
 
@@ -152,6 +166,10 @@ export const PropertiesList = ({
             <p className="text-xs text-blue-700 mt-2">
               Sélectionnez une propriété dans la liste pour l'ajouter rapidement au site web
             </p>
+            <div className="mt-3 text-xs text-gray-600">
+              <strong>Total des propriétés disponibles:</strong> {uniqueProperties.length} 
+              ({ownerProperties?.length || 0} propriétaire + {allAdminProperties?.length || 0} admin)
+            </div>
           </div>
 
           {properties && properties.length > 0 ? (
