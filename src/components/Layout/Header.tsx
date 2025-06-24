@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { UserProfileDropdown } from './UserProfile/UserProfileDropdown';
-import { MessageNotification } from '@/components/Messages/MessageNotification';
 import LanguageSelector from '@/components/LanguageSelector';
 
 interface HeaderProps {
@@ -33,7 +32,6 @@ const Header: React.FC<HeaderProps> = ({
         
         <div className="flex items-center space-x-2 sm:space-x-4">
           <LanguageSelector />
-          <MessageNotification />
           <UserProfileDropdown />
         </div>
       </div>
