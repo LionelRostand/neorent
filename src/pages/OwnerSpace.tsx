@@ -63,7 +63,7 @@ const OwnerSpace = () => {
         />
       </div>
       
-      {/* Main content */}
+      {/* Main content area - full width without admin layout */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile menu button */}
         <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
@@ -77,20 +77,16 @@ const OwnerSpace = () => {
           </Button>
         </div>
         
-        <main className="flex-1 overflow-auto">
-          <div className="bg-gray-50 min-h-full">
-            {/* Header with owner profile */}
-            <OwnerSpaceProfileHeader currentProfile={currentProfile} />
+        {/* Owner space header */}
+        <OwnerSpaceProfileHeader currentProfile={currentProfile} />
 
-            {/* Main content with responsive padding */}
-            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 pb-6 lg:pb-8">
-              <ViewRenderer 
-                activeView={activeView}
-                currentProfile={currentProfile}
-                onViewChange={setActiveView}
-              />
-            </div>
-          </div>
+        {/* Main content - each view renders without any additional layout */}
+        <main className="flex-1 overflow-auto bg-gray-50">
+          <ViewRenderer 
+            activeView={activeView}
+            currentProfile={currentProfile}
+            onViewChange={setActiveView}
+          />
         </main>
       </div>
     </div>

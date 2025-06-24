@@ -25,43 +25,98 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
   activeView, 
   currentProfile 
 }) => {
-  // Create owner context for filtering data
-  const ownerContext = {
-    ownerProfile: currentProfile,
-    filterByOwner: true
-  };
-
+  // Render admin pages without any sidebar, only the main content
   switch (activeView) {
     case 'admin-dashboard':
-      return <Dashboard />;
+      return (
+        <div className="w-full h-full">
+          <Dashboard />
+        </div>
+      );
     case 'admin-properties':
-      return <Properties />;
+      return (
+        <div className="w-full h-full">
+          <Properties />
+        </div>
+      );
     case 'admin-tenants':
-      return <Tenants />;
+      return (
+        <div className="w-full h-full">
+          <Tenants />
+        </div>
+      );
     case 'admin-roommates':
-      return <Roommates />;
+      return (
+        <div className="w-full h-full">
+          <Roommates />
+        </div>
+      );
     case 'admin-contracts':
-      return <Contracts />;
+      return (
+        <div className="w-full h-full">
+          <Contracts />
+        </div>
+      );
     case 'admin-inspections':
-      return <Inspections />;
+      return (
+        <div className="w-full h-full">
+          <Inspections />
+        </div>
+      );
     case 'admin-rent-management':
-      return <RentManagement />;
+      return (
+        <div className="w-full h-full">
+          <RentManagement />
+        </div>
+      );
     case 'admin-rental-charges':
-      return <RentalCharges />;
+      return (
+        <div className="w-full h-full">
+          <RentalCharges />
+        </div>
+      );
     case 'admin-forecasting':
-      return <Forecasting />;
+      return (
+        <div className="w-full h-full">
+          <Forecasting />
+        </div>
+      );
     case 'admin-maintenance':
-      return <Maintenance />;
+      return (
+        <div className="w-full h-full">
+          <Maintenance />
+        </div>
+      );
     case 'admin-messages':
-      return <Messages />;
+      return (
+        <div className="w-full h-full">
+          <Messages />
+        </div>
+      );
     case 'admin-taxes':
-      return <Taxes />;
+      return (
+        <div className="w-full h-full">
+          <Taxes />
+        </div>
+      );
     case 'admin-website':
-      return <Website />;
+      return (
+        <div className="w-full h-full">
+          <Website />
+        </div>
+      );
     case 'admin-settings':
-      return <Settings />;
+      return (
+        <div className="w-full h-full">
+          <Settings />
+        </div>
+      );
     case 'admin-help':
-      return <Help />;
+      return (
+        <div className="w-full h-full">
+          <Help />
+        </div>
+      );
     default:
       return null;
   }

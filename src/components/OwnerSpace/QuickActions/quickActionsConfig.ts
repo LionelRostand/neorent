@@ -36,13 +36,39 @@ const getPreviewForAction = (
 ): string => {
   switch (actionId) {
     case 'property':
+    case 'admin-properties':
       return `${ownerProperties.length} biens immobiliers`;
     case 'roommate':
+    case 'admin-roommates':
       return `${activeTenants.length} locataires actifs`;
     case 'contract':
+    case 'admin-contracts':
       return `${expiringContracts} contrats expirent bientôt`;
     case 'charges':
+    case 'admin-rental-charges':
       return `${pendingPayments} paiements en attente`;
+    case 'admin-dashboard':
+      return 'Vue d\'ensemble';
+    case 'admin-tenants':
+      return 'Gestion des locataires';
+    case 'admin-inspections':
+      return 'Suivi des inspections';
+    case 'admin-rent-management':
+      return 'Gestion des loyers';
+    case 'admin-forecasting':
+      return 'Prévisions financières';
+    case 'admin-maintenance':
+      return 'Demandes de maintenance';
+    case 'admin-messages':
+      return 'Communication';
+    case 'admin-taxes':
+      return 'Déclarations fiscales';
+    case 'admin-website':
+      return 'Site web';
+    case 'admin-settings':
+      return 'Configuration';
+    case 'admin-help':
+      return 'Centre d\'aide';
     default:
       return 'Voir les détails';
   }
@@ -50,7 +76,7 @@ const getPreviewForAction = (
 
 export const createQuickActionsConfig = (
   navigate: any,
-  setOpenDialog: (dialog: string | null) => void,
+  setActiveView: (view: string) => void,
   ownerProperties: any[],
   activeTenants: any[],
   expiringContracts: number,
@@ -61,13 +87,30 @@ export const createQuickActionsConfig = (
   console.log('Creating quick actions config with enabled actions:', enabledActions);
   
   const actionHandlers: Record<string, () => void> = {
-    dashboard: () => setOpenDialog('dashboard'),
-    property: () => setOpenDialog('property'),
-    contract: () => setOpenDialog('contract'),
-    roommate: () => setOpenDialog('roommate'),
-    inspection: () => setOpenDialog('inspection'),
-    charges: () => setOpenDialog('charges'),
-    maintenance: () => setOpenDialog('maintenance'),
+    dashboard: () => setActiveView('dashboard'),
+    property: () => setActiveView('property'),
+    contract: () => setActiveView('contract'),
+    roommate: () => setActiveView('roommate'),
+    inspection: () => setActiveView('inspection'),
+    charges: () => setActiveView('charges'),
+    maintenance: () => setActiveView('maintenance'),
+    
+    // Admin menu handlers - set the view to show admin interface
+    'admin-dashboard': () => setActiveView('admin-dashboard'),
+    'admin-properties': () => setActiveView('admin-properties'),
+    'admin-tenants': () => setActiveView('admin-tenants'),
+    'admin-roommates': () => setActiveView('admin-roommates'),
+    'admin-contracts': () => setActiveView('admin-contracts'),
+    'admin-inspections': () => setActiveView('admin-inspections'),
+    'admin-rent-management': () => setActiveView('admin-rent-management'),
+    'admin-rental-charges': () => setActiveView('admin-rental-charges'),
+    'admin-forecasting': () => setActiveView('admin-forecasting'),
+    'admin-maintenance': () => setActiveView('admin-maintenance'),
+    'admin-messages': () => setActiveView('admin-messages'),
+    'admin-taxes': () => setActiveView('admin-taxes'),
+    'admin-website': () => setActiveView('admin-website'),
+    'admin-settings': () => setActiveView('admin-settings'),
+    'admin-help': () => setActiveView('admin-help'),
   };
 
   return enabledActions.map(actionConfig => {
@@ -91,10 +134,8 @@ export const createQuickActionsConfig = (
 
     const Icon = iconMap[actionConfig.icon] || Settings;
     
-    // Use action handler based on action type
-    const actionHandler = actionConfig.action === 'navigate' 
-      ? () => navigate(actionConfig.actionValue)
-      : actionHandlers[actionConfig.id] || (() => console.log('No handler for:', actionConfig.id));
+    // Use action handler based on action ID
+    const actionHandler = actionHandlers[actionConfig.id] || (() => console.log('No handler for:', actionConfig.id));
 
     return {
       id: actionConfig.id,
