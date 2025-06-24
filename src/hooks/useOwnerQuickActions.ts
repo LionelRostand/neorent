@@ -1,4 +1,6 @@
 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
@@ -7,9 +9,13 @@ import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
+import { useOwnerData } from '@/hooks/useOwnerData';
 
 export const useOwnerQuickActions = (ownerProfile: any) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState<string | null>(null);
+  
   const { addProperty } = useFirebaseProperties();
   const { addRoommate } = useFirebaseRoommates();
   const { addTenant } = useFirebaseTenants();
@@ -17,6 +23,21 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
   const { addInspection } = useFirebaseInspections();
   const { addPayment } = useFirebasePayments();
   const { createUserAccount } = useFirebaseAuth();
+  
+  // Get owner data
+  const { properties, tenants, contracts, payments } = useOwnerData(ownerProfile);
+  
+  // Calculate metrics
+  const ownerProperties = properties;
+  const activeTenants = tenants.filter(t => t.status === 'Actif').length;
+  const expiringContracts = contracts.filter(c => {
+    const endDate = new Date(c.endDate);
+    const now = new Date();
+    const diffTime = endDate.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 30 && diffDays > 0;
+  }).length;
+  const pendingPayments = payments.filter(p => p.status === 'En attente').length;
 
   const handlePropertySubmit = async (propertyData: any) => {
     try {
@@ -183,6 +204,21 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
   };
 
   return {
+    // Dialog state
+    openDialog,
+    setOpenDialog,
+    
+    // Navigation
+    navigate,
+    
+    // Data
+    properties,
+    ownerProperties,
+    activeTenants,
+    expiringContracts,
+    pendingPayments,
+    
+    // Submit handlers
     handlePropertySubmit,
     handleRoommateSubmit,
     handleTenantSubmit,
