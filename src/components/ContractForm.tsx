@@ -8,14 +8,16 @@ import BasicContractFields from './ContractForm/BasicContractFields';
 import PropertyFields from './ContractForm/PropertyFields';
 import TenantFields from './ContractForm/TenantFields';
 import DateAmountFields from './ContractForm/DateAmountFields';
+import { FormButtonConfig } from '@/hooks/useFormButtonConfig';
 
 interface ContractFormProps {
   onClose: () => void;
   onSubmit: (data: any) => Promise<void>;
   isInDialog?: boolean;
+  buttonConfig?: FormButtonConfig;
 }
 
-const ContractForm = ({ onClose, onSubmit, isInDialog = true }: ContractFormProps) => {
+const ContractForm = ({ onClose, onSubmit, isInDialog = true, buttonConfig }: ContractFormProps) => {
   const { t } = useTranslation();
   const {
     formData,
@@ -101,7 +103,12 @@ const ContractForm = ({ onClose, onSubmit, isInDialog = true }: ContractFormProp
           <Button type="button" variant="outline" onClick={onClose}>
             {t('common.cancel')}
           </Button>
-          <Button type="submit">
+          <Button 
+            type="submit"
+            variant={buttonConfig?.variant || 'default'}
+            size={buttonConfig?.size || 'default'}
+            className={buttonConfig?.className}
+          >
             {t('contractForm.createContract')}
           </Button>
         </div>

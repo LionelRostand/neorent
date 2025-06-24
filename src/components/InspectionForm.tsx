@@ -8,14 +8,16 @@ import PropertyTenantSelector from './InspectionForm/PropertyTenantSelector';
 import InspectionDetailsFields from './InspectionForm/InspectionDetailsFields';
 import InspectionFormActions from './InspectionForm/InspectionFormActions';
 import { useInspectionFormLogic } from '@/hooks/useInspectionFormLogic';
+import { FormButtonConfig } from '@/hooks/useFormButtonConfig';
 
 interface InspectionFormProps {
   onClose: () => void;
   onSubmit: (data: any) => void;
   isInDialog?: boolean;
+  buttonConfig?: FormButtonConfig;
 }
 
-const InspectionForm = ({ onClose, onSubmit, isInDialog = true }: InspectionFormProps) => {
+const InspectionForm = ({ onClose, onSubmit, isInDialog = true, buttonConfig }: InspectionFormProps) => {
   const { t } = useTranslation();
   const {
     formData,
@@ -70,7 +72,7 @@ const InspectionForm = ({ onClose, onSubmit, isInDialog = true }: InspectionForm
           />
         </div>
 
-        <InspectionFormActions onClose={onClose} />
+        <InspectionFormActions onClose={onClose} buttonConfig={buttonConfig} />
       </form>
     </>
   );

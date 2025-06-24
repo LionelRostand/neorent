@@ -8,6 +8,7 @@ import LocationFields from './PropertyForm/LocationFields';
 import PropertyDetailsFields from './PropertyForm/PropertyDetailsFields';
 import PropertyFormActions from './PropertyForm/PropertyFormActions';
 import { usePropertyFormLogic } from '@/hooks/usePropertyFormLogic';
+import { FormButtonConfig } from '@/hooks/useFormButtonConfig';
 
 export interface PropertyFormData {
   title: string;
@@ -28,9 +29,10 @@ interface PropertyFormProps {
   onSubmit: (data: PropertyFormData & { imageBase64?: string }) => Promise<void>;
   isInDialog?: boolean;
   initialType?: string;
+  buttonConfig?: FormButtonConfig;
 }
 
-const PropertyForm = ({ onClose, onSubmit, isInDialog = true, initialType }: PropertyFormProps) => {
+const PropertyForm = ({ onClose, onSubmit, isInDialog = true, initialType, buttonConfig }: PropertyFormProps) => {
   const { t } = useTranslation();
   const {
     formData,
@@ -60,7 +62,7 @@ const PropertyForm = ({ onClose, onSubmit, isInDialog = true, initialType }: Pro
           />
         </div>
 
-        <PropertyFormActions onClose={onClose} />
+        <PropertyFormActions onClose={onClose} buttonConfig={buttonConfig} />
       </form>
     </>
   );
