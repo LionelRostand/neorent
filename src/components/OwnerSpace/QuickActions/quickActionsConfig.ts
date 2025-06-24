@@ -33,8 +33,8 @@ export const createQuickActionsConfig = (
   setOpenDialog: (dialog: string | null) => void,
   ownerProperties: any[],
   activeTenants: any[],
-  expiringContracts: any[],
-  pendingPayments: any[],
+  expiringContractsCount: number,
+  pendingPaymentsCount: number,
   t: (key: string) => string,
   enabledActions: any[],
   setActiveView?: (view: string) => void
@@ -107,7 +107,7 @@ export const createQuickActionsConfig = (
       description: 'Gestion des baux',
       icon: FileText,
       color: 'bg-yellow-500',
-      preview: `${expiringContracts.length} expirent bientôt`,
+      preview: `${expiringContractsCount} expirent bientôt`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-contracts');
@@ -137,7 +137,7 @@ export const createQuickActionsConfig = (
       description: 'Suivi des paiements',
       icon: DollarSign,
       color: 'bg-green-500',
-      preview: `${pendingPayments.length} en attente`,
+      preview: `${pendingPaymentsCount} en attente`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-rent-management');
