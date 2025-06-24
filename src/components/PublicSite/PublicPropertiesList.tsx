@@ -14,13 +14,19 @@ import {
   Heart,
   Star,
   Image as ImageIcon,
-  Building
+  Building,
+  Map
 } from 'lucide-react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { PropertyMap } from './PropertyMap';
+import { PropertyDetailsModal } from './PropertyDetailsModal';
 
 export const PublicPropertiesList = () => {
   const { t } = useTranslation();
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [showPropertyDetails, setShowPropertyDetails] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const { properties: allProperties, loading } = useFirebaseProperties();
 
   // Pour l'instant, afficher toutes les propriétés jusqu'à ce que le système de visibilité soit implémenté
@@ -58,6 +64,16 @@ export const PublicPropertiesList = () => {
     return { rooms, bathrooms };
   };
 
+  const handlePropertySelect = (property: any) => {
+    setSelectedProperty(property);
+    setShowPropertyDetails(true);
+  };
+
+  const handleViewDetails = (property: any) => {
+    setSelectedProperty(property);
+    setShowPropertyDetails(true);
+  };
+
   if (loading) {
     return (
       <section className="py-16 bg-white">
@@ -75,111 +91,164 @@ export const PublicPropertiesList = () => {
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Propriétés Disponibles ({visibleProperties.length})
-          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4 sm:mb-0">
+              Propriétés Disponibles ({visibleProperties.length})
+            </h2>
+            <div className="flex gap-2">
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'outline'}
+                onClick={() => setViewMode('list')}
+                className="flex items-center gap-2"
+              >
+                <Building className="h-4 w-4" />
+                Liste
+              </Button>
+              <Button
+                variant={viewMode === 'map' ? 'default' : 'outline'}
+                onClick={() => setViewMode('map')}
+                className="flex items-center gap-2"
+              >
+                <Map className="h-4 w-4" />
+                Carte
+              </Button>
+            </div>
+          </div>
           <p className="text-gray-600">
             Découvrez nos propriétés sélectionnées avec soin
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {visibleProperties.map((property) => {
-            const roomInfo = getRoomInfo(property);
-            
-            return (
-              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative">
-                  {/* Property Image */}
-                  <div className="h-48 bg-gray-200 relative overflow-hidden">
-                    {property.image && property.image !== '/placeholder.svg' ? (
-                      <img 
-                        src={property.image} 
-                        alt={property.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <ImageIcon className="h-12 w-12 text-gray-400" />
-                      </div>
-                    )}
-                    
-                    {/* Favorite Button */}
-                    <button
-                      onClick={() => toggleFavorite(property.id)}
-                      className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
-                    >
-                      <Heart 
-                        className={`h-4 w-4 ${
-                          favorites.includes(property.id) 
-                            ? 'text-red-500 fill-current' 
-                            : 'text-gray-400'
-                        }`} 
-                      />
-                    </button>
-                    
-                    {/* Status Badge */}
-                    <div className="absolute bottom-3 left-3">
-                      <Badge className={getStatusColor(property.status)}>
-                        {property.status}
-                      </Badge>
+        {viewMode === 'map' ? (
+          <div className="space-y-6">
+            <PropertyMap
+              properties={visibleProperties}
+              selectedProperty={selectedProperty}
+              onPropertySelect={handlePropertySelect}
+            />
+            {selectedProperty && (
+              <Card className="border-green-200 bg-green-50">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg">{selectedProperty.title}</h3>
+                      <p className="text-gray-600 flex items-center">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        {selectedProperty.address}
+                      </p>
                     </div>
+                    <Button onClick={() => handleViewDetails(selectedProperty)}>
+                      <Eye className="h-4 w-4 mr-2" />
+                      Voir détails
+                    </Button>
                   </div>
-
-                  <CardContent className="p-4">
-                    <div className="space-y-3">
-                      <div>
-                        <h3 className="font-semibold text-lg text-gray-900 mb-1">
-                          {property.title}
-                        </h3>
-                        <div className="flex items-center text-gray-600 text-sm">
-                          <MapPin className="h-4 w-4 mr-1" />
-                          {property.address}
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {visibleProperties.map((property) => {
+              const roomInfo = getRoomInfo(property);
+              
+              return (
+                <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="relative">
+                    {/* Property Image */}
+                    <div className="h-48 bg-gray-200 relative overflow-hidden">
+                      {property.image && property.image !== '/placeholder.svg' ? (
+                        <img 
+                          src={property.image} 
+                          alt={property.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <ImageIcon className="h-12 w-12 text-gray-400" />
                         </div>
-                      </div>
-
-                      {/* Property Details */}
-                      <div className="flex items-center gap-4 text-sm text-gray-600">
-                        <div className="flex items-center">
-                          <Bed className="h-4 w-4 mr-1" />
-                          {roomInfo.rooms} {property.locationType === 'Colocation' ? 'chambres' : 'pièces'}
-                        </div>
-                        <div className="flex items-center">
-                          <Bath className="h-4 w-4 mr-1" />
-                          {roomInfo.bathrooms} SDB
-                        </div>
-                        <div className="flex items-center">
-                          <Square className="h-4 w-4 mr-1" />
-                          {property.surface}m²
-                        </div>
-                      </div>
-
-                      {/* Property Type */}
-                      <div className="text-sm">
-                        <span className="text-blue-600 font-medium">{property.type}</span>
-                        {property.locationType && (
-                          <span className="text-gray-500 ml-2">• {property.locationType}</span>
-                        )}
-                      </div>
-
-                      {/* Price and Action */}
-                      <div className="flex items-center justify-between pt-3 border-t">
-                        <div className="flex items-center font-semibold text-lg text-green-600">
-                          <Euro className="h-4 w-4 mr-1" />
-                          {property.rent}€/mois
-                        </div>
-                        <Button variant="outline" size="sm">
-                          <Eye className="h-4 w-4 mr-2" />
-                          Voir détails
-                        </Button>
+                      )}
+                      
+                      {/* Favorite Button */}
+                      <button
+                        onClick={() => toggleFavorite(property.id)}
+                        className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
+                      >
+                        <Heart 
+                          className={`h-4 w-4 ${
+                            favorites.includes(property.id) 
+                              ? 'text-red-500 fill-current' 
+                              : 'text-gray-400'
+                          }`} 
+                        />
+                      </button>
+                      
+                      {/* Status Badge */}
+                      <div className="absolute bottom-3 left-3">
+                        <Badge className={getStatusColor(property.status)}>
+                          {property.status}
+                        </Badge>
                       </div>
                     </div>
-                  </CardContent>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
+
+                    <CardContent className="p-4">
+                      <div className="space-y-3">
+                        <div>
+                          <h3 className="font-semibold text-lg text-gray-900 mb-1">
+                            {property.title}
+                          </h3>
+                          <div className="flex items-center text-gray-600 text-sm">
+                            <MapPin className="h-4 w-4 mr-1" />
+                            {property.address}
+                          </div>
+                        </div>
+
+                        {/* Property Details */}
+                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <Bed className="h-4 w-4 mr-1" />
+                            {roomInfo.rooms} {property.locationType === 'Colocation' ? 'chambres' : 'pièces'}
+                          </div>
+                          <div className="flex items-center">
+                            <Bath className="h-4 w-4 mr-1" />
+                            {roomInfo.bathrooms} SDB
+                          </div>
+                          <div className="flex items-center">
+                            <Square className="h-4 w-4 mr-1" />
+                            {property.surface}m²
+                          </div>
+                        </div>
+
+                        {/* Property Type */}
+                        <div className="text-sm">
+                          <span className="text-blue-600 font-medium">{property.type}</span>
+                          {property.locationType && (
+                            <span className="text-gray-500 ml-2">• {property.locationType}</span>
+                          )}
+                        </div>
+
+                        {/* Price and Action */}
+                        <div className="flex items-center justify-between pt-3 border-t">
+                          <div className="flex items-center font-semibold text-lg text-green-600">
+                            <Euro className="h-4 w-4 mr-1" />
+                            {property.rent}€/mois
+                          </div>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleViewDetails(property)}
+                          >
+                            <Eye className="h-4 w-4 mr-2" />
+                            Voir détails
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        )}
 
         {visibleProperties.length === 0 && (
           <div className="text-center py-12">
@@ -192,6 +261,13 @@ export const PublicPropertiesList = () => {
             </p>
           </div>
         )}
+
+        {/* Modal des détails de propriété */}
+        <PropertyDetailsModal
+          isOpen={showPropertyDetails}
+          onClose={() => setShowPropertyDetails(false)}
+          property={selectedProperty}
+        />
       </div>
     </section>
   );
