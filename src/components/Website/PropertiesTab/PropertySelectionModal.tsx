@@ -21,7 +21,12 @@ export const PropertySelectionModal = ({
   onSelectProperty,
   selectedProperties
 }: PropertySelectionModalProps) => {
-  console.log('PropertySelectionModal props:', { isOpen, properties: properties?.length, selectedProperties });
+  console.log('PropertySelectionModal render:', { 
+    isOpen, 
+    propertiesCount: properties?.length || 0, 
+    properties: properties,
+    selectedProperties 
+  });
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
@@ -36,6 +41,11 @@ export const PropertySelectionModal = ({
     }
   };
 
+  // Filtrer les propriétés non sélectionnées
+  const availableProperties = properties?.filter(prop => 
+    !selectedProperties.includes(prop.id)
+  ) || [];
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
@@ -47,9 +57,9 @@ export const PropertySelectionModal = ({
         </DialogHeader>
         
         <div className="space-y-4">
-          {properties && properties.length > 0 ? (
+          {availableProperties && availableProperties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {properties.map((property) => {
+              {availableProperties.map((property) => {
                 const isSelected = selectedProperties.includes(property.id);
                 
                 return (
@@ -65,11 +75,11 @@ export const PropertySelectionModal = ({
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <h4 className="font-semibold text-gray-900 mb-1">
-                              {property.title}
+                              {property.title || 'Titre non défini'}
                             </h4>
                             <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                               <MapPin className="h-3 w-3" />
-                              {property.address}
+                              {property.address || 'Adresse non définie'}
                             </div>
                           </div>
                           {isSelected && (
@@ -85,14 +95,14 @@ export const PropertySelectionModal = ({
                           <div className="flex items-center gap-3">
                             <span className="flex items-center gap-1 font-medium text-green-600">
                               <Euro className="h-3 w-3" />
-                              {property.rent}€/mois
+                              {property.rent || '0'}€/mois
                             </span>
                             <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
-                              {property.status}
+                              {property.status || 'Non défini'}
                             </Badge>
                           </div>
                           <span className="text-xs text-gray-500">
-                            {property.surface}m² • {property.type}
+                            {property.surface || '0'}m² • {property.type || 'Type non défini'}
                           </span>
                         </div>
                       </div>
@@ -105,11 +115,25 @@ export const PropertySelectionModal = ({
             <div className="text-center py-12 bg-gray-50 rounded-lg">
               <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-700 mb-2">
-                Aucune propriété disponible
+                {properties?.length === 0 ? 
+                  'Aucune propriété disponible' : 
+                  'Toutes les propriétés sont déjà ajoutées'
+                }
               </h3>
               <p className="text-gray-500 text-sm">
-                Ajoutez des propriétés depuis la section admin pour les sélectionner
+                {properties?.length === 0 ? 
+                  'Ajoutez des propriétés depuis la section admin pour les sélectionner' :
+                  'Toutes vos propriétés sont déjà visibles sur le site web'
+                }
               </p>
+              <div className="mt-4 p-3 bg-blue-50 rounded-lg text-left">
+                <p className="text-xs text-blue-700">
+                  <strong>Debug info:</strong><br/>
+                  Propriétés totales: {properties?.length || 0}<br/>
+                  Propriétés sélectionnées: {selectedProperties?.length || 0}<br/>
+                  Propriétés disponibles: {availableProperties?.length || 0}
+                </p>
+              </div>
             </div>
           )}
         </div>

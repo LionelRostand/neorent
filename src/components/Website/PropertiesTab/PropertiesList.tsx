@@ -29,11 +29,14 @@ export const PropertiesList = ({
   const { properties: allAdminProperties } = useOwnerData(userProfile);
   const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
 
-  console.log('All admin properties:', allAdminProperties);
-  console.log('Current visible properties:', properties);
+  console.log('PropertiesList - User Profile:', userProfile);
+  console.log('PropertiesList - All admin properties:', allAdminProperties);
+  console.log('PropertiesList - Current visible properties:', properties);
+  console.log('PropertiesList - Property settings:', propertySettings);
 
   const handleAddProperty = () => {
     console.log('Opening property selection modal');
+    console.log('Available admin properties:', allAdminProperties);
     setShowPropertySelectionModal(true);
   };
 
@@ -47,6 +50,8 @@ export const PropertiesList = ({
   const selectedPropertyIds = properties
     ?.filter(p => propertySettings[p.id]?.visible)
     .map(p => p.id) || [];
+
+  console.log('Selected property IDs:', selectedPropertyIds);
 
   return (
     <>
@@ -91,6 +96,15 @@ export const PropertiesList = ({
                 <Building className="h-4 w-4 mr-2" />
                 Ajouter une propriété
               </Button>
+              
+              {/* Debug info */}
+              <div className="mt-4 p-3 bg-yellow-50 rounded-lg text-left">
+                <p className="text-xs text-yellow-700">
+                  <strong>Debug:</strong><br/>
+                  Propriétés admin disponibles: {allAdminProperties?.length || 0}<br/>
+                  Modal ouvert: {showPropertySelectionModal ? 'Oui' : 'Non'}
+                </p>
+              </div>
             </div>
           )}
         </CardContent>
