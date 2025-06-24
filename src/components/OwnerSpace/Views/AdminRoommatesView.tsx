@@ -1,133 +1,55 @@
 
-import React from 'react';
-import { Plus, Users, UserCheck, AlertCircle, DollarSign } from 'lucide-react';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { useOwnerData } from '@/hooks/useOwnerData';
+import { Dialog } from '@/components/ui/dialog';
+import RoommateForm from '@/components/RoommateForm';
+import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { useAuth } from '@/hooks/useAuth';
+import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
+import FormButtonConfigPanel from './FormButtonConfigPanel';
 
-interface AdminRoommatesViewProps {
-  currentProfile: any;
-}
+const AdminRoommatesView: React.FC = () => {
+  const { t } = useTranslation();
+  const { userProfile } = useAuth();
+  const { handleRoommateSubmit } = useOwnerQuickActions(userProfile);
+  const { getButtonConfig } = useFormButtonConfig();
+  const [showRoommateForm, setShowRoommateForm] = useState(false);
 
-const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile }) => {
-  const { roommates } = useOwnerData(currentProfile);
-
-  const totalRoommates = roommates.length;
-  const activeRoommates = roommates.filter(r => r.status === 'Actif').length;
-  const monthlyRevenue = roommates.reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0);
+  const roommateButtonConfig = getButtonConfig('roommate');
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Colocataires</h1>
-            <p className="text-gray-600 mt-1">Gérez vos colocataires et leurs informations</p>
-          </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="h-4 w-4 mr-2" />
-            Ajouter un colocataire
-          </Button>
-        </div>
-
-        {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Colocataires</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalRoommates}</div>
-              <p className="text-xs text-muted-foreground">
-                {totalRoommates} colocataires enregistrés
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Colocataires Actifs</CardTitle>
-              <UserCheck className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{activeRoommates}</div>
-              <p className="text-xs text-muted-foreground">
-                {activeRoommates} colocataires actifs
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Chambres Occupées</CardTitle>
-              <AlertCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{activeRoommates}</div>
-              <p className="text-xs text-muted-foreground">
-                chambres actuellement occupées
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Revenus Mensuels</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{monthlyRevenue}€</div>
-              <p className="text-xs text-muted-foreground">
-                Revenus colocation mensuels
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Roommates List */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Liste des Colocataires</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {roommates.length === 0 ? (
-              <div className="text-center py-8">
-                <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">Aucun colocataire trouvé</p>
-                <p className="text-sm text-gray-400">Commencez par ajouter votre premier colocataire</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {roommates.map((roommate) => (
-                  <div key={roommate.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
-                    <div className="flex items-center space-x-4">
-                      <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <Users className="h-6 w-6 text-purple-600" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">{roommate.name}</h3>
-                        <p className="text-sm text-gray-600">{roommate.email}</p>
-                        <p className="text-sm text-gray-500">{roommate.phone}</p>
-                        <p className="text-sm text-gray-500">{roommate.property} - Chambre {roommate.roomNumber}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold">{roommate.rentAmount}€/mois</p>
-                      <Badge variant={roommate.status === 'Actif' ? 'default' : 'secondary'}>
-                        {roommate.status}
-                      </Badge>
-                      <p className="text-sm text-gray-500">Emménagement: {roommate.moveInDate}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+    <div className="space-y-6">
+      <FormButtonConfigPanel 
+        actionIds={['roommate']} 
+        title="Configuration du bouton Locataire"
+      />
+      
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">{t('roommates.title')}</h1>
+        <Button 
+          onClick={() => setShowRoommateForm(true)}
+          variant={roommateButtonConfig.variant}
+          size={roommateButtonConfig.size}
+          className={roommateButtonConfig.className}
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          {t('roommates.addRoommate')}
+        </Button>
       </div>
+
+      <div className="text-center py-8 text-gray-500">
+        {t('roommates.list')}
+      </div>
+
+      <Dialog open={showRoommateForm} onOpenChange={setShowRoommateForm}>
+        <RoommateForm 
+          onClose={() => setShowRoommateForm(false)}
+          onSubmit={handleRoommateSubmit}
+          buttonConfig={roommateButtonConfig}
+        />
+      </Dialog>
     </div>
   );
 };
