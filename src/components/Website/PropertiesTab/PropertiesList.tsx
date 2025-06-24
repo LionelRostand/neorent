@@ -38,7 +38,9 @@ export const PropertiesList = ({
 
   const handleAddProperty = () => {
     console.log('🔥 BOUTON CLIQUÉ - handleAddProperty appelé');
+    console.log('🔥 Avant setShowPropertySelectionModal(true)');
     setShowPropertySelectionModal(true);
+    console.log('🔥 Après setShowPropertySelectionModal(true)');
   };
 
   const handleSelectProperty = (property: any) => {
@@ -77,6 +79,7 @@ export const PropertiesList = ({
 
   console.log('🚀 Unique properties:', uniqueProperties);
   console.log('🚀 Selected property IDs:', selectedPropertyIds);
+  console.log('🚀 Modal state:', showPropertySelectionModal);
 
   return (
     <>
