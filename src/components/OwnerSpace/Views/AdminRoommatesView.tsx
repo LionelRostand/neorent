@@ -45,17 +45,17 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
   };
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Header harmonisé avec la sidebar */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
-        <div className="flex items-center justify-between">
+    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
+      {/* Header responsive */}
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-4 sm:p-6 text-white shadow-lg">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Colocataires</h1>
-            <p className="text-blue-100 mt-2">Gérez vos colocataires et leurs informations</p>
+            <h1 className="text-2xl sm:text-3xl font-bold">Colocataires</h1>
+            <p className="text-blue-100 mt-1 sm:mt-2 text-sm sm:text-base">Gérez vos colocataires et leurs informations</p>
           </div>
           <Button 
             onClick={() => setShowRoommateForm(true)}
-            className="bg-white text-blue-600 hover:bg-blue-50 border-0 shadow-md"
+            className="bg-white text-blue-600 hover:bg-blue-50 border-0 shadow-md w-full sm:w-auto"
           >
             <Plus className="h-4 w-4 mr-2" />
             Nouveau colocataire
@@ -63,8 +63,8 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
         </div>
       </div>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Metrics Grid responsive */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">Total Colocataires</CardTitle>
@@ -73,7 +73,7 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{roommates?.length || 0}</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{roommates?.length || 0}</div>
             <p className="text-xs text-gray-500 mt-1">{roommates?.length || 0} colocataires enregistrés</p>
           </CardContent>
         </Card>
@@ -86,7 +86,7 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{roommates?.filter(r => r.status === 'Actif').length || 0}</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{roommates?.filter(r => r.status === 'Actif').length || 0}</div>
             <p className="text-xs text-gray-500 mt-1">colocataires actifs</p>
           </CardContent>
         </Card>
@@ -99,7 +99,7 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{latePayments}</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{latePayments}</div>
             <p className="text-xs text-gray-500 mt-1">paiements en retard</p>
           </CardContent>
         </Card>
@@ -112,70 +112,72 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{roommates?.reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0) || 0}€</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{roommates?.reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0) || 0}€</div>
             <p className="text-xs text-gray-500 mt-1">revenus mensuels des colocataires</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Roommates Table */}
+      {/* Roommates Table responsive */}
       <Card className="shadow-lg border-0">
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
-          <CardTitle className="text-xl text-gray-800">Liste des Colocataires</CardTitle>
+          <CardTitle className="text-lg sm:text-xl text-gray-800">Liste des Colocataires</CardTitle>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-3 sm:p-6">
           {roommates && roommates.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Nom</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Propriété</TableHead>
-                  <TableHead>Chambre</TableHead>
-                  <TableHead>Loyer</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead>Date d'entrée</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {roommates.map((roommate) => (
-                  <TableRow key={roommate.id}>
-                    <TableCell className="font-medium">{roommate.name}</TableCell>
-                    <TableCell>{roommate.email}</TableCell>
-                    <TableCell>{roommate.property}</TableCell>
-                    <TableCell>{roommate.roomNumber}</TableCell>
-                    <TableCell>{roommate.rentAmount}€</TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusBadgeVariant(roommate.status)}>
-                        {roommate.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{new Date(roommate.moveInDate).toLocaleDateString()}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end space-x-2">
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[120px]">Nom</TableHead>
+                    <TableHead className="hidden sm:table-cell min-w-[150px]">Email</TableHead>
+                    <TableHead className="min-w-[120px]">Propriété</TableHead>
+                    <TableHead className="hidden md:table-cell">Chambre</TableHead>
+                    <TableHead>Loyer</TableHead>
+                    <TableHead>Statut</TableHead>
+                    <TableHead className="hidden lg:table-cell">Date d'entrée</TableHead>
+                    <TableHead className="text-right min-w-[100px]">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {roommates.map((roommate) => (
+                    <TableRow key={roommate.id}>
+                      <TableCell className="font-medium">{roommate.name}</TableCell>
+                      <TableCell className="hidden sm:table-cell text-sm">{roommate.email}</TableCell>
+                      <TableCell className="text-sm">{roommate.property}</TableCell>
+                      <TableCell className="hidden md:table-cell">{roommate.roomNumber}</TableCell>
+                      <TableCell className="font-semibold">{roommate.rentAmount}€</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusBadgeVariant(roommate.status)} className="text-xs">
+                          {roommate.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="hidden lg:table-cell text-sm">{new Date(roommate.moveInDate).toLocaleDateString()}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end space-x-1">
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Eye className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Edit className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           ) : (
-            <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
-              <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Users className="h-8 w-8 text-gray-400" />
+            <div className="text-center py-8 sm:py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
+              <div className="p-3 sm:p-4 bg-gray-100 rounded-full w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 flex items-center justify-center">
+                <Users className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Aucun colocataire</h3>
-              <p className="text-gray-500 mb-4">Commencez par ajouter votre premier colocataire</p>
+              <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">Aucun colocataire</h3>
+              <p className="text-sm text-gray-500 mb-4">Commencez par ajouter votre premier colocataire</p>
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 <Plus className="h-4 w-4 mr-2" />
                 Ajouter un colocataire
