@@ -110,7 +110,7 @@ export const PropertiesList = ({
           <CardTitle className="text-lg flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Building className="h-5 w-5" />
-              Gestion des Propriétés ({properties?.length || 0})
+              Gestion des Propriétés du Site Web ({properties?.length || 0} affichées)
             </div>
             <PropertyListActions
               loadingProperties={loadingProperties}
