@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { MapPin, Euro, Edit, Eye, EyeOff, Image as ImageIcon } from 'lucide-react';
+import { MapPin, Euro, Image as ImageIcon, Eye, EyeOff, Edit } from 'lucide-react';
 
 interface PropertyCardProps {
   property: any;
@@ -23,13 +23,10 @@ export const PropertyCard = ({
   onEdit,
   getStatusBadgeVariant
 }: PropertyCardProps) => {
-  const isVisible = propertySettings[property.id]?.visible || false;
-  const isFeatured = propertySettings[property.id]?.featured || false;
-
   return (
     <div 
       className={`border rounded-lg p-4 transition-all ${
-        isVisible 
+        propertySettings[property.id]?.visible 
           ? 'border-green-200 bg-green-50' 
           : 'border-gray-200 hover:bg-gray-50'
       }`}
@@ -64,7 +61,10 @@ export const PropertyCard = ({
               <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
                 {property.status}
               </Badge>
-              {isFeatured && (
+              <Badge variant="outline" className="text-xs">
+                {property.owner ? 'Propriétaire' : 'Admin'}
+              </Badge>
+              {propertySettings[property.id]?.featured && (
                 <Badge variant="outline" className="text-xs border-orange-300 text-orange-600">
                   Mise en avant
                 </Badge>
@@ -79,10 +79,10 @@ export const PropertyCard = ({
                 Visible sur le site
               </Label>
               <Switch
-                checked={isVisible}
+                checked={propertySettings[property.id]?.visible || false}
                 onCheckedChange={() => onToggleVisibility(property.id)}
               />
-              {isVisible ? (
+              {propertySettings[property.id]?.visible ? (
                 <Eye className="h-4 w-4 text-green-600" />
               ) : (
                 <EyeOff className="h-4 w-4 text-gray-400" />
@@ -94,9 +94,9 @@ export const PropertyCard = ({
                 Mettre en avant
               </Label>
               <Switch
-                checked={isFeatured}
+                checked={propertySettings[property.id]?.featured || false}
                 onCheckedChange={() => onToggleFeatured(property.id)}
-                disabled={!isVisible}
+                disabled={!propertySettings[property.id]?.visible}
               />
             </div>
 

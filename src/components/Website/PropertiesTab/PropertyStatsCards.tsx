@@ -5,19 +5,21 @@ import { Button } from '@/components/ui/button';
 import { Building, Eye, CheckCircle, Save } from 'lucide-react';
 
 interface PropertyStatsCardsProps {
-  totalProperties: number;
-  visibleProperties: number;
-  featuredProperties: number;
-  onSave: () => void;
+  uniqueProperties: any[];
+  ownerProperties: any[];
+  allAdminProperties: any[];
+  visibleProperties: any[];
   isSaving: boolean;
+  onSave: () => void;
 }
 
 export const PropertyStatsCards = ({
-  totalProperties,
+  uniqueProperties,
+  ownerProperties,
+  allAdminProperties,
   visibleProperties,
-  featuredProperties,
-  onSave,
-  isSaving
+  isSaving,
+  onSave
 }: PropertyStatsCardsProps) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -26,7 +28,7 @@ export const PropertyStatsCards = ({
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Total Propriétés</p>
-              <p className="text-2xl font-bold">{totalProperties}</p>
+              <p className="text-2xl font-bold">{uniqueProperties?.length || 0}</p>
             </div>
             <Building className="h-8 w-8 text-blue-500" />
           </div>
@@ -37,8 +39,8 @@ export const PropertyStatsCards = ({
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Visibles sur le site</p>
-              <p className="text-2xl font-bold text-green-600">{visibleProperties}</p>
+              <p className="text-sm text-gray-600">Propriétaires</p>
+              <p className="text-2xl font-bold text-green-600">{ownerProperties?.length || 0}</p>
             </div>
             <Eye className="h-8 w-8 text-green-500" />
           </div>
@@ -49,8 +51,8 @@ export const PropertyStatsCards = ({
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Mises en avant</p>
-              <p className="text-2xl font-bold text-orange-600">{featuredProperties}</p>
+              <p className="text-sm text-gray-600">Admin</p>
+              <p className="text-2xl font-bold text-orange-600">{allAdminProperties?.length || 0}</p>
             </div>
             <CheckCircle className="h-8 w-8 text-orange-500" />
           </div>

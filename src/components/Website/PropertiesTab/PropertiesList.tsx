@@ -1,11 +1,10 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Building } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Building, ExternalLink } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
 import { PropertySelectionModal } from './PropertySelectionModal';
-import { PropertyQuickSelector } from './PropertyQuickSelector';
-import { PropertyListActions } from './PropertyListActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
@@ -57,13 +56,6 @@ export const PropertiesList = ({
     window.open('/properties', '_blank');
   };
 
-  const handleDirectPropertyAdd = (propertyId: string) => {
-    if (propertyId) {
-      console.log('🔥 Adding property directly:', propertyId);
-      onToggleVisibility(propertyId);
-    }
-  };
-
   // Combiner toutes les propriétés disponibles (owner + admin)
   const allAvailableProperties = [
     ...(ownerProperties || []),
@@ -80,16 +72,10 @@ export const PropertiesList = ({
     ?.filter(p => propertySettings[p.id]?.visible)
     .map(p => p.id) || [];
 
-  // Filtrer les propriétés non sélectionnées pour le champ de sélection
-  const availablePropertiesForSelect = uniqueProperties.filter(prop => 
-    !selectedPropertyIds.includes(prop.id)
-  );
-
   // Propriétés pour le modal (toutes les propriétés disponibles)
   const modalProperties = uniqueProperties || [];
 
   console.log('🚀 Unique properties:', uniqueProperties);
-  console.log('🚀 Available for select:', availablePropertiesForSelect);
   console.log('🚀 Selected property IDs:', selectedPropertyIds);
 
   return (
@@ -101,43 +87,49 @@ export const PropertiesList = ({
               <Building className="h-5 w-5" />
               Gestion des Propriétés du Site Web ({properties?.length || 0} affichées)
             </div>
-            <PropertyListActions
-              loadingProperties={loadingProperties}
-              onAddProperty={handleAddProperty}
-              onPreviewSite={handlePreviewSite}
-            />
+            <Button variant="outline" size="sm" onClick={handlePreviewSite}>
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Aperçu site
+            </Button>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <PropertyQuickSelector
-            selectedPropertyToAdd=""
-            setSelectedPropertyToAdd={() => {}}
-            availablePropertiesForSelect={availablePropertiesForSelect}
-            loadingProperties={loadingProperties}
-            uniqueProperties={uniqueProperties}
-            ownerProperties={ownerProperties || []}
-            allAdminProperties={allAdminProperties || []}
-            onDirectPropertyAdd={handleDirectPropertyAdd}
-          />
-
           <div className="space-y-4">
-            {properties && properties.map((property) => (
-              <PropertyCard
-                key={property.id}
-                property={property}
-                propertySettings={propertySettings}
-                onToggleVisibility={onToggleVisibility}
-                onToggleFeatured={onToggleFeatured}
-                onEdit={onEditProperty}
-                getStatusBadgeVariant={getStatusBadgeVariant}
-              />
-            ))}
+            {properties && properties.length > 0 ? (
+              properties.map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  propertySettings={propertySettings}
+                  onToggleVisibility={onToggleVisibility}
+                  onToggleFeatured={onToggleFeatured}
+                  onEdit={onEditProperty}
+                  getStatusBadgeVariant={getStatusBadgeVariant}
+                />
+              ))
+            ) : (
+              <div className="text-center py-12 bg-gray-50 rounded-lg">
+                <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-700 mb-2">
+                  Aucune propriété trouvée
+                </h3>
+                <p className="text-gray-500 text-sm mb-4">
+                  Les propriétés du menu Propriétés du sidebar Neorent apparaîtront ici
+                </p>
+              </div>
+            )}
             
-            <PropertyListActions
-              loadingProperties={loadingProperties}
-              onAddProperty={handleAddProperty}
-              onPreviewSite={handlePreviewSite}
-            />
+            <div className="pt-4 border-t border-gray-200">
+              <Button 
+                variant="outline" 
+                onClick={handleAddProperty}
+                disabled={loadingProperties}
+                className="w-full"
+              >
+                <Building className="h-4 w-4 mr-2" />
+                {loadingProperties ? 'Chargement...' : 'Ajouter une propriété'}
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
