@@ -173,10 +173,9 @@ const AdminMaintenanceView: React.FC<AdminMaintenanceViewProps> = ({ currentProf
             <DialogTitle>Nouvelle Demande de Maintenance</DialogTitle>
           </DialogHeader>
           <MaintenanceRequestForm 
+            isOpen={true}
             onClose={() => setShowMaintenanceForm(false)}
             onSubmit={handleMaintenanceSubmit}
-            properties={[]}
-            tenants={[]}
           />
         </DialogContent>
       </Dialog>
