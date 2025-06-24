@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Building, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Building, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Menu, X } from 'lucide-react';
 import { CookieBanner } from './CookieBanner';
 
 interface PublicLayoutProps {
@@ -10,9 +10,14 @@ interface PublicLayoutProps {
 
 const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -72,53 +77,65 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center space-x-2">
               <Link 
                 to="/login" 
                 className="bg-green-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
               >
                 Connexion
               </Link>
+              <button 
+                onClick={toggleMobileMenu}
+                className="text-gray-700 hover:text-green-600 p-2"
+              >
+                {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
             </div>
           </div>
 
           {/* Mobile Navigation */}
-          <div className="md:hidden">
-            <div className="flex flex-col space-y-2 py-4 border-t">
-              <Link 
-                to="/" 
-                className={`text-sm font-medium transition-colors ${
-                  isActive('/') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
-                }`}
-              >
-                Accueil
-              </Link>
-              <Link 
-                to="/properties" 
-                className={`text-sm font-medium transition-colors ${
-                  isActive('/properties') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
-                }`}
-              >
-                Propriétés
-              </Link>
-              <Link 
-                to="/about" 
-                className={`text-sm font-medium transition-colors ${
-                  isActive('/about') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
-                }`}
-              >
-                À Propos
-              </Link>
-              <Link 
-                to="/contact" 
-                className={`text-sm font-medium transition-colors ${
-                  isActive('/contact') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
-                }`}
-              >
-                Contact
-              </Link>
+          {isMobileMenuOpen && (
+            <div className="md:hidden">
+              <div className="flex flex-col space-y-2 py-4 border-t">
+                <Link 
+                  to="/" 
+                  className={`text-sm font-medium transition-colors py-2 ${
+                    isActive('/') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Accueil
+                </Link>
+                <Link 
+                  to="/properties" 
+                  className={`text-sm font-medium transition-colors py-2 ${
+                    isActive('/properties') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Propriétés
+                </Link>
+                <Link 
+                  to="/about" 
+                  className={`text-sm font-medium transition-colors py-2 ${
+                    isActive('/about') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  À Propos
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className={`text-sm font-medium transition-colors py-2 ${
+                    isActive('/contact') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
         </nav>
       </header>
 
@@ -165,10 +182,10 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Services</h3>
               <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-white text-sm">Gestion locative</a>
-                <a href="#" className="block text-gray-400 hover:text-white text-sm">Maintenance</a>
-                <a href="#" className="block text-gray-400 hover:text-white text-sm">Suivi financier</a>
-                <a href="#" className="block text-gray-400 hover:text-white text-sm">Support 24/7</a>
+                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Gestion locative</Link>
+                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Maintenance</Link>
+                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Suivi financier</Link>
+                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Support 24/7</Link>
               </div>
             </div>
 
