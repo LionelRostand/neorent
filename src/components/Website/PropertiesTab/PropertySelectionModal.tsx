@@ -134,7 +134,7 @@ export const PropertySelectionModal = ({
                               {property.surface || '0'}m² • {property.type || 'Type non défini'}
                             </span>
                             {property.locationType && (
-                              <span className="text-xs text-blue-600">
+                              <span className="text-xs text-gray-400">
                                 {property.locationType}
                               </span>
                             )}
@@ -150,28 +150,22 @@ export const PropertySelectionModal = ({
             <div className="text-center py-12 bg-gray-50 rounded-lg">
               <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-700 mb-2">
-                {properties?.length === 0 ? 
-                  'Aucune propriété disponible dans la base de données' : 
-                  'Toutes les propriétés sont déjà ajoutées'
-                }
+                Aucune propriété disponible
               </h3>
               <p className="text-gray-500 text-sm">
-                {properties?.length === 0 ? 
-                  'Ajoutez des propriétés depuis la section Propriétés pour les sélectionner' :
-                  'Toutes vos propriétés sont déjà visibles sur le site web'
+                {selectedProperties.length > 0 
+                  ? 'Toutes les propriétés disponibles ont déjà été sélectionnées'
+                  : 'Aucune propriété trouvée dans votre base de données'
                 }
               </p>
             </div>
           )}
-        </div>
 
-        <div className="flex justify-between items-center gap-3 pt-4 border-t">
-          <p className="text-sm text-gray-600">
-            {selectedProperties.length} propriété(s) sélectionnée(s) pour le site web
-          </p>
-          <Button variant="outline" onClick={onClose}>
-            Fermer
-          </Button>
+          <div className="flex justify-end gap-3 pt-4 border-t">
+            <Button variant="outline" onClick={onClose}>
+              Fermer
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
