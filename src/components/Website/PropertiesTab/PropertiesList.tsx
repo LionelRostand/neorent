@@ -7,6 +7,7 @@ import { PropertyCard } from './PropertyCard';
 import { PropertySelectionModal } from './PropertySelectionModal';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface PropertiesListProps {
   properties: any[];
@@ -26,17 +27,19 @@ export const PropertiesList = ({
   getStatusBadgeVariant
 }: PropertiesListProps) => {
   const { userProfile } = useAuth();
-  const { properties: allAdminProperties } = useOwnerData(userProfile);
+  const { properties: ownerProperties } = useOwnerData(userProfile);
+  const { properties: allAdminProperties } = useFirebaseProperties(); // Utiliser toutes les propriétés de la DB
   const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
 
   console.log('PropertiesList - User Profile:', userProfile);
-  console.log('PropertiesList - All admin properties:', allAdminProperties);
+  console.log('PropertiesList - Owner properties (filtered):', ownerProperties);
+  console.log('PropertiesList - All admin properties (DB):', allAdminProperties);
   console.log('PropertiesList - Current visible properties:', properties);
   console.log('PropertiesList - Property settings:', propertySettings);
 
   const handleAddProperty = () => {
     console.log('Opening property selection modal');
-    console.log('Available admin properties:', allAdminProperties);
+    console.log('Available admin properties from DB:', allAdminProperties);
     setShowPropertySelectionModal(true);
   };
 
@@ -97,11 +100,12 @@ export const PropertiesList = ({
                 Ajouter une propriété
               </Button>
               
-              {/* Debug info */}
+              {/* Debug info amélioré */}
               <div className="mt-4 p-3 bg-yellow-50 rounded-lg text-left">
                 <p className="text-xs text-yellow-700">
                   <strong>Debug:</strong><br/>
-                  Propriétés admin disponibles: {allAdminProperties?.length || 0}<br/>
+                  Propriétés admin totales (DB): {allAdminProperties?.length || 0}<br/>
+                  Propriétés du propriétaire: {ownerProperties?.length || 0}<br/>
                   Modal ouvert: {showPropertySelectionModal ? 'Oui' : 'Non'}
                 </p>
               </div>
