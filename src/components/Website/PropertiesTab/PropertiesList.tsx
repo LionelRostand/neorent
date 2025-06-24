@@ -111,10 +111,10 @@ export const PropertiesList = ({
               <div className="text-center py-12 bg-gray-50 rounded-lg">
                 <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-700 mb-2">
-                  Aucune propriété trouvée
+                  Aucune propriété affichée sur le site
                 </h3>
                 <p className="text-gray-500 text-sm mb-4">
-                  Les propriétés du menu Propriétés du sidebar Neorent apparaîtront ici
+                  Cliquez sur "Ajouter une propriété" pour sélectionner les propriétés à afficher sur votre site web
                 </p>
               </div>
             )}

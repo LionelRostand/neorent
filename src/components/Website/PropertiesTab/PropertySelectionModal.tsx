@@ -21,6 +21,10 @@ export const PropertySelectionModal = ({
   onSelectProperty,
   selectedProperties
 }: PropertySelectionModalProps) => {
+  console.log('🔥 PropertySelectionModal render - isOpen:', isOpen);
+  console.log('🔥 PropertySelectionModal - properties:', properties);
+  console.log('🔥 PropertySelectionModal - selectedProperties:', selectedProperties);
+
   const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" | "success" => {
     switch (status) {
       case 'Libre':
@@ -37,6 +41,8 @@ export const PropertySelectionModal = ({
   const availableProperties = properties.filter(property => 
     !selectedProperties.includes(property.id)
   );
+
+  console.log('🔥 PropertySelectionModal - availableProperties:', availableProperties);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
