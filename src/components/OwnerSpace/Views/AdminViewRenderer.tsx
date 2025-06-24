@@ -1,9 +1,6 @@
 
 import React from 'react';
 import Dashboard from '@/pages/Dashboard';
-import Properties from '@/pages/Properties';
-import Tenants from '@/pages/Tenants';
-import Roommates from '@/pages/Roommates';
 import Contracts from '@/pages/Contracts';
 import Inspections from '@/pages/Inspections';
 import RentManagement from '@/pages/RentManagement';
@@ -15,6 +12,9 @@ import Taxes from '@/pages/Taxes';
 import Website from '@/pages/Website';
 import Settings from '@/pages/Settings';
 import Help from '@/pages/Help';
+import AdminPropertiesView from './AdminPropertiesView';
+import AdminTenantsView from './AdminTenantsView';
+import AdminRoommatesView from './AdminRoommatesView';
 
 interface AdminViewRendererProps {
   activeView: string;
@@ -32,11 +32,11 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
     case 'admin-dashboard':
       return <Dashboard />;
     case 'admin-properties':
-      return <Properties />;
+      return <AdminPropertiesView currentProfile={currentProfile} />;
     case 'admin-tenants':
-      return <Tenants />;
+      return <AdminTenantsView currentProfile={currentProfile} />;
     case 'admin-roommates':
-      return <Roommates />;
+      return <AdminRoommatesView currentProfile={currentProfile} />;
     case 'admin-contracts':
       return <Contracts />;
     case 'admin-inspections':
