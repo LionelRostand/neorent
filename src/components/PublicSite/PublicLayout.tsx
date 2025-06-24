@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +5,7 @@ import { Home, Info, Phone, Mail, LogIn, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LanguageSelector from '@/components/LanguageSelector';
 import CopyrightModal from './CopyrightModal';
+import { CookieBanner } from './CookieBanner';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -173,19 +173,19 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                   </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <Link to="/legal-notice" className="text-gray-400 hover:text-white transition-colors">
                     {t('publicSite.footer.legalNotice')}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
                     {t('publicSite.footer.privacyPolicy')}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    {t('publicSite.footer.termsOfService')}
-                  </a>
+                  <Link to="/cookie-policy" className="text-gray-400 hover:text-white transition-colors">
+                    Politique de cookies
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -221,6 +221,8 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           </div>
         </div>
       </footer>
+
+      <CookieBanner />
 
       <CopyrightModal 
         isOpen={isCopyrightModalOpen} 

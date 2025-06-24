@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from '@/components/Auth/ProtectedRoute';
@@ -26,6 +25,9 @@ import Settings from '@/pages/Settings';
 import Maintenance from '@/pages/Maintenance';
 import Help from '@/pages/Help';
 import NotFound from '@/pages/NotFound';
+import LegalNotice from '@/pages/PublicSite/LegalNotice';
+import PrivacyPolicy from '@/pages/PublicSite/PrivacyPolicy';
+import CookiePolicy from '@/pages/PublicSite/CookiePolicy';
 
 export const AppRoutes = () => {
   return (
@@ -36,6 +38,9 @@ export const AppRoutes = () => {
       <Route path="/contact" element={<PublicContact />} />
       <Route path="/properties" element={<PublicProperties />} />
       <Route path="/login" element={<PublicLogin />} />
+      <Route path="/legal-notice" element={<LegalNotice />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/cookie-policy" element={<CookiePolicy />} />
 
       {/* Protected Routes */}
       <Route 
