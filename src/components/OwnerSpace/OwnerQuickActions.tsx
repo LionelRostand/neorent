@@ -18,7 +18,7 @@ interface OwnerQuickActionsProps {
 
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, setActiveView }) => {
   const { i18n } = useTranslation();
-  const { getEnabledActions, isAdmin } = useQuickActionsManager();
+  const { getEnabledActions, isAdmin, refreshKey } = useQuickActionsManager();
   const [showMenuSelector, setShowMenuSelector] = useState(false);
   
   // Get texts based on current language
@@ -68,7 +68,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
 
   return (
     <>
-      <Card className="h-fit w-full bg-gradient-to-b from-green-600 to-green-700 border-green-500/30">
+      <Card className="h-fit w-full bg-gradient-to-b from-green-600 to-green-700 border-green-500/30" key={`quick-actions-${refreshKey}`}>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center justify-between text-base font-semibold">
             <div className="flex items-center gap-2">
@@ -88,7 +88,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">
           {quickActions.map((action) => (
-            <QuickActionItem key={action.id} action={action} />
+            <QuickActionItem key={`${action.id}-${refreshKey}`} action={action} />
           ))}
         </CardContent>
       </Card>
