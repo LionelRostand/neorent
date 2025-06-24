@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Building, ExternalLink } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Building, ExternalLink, Plus } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
 import { PropertySelectionModal } from './PropertySelectionModal';
 import { useAuth } from '@/hooks/useAuth';
@@ -30,6 +31,7 @@ export const PropertiesList = ({
   const { properties: ownerProperties } = useOwnerData(userProfile);
   const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
   const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
+  const [selectedPropertyToAdd, setSelectedPropertyToAdd] = useState<string>('');
 
   console.log('🚀 PropertiesList render');
   console.log('🚀 Modal state:', showPropertySelectionModal);
@@ -62,6 +64,14 @@ export const PropertiesList = ({
     window.open('/properties', '_blank');
   };
 
+  const handleDirectPropertyAdd = (propertyId: string) => {
+    if (propertyId) {
+      console.log('🔥 Adding property directly:', propertyId);
+      onToggleVisibility(propertyId);
+      setSelectedPropertyToAdd('');
+    }
+  };
+
   const selectedPropertyIds = properties
     ?.filter(p => propertySettings[p.id]?.visible)
     .map(p => p.id) || [];
@@ -71,6 +81,11 @@ export const PropertiesList = ({
   // S'assurer que nous avons les données nécessaires
   const modalProperties = allAdminProperties || [];
   
+  // Filtrer les propriétés non sélectionnées pour le champ de sélection
+  const availablePropertiesForSelect = modalProperties.filter(prop => 
+    !selectedPropertyIds.includes(prop.id)
+  );
+
   console.log('🚀 Modal properties pour le rendu:', modalProperties);
   console.log('🚀 showPropertySelectionModal avant rendu:', showPropertySelectionModal);
 
@@ -90,6 +105,55 @@ export const PropertiesList = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
+          {/* Champ de sélection rapide des propriétés */}
+          <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <h4 className="text-sm font-medium text-blue-900 mb-3">
+              Ajouter une propriété au site web
+            </h4>
+            <div className="flex gap-2">
+              <div className="flex-1">
+                <Select 
+                  value={selectedPropertyToAdd} 
+                  onValueChange={setSelectedPropertyToAdd}
+                  disabled={loadingProperties || availablePropertiesForSelect.length === 0}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={
+                      loadingProperties 
+                        ? "Chargement des propriétés..." 
+                        : availablePropertiesForSelect.length === 0
+                        ? "Toutes les propriétés sont déjà ajoutées"
+                        : "Sélectionner une propriété"
+                    } />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availablePropertiesForSelect.map((property) => (
+                      <SelectItem key={property.id} value={property.id}>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{property.title}</span>
+                          <span className="text-sm text-gray-500">
+                            - {property.address} ({property.rent}€/mois)
+                          </span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button 
+                onClick={() => handleDirectPropertyAdd(selectedPropertyToAdd)}
+                disabled={!selectedPropertyToAdd || loadingProperties}
+                size="sm"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Ajouter
+              </Button>
+            </div>
+            <p className="text-xs text-blue-700 mt-2">
+              Sélectionnez une propriété dans la liste pour l'ajouter rapidement au site web
+            </p>
+          </div>
+
           {properties && properties.length > 0 ? (
             <div className="space-y-4">
               {properties.map((property) => (
@@ -113,7 +177,7 @@ export const PropertiesList = ({
                   className="w-full"
                 >
                   <Building className="h-4 w-4 mr-2" />
-                  {loadingProperties ? 'Chargement...' : 'Ajouter d\'autres propriétés'}
+                  {loadingProperties ? 'Chargement...' : 'Parcourir toutes les propriétés'}
                 </Button>
               </div>
             </div>
