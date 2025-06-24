@@ -28,7 +28,7 @@ export const PropertiesList = ({
 }: PropertiesListProps) => {
   const { userProfile } = useAuth();
   const { properties: ownerProperties } = useOwnerData(userProfile);
-  const { properties: allAdminProperties } = useFirebaseProperties(); // Utiliser toutes les propriétés de la DB
+  const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
   const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
 
   console.log('PropertiesList - User Profile:', userProfile);
@@ -36,17 +36,26 @@ export const PropertiesList = ({
   console.log('PropertiesList - All admin properties (DB):', allAdminProperties);
   console.log('PropertiesList - Current visible properties:', properties);
   console.log('PropertiesList - Property settings:', propertySettings);
+  console.log('PropertiesList - Loading properties:', loadingProperties);
+  console.log('PropertiesList - Modal state:', showPropertySelectionModal);
 
   const handleAddProperty = () => {
-    console.log('Opening property selection modal');
-    console.log('Available admin properties from DB:', allAdminProperties);
+    console.log('🔥 BOUTON CLIQUÉ - Opening property selection modal');
+    console.log('🔥 Available admin properties from DB:', allAdminProperties);
+    console.log('🔥 Setting modal state to TRUE');
     setShowPropertySelectionModal(true);
+    console.log('🔥 Modal state after setting:', true);
   };
 
   const handleSelectProperty = (property: any) => {
-    console.log('Selected property:', property);
+    console.log('🔥 Selected property:', property);
     // Toggle la visibilité de la propriété sélectionnée
     onToggleVisibility(property.id);
+    setShowPropertySelectionModal(false);
+  };
+
+  const handleCloseModal = () => {
+    console.log('🔥 Closing modal');
     setShowPropertySelectionModal(false);
   };
 
@@ -95,9 +104,13 @@ export const PropertiesList = ({
               <p className="text-gray-500 text-sm mb-4">
                 Ajoutez des propriétés depuis la section Propriétés pour les afficher sur votre site web
               </p>
-              <Button variant="outline" onClick={handleAddProperty}>
+              <Button 
+                variant="outline" 
+                onClick={handleAddProperty}
+                disabled={loadingProperties}
+              >
                 <Building className="h-4 w-4 mr-2" />
-                Ajouter une propriété
+                {loadingProperties ? 'Chargement...' : 'Ajouter une propriété'}
               </Button>
               
               {/* Debug info amélioré */}
@@ -106,7 +119,8 @@ export const PropertiesList = ({
                   <strong>Debug:</strong><br/>
                   Propriétés admin totales (DB): {allAdminProperties?.length || 0}<br/>
                   Propriétés du propriétaire: {ownerProperties?.length || 0}<br/>
-                  Modal ouvert: {showPropertySelectionModal ? 'Oui' : 'Non'}
+                  Modal ouvert: {showPropertySelectionModal ? 'Oui' : 'Non'}<br/>
+                  Chargement: {loadingProperties ? 'Oui' : 'Non'}
                 </p>
               </div>
             </div>
@@ -114,9 +128,10 @@ export const PropertiesList = ({
         </CardContent>
       </Card>
 
+      {/* Modal de sélection des propriétés */}
       <PropertySelectionModal
         isOpen={showPropertySelectionModal}
-        onClose={() => setShowPropertySelectionModal(false)}
+        onClose={handleCloseModal}
         properties={allAdminProperties || []}
         onSelectProperty={handleSelectProperty}
         selectedProperties={selectedPropertyIds}

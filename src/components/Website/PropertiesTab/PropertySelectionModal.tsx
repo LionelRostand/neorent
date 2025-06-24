@@ -21,7 +21,7 @@ export const PropertySelectionModal = ({
   onSelectProperty,
   selectedProperties
 }: PropertySelectionModalProps) => {
-  console.log('PropertySelectionModal render:', { 
+  console.log('🔥 PropertySelectionModal render:', { 
     isOpen, 
     propertiesCount: properties?.length || 0, 
     properties: properties,
@@ -46,6 +46,13 @@ export const PropertySelectionModal = ({
     !selectedProperties.includes(prop.id)
   ) || [];
 
+  console.log('🔥 Available properties after filtering:', availableProperties);
+
+  if (!isOpen) {
+    console.log('🔥 Modal is not open, not rendering');
+    return null;
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
@@ -57,6 +64,17 @@ export const PropertySelectionModal = ({
         </DialogHeader>
         
         <div className="space-y-4">
+          {/* Debug info en haut du modal */}
+          <div className="p-3 bg-blue-50 rounded-lg text-left">
+            <p className="text-xs text-blue-700">
+              <strong>🔥 Debug Modal:</strong><br/>
+              Modal ouvert: {isOpen ? 'OUI' : 'NON'}<br/>
+              Propriétés totales: {properties?.length || 0}<br/>
+              Propriétés sélectionnées: {selectedProperties?.length || 0}<br/>
+              Propriétés disponibles: {availableProperties?.length || 0}
+            </p>
+          </div>
+
           {availableProperties && availableProperties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {availableProperties.map((property) => {
@@ -68,7 +86,10 @@ export const PropertySelectionModal = ({
                     className={`cursor-pointer transition-all hover:shadow-md ${
                       isSelected ? 'ring-2 ring-green-500 bg-green-50' : ''
                     }`}
-                    onClick={() => onSelectProperty(property)}
+                    onClick={() => {
+                      console.log('🔥 Property clicked:', property);
+                      onSelectProperty(property);
+                    }}
                   >
                     <CardContent className="p-4">
                       <div className="space-y-3">
@@ -116,7 +137,7 @@ export const PropertySelectionModal = ({
               <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-700 mb-2">
                 {properties?.length === 0 ? 
-                  'Aucune propriété disponible' : 
+                  'Aucune propriété disponible dans la base de données' : 
                   'Toutes les propriétés sont déjà ajoutées'
                 }
               </h3>
@@ -126,14 +147,6 @@ export const PropertySelectionModal = ({
                   'Toutes vos propriétés sont déjà visibles sur le site web'
                 }
               </p>
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg text-left">
-                <p className="text-xs text-blue-700">
-                  <strong>Debug info:</strong><br/>
-                  Propriétés totales: {properties?.length || 0}<br/>
-                  Propriétés sélectionnées: {selectedProperties?.length || 0}<br/>
-                  Propriétés disponibles: {availableProperties?.length || 0}
-                </p>
-              </div>
             </div>
           )}
         </div>
