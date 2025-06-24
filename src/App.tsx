@@ -54,6 +54,7 @@ function App() {
               <Route path="/" element={<PublicHome />} />
               <Route path="/about" element={<PublicAbout />} />
               <Route path="/contact" element={<PublicContact />} />
+              <Route path="/properties" element={<PublicProperties />} />
               <Route path="/login" element={<PublicLogin />} />
               
               <Route 
