@@ -54,8 +54,8 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     setOpenDialog,
     ownerProperties,
     activeTenants,
-    expiringContracts.length, // Fix: pass length instead of array
-    pendingPayments.length, // Fix: pass length instead of array
+    expiringContracts, // Already a number from the hook
+    pendingPayments, // Already a number from the hook
     () => '', // dummy t function since we're using getLocalizedText
     enabledActions // Pass only enabled actions
   ) : [];
