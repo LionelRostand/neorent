@@ -112,12 +112,12 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
                         <h3 className="font-semibold">Année {fiscal.year}</h3>
                         <p className="text-sm text-gray-600">{fiscal.property}</p>
                         <p className="text-sm text-gray-500">Revenus: {fiscal.rentIncome}€</p>
-                        <p className="text-sm text-gray-500">Charges: {fiscal.totalCharges}€</p>
+                        <p className="text-sm text-gray-500">Charges: {fiscal.charges}€</p>
                       </div>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold">
-                        Résultat: {(parseFloat(fiscal.rentIncome?.toString() || '0') - parseFloat(fiscal.totalCharges?.toString() || '0')).toFixed(0)}€
+                        Résultat: {(parseFloat(fiscal.rentIncome?.toString() || '0') - parseFloat(fiscal.charges?.toString() || '0')).toFixed(0)}€
                       </p>
                       <Badge variant="default">Complète</Badge>
                     </div>

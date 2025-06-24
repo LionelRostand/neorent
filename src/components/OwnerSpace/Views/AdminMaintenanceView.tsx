@@ -19,7 +19,7 @@ const AdminMaintenanceView: React.FC<AdminMaintenanceViewProps> = ({ currentProf
 
   // Filter maintenance requests by owner's properties
   const ownerMaintenances = requests.filter(maintenance => 
-    propertyTitles.includes(maintenance.property)
+    propertyTitles.includes(maintenance.propertyId)
   );
 
   const totalMaintenances = ownerMaintenances.length;
@@ -110,10 +110,12 @@ const AdminMaintenanceView: React.FC<AdminMaintenanceViewProps> = ({ currentProf
                         <Wrench className="h-6 w-6 text-orange-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold">{maintenance.title}</h3>
-                        <p className="text-sm text-gray-600">{maintenance.property}</p>
+                        <h3 className="font-semibold">{maintenance.description}</h3>
+                        <p className="text-sm text-gray-600">{maintenance.propertyId}</p>
                         <p className="text-sm text-gray-500">Catégorie: {maintenance.category}</p>
-                        <p className="text-sm text-gray-500">Créé le: {maintenance.createdAt}</p>
+                        <p className="text-sm text-gray-500">
+                          Créé le: {maintenance.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">

@@ -16,9 +16,9 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
   const { charges } = useOwnerData(currentProfile);
 
   const totalCharges = charges.length;
-  const monthlyCharges = charges.filter(c => c.frequency === 'Mensuel').length;
-  const annualCharges = charges.filter(c => c.frequency === 'Annuel').length;
-  const totalAmount = charges.reduce((sum, c) => sum + (parseFloat(c.totalAmount?.toString() || '0') || 0), 0);
+  const monthlyCharges = charges.filter(c => c.period === 'monthly').length;
+  const annualCharges = charges.filter(c => c.period === 'yearly').length;
+  const totalAmount = charges.reduce((sum, c) => sum + (parseFloat(c.amount?.toString() || '0') || 0), 0);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -40,7 +40,7 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Charges</CardTitle>
-              <Calculator className="h-4 w-4 text-muted-fore ground" />
+              <Calculator className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalCharges}</div>
@@ -103,14 +103,14 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
                         <Calculator className="h-6 w-6 text-yellow-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold">{charge.category}</h3>
+                        <h3 className="font-semibold">{charge.type}</h3>
                         <p className="text-sm text-gray-600">{charge.propertyName}</p>
-                        <p className="text-sm text-gray-500">Période: {charge.frequency}</p>
+                        <p className="text-sm text-gray-500">Période: {charge.period}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">{charge.totalAmount}€</p>
-                      <Badge variant="secondary">{charge.frequency}</Badge>
+                      <p className="font-semibold">{charge.amount}€</p>
+                      <Badge variant="secondary">{charge.period}</Badge>
                     </div>
                   </div>
                 ))}
