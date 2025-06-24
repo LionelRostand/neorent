@@ -3,11 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Home } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
-import { UserProfileDropdown } from '@/components/Layout/UserProfile/UserProfileDropdown';
-import LanguageSelector from '@/components/LanguageSelector';
 
 interface OwnerSpaceProfileHeaderProps {
   currentProfile: any;
@@ -25,28 +22,6 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
 
   return (
     <div>
-      {/* Admin Header - affiché seulement si c'est un admin qui accède à l'espace propriétaire */}
-      {isAuthorizedAdmin && (
-        <header className="bg-white border-b border-gray-200 px-3 sm:px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
-                <Home className="h-5 w-5 sm:h-6 sm:w-6 text-green-600 mr-1 sm:mr-2" />
-                <h1 className="text-lg sm:text-xl font-semibold text-gray-800">
-                  <span className="hidden sm:inline">NeoRent Admin</span>
-                  <span className="sm:hidden">NeoRent</span>
-                </h1>
-              </Link>
-            </div>
-            
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <LanguageSelector />
-              <UserProfileDropdown />
-            </div>
-          </div>
-        </header>
-      )}
-
       {/* Owner Space Header */}
       <div className="bg-white shadow-sm border-b mb-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
