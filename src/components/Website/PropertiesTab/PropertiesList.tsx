@@ -29,13 +29,19 @@ export const PropertiesList = ({
   const { properties: allAdminProperties } = useOwnerData(userProfile);
   const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
 
+  console.log('All admin properties:', allAdminProperties);
+  console.log('Current visible properties:', properties);
+
   const handleAddProperty = () => {
+    console.log('Opening property selection modal');
     setShowPropertySelectionModal(true);
   };
 
   const handleSelectProperty = (property: any) => {
+    console.log('Selected property:', property);
     // Toggle la visibilité de la propriété sélectionnée
     onToggleVisibility(property.id);
+    setShowPropertySelectionModal(false);
   };
 
   const selectedPropertyIds = properties

@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building, MapPin, Euro, Plus } from 'lucide-react';
+import { Building, MapPin, Euro, Plus, Check } from 'lucide-react';
 
 interface PropertySelectionModalProps {
   isOpen: boolean;
@@ -21,6 +21,8 @@ export const PropertySelectionModal = ({
   onSelectProperty,
   selectedProperties
 }: PropertySelectionModalProps) => {
+  console.log('PropertySelectionModal props:', { isOpen, properties: properties?.length, selectedProperties });
+
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
       case 'Libre':
@@ -73,7 +75,7 @@ export const PropertySelectionModal = ({
                           {isSelected && (
                             <div className="flex-shrink-0 ml-2">
                               <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                                <Plus className="h-3 w-3 text-white rotate-45" />
+                                <Check className="h-3 w-3 text-white" />
                               </div>
                             </div>
                           )}
