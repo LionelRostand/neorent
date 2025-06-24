@@ -24,7 +24,41 @@ export const useUserProfileManager = (user: User | null, hooksInitialized: boole
     console.log('🔍 Vérification du profil pour:', currentUser.email);
 
     try {
-      // SOLUTION TEMPORAIRE : Créer un profil propriétaire pour lionelrostand@yahoo.fr
+      // SOLUTION TEMPORAIRE : Créer des profils pour les comptes administrateurs
+      if (currentUser.email === 'admin@neotech-consulting.com') {
+        console.log('👑 Création d\'un profil administrateur pour admin@neotech-consulting.com');
+        const adminProfile = {
+          id: 'admin-neotech',
+          name: 'Lionel DJOSSA',
+          email: 'admin@neotech-consulting.com',
+          role: 'admin',
+          isOwner: false,
+          permissions: ['all'],
+          hasPassword: true,
+          phone: '0123456789',
+          company: 'NeoTech Consulting',
+          detailedPermissions: {
+            dashboard: { read: true, write: true, view: true, delete: true },
+            properties: { read: true, write: true, view: true, delete: true },
+            tenants: { read: true, write: true, view: true, delete: true },
+            roommates: { read: true, write: true, view: true, delete: true },
+            contracts: { read: true, write: true, view: true, delete: true },
+            inspections: { read: true, write: true, view: true, delete: true },
+            rentManagement: { read: true, write: true, view: true, delete: true },
+            rentalCharges: { read: true, write: true, view: true, delete: true },
+            maintenance: { read: true, write: true, view: true, delete: true },
+            messages: { read: true, write: true, view: true, delete: true },
+            taxes: { read: true, write: true, view: true, delete: true },
+            website: { read: true, write: true, view: true, delete: true },
+            settings: { read: true, write: true, view: true, delete: true },
+          }
+        };
+        
+        setUserProfile(adminProfile);
+        setUserType('admin');
+        return;
+      }
+
       if (currentUser.email === 'lionelrostand@yahoo.fr') {
         console.log('🏠 Création d\'un profil propriétaire pour lionelrostand@yahoo.fr');
         const ownerProfile = {
