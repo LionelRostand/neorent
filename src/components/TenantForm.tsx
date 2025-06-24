@@ -26,6 +26,7 @@ interface Property {
   availableRooms: number;
   creditImmobilier?: string;
   charges?: any;
+  owner?: string;
 }
 
 interface TenantFormProps {
