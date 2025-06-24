@@ -8,7 +8,6 @@ import InspectionForm from '@/components/InspectionForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
-import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminInspectionsViewProps {
   currentProfile?: any;
@@ -26,11 +25,6 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
 
   return (
     <div className="space-y-6">
-      <FormButtonConfigPanel 
-        actionIds={['inspection']} 
-        title="Configuration du bouton Inspection"
-      />
-      
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">{t('inspections.title')}</h1>
         <Button 

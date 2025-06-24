@@ -8,7 +8,6 @@ import ContractForm from '@/components/ContractForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
-import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminContractsViewProps {
   currentProfile?: any;
@@ -26,11 +25,6 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
 
   return (
     <div className="space-y-6">
-      <FormButtonConfigPanel 
-        actionIds={['contract']} 
-        title="Configuration du bouton Contrat"
-      />
-      
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">{t('contracts.title')}</h1>
         <Button 

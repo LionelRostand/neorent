@@ -10,7 +10,6 @@ import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useOwnerData } from '@/hooks/useOwnerData';
-import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminPropertiesViewProps {
   currentProfile?: any;
@@ -29,11 +28,6 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
 
   return (
     <div className="space-y-6">
-      <FormButtonConfigPanel 
-        actionIds={['property']} 
-        title="Configuration du bouton Propriété"
-      />
-      
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">{t('properties.title')}</h1>
         <Button 

@@ -8,7 +8,6 @@ import RoommateForm from '@/components/RoommateForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
-import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminRoommatesViewProps {
   currentProfile?: any;
@@ -26,11 +25,6 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
 
   return (
     <div className="space-y-6">
-      <FormButtonConfigPanel 
-        actionIds={['roommate']} 
-        title="Configuration du bouton Locataire"
-      />
-      
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">{t('roommates.title')}</h1>
         <Button 
