@@ -1,69 +1,18 @@
 
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { Settings, Trash2, GripVertical, Loader2, Shield, User, Plus } from 'lucide-react';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { useAuth } from '@/hooks/useAuth';
-import { useSidebarMenuItems } from '@/components/Layout/SidebarComponents/useSidebarMenuItems';
 import FirestoreRulesHelper from './FirestoreRulesHelper';
+import PermissionDeniedView from './PermissionDeniedView';
+import CurrentActionsSection from './CurrentActionsSection';
+import AvailableMenusSection from './AvailableMenusSection';
 
 const QuickActionsManager: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  const { userType, userProfile } = useAuth();
+  const { userType } = useAuth();
   const { quickActions, isAdmin, toggleAction, removeAction, saving, addCustomAction } = useQuickActionsManager();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
   const [showPermissionsError, setShowPermissionsError] = useState(false);
   const [addingMenus, setAddingMenus] = useState<Record<string, boolean>>({});
-  const sidebarMenuItems = useSidebarMenuItems();
-
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      manageActions: {
-        fr: 'Gérer les actions rapides',
-        en: 'Manage Quick Actions'
-      },
-      delete: {
-        fr: 'Supprimer',
-        en: 'Delete'
-      },
-      adminOnly: {
-        fr: 'Seuls les administrateurs peuvent gérer les actions rapides',
-        en: 'Only administrators can manage quick actions'
-      },
-      availableMenus: {
-        fr: 'Menus disponibles du sidebar',
-        en: 'Available sidebar menus'
-      },
-      addToQuickActions: {
-        fr: 'Ajouter aux actions rapides',
-        en: 'Add to quick actions'
-      },
-      alreadyAdded: {
-        fr: 'Déjà ajouté',
-        en: 'Already added'
-      },
-      currentActions: {
-        fr: 'Actions rapides actuelles',
-        en: 'Current quick actions'
-      },
-      enabled: {
-        fr: 'Activé',
-        en: 'Enabled'
-      },
-      disabled: {
-        fr: 'Désactivé',
-        en: 'Disabled'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
 
   const handleToggleAction = async (actionId: string) => {
     setToggleStates(prev => ({ ...prev, [actionId]: true }));
@@ -129,166 +78,28 @@ const QuickActionsManager: React.FC = () => {
     return colorMap[path] || 'bg-gray-500';
   };
 
-  const isMenuAlreadyAdded = (menuPath: string): boolean => {
-    const menuId = menuPath.replace('/admin/', '');
-    return quickActions.some(action => action.id === menuId || action.actionValue === menuPath);
-  };
-
-  const getAvailableMenus = () => {
-    return sidebarMenuItems.filter(menu => !isMenuAlreadyAdded(menu.path));
-  };
-
   if (!isAdmin) {
-    return (
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <Shield className="h-5 w-5 text-orange-500" />
-            <h3 className="text-lg font-semibold">Permissions insuffisantes</h3>
-          </div>
-          
-          <div className="space-y-3">
-            <p className="text-gray-600 text-sm sm:text-base">{getLocalizedText('adminOnly')}</p>
-            
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <User className="h-4 w-4 text-gray-500" />
-                <span className="text-sm font-medium">Informations utilisateur :</span>
-              </div>
-              <div className="space-y-1 text-xs text-gray-600">
-                <p><strong>Type :</strong> {userType || 'Non défini'}</p>
-                <p><strong>Email :</strong> {userProfile?.email || 'Non disponible'}</p>
-                <p><strong>Nom :</strong> {userProfile?.name || 'Non disponible'}</p>
-                {userProfile?.permissions && (
-                  <div>
-                    <strong>Permissions :</strong>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {Array.isArray(userProfile.permissions) ? (
-                        userProfile.permissions.map((permission: string) => (
-                          <Badge key={permission} variant="outline" className="text-xs">
-                            {permission}
-                          </Badge>
-                        ))
-                      ) : (
-                        <Badge variant="outline" className="text-xs">
-                          {userProfile.permissions}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            <div className="bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400">
-              <p className="text-sm text-blue-800">
-                <strong>Note :</strong> Pour gérer les actions rapides, vous devez être connecté en tant qu'administrateur.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
+    return <PermissionDeniedView />;
   }
 
   return (
     <div className="space-y-6">
       {showPermissionsError && <FirestoreRulesHelper />}
 
-      {/* Section des actions rapides actuelles */}
-      <Card className="w-full max-w-6xl mx-auto">
-        <CardHeader className="pb-3 px-3 sm:px-6">
-          <CardTitle className="flex items-center gap-2">
-            <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
-            <span className="text-base sm:text-lg font-semibold">{getLocalizedText('currentActions')}</span>
-          </CardTitle>
-        </CardHeader>
-        
-        <CardContent className="p-3 sm:p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {quickActions.map((action) => (
-              <div key={action.id} className="flex items-center gap-3 p-3 border rounded-lg">
-                <div className={`p-2 rounded ${action.color} flex-shrink-0`}>
-                  <Settings className="h-4 w-4 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm truncate">{action.title.fr}</div>
-                  <div className="text-xs text-gray-500 truncate">{action.description.fr}</div>
-                  <Badge variant={action.enabled ? "default" : "secondary"} className="text-xs mt-1">
-                    {action.enabled ? getLocalizedText('enabled') : getLocalizedText('disabled')}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <Switch
-                    checked={action.enabled}
-                    onCheckedChange={() => handleToggleAction(action.id)}
-                    disabled={toggleStates[action.id] || saving}
-                  />
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => removeAction(action.id)}
-                    disabled={saving}
-                  >
-                    <Trash2 className="h-3 w-3" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-            {quickActions.length === 0 && (
-              <div className="col-span-full text-center py-8 text-gray-500">
-                <p className="text-sm">Aucune action rapide configurée</p>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      <CurrentActionsSection
+        quickActions={quickActions}
+        onToggleAction={handleToggleAction}
+        onRemoveAction={removeAction}
+        toggleStates={toggleStates}
+        saving={saving}
+      />
 
-      {/* Section pour ajouter des menus du sidebar */}
-      <Card className="w-full max-w-6xl mx-auto">
-        <CardHeader className="pb-3 px-3 sm:px-6">
-          <CardTitle className="flex items-center gap-2">
-            <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
-            <span className="text-base sm:text-lg font-semibold">{getLocalizedText('availableMenus')}</span>
-          </CardTitle>
-        </CardHeader>
-        
-        <CardContent className="p-3 sm:p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {getAvailableMenus().map((menuItem) => {
-              const Icon = menuItem.icon;
-              const isAdding = addingMenus[menuItem.path];
-              
-              return (
-                <div key={menuItem.path} className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className={`p-2 rounded ${getColorForMenu(menuItem.path)} flex-shrink-0`}>
-                    <Icon className="h-4 w-4 text-white" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-sm truncate">{menuItem.label}</div>
-                    <div className="text-xs text-gray-500 truncate">{menuItem.path}</div>
-                  </div>
-                  <Button
-                    size="sm"
-                    onClick={() => handleAddMenuToQuickActions(menuItem)}
-                    disabled={isAdding || saving}
-                    className="flex-shrink-0"
-                  >
-                    {isAdding && <Loader2 className="h-3 w-3 mr-1 animate-spin" />}
-                    <Plus className="h-3 w-3 mr-1" />
-                    Ajouter
-                  </Button>
-                </div>
-              );
-            })}
-            {getAvailableMenus().length === 0 && (
-              <div className="col-span-full text-center py-8 text-gray-500">
-                <p className="text-sm">Tous les menus du sidebar ont déjà été ajoutés aux actions rapides</p>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      <AvailableMenusSection
+        quickActions={quickActions}
+        onAddMenuToQuickActions={handleAddMenuToQuickActions}
+        addingMenus={addingMenus}
+        saving={saving}
+      />
     </div>
   );
 };
