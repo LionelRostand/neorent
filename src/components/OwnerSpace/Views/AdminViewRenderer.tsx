@@ -12,6 +12,7 @@ import Taxes from '@/pages/Taxes';
 import Website from '@/pages/Website';
 import Settings from '@/pages/Settings';
 import Help from '@/pages/Help';
+import AdminDashboardView from './AdminDashboardView';
 import AdminPropertiesView from './AdminPropertiesView';
 import AdminTenantsView from './AdminTenantsView';
 import AdminRoommatesView from './AdminRoommatesView';
@@ -38,7 +39,7 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
   // Render owner-specific admin views
   switch (activeView) {
     case 'admin-dashboard':
-      return <Dashboard />;
+      return <AdminDashboardView currentProfile={currentProfile} />;
     case 'admin-properties':
       return <AdminPropertiesView currentProfile={currentProfile} />;
     case 'admin-tenants':
