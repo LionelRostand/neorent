@@ -28,7 +28,7 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
   const totalRevenue = [...tenants, ...roommates].reduce((sum, item) => sum + (parseFloat(item.rentAmount?.toString() || '0') || 0), 0) * 12;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white">
+    <div className="bg-gradient-to-br from-green-50 to-white">
       <div className="p-6">
         {/* Header harmonisé avec la sidebar */}
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 mb-8 text-white shadow-lg">
