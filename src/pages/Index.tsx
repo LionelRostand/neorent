@@ -1,8 +1,8 @@
 
-import Dashboard from './Dashboard';
+import PublicHome from './PublicSite/Home';
 
 const Index = () => {
-  return <Dashboard />;
+  return <PublicHome />;
 };
 
 export default Index;
