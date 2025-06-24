@@ -15,6 +15,14 @@ import Help from '@/pages/Help';
 import AdminPropertiesView from './AdminPropertiesView';
 import AdminTenantsView from './AdminTenantsView';
 import AdminRoommatesView from './AdminRoommatesView';
+import AdminContractsView from './AdminContractsView';
+import AdminInspectionsView from './AdminInspectionsView';
+import AdminRentManagementView from './AdminRentManagementView';
+import AdminRentalChargesView from './AdminRentalChargesView';
+import AdminForecastingView from './AdminForecastingView';
+import AdminMaintenanceView from './AdminMaintenanceView';
+import AdminTaxManagementView from './AdminTaxManagementView';
+import AdminSettingsView from './AdminSettingsView';
 
 interface AdminViewRendererProps {
   activeView: string;
@@ -27,7 +35,7 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
 }) => {
   console.log('AdminViewRenderer - activeView:', activeView);
   
-  // Render admin pages directly without any wrapper
+  // Render owner-specific admin views
   switch (activeView) {
     case 'admin-dashboard':
       return <Dashboard />;
@@ -38,25 +46,25 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
     case 'admin-roommates':
       return <AdminRoommatesView currentProfile={currentProfile} />;
     case 'admin-contracts':
-      return <Contracts />;
+      return <AdminContractsView currentProfile={currentProfile} />;
     case 'admin-inspections':
-      return <Inspections />;
+      return <AdminInspectionsView currentProfile={currentProfile} />;
     case 'admin-rent-management':
-      return <RentManagement />;
+      return <AdminRentManagementView currentProfile={currentProfile} />;
     case 'admin-rental-charges':
-      return <RentalCharges />;
+      return <AdminRentalChargesView currentProfile={currentProfile} />;
     case 'admin-forecasting':
-      return <Forecasting />;
+      return <AdminForecastingView currentProfile={currentProfile} />;
     case 'admin-maintenance':
-      return <Maintenance />;
+      return <AdminMaintenanceView currentProfile={currentProfile} />;
     case 'admin-messages':
       return <Messages />;
     case 'admin-taxes':
-      return <Taxes />;
+      return <AdminTaxManagementView currentProfile={currentProfile} />;
     case 'admin-website':
       return <Website />;
     case 'admin-settings':
-      return <Settings />;
+      return <AdminSettingsView currentProfile={currentProfile} />;
     case 'admin-help':
       return <Help />;
     default:
