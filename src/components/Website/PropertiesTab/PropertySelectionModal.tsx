@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,12 +21,15 @@ export const PropertySelectionModal = ({
   onSelectProperty,
   selectedProperties
 }: PropertySelectionModalProps) => {
-  console.log('🔥🔥🔥 PropertySelectionModal RENDER:', { 
-    isOpen, 
-    propertiesCount: properties?.length || 0, 
-    properties: properties,
-    selectedProperties 
-  });
+  
+  useEffect(() => {
+    console.log('🔥🔥🔥 PropertySelectionModal MOUNT/UPDATE:', { 
+      isOpen, 
+      propertiesCount: properties?.length || 0, 
+      properties: properties,
+      selectedProperties 
+    });
+  }, [isOpen, properties, selectedProperties]);
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
@@ -47,6 +50,11 @@ export const PropertySelectionModal = ({
   ) || [];
 
   console.log('🔥🔥🔥 Available properties after filtering:', availableProperties);
+
+  if (!isOpen) {
+    console.log('🔥🔥🔥 Modal fermé, pas de rendu');
+    return null;
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

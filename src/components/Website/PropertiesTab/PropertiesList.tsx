@@ -43,6 +43,11 @@ export const PropertiesList = ({
     setShowPropertySelectionModal(true);
     
     console.log('🔥🔥🔥 Modal state APRÈS setShowPropertySelectionModal(true)');
+    
+    // Force un re-render pour s'assurer que le modal s'ouvre
+    setTimeout(() => {
+      console.log('🔥🔥🔥 Modal state dans setTimeout:', showPropertySelectionModal);
+    }, 100);
   };
 
   const handleSelectProperty = (property: any) => {
@@ -140,13 +145,15 @@ export const PropertiesList = ({
 
       {/* Modal de sélection des propriétés */}
       {console.log('🚀🚀🚀 RENDU DU MODAL - État:', showPropertySelectionModal)}
-      <PropertySelectionModal
-        isOpen={showPropertySelectionModal}
-        onClose={handleCloseModal}
-        properties={modalProperties}
-        onSelectProperty={handleSelectProperty}
-        selectedProperties={selectedPropertyIds}
-      />
+      {showPropertySelectionModal && (
+        <PropertySelectionModal
+          isOpen={showPropertySelectionModal}
+          onClose={handleCloseModal}
+          properties={modalProperties}
+          onSelectProperty={handleSelectProperty}
+          selectedProperties={selectedPropertyIds}
+        />
+      )}
     </>
   );
 };
