@@ -4,31 +4,16 @@ import { useQuickActionsManager, QuickActionConfig } from '@/hooks/useQuickActio
 import { useAuth } from '@/hooks/useAuth';
 import FirestoreRulesHelper from './FirestoreRulesHelper';
 import PermissionDeniedView from './PermissionDeniedView';
-import CurrentActionsSection from './CurrentActionsSection';
 import AvailableMenusSection from './AvailableMenusSection';
 import QuickActionConfigModal from './QuickActionConfigModal';
 
 const QuickActionsManager: React.FC = () => {
   const { userType } = useAuth();
   const { quickActions, isAdmin, toggleAction, removeAction, updateAction, saving, addCustomAction } = useQuickActionsManager();
-  const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
   const [showPermissionsError, setShowPermissionsError] = useState(false);
   const [addingMenus, setAddingMenus] = useState<Record<string, boolean>>({});
   const [configAction, setConfigAction] = useState<QuickActionConfig | null>(null);
   const [showConfigModal, setShowConfigModal] = useState(false);
-
-  const handleToggleAction = async (actionId: string) => {
-    setToggleStates(prev => ({ ...prev, [actionId]: true }));
-    
-    try {
-      const success = await toggleAction(actionId);
-      if (!success) {
-        setShowPermissionsError(true);
-      }
-    } finally {
-      setToggleStates(prev => ({ ...prev, [actionId]: false }));
-    }
-  };
 
   const handleConfigureAction = (actionId: string) => {
     const action = quickActions.find(a => a.id === actionId);
@@ -104,15 +89,6 @@ const QuickActionsManager: React.FC = () => {
   return (
     <div className="space-y-6">
       {showPermissionsError && <FirestoreRulesHelper />}
-
-      <CurrentActionsSection
-        quickActions={quickActions}
-        onToggleAction={handleToggleAction}
-        onRemoveAction={removeAction}
-        onConfigureAction={handleConfigureAction}
-        toggleStates={toggleStates}
-        saving={saving}
-      />
 
       <AvailableMenusSection
         quickActions={quickActions}
