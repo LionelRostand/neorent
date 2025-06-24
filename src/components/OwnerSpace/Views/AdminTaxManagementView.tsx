@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, FileText, Calculator, TrendingUp, AlertCircle } from 'lucide-react';
@@ -28,9 +27,9 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
   const totalRevenue = [...tenants, ...roommates].reduce((sum, item) => sum + (parseFloat(item.rentAmount?.toString() || '0') || 0), 0) * 12;
 
   return (
-    <div className="bg-gradient-to-br from-green-50 to-white">
+    <div className="p-6 space-y-6">
       {/* Header harmonisé avec la sidebar */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 mb-8 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold">Déclarations Fiscales</h1>
@@ -44,7 +43,7 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
       </div>
 
       {/* Metrics Grid avec style harmonisé */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">Revenus Annuels</CardTitle>
