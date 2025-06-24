@@ -61,6 +61,11 @@ export const PropertiesList = ({
     setShowPropertySelectionModal(false);
   };
 
+  const handlePreviewSite = () => {
+    // Ouvrir la page des propriétés du site public dans un nouvel onglet
+    window.open('/properties', '_blank');
+  };
+
   const selectedPropertyIds = properties
     ?.filter(p => propertySettings[p.id]?.visible)
     .map(p => p.id) || [];
@@ -82,7 +87,7 @@ export const PropertiesList = ({
               <Building className="h-5 w-5" />
               Gestion des Propriétés ({properties?.length || 0})
             </div>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={handlePreviewSite}>
               <ExternalLink className="h-4 w-4 mr-2" />
               Aperçu site
             </Button>
