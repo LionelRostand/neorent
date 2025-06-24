@@ -32,7 +32,7 @@ const Website = () => {
 
   const tabs = [
     { id: 'pages', label: t('website.managePages'), icon: FileText },
-    { id: 'properties', label: 'Propriétés', icon: Building },
+    { id: 'properties', label: t('website.propertiesTab'), icon: Building },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
     { id: 'theme', label: t('common.theme'), icon: Palette },
@@ -48,58 +48,73 @@ const Website = () => {
         <WebsiteHeader />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="overflow-x-auto">
-            <TabsList className="grid w-full min-w-[720px] grid-cols-9 mb-4 md:mb-6 mx-1">
+          {/* Mobile responsive tabs with horizontal scroll */}
+          <div className="overflow-x-auto scrollbar-hide">
+            <TabsList className="inline-flex h-auto min-w-full w-max p-1 bg-gray-100 rounded-lg mb-4 md:mb-6">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 
                   value={tab.id}
-                  className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm p-2 sm:p-3"
+                  className="flex flex-col items-center gap-1 px-3 py-3 text-xs font-medium whitespace-nowrap min-w-[80px] sm:min-w-[100px] data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md transition-all"
                 >
-                  <tab.icon className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span className="truncate text-[10px] sm:text-xs lg:text-sm">{tab.label}</span>
+                  <tab.icon className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-[10px] sm:text-xs leading-tight text-center">
+                    {tab.label}
+                  </span>
                 </TabsTrigger>
               ))}
             </TabsList>
           </div>
 
-          <TabsContent value="pages" className="space-y-4 md:space-y-6">
-            <PagesTab />
-          </TabsContent>
+          <div className="min-h-[600px]">
+            <TabsContent value="pages" className="space-y-4 md:space-y-6 mt-0">
+              <PagesTab />
+            </TabsContent>
 
-          <TabsContent value="properties" className="space-y-4 md:space-y-6">
-            <PropertiesTab />
-          </TabsContent>
+            <TabsContent value="properties" className="space-y-4 md:space-y-6 mt-0">
+              <PropertiesTab />
+            </TabsContent>
 
-          <TabsContent value="content" className="space-y-4 md:space-y-6">
-            <ContentTab />
-          </TabsContent>
+            <TabsContent value="content" className="space-y-4 md:space-y-6 mt-0">
+              <ContentTab />
+            </TabsContent>
 
-          <TabsContent value="medias" className="space-y-4 md:space-y-6">
-            <MediasTab />
-          </TabsContent>
+            <TabsContent value="medias" className="space-y-4 md:space-y-6 mt-0">
+              <MediasTab />
+            </TabsContent>
 
-          <TabsContent value="theme" className="space-y-4 md:space-y-6">
-            <ThemeTab />
-          </TabsContent>
+            <TabsContent value="theme" className="space-y-4 md:space-y-6 mt-0">
+              <ThemeTab />
+            </TabsContent>
 
-          <TabsContent value="footer" className="space-y-4 md:space-y-6">
-            <FooterTab />
-          </TabsContent>
+            <TabsContent value="footer" className="space-y-4 md:space-y-6 mt-0">
+              <FooterTab />
+            </TabsContent>
 
-          <TabsContent value="carte" className="space-y-4 md:space-y-6">
-            <MapTab />
-          </TabsContent>
+            <TabsContent value="carte" className="space-y-4 md:space-y-6 mt-0">
+              <MapTab />
+            </TabsContent>
 
-          <TabsContent value="analytics" className="space-y-4 md:space-y-6">
-            <AnalyticsTab />
-          </TabsContent>
+            <TabsContent value="analytics" className="space-y-4 md:space-y-6 mt-0">
+              <AnalyticsTab />
+            </TabsContent>
 
-          <TabsContent value="config" className="space-y-4 md:space-y-6">
-            <ConfigTab />
-          </TabsContent>
+            <TabsContent value="config" className="space-y-4 md:space-y-6 mt-0">
+              <ConfigTab />
+            </TabsContent>
+          </div>
         </Tabs>
       </div>
+
+      <style jsx global>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </MainLayout>
   );
 };
