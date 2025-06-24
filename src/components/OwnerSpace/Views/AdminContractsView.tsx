@@ -1,9 +1,11 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, FileText, CheckCircle, AlertCircle, DollarSign } from 'lucide-react';
+import { Plus, FileText, CheckCircle, AlertCircle, DollarSign, Edit, Trash2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
 import ContractForm from '@/components/ContractForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
@@ -36,80 +38,163 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
   }).length || 0;
   const monthlyRevenue = tenants?.reduce((sum, t) => sum + (parseFloat(t.rentAmount) || 0), 0) || 0;
 
+  const getStatusBadgeVariant = (status: string) => {
+    switch (status) {
+      case 'Actif':
+        return 'default';
+      case 'Signé':
+        return 'default';
+      case 'Expiré':
+        return 'destructive';
+      case 'En attente':
+        return 'secondary';
+      default:
+        return 'outline';
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">{t('contracts.title')}</h1>
-          <p className="text-gray-600 mt-1">Gérez vos contrats de bail et leurs informations</p>
+    <div className="p-6 space-y-6">
+      {/* Header harmonisé avec la sidebar */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl p-6 text-white shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Contrats de Bail</h1>
+            <p className="text-purple-100 mt-2">Gérez vos contrats de bail et leurs informations</p>
+          </div>
+          <Button 
+            onClick={() => setShowContractForm(true)}
+            className="bg-white text-purple-600 hover:bg-purple-50 border-0 shadow-md"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Nouveau contrat
+          </Button>
         </div>
-        <Button 
-          onClick={() => setShowContractForm(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          {t('contracts.addContract')}
-        </Button>
       </div>
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Contrats</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-gray-600">Total Contrats</CardTitle>
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <FileText className="h-4 w-4 text-purple-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalContracts}</div>
-            <p className="text-xs text-muted-foreground">
-              {totalContracts} contrats enregistrés
-            </p>
+            <div className="text-2xl font-bold text-gray-900">{totalContracts}</div>
+            <p className="text-xs text-gray-500 mt-1">{totalContracts} contrats enregistrés</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Contrats Actifs</CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-gray-600">Contrats Actifs</CardTitle>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{activeContracts}</div>
-            <p className="text-xs text-muted-foreground">
-              {activeContracts} contrats actifs
-            </p>
+            <div className="text-2xl font-bold text-gray-900">{activeContracts}</div>
+            <p className="text-xs text-gray-500 mt-1">{activeContracts} contrats actifs</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Contrats Expirant</CardTitle>
-            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-gray-600">Contrats Expirant</CardTitle>
+            <div className="p-2 bg-orange-100 rounded-lg">
+              <AlertCircle className="h-4 w-4 text-orange-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{expiringContracts}</div>
-            <p className="text-xs text-muted-foreground">
-              {expiringContracts} contrats expirant dans 3 mois
-            </p>
+            <div className="text-2xl font-bold text-gray-900">{expiringContracts}</div>
+            <p className="text-xs text-gray-500 mt-1">{expiringContracts} expirant dans 3 mois</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Revenus Mensuels</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-gray-600">Revenus Mensuels</CardTitle>
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <DollarSign className="h-4 w-4 text-blue-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{monthlyRevenue}€</div>
-            <p className="text-xs text-muted-foreground">
-              Revenus mensuels totaux
-            </p>
+            <div className="text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
+            <p className="text-xs text-gray-500 mt-1">revenus mensuels totaux</p>
           </CardContent>
         </Card>
       </div>
 
-      <div className="text-center py-8 text-gray-500">
-        {t('contracts.list')}
-      </div>
+      {/* Contracts Table */}
+      <Card className="shadow-lg border-0">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
+          <CardTitle className="text-xl text-gray-800">Liste des Contrats</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          {contracts && contracts.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Titre</TableHead>
+                  <TableHead>Propriété</TableHead>
+                  <TableHead>Locataire</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Montant</TableHead>
+                  <TableHead>Date début</TableHead>
+                  <TableHead>Date fin</TableHead>
+                  <TableHead>Statut</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {contracts.map((contract) => (
+                  <TableRow key={contract.id}>
+                    <TableCell className="font-medium">{contract.title}</TableCell>
+                    <TableCell>{contract.property}</TableCell>
+                    <TableCell>{contract.tenant}</TableCell>
+                    <TableCell>{contract.type}</TableCell>
+                    <TableCell>{contract.amount}€</TableCell>
+                    <TableCell>{new Date(contract.startDate).toLocaleDateString()}</TableCell>
+                    <TableCell>{new Date(contract.endDate).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <Badge variant={getStatusBadgeVariant(contract.status)}>
+                        {contract.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end space-x-2">
+                        <Button variant="ghost" size="sm">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
+              <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <FileText className="h-8 w-8 text-gray-400" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-700 mb-2">Aucun contrat</h3>
+              <p className="text-gray-500 mb-4">Commencez par créer votre premier contrat</p>
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                <Plus className="h-4 w-4 mr-2" />
+                Créer un contrat
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <Dialog open={showContractForm} onOpenChange={setShowContractForm}>
         <ContractForm 
