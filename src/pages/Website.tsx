@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -10,8 +11,7 @@ import {
   MapPin, 
   BarChart3, 
   Settings,
-  Link as LinkIcon,
-  Building
+  Link as LinkIcon
 } from 'lucide-react';
 
 import WebsiteHeader from '@/components/Website/WebsiteHeader';
@@ -23,7 +23,6 @@ import FooterTab from '@/components/Website/FooterTab';
 import MapTab from '@/components/Website/MapTab';
 import AnalyticsTab from '@/components/Website/AnalyticsTab';
 import ConfigTab from '@/components/Website/ConfigTab';
-import PropertiesTab from '@/components/Website/PropertiesTab';
 import CookiesTab from '@/components/Website/CookiesTab';
 
 const Website = () => {
@@ -32,7 +31,6 @@ const Website = () => {
 
   const tabs = [
     { id: 'pages', label: t('website.managePages'), icon: FileText },
-    { id: 'properties', label: t('website.propertiesTab'), icon: Building },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
     { id: 'theme', label: t('common.theme'), icon: Palette },
@@ -70,10 +68,6 @@ const Website = () => {
           <div className="min-h-[600px]">
             <TabsContent value="pages" className="space-y-4 md:space-y-6 mt-0">
               <PagesTab />
-            </TabsContent>
-
-            <TabsContent value="properties" className="space-y-4 md:space-y-6 mt-0">
-              <PropertiesTab />
             </TabsContent>
 
             <TabsContent value="content" className="space-y-4 md:space-y-6 mt-0">
