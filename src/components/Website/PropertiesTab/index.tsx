@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { toast } from 'sonner';
 import { PropertyStatsCards } from './PropertyStatsCards';
 import { PropertiesList } from './PropertiesList';
@@ -9,9 +10,21 @@ import { PropertyEditPanel } from './PropertyEditPanel';
 
 const PropertiesTab = () => {
   const { userProfile } = useAuth();
-  const { properties } = useOwnerData(userProfile);
+  const { properties: ownerProperties } = useOwnerData(userProfile);
+  const { properties: allAdminProperties } = useFirebaseProperties();
   const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
+
+  // Combiner toutes les propriétés disponibles (owner + admin)
+  const allAvailableProperties = [
+    ...(ownerProperties || []),
+    ...(allAdminProperties || [])
+  ];
+
+  // Supprimer les doublons basés sur l'ID
+  const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
+    index === self.findIndex((p) => p.id === property.id)
+  );
 
   // États pour gérer la visibilité et les descriptions des propriétés sur le site
   const [propertySettings, setPropertySettings] = useState<{[key: string]: {
@@ -20,11 +33,11 @@ const PropertiesTab = () => {
     featured: boolean;
   }}>({});
 
-  // Initialiser les paramètres des propriétés
+  // Initialiser les paramètres des propriétés pour toutes les propriétés disponibles
   useEffect(() => {
-    if (properties) {
+    if (uniqueProperties.length > 0) {
       const initialSettings: any = {};
-      properties.forEach((property) => {
+      uniqueProperties.forEach((property) => {
         initialSettings[property.id] = {
           visible: false,
           description: '',
@@ -33,7 +46,7 @@ const PropertiesTab = () => {
       });
       setPropertySettings(initialSettings);
     }
-  }, [properties]);
+  }, [uniqueProperties.length]);
 
   const handleSaveWebsiteSettings = async () => {
     setIsSaving(true);
@@ -99,13 +112,14 @@ const PropertiesTab = () => {
     }
   };
 
-  const visibleProperties = properties?.filter(p => propertySettings[p.id]?.visible) || [];
-  const featuredProperties = properties?.filter(p => propertySettings[p.id]?.featured) || [];
+  // Filtrer les propriétés visibles pour les statistiques
+  const visibleProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.visible) || [];
+  const featuredProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.featured) || [];
 
   return (
     <div className="space-y-4 md:space-y-6">
       <PropertyStatsCards
-        totalProperties={properties?.length || 0}
+        totalProperties={uniqueProperties?.length || 0}
         visibleProperties={visibleProperties.length}
         featuredProperties={featuredProperties.length}
         onSave={handleSaveWebsiteSettings}
@@ -115,7 +129,7 @@ const PropertiesTab = () => {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2">
           <PropertiesList
-            properties={properties}
+            properties={visibleProperties}
             propertySettings={propertySettings}
             onToggleVisibility={togglePropertyVisibility}
             onToggleFeatured={togglePropertyFeatured}
