@@ -246,18 +246,6 @@ const QuickActionsManager: React.FC = () => {
               </Badge>
             </div>
           </CardTitle>
-          
-          {/* Affichage des permissions utilisateur */}
-          <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-            <div className="flex items-center gap-2 mb-2">
-              <User className="h-4 w-4 text-green-600" />
-              <span className="text-sm font-medium text-green-800">Connecté en tant qu'administrateur</span>
-            </div>
-            <div className="text-xs text-green-700">
-              <p><strong>Utilisateur :</strong> {userProfile?.name || userProfile?.email}</p>
-              <p><strong>Type :</strong> {userType}</p>
-            </div>
-          </div>
         </CardHeader>
         
         <CardContent className="p-3 sm:p-6">
