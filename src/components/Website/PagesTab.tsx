@@ -13,10 +13,12 @@ const PagesTab = () => {
   const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [pages, setPages] = useState([
-    { id: '1', title: 'Home', url: '/', status: 'Published' },
-    { id: '2', title: 'About', url: '/about', status: 'Published' },
+    { id: '1', title: 'Accueil', url: '/', status: 'Published' },
+    { id: '2', title: 'À Propos', url: '/about', status: 'Published' },
     { id: '3', title: 'Contact', url: '/contact', status: 'Published' },
-    { id: '4', title: 'Services', url: '/services', status: 'Draft' }
+    { id: '4', title: 'Propriétés', url: '/properties', status: 'Published' },
+    { id: '5', title: 'Connexion', url: '/login', status: 'Published' },
+    { id: '6', title: 'Services', url: '/services', status: 'Draft' }
   ]);
 
   const [newPage, setNewPage] = useState({
