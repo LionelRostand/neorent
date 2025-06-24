@@ -33,9 +33,10 @@ interface TenantFormProps {
   onClose?: () => void;
   onSubmit?: (data: any) => Promise<void>;
   properties?: Property[];
+  currentProfile?: any;
 }
 
-const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProps) => {
+const TenantForm = ({ onSuccess, onClose, onSubmit, properties, currentProfile }: TenantFormProps) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
@@ -55,6 +56,11 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
   const { toast } = useToast();
   const { addTenant } = useFirebaseTenants();
   const { createUserAccount } = useFirebaseAuth();
+
+  // Filtrer les propriétés du propriétaire connecté
+  const ownerProperties = properties?.filter(property => 
+    currentProfile && (property.owner === currentProfile.name || property.owner === currentProfile.email)
+  ) || [];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -185,31 +191,28 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties }: TenantFormProp
           
           <div>
             <Label htmlFor="property">{t('tenantForm.property')}</Label>
-            {properties ? (
-              <Select 
-                value={formData.property} 
-                onValueChange={(value) => setFormData({ ...formData, property: value })}
-                disabled={loading}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t('tenantForm.selectProperty')} />
-                </SelectTrigger>
-                <SelectContent>
-                  {properties.map((property) => (
+            <Select 
+              value={formData.property} 
+              onValueChange={(value) => setFormData({ ...formData, property: value })}
+              disabled={loading}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t('tenantForm.selectProperty')} />
+              </SelectTrigger>
+              <SelectContent>
+                {ownerProperties.length > 0 ? (
+                  ownerProperties.map((property) => (
                     <SelectItem key={property.id} value={property.title}>
                       {property.title} - {property.address}
                     </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            ) : (
-              <Input
-                id="property"
-                value={formData.property}
-                onChange={(e) => setFormData({ ...formData, property: e.target.value })}
-                disabled={loading}
-              />
-            )}
+                  ))
+                ) : (
+                  <SelectItem value="no-properties" disabled>
+                    Aucune propriété disponible
+                  </SelectItem>
+                )}
+              </SelectContent>
+            </Select>
           </div>
           
           <div>

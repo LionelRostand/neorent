@@ -1,36 +1,42 @@
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
+import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
-import { useToast } from '@/hooks/use-toast';
+import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 
 export const useOwnerQuickActions = (ownerProfile: any) => {
   const { toast } = useToast();
-  const navigate = useNavigate();
-  const { properties = [], addProperty } = useFirebaseProperties();
-  const { roommates = [], addRoommate } = useFirebaseRoommates();
-  const { contracts = [], addContract } = useFirebaseContracts();
-  const { payments = [] } = useFirebasePayments();
-  
-  const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const { addProperty } = useFirebaseProperties();
+  const { addRoommate } = useFirebaseRoommates();
+  const { addTenant } = useFirebaseTenants();
+  const { addContract } = useFirebaseContracts();
+  const { addInspection } = useFirebaseInspections();
+  const { addPayment } = useFirebasePayments();
+  const { createUserAccount } = useFirebaseAuth();
 
   const handlePropertySubmit = async (propertyData: any) => {
     try {
-      console.log('Ajout de propriété:', propertyData);
-      await addProperty(propertyData);
+      const propertyWithOwner = {
+        ...propertyData,
+        owner: ownerProfile?.name || ownerProfile?.email || 'Unknown',
+        createdAt: new Date().toISOString()
+      };
+      
+      await addProperty(propertyWithOwner);
+      
       toast({
-        title: "Succès",
-        description: "Propriété ajoutée avec succès",
+        title: "Propriété ajoutée",
+        description: "La propriété a été ajoutée avec succès.",
       });
-      setOpenDialog(null);
-    } catch (error) {
-      console.error('Error adding property:', error);
+    } catch (error: any) {
+      console.error('Erreur lors de l\'ajout de la propriété:', error);
       toast({
         title: "Erreur",
-        description: "Erreur lors de l'ajout de la propriété",
+        description: error.message || "Erreur lors de l'ajout de la propriété",
         variant: "destructive",
       });
     }
@@ -38,86 +44,150 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
 
   const handleRoommateSubmit = async (roommateData: any) => {
     try {
-      console.log('Ajout de locataire:', roommateData);
-      await addRoommate(roommateData);
+      const roommateWithOwner = {
+        ...roommateData,
+        owner: ownerProfile?.name || ownerProfile?.email || 'Unknown',
+        createdAt: new Date().toISOString()
+      };
+      
+      await addRoommate(roommateWithOwner);
+      
       toast({
-        title: "Succès",
-        description: "Locataire ajouté avec succès",
+        title: "Colocataire ajouté",
+        description: "Le colocataire a été ajouté avec succès.",
       });
-      setOpenDialog(null);
-    } catch (error) {
-      console.error('Error adding roommate:', error);
+    } catch (error: any) {
+      console.error('Erreur lors de l\'ajout du colocataire:', error);
       toast({
         title: "Erreur",
-        description: "Erreur lors de l'ajout du locataire",
+        description: error.message || "Erreur lors de l'ajout du colocataire",
         variant: "destructive",
       });
     }
   };
 
-  const handleInspectionSubmit = (inspectionData: any) => {
-    console.log('Inspection data:', inspectionData);
-    toast({
-      title: "Succès",
-      description: "Inspection programmée avec succès",
-    });
-    setOpenDialog(null);
+  const handleTenantSubmit = async (tenantData: any) => {
+    try {
+      // Créer le compte utilisateur si un mot de passe est fourni
+      if (tenantData.password) {
+        try {
+          await createUserAccount(tenantData.email, tenantData.password);
+        } catch (authError: any) {
+          // Si l'email existe déjà, continuer quand même avec l'ajout du locataire
+          if (authError.message?.includes('déjà utilisé')) {
+            console.warn('Email déjà utilisé, mais continuation de l\'ajout du locataire');
+            toast({
+              title: "Attention",
+              description: "L'email est déjà utilisé, mais le locataire a été ajouté avec succès.",
+              variant: "default",
+            });
+          } else {
+            throw authError;
+          }
+        }
+      }
+
+      const { password, ...tenantDataWithoutPassword } = tenantData;
+      const tenantWithOwner = {
+        ...tenantDataWithoutPassword,
+        owner: ownerProfile?.name || ownerProfile?.email || 'Unknown',
+        createdAt: new Date().toISOString()
+      };
+      
+      await addTenant(tenantWithOwner);
+      
+      toast({
+        title: "Locataire ajouté",
+        description: "Le locataire a été ajouté avec succès.",
+      });
+    } catch (error: any) {
+      console.error('Erreur lors de l\'ajout du locataire:', error);
+      toast({
+        title: "Erreur",
+        description: error.message || "Erreur lors de l'ajout du locataire",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleContractSubmit = async (contractData: any) => {
     try {
-      console.log('Ajout de contrat:', contractData);
-      await addContract(contractData);
+      const contractWithOwner = {
+        ...contractData,
+        owner: ownerProfile?.name || ownerProfile?.email || 'Unknown',
+        createdAt: new Date().toISOString()
+      };
+      
+      await addContract(contractWithOwner);
+      
       toast({
-        title: "Succès",
-        description: "Contrat créé avec succès",
+        title: "Contrat ajouté",
+        description: "Le contrat a été ajouté avec succès.",
       });
-      setOpenDialog(null);
-    } catch (error) {
-      console.error('Error adding contract:', error);
+    } catch (error: any) {
+      console.error('Erreur lors de l\'ajout du contrat:', error);
       toast({
         title: "Erreur",
-        description: "Erreur lors de la création du contrat",
+        description: error.message || "Erreur lors de l'ajout du contrat",
         variant: "destructive",
       });
     }
   };
 
-  // Calculs sécurisés pour éviter les erreurs
-  const ownerProperties = Array.isArray(properties) ? properties.filter(property => 
-    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
-  ) : [];
+  const handleInspectionSubmit = async (inspectionData: any) => {
+    try {
+      const inspectionWithOwner = {
+        ...inspectionData,
+        owner: ownerProfile?.name || ownerProfile?.email || 'Unknown',
+        createdAt: new Date().toISOString()
+      };
+      
+      await addInspection(inspectionWithOwner);
+      
+      toast({
+        title: "Inspection ajoutée",
+        description: "L'inspection a été ajoutée avec succès.",
+      });
+    } catch (error: any) {
+      console.error('Erreur lors de l\'ajout de l\'inspection:', error);
+      toast({
+        title: "Erreur",
+        description: error.message || "Erreur lors de l'ajout de l'inspection",
+        variant: "destructive",
+      });
+    }
+  };
 
-  const activeTenants = Array.isArray(roommates) ? roommates.filter(roommate => 
-    roommate.status === 'Actif' && 
-    ownerProperties.some(property => property.title === roommate.property)
-  ) : [];
-
-  const expiringContracts = Array.isArray(contracts) ? contracts.filter(contract => {
-    if (!contract.endDate) return false;
-    const endDate = new Date(contract.endDate);
-    const today = new Date();
-    const daysUntilExpiry = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-    return daysUntilExpiry <= 30 && daysUntilExpiry > 0;
-  }).length : 0;
-
-  const pendingPayments = Array.isArray(payments) ? payments.filter(payment => 
-    payment.status === 'En attente' && 
-    ownerProperties.some(property => property.title === payment.property)
-  ).length : 0;
+  const handlePaymentSubmit = async (paymentData: any) => {
+    try {
+      const paymentWithOwner = {
+        ...paymentData,
+        owner: ownerProfile?.name || ownerProfile?.email || 'Unknown',
+        createdAt: new Date().toISOString()
+      };
+      
+      await addPayment(paymentWithOwner);
+      
+      toast({
+        title: "Paiement ajouté",
+        description: "Le paiement a été ajouté avec succès.",
+      });
+    } catch (error: any) {
+      console.error('Erreur lors de l\'ajout du paiement:', error);
+      toast({
+        title: "Erreur",
+        description: error.message || "Erreur lors de l'ajout du paiement",
+        variant: "destructive",
+      });
+    }
+  };
 
   return {
-    openDialog,
-    setOpenDialog,
-    properties,
-    navigate,
     handlePropertySubmit,
     handleRoommateSubmit,
-    handleInspectionSubmit,
+    handleTenantSubmit,
     handleContractSubmit,
-    ownerProperties,
-    activeTenants,
-    expiringContracts,
-    pendingPayments
+    handleInspectionSubmit,
+    handlePaymentSubmit
   };
 };

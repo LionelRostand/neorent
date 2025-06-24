@@ -9,17 +9,17 @@ import { Dialog } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
-import RoommateForm from '@/components/RoommateForm';
+import TenantForm from '@/components/TenantForm';
 
 interface AdminTenantsViewProps {
   currentProfile: any;
 }
 
 const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) => {
-  const { tenants, payments } = useOwnerData(currentProfile);
+  const { tenants, payments, properties } = useOwnerData(currentProfile);
   const { userProfile } = useAuth();
   const profile = currentProfile || userProfile;
-  const { handleRoommateSubmit } = useOwnerQuickActions(profile);
+  const { handleTenantSubmit } = useOwnerQuickActions(profile);
   const [showTenantForm, setShowTenantForm] = useState(false);
 
   const totalTenants = tenants.length;
@@ -168,9 +168,11 @@ const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) =
       </Card>
 
       <Dialog open={showTenantForm} onOpenChange={setShowTenantForm}>
-        <RoommateForm 
+        <TenantForm 
           onClose={() => setShowTenantForm(false)}
-          onSubmit={handleRoommateSubmit}
+          onSubmit={handleTenantSubmit}
+          properties={properties}
+          currentProfile={profile}
         />
       </Dialog>
     </div>

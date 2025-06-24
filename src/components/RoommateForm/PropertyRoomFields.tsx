@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useAuth } from '@/hooks/useAuth';
+import { useOwnerData } from '@/hooks/useOwnerData';
 
 interface Property {
   id: string;
@@ -26,42 +28,45 @@ interface PropertyRoomFieldsProps {
   properties?: Property[];
 }
 
-const PropertyRoomFields = ({ formData, onInputChange, properties = [] }: PropertyRoomFieldsProps) => {
+const PropertyRoomFields = ({ formData, onInputChange, properties }: PropertyRoomFieldsProps) => {
   const { t } = useTranslation();
+  const { userProfile } = useAuth();
+  const { properties: ownerProperties } = useOwnerData(userProfile);
+
+  // Utiliser les propriétés du propriétaire connecté
+  const availableProperties = properties || ownerProperties;
 
   return (
     <>
       <div>
-        <Label htmlFor="property">{t('tenantForm.property')}</Label>
-        {properties.length > 0 ? (
-          <Select value={formData.property} onValueChange={(value) => onInputChange('property', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Sélectionner une propriété" />
-            </SelectTrigger>
-            <SelectContent>
-              {properties.map((property) => (
+        <Label htmlFor="property">{t('roommateForm.property')}</Label>
+        <Select value={formData.property} onValueChange={(value) => onInputChange('property', value)}>
+          <SelectTrigger>
+            <SelectValue placeholder={t('roommateForm.selectProperty')} />
+          </SelectTrigger>
+          <SelectContent>
+            {availableProperties && availableProperties.length > 0 ? (
+              availableProperties.map((property) => (
                 <SelectItem key={property.id} value={property.title}>
                   {property.title} - {property.address}
                 </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        ) : (
-          <Input
-            id="property"
-            value={formData.property}
-            onChange={(e) => onInputChange('property', e.target.value)}
-            placeholder="Nom de la propriété"
-          />
-        )}
+              ))
+            ) : (
+              <SelectItem value="no-properties" disabled>
+                Aucune propriété disponible
+              </SelectItem>
+            )}
+          </SelectContent>
+        </Select>
       </div>
-      
+
       <div>
-        <Label htmlFor="roomNumber">{t('roommates.roomNumber')}</Label>
+        <Label htmlFor="roomNumber">{t('roommateForm.roomNumber')}</Label>
         <Input
           id="roomNumber"
           value={formData.roomNumber}
           onChange={(e) => onInputChange('roomNumber', e.target.value)}
+          placeholder="ex. Chambre 1"
         />
       </div>
     </>
