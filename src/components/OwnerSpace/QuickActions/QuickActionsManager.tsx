@@ -1,18 +1,21 @@
 
 import React, { useState } from 'react';
-import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
+import { useQuickActionsManager, QuickActionConfig } from '@/hooks/useQuickActionsManager';
 import { useAuth } from '@/hooks/useAuth';
 import FirestoreRulesHelper from './FirestoreRulesHelper';
 import PermissionDeniedView from './PermissionDeniedView';
 import CurrentActionsSection from './CurrentActionsSection';
 import AvailableMenusSection from './AvailableMenusSection';
+import QuickActionConfigModal from './QuickActionConfigModal';
 
 const QuickActionsManager: React.FC = () => {
   const { userType } = useAuth();
-  const { quickActions, isAdmin, toggleAction, removeAction, saving, addCustomAction } = useQuickActionsManager();
+  const { quickActions, isAdmin, toggleAction, removeAction, updateAction, saving, addCustomAction } = useQuickActionsManager();
   const [toggleStates, setToggleStates] = useState<Record<string, boolean>>({});
   const [showPermissionsError, setShowPermissionsError] = useState(false);
   const [addingMenus, setAddingMenus] = useState<Record<string, boolean>>({});
+  const [configAction, setConfigAction] = useState<QuickActionConfig | null>(null);
+  const [showConfigModal, setShowConfigModal] = useState(false);
 
   const handleToggleAction = async (actionId: string) => {
     setToggleStates(prev => ({ ...prev, [actionId]: true }));
@@ -25,6 +28,22 @@ const QuickActionsManager: React.FC = () => {
     } finally {
       setToggleStates(prev => ({ ...prev, [actionId]: false }));
     }
+  };
+
+  const handleConfigureAction = (actionId: string) => {
+    const action = quickActions.find(a => a.id === actionId);
+    if (action) {
+      setConfigAction(action);
+      setShowConfigModal(true);
+    }
+  };
+
+  const handleSaveConfig = async (updatedAction: QuickActionConfig) => {
+    const success = await updateAction(updatedAction);
+    if (!success) {
+      setShowPermissionsError(true);
+    }
+    return success;
   };
 
   const handleAddMenuToQuickActions = async (menuItem: any) => {
@@ -90,6 +109,7 @@ const QuickActionsManager: React.FC = () => {
         quickActions={quickActions}
         onToggleAction={handleToggleAction}
         onRemoveAction={removeAction}
+        onConfigureAction={handleConfigureAction}
         toggleStates={toggleStates}
         saving={saving}
       />
@@ -99,6 +119,16 @@ const QuickActionsManager: React.FC = () => {
         onAddMenuToQuickActions={handleAddMenuToQuickActions}
         addingMenus={addingMenus}
         saving={saving}
+      />
+
+      <QuickActionConfigModal
+        isOpen={showConfigModal}
+        onClose={() => {
+          setShowConfigModal(false);
+          setConfigAction(null);
+        }}
+        action={configAction}
+        onSave={handleSaveConfig}
       />
     </div>
   );

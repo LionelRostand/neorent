@@ -217,6 +217,32 @@ export const useQuickActionsManager = () => {
     return success;
   };
 
+  const updateAction = async (updatedAction: QuickActionConfig) => {
+    if (!isAdmin) {
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent modifier les actions",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    console.log('Updating action:', updatedAction);
+    
+    const updatedActions = quickActions.map(action =>
+      action.id === updatedAction.id ? updatedAction : action
+    );
+    
+    const success = await saveQuickActions(updatedActions);
+    if (success) {
+      toast({
+        title: "Succès",
+        description: "Action rapide mise à jour",
+      });
+    }
+    return success;
+  };
+
   const addCustomAction = async (newAction: Omit<QuickActionConfig, 'order'>) => {
     if (!isAdmin) {
       toast({
@@ -262,6 +288,7 @@ export const useQuickActionsManager = () => {
     saving,
     isAdmin,
     toggleAction,
+    updateAction,
     reorderActions: async (dragIndex: number, hoverIndex: number) => {
       const dragAction = quickActions[dragIndex];
       const updatedActions = [...quickActions];

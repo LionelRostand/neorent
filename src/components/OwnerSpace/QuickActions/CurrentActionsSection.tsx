@@ -5,13 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Settings, Trash2 } from 'lucide-react';
+import { Settings, Trash2, Edit } from 'lucide-react';
 import { QuickActionConfig } from '@/hooks/useQuickActionsManager';
 
 interface CurrentActionsSectionProps {
   quickActions: QuickActionConfig[];
   onToggleAction: (actionId: string) => Promise<void>;
   onRemoveAction: (actionId: string) => Promise<boolean>;
+  onConfigureAction: (actionId: string) => void;
   toggleStates: Record<string, boolean>;
   saving: boolean;
 }
@@ -20,6 +21,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
   quickActions,
   onToggleAction,
   onRemoveAction,
+  onConfigureAction,
   toggleStates,
   saving
 }) => {
@@ -40,6 +42,10 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       disabled: {
         fr: 'Désactivé',
         en: 'Disabled'
+      },
+      configure: {
+        fr: 'Configurer',
+        en: 'Configure'
       }
     };
 
@@ -75,6 +81,15 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
                   onCheckedChange={() => onToggleAction(action.id)}
                   disabled={toggleStates[action.id] || saving}
                 />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onConfigureAction(action.id)}
+                  disabled={saving}
+                  title={getLocalizedText('configure')}
+                >
+                  <Edit className="h-3 w-3" />
+                </Button>
                 <Button
                   size="sm"
                   variant="destructive"
