@@ -29,9 +29,7 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
         <h1 className="text-2xl font-bold">{t('roommates.title')}</h1>
         <Button 
           onClick={() => setShowRoommateForm(true)}
-          variant={roommateButtonConfig.variant}
-          size={roommateButtonConfig.size}
-          className={roommateButtonConfig.className}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
           {t('roommates.addRoommate')}

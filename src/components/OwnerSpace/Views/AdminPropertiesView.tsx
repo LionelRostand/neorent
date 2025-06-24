@@ -32,16 +32,14 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
         <h1 className="text-2xl font-bold">{t('properties.title')}</h1>
         <Button 
           onClick={() => setShowPropertyForm(true)}
-          variant={propertyButtonConfig.variant}
-          size={propertyButtonConfig.size}
-          className={propertyButtonConfig.className}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
           {t('properties.addProperty')}
         </Button>
       </div>
 
-      <PropertyList properties={properties} />
+      <PropertyList properties={properties || []} />
 
       <Dialog open={showPropertyForm} onOpenChange={setShowPropertyForm}>
         <PropertyForm 

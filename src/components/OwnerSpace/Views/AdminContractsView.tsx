@@ -29,9 +29,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
         <h1 className="text-2xl font-bold">{t('contracts.title')}</h1>
         <Button 
           onClick={() => setShowContractForm(true)}
-          variant={contractButtonConfig.variant}
-          size={contractButtonConfig.size}
-          className={contractButtonConfig.className}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
           {t('contracts.addContract')}
