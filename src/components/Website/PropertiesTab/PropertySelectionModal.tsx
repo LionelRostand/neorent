@@ -23,7 +23,7 @@ export const PropertySelectionModal = ({
 }: PropertySelectionModalProps) => {
   
   useEffect(() => {
-    console.log('🔥🔥🔥 PropertySelectionModal - État du modal:', { 
+    console.log('🔥 PropertySelectionModal - Modal state:', { 
       isOpen, 
       propertiesCount: properties?.length || 0, 
       selectedPropertiesCount: selectedProperties?.length || 0
@@ -48,7 +48,7 @@ export const PropertySelectionModal = ({
     !selectedProperties.includes(prop.id)
   ) || [];
 
-  console.log('🔥🔥🔥 Available properties after filtering:', availableProperties?.length);
+  console.log('🔥 Available properties after filtering:', availableProperties?.length);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

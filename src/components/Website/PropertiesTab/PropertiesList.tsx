@@ -37,13 +37,13 @@ export const PropertiesList = ({
   console.log('🚀 Loading properties:', loadingProperties);
 
   const handleAddProperty = () => {
-    console.log('🔥🔥🔥 BOUTON CLIQUÉ - handleAddProperty appelé');
-    console.log('🔥🔥🔥 État actuel du modal:', showPropertySelectionModal);
-    console.log('🔥🔥🔥 Propriétés disponibles:', allAdminProperties);
+    console.log('🔥 BOUTON CLIQUÉ - handleAddProperty appelé');
+    console.log('🔥 État actuel du modal:', showPropertySelectionModal);
+    console.log('🔥 Propriétés disponibles:', allAdminProperties);
     
     setShowPropertySelectionModal(true);
     
-    console.log('🔥🔥🔥 setShowPropertySelectionModal(true) appelé');
+    console.log('🔥 setShowPropertySelectionModal(true) appelé');
   };
 
   const handleSelectProperty = (property: any) => {
@@ -140,7 +140,7 @@ export const PropertiesList = ({
       </Card>
 
       {/* Modal de sélection des propriétés - Toujours rendu, contrôlé par isOpen */}
-      {console.log('🚀🚀🚀 RENDU DU MODAL - État:', showPropertySelectionModal)}
+      {console.log('🚀 RENDU DU MODAL - État:', showPropertySelectionModal)}
       <PropertySelectionModal
         isOpen={showPropertySelectionModal}
         onClose={handleCloseModal}
