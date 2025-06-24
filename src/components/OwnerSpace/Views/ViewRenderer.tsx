@@ -26,7 +26,6 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       <AdminViewRenderer 
         activeView={activeView}
         currentProfile={currentProfile}
-        onViewChange={onViewChange}
       />
     );
   }
@@ -37,17 +36,17 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       case 'dashboard':
         return <DashboardView currentProfile={currentProfile} />;
       case 'properties':
-        return <PropertyView currentProfile={currentProfile} />;
+        return <PropertyView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'contracts':
-        return <ContractView currentProfile={currentProfile} />;
+        return <ContractView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'inspections':
-        return <InspectionView currentProfile={currentProfile} />;
+        return <InspectionView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'maintenance':
-        return <MaintenanceView currentProfile={currentProfile} />;
+        return <MaintenanceView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'roommates':
-        return <RoommateView currentProfile={currentProfile} />;
+        return <RoommateView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'rental-charges':
-        return <RentalChargesView currentProfile={currentProfile} />;
+        return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
       default:
         return <DashboardView currentProfile={currentProfile} />;
     }
