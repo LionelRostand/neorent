@@ -27,19 +27,21 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Rediriger vers login si pas connecté
-  if (!user) {
+  // Rediriger vers login seulement si le loading est terminé ET qu'il n'y a pas d'utilisateur
+  if (!loading && !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   // Si des types d'utilisateur sont requis, vérifier les permissions
   if (requiredUserTypes && requiredUserTypes.length > 0) {
-    if (!userType) {
-      // Si pas de type d'utilisateur défini, rediriger vers login
+    // Attendre que userType soit chargé avant de vérifier les permissions
+    if (!loading && !userType) {
+      // Si pas de type d'utilisateur défini après le chargement, rediriger vers login
       return <Navigate to="/login" replace />;
     }
     
-    if (!requiredUserTypes.includes(userType)) {
+    // Si userType est chargé mais ne correspond pas aux permissions requises
+    if (userType && !requiredUserTypes.includes(userType)) {
       // Rediriger selon le type d'utilisateur
       if (userType === 'admin') {
         return <Navigate to="/admin" replace />;
@@ -53,8 +55,20 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     }
   }
 
-  // Rendre les enfants si tout est OK
-  return <>{children}</>;
+  // Rendre les enfants seulement si tout est OK et que le loading est terminé
+  if (!loading && user) {
+    return <>{children}</>;
+  }
+
+  // Afficher le loader par défaut si on arrive ici
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Chargement...</p>
+      </div>
+    </div>
+  );
 };
 
 export default ProtectedRoute;
