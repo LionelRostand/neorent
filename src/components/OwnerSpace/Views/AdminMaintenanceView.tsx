@@ -30,11 +30,6 @@ const AdminMaintenanceView: React.FC<AdminMaintenanceViewProps> = ({ currentProf
   const urgentMaintenances = ownerMaintenances.filter(m => m.priority === 'Élevée').length;
   const completedMaintenances = ownerMaintenances.filter(m => m.status === 'Terminé').length;
 
-  const handleMaintenanceSubmit = async (maintenanceData: any) => {
-    console.log('Maintenance data:', maintenanceData);
-    setShowMaintenanceForm(false);
-  };
-
   return (
     <div className="p-6 space-y-6">
       {/* Header harmonisé avec la sidebar */}
@@ -122,7 +117,10 @@ const AdminMaintenanceView: React.FC<AdminMaintenanceViewProps> = ({ currentProf
               </div>
               <h3 className="text-lg font-medium text-gray-700 mb-2">Aucune demande de maintenance</h3>
               <p className="text-gray-500 mb-4">Commencez par créer votre première demande</p>
-              <Button className="bg-orange-600 hover:bg-orange-700 text-white">
+              <Button 
+                className="bg-orange-600 hover:bg-orange-700 text-white"
+                onClick={() => setShowMaintenanceForm(true)}
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Créer une demande
               </Button>
@@ -172,11 +170,7 @@ const AdminMaintenanceView: React.FC<AdminMaintenanceViewProps> = ({ currentProf
           <DialogHeader>
             <DialogTitle>Nouvelle Demande de Maintenance</DialogTitle>
           </DialogHeader>
-          <MaintenanceRequestForm 
-            isOpen={true}
-            onClose={() => setShowMaintenanceForm(false)}
-            onSubmit={handleMaintenanceSubmit}
-          />
+          <MaintenanceRequestForm />
         </DialogContent>
       </Dialog>
     </div>
