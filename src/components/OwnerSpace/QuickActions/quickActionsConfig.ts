@@ -116,7 +116,7 @@ export const createQuickActionsConfig = (
       setActiveView('maintenance');
     },
     
-    // Admin menu handlers - set the view to show admin interface
+    // Admin menu handlers - FIXED: Direct view setting instead of navigation
     'admin-dashboard': () => {
       console.log('Setting view to admin-dashboard');
       setActiveView('admin-dashboard');
