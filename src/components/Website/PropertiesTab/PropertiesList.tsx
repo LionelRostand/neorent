@@ -31,7 +31,8 @@ export const PropertiesList = ({
   const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
   const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
 
-  console.log('🚀 PropertiesList render - Modal state:', showPropertySelectionModal);
+  console.log('🚀 PropertiesList render');
+  console.log('🚀 Modal state:', showPropertySelectionModal);
   console.log('🚀 All admin properties:', allAdminProperties);
   console.log('🚀 Loading properties:', loadingProperties);
 
@@ -42,12 +43,7 @@ export const PropertiesList = ({
     
     setShowPropertySelectionModal(true);
     
-    console.log('🔥🔥🔥 Modal state APRÈS setShowPropertySelectionModal(true)');
-    
-    // Force un re-render pour s'assurer que le modal s'ouvre
-    setTimeout(() => {
-      console.log('🔥🔥🔥 Modal state dans setTimeout:', showPropertySelectionModal);
-    }, 100);
+    console.log('🔥🔥🔥 setShowPropertySelectionModal(true) appelé');
   };
 
   const handleSelectProperty = (property: any) => {
@@ -76,7 +72,7 @@ export const PropertiesList = ({
   const modalProperties = allAdminProperties || [];
   
   console.log('🚀 Modal properties pour le rendu:', modalProperties);
-  console.log('🚀 showPropertySelectionModal:', showPropertySelectionModal);
+  console.log('🚀 showPropertySelectionModal avant rendu:', showPropertySelectionModal);
 
   return (
     <>
@@ -143,17 +139,15 @@ export const PropertiesList = ({
         </CardContent>
       </Card>
 
-      {/* Modal de sélection des propriétés */}
+      {/* Modal de sélection des propriétés - Toujours rendu, contrôlé par isOpen */}
       {console.log('🚀🚀🚀 RENDU DU MODAL - État:', showPropertySelectionModal)}
-      {showPropertySelectionModal && (
-        <PropertySelectionModal
-          isOpen={showPropertySelectionModal}
-          onClose={handleCloseModal}
-          properties={modalProperties}
-          onSelectProperty={handleSelectProperty}
-          selectedProperties={selectedPropertyIds}
-        />
-      )}
+      <PropertySelectionModal
+        isOpen={showPropertySelectionModal}
+        onClose={handleCloseModal}
+        properties={modalProperties}
+        onSelectProperty={handleSelectProperty}
+        selectedProperties={selectedPropertyIds}
+      />
     </>
   );
 };
