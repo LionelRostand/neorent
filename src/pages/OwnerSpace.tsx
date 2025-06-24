@@ -39,7 +39,7 @@ const OwnerSpace = () => {
   }
 
   return (
-    <div className="min-h-screen flex w-full bg-gray-50">
+    <div className="h-screen flex w-full bg-gray-50">
       {/* Mobile sidebar overlay */}
       {isMobileSidebarOpen && (
         <div 
@@ -48,12 +48,12 @@ const OwnerSpace = () => {
         />
       )}
 
-      {/* Quick actions sidebar - responsive with fixed height */}
+      {/* Quick actions sidebar - responsive with same height as main content */}
       <div className={`
         ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 transition-transform duration-300 ease-in-out
         fixed md:static inset-y-0 left-0 z-50 md:z-auto
-        md:block flex-shrink-0 h-screen
+        md:block flex-shrink-0 h-full
       `}>
         <OwnerSpaceQuickActionsSidebar 
           ownerProfile={currentProfile} 
@@ -63,8 +63,8 @@ const OwnerSpace = () => {
         />
       </div>
       
-      {/* Main content area - full width without admin layout */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
+      {/* Main content area - same height as sidebar */}
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         {/* Mobile menu button */}
         <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
           <Button
