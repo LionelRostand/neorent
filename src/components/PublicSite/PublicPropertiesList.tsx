@@ -13,7 +13,8 @@ import {
   Eye,
   Heart,
   Star,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Building
 } from 'lucide-react';
 
 // Mock data for demonstration - in real app this would come from the website management
