@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Building, ExternalLink, Plus } from 'lucide-react';
+import { Building } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
 import { PropertySelectionModal } from './PropertySelectionModal';
+import { PropertyQuickSelector } from './PropertyQuickSelector';
+import { PropertyListActions } from './PropertyListActions';
+import { EmptyPropertyState } from './EmptyPropertyState';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
@@ -61,7 +62,6 @@ export const PropertiesList = ({
   };
 
   const handlePreviewSite = () => {
-    // Ouvrir la page des propriétés du site public dans un nouvel onglet
     window.open('/properties', '_blank');
   };
 
@@ -112,65 +112,24 @@ export const PropertiesList = ({
               <Building className="h-5 w-5" />
               Gestion des Propriétés ({properties?.length || 0})
             </div>
-            <Button variant="outline" size="sm" onClick={handlePreviewSite}>
-              <ExternalLink className="h-4 w-4 mr-2" />
-              Aperçu site
-            </Button>
+            <PropertyListActions
+              loadingProperties={loadingProperties}
+              onAddProperty={handleAddProperty}
+              onPreviewSite={handlePreviewSite}
+            />
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {/* Champ de sélection rapide des propriétés */}
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <h4 className="text-sm font-medium text-blue-900 mb-3">
-              Ajouter une propriété au site web
-            </h4>
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <Select 
-                  value={selectedPropertyToAdd} 
-                  onValueChange={setSelectedPropertyToAdd}
-                  disabled={loadingProperties || availablePropertiesForSelect.length === 0}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={
-                      loadingProperties 
-                        ? "Chargement des propriétés..." 
-                        : availablePropertiesForSelect.length === 0
-                        ? "Toutes les propriétés sont déjà ajoutées"
-                        : "Sélectionner une propriété"
-                    } />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availablePropertiesForSelect.map((property) => (
-                      <SelectItem key={property.id} value={property.id}>
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{property.title}</span>
-                          <span className="text-sm text-gray-500">
-                            - {property.address} ({property.rent}€/mois)
-                          </span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button 
-                onClick={() => handleDirectPropertyAdd(selectedPropertyToAdd)}
-                disabled={!selectedPropertyToAdd || loadingProperties}
-                size="sm"
-              >
-                <Plus className="h-4 w-4 mr-1" />
-                Ajouter
-              </Button>
-            </div>
-            <p className="text-xs text-blue-700 mt-2">
-              Sélectionnez une propriété dans la liste pour l'ajouter rapidement au site web
-            </p>
-            <div className="mt-3 text-xs text-gray-600">
-              <strong>Total des propriétés disponibles:</strong> {uniqueProperties.length} 
-              ({ownerProperties?.length || 0} propriétaire + {allAdminProperties?.length || 0} admin)
-            </div>
-          </div>
+          <PropertyQuickSelector
+            selectedPropertyToAdd={selectedPropertyToAdd}
+            setSelectedPropertyToAdd={setSelectedPropertyToAdd}
+            availablePropertiesForSelect={availablePropertiesForSelect}
+            loadingProperties={loadingProperties}
+            uniqueProperties={uniqueProperties}
+            ownerProperties={ownerProperties || []}
+            allAdminProperties={allAdminProperties || []}
+            onDirectPropertyAdd={handleDirectPropertyAdd}
+          />
 
           {properties && properties.length > 0 ? (
             <div className="space-y-4">
@@ -186,42 +145,21 @@ export const PropertiesList = ({
                 />
               ))}
               
-              {/* Bouton pour ajouter plus de propriétés */}
-              <div className="pt-4 border-t border-gray-200">
-                <Button 
-                  variant="outline" 
-                  onClick={handleAddProperty}
-                  disabled={loadingProperties}
-                  className="w-full"
-                >
-                  <Building className="h-4 w-4 mr-2" />
-                  {loadingProperties ? 'Chargement...' : 'Parcourir toutes les propriétés'}
-                </Button>
-              </div>
+              <PropertyListActions
+                loadingProperties={loadingProperties}
+                onAddProperty={handleAddProperty}
+                onPreviewSite={handlePreviewSite}
+              />
             </div>
           ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-700 mb-2">
-                Aucune propriété affichée sur le site
-              </h3>
-              <p className="text-gray-500 text-sm mb-4">
-                Sélectionnez des propriétés depuis votre base de données pour les afficher sur votre site web public
-              </p>
-              <Button 
-                variant="outline" 
-                onClick={handleAddProperty}
-                disabled={loadingProperties}
-              >
-                <Building className="h-4 w-4 mr-2" />
-                {loadingProperties ? 'Chargement...' : 'Sélectionner des propriétés'}
-              </Button>
-            </div>
+            <EmptyPropertyState
+              loadingProperties={loadingProperties}
+              onAddProperty={handleAddProperty}
+            />
           )}
         </CardContent>
       </Card>
 
-      {/* Modal de sélection des propriétés - Toujours rendu, contrôlé par isOpen */}
       {console.log('🚀 RENDU DU MODAL - État:', showPropertySelectionModal)}
       <PropertySelectionModal
         isOpen={showPropertySelectionModal}
