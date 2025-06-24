@@ -19,7 +19,7 @@ interface PropertyCardProps {
   onToggleVisibility: (id: string) => void;
   onToggleFeatured: (id: string) => void;
   onEdit: (property: any) => void;
-  getStatusBadgeVariant: (status: string) => string;
+  getStatusBadgeVariant: (status: string) => "default" | "destructive" | "outline" | "secondary" | "success";
 }
 
 export const PropertyCard = ({

@@ -86,7 +86,7 @@ const PropertiesTab = () => {
     }));
   };
 
-  const getStatusBadgeVariant = (status: string) => {
+  const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" | "success" => {
     switch (status) {
       case 'Libre':
         return 'secondary';
