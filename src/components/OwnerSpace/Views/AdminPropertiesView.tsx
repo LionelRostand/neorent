@@ -47,17 +47,17 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
   };
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Header harmonisé avec la sidebar */}
-      <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-6 text-white shadow-lg">
-        <div className="flex items-center justify-between">
+    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
+      {/* Header responsive */}
+      <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-4 sm:p-6 text-white shadow-lg">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Propriétés</h1>
-            <p className="text-slate-100 mt-2">Gérez vos propriétés et leurs informations</p>
+            <h1 className="text-2xl sm:text-3xl font-bold">Propriétés</h1>
+            <p className="text-slate-100 mt-1 sm:mt-2 text-sm sm:text-base">Gérez vos propriétés et leurs informations</p>
           </div>
           <Button 
             onClick={() => setShowPropertyForm(true)}
-            className="bg-white text-slate-600 hover:bg-slate-50 border-0 shadow-md"
+            className="bg-white text-slate-600 hover:bg-slate-50 border-0 shadow-md w-full sm:w-auto"
           >
             <Plus className="h-4 w-4 mr-2" />
             Nouvelle propriété
@@ -65,8 +65,8 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
         </div>
       </div>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Metrics Grid responsive */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="border-l-4 border-l-slate-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">Total Propriétés</CardTitle>
@@ -75,7 +75,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{totalProperties}</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{totalProperties}</div>
             <p className="text-xs text-gray-500 mt-1">{totalProperties} propriétés enregistrées</p>
           </CardContent>
         </Card>
@@ -88,7 +88,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{occupiedProperties}</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{occupiedProperties}</div>
             <p className="text-xs text-gray-500 mt-1">{occupiedProperties} propriétés avec locataires</p>
           </CardContent>
         </Card>
@@ -101,7 +101,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{totalTenants}</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{totalTenants}</div>
             <p className="text-xs text-gray-500 mt-1">{totalTenants} locataires actifs</p>
           </CardContent>
         </Card>
@@ -114,70 +114,72 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
             <p className="text-xs text-gray-500 mt-1">Revenus mensuels totaux</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Properties Table */}
+      {/* Properties Table responsive */}
       <Card className="shadow-lg border-0">
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
-          <CardTitle className="text-xl text-gray-800">Liste des Propriétés</CardTitle>
+          <CardTitle className="text-lg sm:text-xl text-gray-800">Liste des Propriétés</CardTitle>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-3 sm:p-6">
           {properties && properties.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Titre</TableHead>
-                  <TableHead>Adresse</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Surface</TableHead>
-                  <TableHead>Loyer</TableHead>
-                  <TableHead>Locataire</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {properties.map((property) => (
-                  <TableRow key={property.id}>
-                    <TableCell className="font-medium">{property.title}</TableCell>
-                    <TableCell>{property.address}</TableCell>
-                    <TableCell>{property.type}</TableCell>
-                    <TableCell>{property.surface}m²</TableCell>
-                    <TableCell>{property.rent}€</TableCell>
-                    <TableCell>{property.tenant || 'Aucun'}</TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusBadgeVariant(property.status)}>
-                        {property.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end space-x-2">
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[120px]">Titre</TableHead>
+                    <TableHead className="min-w-[150px]">Adresse</TableHead>
+                    <TableHead className="hidden sm:table-cell">Type</TableHead>
+                    <TableHead className="hidden md:table-cell">Surface</TableHead>
+                    <TableHead>Loyer</TableHead>
+                    <TableHead className="hidden lg:table-cell">Locataire</TableHead>
+                    <TableHead>Statut</TableHead>
+                    <TableHead className="text-right min-w-[100px]">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {properties.map((property) => (
+                    <TableRow key={property.id}>
+                      <TableCell className="font-medium">{property.title}</TableCell>
+                      <TableCell className="text-sm">{property.address}</TableCell>
+                      <TableCell className="hidden sm:table-cell">{property.type}</TableCell>
+                      <TableCell className="hidden md:table-cell">{property.surface}m²</TableCell>
+                      <TableCell className="font-semibold">{property.rent}€</TableCell>
+                      <TableCell className="hidden lg:table-cell">{property.tenant || 'Aucun'}</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
+                          {property.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end space-x-1">
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Eye className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Edit className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           ) : (
-            <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
-              <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Home className="h-8 w-8 text-gray-400" />
+            <div className="text-center py-8 sm:py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
+              <div className="p-3 sm:p-4 bg-gray-100 rounded-full w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 flex items-center justify-center">
+                <Home className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Aucune propriété</h3>
-              <p className="text-gray-500 mb-4">Commencez par ajouter votre première propriété</p>
+              <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">Aucune propriété</h3>
+              <p className="text-sm text-gray-500 mb-4">Commencez par ajouter votre première propriété</p>
               <Button className="bg-slate-600 hover:bg-slate-700 text-white">
                 <Plus className="h-4 w-4 mr-2" />
                 Ajouter une propriété
