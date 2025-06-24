@@ -163,10 +163,16 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
       </Card>
 
       <Dialog open={showTaxForm} onOpenChange={setShowTaxForm}>
-        <TaxDeclarationForm 
-          onClose={() => setShowTaxForm(false)}
-          onSubmit={handleTaxSubmit}
-        />
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Nouvelle Déclaration Fiscale</DialogTitle>
+          </DialogHeader>
+          <TaxDeclarationForm 
+            isOpen={true}
+            onClose={() => setShowTaxForm(false)}
+            onSubmit={handleTaxSubmit}
+          />
+        </DialogContent>
       </Dialog>
     </div>
   );

@@ -5,7 +5,7 @@ import { Plus, Calculator, TrendingUp, AlertCircle, DollarSign } from 'lucide-re
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useAuth } from '@/hooks/useAuth';
 import RentalChargeForm from '@/components/RentalChargeForm';
@@ -134,10 +134,16 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
         </Card>
 
         <Dialog open={showChargeForm} onOpenChange={setShowChargeForm}>
-          <RentalChargeForm 
-            onClose={() => setShowChargeForm(false)}
-            onSubmit={handleChargeSubmit}
-          />
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Nouvelle Charge</DialogTitle>
+            </DialogHeader>
+            <RentalChargeForm
+              isOpen={true}
+              onClose={() => setShowChargeForm(false)}
+              onSubmit={handleChargeSubmit}
+            />
+          </DialogContent>
         </Dialog>
       </div>
     </div>

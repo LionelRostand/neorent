@@ -5,10 +5,10 @@ import { Plus, DollarSign, TrendingUp, AlertCircle, CheckCircle } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useAuth } from '@/hooks/useAuth';
-import RentPaymentForm from '@/components/RentPaymentForm';
+import SimpleRentPaymentForm from '@/components/RentPaymentForm/SimpleRentPaymentForm';
 
 interface AdminRentManagementViewProps {
   currentProfile: any;
@@ -145,10 +145,15 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
         </Card>
 
         <Dialog open={showPaymentForm} onOpenChange={setShowPaymentForm}>
-          <RentPaymentForm 
-            onClose={() => setShowPaymentForm(false)}
-            onSubmit={handlePaymentSubmit}
-          />
+          <DialogContent className="w-[95vw] max-w-[650px] max-h-[95vh] overflow-y-auto p-3 sm:p-4 lg:p-6">
+            <DialogHeader>
+              <DialogTitle>Nouveau Paiement</DialogTitle>
+            </DialogHeader>
+            <SimpleRentPaymentForm 
+              onClose={() => setShowPaymentForm(false)}
+              onSubmit={handlePaymentSubmit}
+            />
+          </DialogContent>
         </Dialog>
       </div>
     </div>
