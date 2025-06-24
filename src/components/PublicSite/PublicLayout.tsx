@@ -29,7 +29,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
               <span className="text-xl font-bold text-gray-900">Neo Rent</span>
             </Link>
 
-            {/* Navigation */}
+            {/* Navigation Desktop */}
             <div className="hidden md:flex items-center space-x-8">
               <Link 
                 to="/" 
@@ -73,11 +73,50 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
 
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <button className="text-gray-700 hover:text-green-600">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
+              <Link 
+                to="/login" 
+                className="bg-green-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+              >
+                Connexion
+              </Link>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <div className="flex flex-col space-y-2 py-4 border-t">
+              <Link 
+                to="/" 
+                className={`text-sm font-medium transition-colors ${
+                  isActive('/') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                Accueil
+              </Link>
+              <Link 
+                to="/properties" 
+                className={`text-sm font-medium transition-colors ${
+                  isActive('/properties') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                Propriétés
+              </Link>
+              <Link 
+                to="/about" 
+                className={`text-sm font-medium transition-colors ${
+                  isActive('/about') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                À Propos
+              </Link>
+              <Link 
+                to="/contact" 
+                className={`text-sm font-medium transition-colors ${
+                  isActive('/contact') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                Contact
+              </Link>
             </div>
           </div>
         </nav>
@@ -126,10 +165,10 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Services</h3>
               <div className="space-y-2">
-                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Gestion locative</Link>
-                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Maintenance</Link>
-                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Suivi financier</Link>
-                <Link to="#" className="block text-gray-400 hover:text-white text-sm">Support 24/7</Link>
+                <a href="#" className="block text-gray-400 hover:text-white text-sm">Gestion locative</a>
+                <a href="#" className="block text-gray-400 hover:text-white text-sm">Maintenance</a>
+                <a href="#" className="block text-gray-400 hover:text-white text-sm">Suivi financier</a>
+                <a href="#" className="block text-gray-400 hover:text-white text-sm">Support 24/7</a>
               </div>
             </div>
 
