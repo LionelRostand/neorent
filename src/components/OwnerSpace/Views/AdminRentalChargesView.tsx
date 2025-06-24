@@ -1,11 +1,16 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Calculator, TrendingUp, AlertCircle, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
+import { useAuth } from '@/hooks/useAuth';
+import RentalChargeForm from '@/components/RentalChargeForm';
+import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminRentalChargesViewProps {
   currentProfile: any;
@@ -14,22 +19,35 @@ interface AdminRentalChargesViewProps {
 const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const { charges } = useOwnerData(currentProfile);
+  const { userProfile } = useAuth();
+  const profile = currentProfile || userProfile;
+  const { handleChargeSubmit } = useOwnerQuickActions(profile);
+  const { getButtonConfig } = useFormButtonConfig();
+  const [showChargeForm, setShowChargeForm] = useState(false);
+
+  const chargeButtonConfig = getButtonConfig('charge');
 
   const totalCharges = charges.length;
-  const monthlyCharges = charges.filter(c => c.month).length; // Using month property instead of period
-  const annualCharges = charges.filter(c => !c.month).length; // Charges without month are considered annual
-  const totalAmount = charges.reduce((sum, c) => sum + (c.total || 0), 0); // Using total property
+  const monthlyCharges = charges.filter(c => c.month).length;
+  const annualCharges = charges.filter(c => !c.month).length;
+  const totalAmount = charges.reduce((sum, c) => sum + (c.total || 0), 0);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-6">
+        {/* Configuration des boutons */}
+        <FormButtonConfigPanel actionIds={['charge']} title="Configuration du bouton charge" />
+
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Charges Locatives</h1>
             <p className="text-gray-600 mt-1">Gérez vos charges et provisions</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button 
+            className="bg-blue-600 hover:bg-blue-700"
+            onClick={() => setShowChargeForm(true)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Nouvelle charge
           </Button>
@@ -118,6 +136,14 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
             )}
           </CardContent>
         </Card>
+
+        <Dialog open={showChargeForm} onOpenChange={setShowChargeForm}>
+          <RentalChargeForm 
+            onClose={() => setShowChargeForm(false)}
+            onSubmit={handleChargeSubmit || (() => Promise.resolve())}
+            buttonConfig={chargeButtonConfig}
+          />
+        </Dialog>
       </div>
     </div>
   );

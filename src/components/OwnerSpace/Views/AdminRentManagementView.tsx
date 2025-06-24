@@ -1,11 +1,16 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, DollarSign, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
+import { useAuth } from '@/hooks/useAuth';
+import RentPaymentForm from '@/components/RentPaymentForm';
+import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminRentManagementViewProps {
   currentProfile: any;
@@ -14,6 +19,13 @@ interface AdminRentManagementViewProps {
 const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const { payments } = useOwnerData(currentProfile);
+  const { userProfile } = useAuth();
+  const profile = currentProfile || userProfile;
+  const { handlePaymentSubmit } = useOwnerQuickActions(profile);
+  const { getButtonConfig } = useFormButtonConfig();
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  const paymentButtonConfig = getButtonConfig('payment');
 
   const totalPayments = payments.length;
   const paidPayments = payments.filter(p => p.status === 'Payé').length;
@@ -25,13 +37,19 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-6">
+        {/* Configuration des boutons */}
+        <FormButtonConfigPanel actionIds={['payment']} title="Configuration du bouton paiement" />
+
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Gestion des Loyers</h1>
             <p className="text-gray-600 mt-1">Suivez vos paiements de loyer</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button 
+            className="bg-blue-600 hover:bg-blue-700"
+            onClick={() => setShowPaymentForm(true)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Nouveau paiement
           </Button>
@@ -129,6 +147,14 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
             )}
           </CardContent>
         </Card>
+
+        <Dialog open={showPaymentForm} onOpenChange={setShowPaymentForm}>
+          <RentPaymentForm 
+            onClose={() => setShowPaymentForm(false)}
+            onSubmit={handlePaymentSubmit || (() => Promise.resolve())}
+            buttonConfig={paymentButtonConfig}
+          />
+        </Dialog>
       </div>
     </div>
   );

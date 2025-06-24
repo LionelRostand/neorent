@@ -1,10 +1,15 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus, Users, UserCheck, AlertCircle, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
+import { useAuth } from '@/hooks/useAuth';
+import RoommateForm from '@/components/RoommateForm';
+import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminTenantsViewProps {
   currentProfile: any;
@@ -12,6 +17,13 @@ interface AdminTenantsViewProps {
 
 const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) => {
   const { tenants, payments } = useOwnerData(currentProfile);
+  const { userProfile } = useAuth();
+  const profile = currentProfile || userProfile;
+  const { handleRoommateSubmit } = useOwnerQuickActions(profile);
+  const { getButtonConfig } = useFormButtonConfig();
+  const [showTenantForm, setShowTenantForm] = useState(false);
+
+  const tenantButtonConfig = getButtonConfig('roommate');
 
   const totalTenants = tenants.length;
   const activeTenants = tenants.filter(t => t.status === 'Actif').length;
@@ -21,13 +33,19 @@ const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) =
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-6">
+        {/* Configuration des boutons */}
+        <FormButtonConfigPanel actionIds={['roommate']} title="Configuration du bouton locataire" />
+
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Locataires</h1>
             <p className="text-gray-600 mt-1">Gérez vos locataires et leurs informations</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button 
+            className="bg-blue-600 hover:bg-blue-700"
+            onClick={() => setShowTenantForm(true)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Ajouter un locataire
           </Button>
@@ -128,6 +146,14 @@ const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) =
             )}
           </CardContent>
         </Card>
+
+        <Dialog open={showTenantForm} onOpenChange={setShowTenantForm}>
+          <RoommateForm 
+            onClose={() => setShowTenantForm(false)}
+            onSubmit={handleRoommateSubmit}
+            buttonConfig={tenantButtonConfig}
+          />
+        </Dialog>
       </div>
     </div>
   );

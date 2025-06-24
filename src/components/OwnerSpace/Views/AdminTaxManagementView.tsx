@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, FileText, Calculator, TrendingUp, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog } from '@/components/ui/dialog';
 import { useFirebaseFiscality } from '@/hooks/useFirebaseFiscality';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
+import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
+import { useAuth } from '@/hooks/useAuth';
+import TaxDeclarationForm from '@/components/TaxDeclarationForm';
+import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminTaxManagementViewProps {
   currentProfile: any;
@@ -15,6 +21,13 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
   const { t } = useTranslation();
   const { fiscalities } = useFirebaseFiscality();
   const { properties, tenants, roommates } = useOwnerData(currentProfile);
+  const { userProfile } = useAuth();
+  const profile = currentProfile || userProfile;
+  const { handleTaxSubmit } = useOwnerQuickActions(profile);
+  const { getButtonConfig } = useFormButtonConfig();
+  const [showTaxForm, setShowTaxForm] = useState(false);
+
+  const taxButtonConfig = getButtonConfig('tax');
 
   // Filter fiscal data by owner's properties
   const ownerFiscalities = fiscalities.filter(fiscal => 
@@ -28,6 +41,9 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
 
   return (
     <div className="p-6 space-y-6">
+      {/* Configuration des boutons */}
+      <FormButtonConfigPanel actionIds={['tax']} title="Configuration du bouton déclaration fiscale" />
+
       {/* Header harmonisé avec la sidebar */}
       <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
@@ -35,7 +51,10 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
             <h1 className="text-3xl font-bold">Déclarations Fiscales</h1>
             <p className="text-green-100 mt-2">Gérez vos déclarations et obligations fiscales</p>
           </div>
-          <Button className="bg-white text-green-600 hover:bg-green-50 border-0 shadow-md">
+          <Button 
+            className="bg-white text-green-600 hover:bg-green-50 border-0 shadow-md"
+            onClick={() => setShowTaxForm(true)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Nouvelle déclaration
           </Button>
@@ -146,6 +165,14 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={showTaxForm} onOpenChange={setShowTaxForm}>
+        <TaxDeclarationForm 
+          onClose={() => setShowTaxForm(false)}
+          onSubmit={handleTaxSubmit || (() => Promise.resolve())}
+          buttonConfig={taxButtonConfig}
+        />
+      </Dialog>
     </div>
   );
 };
