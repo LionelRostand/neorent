@@ -82,7 +82,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {contracts.reduce((sum, c) => sum + (parseFloat(c.rentAmount) || 0), 0)}€
+                {contracts.reduce((sum, c) => sum + (parseFloat(c.amount) || 0), 0)}€
               </div>
               <p className="text-xs text-muted-foreground">Revenus mensuels totaux</p>
             </CardContent>
@@ -110,7 +110,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
                         <FileText className="h-6 w-6 text-orange-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold">{contract.tenantName}</h3>
+                        <h3 className="font-semibold">{contract.tenant}</h3>
                         <p className="text-sm text-gray-600">{contract.property}</p>
                         <p className="text-sm text-gray-500">
                           Du {contract.startDate} au {contract.endDate}
@@ -118,7 +118,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">{contract.rentAmount}€/mois</p>
+                      <p className="font-semibold">{contract.amount}€/mois</p>
                       <Badge variant={contract.status === 'Actif' ? 'default' : 'secondary'}>
                         {contract.status}
                       </Badge>

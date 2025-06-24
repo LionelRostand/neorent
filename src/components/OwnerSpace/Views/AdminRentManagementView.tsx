@@ -20,7 +20,7 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
   const latePayments = payments.filter(p => p.status === 'En retard').length;
   const monthlyRevenue = payments
     .filter(p => p.status === 'Payé')
-    .reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
+    .reduce((sum, p) => sum + (parseFloat(p.rentAmount?.toString() || '0') || 0), 0);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -108,12 +108,12 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
                       </div>
                       <div>
                         <h3 className="font-semibold">{payment.property}</h3>
-                        <p className="text-sm text-gray-600">Locataire: {payment.tenant}</p>
+                        <p className="text-sm text-gray-600">Locataire: {payment.tenantName}</p>
                         <p className="text-sm text-gray-500">Date: {payment.dueDate}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">{payment.amount}€</p>
+                      <p className="font-semibold">{payment.rentAmount}€</p>
                       <Badge 
                         variant={
                           payment.status === 'Payé' ? 'default' :

@@ -14,11 +14,11 @@ interface AdminMaintenanceViewProps {
 
 const AdminMaintenanceView: React.FC<AdminMaintenanceViewProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
-  const { maintenances } = useFirebaseMaintenances();
+  const { requests } = useFirebaseMaintenances();
   const { propertyTitles } = useOwnerData(currentProfile);
 
-  // Filter maintenances by owner's properties
-  const ownerMaintenances = maintenances.filter(maintenance => 
+  // Filter maintenance requests by owner's properties
+  const ownerMaintenances = requests.filter(maintenance => 
     propertyTitles.includes(maintenance.property)
   );
 

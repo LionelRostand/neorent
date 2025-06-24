@@ -106,7 +106,7 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
                         <h3 className="font-semibold">{inspection.property}</h3>
                         <p className="text-sm text-gray-600">{inspection.type}</p>
                         <p className="text-sm text-gray-500">
-                          Prévu le {inspection.scheduledDate}
+                          Prévu le {inspection.date}
                         </p>
                       </div>
                     </div>

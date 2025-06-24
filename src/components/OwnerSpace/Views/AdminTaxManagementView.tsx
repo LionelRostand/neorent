@@ -24,7 +24,7 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
 
   const totalDeclarations = ownerFiscalities.length;
   const currentYearDeclarations = ownerFiscalities.filter(f => f.year === new Date().getFullYear().toString()).length;
-  const totalRevenue = [...tenants, ...roommates].reduce((sum, item) => sum + (parseFloat(item.rentAmount) || 0), 0) * 12;
+  const totalRevenue = [...tenants, ...roommates].reduce((sum, item) => sum + (parseFloat(item.rentAmount?.toString() || '0') || 0), 0) * 12;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -111,13 +111,13 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
                       <div>
                         <h3 className="font-semibold">Année {fiscal.year}</h3>
                         <p className="text-sm text-gray-600">{fiscal.property}</p>
-                        <p className="text-sm text-gray-500">Revenus: {fiscal.totalRent}€</p>
+                        <p className="text-sm text-gray-500">Revenus: {fiscal.rentIncome}€</p>
                         <p className="text-sm text-gray-500">Charges: {fiscal.totalCharges}€</p>
                       </div>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold">
-                        Résultat: {(parseFloat(fiscal.totalRent) - parseFloat(fiscal.totalCharges)).toFixed(0)}€
+                        Résultat: {(parseFloat(fiscal.rentIncome?.toString() || '0') - parseFloat(fiscal.totalCharges?.toString() || '0')).toFixed(0)}€
                       </p>
                       <Badge variant="default">Complète</Badge>
                     </div>
