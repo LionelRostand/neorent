@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { MapPin } from 'lucide-react';
 
@@ -195,7 +194,7 @@ export const PropertyMap: React.FC<PropertyMapProps> = ({
         });
 
         if (properties.length > 0) {
-          const group = new L.featureGroup(markersRef.current);
+          const group = L.featureGroup(markersRef.current);
           mapInstanceRef.current.fitBounds(group.getBounds().pad(0.1));
         }
       } catch (err) {
