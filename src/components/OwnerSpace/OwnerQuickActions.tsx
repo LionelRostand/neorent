@@ -68,20 +68,20 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
 
   return (
     <>
-      <Card className="h-fit w-full">
+      <Card className="h-fit w-full bg-gradient-to-b from-green-600 to-green-700 border-green-500/30">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center justify-between text-base font-semibold">
             <div className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              {getLocalizedText('quickActionsTitle')}
+              <Plus className="h-4 w-4 text-white" />
+              <span className="text-white">{getLocalizedText('quickActionsTitle')}</span>
             </div>
             {isAdmin && (
               <button
                 onClick={() => setShowMenuSelector(true)}
-                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-1 hover:bg-green-500/30 rounded-full transition-colors"
                 title={getLocalizedText('addMenu')}
               >
-                <Plus className="h-4 w-4 text-gray-600" />
+                <Plus className="h-4 w-4 text-white/80" />
               </button>
             )}
           </CardTitle>
