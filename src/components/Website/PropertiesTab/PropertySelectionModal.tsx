@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building, MapPin, Euro, Plus, Check } from 'lucide-react';
+import { Building, MapPin, Euro, Check } from 'lucide-react';
 
 interface PropertySelectionModalProps {
   isOpen: boolean;
@@ -21,7 +21,7 @@ export const PropertySelectionModal = ({
   onSelectProperty,
   selectedProperties
 }: PropertySelectionModalProps) => {
-  console.log('🔥 PropertySelectionModal render:', { 
+  console.log('🔥🔥🔥 PropertySelectionModal RENDER:', { 
     isOpen, 
     propertiesCount: properties?.length || 0, 
     properties: properties,
@@ -31,13 +31,13 @@ export const PropertySelectionModal = ({
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
       case 'Libre':
-        return 'secondary';
+        return 'secondary' as const;
       case 'Occupé':
-        return 'default';
+        return 'default' as const;
       case 'En maintenance':
-        return 'destructive';
+        return 'destructive' as const;
       default:
-        return 'outline';
+        return 'outline' as const;
     }
   };
 
@@ -46,12 +46,10 @@ export const PropertySelectionModal = ({
     !selectedProperties.includes(prop.id)
   ) || [];
 
-  console.log('🔥 Available properties after filtering:', availableProperties);
+  console.log('🔥🔥🔥 Available properties after filtering:', availableProperties);
 
-  if (!isOpen) {
-    console.log('🔥 Modal is not open, not rendering');
-    return null;
-  }
+  // Debug du Dialog
+  console.log('🔥🔥🔥 Dialog props - open:', isOpen, 'onOpenChange:', !!onClose);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

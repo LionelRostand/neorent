@@ -31,25 +31,27 @@ export const PropertiesList = ({
   const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
   const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
 
-  console.log('PropertiesList - User Profile:', userProfile);
-  console.log('PropertiesList - Owner properties (filtered):', ownerProperties);
-  console.log('PropertiesList - All admin properties (DB):', allAdminProperties);
-  console.log('PropertiesList - Current visible properties:', properties);
-  console.log('PropertiesList - Property settings:', propertySettings);
-  console.log('PropertiesList - Loading properties:', loadingProperties);
-  console.log('PropertiesList - Modal state:', showPropertySelectionModal);
+  console.log('🚀 PropertiesList render - Modal state:', showPropertySelectionModal);
+  console.log('🚀 All admin properties:', allAdminProperties);
+  console.log('🚀 Loading properties:', loadingProperties);
 
   const handleAddProperty = () => {
-    console.log('🔥 BOUTON CLIQUÉ - Opening property selection modal');
-    console.log('🔥 Available admin properties from DB:', allAdminProperties);
-    console.log('🔥 Setting modal state to TRUE');
+    console.log('🔥🔥🔥 BOUTON CLIQUÉ - handleAddProperty appelé');
+    console.log('🔥🔥🔥 État actuel du modal:', showPropertySelectionModal);
+    console.log('🔥🔥🔥 Propriétés disponibles:', allAdminProperties);
+    
     setShowPropertySelectionModal(true);
-    console.log('🔥 Modal state after setting:', true);
+    
+    console.log('🔥🔥🔥 Modal state APRÈS setShowPropertySelectionModal(true)');
+    
+    // Force un re-render pour s'assurer que l'état est mis à jour
+    setTimeout(() => {
+      console.log('🔥🔥🔥 État du modal après timeout:', showPropertySelectionModal);
+    }, 100);
   };
 
   const handleSelectProperty = (property: any) => {
     console.log('🔥 Selected property:', property);
-    // Toggle la visibilité de la propriété sélectionnée
     onToggleVisibility(property.id);
     setShowPropertySelectionModal(false);
   };
@@ -64,6 +66,12 @@ export const PropertiesList = ({
     .map(p => p.id) || [];
 
   console.log('Selected property IDs:', selectedPropertyIds);
+
+  // S'assurer que nous avons les données nécessaires
+  const modalProperties = allAdminProperties || [];
+  
+  console.log('🚀 Modal properties pour le rendu:', modalProperties);
+  console.log('🚀 showPropertySelectionModal:', showPropertySelectionModal);
 
   return (
     <>
@@ -128,11 +136,12 @@ export const PropertiesList = ({
         </CardContent>
       </Card>
 
-      {/* Modal de sélection des propriétés */}
+      {/* Modal de sélection des propriétés - TOUJOURS rendu */}
+      {console.log('🚀🚀🚀 RENDU DU MODAL - État:', showPropertySelectionModal)}
       <PropertySelectionModal
         isOpen={showPropertySelectionModal}
         onClose={handleCloseModal}
-        properties={allAdminProperties || []}
+        properties={modalProperties}
         onSelectProperty={handleSelectProperty}
         selectedProperties={selectedPropertyIds}
       />
