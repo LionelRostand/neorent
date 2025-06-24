@@ -44,6 +44,12 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 {t('publicSite.home')}
               </Link>
               <Link
+                to="/properties"
+                className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                Propriétés
+              </Link>
+              <Link
                 to="/about"
                 className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
@@ -87,6 +93,13 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t('publicSite.home')}
+                </Link>
+                <Link
+                  to="/properties"
+                  className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Propriétés
                 </Link>
                 <Link
                   to="/about"
@@ -142,6 +155,11 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 <li>
                   <Link to="/" className="text-gray-400 hover:text-white transition-colors">
                     {t('publicSite.home')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/properties" className="text-gray-400 hover:text-white transition-colors">
+                    Propriétés
                   </Link>
                 </li>
                 <li>

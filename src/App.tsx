@@ -25,6 +25,7 @@ import OwnerSpace from "./pages/OwnerSpace";
 import PublicHome from "./pages/PublicSite/Home";
 import PublicAbout from "./pages/PublicSite/About";
 import PublicContact from "./pages/PublicSite/Contact";
+import PublicProperties from "./pages/PublicSite/Properties";
 import PublicLogin from "./pages/PublicSite/Login";
 import NotFound from "./pages/NotFound";
 import Settings from './pages/Settings';
