@@ -131,32 +131,25 @@ export const PropertiesList = ({
             onDirectPropertyAdd={handleDirectPropertyAdd}
           />
 
-          {properties && properties.length > 0 ? (
-            <div className="space-y-4">
-              {properties.map((property) => (
-                <PropertyCard
-                  key={property.id}
-                  property={property}
-                  propertySettings={propertySettings}
-                  onToggleVisibility={onToggleVisibility}
-                  onToggleFeatured={onToggleFeatured}
-                  onEdit={onEditProperty}
-                  getStatusBadgeVariant={getStatusBadgeVariant}
-                />
-              ))}
-              
-              <PropertyListActions
-                loadingProperties={loadingProperties}
-                onAddProperty={handleAddProperty}
-                onPreviewSite={handlePreviewSite}
+          <div className="space-y-4">
+            {properties && properties.map((property) => (
+              <PropertyCard
+                key={property.id}
+                property={property}
+                propertySettings={propertySettings}
+                onToggleVisibility={onToggleVisibility}
+                onToggleFeatured={onToggleFeatured}
+                onEdit={onEditProperty}
+                getStatusBadgeVariant={getStatusBadgeVariant}
               />
-            </div>
-          ) : (
-            <EmptyPropertyState
+            ))}
+            
+            <PropertyListActions
               loadingProperties={loadingProperties}
               onAddProperty={handleAddProperty}
+              onPreviewSite={handlePreviewSite}
             />
-          )}
+          </div>
         </CardContent>
       </Card>
 
