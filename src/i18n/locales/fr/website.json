@@ -43,6 +43,14 @@
     "realTimeDataAvailable": "Données temps réel disponibles",
     "demonstrationDataDisplayed": "Données de démonstration affichées",
     "refreshing": "Actualisation...",
-    "refresh": "Actualiser"
+    "refresh": "Actualiser",
+    "propertiesTab": "Propriétés",
+    "manageProperties": "Gérer les Propriétés",
+    "propertiesDescription": "Configurez l'affichage de vos propriétés sur le site web",
+    "propertyVisibility": "Visibilité sur le site",
+    "propertyDescription": "Description pour le site web",
+    "websitePreview": "Aperçu du site web",
+    "availableProperties": "Propriétés Disponibles",
+    "noVisibleProperties": "Aucune propriété visible sur le site web"
   }
 }

@@ -43,6 +43,14 @@
     "realTimeDataAvailable": "Real-time data available",
     "demonstrationDataDisplayed": "Demonstration data displayed",
     "refreshing": "Refreshing...",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "propertiesTab": "Properties",
+    "manageProperties": "Manage Properties",
+    "propertiesDescription": "Configure how your properties are displayed on the website",
+    "propertyVisibility": "Website visibility",
+    "propertyDescription": "Website description",
+    "websitePreview": "Website preview",
+    "availableProperties": "Available Properties",
+    "noVisibleProperties": "No properties visible on the website"
   }
 }

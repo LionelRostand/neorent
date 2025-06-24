@@ -11,7 +11,8 @@ import {
   MapPin, 
   BarChart3, 
   Settings,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Building
 } from 'lucide-react';
 
 import WebsiteHeader from '@/components/Website/WebsiteHeader';
@@ -23,6 +24,7 @@ import FooterTab from '@/components/Website/FooterTab';
 import MapTab from '@/components/Website/MapTab';
 import AnalyticsTab from '@/components/Website/AnalyticsTab';
 import ConfigTab from '@/components/Website/ConfigTab';
+import PropertiesTab from '@/components/Website/PropertiesTab';
 
 const Website = () => {
   const { t } = useTranslation();
@@ -30,6 +32,7 @@ const Website = () => {
 
   const tabs = [
     { id: 'pages', label: t('website.managePages'), icon: FileText },
+    { id: 'properties', label: 'Propriétés', icon: Building },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
     { id: 'theme', label: t('common.theme'), icon: Palette },
@@ -46,7 +49,7 @@ const Website = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto">
-            <TabsList className="grid w-full min-w-[640px] grid-cols-8 mb-4 md:mb-6 mx-1">
+            <TabsList className="grid w-full min-w-[720px] grid-cols-9 mb-4 md:mb-6 mx-1">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 
@@ -62,6 +65,10 @@ const Website = () => {
 
           <TabsContent value="pages" className="space-y-4 md:space-y-6">
             <PagesTab />
+          </TabsContent>
+
+          <TabsContent value="properties" className="space-y-4 md:space-y-6">
+            <PropertiesTab />
           </TabsContent>
 
           <TabsContent value="content" className="space-y-4 md:space-y-6">
