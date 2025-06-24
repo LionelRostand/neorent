@@ -48,12 +48,12 @@ const OwnerSpace = () => {
         />
       )}
 
-      {/* Quick actions sidebar - responsive */}
+      {/* Quick actions sidebar - responsive with fixed height */}
       <div className={`
         ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 transition-transform duration-300 ease-in-out
         fixed md:static inset-y-0 left-0 z-50 md:z-auto
-        md:block flex-shrink-0
+        md:block flex-shrink-0 h-screen
       `}>
         <OwnerSpaceQuickActionsSidebar 
           ownerProfile={currentProfile} 
@@ -64,7 +64,7 @@ const OwnerSpace = () => {
       </div>
       
       {/* Main content area - full width without admin layout */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
         {/* Mobile menu button */}
         <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
           <Button

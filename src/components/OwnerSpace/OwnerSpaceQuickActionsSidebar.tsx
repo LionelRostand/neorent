@@ -36,9 +36,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   };
 
   return (
-    <div className="w-64 bg-gradient-to-b from-green-600 to-green-700 text-white flex flex-col h-screen shadow-lg">
+    <div className="w-64 bg-gradient-to-b from-green-600 to-green-700 text-white flex flex-col min-h-screen shadow-lg">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-green-500/30">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-green-500/30 flex-shrink-0">
         <div className="flex items-center">
           <Building className="h-6 w-6 text-white mr-2" />
           <div>
@@ -56,7 +56,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         )}
       </div>
       
-      {/* Content */}
+      {/* Content - takes remaining space */}
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full [&>div>div[style]]:!pr-0">
           <div className="p-4">
