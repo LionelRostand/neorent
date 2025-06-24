@@ -51,6 +51,9 @@
     "propertyDescription": "Website description",
     "websitePreview": "Website preview",
     "availableProperties": "Available Properties",
-    "noVisibleProperties": "No properties visible on the website"
+    "noVisibleProperties": "No properties visible on the website",
+    "legalPages": "Legal Pages",
+    "manageLegalPages": "Manage Legal Pages",
+    "legalPagesDescription": "Edit legal pages content (privacy policy, terms, cookies)"
   }
 }

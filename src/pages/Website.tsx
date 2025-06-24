@@ -13,7 +13,8 @@ import {
   Settings,
   Link as LinkIcon,
   Building,
-  Cookie
+  Cookie,
+  Scale
 } from 'lucide-react';
 
 import WebsiteHeader from '@/components/Website/WebsiteHeader';
@@ -27,6 +28,7 @@ import AnalyticsTab from '@/components/Website/AnalyticsTab';
 import ConfigTab from '@/components/Website/ConfigTab';
 import PropertiesTab from '@/components/Website/PropertiesTab';
 import CookiesTab from '@/components/Website/CookiesTab';
+import LegalPagesTab from '@/components/Website/LegalPagesTab';
 
 const Website = () => {
   const { t } = useTranslation();
@@ -40,6 +42,7 @@ const Website = () => {
     { id: 'theme', label: t('common.theme'), icon: Palette },
     { id: 'footer', label: t('common.footer'), icon: LinkIcon },
     { id: 'cookies', label: 'Cookies', icon: Cookie },
+    { id: 'legal', label: 'Pages Légales', icon: Scale },
     { id: 'carte', label: t('common.map'), icon: MapPin },
     { id: 'analytics', label: t('common.analytics'), icon: BarChart3 },
     { id: 'config', label: t('common.config'), icon: Settings }
@@ -96,6 +99,10 @@ const Website = () => {
 
             <TabsContent value="cookies" className="space-y-4 md:space-y-6 mt-0">
               <CookiesTab />
+            </TabsContent>
+
+            <TabsContent value="legal" className="space-y-4 md:space-y-6 mt-0">
+              <LegalPagesTab />
             </TabsContent>
 
             <TabsContent value="carte" className="space-y-4 md:space-y-6 mt-0">
