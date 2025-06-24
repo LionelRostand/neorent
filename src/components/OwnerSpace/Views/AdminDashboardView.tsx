@@ -124,7 +124,7 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
                         <Users className="h-5 w-5 text-green-600" />
                       </div>
                       <div>
-                        <h4 className="font-medium">{tenant.firstName} {tenant.lastName}</h4>
+                        <h4 className="font-medium">{tenant.name}</h4>
                         <p className="text-sm text-gray-600">{tenant.rentAmount}€/mois</p>
                       </div>
                     </div>
