@@ -43,15 +43,10 @@ export const PropertiesList = ({
     setShowPropertySelectionModal(true);
     
     console.log('🔥🔥🔥 Modal state APRÈS setShowPropertySelectionModal(true)');
-    
-    // Force un re-render pour s'assurer que l'état est mis à jour
-    setTimeout(() => {
-      console.log('🔥🔥🔥 État du modal après timeout:', showPropertySelectionModal);
-    }, 100);
   };
 
   const handleSelectProperty = (property: any) => {
-    console.log('🔥 Selected property:', property);
+    console.log('🔥 Selected property for website:', property);
     onToggleVisibility(property.id);
     setShowPropertySelectionModal(false);
   };
@@ -107,15 +102,28 @@ export const PropertiesList = ({
                   getStatusBadgeVariant={getStatusBadgeVariant}
                 />
               ))}
+              
+              {/* Bouton pour ajouter plus de propriétés */}
+              <div className="pt-4 border-t border-gray-200">
+                <Button 
+                  variant="outline" 
+                  onClick={handleAddProperty}
+                  disabled={loadingProperties}
+                  className="w-full"
+                >
+                  <Building className="h-4 w-4 mr-2" />
+                  {loadingProperties ? 'Chargement...' : 'Ajouter d\'autres propriétés'}
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="text-center py-12 bg-gray-50 rounded-lg">
               <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-700 mb-2">
-                Aucune propriété trouvée
+                Aucune propriété affichée sur le site
               </h3>
               <p className="text-gray-500 text-sm mb-4">
-                Ajoutez des propriétés depuis la section Propriétés pour les afficher sur votre site web
+                Sélectionnez des propriétés depuis votre base de données pour les afficher sur votre site web public
               </p>
               <Button 
                 variant="outline" 
@@ -123,25 +131,14 @@ export const PropertiesList = ({
                 disabled={loadingProperties}
               >
                 <Building className="h-4 w-4 mr-2" />
-                {loadingProperties ? 'Chargement...' : 'Ajouter une propriété'}
+                {loadingProperties ? 'Chargement...' : 'Sélectionner des propriétés'}
               </Button>
-              
-              {/* Debug info amélioré */}
-              <div className="mt-4 p-3 bg-yellow-50 rounded-lg text-left">
-                <p className="text-xs text-yellow-700">
-                  <strong>Debug:</strong><br/>
-                  Propriétés admin totales (DB): {allAdminProperties?.length || 0}<br/>
-                  Propriétés du propriétaire: {ownerProperties?.length || 0}<br/>
-                  Modal ouvert: {showPropertySelectionModal ? 'Oui' : 'Non'}<br/>
-                  Chargement: {loadingProperties ? 'Oui' : 'Non'}
-                </p>
-              </div>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {/* Modal de sélection des propriétés - TOUJOURS rendu */}
+      {/* Modal de sélection des propriétés */}
       {console.log('🚀🚀🚀 RENDU DU MODAL - État:', showPropertySelectionModal)}
       <PropertySelectionModal
         isOpen={showPropertySelectionModal}

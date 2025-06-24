@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building, MapPin, Euro, Check } from 'lucide-react';
+import { Building, MapPin, Euro, Check, Image as ImageIcon } from 'lucide-react';
 
 interface PropertySelectionModalProps {
   isOpen: boolean;
@@ -48,9 +48,6 @@ export const PropertySelectionModal = ({
 
   console.log('🔥🔥🔥 Available properties after filtering:', availableProperties);
 
-  // Debug du Dialog
-  console.log('🔥🔥🔥 Dialog props - open:', isOpen, 'onOpenChange:', !!onClose);
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
@@ -62,14 +59,10 @@ export const PropertySelectionModal = ({
         </DialogHeader>
         
         <div className="space-y-4">
-          {/* Debug info en haut du modal */}
-          <div className="p-3 bg-blue-50 rounded-lg text-left">
-            <p className="text-xs text-blue-700">
-              <strong>🔥 Debug Modal:</strong><br/>
-              Modal ouvert: {isOpen ? 'OUI' : 'NON'}<br/>
-              Propriétés totales: {properties?.length || 0}<br/>
-              Propriétés sélectionnées: {selectedProperties?.length || 0}<br/>
-              Propriétés disponibles: {availableProperties?.length || 0}
+          {/* Info sur la sélection */}
+          <div className="p-3 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-700">
+              <strong>Information :</strong> Les propriétés sélectionnées apparaîtront sur votre site web public avec toutes leurs informations (photos, description, prix, etc.)
             </p>
           </div>
 
@@ -92,6 +85,19 @@ export const PropertySelectionModal = ({
                     <CardContent className="p-4">
                       <div className="space-y-3">
                         <div className="flex items-start justify-between">
+                          {/* Image de la propriété */}
+                          <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0 mr-3">
+                            {property.image && property.image !== '/placeholder.svg' ? (
+                              <img 
+                                src={property.image} 
+                                alt={property.title}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <ImageIcon className="h-6 w-6 text-gray-400" />
+                            )}
+                          </div>
+
                           <div className="flex-1">
                             <h4 className="font-semibold text-gray-900 mb-1">
                               {property.title || 'Titre non défini'}
@@ -101,6 +107,7 @@ export const PropertySelectionModal = ({
                               {property.address || 'Adresse non définie'}
                             </div>
                           </div>
+
                           {isSelected && (
                             <div className="flex-shrink-0 ml-2">
                               <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
@@ -120,9 +127,16 @@ export const PropertySelectionModal = ({
                               {property.status || 'Non défini'}
                             </Badge>
                           </div>
-                          <span className="text-xs text-gray-500">
-                            {property.surface || '0'}m² • {property.type || 'Type non défini'}
-                          </span>
+                          <div className="text-right">
+                            <span className="text-xs text-gray-500 block">
+                              {property.surface || '0'}m² • {property.type || 'Type non défini'}
+                            </span>
+                            {property.locationType && (
+                              <span className="text-xs text-blue-600">
+                                {property.locationType}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </CardContent>
@@ -141,7 +155,7 @@ export const PropertySelectionModal = ({
               </h3>
               <p className="text-gray-500 text-sm">
                 {properties?.length === 0 ? 
-                  'Ajoutez des propriétés depuis la section admin pour les sélectionner' :
+                  'Ajoutez des propriétés depuis la section Propriétés pour les sélectionner' :
                   'Toutes vos propriétés sont déjà visibles sur le site web'
                 }
               </p>
@@ -149,7 +163,10 @@ export const PropertySelectionModal = ({
           )}
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t">
+        <div className="flex justify-between items-center gap-3 pt-4 border-t">
+          <p className="text-sm text-gray-600">
+            {selectedProperties.length} propriété(s) sélectionnée(s) pour le site web
+          </p>
           <Button variant="outline" onClick={onClose}>
             Fermer
           </Button>
