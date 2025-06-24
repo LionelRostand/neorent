@@ -26,7 +26,6 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       <AdminViewRenderer 
         activeView={activeView}
         currentProfile={currentProfile}
-        onViewChange={onViewChange}
       />
     );
   }

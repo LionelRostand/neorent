@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Building2, Edit, Trash2 } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
 interface ChargeData {
   id: string; // Changed from number to string for Firebase compatibility
@@ -41,21 +40,7 @@ const ChargeCard: React.FC<ChargeCardProps> = ({ charge, onDelete }) => {
               <span className="text-sm text-gray-600">Locataire: {charge.tenant}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-blue-600">{charge.total.toFixed(2)}€</span>
-            <div className="flex gap-1">
-              <Button variant="outline" size="sm">
-                <Edit className="h-4 w-4" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => onDelete(charge.id)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+          <span className="text-2xl font-bold text-blue-600">{charge.total.toFixed(2)}€</span>
         </div>
       </CardHeader>
       <CardContent>

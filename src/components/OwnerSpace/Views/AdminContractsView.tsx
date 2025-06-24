@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, FileText, CheckCircle, AlertCircle, DollarSign, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, FileText, CheckCircle, AlertCircle, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -145,7 +145,6 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
                   <TableHead>Date début</TableHead>
                   <TableHead>Date fin</TableHead>
                   <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -162,19 +161,6 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
                       <Badge variant={getStatusBadgeVariant(contract.status)}>
                         {contract.status}
                       </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end space-x-2">
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
