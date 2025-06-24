@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -29,15 +28,15 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
   
   // Calculate metrics
   const ownerProperties = properties;
-  const activeTenants = tenants.filter(t => t.status === 'Actif').length;
+  const activeTenants = tenants.filter(t => t.status === 'Actif');
   const expiringContracts = contracts.filter(c => {
     const endDate = new Date(c.endDate);
     const now = new Date();
     const diffTime = endDate.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= 30 && diffDays > 0;
-  }).length;
-  const pendingPayments = payments.filter(p => p.status === 'En attente').length;
+  });
+  const pendingPayments = payments.filter(p => p.status === 'En attente');
 
   const handlePropertySubmit = async (propertyData: any) => {
     try {
