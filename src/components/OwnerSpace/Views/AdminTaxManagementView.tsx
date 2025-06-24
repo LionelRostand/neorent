@@ -23,7 +23,7 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
   );
 
   const totalDeclarations = ownerFiscalities.length;
-  const currentYear = new Date().getFullYear().toString();
+  const currentYear = new Date().getFullYear();
   const currentYearDeclarations = ownerFiscalities.filter(f => f.year === currentYear).length;
   const totalRevenue = [...tenants, ...roommates].reduce((sum, item) => sum + (parseFloat(item.rentAmount?.toString() || '0') || 0), 0) * 12;
 
