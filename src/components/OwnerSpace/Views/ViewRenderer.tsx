@@ -1,8 +1,13 @@
 
 import React from 'react';
-import CustomViewRenderer from './CustomViewRenderer';
-import AdminViewRenderer from './AdminViewRenderer';
 import DashboardView from './DashboardView';
+import PropertyView from './PropertyView';
+import ContractView from './ContractView';
+import InspectionView from './InspectionView';
+import MaintenanceView from './MaintenanceView';
+import RoommateView from './RoommateView';
+import RentalChargesView from './RentalChargesView';
+import AdminViewRenderer from './AdminViewRenderer';
 
 interface ViewRendererProps {
   activeView: string;
@@ -10,30 +15,15 @@ interface ViewRendererProps {
   onViewChange: (view: string) => void;
 }
 
-const ViewRenderer: React.FC<ViewRendererProps> = ({ 
-  activeView, 
-  currentProfile, 
-  onViewChange 
+const ViewRenderer: React.FC<ViewRendererProps> = ({
+  activeView,
+  currentProfile,
+  onViewChange
 }) => {
-  console.log('ViewRenderer - activeView:', activeView);
-
-  // Handle admin views
+  // Check if this is an admin view
   if (activeView.startsWith('admin-')) {
-    console.log('ViewRenderer - Rendering admin view:', activeView);
     return (
       <AdminViewRenderer 
-        activeView={activeView}
-        currentProfile={currentProfile}
-      />
-    );
-  }
-
-  // Handle custom owner views
-  const customViews = ['dashboard', 'property', 'contract', 'roommate', 'inspection', 'charges', 'maintenance'];
-  if (customViews.includes(activeView)) {
-    console.log('ViewRenderer - Rendering custom view:', activeView);
-    return (
-      <CustomViewRenderer 
         activeView={activeView}
         currentProfile={currentProfile}
         onViewChange={onViewChange}
@@ -41,9 +31,30 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
     );
   }
 
-  // Default fallback to dashboard
-  console.log('ViewRenderer - Fallback to dashboard for:', activeView);
-  return <DashboardView currentProfile={currentProfile} />;
+  // Render owner views without any additional layout or headers
+  const renderView = () => {
+    switch (activeView) {
+      case 'dashboard':
+        return <DashboardView currentProfile={currentProfile} />;
+      case 'properties':
+        return <PropertyView currentProfile={currentProfile} />;
+      case 'contracts':
+        return <ContractView currentProfile={currentProfile} />;
+      case 'inspections':
+        return <InspectionView currentProfile={currentProfile} />;
+      case 'maintenance':
+        return <MaintenanceView currentProfile={currentProfile} />;
+      case 'roommates':
+        return <RoommateView currentProfile={currentProfile} />;
+      case 'rental-charges':
+        return <RentalChargesView currentProfile={currentProfile} />;
+      default:
+        return <DashboardView currentProfile={currentProfile} />;
+    }
+  };
+
+  // Return the view directly without any wrapper or layout
+  return renderView();
 };
 
 export default ViewRenderer;
