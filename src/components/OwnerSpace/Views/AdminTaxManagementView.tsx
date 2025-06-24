@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, FileText, Calculator, TrendingUp, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useFirebaseFiscality } from '@/hooks/useFirebaseFiscality';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useAuth } from '@/hooks/useAuth';
