@@ -51,8 +51,8 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     setOpenDialog,
     ownerProperties,
     activeTenants,
-    expiringContracts,
-    pendingPayments,
+    expiringContracts.length, // Fix: pass length instead of array
+    pendingPayments.length, // Fix: pass length instead of array
     () => '', // dummy t function since we're using getLocalizedText
     enabledActions // Pass only enabled actions
   ) : [];
