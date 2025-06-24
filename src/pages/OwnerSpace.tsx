@@ -39,7 +39,7 @@ const OwnerSpace = () => {
   }
 
   return (
-    <div className="h-screen flex w-full bg-gray-50">
+    <div className="h-screen flex w-full bg-gray-50 relative">
       {/* Mobile sidebar overlay */}
       {isMobileSidebarOpen && (
         <div 
@@ -63,9 +63,9 @@ const OwnerSpace = () => {
         />
       </div>
       
-      {/* Main content area - same height as sidebar */}
+      {/* Main content area - full height, no additional headers */}
       <div className="flex-1 flex flex-col min-w-0 h-full">
-        {/* Mobile menu button */}
+        {/* Mobile menu button - only for mobile */}
         <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
           <Button
             variant="ghost"
@@ -77,7 +77,7 @@ const OwnerSpace = () => {
           </Button>
         </div>
         
-        {/* Owner space header */}
+        {/* Owner space header - this is the ONLY header we want */}
         <OwnerSpaceProfileHeader currentProfile={currentProfile} />
 
         {/* Main content - each view renders without any additional layout */}
