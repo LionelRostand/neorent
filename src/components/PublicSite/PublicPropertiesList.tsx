@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,18 +15,13 @@ import {
   Star,
   Image as ImageIcon,
   Building,
-  Map,
-  X
+  Map
 } from 'lucide-react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { PropertyMap } from './PropertyMap';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 
-interface PublicPropertiesListProps {
-  searchTerm?: string;
-}
-
-export const PublicPropertiesList = ({ searchTerm }: PublicPropertiesListProps) => {
+export const PublicPropertiesList = () => {
   const { t } = useTranslation();
   const [favorites, setFavorites] = useState<string[]>([]);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
@@ -33,28 +29,9 @@ export const PublicPropertiesList = ({ searchTerm }: PublicPropertiesListProps) 
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const { properties: allProperties, loading } = useFirebaseProperties();
 
-  // Filtrer les propriétés selon le terme de recherche
-  const filteredProperties = useMemo(() => {
-    if (!allProperties) return [];
-    
-    const visibleProperties = allProperties || [];
-    
-    if (!searchTerm || searchTerm.trim() === '') {
-      return visibleProperties;
-    }
-
-    const searchLower = searchTerm.toLowerCase();
-    return visibleProperties.filter(property => 
-      property.title?.toLowerCase().includes(searchLower) ||
-      property.address?.toLowerCase().includes(searchLower) ||
-      property.type?.toLowerCase().includes(searchLower) ||
-      property.locationType?.toLowerCase().includes(searchLower)
-    );
-  }, [allProperties, searchTerm]);
-
   // Pour l'instant, afficher toutes les propriétés jusqu'à ce que le système de visibilité soit implémenté
   // Dans une vraie implémentation, on filtrerait selon les propriétés marquées comme visibles
-  
+  const visibleProperties = allProperties || [];
 
   const toggleFavorite = (propertyId: string) => {
     setFavorites(prev => 
@@ -115,20 +92,10 @@ export const PublicPropertiesList = ({ searchTerm }: PublicPropertiesListProps) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                Propriétés Disponibles ({filteredProperties.length})
-              </h2>
-              {searchTerm && (
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <span>Résultats pour: "{searchTerm}"</span>
-                  <Badge variant="outline" className="bg-blue-50">
-                    {filteredProperties.length} résultat(s)
-                  </Badge>
-                </div>
-              )}
-            </div>
-            <div className="flex gap-2 mt-4 sm:mt-0">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4 sm:mb-0">
+              Propriétés Disponibles ({visibleProperties.length})
+            </h2>
+            <div className="flex gap-2">
               <Button
                 variant={viewMode === 'list' ? 'default' : 'outline'}
                 onClick={() => setViewMode('list')}
@@ -155,7 +122,7 @@ export const PublicPropertiesList = ({ searchTerm }: PublicPropertiesListProps) 
         {viewMode === 'map' ? (
           <div className="space-y-6">
             <PropertyMap
-              properties={filteredProperties}
+              properties={visibleProperties}
               selectedProperty={selectedProperty}
               onPropertySelect={handlePropertySelect}
             />
@@ -181,7 +148,7 @@ export const PublicPropertiesList = ({ searchTerm }: PublicPropertiesListProps) 
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProperties.map((property) => {
+            {visibleProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
               
               return (
@@ -283,17 +250,14 @@ export const PublicPropertiesList = ({ searchTerm }: PublicPropertiesListProps) 
           </div>
         )}
 
-        {filteredProperties.length === 0 && (
+        {visibleProperties.length === 0 && (
           <div className="text-center py-12">
             <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-700 mb-2">
-              {searchTerm ? 'Aucun résultat trouvé' : 'Aucune propriété disponible pour le moment'}
+              Aucune propriété disponible pour le moment
             </h3>
             <p className="text-gray-500">
-              {searchTerm 
-                ? 'Essayez de modifier vos critères de recherche'
-                : 'Revenez bientôt pour découvrir nos nouvelles offres !'
-              }
+              Revenez bientôt pour découvrir nos nouvelles offres !
             </p>
           </div>
         )}

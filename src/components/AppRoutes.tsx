@@ -1,165 +1,200 @@
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
 import ProtectedRoute from '@/components/Auth/ProtectedRoute';
+import PublicHome from '@/pages/PublicSite/Home';
+import PublicAbout from '@/pages/PublicSite/About';
+import PublicContact from '@/pages/PublicSite/Contact';
+import PublicProperties from '@/pages/PublicSite/Properties';
+import PublicLogin from '@/pages/PublicSite/Login';
+import Dashboard from '@/pages/Dashboard';
+import Properties from '@/pages/Properties';
+import Tenants from '@/pages/Tenants';
+import Roommates from '@/pages/Roommates';
+import Contracts from '@/pages/Contracts';
+import Leases from '@/pages/Leases';
+import Inspections from '@/pages/Inspections';
+import RentManagement from '@/pages/RentManagement';
+import RentalCharges from '@/pages/RentalCharges';
+import Forecasting from '@/pages/Forecasting';
+import Taxes from '@/pages/Taxes';
+import Website from '@/pages/Website';
+import Messages from '@/pages/Messages';
+import TenantSpace from '@/pages/TenantSpace';
+import OwnerSpace from '@/pages/OwnerSpace';
+import Settings from '@/pages/Settings';
+import Maintenance from '@/pages/Maintenance';
+import Help from '@/pages/Help';
+import NotFound from '@/pages/NotFound';
 
-// Lazy load components
-const Dashboard = React.lazy(() => import('@/pages/Dashboard'));
-const Properties = React.lazy(() => import('@/pages/Properties'));
-const Tenants = React.lazy(() => import('@/pages/Tenants'));
-const Contracts = React.lazy(() => import('@/pages/Contracts'));
-const RentManagement = React.lazy(() => import('@/pages/RentManagement'));
-const Maintenance = React.lazy(() => import('@/pages/Maintenance'));
-const Inspections = React.lazy(() => import('@/pages/Inspections'));
-const Roommates = React.lazy(() => import('@/pages/Roommates'));
-const Settings = React.lazy(() => import('@/pages/Settings'));
-const Website = React.lazy(() => import('@/pages/Website'));
-const RentalCharges = React.lazy(() => import('@/pages/RentalCharges'));
-const Taxes = React.lazy(() => import('@/pages/Taxes'));
-const Forecasting = React.lazy(() => import('@/pages/Forecasting'));
-const OwnerSpace = React.lazy(() => import('@/pages/OwnerSpace'));
-const TenantSpace = React.lazy(() => import('@/pages/TenantSpace'));
-const PaymentValidation = React.lazy(() => import('@/pages/PaymentValidation'));
-const Messages = React.lazy(() => import('@/pages/Messages'));
-const Help = React.lazy(() => import('@/pages/Help'));
-const Index = React.lazy(() => import('@/pages/Index'));
-const NotFound = React.lazy(() => import('@/pages/NotFound'));
-
-// Public site pages
-const PublicHome = React.lazy(() => import('@/pages/PublicSite/Home'));
-const PublicLogin = React.lazy(() => import('@/pages/PublicSite/Login'));
-const PublicAbout = React.lazy(() => import('@/pages/PublicSite/About'));
-const PublicContact = React.lazy(() => import('@/pages/PublicSite/Contact'));
-const PublicProperties = React.lazy(() => import('@/pages/PublicSite/Properties'));
-const CookiePolicy = React.lazy(() => import('@/pages/PublicSite/CookiePolicy'));
-const LegalNotice = React.lazy(() => import('@/pages/PublicSite/LegalNotice'));
-const PrivacyPolicy = React.lazy(() => import('@/pages/PublicSite/PrivacyPolicy'));
-
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-  </div>
-);
-
-const AppRoutes = () => {
-  const { user } = useAuth();
-
+export const AppRoutes = () => {
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<PublicHome />} />
-        <Route path="/login" element={<PublicLogin />} />
-        <Route path="/about" element={<PublicAbout />} />
-        <Route path="/contact" element={<PublicContact />} />
-        <Route path="/properties" element={<PublicProperties />} />
-        <Route path="/politique-cookies" element={<CookiePolicy />} />
-        <Route path="/mentions-legales" element={<LegalNotice />} />
-        <Route path="/confidentialite" element={<PrivacyPolicy />} />
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<PublicHome />} />
+      <Route path="/about" element={<PublicAbout />} />
+      <Route path="/contact" element={<PublicContact />} />
+      <Route path="/properties" element={<PublicProperties />} />
+      <Route path="/login" element={<PublicLogin />} />
 
-        {/* Protected routes */}
-        <Route path="/admin" element={
-          <ProtectedRoute>
-            <Index />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/properties" element={
-          <ProtectedRoute>
-            <Properties />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/tenants" element={
-          <ProtectedRoute>
-            <Tenants />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/contracts" element={
-          <ProtectedRoute>
-            <Contracts />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/rent-management" element={
-          <ProtectedRoute>
-            <RentManagement />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/maintenance" element={
-          <ProtectedRoute>
-            <Maintenance />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/inspections" element={
-          <ProtectedRoute>
-            <Inspections />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/roommates" element={
-          <ProtectedRoute>
-            <Roommates />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/settings" element={
-          <ProtectedRoute>
-            <Settings />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/website" element={
-          <ProtectedRoute>
-            <Website />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/rental-charges" element={
-          <ProtectedRoute>
-            <RentalCharges />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/taxes" element={
-          <ProtectedRoute>
-            <Taxes />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/forecasting" element={
-          <ProtectedRoute>
-            <Forecasting />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/owner-space" element={
-          <ProtectedRoute>
-            <OwnerSpace />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/tenant-space" element={
+      {/* Protected Routes */}
+      <Route 
+        path="/tenant-space" 
+        element={
           <ProtectedRoute>
             <TenantSpace />
           </ProtectedRoute>
-        } />
-        <Route path="/admin/payment-validation" element={
-          <ProtectedRoute>
-            <PaymentValidation />
+        } 
+      />
+      
+      <Route 
+        path="/owner-space" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <OwnerSpace />
           </ProtectedRoute>
-        } />
-        <Route path="/admin/messages" element={
-          <ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/admin" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Dashboard />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/dashboard" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Dashboard />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/properties" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Properties />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/tenants" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Tenants />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/roommates" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Roommates />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/contracts" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Contracts />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/leases" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Leases />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/inspections" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Inspections />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/rent-management" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <RentManagement />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/rental-charges" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <RentalCharges />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/forecasting" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Forecasting />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/maintenance" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Maintenance />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/messages" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
             <Messages />
           </ProtectedRoute>
-        } />
-        <Route path="/admin/help" element={
-          <ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/taxes" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Taxes />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/website" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Website />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/settings" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
+            <Settings />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/help" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin', 'employee']}>
             <Help />
           </ProtectedRoute>
-        } />
+        } 
+      />
 
-        {/* Catch all route */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
+      {/* 404 Route */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
-
-export default AppRoutes;

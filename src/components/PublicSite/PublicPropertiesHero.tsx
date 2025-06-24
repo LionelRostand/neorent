@@ -1,29 +1,12 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Building, MapPin, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-interface PublicPropertiesHeroProps {
-  onSearch?: (searchTerm: string) => void;
-}
-
-export const PublicPropertiesHero = ({ onSearch }: PublicPropertiesHeroProps) => {
+export const PublicPropertiesHero = () => {
   const { t } = useTranslation();
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = () => {
-    if (onSearch) {
-      onSearch(searchTerm);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
 
   return (
     <section className="bg-gradient-to-br from-green-50 via-blue-50 to-green-100 py-20">
@@ -47,17 +30,11 @@ export const PublicPropertiesHero = ({ onSearch }: PublicPropertiesHeroProps) =>
               <div className="flex-1 relative">
                 <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
-                  placeholder="Rechercher par localisation, type de bien..."
+                  placeholder="Rechercher par localisation..."
                   className="pl-10 border-0 focus:ring-0"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyPress={handleKeyPress}
                 />
               </div>
-              <Button 
-                className="bg-green-600 hover:bg-green-700 px-8"
-                onClick={handleSearch}
-              >
+              <Button className="bg-green-600 hover:bg-green-700 px-8">
                 <Search className="h-4 w-4 mr-2" />
                 Rechercher
               </Button>

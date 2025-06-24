@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import PublicLayout from '@/components/PublicSite/PublicLayout';
@@ -10,20 +10,15 @@ import { PublicPropertiesList } from '@/components/PublicSite/PublicPropertiesLi
 const PublicProperties = () => {
   const { t } = useTranslation();
   const { trackPageView } = useAnalyticsTracking();
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     trackPageView('/properties');
   }, [trackPageView]);
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-  };
-
   return (
     <PublicLayout>
-      <PublicPropertiesHero onSearch={handleSearch} />
-      <PublicPropertiesList searchTerm={searchTerm} />
+      <PublicPropertiesHero />
+      <PublicPropertiesList />
       <ChatWidget />
     </PublicLayout>
   );
