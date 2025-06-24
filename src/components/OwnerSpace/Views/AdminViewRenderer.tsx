@@ -25,100 +25,48 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
   activeView, 
   currentProfile 
 }) => {
-  // Render admin pages without any sidebar, only the main content
+  console.log('AdminViewRenderer - activeView:', activeView);
+  
+  // Render admin pages directly without any wrapper
   switch (activeView) {
     case 'admin-dashboard':
-      return (
-        <div className="w-full h-full">
-          <Dashboard />
-        </div>
-      );
+      return <Dashboard />;
     case 'admin-properties':
-      return (
-        <div className="w-full h-full">
-          <Properties />
-        </div>
-      );
+      return <Properties />;
     case 'admin-tenants':
-      return (
-        <div className="w-full h-full">
-          <Tenants />
-        </div>
-      );
+      return <Tenants />;
     case 'admin-roommates':
-      return (
-        <div className="w-full h-full">
-          <Roommates />
-        </div>
-      );
+      return <Roommates />;
     case 'admin-contracts':
-      return (
-        <div className="w-full h-full">
-          <Contracts />
-        </div>
-      );
+      return <Contracts />;
     case 'admin-inspections':
-      return (
-        <div className="w-full h-full">
-          <Inspections />
-        </div>
-      );
+      return <Inspections />;
     case 'admin-rent-management':
-      return (
-        <div className="w-full h-full">
-          <RentManagement />
-        </div>
-      );
+      return <RentManagement />;
     case 'admin-rental-charges':
-      return (
-        <div className="w-full h-full">
-          <RentalCharges />
-        </div>
-      );
+      return <RentalCharges />;
     case 'admin-forecasting':
-      return (
-        <div className="w-full h-full">
-          <Forecasting />
-        </div>
-      );
+      return <Forecasting />;
     case 'admin-maintenance':
-      return (
-        <div className="w-full h-full">
-          <Maintenance />
-        </div>
-      );
+      return <Maintenance />;
     case 'admin-messages':
-      return (
-        <div className="w-full h-full">
-          <Messages />
-        </div>
-      );
+      return <Messages />;
     case 'admin-taxes':
-      return (
-        <div className="w-full h-full">
-          <Taxes />
-        </div>
-      );
+      return <Taxes />;
     case 'admin-website':
-      return (
-        <div className="w-full h-full">
-          <Website />
-        </div>
-      );
+      return <Website />;
     case 'admin-settings':
-      return (
-        <div className="w-full h-full">
-          <Settings />
-        </div>
-      );
+      return <Settings />;
     case 'admin-help':
+      return <Help />;
+    default:
+      console.log('AdminViewRenderer - No matching view for:', activeView);
       return (
-        <div className="w-full h-full">
-          <Help />
+        <div className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Vue non trouvée</h2>
+          <p>La vue "{activeView}" n'est pas disponible.</p>
         </div>
       );
-    default:
-      return null;
   }
 };
 

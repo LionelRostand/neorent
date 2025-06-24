@@ -15,9 +15,23 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
   currentProfile, 
   onViewChange 
 }) => {
+  console.log('ViewRenderer - activeView:', activeView);
+
+  // Handle admin views
+  if (activeView.startsWith('admin-')) {
+    console.log('ViewRenderer - Rendering admin view:', activeView);
+    return (
+      <AdminViewRenderer 
+        activeView={activeView}
+        currentProfile={currentProfile}
+      />
+    );
+  }
+
   // Handle custom owner views
-  const customView = ['dashboard', 'property', 'contract', 'roommate', 'inspection', 'charges', 'maintenance'];
-  if (customView.includes(activeView)) {
+  const customViews = ['dashboard', 'property', 'contract', 'roommate', 'inspection', 'charges', 'maintenance'];
+  if (customViews.includes(activeView)) {
+    console.log('ViewRenderer - Rendering custom view:', activeView);
     return (
       <CustomViewRenderer 
         activeView={activeView}
@@ -27,17 +41,8 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
     );
   }
 
-  // Handle admin views
-  if (activeView.startsWith('admin-')) {
-    return (
-      <AdminViewRenderer 
-        activeView={activeView}
-        currentProfile={currentProfile}
-      />
-    );
-  }
-
-  // Default fallback
+  // Default fallback to dashboard
+  console.log('ViewRenderer - Fallback to dashboard for:', activeView);
   return <DashboardView currentProfile={currentProfile} />;
 };
 
