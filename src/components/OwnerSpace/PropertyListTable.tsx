@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Edit, Trash2, Eye } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
@@ -146,6 +148,7 @@ const PropertyListTable: React.FC<PropertyListTableProps> = ({ ownerProfile, vie
             <TableHead>Titre</TableHead>
             <TableHead>Adresse</TableHead>
             {getViewSpecificColumns()}
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -154,6 +157,19 @@ const PropertyListTable: React.FC<PropertyListTableProps> = ({ ownerProfile, vie
               <TableCell className="font-medium">{property.title}</TableCell>
               <TableCell>{property.address}</TableCell>
               {getViewSpecificCells(property)}
+              <TableCell className="text-right">
+                <div className="flex justify-end space-x-2">
+                  <Button variant="ghost" size="sm">
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

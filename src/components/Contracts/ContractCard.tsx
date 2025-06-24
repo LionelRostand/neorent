@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { User, Building2, Calendar, FileText } from 'lucide-react';
+import { User, Building2, Calendar, FileText, Edit, Trash2 } from 'lucide-react';
 
 interface Contract {
   id: string;
@@ -85,15 +85,32 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
               </h3>
               <p className="text-sm text-gray-600 mt-1">{englishType}</p>
             </div>
-            <Badge 
-              variant={englishStatus === 'Active' ? 'default' : englishStatus === 'Signed' ? 'default' : 'destructive'}
-              className={
-                englishStatus === 'Active' ? 'bg-green-100 text-green-800' : 
-                englishStatus === 'Signed' ? 'bg-blue-100 text-blue-800' : ''
-              }
-            >
-              {englishStatus}
-            </Badge>
+            <div className="flex items-center space-x-2">
+              <Badge 
+                variant={englishStatus === 'Active' ? 'default' : englishStatus === 'Signed' ? 'default' : 'destructive'}
+                className={
+                  englishStatus === 'Active' ? 'bg-green-100 text-green-800' : 
+                  englishStatus === 'Signed' ? 'bg-blue-100 text-blue-800' : ''
+                }
+              >
+                {englishStatus}
+              </Badge>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onEdit(contract)}
+              >
+                <Edit className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onDelete(contract.id)}
+                className="text-red-600 hover:text-red-700"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
           
           <div className="space-y-2">

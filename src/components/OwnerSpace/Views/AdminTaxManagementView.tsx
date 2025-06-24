@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, FileText, Calculator, TrendingUp, AlertCircle } from 'lucide-react';

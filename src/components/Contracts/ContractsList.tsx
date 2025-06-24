@@ -36,50 +36,14 @@ const ContractsList = ({ contracts, onEdit, onDelete, onViewDetails, onSign }: C
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
         {contracts.map((contract) => (
-          <div key={contract.id} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-lg transition-shadow">
-            <div className="space-y-4">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-semibold text-lg text-gray-900">
-                    {contract.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">{contract.type}</p>
-                </div>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  contract.status === 'Active' ? 'bg-green-100 text-green-800' : 
-                  contract.status === 'Signed' ? 'bg-blue-100 text-blue-800' : 
-                  'bg-gray-100 text-gray-800'
-                }`}>
-                  {contract.status}
-                </span>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="flex items-center text-gray-600 text-sm">
-                  <span className="font-medium">Propriétaire:</span>
-                  <span className="ml-2">{contract.provider}</span>
-                </div>
-                <div className="flex items-center text-gray-600 text-sm">
-                  <span className="font-medium">Propriété:</span>
-                  <span className="ml-2">{contract.property}</span>
-                </div>
-                <div className="flex items-center text-gray-600 text-sm">
-                  <span className="font-medium">Locataire:</span>
-                  <span className="ml-2">{contract.tenant}</span>
-                </div>
-                <div className="flex items-center text-gray-600 text-sm">
-                  <span className="font-medium">Période:</span>
-                  <span className="ml-2">
-                    {new Date(contract.startDate).toLocaleDateString('fr-FR')} - {new Date(contract.endDate).toLocaleDateString('fr-FR')}
-                  </span>
-                </div>
-                <div className="flex items-center text-blue-600 font-semibold text-sm">
-                  <span className="font-medium">Montant:</span>
-                  <span className="ml-2">{contract.amount}/mois</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ContractCard
+            key={contract.id}
+            contract={contract}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onViewDetails={onViewDetails}
+            onSign={onSign}
+          />
         ))}
       </div>
     </>
