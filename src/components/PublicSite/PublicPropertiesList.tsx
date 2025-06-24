@@ -17,7 +17,7 @@ export const PublicPropertiesList: React.FC<PublicPropertiesListProps> = ({ sear
   const { properties } = useOwnerData(userProfile);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [viewMode, setViewMode<'grid' | 'map'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
 
   // Filtrer les propriétés selon la recherche
   const filteredProperties = useMemo(() => {
