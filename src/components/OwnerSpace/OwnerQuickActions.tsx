@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
-import QuickActionItem from './QuickActions/QuickActionItem';
+import ConfigurableQuickActionItem from './QuickActions/ConfigurableQuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
 import QuickActionsManager from './QuickActions/QuickActionsManager';
 import SidebarMenuSelector from './QuickActions/SidebarMenuSelector';
@@ -59,11 +59,11 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
     setOpenDialog,
     ownerProperties,
     activeTenants,
-    expiringContracts, // Already a number from the hook
-    pendingPayments, // Already a number from the hook
-    () => '', // dummy t function since we're using getLocalizedText
+    expiringContracts,
+    pendingPayments,
+    () => '',
     enabledActions,
-    setActiveView // Pass setActiveView to enable view switching
+    setActiveView
   );
 
   return (
@@ -88,7 +88,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">
           {quickActions.map((action) => (
-            <QuickActionItem key={`${action.id}-${refreshKey}`} action={action} />
+            <ConfigurableQuickActionItem key={`${action.id}-${refreshKey}`} action={action} />
           ))}
         </CardContent>
       </Card>

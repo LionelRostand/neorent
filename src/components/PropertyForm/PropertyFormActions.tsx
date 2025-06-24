@@ -2,12 +2,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
+import { FormButtonConfig } from '@/hooks/useFormButtonConfig';
 
 interface PropertyFormActionsProps {
   onClose: () => void;
+  buttonConfig?: FormButtonConfig;
 }
 
-const PropertyFormActions = ({ onClose }: PropertyFormActionsProps) => {
+const PropertyFormActions = ({ onClose, buttonConfig }: PropertyFormActionsProps) => {
   const { i18n } = useTranslation();
 
   // Get texts based on current language
@@ -33,7 +35,12 @@ const PropertyFormActions = ({ onClose }: PropertyFormActionsProps) => {
       <Button type="button" variant="outline" onClick={onClose}>
         {getLocalizedText('cancel')}
       </Button>
-      <Button type="submit">
+      <Button 
+        type="submit"
+        variant={buttonConfig?.variant || 'default'}
+        size={buttonConfig?.size || 'default'}
+        className={buttonConfig?.className}
+      >
         {getLocalizedText('addProperty')}
       </Button>
     </div>
