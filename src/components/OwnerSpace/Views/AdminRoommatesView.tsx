@@ -10,10 +10,15 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import FormButtonConfigPanel from './FormButtonConfigPanel';
 
-const AdminRoommatesView: React.FC = () => {
+interface AdminRoommatesViewProps {
+  currentProfile?: any;
+}
+
+const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const { userProfile } = useAuth();
-  const { handleRoommateSubmit } = useOwnerQuickActions(userProfile);
+  const profile = currentProfile || userProfile;
+  const { handleRoommateSubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
   const [showRoommateForm, setShowRoommateForm] = useState(false);
 

@@ -10,10 +10,15 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import FormButtonConfigPanel from './FormButtonConfigPanel';
 
-const AdminContractsView: React.FC = () => {
+interface AdminContractsViewProps {
+  currentProfile?: any;
+}
+
+const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const { userProfile } = useAuth();
-  const { handleContractSubmit } = useOwnerQuickActions(userProfile);
+  const profile = currentProfile || userProfile;
+  const { handleContractSubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
   const [showContractForm, setShowContractForm] = useState(false);
 

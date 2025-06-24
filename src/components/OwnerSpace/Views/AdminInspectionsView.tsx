@@ -10,10 +10,15 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import FormButtonConfigPanel from './FormButtonConfigPanel';
 
-const AdminInspectionsView: React.FC = () => {
+interface AdminInspectionsViewProps {
+  currentProfile?: any;
+}
+
+const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const { userProfile } = useAuth();
-  const { handleInspectionSubmit } = useOwnerQuickActions(userProfile);
+  const profile = currentProfile || userProfile;
+  const { handleInspectionSubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
   const [showInspectionForm, setShowInspectionForm] = useState(false);
 

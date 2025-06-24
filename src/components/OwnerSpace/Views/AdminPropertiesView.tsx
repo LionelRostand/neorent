@@ -9,13 +9,20 @@ import { Dialog } from '@/components/ui/dialog';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
+import { useOwnerData } from '@/hooks/useOwnerData';
 import FormButtonConfigPanel from './FormButtonConfigPanel';
 
-const AdminPropertiesView: React.FC = () => {
+interface AdminPropertiesViewProps {
+  currentProfile?: any;
+}
+
+const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const { userProfile } = useAuth();
-  const { handlePropertySubmit } = useOwnerQuickActions(userProfile);
+  const profile = currentProfile || userProfile;
+  const { handlePropertySubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
+  const { properties } = useOwnerData(profile);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
 
   const propertyButtonConfig = getButtonConfig('property');
@@ -40,7 +47,7 @@ const AdminPropertiesView: React.FC = () => {
         </Button>
       </div>
 
-      <PropertyList />
+      <PropertyList properties={properties} />
 
       <Dialog open={showPropertyForm} onOpenChange={setShowPropertyForm}>
         <PropertyForm 
