@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Calculator, TrendingUp, AlertCircle, DollarSign } from 'lucide-react';
@@ -6,11 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
-import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
-import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useAuth } from '@/hooks/useAuth';
 import RentalChargeForm from '@/components/RentalChargeForm';
-import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminRentalChargesViewProps {
   currentProfile: any;
@@ -21,23 +19,21 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
   const { charges } = useOwnerData(currentProfile);
   const { userProfile } = useAuth();
   const profile = currentProfile || userProfile;
-  const { handleChargeSubmit } = useOwnerQuickActions(profile);
-  const { getButtonConfig } = useFormButtonConfig();
   const [showChargeForm, setShowChargeForm] = useState(false);
-
-  const chargeButtonConfig = getButtonConfig('charge');
 
   const totalCharges = charges.length;
   const monthlyCharges = charges.filter(c => c.month).length;
   const annualCharges = charges.filter(c => !c.month).length;
   const totalAmount = charges.reduce((sum, c) => sum + (c.total || 0), 0);
 
+  const handleChargeSubmit = async (chargeData: any) => {
+    console.log('Charge data:', chargeData);
+    setShowChargeForm(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-6">
-        {/* Configuration des boutons */}
-        <FormButtonConfigPanel actionIds={['charge']} title="Configuration du bouton charge" />
-
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -140,8 +136,7 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
         <Dialog open={showChargeForm} onOpenChange={setShowChargeForm}>
           <RentalChargeForm 
             onClose={() => setShowChargeForm(false)}
-            onSubmit={handleChargeSubmit || (() => Promise.resolve())}
-            buttonConfig={chargeButtonConfig}
+            onSubmit={handleChargeSubmit}
           />
         </Dialog>
       </div>

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, DollarSign, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
@@ -6,11 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
-import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
-import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useAuth } from '@/hooks/useAuth';
 import RentPaymentForm from '@/components/RentPaymentForm';
-import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminRentManagementViewProps {
   currentProfile: any;
@@ -21,11 +19,7 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
   const { payments } = useOwnerData(currentProfile);
   const { userProfile } = useAuth();
   const profile = currentProfile || userProfile;
-  const { handlePaymentSubmit } = useOwnerQuickActions(profile);
-  const { getButtonConfig } = useFormButtonConfig();
   const [showPaymentForm, setShowPaymentForm] = useState(false);
-
-  const paymentButtonConfig = getButtonConfig('payment');
 
   const totalPayments = payments.length;
   const paidPayments = payments.filter(p => p.status === 'Payé').length;
@@ -34,12 +28,14 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
     .filter(p => p.status === 'Payé')
     .reduce((sum, p) => sum + (parseFloat(p.rentAmount?.toString() || '0') || 0), 0);
 
+  const handlePaymentSubmit = async (paymentData: any) => {
+    console.log('Payment data:', paymentData);
+    setShowPaymentForm(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-6">
-        {/* Configuration des boutons */}
-        <FormButtonConfigPanel actionIds={['payment']} title="Configuration du bouton paiement" />
-
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -151,8 +147,7 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
         <Dialog open={showPaymentForm} onOpenChange={setShowPaymentForm}>
           <RentPaymentForm 
             onClose={() => setShowPaymentForm(false)}
-            onSubmit={handlePaymentSubmit || (() => Promise.resolve())}
-            buttonConfig={paymentButtonConfig}
+            onSubmit={handlePaymentSubmit}
           />
         </Dialog>
       </div>

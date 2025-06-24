@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Plus, Users, UserCheck, AlertCircle, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,10 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
-import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useAuth } from '@/hooks/useAuth';
 import RoommateForm from '@/components/RoommateForm';
-import FormButtonConfigPanel from './FormButtonConfigPanel';
 
 interface AdminTenantsViewProps {
   currentProfile: any;
@@ -20,10 +19,7 @@ const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) =
   const { userProfile } = useAuth();
   const profile = currentProfile || userProfile;
   const { handleRoommateSubmit } = useOwnerQuickActions(profile);
-  const { getButtonConfig } = useFormButtonConfig();
   const [showTenantForm, setShowTenantForm] = useState(false);
-
-  const tenantButtonConfig = getButtonConfig('roommate');
 
   const totalTenants = tenants.length;
   const activeTenants = tenants.filter(t => t.status === 'Actif').length;
@@ -33,9 +29,6 @@ const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) =
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-6">
-        {/* Configuration des boutons */}
-        <FormButtonConfigPanel actionIds={['roommate']} title="Configuration du bouton locataire" />
-
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -151,7 +144,6 @@ const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) =
           <RoommateForm 
             onClose={() => setShowTenantForm(false)}
             onSubmit={handleRoommateSubmit}
-            buttonConfig={tenantButtonConfig}
           />
         </Dialog>
       </div>
