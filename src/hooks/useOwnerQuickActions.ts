@@ -35,8 +35,8 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
     const diffTime = endDate.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= 30 && diffDays > 0;
-  });
-  const pendingPayments = payments.filter(p => p.status === 'En attente');
+  }).length;
+  const pendingPayments = payments.filter(p => p.status === 'En attente').length;
 
   const handlePropertySubmit = async (propertyData: any) => {
     try {
