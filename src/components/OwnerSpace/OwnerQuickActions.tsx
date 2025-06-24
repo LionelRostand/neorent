@@ -13,9 +13,10 @@ import SidebarMenuSelector from './QuickActions/SidebarMenuSelector';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
+  setActiveView?: (view: string) => void;
 }
 
-const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) => {
+const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, setActiveView }) => {
   const { i18n } = useTranslation();
   const { getEnabledActions, isAdmin } = useQuickActionsManager();
   const [showMenuSelector, setShowMenuSelector] = useState(false);
@@ -61,7 +62,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     expiringContracts,
     pendingPayments,
     () => '', // dummy t function since we're using getLocalizedText
-    enabledActions
+    enabledActions,
+    setActiveView // Pass setActiveView to enable view switching
   );
 
   return (

@@ -1,219 +1,284 @@
 
-import {
-  LayoutDashboard,
-  Plus,
-  FileText,
-  Users,
-  ClipboardList,
-  Calculator,
-  Wrench,
-  Building,
-  UserCheck,
-  DollarSign,
-  TrendingUp,
-  MessageCircle,
-  Globe,
-  Settings,
-  HelpCircle
+import { 
+  LayoutDashboard, 
+  Building, 
+  Users, 
+  UserPlus, 
+  FileText, 
+  ClipboardCheck, 
+  DollarSign, 
+  Receipt, 
+  TrendingUp, 
+  Wrench, 
+  MessageSquare, 
+  Calculator, 
+  Globe, 
+  Settings, 
+  HelpCircle,
+  LucideIcon 
 } from 'lucide-react';
 
 export interface QuickAction {
   id: string;
   title: string;
   description: string;
-  preview: string;
-  icon: any;
+  icon: LucideIcon;
   color: string;
+  preview: string;
   action: () => void;
 }
 
-const getPreviewForAction = (
-  actionId: string,
-  ownerProperties: any[],
-  activeTenants: any[],
-  expiringContracts: number,
-  pendingPayments: number
-): string => {
-  switch (actionId) {
-    case 'property':
-    case 'admin-properties':
-      return `${ownerProperties.length} biens immobiliers`;
-    case 'roommate':
-    case 'admin-roommates':
-      return `${activeTenants.length} locataires actifs`;
-    case 'contract':
-    case 'admin-contracts':
-      return `${expiringContracts} contrats expirent bientôt`;
-    case 'charges':
-    case 'admin-rental-charges':
-      return `${pendingPayments} paiements en attente`;
-    case 'admin-dashboard':
-      return 'Vue d\'ensemble';
-    case 'admin-tenants':
-      return 'Gestion des locataires';
-    case 'admin-inspections':
-      return 'Suivi des inspections';
-    case 'admin-rent-management':
-      return 'Gestion des loyers';
-    case 'admin-forecasting':
-      return 'Prévisions financières';
-    case 'admin-maintenance':
-      return 'Demandes de maintenance';
-    case 'admin-messages':
-      return 'Communication';
-    case 'admin-taxes':
-      return 'Déclarations fiscales';
-    case 'admin-website':
-      return 'Site web';
-    case 'admin-settings':
-      return 'Configuration';
-    case 'admin-help':
-      return 'Centre d\'aide';
-    default:
-      return 'Voir les détails';
-  }
-};
-
 export const createQuickActionsConfig = (
-  navigate: any,
-  setActiveView: (view: string) => void,
+  navigate: (path: string) => void,
+  setOpenDialog: (dialog: string | null) => void,
   ownerProperties: any[],
   activeTenants: any[],
-  expiringContracts: number,
-  pendingPayments: number,
-  t: any,
-  enabledActions: any[]
-) => {
-  console.log('Creating quick actions config with enabled actions:', enabledActions);
+  expiringContracts: any[],
+  pendingPayments: any[],
+  t: (key: string) => string,
+  enabledActions: any[],
+  setActiveView?: (view: string) => void
+): QuickAction[] => {
   
-  const actionHandlers: Record<string, () => void> = {
-    dashboard: () => {
-      console.log('Setting view to dashboard');
-      setActiveView('dashboard');
+  const baseActions: Record<string, QuickAction> = {
+    dashboard: {
+      id: 'dashboard',
+      title: 'Tableau de bord',
+      description: 'Vue d\'ensemble',
+      icon: LayoutDashboard,
+      color: 'bg-slate-500',
+      preview: `${ownerProperties.length} biens`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-dashboard');
+        } else {
+          navigate('/admin/dashboard');
+        }
+      }
     },
-    property: () => {
-      console.log('Setting view to property');
-      setActiveView('property');
+    properties: {
+      id: 'properties',
+      title: 'Propriétés',
+      description: 'Gestion des biens',
+      icon: Building,
+      color: 'bg-blue-500',
+      preview: `${ownerProperties.length} propriétés`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-properties');
+        } else {
+          navigate('/admin/properties');
+        }
+      }
     },
-    contract: () => {
-      console.log('Setting view to contract');
-      setActiveView('contract');
+    tenants: {
+      id: 'tenants',
+      title: 'Locataires',
+      description: 'Gestion locataires',
+      icon: Users,
+      color: 'bg-purple-500',
+      preview: `${activeTenants.length} actifs`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-tenants');
+        } else {
+          navigate('/admin/tenants');
+        }
+      }
     },
-    roommate: () => {
-      console.log('Setting view to roommate');
-      setActiveView('roommate');
+    roommates: {
+      id: 'roommates',
+      title: 'Colocataires',
+      description: 'Gestion colocataires',
+      icon: UserPlus,
+      color: 'bg-pink-500',
+      preview: `Gérer les colocataires`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-roommates');
+        } else {
+          navigate('/admin/roommates');
+        }
+      }
     },
-    inspection: () => {
-      console.log('Setting view to inspection');
-      setActiveView('inspection');
+    contracts: {
+      id: 'contracts',
+      title: 'Contrats',
+      description: 'Gestion des baux',
+      icon: FileText,
+      color: 'bg-yellow-500',
+      preview: `${expiringContracts.length} expirent bientôt`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-contracts');
+        } else {
+          navigate('/admin/contracts');
+        }
+      }
     },
-    charges: () => {
-      console.log('Setting view to charges');
-      setActiveView('charges');
+    inspections: {
+      id: 'inspections',
+      title: 'Inspections',
+      description: 'États des lieux',
+      icon: ClipboardCheck,
+      color: 'bg-orange-500',
+      preview: `Inspections programmées`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-inspections');
+        } else {
+          navigate('/admin/inspections');
+        }
+      }
     },
-    maintenance: () => {
-      console.log('Setting view to maintenance');
-      setActiveView('maintenance');
+    'rent-management': {
+      id: 'rent-management',
+      title: 'Gestion des loyers',
+      description: 'Suivi des paiements',
+      icon: DollarSign,
+      color: 'bg-green-500',
+      preview: `${pendingPayments.length} en attente`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-rent-management');
+        } else {
+          navigate('/admin/rent-management');
+        }
+      }
     },
-    
-    // Admin menu handlers - All set to use setActiveView directly
-    'admin-dashboard': () => {
-      console.log('Setting view to admin-dashboard');
-      setActiveView('admin-dashboard');
+    'rental-charges': {
+      id: 'rental-charges',
+      title: 'Charges locatives',
+      description: 'Gestion des charges',
+      icon: Receipt,
+      color: 'bg-teal-500',
+      preview: `Charges mensuelles`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-rental-charges');
+        } else {
+          navigate('/admin/rental-charges');
+        }
+      }
     },
-    'admin-properties': () => {
-      console.log('Setting view to admin-properties');
-      setActiveView('admin-properties');
+    forecasting: {
+      id: 'forecasting',
+      title: 'Prévisions',
+      description: 'Analyse financière',
+      icon: TrendingUp,
+      color: 'bg-emerald-500',
+      preview: `Projections revenus`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-forecasting');
+        } else {
+          navigate('/admin/forecasting');
+        }
+      }
     },
-    'admin-tenants': () => {
-      console.log('Setting view to admin-tenants');
-      setActiveView('admin-tenants');
+    maintenance: {
+      id: 'maintenance',
+      title: 'Maintenance',
+      description: 'Interventions',
+      icon: Wrench,
+      color: 'bg-red-500',
+      preview: `Demandes ouvertes`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-maintenance');
+        } else {
+          navigate('/admin/maintenance');
+        }
+      }
     },
-    'admin-roommates': () => {
-      console.log('Setting view to admin-roommates');
-      setActiveView('admin-roommates');
+    messages: {
+      id: 'messages',
+      title: 'Messages',
+      description: 'Communication',
+      icon: MessageSquare,
+      color: 'bg-indigo-500',
+      preview: `Nouveaux messages`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-messages');
+        } else {
+          navigate('/admin/messages');
+        }
+      }
     },
-    'admin-contracts': () => {
-      console.log('Setting view to admin-contracts');
-      setActiveView('admin-contracts');
+    taxes: {
+      id: 'taxes',
+      title: 'Fiscalité',
+      description: 'Gestion fiscale',
+      icon: Calculator,
+      color: 'bg-cyan-500',
+      preview: `Déclarations`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-taxes');
+        } else {
+          navigate('/admin/taxes');
+        }
+      }
     },
-    'admin-inspections': () => {
-      console.log('Setting view to admin-inspections');
-      setActiveView('admin-inspections');
+    website: {
+      id: 'website',
+      title: 'Site web',
+      description: 'Gestion site',
+      icon: Globe,
+      color: 'bg-violet-500',
+      preview: `Configuration`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-website');
+        } else {
+          navigate('/admin/website');
+        }
+      }
     },
-    'admin-rent-management': () => {
-      console.log('Setting view to admin-rent-management');
-      setActiveView('admin-rent-management');
+    settings: {
+      id: 'settings',
+      title: 'Paramètres',
+      description: 'Configuration',
+      icon: Settings,
+      color: 'bg-gray-500',
+      preview: `Système`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-settings');
+        } else {
+          navigate('/admin/settings');
+        }
+      }
     },
-    'admin-rental-charges': () => {
-      console.log('Setting view to admin-rental-charges');
-      setActiveView('admin-rental-charges');
-    },
-    'admin-forecasting': () => {
-      console.log('Setting view to admin-forecasting');
-      setActiveView('admin-forecasting');
-    },
-    'admin-maintenance': () => {
-      console.log('Setting view to admin-maintenance');
-      setActiveView('admin-maintenance');
-    },
-    'admin-messages': () => {
-      console.log('Setting view to admin-messages');
-      setActiveView('admin-messages');
-    },
-    'admin-taxes': () => {
-      console.log('Setting view to admin-taxes');
-      setActiveView('admin-taxes');
-    },
-    'admin-website': () => {
-      console.log('Setting view to admin-website');
-      setActiveView('admin-website');
-    },
-    'admin-settings': () => {
-      console.log('Setting view to admin-settings');
-      setActiveView('admin-settings');
-    },
-    'admin-help': () => {
-      console.log('Setting view to admin-help');
-      setActiveView('admin-help');
-    },
+    help: {
+      id: 'help',
+      title: 'Aide',
+      description: 'Support',
+      icon: HelpCircle,
+      color: 'bg-amber-500',
+      preview: `Documentation`,
+      action: () => {
+        if (setActiveView) {
+          setActiveView('admin-help');
+        } else {
+          navigate('/admin/help');
+        }
+      }
+    }
   };
 
-  return enabledActions.map(actionConfig => {
-    const iconMap: Record<string, any> = {
-      LayoutDashboard: LayoutDashboard,
-      Plus: Plus,
-      FileText: FileText,
-      Users: Users,
-      ClipboardList: ClipboardList,
-      Calculator: Calculator,
-      Wrench: Wrench,
-      Building: Building,
-      UserCheck: UserCheck,
-      DollarSign: DollarSign,
-      TrendingUp: TrendingUp,
-      MessageCircle: MessageCircle,
-      Globe: Globe,
-      Settings: Settings,
-      HelpCircle: HelpCircle
-    };
+  return enabledActions
+    .map(actionConfig => {
+      const baseAction = baseActions[actionConfig.id];
+      if (!baseAction) return null;
 
-    const Icon = iconMap[actionConfig.icon] || Settings;
-    
-    // Use action handler based on action ID
-    const actionHandler = actionHandlers[actionConfig.id] || (() => {
-      console.log('No handler for:', actionConfig.id);
-      console.log('Available handlers:', Object.keys(actionHandlers));
-    });
-
-    return {
-      id: actionConfig.id,
-      title: actionConfig.title.fr || actionConfig.title,
-      description: actionConfig.description.fr || actionConfig.description,
-      preview: getPreviewForAction(actionConfig.id, ownerProperties, activeTenants, expiringContracts, pendingPayments),
-      icon: Icon,
-      color: actionConfig.color,
-      action: actionHandler
-    };
-  }).filter(Boolean);
+      return {
+        ...baseAction,
+        title: actionConfig.title?.fr || baseAction.title,
+        description: actionConfig.description?.fr || baseAction.description,
+        color: actionConfig.color || baseAction.color,
+      };
+    })
+    .filter(Boolean) as QuickAction[];
 };
