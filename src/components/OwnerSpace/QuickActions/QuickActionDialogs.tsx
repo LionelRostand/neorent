@@ -2,7 +2,6 @@
 import React from 'react';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import PropertyForm from '@/components/PropertyForm';
 import RoommateForm from '@/components/RoommateForm';
 import InspectionForm from '@/components/InspectionForm';
@@ -27,14 +26,6 @@ const QuickActionDialogs: React.FC<QuickActionDialogsProps> = ({
   onInspectionSubmit,
   onContractSubmit
 }) => {
-  const { getButtonConfig } = useFormButtonConfig();
-
-  // Configuration des boutons pour chaque type de formulaire
-  const propertyButtonConfig = getButtonConfig('property');
-  const roommateButtonConfig = getButtonConfig('roommate');
-  const inspectionButtonConfig = getButtonConfig('inspection');
-  const contractButtonConfig = getButtonConfig('contract');
-
   return (
     <>
       {/* Property Dialog */}
@@ -42,7 +33,6 @@ const QuickActionDialogs: React.FC<QuickActionDialogsProps> = ({
         <PropertyForm 
           onClose={() => setOpenDialog(null)}
           onSubmit={onPropertySubmit}
-          buttonConfig={propertyButtonConfig}
         />
       </Dialog>
 
@@ -51,7 +41,6 @@ const QuickActionDialogs: React.FC<QuickActionDialogsProps> = ({
         <RoommateForm 
           onClose={() => setOpenDialog(null)}
           onSubmit={onRoommateSubmit}
-          buttonConfig={roommateButtonConfig}
         />
       </Dialog>
 
@@ -60,7 +49,6 @@ const QuickActionDialogs: React.FC<QuickActionDialogsProps> = ({
         <InspectionForm 
           onClose={() => setOpenDialog(null)}
           onSubmit={onInspectionSubmit}
-          buttonConfig={inspectionButtonConfig}
         />
       </Dialog>
 
@@ -69,7 +57,6 @@ const QuickActionDialogs: React.FC<QuickActionDialogsProps> = ({
         <ContractForm 
           onClose={() => setOpenDialog(null)}
           onSubmit={onContractSubmit || (() => Promise.resolve())}
-          buttonConfig={contractButtonConfig}
         />
       </Dialog>
     </>

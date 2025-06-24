@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
-import ConfigurableQuickActionItem from './QuickActions/ConfigurableQuickActionItem';
+import QuickActionItem from './QuickActions/QuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
 import QuickActionsManager from './QuickActions/QuickActionsManager';
 import SidebarMenuSelector from './QuickActions/SidebarMenuSelector';
@@ -88,7 +88,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
         </CardHeader>
         <CardContent className="space-y-1 p-4 pt-0">
           {quickActions.map((action) => (
-            <ConfigurableQuickActionItem key={`${action.id}-${refreshKey}`} action={action} />
+            <QuickActionItem key={`${action.id}-${refreshKey}`} action={action} />
           ))}
         </CardContent>
       </Card>
