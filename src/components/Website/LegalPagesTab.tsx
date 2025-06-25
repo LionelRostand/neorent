@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -325,7 +324,6 @@ Email : cookies@neorent.fr`
               <Button 
                 onClick={() => handleSave('politique de cookies')} 
                 disabled={isSaving}
-                className="w-full"
                 className="w-full"
               >
                 <Save className="h-4 w-4 mr-2" />
