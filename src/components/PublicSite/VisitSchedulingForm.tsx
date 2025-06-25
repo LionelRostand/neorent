@@ -210,7 +210,7 @@ Cette demande a été envoyée depuis le site web public.`;
           <h4 className="font-medium text-blue-900 mb-2">Informations importantes</h4>
           <ul className="text-sm text-blue-800 space-y-1">
             <li>• La visite sera confirmée par téléphone dans les 24h</li>
-            <li>• Veuillez vous munir d'une pièce d'identité</li>
+            <li>• Veuillez vous munir d&apos;une pièce d&apos;identité</li>
             <li>• Les visites sont possibles du lundi au samedi de 9h à 18h</li>
             <li>• Votre demande sera transmise directement à notre équipe</li>
           </ul>
@@ -238,7 +238,7 @@ Cette demande a été envoyée depuis le site web public.`;
               <>
                 <Calendar className="h-4 w-4 mr-2" />
                 Envoyer la demande
-              </Button>
+              </>
             )}
           </Button>
         </div>
