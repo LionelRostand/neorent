@@ -28,13 +28,16 @@ export const PropertiesList = ({
     window.open('/properties', '_blank');
   };
 
+  // Compter les propriétés visibles pour l'affichage dans le titre
+  const visiblePropertiesCount = properties?.filter(p => propertySettings[p.id]?.visible)?.length || 0;
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Building className="h-5 w-5" />
-            Gestion des Propriétés du Site Web ({properties?.length || 0} affichées)
+            Gestion des Propriétés du Site Web ({visiblePropertiesCount} affichées sur {properties?.length || 0})
           </div>
           <Button variant="outline" size="sm" onClick={handlePreviewSite}>
             <ExternalLink className="h-4 w-4 mr-2" />

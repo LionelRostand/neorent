@@ -130,10 +130,10 @@ const PropertiesTab = () => {
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {/* Liste des propriétés */}
+        {/* Liste des propriétés - Maintenant on passe toutes les propriétés, pas seulement les visibles */}
         <div className="xl:col-span-2">
           <PropertiesList
-            properties={visibleProperties}
+            properties={uniqueProperties}
             propertySettings={propertySettings}
             onToggleVisibility={togglePropertyVisibility}
             onToggleFeatured={togglePropertyFeatured}
