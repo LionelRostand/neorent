@@ -12,7 +12,7 @@ import {
   BarChart3, 
   Settings,
   Link as LinkIcon,
-  Building
+  Home
 } from 'lucide-react';
 
 import WebsiteHeader from '@/components/Website/WebsiteHeader';
@@ -25,7 +25,7 @@ import MapTab from '@/components/Website/MapTab';
 import AnalyticsTab from '@/components/Website/AnalyticsTab';
 import ConfigTab from '@/components/Website/ConfigTab';
 import CookiesTab from '@/components/Website/CookiesTab';
-import PropertiesTab from '@/components/Website/PropertiesTab';
+import ImmoTab from '@/components/Website/ImmoTab';
 
 const Website = () => {
   const { t } = useTranslation();
@@ -33,7 +33,7 @@ const Website = () => {
 
   const tabs = [
     { id: 'pages', label: t('website.managePages'), icon: FileText },
-    { id: 'properties', label: 'Propriétés', icon: Building },
+    { id: 'immo', label: 'Immo', icon: Home },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
     { id: 'theme', label: t('common.theme'), icon: Palette },
@@ -73,8 +73,8 @@ const Website = () => {
               <PagesTab />
             </TabsContent>
 
-            <TabsContent value="properties" className="space-y-4 md:space-y-6 mt-0">
-              <PropertiesTab />
+            <TabsContent value="immo" className="space-y-4 md:space-y-6 mt-0">
+              <ImmoTab />
             </TabsContent>
 
             <TabsContent value="content" className="space-y-4 md:space-y-6 mt-0">
