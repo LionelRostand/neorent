@@ -24,6 +24,8 @@ export const PropertySelectionModal = ({
   console.log('🔥 PropertySelectionModal render - isOpen:', isOpen);
   console.log('🔥 PropertySelectionModal - properties:', properties);
   console.log('🔥 PropertySelectionModal - selectedProperties:', selectedProperties);
+  console.log('🔥 PropertySelectionModal - onClose type:', typeof onClose);
+  console.log('🔥 PropertySelectionModal - onSelectProperty type:', typeof onSelectProperty);
 
   const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" | "success" => {
     switch (status) {
@@ -43,8 +45,17 @@ export const PropertySelectionModal = ({
     onSelectProperty(property);
   };
 
+  const handleOpenChange = (open: boolean) => {
+    console.log('🔥 PropertySelectionModal - Dialog openChange:', open);
+    if (!open) {
+      onClose();
+    }
+  };
+
+  console.log('🔥 PropertySelectionModal - About to render Dialog with open:', isOpen);
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">

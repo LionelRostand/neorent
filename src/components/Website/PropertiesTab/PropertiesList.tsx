@@ -39,8 +39,17 @@ export const PropertiesList = ({
   const handleAddProperty = () => {
     console.log('🔥 BOUTON CLIQUÉ - handleAddProperty appelé');
     console.log('🔥 Avant setShowPropertySelectionModal(true)');
+    console.log('🔥 État actuel du modal:', showPropertySelectionModal);
+    console.log('🔥 Type de setShowPropertySelectionModal:', typeof setShowPropertySelectionModal);
+    
     setShowPropertySelectionModal(true);
+    
     console.log('🔥 Après setShowPropertySelectionModal(true)');
+    
+    // Vérification après un court délai pour voir si l'état a changé
+    setTimeout(() => {
+      console.log('🔥 État du modal après 100ms:', showPropertySelectionModal);
+    }, 100);
   };
 
   const handleSelectProperty = (property: any) => {
@@ -83,6 +92,7 @@ export const PropertiesList = ({
   console.log('🚀 Selected property IDs:', selectedPropertyIds);
   console.log('🚀 Available for modal:', availablePropertiesForModal);
   console.log('🚀 Modal state:', showPropertySelectionModal);
+  console.log('🚀 Loading properties:', loadingProperties);
 
   return (
     <>
@@ -145,6 +155,7 @@ export const PropertiesList = ({
         </CardContent>
       </Card>
 
+      {console.log('🔥 Rendering PropertySelectionModal with isOpen:', showPropertySelectionModal)}
       <PropertySelectionModal
         isOpen={showPropertySelectionModal}
         onClose={handleCloseModal}
