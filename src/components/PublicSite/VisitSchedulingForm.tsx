@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
+import { messageService } from '@/services/messageService';
 import { 
   Calendar,
   X
@@ -39,9 +40,45 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
     setIsSubmitting(true);
 
     try {
-      // Simuler l'envoi de la demande de visite
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      // Créer ou trouver une conversation pour ce client
+      const conversation = await messageService.findConversationByEmail(visitForm.email) ||
+        await messageService.createConversation(
+          visitForm.name,
+          visitForm.email,
+          visitForm.phone || ''
+        );
+
+      // Construire le message de demande de visite
+      const visitMessage = `🏠 DEMANDE DE VISITE
+
+Propriété : ${property.title}
+Adresse : ${property.address}
+Loyer : ${property.rent}€/mois
+
+👤 Informations du demandeur :
+Nom : ${visitForm.name}
+Email : ${visitForm.email}
+Téléphone : ${visitForm.phone}
+
+📅 Créneaux souhaités :
+Date : ${new Date(visitForm.preferredDate).toLocaleDateString('fr-FR')}
+Heure : ${visitForm.preferredTime}
+
+💬 Message :
+${visitForm.message || 'Aucun message particulier'}
+
+---
+Cette demande a été envoyée depuis le site web public.`;
+
+      // Envoyer le message via le service de messages
+      await messageService.sendMessage({
+        conversationId: conversation.id,
+        sender: 'client',
+        senderName: visitForm.name,
+        senderEmail: visitForm.email,
+        message: visitMessage
+      });
+
       toast.success('Demande de visite envoyée', {
         description: 'Nous vous contacterons dans les plus brefs délais pour confirmer votre rendez-vous.'
       });
@@ -58,6 +95,7 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
       
       onClose();
     } catch (error) {
+      console.error('Erreur lors de l\'envoi de la demande de visite:', error);
       toast.error('Erreur lors de l\'envoi', {
         description: 'Veuillez réessayer ou nous contacter directement.'
       });
@@ -80,6 +118,17 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
         >
           <X className="h-4 w-4" />
         </Button>
+      </div>
+
+      {/* Récapitulatif de la propriété */}
+      <div className="bg-blue-50 p-4 rounded-lg">
+        <h4 className="font-medium text-blue-900 mb-2">Propriété sélectionnée</h4>
+        <div className="text-sm text-blue-800 space-y-1">
+          <p><strong>Adresse :</strong> {property.address}</p>
+          <p><strong>Type :</strong> {property.type} - {property.surface}m²</p>
+          <p><strong>Loyer :</strong> {property.rent}€/mois</p>
+          <p><strong>Statut :</strong> <span className="font-medium">{property.status}</span></p>
+        </div>
       </div>
 
       {/* Formulaire de demande de visite */}
@@ -163,6 +212,7 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
             <li>• La visite sera confirmée par téléphone dans les 24h</li>
             <li>• Veuillez vous munir d'une pièce d'identité</li>
             <li>• Les visites sont possibles du lundi au samedi de 9h à 18h</li>
+            <li>• Votre demande sera transmise directement à notre équipe</li>
           </ul>
         </div>
 
@@ -188,7 +238,7 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
               <>
                 <Calendar className="h-4 w-4 mr-2" />
                 Envoyer la demande
-              </>
+              </Button>
             )}
           </Button>
         </div>
