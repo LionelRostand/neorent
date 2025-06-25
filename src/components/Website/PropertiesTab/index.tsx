@@ -15,6 +15,11 @@ const PropertiesTab = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
+  // Log pour débugger
+  console.log('Owner properties:', ownerProperties);
+  console.log('Admin properties:', allAdminProperties);
+  console.log('Loading:', loadingProperties);
+
   // Combiner toutes les propriétés disponibles (owner + admin)
   const allAvailableProperties = [
     ...(ownerProperties || []),
@@ -25,6 +30,8 @@ const PropertiesTab = () => {
   const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
     index === self.findIndex((p) => p.id === property.id)
   );
+
+  console.log('Unique properties:', uniqueProperties);
 
   // États pour gérer la visibilité et les descriptions des propriétés sur le site
   const [propertySettings, setPropertySettings] = useState<{[key: string]: {
@@ -46,6 +53,7 @@ const PropertiesTab = () => {
         };
       });
       setPropertySettings(initialSettings);
+      console.log('Property settings initialized:', initialSettings);
     }
   }, [uniqueProperties.length]);
 
@@ -77,6 +85,7 @@ const PropertiesTab = () => {
           visible: !prev[propertyId]?.visible
         }
       };
+      console.log('Toggled visibility for', propertyId, 'new settings:', newSettings);
       return newSettings;
     });
   };
@@ -116,6 +125,17 @@ const PropertiesTab = () => {
 
   // Filtrer les propriétés visibles pour les statistiques
   const visibleProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.visible) || [];
+
+  // Afficher un état de chargement si nécessaire
+  if (loadingProperties) {
+    return (
+      <div className="space-y-4 md:space-y-6">
+        <div className="text-center py-8">
+          <p>Chargement des propriétés...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 md:space-y-6">

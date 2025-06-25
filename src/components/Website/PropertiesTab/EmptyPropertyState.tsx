@@ -18,11 +18,12 @@ export const EmptyPropertyState = () => {
         Aucune propriété trouvée
       </h3>
       <p className="text-gray-500 text-sm mb-4">
-        Ajoutez des propriétés depuis la section Propriétés pour les afficher sur votre site web
+        Ajoutez des propriétés depuis la section Propriétés pour les afficher sur votre site web.
+        Vérifiez que vous avez bien des propriétés dans votre base de données.
       </p>
       <Button onClick={handleAddProperty}>
         <Building className="h-4 w-4 mr-2" />
-        Ajouter une propriété
+        Aller à la section Propriétés
       </Button>
     </div>
   );
