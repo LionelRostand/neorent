@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building, ExternalLink } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
+import { EmptyPropertyState } from './EmptyPropertyState';
 
 interface PropertiesListProps {
   properties: any[];
@@ -56,15 +57,7 @@ export const PropertiesList = ({
               />
             ))
           ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-700 mb-2">
-                Aucune propriété affichée sur le site
-              </h3>
-              <p className="text-gray-500 text-sm mb-4">
-                Utilisez les commutateurs de visibilité ci-dessous pour afficher des propriétés sur votre site web
-              </p>
-            </div>
+            <EmptyPropertyState />
           )}
         </div>
       </CardContent>
