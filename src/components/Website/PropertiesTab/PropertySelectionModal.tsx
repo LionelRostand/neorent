@@ -24,8 +24,6 @@ export const PropertySelectionModal = ({
   console.log('🔥 PropertySelectionModal render - isOpen:', isOpen);
   console.log('🔥 PropertySelectionModal - properties:', properties);
   console.log('🔥 PropertySelectionModal - selectedProperties:', selectedProperties);
-  console.log('🔥 PropertySelectionModal - onClose type:', typeof onClose);
-  console.log('🔥 PropertySelectionModal - onSelectProperty type:', typeof onSelectProperty);
 
   const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" | "success" => {
     switch (status) {
