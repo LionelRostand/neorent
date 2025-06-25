@@ -69,16 +69,19 @@ export const PropertiesList = ({
     index === self.findIndex((p) => p.id === property.id)
   );
 
-  // Obtenir les IDs des propriétés déjà sélectionnées
-  const selectedPropertyIds = uniqueProperties
-    ?.filter(p => propertySettings[p.id]?.visible)
-    .map(p => p.id) || [];
+  // Obtenir les IDs des propriétés déjà sélectionnées (visibles)
+  const selectedPropertyIds = Object.keys(propertySettings || {})
+    .filter(propertyId => propertySettings[propertyId]?.visible)
+    .filter(propertyId => uniqueProperties.some(p => p.id === propertyId));
 
-  // Propriétés pour le modal (toutes les propriétés disponibles)
-  const modalProperties = uniqueProperties || [];
+  // Propriétés disponibles pour le modal (non encore sélectionnées)
+  const availablePropertiesForModal = uniqueProperties.filter(property => 
+    !selectedPropertyIds.includes(property.id)
+  );
 
   console.log('🚀 Unique properties:', uniqueProperties);
   console.log('🚀 Selected property IDs:', selectedPropertyIds);
+  console.log('🚀 Available for modal:', availablePropertiesForModal);
   console.log('🚀 Modal state:', showPropertySelectionModal);
 
   return (
@@ -126,11 +129,16 @@ export const PropertiesList = ({
               <Button 
                 variant="outline" 
                 onClick={handleAddProperty}
-                disabled={loadingProperties}
+                disabled={loadingProperties || availablePropertiesForModal.length === 0}
                 className="w-full"
               >
                 <Building className="h-4 w-4 mr-2" />
-                {loadingProperties ? 'Chargement...' : 'Ajouter une propriété'}
+                {loadingProperties 
+                  ? 'Chargement...' 
+                  : availablePropertiesForModal.length === 0 
+                    ? 'Toutes les propriétés sont déjà affichées'
+                    : `Ajouter une propriété (${availablePropertiesForModal.length} disponible${availablePropertiesForModal.length > 1 ? 's' : ''})`
+                }
               </Button>
             </div>
           </div>
@@ -140,7 +148,7 @@ export const PropertiesList = ({
       <PropertySelectionModal
         isOpen={showPropertySelectionModal}
         onClose={handleCloseModal}
-        properties={modalProperties}
+        properties={availablePropertiesForModal}
         onSelectProperty={handleSelectProperty}
         selectedProperties={selectedPropertyIds}
       />

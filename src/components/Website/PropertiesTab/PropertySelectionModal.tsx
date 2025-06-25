@@ -38,11 +38,10 @@ export const PropertySelectionModal = ({
     }
   };
 
-  const availableProperties = properties.filter(property => 
-    !selectedProperties.includes(property.id)
-  );
-
-  console.log('🔥 PropertySelectionModal - availableProperties:', availableProperties);
+  const handlePropertySelect = (property: any) => {
+    console.log('🔥 PropertySelectionModal - Selecting property:', property);
+    onSelectProperty(property);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -55,7 +54,7 @@ export const PropertySelectionModal = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          {availableProperties.length === 0 ? (
+          {properties.length === 0 ? (
             <div className="text-center py-8">
               <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-700 mb-2">
@@ -68,15 +67,15 @@ export const PropertySelectionModal = ({
           ) : (
             <>
               <p className="text-sm text-gray-600 mb-4">
-                Cliquez sur une propriété pour l'ajouter à votre site web ({availableProperties.length} disponible(s))
+                Cliquez sur une propriété pour l'ajouter à votre site web ({properties.length} disponible{properties.length > 1 ? 's' : ''})
               </p>
 
               <div className="grid gap-4">
-                {availableProperties.map((property) => (
+                {properties.map((property) => (
                   <Card 
                     key={property.id}
                     className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-blue-200"
-                    onClick={() => onSelectProperty(property)}
+                    onClick={() => handlePropertySelect(property)}
                   >
                     <CardContent className="p-4">
                       <div className="flex items-start gap-4">
