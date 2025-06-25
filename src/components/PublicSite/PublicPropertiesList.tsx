@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
+import { PropertyMap } from './PropertyMap';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { 
   MapPin, 
   Euro, 
@@ -12,76 +14,9 @@ import {
   Square, 
   Building,
   Star,
-  Image as ImageIcon 
+  Image as ImageIcon,
+  Map as MapIcon
 } from 'lucide-react';
-
-// Données simulées des propriétés avec paramètres de visibilité
-const mockProperties = [
-  {
-    id: '1',
-    title: 'Appartement 13',
-    address: '721 RÉSIDENCE DE L\'AQUITAINE DAMMARIE LES LYS',
-    type: 'Appartement',
-    surface: '45',
-    rent: '550',
-    status: 'Libre',
-    tenant: null,
-    image: '/placeholder.svg',
-    locationType: 'Location classique',
-    totalRooms: 2,
-    availableRooms: 2,
-    visible: true,
-    featured: true
-  },
-  {
-    id: '2',
-    title: 'Studio moderne',
-    address: '15 Avenue des Champs, Paris 8ème',
-    type: 'Studio',
-    surface: '25',
-    rent: '890',
-    status: 'Libre',
-    tenant: null,
-    image: '/placeholder.svg',
-    locationType: 'Location classique',
-    totalRooms: 1,
-    availableRooms: 1,
-    visible: true,
-    featured: false
-  },
-  {
-    id: '3',
-    title: 'Appartement T3',
-    address: '42 Rue de la République, Lyon 2ème',
-    type: 'Appartement',
-    surface: '70',
-    rent: '1200',
-    status: 'Occupé',
-    tenant: 'Marie Dupont',
-    image: '/placeholder.svg',
-    locationType: 'Location classique',
-    totalRooms: 3,
-    availableRooms: 0,
-    visible: true,
-    featured: false
-  },
-  {
-    id: '4',
-    title: 'Chambre en colocation',
-    address: '8 Boulevard Saint-Michel, Bordeaux',
-    type: 'Chambre',
-    surface: '12',
-    rent: '420',
-    status: 'Libre',
-    tenant: null,
-    image: '/placeholder.svg',
-    locationType: 'Colocation',
-    totalRooms: 5,
-    availableRooms: 2,
-    visible: true,
-    featured: true
-  }
-];
 
 interface PublicPropertiesListProps {
   searchFilter: string;
@@ -90,10 +25,28 @@ interface PublicPropertiesListProps {
 export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps) => {
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showMap, setShowMap] = useState(false);
+  
+  // Utiliser les vraies propriétés depuis Firebase
+  const { properties: allProperties, loading } = useFirebaseProperties();
+
+  // Récupérer les paramètres de visibilité depuis le localStorage ou une API
+  const getPropertySettings = () => {
+    try {
+      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
+      return savedSettings ? JSON.parse(savedSettings) : {};
+    } catch (error) {
+      return {};
+    }
+  };
+
+  const propertySettings = getPropertySettings();
 
   // Filtrer les propriétés visibles et selon le terme de recherche
-  const filteredProperties = mockProperties.filter(property => {
-    if (!property.visible) return false;
+  const filteredProperties = allProperties?.filter(property => {
+    // Vérifier si la propriété est visible sur le site web
+    const settings = propertySettings[property.id];
+    if (!settings?.visible) return false;
     
     if (!searchFilter) return true;
     
@@ -103,12 +56,15 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
       property.address.toLowerCase().includes(searchTerm) ||
       property.type.toLowerCase().includes(searchTerm)
     );
-  });
+  }) || [];
 
   // Trier les propriétés pour mettre en avant celles qui sont featured
   const sortedProperties = [...filteredProperties].sort((a, b) => {
-    if (a.featured && !b.featured) return -1;
-    if (!a.featured && b.featured) return 1;
+    const aSettings = propertySettings[a.id];
+    const bSettings = propertySettings[b.id];
+    
+    if (aSettings?.featured && !bSettings?.featured) return -1;
+    if (!aSettings?.featured && bSettings?.featured) return 1;
     return 0;
   });
 
@@ -143,6 +99,20 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     setSelectedProperty(null);
   };
 
+  if (loading) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Chargement des propriétés...
+            </h3>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (sortedProperties.length === 0) {
     return (
       <section className="py-16 bg-gray-50">
@@ -171,15 +141,39 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Nos Propriétés Disponibles
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
               Découvrez notre sélection de logements de qualité, 
               soigneusement sélectionnés pour répondre à vos besoins
             </p>
+            
+            {/* Toggle pour afficher la carte */}
+            <div className="flex justify-center">
+              <Button
+                variant={showMap ? "default" : "outline"}
+                onClick={() => setShowMap(!showMap)}
+                className="mb-8"
+              >
+                <MapIcon className="h-4 w-4 mr-2" />
+                {showMap ? "Masquer la carte" : "Voir sur la carte"}
+              </Button>
+            </div>
           </div>
+
+          {/* Carte des propriétés */}
+          {showMap && (
+            <div className="mb-12">
+              <PropertyMap 
+                properties={sortedProperties}
+                selectedProperty={selectedProperty}
+                onPropertySelect={handlePropertyClick}
+              />
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {sortedProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
+              const settings = propertySettings[property.id] || {};
               
               return (
                 <Card 
@@ -208,7 +202,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                       <Badge className={`${getStatusColor(property.status)} border font-medium`}>
                         {property.status}
                       </Badge>
-                      {property.featured && (
+                      {settings.featured && (
                         <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 font-medium">
                           <Star className="h-3 w-3 mr-1" />
                           Coup de cœur

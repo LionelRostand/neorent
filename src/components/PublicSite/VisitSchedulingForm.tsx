@@ -41,12 +41,20 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
 
     try {
       // Créer ou trouver une conversation pour ce client
-      const conversation = await messageService.findConversationByEmail(visitForm.email) ||
-        await messageService.createConversation(
+      let conversation;
+      try {
+        conversation = await messageService.findConversationByEmail(visitForm.email);
+      } catch (error) {
+        console.log('Conversation not found, creating new one');
+      }
+      
+      if (!conversation) {
+        conversation = await messageService.createConversation(
           visitForm.name,
           visitForm.email,
           visitForm.phone || ''
         );
+      }
 
       // Construire le message de demande de visite
       const visitMessage = `🏠 DEMANDE DE VISITE
