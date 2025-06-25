@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 import { PropertiesList } from './PropertiesList';
 import { PropertyStatsCards } from './PropertyStatsCards';
 import { PropertyEditPanel } from './PropertyEditPanel';
-import { PropertySelectionModal } from './PropertySelectionModal';
 
 const PropertiesTab = () => {
   const { userProfile } = useAuth();
@@ -15,10 +14,6 @@ const PropertiesTab = () => {
   const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
   const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
-  const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
-
-  console.log('🚀 PropertiesTab - Owner properties:', ownerProperties);
-  console.log('🚀 PropertiesTab - Admin properties:', allAdminProperties);
 
   // Combiner toutes les propriétés disponibles (owner + admin)
   const allAvailableProperties = [
@@ -30,8 +25,6 @@ const PropertiesTab = () => {
   const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
     index === self.findIndex((p) => p.id === property.id)
   );
-
-  console.log('🚀 PropertiesTab - Unique properties:', uniqueProperties);
 
   // États pour gérer la visibilité et les descriptions des propriétés sur le site
   const [propertySettings, setPropertySettings] = useState<{[key: string]: {
@@ -53,7 +46,6 @@ const PropertiesTab = () => {
         };
       });
       setPropertySettings(initialSettings);
-      console.log('🚀 PropertiesTab - Initialized settings for', uniqueProperties.length, 'properties');
     }
   }, [uniqueProperties.length]);
 
@@ -61,8 +53,6 @@ const PropertiesTab = () => {
     setIsSaving(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log('Saving website property settings:', propertySettings);
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       
@@ -79,7 +69,6 @@ const PropertiesTab = () => {
   };
 
   const togglePropertyVisibility = (propertyId: string) => {
-    console.log('🔥 Toggle visibility for property:', propertyId);
     setPropertySettings(prev => {
       const newSettings = {
         ...prev,
@@ -88,7 +77,6 @@ const PropertiesTab = () => {
           visible: !prev[propertyId]?.visible
         }
       };
-      console.log('🔥 New settings after toggle:', newSettings);
       return newSettings;
     });
   };
@@ -128,41 +116,6 @@ const PropertiesTab = () => {
 
   // Filtrer les propriétés visibles pour les statistiques
   const visibleProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.visible) || [];
-  const featuredProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.featured) || [];
-
-  console.log('🚀 PropertiesTab - Visible properties:', visibleProperties);
-  console.log('🚀 PropertiesTab - Property settings:', propertySettings);
-
-  // Obtenir les IDs des propriétés déjà sélectionnées (visibles)
-  const selectedPropertyIds = Object.keys(propertySettings || {})
-    .filter(propertyId => propertySettings[propertyId]?.visible)
-    .filter(propertyId => uniqueProperties.some(p => p.id === propertyId));
-
-  // Propriétés disponibles pour le modal (non encore sélectionnées)
-  const availablePropertiesForModal = uniqueProperties.filter(property => 
-    !selectedPropertyIds.includes(property.id)
-  );
-
-  const handleOpenPropertySelectionModal = () => {
-    console.log('🔥 BOUTON CLIQUÉ - handleOpenPropertySelectionModal appelé');
-    console.log('🔥 Avant setShowPropertySelectionModal(true)');
-    console.log('🔥 État actuel du modal:', showPropertySelectionModal);
-    
-    setShowPropertySelectionModal(true);
-    
-    console.log('🔥 Après setShowPropertySelectionModal(true)');
-  };
-
-  const handleSelectProperty = (property: any) => {
-    console.log('🔥 Selected property for website:', property);
-    togglePropertyVisibility(property.id);
-    setShowPropertySelectionModal(false);
-  };
-
-  const handleCloseModal = () => {
-    console.log('🔥 Closing modal');
-    setShowPropertySelectionModal(false);
-  };
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -186,9 +139,6 @@ const PropertiesTab = () => {
             onToggleFeatured={togglePropertyFeatured}
             onEditProperty={setSelectedProperty}
             getStatusBadgeVariant={getStatusBadgeVariant}
-            onAddProperty={handleOpenPropertySelectionModal}
-            availablePropertiesCount={availablePropertiesForModal.length}
-            loadingProperties={loadingProperties}
           />
         </div>
 
@@ -203,15 +153,6 @@ const PropertiesTab = () => {
           />
         </div>
       </div>
-
-      {/* Modal de sélection des propriétés */}
-      <PropertySelectionModal
-        isOpen={showPropertySelectionModal}
-        onClose={handleCloseModal}
-        properties={availablePropertiesForModal}
-        onSelectProperty={handleSelectProperty}
-        selectedProperties={selectedPropertyIds}
-      />
     </div>
   );
 };

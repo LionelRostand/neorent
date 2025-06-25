@@ -12,9 +12,6 @@ interface PropertiesListProps {
   onToggleFeatured: (id: string) => void;
   onEditProperty: (property: any) => void;
   getStatusBadgeVariant: (status: string) => "default" | "destructive" | "outline" | "secondary" | "success";
-  onAddProperty: () => void;
-  availablePropertiesCount: number;
-  loadingProperties: boolean;
 }
 
 export const PropertiesList = ({
@@ -23,20 +20,12 @@ export const PropertiesList = ({
   onToggleVisibility,
   onToggleFeatured,
   onEditProperty,
-  getStatusBadgeVariant,
-  onAddProperty,
-  availablePropertiesCount,
-  loadingProperties
+  getStatusBadgeVariant
 }: PropertiesListProps) => {
 
   const handlePreviewSite = () => {
     window.open('/properties', '_blank');
   };
-
-  console.log('🚀 PropertiesList render');
-  console.log('🚀 Visible properties (passed as props):', properties);
-  console.log('🚀 Available properties count:', availablePropertiesCount);
-  console.log('🚀 Loading properties:', loadingProperties);
 
   return (
     <Card>
@@ -73,27 +62,10 @@ export const PropertiesList = ({
                 Aucune propriété affichée sur le site
               </h3>
               <p className="text-gray-500 text-sm mb-4">
-                Cliquez sur "Ajouter une propriété" pour sélectionner les propriétés à afficher sur votre site web
+                Utilisez les commutateurs de visibilité ci-dessous pour afficher des propriétés sur votre site web
               </p>
             </div>
           )}
-          
-          <div className="pt-4 border-t border-gray-200">
-            <Button 
-              variant="outline" 
-              onClick={onAddProperty}
-              disabled={loadingProperties || availablePropertiesCount === 0}
-              className="w-full"
-            >
-              <Building className="h-4 w-4 mr-2" />
-              {loadingProperties 
-                ? 'Chargement...' 
-                : availablePropertiesCount === 0 
-                  ? 'Toutes les propriétés sont déjà affichées'
-                  : `Ajouter une propriété (${availablePropertiesCount} disponible${availablePropertiesCount > 1 ? 's' : ''})`
-              }
-            </Button>
-          </div>
         </div>
       </CardContent>
     </Card>
