@@ -15,6 +15,9 @@ const PropertiesTab = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
+  console.log('🚀 PropertiesTab - Owner properties:', ownerProperties);
+  console.log('🚀 PropertiesTab - Admin properties:', allAdminProperties);
+
   // Combiner toutes les propriétés disponibles (owner + admin)
   const allAvailableProperties = [
     ...(ownerProperties || []),
@@ -25,6 +28,8 @@ const PropertiesTab = () => {
   const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
     index === self.findIndex((p) => p.id === property.id)
   );
+
+  console.log('🚀 PropertiesTab - Unique properties:', uniqueProperties);
 
   // États pour gérer la visibilité et les descriptions des propriétés sur le site
   const [propertySettings, setPropertySettings] = useState<{[key: string]: {
@@ -38,6 +43,7 @@ const PropertiesTab = () => {
     if (uniqueProperties.length > 0) {
       const initialSettings: any = {};
       uniqueProperties.forEach((property) => {
+        // Initialiser avec visible: false par défaut
         initialSettings[property.id] = {
           visible: false,
           description: '',
@@ -45,6 +51,7 @@ const PropertiesTab = () => {
         };
       });
       setPropertySettings(initialSettings);
+      console.log('🚀 PropertiesTab - Initialized settings for', uniqueProperties.length, 'properties');
     }
   }, [uniqueProperties.length]);
 
@@ -70,13 +77,18 @@ const PropertiesTab = () => {
   };
 
   const togglePropertyVisibility = (propertyId: string) => {
-    setPropertySettings(prev => ({
-      ...prev,
-      [propertyId]: {
-        ...prev[propertyId],
-        visible: !prev[propertyId]?.visible
-      }
-    }));
+    console.log('🔥 Toggle visibility for property:', propertyId);
+    setPropertySettings(prev => {
+      const newSettings = {
+        ...prev,
+        [propertyId]: {
+          ...prev[propertyId],
+          visible: !prev[propertyId]?.visible
+        }
+      };
+      console.log('🔥 New settings after toggle:', newSettings);
+      return newSettings;
+    });
   };
 
   const togglePropertyFeatured = (propertyId: string) => {
@@ -116,18 +128,16 @@ const PropertiesTab = () => {
   const visibleProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.visible) || [];
   const featuredProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.featured) || [];
 
-  console.log('🚀 PropertiesTab render');
-  console.log('🚀 Owner properties:', ownerProperties);
-  console.log('🚀 Admin properties:', allAdminProperties);
-  console.log('🚀 Unique properties:', uniqueProperties);
+  console.log('🚀 PropertiesTab - Visible properties:', visibleProperties);
+  console.log('🚀 PropertiesTab - Property settings:', propertySettings);
 
   return (
     <div className="space-y-4 md:space-y-6">
       {/* En-tête avec statistiques */}
       <PropertyStatsCards
         uniqueProperties={uniqueProperties}
-        ownerProperties={ownerProperties}
-        allAdminProperties={allAdminProperties}
+        ownerProperties={ownerProperties || []}
+        allAdminProperties={allAdminProperties || []}
         visibleProperties={visibleProperties}
         isSaving={isSaving}
         onSave={handleSaveWebsiteSettings}
