@@ -99,7 +99,25 @@
     },
     "database": {
       "title": "Gestion de la Base de Données",
-      "subtitle": "Configurez et surveillez votre base de données Firebase"
+      "subtitle": "Configurez et surveillez votre base de données Firebase",
+      "stats": {
+        "title": "Statistiques de la Base de Données",
+        "collectionsConfigured": "Collections configurées",
+        "activeUsers": "Utilisateurs actifs",
+        "storedDocuments": "Documents stockés",
+        "operationsPerDay": "Opérations par jour",
+        "firestoreCollections": "Collections Firestore",
+        "userAccounts": "Comptes utilisateurs",
+        "documentsInCollections": "Documents dans les collections",
+        "dailyOperations": "Opérations quotidiennes"
+      },
+      "importantInfo": {
+        "title": "Informations importantes",
+        "realTimeStats": "Ces statistiques sont mises à jour en temps réel",
+        "monitorQuota": "Surveillez votre quota Firestore pour éviter les dépassements",
+        "optimizeQueries": "Optimisez vos requêtes pour réduire les coûts",
+        "configureBilling": "Configurez les alertes de facturation Firebase"
+      }
     },
     "security": {
       "title": "Paramètres de Sécurité",
@@ -161,6 +179,52 @@
         "none": "Aucune",
         "tls": "TLS",
         "ssl": "SSL"
+      }
+    },
+    "payment": {
+      "title": "Configuration des Paiements",
+      "subtitle": "Configurez les différents modes de paiement pour votre plateforme",
+      "stripe": {
+        "title": "Configuration Stripe",
+        "description": "Accepter les paiements par carte bancaire via Stripe",
+        "enable": "Activer Stripe",
+        "publicKey": "Clé publique",
+        "secretKey": "Clé secrète",
+        "webhookSecret": "Secret Webhook",
+        "save": "Sauvegarder Stripe"
+      },
+      "paypal": {
+        "title": "Configuration PayPal",
+        "description": "Accepter les paiements via PayPal",
+        "enable": "Activer PayPal",
+        "clientId": "ID Client",
+        "clientSecret": "Secret Client",
+        "clientIdPlaceholder": "Votre ID Client PayPal",
+        "clientSecretPlaceholder": "Votre Secret Client PayPal",
+        "save": "Sauvegarder PayPal"
+      },
+      "bank": {
+        "title": "Virement Bancaire",
+        "description": "Accepter les virements bancaires",
+        "enable": "Activer les virements",
+        "iban": "IBAN",
+        "bic": "BIC/SWIFT",
+        "bankName": "Nom de la banque",
+        "accountHolder": "Titulaire du compte",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 7890 123",
+        "bicPlaceholder": "BNPAFRPPXXX",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolderPlaceholder": "Nom du titulaire",
+        "save": "Sauvegarder Virement"
+      },
+      "mobile": {
+        "title": "Paiement Mobile",
+        "description": "Accepter les paiements via mobile money",
+        "enable": "Activer le paiement mobile",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Mobile Money",
+        "moovMoney": "Moov Money",
+        "save": "Sauvegarder Mobile"
       }
     }
   }

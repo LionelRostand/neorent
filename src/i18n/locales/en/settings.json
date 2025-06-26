@@ -99,7 +99,25 @@
     },
     "database": {
       "title": "Database Management",
-      "subtitle": "Configure and monitor your Firebase database"
+      "subtitle": "Configure and monitor your Firebase database",
+      "stats": {
+        "title": "Database Statistics",
+        "collectionsConfigured": "Collections configured",
+        "activeUsers": "Active users",
+        "storedDocuments": "Stored documents",
+        "operationsPerDay": "Operations per day",
+        "firestoreCollections": "Firestore collections",
+        "userAccounts": "User accounts",
+        "documentsInCollections": "Documents in collections",
+        "dailyOperations": "Daily operations"
+      },
+      "importantInfo": {
+        "title": "Important information",
+        "realTimeStats": "These statistics are updated in real time",
+        "monitorQuota": "Monitor your Firestore quota to avoid overages",
+        "optimizeQueries": "Optimize your queries to reduce costs",
+        "configureBilling": "Configure Firebase billing alerts"
+      }
     },
     "security": {
       "title": "Security Settings",
@@ -161,6 +179,52 @@
         "none": "None",
         "tls": "TLS",
         "ssl": "SSL"
+      }
+    },
+    "payment": {
+      "title": "Payment Configuration",
+      "subtitle": "Configure different payment methods for your platform",
+      "stripe": {
+        "title": "Stripe Configuration",
+        "description": "Accept credit card payments via Stripe",
+        "enable": "Enable Stripe",
+        "publicKey": "Public Key",
+        "secretKey": "Secret Key",
+        "webhookSecret": "Webhook Secret",
+        "save": "Save Stripe"
+      },
+      "paypal": {
+        "title": "PayPal Configuration",
+        "description": "Accept payments via PayPal",
+        "enable": "Enable PayPal",
+        "clientId": "Client ID",
+        "clientSecret": "Client Secret",
+        "clientIdPlaceholder": "Your PayPal Client ID",
+        "clientSecretPlaceholder": "Your PayPal Client Secret",
+        "save": "Save PayPal"
+      },
+      "bank": {
+        "title": "Bank Transfer",
+        "description": "Accept bank transfers",
+        "enable": "Enable bank transfers",
+        "iban": "IBAN",
+        "bic": "BIC/SWIFT",
+        "bankName": "Bank Name",
+        "accountHolder": "Account Holder",
+        "ibanPlaceholder": "GB29 NWBK 6016 1331 9268 19",
+        "bicPlaceholder": "NWBKGB2L",
+        "bankNamePlaceholder": "NatWest Bank",
+        "accountHolderPlaceholder": "Account holder name",
+        "save": "Save Bank Transfer"
+      },
+      "mobile": {
+        "title": "Mobile Payment",
+        "description": "Accept mobile money payments",
+        "enable": "Enable mobile payment",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Mobile Money",
+        "moovMoney": "Moov Money",
+        "save": "Save Mobile"
       }
     }
   }
