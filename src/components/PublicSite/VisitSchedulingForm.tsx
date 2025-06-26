@@ -49,11 +49,12 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
       }
       
       if (!conversation) {
-        conversation = await messageService.createConversation(
-          visitForm.name,
-          visitForm.email,
-          visitForm.phone || ''
-        );
+        // Fix: Use the correct signature for createConversation
+        conversation = await messageService.createConversation({
+          clientName: visitForm.name,
+          clientEmail: visitForm.email,
+          clientPhone: visitForm.phone || ''
+        });
       }
 
       // Construire le message de demande de visite
