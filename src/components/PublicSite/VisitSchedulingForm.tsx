@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -49,11 +48,10 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
       }
       
       if (!conversation) {
-        // Fix: Use the correct signature for createConversation
+        // Fix: Use the correct signature for createConversation without clientPhone
         conversation = await messageService.createConversation({
           clientName: visitForm.name,
-          clientEmail: visitForm.email,
-          clientPhone: visitForm.phone || ''
+          clientEmail: visitForm.email
         });
       }
 
