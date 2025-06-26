@@ -48,6 +48,69 @@
     "disabled": "Disabled",
     "loading": "Loading settings...",
     "saveSuccess": "Settings saved successfully",
-    "saveError": "Error saving settings"
+    "saveError": "Error saving settings",
+    "tabs": {
+      "company": "Company",
+      "employees": "Employees",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Database",
+      "email": "Email",
+      "security": "Security",
+      "payment": "Payment",
+      "adminAccess": "Admin Access"
+    },
+    "adminAccess": "Administrator Access",
+    "adminAccessDescription": "Manage administrator access to tenant spaces",
+    "permissions": {
+      "title": "Permission Management",
+      "subtitle": "Configure employee permissions",
+      "loading": "Loading permissions...",
+      "saving": "Saving...",
+      "save": "Save permissions",
+      "noEmployees": "No employees found. Add employees first.",
+      "selectEmployee": "Select an employee to manage their permissions."
+    },
+    "database": {
+      "title": "Database Management",
+      "subtitle": "Configure and monitor your Firebase database"
+    },
+    "security": {
+      "title": "Security Settings",
+      "subtitle": "Configure your platform's security policies",
+      "loadingSettings": "Loading security settings...",
+      "saving": "Saving..."
+    },
+    "email": {
+      "title": "Email Configuration",
+      "subtitle": "Configure SMTP and IMAP settings for sending and receiving emails",
+      "testing": "Testing...",
+      "smtp": {
+        "title": "SMTP Configuration",
+        "server": "SMTP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "fromEmail": "From Email",
+        "fromName": "From Name",
+        "testConnection": "Test Connection"
+      },
+      "imap": {
+        "title": "IMAP Configuration",
+        "server": "IMAP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "folder": "Folder",
+        "testConnection": "Test Connection"
+      },
+      "securityOptions": {
+        "none": "None",
+        "tls": "TLS",
+        "ssl": "SSL"
+      }
+    }
   }
 }

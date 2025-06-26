@@ -48,6 +48,69 @@
     "disabled": "Désactivé",
     "loading": "Chargement des paramètres...",
     "saveSuccess": "Paramètres sauvegardés avec succès",
-    "saveError": "Erreur lors de la sauvegarde des paramètres"
+    "saveError": "Erreur lors de la sauvegarde des paramètres",
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Employés",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de Données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Admin"
+    },
+    "adminAccess": "Accès Administrateur",
+    "adminAccessDescription": "Gérez l'accès administrateur aux espaces locataires",
+    "permissions": {
+      "title": "Gestion des Permissions",
+      "subtitle": "Configurez les permissions des employés",
+      "loading": "Chargement des permissions...",
+      "saving": "Sauvegarde en cours...",
+      "save": "Sauvegarder les permissions",
+      "noEmployees": "Aucun employé trouvé. Ajoutez des employés d'abord.",
+      "selectEmployee": "Sélectionnez un employé pour gérer ses permissions."
+    },
+    "database": {
+      "title": "Gestion de la Base de Données",
+      "subtitle": "Configurez et surveillez votre base de données Firebase"
+    },
+    "security": {
+      "title": "Paramètres de Sécurité",
+      "subtitle": "Configurez les politiques de sécurité de votre plateforme",
+      "loadingSettings": "Chargement des paramètres de sécurité...",
+      "saving": "Sauvegarde en cours..."
+    },
+    "email": {
+      "title": "Configuration Email",
+      "subtitle": "Configurez les paramètres SMTP et IMAP pour l'envoi et la réception d'emails",
+      "testing": "Test en cours...",
+      "smtp": {
+        "title": "Configuration SMTP",
+        "server": "Serveur SMTP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "fromEmail": "Email expéditeur",
+        "fromName": "Nom expéditeur",
+        "testConnection": "Tester la connexion"
+      },
+      "imap": {
+        "title": "Configuration IMAP",
+        "server": "Serveur IMAP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "folder": "Dossier",
+        "testConnection": "Tester la connexion"
+      },
+      "securityOptions": {
+        "none": "Aucune",
+        "tls": "TLS",
+        "ssl": "SSL"
+      }
+    }
   }
 }
