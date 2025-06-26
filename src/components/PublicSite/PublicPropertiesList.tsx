@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -30,12 +29,13 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
 
-  // Récupérer les paramètres de visibilité depuis le localStorage ou une API
+  // Récupérer les paramètres de visibilité depuis le localStorage
   const getPropertySettings = () => {
     try {
       const savedSettings = localStorage.getItem('propertyWebsiteSettings');
       return savedSettings ? JSON.parse(savedSettings) : {};
     } catch (error) {
+      console.error('Error loading property settings:', error);
       return {};
     }
   };

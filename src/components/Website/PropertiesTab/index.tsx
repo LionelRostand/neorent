@@ -40,34 +40,65 @@ const PropertiesTab = () => {
     featured: boolean;
   }}>({});
 
-  // Initialiser les paramètres des propriétés pour toutes les propriétés disponibles
+  // Charger les paramètres sauvegardés depuis le localStorage
+  useEffect(() => {
+    try {
+      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
+      if (savedSettings) {
+        const parsedSettings = JSON.parse(savedSettings);
+        setPropertySettings(parsedSettings);
+        console.log('Loaded saved settings:', parsedSettings);
+      }
+    } catch (error) {
+      console.error('Error loading saved settings:', error);
+    }
+  }, []);
+
+  // Initialiser les paramètres des propriétés pour les nouvelles propriétés
   useEffect(() => {
     if (uniqueProperties.length > 0) {
-      const initialSettings: any = {};
-      uniqueProperties.forEach((property) => {
-        // Initialiser avec visible: false par défaut
-        initialSettings[property.id] = {
-          visible: false,
-          description: '',
-          featured: false
-        };
+      setPropertySettings(prevSettings => {
+        const newSettings = { ...prevSettings };
+        let hasNewProperties = false;
+        
+        uniqueProperties.forEach((property) => {
+          // Initialiser seulement si la propriété n'existe pas déjà
+          if (!newSettings[property.id]) {
+            newSettings[property.id] = {
+              visible: false,
+              description: '',
+              featured: false
+            };
+            hasNewProperties = true;
+          }
+        });
+        
+        if (hasNewProperties) {
+          console.log('Initialized new properties:', newSettings);
+        }
+        
+        return newSettings;
       });
-      setPropertySettings(initialSettings);
-      console.log('Property settings initialized:', initialSettings);
     }
   }, [uniqueProperties.length]);
 
   const handleSaveWebsiteSettings = async () => {
     setIsSaving(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Sauvegarder dans le localStorage
+      localStorage.setItem('propertyWebsiteSettings', JSON.stringify(propertySettings));
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       
       toast.success('Paramètres du site web sauvegardés', {
         description: `${visibleCount} propriété(s) sera(ont) affichée(s) sur votre site web public`
       });
+      
+      console.log('Settings saved to localStorage:', propertySettings);
     } catch (error) {
+      console.error('Error saving settings:', error);
       toast.error('Erreur lors de la sauvegarde', {
         description: 'Veuillez réessayer'
       });
@@ -113,7 +144,7 @@ const PropertiesTab = () => {
   const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" | "success" => {
     switch (status) {
       case 'Libre':
-        return 'secondary';
+        return 'success';
       case 'Occupé':
         return 'default';
       case 'En maintenance':
