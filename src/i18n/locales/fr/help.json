@@ -1,187 +1,74 @@
 
 {
   "help": {
-    "title": "Aide",
-    "subtitle": "Obtenez de l'aide et du support pour utiliser l'application",
-    "management": "Centre d'Aide",
-    "description": "Trouvez des réponses et obtenez du support",
-    "searchHelp": "Rechercher dans l'aide",
+    "title": "Centre d'Aide",
+    "subtitle": "Documentation et support pour utiliser la plateforme",
+    "searchHelp": "Rechercher dans l'aide...",
     "allCategories": "Toutes les catégories",
-    "articles": "Articles",
-    "faq": "Questions Fréquemment Posées",
-    "tutorials": "Tutoriels",
-    "documentation": "Documentation",
-    "support": "Support",
-    "contactSupport": "Contacter le Support",
-    "noResults": "Aucun résultat trouvé",
-    "noResultsDescription": "Essayez d'ajuster vos termes de recherche",
-    "gettingStarted": "Aide générale",
-    "userGuides": "Guides Utilisateur",
-    "troubleshooting": "Dépannage",
-    "apiReference": "Référence API",
-    "clearFilters": "Effacer tous les filtres",
     "filterBy": "Filtrer par",
+    "clearFilters": "Effacer les filtres",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsDescription": "Essayez de modifier vos termes de recherche ou effacez les filtres.",
     "technicalAspect": "Aspect technique",
-    "functionalUsage": "Utilisation fonctionnelle",
-    "paymentConfig": "Configuration des paiements",
-    "paymentConfigDescription": "Guide complet pour configurer les différents moyens de paiement",
-    "configurationSteps": "Étapes de configuration",
-    "comingSoonMessage": "Cette fonctionnalité sera bientôt disponible. Restez connecté pour les mises à jour !",
-    "status": {
-      "available": "Disponible",
-      "comingSoon": "Bientôt disponible"
-    },
-    "complexity": {
-      "easy": "Facile",
-      "medium": "Moyen",
-      "hard": "Difficile"
-    },
-    "securityNote": {
-      "title": "Note de sécurité",
-      "description": "Toutes les transactions sont sécurisées avec un chiffrement de niveau bancaire. Vos données financières ne sont jamais stockées sur nos serveurs et sont traitées directement par les prestataires de paiement certifiés."
-    },
-    "paymentMethods": {
-      "creditCard": {
-        "name": "Cartes bancaires",
-        "description": "Acceptez les paiements par carte de crédit et de débit via Stripe",
-        "steps": [
-          "Créer un compte Stripe sur stripe.com",
-          "Obtenir vos clés API publiques et secrètes",
-          "Configurer les clés dans les paramètres de l'application",
-          "Tester les paiements en mode sandbox",
-          "Activer le mode production"
-        ]
-      },
-      "bankTransfer": {
-        "name": "Virements bancaires",
-        "description": "Permettez aux locataires de déclarer leurs virements pour validation",
-        "steps": [
-          "Configurer vos informations bancaires",
-          "Activer la déclaration de virements",
-          "Former vos locataires à l'utilisation",
-          "Valider les virements reçus",
-          "Générer automatiquement les quittances"
-        ]
-      },
-      "mobile": {
-        "name": "Paiements mobiles",
-        "description": "Apple Pay, Google Pay et autres portefeuilles numériques",
-        "steps": [
-          "Configuration automatique avec Stripe",
-          "Tests sur appareils mobiles",
-          "Activation des notifications push",
-          "Formation des utilisateurs"
-        ]
-      },
-      "paypal": {
-        "name": "PayPal",
-        "description": "Intégration avec PayPal pour des paiements internationaux",
-        "steps": [
-          "Créer un compte PayPal Business",
-          "Obtenir les identifiants API",
-          "Configurer les webhooks",
-          "Tester les paiements",
-          "Activer en production"
-        ]
-      }
-    },
+    "functionalUsage": "Usage fonctionnel",
     "categories": {
-      "overview": "Vue d'ensemble",
-      "realEstate": "Gestion immobilière",
-      "rental": "Gestion locative",
-      "documentation": "Documentation",
-      "finance": "Finance",
-      "technical": "Technique",
-      "communication": "Communication",
-      "administration": "Administration",
-      "marketing": "Marketing",
-      "configuration": "Configuration",
-      "payment": "Paiement"
+      "gettingStarted": "Prise en main",
+      "properties": "Propriétés",
+      "tenants": "Locataires",
+      "contracts": "Contrats",
+      "payments": "Paiements",
+      "maintenance": "Maintenance",
+      "reporting": "Rapports",
+      "settings": "Paramètres"
     },
     "sections": {
       "dashboard": {
-        "title": "Dashboard",
-        "description": "Tableau de bord principal avec métriques et activités récentes",
-        "technical": "Interface de synthèse utilisant des composants de métriques et graphiques en temps réel",
-        "functional": "Permet de visualiser rapidement l'état général de votre parc immobilier, les revenus, les tâches en attente et les alertes importantes"
+        "title": "Tableau de bord",
+        "description": "Vue d'ensemble de votre activité immobilière avec statistiques et indicateurs clés",
+        "technical": "Interface React avec composants de métriques et graphiques en temps réel",
+        "functional": "Consultez vos revenus, propriétés gérées, locataires actifs et alertes importantes"
       },
       "properties": {
-        "title": "Propriétés",
-        "description": "Gestion complète de votre parc immobilier",
-        "technical": "CRUD complet avec upload de documents, géolocalisation et historique des modifications",
-        "functional": "Créer, modifier et suivre vos biens immobiliers : appartements, maisons, locaux commerciaux. Gérer les caractéristiques, photos, documents et localisation"
+        "title": "Gestion des propriétés",
+        "description": "Ajoutez, modifiez et gérez vos biens immobiliers avec photos et détails",
+        "technical": "CRUD complet avec upload d'images et validation des formulaires",
+        "functional": "Créez des fiches propriétés complètes avec localisation, équipements et statut"
       },
       "tenants": {
-        "title": "Locataires",
-        "description": "Base de données et suivi des locataires",
-        "technical": "Système de gestion des profils avec historique des paiements et documents associés",
-        "functional": "Gérer les informations personnelles des locataires, leur historique de location, documents d'identité et suivi des relations contractuelles"
-      },
-      "roommates": {
-        "title": "Colocataires",
-        "description": "Gestion spécialisée pour la colocation",
-        "technical": "Extension du système locataires avec gestion des relations multiples et répartition des charges",
-        "functional": "Suivre les colocataires, gérer la répartition des loyers et charges, coordonner les responsabilités partagées"
+        "title": "Gestion des locataires",
+        "description": "Gérez vos locataires, leurs contrats et informations personnelles",
+        "technical": "Système de base de données relationnelle avec liens propriété-locataire",
+        "functional": "Enregistrez les locataires, suivez leurs paiements et gérez leur dossier"
       },
       "contracts": {
-        "title": "Contrats",
-        "description": "Création et gestion des baux et contrats",
-        "technical": "Générateur de contrats avec templates personnalisables et signature électronique",
-        "functional": "Créer des baux de location, gérer les renouvellements, suivre les échéances et conditions contractuelles"
+        "title": "Contrats de bail",
+        "description": "Créez, modifiez et suivez les contrats de location avec modèles prédéfinis",
+        "technical": "Générateur de PDF avec templates personnalisables selon la juridiction",
+        "functional": "Rédigez des baux conformes, suivez les échéances et gérez les renouvellements"
       },
-      "inspections": {
-        "title": "États des lieux",
-        "description": "Documentation détaillée de l'état des biens",
-        "technical": "Formulaires dynamiques avec upload de photos et génération automatique de rapports PDF",
-        "functional": "Réaliser des états des lieux d'entrée et de sortie, documenter l'état des biens avec photos et observations détaillées"
-      },
-      "rentManagement": {
-        "title": "Gestion des loyers",
-        "description": "Suivi des paiements et relances",
-        "technical": "Système de facturation automatique avec intégration aux passerelles de paiement",
-        "functional": "Générer les quittances, suivre les paiements, gérer les retards et relances automatiques"
-      },
-      "rentalCharges": {
-        "title": "Charges locatives",
-        "description": "Calcul et répartition des charges",
-        "technical": "Moteur de calcul avec règles de répartition personnalisables et historique des variations",
-        "functional": "Calculer et répartir les charges communes, gérer les provisions et régularisations annuelles"
+      "rentPayments": {
+        "title": "Suivi des loyers",
+        "description": "Enregistrez et suivez tous les paiements de loyers avec relances automatiques",
+        "technical": "Système de gestion des paiements avec états et notifications",
+        "functional": "Marquez les paiements reçus, générez des quittances et suivez les impayés"
       },
       "maintenance": {
         "title": "Maintenance",
-        "description": "Gestion des interventions et réparations",
-        "technical": "Système de tickets avec workflow d'approbation et suivi des prestataires",
-        "functional": "Planifier et suivre les interventions de maintenance, gérer les demandes locataires et coordonner les prestataires"
+        "description": "Gérez les demandes de maintenance, interventions et suivi des coûts",
+        "technical": "Workflow de gestion des tickets avec statuts et assignation",
+        "functional": "Recevez les demandes, planifiez les interventions et suivez les dépenses"
       },
-      "messages": {
-        "title": "Messages",
-        "description": "Communication centralisée avec les locataires",
-        "technical": "Système de messagerie en temps réel avec notifications push et historique",
-        "functional": "Communiquer avec vos locataires, envoyer des notifications importantes et maintenir un historique des échanges"
-      },
-      "taxes": {
-        "title": "Déclarations fiscales",
-        "description": "Préparation des déclarations et reporting fiscal",
-        "technical": "Générateur de rapports fiscaux avec export comptable et archivage sécurisé",
-        "functional": "Préparer vos déclarations fiscales, générer les états de revenus fonciers et exporter les données comptables"
-      },
-      "website": {
-        "title": "Site Web",
-        "description": "Gestion de votre présence en ligne",
-        "technical": "CMS intégré avec optimisation SEO et analytics de performance",
-        "functional": "Créer et gérer votre site web vitrine, publier vos annonces et analyser le trafic et les performances"
+      "reporting": {
+        "title": "Rapports et analyses",
+        "description": "Générez des rapports financiers et analyses de performance",
+        "technical": "Module de reporting avec export Excel/PDF et graphiques",
+        "functional": "Analysez vos revenus, charges et rentabilité par période et propriété"
       },
       "settings": {
-        "title": "Paramètres",
-        "description": "Configuration générale de l'application",
-        "technical": "Interface d'administration avec gestion des permissions et configuration système",
-        "functional": "Configurer votre entreprise, gérer les utilisateurs et permissions, paramétrer les intégrations et sauvegardes"
-      },
-      "paymentSetup": {
-        "title": "Configuration des paiements",
-        "description": "Guide pour configurer tous les moyens de paiement disponibles",
-        "technical": "Configuration des APIs et intégrations de paiement avec Stripe, PayPal, virements et paiements mobiles",
-        "functional": "Paramétrer les méthodes de paiement pour vos locataires : cartes bancaires, virements, prélèvements automatiques et portefeuilles électroniques"
+        "title": "Configuration",
+        "description": "Personnalisez la plateforme selon vos besoins et préférences",
+        "technical": "Interface de configuration avec sauvegarde des préférences utilisateur",
+        "functional": "Configurez les notifications, modèles de documents et paramètres généraux"
       }
     }
   }

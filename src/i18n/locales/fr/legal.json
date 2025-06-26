@@ -1,0 +1,47 @@
+
+{
+  "legal": {
+    "legalNotice": {
+      "title": "Mentions Légales",
+      "editor": "Éditeur du site",
+      "company": "Société",
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "Email",
+      "registration": "Numéro d'enregistrement",
+      "vat": "Numéro de TVA",
+      "hosting": "Hébergement",
+      "hostingProvider": "Hébergeur",
+      "intellectualProperty": "Propriété intellectuelle",
+      "copyright": "Droits d'auteur",
+      "liability": "Responsabilité",
+      "personalData": "Données personnelles",
+      "cookies": "Cookies",
+      "applicableLaw": "Droit applicable"
+    },
+    "privacyPolicy": {
+      "title": "Politique de Confidentialité",
+      "introduction": "Introduction",
+      "dataCollection": "Collecte des données",
+      "dataUsage": "Utilisation des données",
+      "dataSharing": "Partage des données",
+      "dataRetention": "Conservation des données",
+      "userRights": "Droits des utilisateurs",
+      "security": "Sécurité",
+      "contact": "Contact",
+      "updates": "Mises à jour"
+    },
+    "cookiePolicy": {
+      "title": "Politique des Cookies",
+      "whatAreCookies": "Qu'est-ce que les cookies",
+      "typesOfCookies": "Types de cookies",
+      "essential": "Cookies essentiels",
+      "analytics": "Cookies d'analyse",
+      "marketing": "Cookies marketing",
+      "thirdParty": "Cookies tiers",
+      "management": "Gestion des cookies",
+      "consent": "Consentement",
+      "optOut": "Désactivation"
+    }
+  }
+}

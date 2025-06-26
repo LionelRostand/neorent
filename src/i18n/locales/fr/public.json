@@ -1,0 +1,48 @@
+
+{
+  "public": {
+    "about": {
+      "title": "À Propos de Nous",
+      "subtitle": "Votre partenaire de confiance en immobilier",
+      "mission": "Notre Mission",
+      "vision": "Notre Vision",
+      "values": "Nos Valeurs",
+      "team": "Notre Équipe",
+      "experience": "Années d'expérience",
+      "properties": "Propriétés gérées",
+      "clients": "Clients satisfaits"
+    },
+    "contact": {
+      "title": "Nous Contacter",
+      "subtitle": "Parlons de vos projets immobiliers",
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "Email",
+      "hours": "Horaires d'ouverture",
+      "form": {
+        "name": "Nom complet",
+        "email": "Adresse email",
+        "phone": "Téléphone",
+        "subject": "Sujet",
+        "message": "Message",
+        "send": "Envoyer le message",
+        "sending": "Envoi en cours...",
+        "success": "Message envoyé avec succès",
+        "error": "Erreur lors de l'envoi"
+      }
+    },
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Accédez à votre espace personnel",
+      "email": "Adresse email",
+      "password": "Mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "login": "Se connecter",
+      "noAccount": "Pas encore de compte ?",
+      "register": "S'inscrire",
+      "tenant": "Espace Locataire",
+      "owner": "Espace Propriétaire",
+      "admin": "Administration"
+    }
+  }
+}

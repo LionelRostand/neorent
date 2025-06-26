@@ -1,187 +1,74 @@
 
 {
   "help": {
-    "title": "Help",
-    "subtitle": "Get help and support for using the application",
-    "management": "Help Center",
-    "description": "Find answers and get support",
-    "searchHelp": "Search help articles",
-    "allCategories": "All Categories",
-    "articles": "Articles",
-    "faq": "Frequently Asked Questions",
-    "tutorials": "Tutorials",
-    "documentation": "Documentation",
-    "support": "Support",
-    "contactSupport": "Contact Support",
-    "noResults": "No results found",
-    "noResultsDescription": "Try adjusting your search terms",
-    "gettingStarted": "General Help",
-    "userGuides": "User Guides",
-    "troubleshooting": "Troubleshooting",
-    "apiReference": "API Reference",
-    "clearFilters": "Clear all filters",
+    "title": "Help Center",
+    "subtitle": "Documentation and support to use the platform",
+    "searchHelp": "Search help...",
+    "allCategories": "All categories",
     "filterBy": "Filter by",
+    "clearFilters": "Clear filters",
+    "noResults": "No results found",
+    "noResultsDescription": "Try modifying your search terms or clear the filters.",
     "technicalAspect": "Technical aspect",
     "functionalUsage": "Functional usage",
-    "paymentConfig": "Payment Configuration",
-    "paymentConfigDescription": "Complete guide to configure different payment methods",
-    "configurationSteps": "Configuration Steps",
-    "comingSoonMessage": "This feature will be available soon. Stay tuned for updates!",
-    "status": {
-      "available": "Available",
-      "comingSoon": "Coming Soon"
-    },
-    "complexity": {
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard"
-    },
-    "securityNote": {
-      "title": "Security Note",
-      "description": "All transactions are secured with bank-level encryption. Your financial data is never stored on our servers and is processed directly by certified payment providers."
-    },
-    "paymentMethods": {
-      "creditCard": {
-        "name": "Credit Cards",
-        "description": "Accept credit and debit card payments via Stripe",
-        "steps": [
-          "Create a Stripe account at stripe.com",
-          "Get your public and secret API keys",
-          "Configure keys in application settings",
-          "Test payments in sandbox mode",
-          "Enable production mode"
-        ]
-      },
-      "bankTransfer": {
-        "name": "Bank Transfers",
-        "description": "Allow tenants to declare their bank transfers for validation",
-        "steps": [
-          "Configure your bank information",
-          "Enable transfer declarations",
-          "Train your tenants on usage",
-          "Validate received transfers",
-          "Automatically generate receipts"
-        ]
-      },
-      "mobile": {
-        "name": "Mobile Payments",
-        "description": "Apple Pay, Google Pay and other digital wallets",
-        "steps": [
-          "Automatic configuration with Stripe",
-          "Testing on mobile devices",
-          "Enable push notifications",
-          "User training"
-        ]
-      },
-      "paypal": {
-        "name": "PayPal",
-        "description": "PayPal integration for international payments",
-        "steps": [
-          "Create a PayPal Business account",
-          "Get API credentials",
-          "Configure webhooks",
-          "Test payments",
-          "Enable in production"
-        ]
-      }
-    },
     "categories": {
-      "overview": "Overview",
-      "realEstate": "Real Estate Management",
-      "rental": "Rental Management",
-      "documentation": "Documentation",
-      "finance": "Finance",
-      "technical": "Technical",
-      "communication": "Communication",
-      "administration": "Administration",
-      "marketing": "Marketing",
-      "configuration": "Configuration",
-      "payment": "Payment"
+      "gettingStarted": "Getting Started",
+      "properties": "Properties",
+      "tenants": "Tenants",
+      "contracts": "Contracts",
+      "payments": "Payments",
+      "maintenance": "Maintenance",
+      "reporting": "Reporting",
+      "settings": "Settings"
     },
     "sections": {
       "dashboard": {
         "title": "Dashboard",
-        "description": "Main dashboard with metrics and recent activities",
-        "technical": "Synthesis interface using real-time metrics and graphics components",
-        "functional": "Quickly visualize the general state of your real estate portfolio, revenue, pending tasks and important alerts"
+        "description": "Overview of your real estate activity with statistics and key indicators",
+        "technical": "React interface with real-time metrics components and charts",
+        "functional": "View your revenue, managed properties, active tenants and important alerts"
       },
       "properties": {
-        "title": "Properties",
-        "description": "Complete management of your real estate portfolio",
-        "technical": "Complete CRUD with document upload, geolocation and modification history",
-        "functional": "Create, modify and track your real estate properties: apartments, houses, commercial premises. Manage characteristics, photos, documents and location"
+        "title": "Property management",
+        "description": "Add, edit and manage your real estate properties with photos and details",
+        "technical": "Complete CRUD with image upload and form validation",
+        "functional": "Create complete property records with location, equipment and status"
       },
       "tenants": {
-        "title": "Tenants",
-        "description": "Database and tenant tracking",
-        "technical": "Profile management system with payment history and associated documents",
-        "functional": "Manage tenants' personal information, rental history, identity documents and track contractual relationships"
-      },
-      "roommates": {
-        "title": "Roommates",
-        "description": "Specialized management for shared housing",
-        "technical": "Extension of the tenant system with multiple relationship management and charge distribution",
-        "functional": "Track roommates, manage rent and charge distribution, coordinate shared responsibilities"
+        "title": "Tenant management",
+        "description": "Manage your tenants, their contracts and personal information",
+        "technical": "Relational database system with property-tenant links",
+        "functional": "Register tenants, track their payments and manage their file"
       },
       "contracts": {
-        "title": "Contracts",
-        "description": "Creation and management of leases and contracts",
-        "technical": "Contract generator with customizable templates and electronic signature",
-        "functional": "Create rental leases, manage renewals, track deadlines and contractual conditions"
+        "title": "Lease contracts",
+        "description": "Create, edit and track rental contracts with predefined templates",
+        "technical": "PDF generator with customizable templates by jurisdiction",
+        "functional": "Draft compliant leases, track deadlines and manage renewals"
       },
-      "inspections": {
-        "title": "Property Inspections",
-        "description": "Detailed documentation of property condition",
-        "technical": "Dynamic forms with photo upload and automatic PDF report generation",
-        "functional": "Conduct move-in and move-out inspections, document property condition with photos and detailed observations"
-      },
-      "rentManagement": {
-        "title": "Rent Management",
-        "description": "Payment tracking and reminders",
-        "technical": "Automatic billing system with payment gateway integration",
-        "functional": "Generate receipts, track payments, manage delays and automatic reminders"
-      },
-      "rentalCharges": {
-        "title": "Rental Charges",
-        "description": "Calculation and distribution of charges",
-        "technical": "Calculation engine with customizable distribution rules and variation history",
-        "functional": "Calculate and distribute common charges, manage provisions and annual adjustments"
+      "rentPayments": {
+        "title": "Rent tracking",
+        "description": "Record and track all rent payments with automatic reminders",
+        "technical": "Payment management system with states and notifications",
+        "functional": "Mark received payments, generate receipts and track overdue payments"
       },
       "maintenance": {
         "title": "Maintenance",
-        "description": "Management of interventions and repairs",
-        "technical": "Ticket system with approval workflow and service provider tracking",
-        "functional": "Plan and track maintenance interventions, manage tenant requests and coordinate service providers"
+        "description": "Manage maintenance requests, interventions and cost tracking",
+        "technical": "Ticket management workflow with statuses and assignment",
+        "functional": "Receive requests, schedule interventions and track expenses"
       },
-      "messages": {
-        "title": "Messages",
-        "description": "Centralized communication with tenants",
-        "technical": "Real-time messaging system with push notifications and history",
-        "functional": "Communicate with your tenants, send important notifications and maintain an exchange history"
-      },
-      "taxes": {
-        "title": "Tax Declarations",
-        "description": "Preparation of declarations and tax reporting",
-        "technical": "Tax report generator with accounting export and secure archiving",
-        "functional": "Prepare your tax declarations, generate rental income statements and export accounting data"
-      },
-      "website": {
-        "title": "Website",
-        "description": "Management of your online presence",
-        "technical": "Integrated CMS with SEO optimization and performance analytics",
-        "functional": "Create and manage your showcase website, publish your listings and analyze traffic and performance"
+      "reporting": {
+        "title": "Reports and analytics",
+        "description": "Generate financial reports and performance analytics",
+        "technical": "Reporting module with Excel/PDF export and charts",
+        "functional": "Analyze your revenue, charges and profitability by period and property"
       },
       "settings": {
-        "title": "Settings",
-        "description": "General application configuration",
-        "technical": "Administration interface with permission management and system configuration",
-        "functional": "Configure your company, manage users and permissions, set up integrations and backups"
-      },
-      "paymentSetup": {
-        "title": "Payment Configuration",
-        "description": "Guide to configure all available payment methods",
-        "technical": "Configuration of payment APIs and integrations with Stripe, PayPal, bank transfers and mobile payments",
-        "functional": "Set up payment methods for your tenants: credit cards, bank transfers, automatic debits and electronic wallets"
+        "title": "Configuration",
+        "description": "Customize the platform according to your needs and preferences",
+        "technical": "Configuration interface with user preference saving",
+        "functional": "Configure notifications, document templates and general settings"
       }
     }
   }
