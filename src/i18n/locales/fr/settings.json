@@ -62,6 +62,31 @@
     },
     "adminAccess": "Accès Administrateur",
     "adminAccessDescription": "Gérez l'accès administrateur aux espaces locataires",
+    "company": {
+      "title": "Gestion d'Entreprise",
+      "subtitle": "Gérez vos informations d'entreprise",
+      "addCompany": "Ajouter une entreprise",
+      "editCompany": "Modifier l'entreprise",
+      "companyName": "Nom de l'entreprise",
+      "companyAddress": "Adresse de l'entreprise",
+      "companyPhone": "Téléphone de l'entreprise",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette entreprise ?"
+    },
+    "employees": {
+      "title": "Gestion des Employés",
+      "subtitle": "Gérez vos employés et leurs informations",
+      "management": "Gestion des employés",
+      "description": "Gérez votre équipe et leurs accès",
+      "addEmployee": "Ajouter un employé",
+      "fullName": "Nom complet",
+      "role": "Rôle",
+      "company": "Entreprise",
+      "selectCompany": "Sélectionner une entreprise",
+      "employee": "Employé",
+      "administrator": "Administrateur",
+      "noCompany": "Aucune entreprise",
+      "creationDate": "Date de création"
+    },
     "permissions": {
       "title": "Gestion des Permissions",
       "subtitle": "Configurez les permissions des employés",
@@ -69,7 +94,8 @@
       "saving": "Sauvegarde en cours...",
       "save": "Sauvegarder les permissions",
       "noEmployees": "Aucun employé trouvé. Ajoutez des employés d'abord.",
-      "selectEmployee": "Sélectionnez un employé pour gérer ses permissions."
+      "selectEmployee": "Sélectionnez un employé pour gérer ses permissions.",
+      "chooseEmployee": "Choisir un employé"
     },
     "database": {
       "title": "Gestion de la Base de Données",
@@ -80,6 +106,31 @@
       "subtitle": "Configurez les politiques de sécurité de votre plateforme",
       "loadingSettings": "Chargement des paramètres de sécurité...",
       "saving": "Sauvegarde en cours..."
+    },
+    "firebase": {
+      "title": "Configuration Firebase",
+      "subtitle": "Gérez votre configuration Firebase et les règles de sécurité",
+      "firestoreRules": "Règles Firestore",
+      "copy": "copié dans le presse-papiers",
+      "manualUpdate": "Mise à jour manuelle",
+      "applyAuto": "Appliquer automatiquement",
+      "config": {
+        "connectionStatus": {
+          "connected": "Connecté",
+          "firestore": "Firestore",
+          "authentication": "Authentification",
+          "storage": "Stockage",
+          "region": "Région",
+          "europe": "Europe"
+        },
+        "security": {
+          "title": "Informations de Sécurité",
+          "apiKeyPublic": "La clé API est publique",
+          "rulesProtection": "Les règles de sécurité protègent vos données",
+          "checkRules": "Vérifiez régulièrement vos règles",
+          "monitorUsage": "Surveillez l'utilisation de votre base de données"
+        }
+      }
     },
     "email": {
       "title": "Configuration Email",
