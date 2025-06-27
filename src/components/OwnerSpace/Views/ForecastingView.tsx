@@ -13,91 +13,13 @@ interface ForecastingViewProps {
 }
 
 const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const { tenants, properties } = useOwnerData(currentProfile);
   
   const [targetPrice, setTargetPrice] = useState('250000');
   const [estimatedRent, setEstimatedRent] = useState('1200');
   const [personalContribution, setPersonalContribution] = useState('20');
   const [loanRate, setLoanRate] = useState('3.5');
-
-  // Get texts based on current language
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      title: {
-        fr: 'Prévisions Financières',
-        en: 'Financial Forecasting'
-      },
-      subtitle: {
-        fr: 'Analysez et planifiez vos investissements immobiliers',
-        en: 'Analyze and plan your real estate investments'
-      },
-      currentRevenue: {
-        fr: 'Revenus Actuels',
-        en: 'Current Revenue'
-      },
-      monthlyRevenue: {
-        fr: 'Revenus mensuels:',
-        en: 'Monthly revenue:'
-      },
-      properties: {
-        fr: 'Propriétés:',
-        en: 'Properties:'
-      },
-      tenants: {
-        fr: 'Locataires:',
-        en: 'Tenants:'
-      },
-      investmentPlanning: {
-        fr: 'Planification d\'Investissement',
-        en: 'Investment Planning'
-      },
-      targetPrice: {
-        fr: 'Prix de la propriété cible (€)',
-        en: 'Target property price (€)'
-      },
-      estimatedRent: {
-        fr: 'Loyer mensuel estimé (€)',
-        en: 'Estimated monthly rent (€)'
-      },
-      personalContribution: {
-        fr: 'Apport personnel (%)',
-        en: 'Personal contribution (%)'
-      },
-      loanRate: {
-        fr: 'Taux d\'emprunt (%)',
-        en: 'Loan rate (%)'
-      },
-      simulationResults: {
-        fr: 'Résultats de Simulation',
-        en: 'Simulation Results'
-      },
-      calculate: {
-        fr: 'Calculer',
-        en: 'Calculate'
-      },
-      monthlyLoanPayment: {
-        fr: 'Mensualité de prêt:',
-        en: 'Monthly loan payment:'
-      },
-      netCashFlow: {
-        fr: 'Cash-flow net:',
-        en: 'Net cash flow:'
-      },
-      annualYield: {
-        fr: 'Rendement annuel:',
-        en: 'Annual yield:'
-      },
-      roiTime: {
-        fr: 'Retour sur investissement:',
-        en: 'Return on investment:'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
 
   // Calculate current revenue
   const currentMonthlyRevenue = tenants.reduce((sum, tenant) => {
@@ -121,15 +43,15 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
 
   return (
     <div className="p-6 space-y-6">
-      {/* Header harmonisé */}
+      {/* Header */}
       <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold flex items-center gap-2">
               <TrendingUp className="h-8 w-8" />
-              {getLocalizedText('title')}
+              {t('forecasting.title')}
             </h1>
-            <p className="text-emerald-100 mt-2">{getLocalizedText('subtitle')}</p>
+            <p className="text-emerald-100 mt-2">{t('forecasting.subtitle')}</p>
           </div>
         </div>
       </div>
@@ -138,20 +60,20 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
         {/* Current Revenue */}
         <Card className="shadow-lg border-0">
           <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
-            <CardTitle className="text-xl text-gray-800">{getLocalizedText('currentRevenue')}</CardTitle>
+            <CardTitle className="text-xl text-gray-800">{t('forecasting.currentRevenue')}</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             <div className="space-y-4">
               <div className="flex justify-between text-lg">
-                <span className="text-gray-600">{getLocalizedText('monthlyRevenue')}</span>
+                <span className="text-gray-600">{t('forecasting.monthlyRevenue')}:</span>
                 <span className="font-bold text-2xl text-green-600">{currentMonthlyRevenue}€</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">{getLocalizedText('properties')}</span>
+                <span className="text-gray-600">{t('common.properties')}:</span>
                 <span className="font-semibold">{properties.length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">{getLocalizedText('tenants')}</span>
+                <span className="text-gray-600">{t('common.tenants')}:</span>
                 <span className="font-semibold">{tenants.filter(t => t.status === 'Actif').length}</span>
               </div>
             </div>
@@ -161,12 +83,12 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
         {/* Investment Planning */}
         <Card className="shadow-lg border-0">
           <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
-            <CardTitle className="text-xl text-gray-800">{getLocalizedText('investmentPlanning')}</CardTitle>
+            <CardTitle className="text-xl text-gray-800">{t('forecasting.investmentPlanning')}</CardTitle>
           </CardHeader>
           <CardContent className="p-6 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="targetPrice">{getLocalizedText('targetPrice')}</Label>
+                <Label htmlFor="targetPrice">{t('forecasting.targetPropertyPrice')}</Label>
                 <Input
                   id="targetPrice"
                   type="number"
@@ -176,7 +98,7 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
                 />
               </div>
               <div>
-                <Label htmlFor="estimatedRent">{getLocalizedText('estimatedRent')}</Label>
+                <Label htmlFor="estimatedRent">{t('forecasting.estimatedMonthlyRent')}</Label>
                 <Input
                   id="estimatedRent"
                   type="number"
@@ -186,7 +108,7 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
                 />
               </div>
               <div>
-                <Label htmlFor="personalContribution">{getLocalizedText('personalContribution')}</Label>
+                <Label htmlFor="personalContribution">{t('forecasting.downPaymentPercent')}</Label>
                 <Input
                   id="personalContribution"
                   type="number"
@@ -196,7 +118,7 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
                 />
               </div>
               <div>
-                <Label htmlFor="loanRate">{getLocalizedText('loanRate')}</Label>
+                <Label htmlFor="loanRate">{t('forecasting.interestRate')}</Label>
                 <Input
                   id="loanRate"
                   type="number"
@@ -216,20 +138,20 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
           <CardTitle className="text-xl text-gray-800 flex items-center gap-2">
             <Calculator className="h-5 w-5" />
-            {getLocalizedText('simulationResults')}
+            {t('forecasting.simulationResults')}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
               <DollarSign className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-sm text-gray-600 mb-1">{getLocalizedText('monthlyLoanPayment')}</div>
+              <div className="text-sm text-gray-600 mb-1">{t('forecasting.loanPayment')}:</div>
               <div className="text-xl font-bold text-blue-600">{monthlyPayment.toFixed(0)}€</div>
             </div>
             
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <TrendingUp className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <div className="text-sm text-gray-600 mb-1">{getLocalizedText('netCashFlow')}</div>
+              <div className="text-sm text-gray-600 mb-1">{t('forecasting.monthlyCashFlow')}:</div>
               <div className={`text-xl font-bold ${netCashFlow >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {netCashFlow >= 0 ? '+' : ''}{netCashFlow.toFixed(0)}€
               </div>
@@ -237,15 +159,15 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
             
             <div className="text-center p-4 bg-purple-50 rounded-lg">
               <PieChart className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-              <div className="text-sm text-gray-600 mb-1">{getLocalizedText('annualYield')}</div>
+              <div className="text-sm text-gray-600 mb-1">{t('forecasting.annualRevenue')}:</div>
               <div className="text-xl font-bold text-purple-600">{annualYield.toFixed(1)}%</div>
             </div>
             
             <div className="text-center p-4 bg-orange-50 rounded-lg">
               <Calculator className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-              <div className="text-sm text-gray-600 mb-1">{getLocalizedText('roiTime')}</div>
+              <div className="text-sm text-gray-600 mb-1">{t('forecasting.roi')}:</div>
               <div className="text-xl font-bold text-orange-600">
-                {netCashFlow > 0 ? `${Math.ceil((price * contribution / 100) / (netCashFlow * 12))} ans` : '∞'}
+                {netCashFlow > 0 ? `${Math.ceil((price * contribution / 100) / (netCashFlow * 12))} ${t('common.years')}` : '∞'}
               </div>
             </div>
           </div>

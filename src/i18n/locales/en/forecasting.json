@@ -84,6 +84,15 @@
     "confirm": "Confirm",
     "confirmDelete": "Are you sure you want to delete this forecasting scenario?",
     "confirmDeleteTitle": "Confirm Deletion",
-    "deleteConfirmation": "This action cannot be undone."
+    "deleteConfirmation": "This action cannot be undone.",
+    "investmentPlanning": "Investment Planning",
+    "targetPropertyPrice": "Target property price (€)",
+    "estimatedMonthlyRent": "Estimated monthly rent (€)",
+    "downPaymentPercent": "Personal contribution (%)",
+    "interestRate": "Loan rate (%)",
+    "simulationResults": "Simulation Results",
+    "loanPayment": "Monthly loan payment",
+    "monthlyCashFlow": "Net cash flow",
+    "roi": "Return on investment"
   }
 }
