@@ -54,6 +54,10 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       noActions: {
         fr: 'Aucune action rapide configurée',
         en: 'No quick actions configured'
+      },
+      confirmDelete: {
+        fr: 'Êtes-vous sûr de vouloir supprimer cette action ?',
+        en: 'Are you sure you want to delete this action?'
       }
     };
 
@@ -78,6 +82,18 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
     return '';
   };
 
+  const handleRemoveClick = async (actionId: string) => {
+    if (window.confirm(getLocalizedText('confirmDelete'))) {
+      await onRemoveAction(actionId);
+    }
+  };
+
+  const handleConfigureClick = (actionId: string) => {
+    // For now, just log the action - this could open a configuration modal
+    console.log('Configure action:', actionId);
+    onConfigureAction(actionId);
+  };
+
   return (
     <Card className="w-full max-w-6xl mx-auto">
       <CardHeader className="pb-3 px-3 sm:px-6">
@@ -90,7 +106,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       <CardContent className="p-3 sm:p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {quickActions.map((action) => (
-            <div key={action.id} className="flex items-center gap-3 p-3 border rounded-lg">
+            <div key={action.id} className="flex items-center gap-3 p-3 border rounded-lg hover:shadow-md transition-shadow">
               <div className={`p-2 rounded ${action.color} flex-shrink-0`}>
                 <Settings className="h-4 w-4 text-white" />
               </div>
@@ -114,20 +130,22 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => onConfigureAction(action.id)}
+                  onClick={() => handleConfigureClick(action.id)}
                   disabled={saving}
                   title={getLocalizedText('configure')}
+                  className="h-8 w-8 p-0 hover:bg-blue-50 hover:border-blue-300"
                 >
-                  <Edit className="h-3 w-3" />
+                  <Edit className="h-3 w-3 text-blue-600" />
                 </Button>
                 <Button
                   size="sm"
-                  variant="destructive"
-                  onClick={() => onRemoveAction(action.id)}
+                  variant="outline"
+                  onClick={() => handleRemoveClick(action.id)}
                   disabled={saving}
                   title={getLocalizedText('remove')}
+                  className="h-8 w-8 p-0 hover:bg-red-50 hover:border-red-300"
                 >
-                  <Trash2 className="h-3 w-3" />
+                  <Trash2 className="h-3 w-3 text-red-600" />
                 </Button>
               </div>
             </div>
