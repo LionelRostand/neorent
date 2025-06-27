@@ -6,17 +6,7 @@ import { Edit, Trash2, Lock, CheckCircle, XCircle, UserPlus, Eye } from 'lucide-
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Company } from '@/hooks/useFirebaseCompanies';
-
-interface Employee {
-  id: string;
-  role: 'admin' | 'owner';
-  email: string;
-  name: string;
-  companyId?: string;
-  createdAt: string;
-  permissions?: any;
-  hasPassword?: boolean;
-}
+import { Employee } from './types/employee';
 
 interface EmployeeTableProps {
   employees: Employee[];

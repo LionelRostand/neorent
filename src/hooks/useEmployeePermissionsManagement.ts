@@ -15,7 +15,7 @@ export const useEmployeePermissionsManagement = () => {
   const [permissions, setPermissions] = useState<EmployeePermissions>(defaultEmployeePermissions);
   const [isSaving, setIsSaving] = useState(false);
 
-  const employees = userRoles.filter(user => user.role === 'employee');
+  const employees = userRoles.filter(user => user.role === 'owner');
   const selectedEmployee = employees.find(emp => emp.id === selectedEmployeeId);
 
   // Load permissions when employee is selected
@@ -81,7 +81,7 @@ export const useEmployeePermissionsManagement = () => {
     if (!selectedEmployeeId) {
       toast({
         title: "Erreur",
-        description: "Veuillez sélectionner un employé",
+        description: "Veuillez sélectionner un propriétaire",
         variant: "destructive",
       });
       return;

@@ -6,7 +6,7 @@ import { EmployeePermissions } from '@/components/Settings/types/permissions';
 
 interface UserRole {
   id: string;
-  role: 'admin' | 'employee';
+  role: 'admin' | 'owner';
   email: string;
   name: string;
   createdAt: string;

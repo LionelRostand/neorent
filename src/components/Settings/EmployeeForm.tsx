@@ -7,24 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Lock } from 'lucide-react';
 import { Company } from '@/hooks/useFirebaseCompanies';
-
-interface Employee {
-  id: string;
-  role: 'admin' | 'employee';
-  email: string;
-  name: string;
-  companyId?: string;
-  createdAt: string;
-  permissions?: any;
-  hasPassword?: boolean;
-}
-
-interface EmployeeFormData {
-  name: string;
-  email: string;
-  role: 'admin' | 'employee';
-  companyId: string;
-}
+import { Employee, EmployeeFormData } from './types/employee';
 
 interface EmployeeFormProps {
   formData: EmployeeFormData;
@@ -50,7 +33,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="name">{t('settings.employees.fullName')}</Label>
+        <Label htmlFor="name">{t('settings.owners.fullName')}</Label>
         <Input
           id="name"
           value={formData.name}
@@ -71,26 +54,26 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       </div>
       
       <div>
-        <Label htmlFor="role">{t('settings.employees.role')}</Label>
-        <Select value={formData.role} onValueChange={(value: 'admin' | 'employee') => setFormData({ ...formData, role: value })}>
+        <Label htmlFor="role">{t('settings.owners.role')}</Label>
+        <Select value={formData.role} onValueChange={(value: 'admin' | 'owner') => setFormData({ ...formData, role: value })}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="employee">{t('settings.employees.employee')}</SelectItem>
-            <SelectItem value="admin">{t('settings.employees.administrator')}</SelectItem>
+            <SelectItem value="owner">{t('settings.owners.owner')}</SelectItem>
+            <SelectItem value="admin">{t('settings.owners.administrator')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
       
       <div>
-        <Label htmlFor="company">{t('settings.employees.company')}</Label>
+        <Label htmlFor="company">{t('settings.owners.company')}</Label>
         <Select value={formData.companyId} onValueChange={(value: string) => setFormData({ ...formData, companyId: value })}>
           <SelectTrigger>
-            <SelectValue placeholder={t('settings.employees.selectCompany')} />
+            <SelectValue placeholder={t('settings.owners.selectCompany')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="none">{t('settings.employees.noCompany')}</SelectItem>
+            <SelectItem value="none">{t('settings.owners.noCompany')}</SelectItem>
             {companies.map((company) => (
               <SelectItem key={company.id} value={company.id}>
                 {company.name}
@@ -121,7 +104,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       )}
       
       <Button type="submit" className="w-full">
-        {isEdit ? t('settings.employees.editEmployee') : t('settings.employees.addEmployee')}
+        {isEdit ? t('settings.owners.editOwner') : t('settings.owners.addOwner')}
       </Button>
     </form>
   );

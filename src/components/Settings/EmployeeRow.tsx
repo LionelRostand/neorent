@@ -5,17 +5,7 @@ import { Edit, Trash2, Lock, Eye } from 'lucide-react';
 import { Company } from '@/hooks/useFirebaseCompanies';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-
-interface Employee {
-  id: string;
-  role: 'admin' | 'owner';
-  email: string;
-  name: string;
-  companyId?: string;
-  createdAt: string;
-  permissions?: any;
-  hasPassword?: boolean;
-}
+import { Employee } from './types/employee';
 
 interface EmployeeRowProps {
   employee: Employee;
