@@ -44,6 +44,7 @@
     "documents": "Documents",
     "apartment": "Appartement",
     "moveIn": "Emménagement:",
+    "moveInDate": "Date d'emménagement",
     "paymentStatus": "Statut de paiement",
     "rentAmount": "Montant du loyer",
     "monthlyStatus": "Statut mensuel",
