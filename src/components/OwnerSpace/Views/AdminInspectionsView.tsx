@@ -29,20 +29,49 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
   const inspectionButtonConfig = getButtonConfig('inspection');
 
   const totalInspections = inspections?.length || 0;
-  const completedInspections = inspections?.filter(i => i.status === 'Terminé').length || 0;
-  const plannedInspections = inspections?.filter(i => i.status === 'Planifié').length || 0;
-  const inProgressInspections = inspections?.filter(i => i.status === 'En cours').length || 0;
+  const completedInspections = inspections?.filter(i => i.status === t('inspections.completed')).length || 0;
+  const plannedInspections = inspections?.filter(i => i.status === t('inspections.planned')).length || 0;
+  const inProgressInspections = inspections?.filter(i => i.status === t('inspections.inProgress')).length || 0;
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
+      case t('inspections.completed'):
       case 'Terminé':
         return 'default';
+      case t('inspections.inProgress'):
       case 'En cours':
         return 'secondary';
+      case t('inspections.planned'):
       case 'Planifié':
         return 'outline';
       default:
         return 'outline';
+    }
+  };
+
+  const getTranslatedStatus = (status: string) => {
+    switch (status) {
+      case 'Terminé':
+        return t('inspections.completed');
+      case 'En cours':
+        return t('inspections.inProgress');
+      case 'Planifié':
+        return t('inspections.planned');
+      default:
+        return status;
+    }
+  };
+
+  const getTranslatedType = (type: string) => {
+    switch (type) {
+      case 'Entrée':
+        return t('inspections.entryInspection');
+      case 'Sortie':
+        return t('inspections.exitInspection');
+      case 'Intermédiaire':
+        return t('inspections.intermediateInspection');
+      default:
+        return type;
     }
   };
 
@@ -52,15 +81,15 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
       <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">États des Lieux</h1>
-            <p className="text-indigo-100 mt-2">Gérez vos états des lieux et leurs informations</p>
+            <h1 className="text-3xl font-bold">{t('inspections.title')}</h1>
+            <p className="text-indigo-100 mt-2">{t('inspections.subtitle')}</p>
           </div>
           <Button 
             onClick={() => setShowInspectionForm(true)}
             className="bg-white text-indigo-600 hover:bg-indigo-50 border-0 shadow-md"
           >
             <Plus className="h-4 w-4 mr-2" />
-            Nouvel état des lieux
+            {t('inspections.newInspection')}
           </Button>
         </div>
       </div>
@@ -69,53 +98,53 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="border-l-4 border-l-indigo-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total États des Lieux</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('inspections.totalInspections')}</CardTitle>
             <div className="p-2 bg-indigo-100 rounded-lg">
               <FileCheck className="h-4 w-4 text-indigo-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{totalInspections}</div>
-            <p className="text-xs text-gray-500 mt-1">{totalInspections} états des lieux enregistrés</p>
+            <p className="text-xs text-gray-500 mt-1">{totalInspections} {t('inspections.totalInspections').toLowerCase()}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">États des Lieux Terminés</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('inspections.completedInspections')}</CardTitle>
             <div className="p-2 bg-green-100 rounded-lg">
               <CheckCircle className="h-4 w-4 text-green-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{completedInspections}</div>
-            <p className="text-xs text-gray-500 mt-1">{completedInspections} états des lieux terminés</p>
+            <p className="text-xs text-gray-500 mt-1">{completedInspections} {t('inspections.completedInspections').toLowerCase()}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">États des Lieux Planifiés</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('inspections.plannedInspections')}</CardTitle>
             <div className="p-2 bg-blue-100 rounded-lg">
               <Calendar className="h-4 w-4 text-blue-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{plannedInspections}</div>
-            <p className="text-xs text-gray-500 mt-1">{plannedInspections} états des lieux planifiés</p>
+            <p className="text-xs text-gray-500 mt-1">{plannedInspections} {t('inspections.plannedInspections').toLowerCase()}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">États des Lieux En Cours</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('inspections.inProgressInspections')}</CardTitle>
             <div className="p-2 bg-orange-100 rounded-lg">
               <AlertTriangle className="h-4 w-4 text-orange-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{inProgressInspections}</div>
-            <p className="text-xs text-gray-500 mt-1">{inProgressInspections} états des lieux en cours</p>
+            <p className="text-xs text-gray-500 mt-1">{inProgressInspections} {t('inspections.inProgressInspections').toLowerCase()}</p>
           </CardContent>
         </Card>
       </div>
@@ -123,35 +152,35 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
       {/* Inspections Table */}
       <Card className="shadow-lg border-0">
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
-          <CardTitle className="text-xl text-gray-800">Liste des États des Lieux</CardTitle>
+          <CardTitle className="text-xl text-gray-800">{t('inspections.listTitle')}</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           {inspections && inspections.length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Titre</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Propriété</TableHead>
-                  <TableHead>Locataire</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Inspecteur</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{t('inspections.inspectionTitle')}</TableHead>
+                  <TableHead>{t('inspections.inspectionType')}</TableHead>
+                  <TableHead>{t('inspections.property')}</TableHead>
+                  <TableHead>{t('inspections.tenant')}</TableHead>
+                  <TableHead>{t('inspections.date')}</TableHead>
+                  <TableHead>{t('inspections.inspector')}</TableHead>
+                  <TableHead>{t('inspections.status')}</TableHead>
+                  <TableHead className="text-right">{t('inspections.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {inspections.map((inspection) => (
                   <TableRow key={inspection.id}>
                     <TableCell className="font-medium">{inspection.title}</TableCell>
-                    <TableCell>{inspection.type}</TableCell>
+                    <TableCell>{getTranslatedType(inspection.type)}</TableCell>
                     <TableCell>{inspection.property}</TableCell>
                     <TableCell>{inspection.tenant}</TableCell>
                     <TableCell>{new Date(inspection.date).toLocaleDateString()}</TableCell>
                     <TableCell>{inspection.inspector}</TableCell>
                     <TableCell>
                       <Badge variant={getStatusBadgeVariant(inspection.status)}>
-                        {inspection.status}
+                        {getTranslatedStatus(inspection.status)}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
@@ -176,11 +205,11 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
               <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <FileCheck className="h-8 w-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Aucun état des lieux</h3>
-              <p className="text-gray-500 mb-4">Commencez par créer votre premier état des lieux</p>
+              <h3 className="text-lg font-medium text-gray-700 mb-2">{t('inspections.noInspections')}</h3>
+              <p className="text-gray-500 mb-4">{t('inspections.noInspectionsDescription')}</p>
               <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
                 <Plus className="h-4 w-4 mr-2" />
-                Créer un état des lieux
+                {t('inspections.addInspection')}
               </Button>
             </div>
           )}
