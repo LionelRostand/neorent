@@ -6,20 +6,20 @@ export const useUserPermissions = () => {
   const { userProfile, userType } = useAuth();
 
   const isOwner = userType === 'owner' && userProfile?.isOwner;
+  const isAdmin = userType === 'admin';
 
   const hasPermission = (
     menu: keyof EmployeePermissions,
     action: keyof MenuPermission
   ): boolean => {
-    // Les admins ont tous les droits
-    if (userType === 'admin') {
+    // Les admins ont tous les droits globaux
+    if (isAdmin) {
       return true;
     }
 
-    // Les propriétaires ont des droits étendus
-    if (isOwner && userProfile?.detailedPermissions) {
-      const menuPermissions = userProfile.detailedPermissions[menu];
-      return menuPermissions ? menuPermissions[action] : false;
+    // Les propriétaires ont pleins droits sur leurs propres données
+    if (isOwner) {
+      return true; // Pleins droits dans leur espace
     }
 
     // Les locataires et colocataires ont des permissions limitées
@@ -29,12 +29,6 @@ export const useUserPermissions = () => {
         return action === 'read' || action === 'view';
       }
       return false;
-    }
-
-    // Pour les propriétaires normaux, vérifier les permissions détaillées
-    if (userType === 'owner' && userProfile?.detailedPermissions) {
-      const menuPermissions = userProfile.detailedPermissions[menu];
-      return menuPermissions ? menuPermissions[action] : false;
     }
 
     // Par défaut, refuser l'accès
@@ -57,16 +51,32 @@ export const useUserPermissions = () => {
     return hasPermission(menu, 'delete');
   };
 
+  // Fonction pour vérifier l'accès aux données spécifiques
+  const canAccessOwnerData = (dataOwner: string): boolean => {
+    // L'admin peut accéder à toutes les données
+    if (isAdmin) {
+      return true;
+    }
+
+    // Le propriétaire peut accéder seulement à ses propres données
+    if (isOwner && userProfile) {
+      return dataOwner === userProfile.name || dataOwner === userProfile.email;
+    }
+
+    return false;
+  };
+
   return {
     hasPermission,
     canAccessMenu,
     canRead,
     canWrite,
     canDelete,
+    canAccessOwnerData,
     userType,
-    isAdmin: userType === 'admin',
-    isOwner: userType === 'owner',
-    isOwnerWithPermissions: isOwner,
+    isAdmin,
+    isOwner: isOwner,
+    isOwnerWithFullRights: isOwner, // Les propriétaires ont pleins droits sur leurs données
     isTenant: userType === 'locataire',
     isRoommate: userType === 'colocataire'
   };

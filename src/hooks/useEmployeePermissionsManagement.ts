@@ -15,7 +15,7 @@ export const useEmployeePermissionsManagement = () => {
   const [permissions, setPermissions] = useState<EmployeePermissions>(defaultEmployeePermissions);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Filtrer les employés - inclure tous ceux qui ont le rôle 'owner' ou qui sont marqués comme propriétaires
+  // Filtrer les employés - inclure tous les propriétaires et admins (sauf l'admin principal)
   const employees = userRoles.filter(user => 
     user.role === 'owner' || 
     user.isOwner === true || 
@@ -39,7 +39,27 @@ export const useEmployeePermissionsManagement = () => {
         const userRoleDoc = await getDoc(doc(db, 'user_roles', selectedEmployeeId));
         if (userRoleDoc.exists()) {
           const data = userRoleDoc.data();
-          setPermissions(data.detailedPermissions || defaultEmployeePermissions);
+          // Pour les propriétaires, définir des permissions complètes par défaut sur leurs données
+          if (data.role === 'owner' || data.isOwner) {
+            const fullOwnerPermissions = {
+              dashboard: { read: true, write: true, view: true, delete: true },
+              properties: { read: true, write: true, view: true, delete: true },
+              tenants: { read: true, write: true, view: true, delete: true },
+              roommates: { read: true, write: true, view: true, delete: true },
+              contracts: { read: true, write: true, view: true, delete: true },
+              inspections: { read: true, write: true, view: true, delete: true },
+              rentManagement: { read: true, write: true, view: true, delete: true },
+              rentalCharges: { read: true, write: true, view: true, delete: true },
+              maintenance: { read: true, write: true, view: true, delete: true },
+              messages: { read: true, write: true, view: true, delete: false },
+              taxes: { read: true, write: true, view: true, delete: false },
+              website: { read: true, write: true, view: true, delete: false },
+              settings: { read: false, write: false, view: false, delete: false }, // Seul l'admin peut gérer les paramètres
+            };
+            setPermissions(data.detailedPermissions || fullOwnerPermissions);
+          } else {
+            setPermissions(data.detailedPermissions || defaultEmployeePermissions);
+          }
         } else {
           setPermissions(defaultEmployeePermissions);
         }

@@ -7,8 +7,10 @@ import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 import { useFirebaseCharges } from '@/hooks/useFirebaseCharges';
+import { useAuth } from '@/hooks/useAuth';
 
 export const useOwnerData = (ownerProfile: any) => {
+  const { userType } = useAuth();
   const { properties } = useFirebaseProperties();
   const { roommates } = useFirebaseRoommates();
   const { tenants } = useFirebaseTenants();
@@ -31,7 +33,22 @@ export const useOwnerData = (ownerProfile: any) => {
       };
     }
 
-    // Filtrer les propriétés du propriétaire connecté
+    // Si c'est l'admin, retourner toutes les données
+    if (userType === 'admin') {
+      const propertyTitles = properties.map(p => p.title);
+      return {
+        properties: properties,
+        roommates: roommates,
+        tenants: tenants,
+        payments: payments,
+        contracts: contracts,
+        inspections: inspections,
+        charges: charges,
+        propertyTitles: propertyTitles
+      };
+    }
+
+    // Pour les propriétaires, filtrer seulement leurs données
     const ownerProperties = properties.filter(property => 
       property.owner === ownerProfile.name || 
       property.owner === ownerProfile.email
@@ -40,38 +57,32 @@ export const useOwnerData = (ownerProfile: any) => {
     // Obtenir les titres des propriétés pour filtrer les autres données
     const propertyTitles = ownerProperties.map(p => p.title);
 
-    // Filtrer les colocataires selon les propriétés du propriétaire
+    // Filtrer toutes les données selon les propriétés du propriétaire
     const ownerRoommates = roommates.filter(roommate => 
       propertyTitles.includes(roommate.property)
     );
 
-    // Filtrer les locataires selon les propriétés du propriétaire
     const ownerTenants = tenants.filter(tenant => 
       propertyTitles.includes(tenant.property)
     );
 
-    // Filtrer les paiements selon les propriétés du propriétaire
     const ownerPayments = payments.filter(payment => 
       propertyTitles.includes(payment.property)
     );
 
-    // Filtrer les contrats selon les propriétés du propriétaire
     const ownerContracts = contracts.filter(contract => 
       propertyTitles.includes(contract.property)
     );
 
-    // Filtrer les inspections selon les propriétés du propriétaire
     const ownerInspections = inspections.filter(inspection => 
       propertyTitles.includes(inspection.property)
     );
 
-    // Filtrer les charges selon les propriétés du propriétaire
     const ownerCharges = charges.filter(charge => 
       propertyTitles.includes(charge.propertyName)
     );
 
-    console.log('Owner data filtered:', {
-      ownerProfile: ownerProfile.name,
+    console.log('Owner data filtered for:', ownerProfile.name, {
       properties: ownerProperties.length,
       roommates: ownerRoommates.length,
       tenants: ownerTenants.length,
@@ -91,7 +102,7 @@ export const useOwnerData = (ownerProfile: any) => {
       charges: ownerCharges,
       propertyTitles
     };
-  }, [ownerProfile, properties, roommates, tenants, payments, contracts, inspections, charges]);
+  }, [ownerProfile, properties, roommates, tenants, payments, contracts, inspections, charges, userType]);
 
   return ownerData;
 };
