@@ -37,7 +37,7 @@ export const useUserProfileManager = (user: User | null) => {
         name: displayName,
         email: user.email || '',
         role: isAdmin ? 'admin' : 'locataire',
-        type: (isAdmin ? 'admin' : 'locataire') as const
+        type: isAdmin ? 'admin' as const : 'locataire' as const
       };
       setSelectedProfile(profile);
       setUserType(isAdmin ? 'admin' : 'locataire');
