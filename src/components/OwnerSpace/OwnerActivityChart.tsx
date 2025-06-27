@@ -11,12 +11,20 @@ interface OwnerActivityChartProps {
 }
 
 const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { tenants, roommates, payments } = useOwnerData(ownerProfile);
+
+  // Get month names based on current language
+  const getMonthNames = () => {
+    if (i18n.language === 'en') {
+      return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    }
+    return ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
+  };
 
   // Données pour le graphique de paiements mensuels
   const paymentData = useMemo(() => {
-    const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
+    const monthNames = getMonthNames();
     const last6Months = [];
     
     for (let i = 5; i >= 0; i--) {
@@ -56,7 +64,7 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
         colocataires: monthlyRoommatePayments
       };
     });
-  }, [payments]);
+  }, [payments, i18n.language]);
 
   // Données pour le graphique en secteurs de répartition
   const distributionData = useMemo(() => {
@@ -71,7 +79,7 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
 
   // Données pour l'évolution des occupants - basées sur les données réelles
   const occupancyTrend = useMemo(() => {
-    const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
+    const monthNames = getMonthNames();
     const last6Months = [];
     
     for (let i = 5; i >= 0; i--) {
@@ -108,7 +116,7 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
         colocataires: monthlyRoommates
       };
     });
-  }, [tenants, roommates]);
+  }, [tenants, roommates, i18n.language]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
