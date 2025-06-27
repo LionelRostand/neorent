@@ -29,6 +29,7 @@ import NotFound from '@/pages/NotFound';
 import LegalNotice from '@/pages/PublicSite/LegalNotice';
 import PrivacyPolicy from '@/pages/PublicSite/PrivacyPolicy';
 import CookiePolicy from '@/pages/PublicSite/CookiePolicy';
+import AdminOwnerSpaceManager from '@/components/OwnerSpace/AdminOwnerSpaceManager';
 
 export const AppRoutes = () => {
   return (
@@ -62,7 +63,7 @@ export const AppRoutes = () => {
         } 
       />
       
-      {/* Admin Routes - Simplifié pour corriger le problème */}
+      {/* Admin Routes */}
       <Route 
         path="/admin" 
         element={
@@ -196,6 +197,16 @@ export const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Help />
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* Nouvelle route pour l'administration des espaces propriétaires */}
+      <Route 
+        path="/admin/owner-spaces" 
+        element={
+          <ProtectedRoute requiredUserTypes={['admin']}>
+            <AdminOwnerSpaceManager />
           </ProtectedRoute>
         } 
       />

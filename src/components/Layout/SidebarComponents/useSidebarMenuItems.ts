@@ -1,104 +1,107 @@
 
+import { useTranslation } from 'react-i18next';
 import { 
   LayoutDashboard, 
-  Building2, 
+  Building, 
   Users, 
-  UserPlus, 
+  UserCheck, 
   FileText, 
   ClipboardCheck, 
-  DollarSign, 
+  Euro, 
   Receipt, 
   TrendingUp, 
+  Settings, 
   Wrench, 
   MessageSquare, 
   Calculator, 
   Globe, 
-  Settings, 
-  HelpCircle 
+  HelpCircle,
+  Crown
 } from 'lucide-react';
 
-export interface SidebarMenuItem {
-  label: string;
-  path: string;
-  icon: any;
-}
+export const useSidebarMenuItems = () => {
+  const { t } = useTranslation();
 
-export const useSidebarMenuItems = (): SidebarMenuItem[] => {
   return [
     {
-      label: 'Tableau de bord',
-      path: '/admin/dashboard',
-      icon: LayoutDashboard
+      title: t('navigation.dashboard'),
+      url: '/admin/dashboard',
+      icon: LayoutDashboard,
     },
     {
-      label: 'Propriétés',
-      path: '/admin/properties',
-      icon: Building2
+      title: t('navigation.properties'),
+      url: '/admin/properties',
+      icon: Building,
     },
     {
-      label: 'Locataires',
-      path: '/admin/tenants',
-      icon: Users
+      title: t('navigation.tenants'),
+      url: '/admin/tenants',
+      icon: Users,
     },
     {
-      label: 'Colocataires',
-      path: '/admin/roommates',
-      icon: UserPlus
+      title: t('navigation.roommates'),
+      url: '/admin/roommates',
+      icon: UserCheck,
     },
     {
-      label: 'Contrats',
-      path: '/admin/contracts',
-      icon: FileText
+      title: t('navigation.contracts'),
+      url: '/admin/contracts',
+      icon: FileText,
     },
     {
-      label: 'Inspections',
-      path: '/admin/inspections',
-      icon: ClipboardCheck
+      title: t('navigation.inspections'),
+      url: '/admin/inspections',
+      icon: ClipboardCheck,
     },
     {
-      label: 'Gestion des loyers',
-      path: '/admin/rent-management',
-      icon: DollarSign
+      title: t('navigation.rentManagement'),
+      url: '/admin/rent-management',
+      icon: Euro,
     },
     {
-      label: 'Charges locatives',
-      path: '/admin/rental-charges',
-      icon: Receipt
+      title: t('navigation.rentalCharges'),
+      url: '/admin/rental-charges',
+      icon: Receipt,
     },
     {
-      label: 'Prévisions',
-      path: '/admin/forecasting',
-      icon: TrendingUp
+      title: t('navigation.forecasting'),
+      url: '/admin/forecasting',
+      icon: TrendingUp,
     },
     {
-      label: 'Maintenance',
-      path: '/admin/maintenance',
-      icon: Wrench
+      title: t('navigation.maintenance'),
+      url: '/admin/maintenance',
+      icon: Wrench,
     },
     {
-      label: 'Messages',
-      path: '/admin/messages',
-      icon: MessageSquare
+      title: t('navigation.messages'),
+      url: '/admin/messages',
+      icon: MessageSquare,
     },
     {
-      label: 'Fiscalité',
-      path: '/admin/taxes',
-      icon: Calculator
+      title: t('navigation.taxes'),
+      url: '/admin/taxes',
+      icon: Calculator,
     },
     {
-      label: 'Site web',
-      path: '/admin/website',
-      icon: Globe
+      title: t('navigation.website'),
+      url: '/admin/website',
+      icon: Globe,
     },
     {
-      label: 'Paramètres',
-      path: '/admin/settings',
-      icon: Settings
+      title: 'Espaces Propriétaires',
+      url: '/admin/owner-spaces',
+      icon: Crown,
     },
     {
-      label: 'Aide',
-      path: '/admin/help',
-      icon: HelpCircle
-    }
+      title: t('navigation.settings'),
+      url: '/admin/settings',
+      icon: Settings,
+    },
+    {
+      title: t('navigation.help'),
+      url: '/admin/help',
+      icon: HelpCircle,
+    },
   ];
 };
