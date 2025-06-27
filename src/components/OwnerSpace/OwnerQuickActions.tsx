@@ -77,19 +77,19 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
 
   if (enabledActions.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="bg-green-600 rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">
           {getLocalizedText('quickActions')}
         </h3>
-        <p className="text-gray-500 text-sm">Aucune action rapide configurée</p>
+        <p className="text-white/70 text-sm">Aucune action rapide configurée</p>
       </div>
     );
   }
 
   return (
     <>
-      <div key={refreshKey} className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">
           {getLocalizedText('quickActions')}
         </h3>
         
