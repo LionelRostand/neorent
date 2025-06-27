@@ -15,11 +15,6 @@ const PropertiesTab = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
-  // Log pour débugger
-  console.log('Owner properties:', ownerProperties);
-  console.log('Admin properties:', allAdminProperties);
-  console.log('Loading:', loadingProperties);
-
   // Combiner toutes les propriétés disponibles (owner + admin)
   const allAvailableProperties = [
     ...(ownerProperties || []),
@@ -30,8 +25,6 @@ const PropertiesTab = () => {
   const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
     index === self.findIndex((p) => p.id === property.id)
   );
-
-  console.log('Unique properties:', uniqueProperties);
 
   // États pour gérer la visibilité et les descriptions des propriétés sur le site
   const [propertySettings, setPropertySettings] = useState<{[key: string]: {
@@ -47,14 +40,13 @@ const PropertiesTab = () => {
       if (savedSettings) {
         const parsedSettings = JSON.parse(savedSettings);
         setPropertySettings(parsedSettings);
-        console.log('Loaded saved settings:', parsedSettings);
       }
     } catch (error) {
       console.error('Error loading saved settings:', error);
     }
   }, []);
 
-  // Initialiser les paramètres des propriétés pour les nouvelles propriétés
+  // Initialiser les paramètres des propriétés avec visibilité activée par défaut
   useEffect(() => {
     if (uniqueProperties.length > 0) {
       setPropertySettings(prevSettings => {
@@ -65,7 +57,7 @@ const PropertiesTab = () => {
           // Initialiser seulement si la propriété n'existe pas déjà
           if (!newSettings[property.id]) {
             newSettings[property.id] = {
-              visible: false,
+              visible: true, // Toujours activer la visibilité par défaut
               description: '',
               featured: false
             };
@@ -116,7 +108,6 @@ const PropertiesTab = () => {
           visible: !prev[propertyId]?.visible
         }
       };
-      console.log('Toggled visibility for', propertyId, 'new settings:', newSettings);
       return newSettings;
     });
   };
@@ -156,6 +147,7 @@ const PropertiesTab = () => {
 
   // Filtrer les propriétés visibles pour les statistiques
   const visibleProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.visible) || [];
+  const featuredProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.featured) || [];
 
   // Afficher un état de chargement si nécessaire
   if (loadingProperties) {
@@ -176,12 +168,13 @@ const PropertiesTab = () => {
         ownerProperties={ownerProperties || []}
         allAdminProperties={allAdminProperties || []}
         visibleProperties={visibleProperties}
+        featuredProperties={featuredProperties}
         isSaving={isSaving}
         onSave={handleSaveWebsiteSettings}
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {/* Liste des propriétés - Maintenant on passe toutes les propriétés, pas seulement les visibles */}
+        {/* Liste des propriétés */}
         <div className="xl:col-span-2">
           <PropertiesList
             properties={uniqueProperties}
