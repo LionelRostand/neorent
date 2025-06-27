@@ -98,7 +98,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
           {getLocalizedText('quickActions')}
         </h3>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {/* Changed from grid to vertical stack */}
+        <div className="space-y-3">
           {enabledActions.map((action) => (
             <ConfigurableQuickActionItem
               key={action.id}
