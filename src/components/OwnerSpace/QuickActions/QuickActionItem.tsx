@@ -1,80 +1,69 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { X } from 'lucide-react';
-import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
-import { QuickAction } from './quickActionsConfig';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface QuickActionItemProps {
-  action: QuickAction;
+  action: {
+    id: string;
+    title: string;
+    description: string;
+    icon: any;
+    color: string;
+    action: () => void;
+    preview?: string;
+  };
 }
 
 const QuickActionItem: React.FC<QuickActionItemProps> = ({ action }) => {
-  const { i18n } = useTranslation();
-  const { isAdmin, removeAction } = useQuickActionsManager();
-
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      delete: {
-        fr: 'Supprimer',
-        en: 'Delete'
-      },
-      manage: {
-        fr: 'Gérer',
-        en: 'Manage'
-      },
-      configure: {
-        fr: 'Configurer',
-        en: 'Configure'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
-
-  const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    removeAction(action.id);
-  };
-
-  const IconComponent = action.icon;
+  const Icon = action.icon;
 
   return (
-    <div className="relative group">
-      <button
+    <Card className="hover:shadow-md transition-all duration-200 cursor-pointer group bg-white/90 backdrop-blur-sm border-0 shadow-sm">
+      <CardContent 
+        className="p-3 sm:p-4"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           action.action();
         }}
-        className="w-full flex items-center gap-3 p-3 text-left hover:bg-white/10 rounded-lg transition-colors"
       >
-        <div className={`p-2 rounded-lg ${action.color}`}>
-          <IconComponent className="h-4 w-4 text-white" />
-        </div>
-        <div className="flex-1">
-          <div className="text-sm font-medium text-white">{action.title}</div>
-          <div className="text-xs text-white/70">{action.description}</div>
-          <div className="text-xs text-white/50 mt-1">{action.preview}</div>
-        </div>
-        
-        {/* Bouton de suppression pour les admins - visible au hover */}
-        {isAdmin && (
-          <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-200">
-            <button
-              onClick={handleDelete}
-              className="p-1.5 bg-red-500/90 hover:bg-red-600 text-white rounded-full shadow-lg border border-white/20"
-              title={getLocalizedText('delete')}
-            >
-              <X className="h-3 w-3" />
-            </button>
+        <div className="flex items-start gap-3">
+          {/* Icon container - responsive sizing */}
+          <div className={`${action.color} rounded-lg p-2.5 sm:p-3 flex-shrink-0 group-hover:scale-105 transition-transform duration-200`}>
+            <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
           </div>
-        )}
-      </button>
-    </div>
+          
+          {/* Content container - flexible layout */}
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3">
+              {/* Text content */}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate group-hover:text-gray-700 transition-colors">
+                  {action.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-600 mt-0.5 line-clamp-2 sm:line-clamp-1">
+                  {action.description}
+                </p>
+                {action.preview && (
+                  <p className="text-xs text-blue-600 font-medium mt-1.5 sm:mt-1 truncate">
+                    {action.preview}
+                  </p>
+                )}
+              </div>
+              
+              {/* Action button - responsive positioning */}
+              <div className="flex-shrink-0 self-start sm:self-center">
+                <div className="bg-gray-100 group-hover:bg-gray-200 text-gray-600 group-hover:text-gray-800 rounded-full p-1.5 sm:p-2 transition-all duration-200">
+                  <svg className="h-3 w-3 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

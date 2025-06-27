@@ -69,25 +69,25 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
 
   return (
     <>
-      <Card className="h-fit w-full bg-gradient-to-b from-green-600 to-green-700 border-green-500/30" key={`quick-actions-${refreshKey}`}>
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center justify-between text-base font-semibold">
+      <Card className="h-fit w-full bg-gradient-to-b from-green-600 to-green-700 border-green-500/30 shadow-lg" key={`quick-actions-${refreshKey}`}>
+        <CardHeader className="pb-3 px-4 sm:px-6">
+          <CardTitle className="flex items-center justify-between text-base sm:text-lg font-semibold">
             <div className="flex items-center gap-2">
-              <Plus className="h-4 w-4 text-white" />
-              <span className="text-white">{getLocalizedText('quickActionsTitle')}</span>
+              <Plus className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              <span className="text-white truncate">{getLocalizedText('quickActionsTitle')}</span>
             </div>
             {isAdmin && (
               <button
                 onClick={() => setShowMenuSelector(true)}
-                className="p-1 hover:bg-green-500/30 rounded-full transition-colors"
+                className="p-1.5 sm:p-2 hover:bg-green-500/30 rounded-full transition-colors flex-shrink-0"
                 title={getLocalizedText('addMenu')}
               >
-                <Plus className="h-4 w-4 text-white/80" />
+                <Plus className="h-3 w-3 sm:h-4 sm:w-4 text-white/80" />
               </button>
             )}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-1 p-4 pt-0">
+        <CardContent className="space-y-2 sm:space-y-3 p-3 sm:p-4 pt-0">
           {quickActions.map((action) => (
             <QuickActionItem key={`${action.id}-${refreshKey}`} action={action} />
           ))}
