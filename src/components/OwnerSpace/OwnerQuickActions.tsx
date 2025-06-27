@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
@@ -37,6 +38,13 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
   } = useOwnerQuickActions(ownerProfile);
 
   const enabledActions = getEnabledActions();
+
+  console.log('OwnerQuickActions render:', { 
+    showControls, 
+    isAdmin, 
+    enabledActionsCount: enabledActions.length,
+    shouldShowManager: showControls && isAdmin 
+  });
 
   const getLocalizedText = (key: string) => {
     const currentLang = i18n.language;
@@ -92,7 +100,11 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
             {getLocalizedText('quickActions')}
           </h3>
           {/* Show QuickActionsManager button for admins */}
-          {showControls && isAdmin && <QuickActionsManager />}
+          {showControls && isAdmin && (
+            <div className="ml-2">
+              <QuickActionsManager />
+            </div>
+          )}
         </div>
         
         {enabledActions.length === 0 ? (
@@ -109,7 +121,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
                 color={action.color}
                 onClick={() => handleActionClick(action)}
                 actionId={action.id}
-                showControls={showControls && isAdmin}
+                showControls={showControls}
               />
             ))}
           </div>

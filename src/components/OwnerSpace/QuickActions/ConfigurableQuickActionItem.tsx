@@ -48,12 +48,25 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
     e.stopPropagation();
     e.preventDefault();
     
-    if (!actionId) return;
+    if (!actionId) {
+      console.log('No actionId provided for removal');
+      return;
+    }
+    
+    console.log('Attempting to remove action:', actionId);
     
     if (window.confirm(getLocalizedText('confirmDelete'))) {
       await removeAction(actionId);
     }
   };
+
+  console.log('ConfigurableQuickActionItem render:', { 
+    title, 
+    actionId, 
+    showControls, 
+    isAdmin, 
+    shouldShowDeleteButton: showControls && isAdmin && actionId 
+  });
 
   return (
     <div className="relative group">
@@ -76,7 +89,7 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
           size="sm"
           variant="ghost"
           onClick={handleRemove}
-          className="absolute top-1 right-1 h-7 w-7 p-0 bg-red-500/90 hover:bg-red-600 text-white transition-all duration-200 opacity-90 hover:opacity-100"
+          className="absolute top-2 right-2 h-6 w-6 p-0 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           title={getLocalizedText('remove')}
         >
           <X className="h-3 w-3" />
