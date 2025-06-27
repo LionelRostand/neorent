@@ -34,6 +34,7 @@ import enTenantDocuments from './locales/en/tenantDocuments.json';
 import enTenantUpload from './locales/en/tenantUpload.json';
 import enTenantProfile from './locales/en/tenantProfile.json';
 import enOwnerSpace from './locales/en/ownerSpace.json';
+import enProfile from './locales/en/profile.json';
 
 // French translations
 import frCommon from './locales/fr/common.json';
@@ -65,6 +66,7 @@ import frTenantHistory from './locales/fr/tenantHistory.json';
 import frTenantUpload from './locales/fr/tenantUpload.json';
 import frTenantProfile from './locales/fr/tenantProfile.json';
 import frOwnerSpace from './locales/fr/ownerSpace.json';
+import frProfile from './locales/fr/profile.json';
 
 const resources = {
   en: {
@@ -99,7 +101,8 @@ const resources = {
       ...enTenantDocuments,
       ...enTenantUpload,
       ...enTenantProfile,
-      ...enOwnerSpace
+      ...enOwnerSpace,
+      ...enProfile
     }
   },
   fr: {
@@ -132,7 +135,8 @@ const resources = {
       ...frTenantHistory,
       ...frTenantUpload,
       ...frTenantProfile,
-      ...frOwnerSpace
+      ...frOwnerSpace,
+      ...frProfile
     }
   }
 };
