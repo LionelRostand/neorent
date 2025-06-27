@@ -1,0 +1,45 @@
+
+{
+  "settings": {
+    "email": {
+      "title": "Configuration Email",
+      "subtitle": "Configurez les paramètres SMTP et IMAP pour l'envoi et la réception d'emails",
+      "enabled": "Activer les emails",
+      "testMode": "Mode test",
+      "loadingSettings": "Chargement des paramètres...",
+      "saving": "Sauvegarde...",
+      "testing": "Test en cours...",
+      "smtp": {
+        "title": "Configuration SMTP",
+        "server": "Serveur SMTP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "fromEmail": "Email expéditeur",
+        "fromName": "Nom expéditeur",
+        "testConnection": "Tester la connexion"
+      },
+      "imap": {
+        "title": "Configuration IMAP",
+        "server": "Serveur IMAP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "folder": "Dossier",
+        "testConnection": "Tester la connexion"
+      },
+      "securityOptions": {
+        "none": "Aucune",
+        "tls": "TLS",
+        "ssl": "SSL"
+      },
+      "recommendedConfig": "Configuration recommandée",
+      "gmailConfig": "Gmail : smtp.gmail.com:587 (TLS), imap.gmail.com:993 (SSL)",
+      "outlookConfig": "Outlook : smtp-mail.outlook.com:587 (TLS), outlook.office365.com:993 (SSL)",
+      "appPasswordRecommendation": "Utilisez un mot de passe d'application pour Gmail et Outlook",
+      "testConnectionRecommendation": "Testez toujours la connexion avant de sauvegarder"
+    }
+  }
+}
