@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { TrendingUp } from 'lucide-react';
 import { useOwnerData } from '@/hooks/useOwnerData';
 
@@ -8,6 +9,7 @@ interface AdminForecastingViewProps {
 }
 
 const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProfile }) => {
+  const { t } = useTranslation();
   const { properties, tenants, roommates } = useOwnerData(currentProfile);
   
   const currentMonthlyRevenue = [...tenants, ...roommates]
@@ -20,10 +22,10 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
               <TrendingUp className="h-8 w-8 text-green-600" />
-              Prévisions Financières
+              {t('forecasting.title')}
             </h1>
             <p className="text-gray-600 mt-2">
-              Analysez et planifiez vos investissements immobiliers
+              {t('forecasting.subtitle')}
             </p>
           </div>
         </div>
@@ -32,18 +34,18 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
           {/* Current Revenue Card */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Revenus Actuels</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t('forecasting.currentRevenue')}</h2>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Revenus mensuels:</span>
+                  <span className="text-gray-600">{t('forecasting.monthlyRevenue')}:</span>
                   <span className="text-2xl font-bold text-green-600">{currentMonthlyRevenue}€</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Propriétés:</span>
+                  <span className="text-gray-600">{t('common.properties')}:</span>
                   <span className="font-medium">{properties.length}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Locataires:</span>
+                  <span className="text-gray-600">{t('common.tenants')}:</span>
                   <span className="font-medium">{tenants.length + roommates.length}</span>
                 </div>
               </div>
@@ -53,12 +55,12 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
           {/* Investment Planning */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Planification d'Investissement</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t('forecasting.investmentPlanning')}</h2>
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Prix de la propriété cible (€)
+                      {t('forecasting.targetPropertyPrice')}
                     </label>
                     <input
                       type="number"
@@ -68,7 +70,7 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Loyer mensuel estimé (€)
+                      {t('forecasting.estimatedMonthlyRent')}
                     </label>
                     <input
                       type="number"
@@ -81,7 +83,7 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Apport personnel (%)
+                      {t('forecasting.downPaymentPercent')}
                     </label>
                     <input
                       type="number"
@@ -93,7 +95,7 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Taux d'emprunt (%)
+                      {t('forecasting.interestRate')}
                     </label>
                     <input
                       type="number"
@@ -110,23 +112,23 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
           {/* Results Section */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Résultats de Simulation</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t('forecasting.simulationResults')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <div className="text-2xl font-bold text-blue-600">-</div>
-                  <div className="text-sm text-gray-600">Apport requis</div>
+                  <div className="text-sm text-gray-600">{t('forecasting.requiredDownPayment')}</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-lg">
                   <div className="text-2xl font-bold text-green-600">-</div>
-                  <div className="text-sm text-gray-600">Mensualité</div>
+                  <div className="text-sm text-gray-600">{t('forecasting.loanPayment')}</div>
                 </div>
                 <div className="text-center p-4 bg-purple-50 rounded-lg">
                   <div className="text-2xl font-bold text-purple-600">-</div>
-                  <div className="text-sm text-gray-600">Rentabilité</div>
+                  <div className="text-sm text-gray-600">{t('forecasting.roi')}</div>
                 </div>
                 <div className="text-center p-4 bg-orange-50 rounded-lg">
                   <div className="text-2xl font-bold text-orange-600">-</div>
-                  <div className="text-sm text-gray-600">Cash-flow</div>
+                  <div className="text-sm text-gray-600">{t('forecasting.monthlyCashFlow')}</div>
                 </div>
               </div>
             </div>

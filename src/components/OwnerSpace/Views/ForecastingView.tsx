@@ -66,7 +66,7 @@ const ForecastingView: React.FC<ForecastingViewProps> = ({ currentProfile }) => 
             <div className="space-y-4">
               <div className="flex justify-between text-lg">
                 <span className="text-gray-600">{t('forecasting.monthlyRevenue')}:</span>
-                <span className="font-bold text-2xl text-green-600">{currentMonthlyRevenue}€</span>
+                <span className="text-2xl font-bold text-green-600">{currentMonthlyRevenue}€</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">{t('common.properties')}:</span>
