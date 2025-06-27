@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -26,30 +25,6 @@ const LoginForm = () => {
   const { login, userProfile, userType, user } = useAuth();
   const { toast } = useToast();
 
-  // Fonction pour créer automatiquement le compte admin s'il n'existe pas
-  const createAdminAccountIfNeeded = async (email: string, password: string) => {
-    if (email === 'admin@neotech-consulting.com') {
-      try {
-        console.log('🔧 Tentative de création du compte admin...');
-        await createUserWithEmailAndPassword(auth, email, password);
-        console.log('✅ Compte admin créé avec succès');
-        
-        toast({
-          title: "Compte administrateur créé",
-          description: "Le compte administrateur a été créé automatiquement",
-        });
-      } catch (error: any) {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('📝 Le compte admin existe déjà');
-          // C'est normal, le compte existe déjà
-        } else {
-          console.error('❌ Erreur lors de la création du compte admin:', error);
-          throw error;
-        }
-      }
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -57,20 +32,35 @@ const LoginForm = () => {
     try {
       console.log('🔐 Tentative de connexion pour:', email);
       
-      // Vérification immédiate si c'est un admin
-      const isAdmin = email === 'admin@neotech-consulting.com';
-      
-      if (isAdmin) {
-        // Essayer de créer le compte admin si besoin
-        await createAdminAccountIfNeeded(email, password);
-      }
-      
-      await login(email, password);
-      
-      console.log('✅ Connexion Firebase réussie');
-      
-      if (isAdmin) {
-        console.log('🔑 Admin détecté, redirection vers le backend');
+      // Cas spécial pour l'admin
+      if (email === 'admin@neotech-consulting.com') {
+        try {
+          // D'abord essayer de se connecter
+          await login(email, password);
+        } catch (loginError: any) {
+          // Si le compte n'existe pas, le créer
+          if (loginError.code === 'auth/user-not-found' || loginError.code === 'auth/invalid-credential') {
+            console.log('🔧 Création du compte admin...');
+            try {
+              await createUserWithEmailAndPassword(auth, email, password);
+              console.log('✅ Compte admin créé, nouvelle tentative de connexion...');
+              // Maintenant se connecter avec le compte créé
+              await login(email, password);
+            } catch (createError: any) {
+              if (createError.code === 'auth/email-already-in-use') {
+                // Le compte existe maintenant, réessayer la connexion
+                console.log('📝 Compte admin existe, connexion...');
+                await login(email, password);
+              } else {
+                throw createError;
+              }
+            }
+          } else {
+            throw loginError;
+          }
+        }
+        
+        console.log('✅ Admin connecté avec succès');
         toast({
           title: "Connexion administrateur",
           description: "Bienvenue dans l'interface d'administration",
@@ -78,6 +68,10 @@ const LoginForm = () => {
         navigate('/admin/dashboard');
         return;
       }
+      
+      // Pour les autres utilisateurs
+      await login(email, password);
+      console.log('✅ Connexion Firebase réussie');
       
       // Attendre que les données se chargent pour les autres utilisateurs
       setTimeout(() => {
