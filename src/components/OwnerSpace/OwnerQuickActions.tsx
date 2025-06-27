@@ -8,9 +8,10 @@ import QuickActionDialogs from './QuickActions/QuickActionDialogs';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
+  setActiveView?: (view: string) => void;
 }
 
-const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) => {
+const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, setActiveView }) => {
   const { i18n } = useTranslation();
   const { getEnabledActions, refreshKey } = useQuickActionsManager();
   
@@ -64,7 +65,11 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile }) =
     console.log('Quick action clicked:', action);
     
     if (action.action === 'navigate' && action.actionValue) {
-      navigate(action.actionValue);
+      if (setActiveView) {
+        setActiveView(action.actionValue);
+      } else {
+        navigate(action.actionValue);
+      }
     } else if (action.action === 'dialog' && action.actionValue) {
       setOpenDialog(action.actionValue);
     }
