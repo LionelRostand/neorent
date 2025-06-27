@@ -6,7 +6,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   userProfile: any | null;
-  userType: 'locataire' | 'colocataire' | 'admin' | 'employee' | null;
+  userType: 'locataire' | 'colocataire' | 'admin' | 'owner' | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
