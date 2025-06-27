@@ -173,7 +173,25 @@
     },
     "database": {
       "title": "Gestion de la base de données",
-      "subtitle": "Configurez et surveillez votre base de données Firebase"
+      "subtitle": "Configurez et surveillez votre base de données Firebase",
+      "stats": {
+        "title": "Statistiques de la base de données",
+        "collectionsConfigured": "Collections configurées",
+        "firestoreCollections": "Collections Firestore",
+        "activeUsers": "Utilisateurs actifs",
+        "userAccounts": "Comptes utilisateur",
+        "storedDocuments": "Documents stockés",
+        "documentsInCollections": "Documents dans les collections",
+        "operationsPerDay": "Opérations par jour",
+        "dailyOperations": "Opérations quotidiennes"
+      },
+      "importantInfo": {
+        "title": "Informations importantes",
+        "realTimeStats": "Statistiques en temps réel de la base de données",
+        "monitorQuota": "Surveillez votre quota d'utilisation Firebase",
+        "optimizeQueries": "Optimisez vos requêtes pour de meilleures performances",
+        "configureBilling": "Configurez la facturation pour éviter les interruptions"
+      }
     },
     "company": {
       "title": "Gestion des Entreprises",
