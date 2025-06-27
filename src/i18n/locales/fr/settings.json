@@ -2,6 +2,7 @@
 {
   "settings": {
     "title": "Paramètres",
+    "subtitle": "Configurez votre plateforme selon vos besoins",
     "description": "Gérez les paramètres de votre application",
     "account": "Compte utilisateur",
     "security": {
@@ -32,6 +33,29 @@
     "deleteAccountDesc": "Supprimer définitivement votre compte",
     "configure": "Configurer",
     "enabled": "Activé",
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Propriétaires",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Admin"
+    },
+    "adminAccess": "Accès Administrateur",
+    "adminAccessDescription": "Gérer l'accès administrateur aux espaces locataires",
+    "company": {
+      "title": "Gestion des Entreprises",
+      "subtitle": "Gérez les informations de votre entreprise",
+      "addCompany": "Ajouter une Entreprise",
+      "editCompany": "Modifier l'Entreprise",
+      "companyName": "Nom de l'Entreprise",
+      "companyAddress": "Adresse de l'Entreprise",
+      "companyPhone": "Téléphone de l'Entreprise",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette entreprise ?"
+    },
     "owners": {
       "management": "Gestion des propriétaires",
       "description": "Gérez les propriétaires et leurs permissions",
