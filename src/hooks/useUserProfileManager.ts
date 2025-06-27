@@ -30,15 +30,15 @@ export const useUserProfileManager = (user: User | null) => {
     } else if (user) {
       // Regular user profile - check if it's the admin email
       const isAdmin = user.email === 'admin@neotech-consulting.com';
-      const displayName = isAdmin ? 'Lionel DJOSSA' : (user.displayName || user.email || '');
       
       const profile = {
         id: user.uid,
-        name: displayName,
+        name: isAdmin ? 'Lionel DJOSSA' : (user.displayName || user.email || ''),
         email: user.email || '',
         role: isAdmin ? 'admin' : 'locataire',
-        type: isAdmin ? 'admin' as const : 'locataire' as const
-      };
+        type: isAdmin ? 'admin' : 'locataire'
+      } as UserProfile;
+      
       setSelectedProfile(profile);
       setUserType(isAdmin ? 'admin' : 'locataire');
     }
