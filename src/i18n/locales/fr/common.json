@@ -298,7 +298,9 @@
     "map": "Carte",
     "analytics": "Analyses",
     "config": "Configuration",
-    "footer": "Pied de page"
+    "footer": "Pied de page",
+    "defined": "Défini",
+    "notDefined": "Non défini"
   },
   "cookies": {
     "title": "Nous utilisons des cookies",
