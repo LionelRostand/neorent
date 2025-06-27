@@ -45,6 +45,9 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   // Determine display name and email
   const displayName = currentProfile?.name || 'Propriétaire';
   const displayEmail = currentProfile?.email || 'Non spécifié';
+  
+  // Display role - replace "employee" with "owner"
+  const displayRole = currentProfile?.role === 'employee' ? 'owner' : (currentProfile?.role || 'owner');
 
   return (
     <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
@@ -56,11 +59,9 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
           <p className="text-sm text-gray-500 truncate">
             {displayEmail}
           </p>
-          {currentProfile?.role && (
-            <p className="text-xs text-blue-600 mt-1">
-              {currentProfile.role}
-            </p>
-          )}
+          <p className="text-xs text-blue-600 mt-1">
+            {displayRole}
+          </p>
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-3">
