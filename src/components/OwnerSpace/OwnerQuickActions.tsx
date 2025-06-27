@@ -5,6 +5,7 @@ import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import ConfigurableQuickActionItem from './QuickActions/ConfigurableQuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
+import QuickActionsManager from './QuickActions/QuickActionsManager';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
@@ -86,7 +87,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
         <h3 className="text-lg font-semibold text-white mb-4">
           {getLocalizedText('quickActions')}
         </h3>
-        <p className="text-white/70 text-sm">Aucune action rapide configurée</p>
+        <p className="text-white/70 text-sm mb-4">Aucune action rapide configurée</p>
+        
+        {/* Show QuickActionsManager for admins even when no actions */}
+        {showControls && isAdmin && <QuickActionsManager />}
       </div>
     );
   }
@@ -98,7 +102,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
           {getLocalizedText('quickActions')}
         </h3>
         
-        {/* Changed from grid to vertical stack */}
+        {/* Vertical stack of actions */}
         <div className="space-y-3">
           {enabledActions.map((action) => (
             <ConfigurableQuickActionItem
@@ -113,6 +117,9 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
             />
           ))}
         </div>
+
+        {/* Show QuickActionsManager for admins */}
+        {showControls && isAdmin && <QuickActionsManager />}
       </div>
 
       <QuickActionDialogs
