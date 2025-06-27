@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building, User, ArrowLeft } from 'lucide-react';
@@ -13,6 +14,7 @@ interface OwnerSpaceHeaderProps {
 const OwnerSpaceHeader: React.FC<OwnerSpaceHeaderProps> = ({ ownerProfile }) => {
   const navigate = useNavigate();
   const { userType } = useAuth();
+  const { t } = useTranslation();
   
   const handleBackToAdmin = () => {
     navigate('/admin/dashboard');
@@ -44,7 +46,7 @@ const OwnerSpaceHeader: React.FC<OwnerSpaceHeaderProps> = ({ ownerProfile }) => 
                 className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Retour Admin
+                {t('settings.backToAdmin')}
               </Button>
             )}
             <div className="hidden md:flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-lg">

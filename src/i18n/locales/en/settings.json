@@ -1,3 +1,4 @@
+
 {
   "settings": {
     "title": "Settings",
@@ -48,6 +49,7 @@
     "loading": "Loading settings...",
     "saveSuccess": "Settings saved successfully",
     "saveError": "Error saving settings",
+    "backToAdmin": "Back to Admin",
     "tabs": {
       "company": "Company",
       "employees": "Owners",
