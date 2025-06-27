@@ -57,6 +57,7 @@ export const UserProfileDropdown = () => {
     return 'U';
   };
 
+  // Utiliser le nom du profil géré, sinon fallback sur les données utilisateur
   const displayName = userProfile?.name || user.displayName || user.email || t('profile.unknownUser');
 
   // Vérifier si l'utilisateur peut changer son mot de passe
@@ -69,7 +70,7 @@ export const UserProfileDropdown = () => {
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
               <AvatarFallback className="bg-green-100 text-green-700 text-xs">
-                {getInitials(userProfile?.name, user.email)}
+                {getInitials(displayName, user.email)}
               </AvatarFallback>
             </Avatar>
           </Button>
