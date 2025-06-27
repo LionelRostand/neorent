@@ -5,10 +5,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Shield, User } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
 const PermissionDeniedView: React.FC = () => {
   const { i18n } = useTranslation();
   const { userType, userProfile } = useAuth();
+  const { isAuthorizedAdmin } = useAdminTenantAccess();
+
+  // Ne pas afficher cette vue pour les admins autorisés
+  if (isAuthorizedAdmin || userType === 'admin') {
+    return null;
+  }
 
   const getLocalizedText = (key: string) => {
     const currentLang = i18n.language;

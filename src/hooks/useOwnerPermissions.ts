@@ -1,11 +1,14 @@
 
 import { useAuth } from '@/hooks/useAuth';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
 export const useOwnerPermissions = () => {
   const { userProfile, userType } = useAuth();
+  const { isAuthorizedAdmin, getCurrentProfile } = useAdminTenantAccess();
+  const currentProfile = getCurrentProfile();
 
   const isOwner = userType === 'owner' && userProfile?.isOwner;
-  const isAdmin = userType === 'admin';
+  const isAdmin = userType === 'admin' || isAuthorizedAdmin;
 
   const hasOwnerAccess = (action: string): boolean => {
     // Les admins ont tous les droits globaux
@@ -26,7 +29,7 @@ export const useOwnerPermissions = () => {
     return isOwner || isAdmin;
   };
 
-  // Les propriétaires ont pleins droits sur leurs données
+  // Les propriétaires et admins ont pleins droits
   const hasFullOwnerRights = (): boolean => {
     return isOwner || isAdmin;
   };
@@ -94,6 +97,6 @@ export const useOwnerPermissions = () => {
     canManageRoommates,
     canAccessData,
     userType,
-    userProfile
+    userProfile: currentProfile || userProfile
   };
 };
