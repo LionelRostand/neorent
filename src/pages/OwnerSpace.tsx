@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { useOwnerPermissions } from '@/hooks/useOwnerPermissions';
 import OwnerSpaceQuickActionsSidebar from '@/components/OwnerSpace/OwnerSpaceQuickActionsSidebar';
 import OwnerSpaceProfileHeader from '@/components/OwnerSpace/OwnerSpaceProfileHeader';
 import ViewRenderer from '@/components/OwnerSpace/Views/ViewRenderer';
@@ -15,6 +16,7 @@ const OwnerSpace = () => {
   const { t } = useTranslation();
   const { userProfile, userType } = useAuth();
   const { getCurrentProfile, isAuthorizedAdmin } = useAdminTenantAccess();
+  const { canAccessOwnerSpace } = useOwnerPermissions();
   const [activeView, setActiveView] = useState('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
@@ -27,8 +29,8 @@ const OwnerSpace = () => {
   console.log('OwnerSpace - userType:', userType);
   console.log('OwnerSpace - isAuthorizedAdmin:', isAuthorizedAdmin);
 
-  // Permettre l'accès aux propriétaires ET aux administrateurs
-  const hasAccess = userType === 'owner' || userType === 'admin' || isAuthorizedAdmin;
+  // Vérifier les permissions d'accès à l'espace propriétaire
+  const hasAccess = canAccessOwnerSpace();
   
   if (!hasAccess || !currentProfile) {
     return (

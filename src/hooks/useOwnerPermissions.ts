@@ -3,12 +3,13 @@ import { useAuth } from '@/hooks/useAuth';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
 export const useOwnerPermissions = () => {
-  const { userProfile, userType } = useAuth();
+  const { userProfile, userType, user } = useAuth();
   const { isAuthorizedAdmin, getCurrentProfile } = useAdminTenantAccess();
   const currentProfile = getCurrentProfile();
 
-  const isOwner = userType === 'owner' && userProfile?.isOwner;
-  const isAdmin = userType === 'admin' || isAuthorizedAdmin;
+  // Vérifier si l'utilisateur est propriétaire
+  const isOwner = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
+  const isAdmin = userType === 'admin' || isAuthorizedAdmin || user?.email === 'admin@neotech-consulting.com';
 
   const hasOwnerAccess = (action: string): boolean => {
     // Les admins ont tous les droits globaux

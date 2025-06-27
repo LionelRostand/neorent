@@ -10,8 +10,7 @@ import QuickActionItem from './QuickActions/QuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
 import QuickActionsManager from './QuickActions/QuickActionsManager';
 import PermissionDeniedView from './QuickActions/PermissionDeniedView';
-import { useAuth } from '@/hooks/useAuth';
-import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { useOwnerPermissions } from '@/hooks/useOwnerPermissions';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
@@ -20,12 +19,11 @@ interface OwnerQuickActionsProps {
 
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, setActiveView }) => {
   const { i18n } = useTranslation();
-  const { userType } = useAuth();
-  const { isAuthorizedAdmin } = useAdminTenantAccess();
-  const { getEnabledActions, isAdmin, refreshKey } = useQuickActionsManager();
+  const { canAccessOwnerSpace, isAdmin, isOwner } = useOwnerPermissions();
+  const { getEnabledActions, refreshKey } = useQuickActionsManager();
   
-  // Vérifier si l'utilisateur est admin
-  const hasAdminRights = userType === 'admin' || isAuthorizedAdmin || isAdmin;
+  // Vérifier si l'utilisateur peut accéder à l'espace propriétaire
+  const hasAccess = canAccessOwnerSpace();
   
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -59,8 +57,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
-  // Si l'utilisateur n'a pas les droits admin, afficher la vue de permission refusée
-  if (!hasAdminRights) {
+  // Si l'utilisateur n'a pas accès, afficher la vue de permission refusée
+  if (!hasAccess) {
     return <PermissionDeniedView />;
   }
 
@@ -88,14 +86,16 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
               <span className="text-white truncate">{getLocalizedText('quickActionsTitle')}</span>
             </div>
             <div className="flex items-center gap-2">
-              {/* Bouton pour gérer les actions */}
-              <button
-                onClick={() => {/* Le gestionnaire d'actions s'ouvre via le composant QuickActionsManager */}}
-                className="p-1.5 sm:p-2 hover:bg-green-500/30 rounded-full transition-colors flex-shrink-0"
-                title={getLocalizedText('manageActions')}
-              >
-                <Settings className="h-3 w-3 sm:h-4 sm:w-4 text-white/80" />
-              </button>
+              {/* Bouton pour gérer les actions - visible seulement pour les admins */}
+              {isAdmin && (
+                <button
+                  onClick={() => {/* Le gestionnaire d'actions s'ouvre via le composant QuickActionsManager */}}
+                  className="p-1.5 sm:p-2 hover:bg-green-500/30 rounded-full transition-colors flex-shrink-0"
+                  title={getLocalizedText('manageActions')}
+                >
+                  <Settings className="h-3 w-3 sm:h-4 sm:w-4 text-white/80" />
+                </button>
+              )}
             </div>
           </CardTitle>
         </CardHeader>
@@ -106,8 +106,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
         </CardContent>
       </Card>
 
-      {/* Gestionnaire d'actions rapides pour les admins */}
-      <QuickActionsManager />
+      {/* Gestionnaire d'actions rapides pour les admins seulement */}
+      {isAdmin && <QuickActionsManager />}
 
       {/* Dialogues des actions rapides */}
       <QuickActionDialogs
