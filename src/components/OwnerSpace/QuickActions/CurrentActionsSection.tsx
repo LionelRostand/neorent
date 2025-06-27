@@ -61,14 +61,15 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
   };
 
   // Helper function to get localized title and description
-  const getLocalizedActionText = (action: QuickActionConfig, field: 'title' | 'description') => {
+  const getLocalizedActionText = (action: QuickActionConfig, field: 'title' | 'description'): string => {
     const currentLang = i18n.language as 'fr' | 'en';
     
     if (typeof action[field] === 'object' && action[field] !== null) {
-      return action[field][currentLang] || action[field]['fr'] || action[field];
+      const fieldValue = action[field] as { fr: string; en: string };
+      return fieldValue[currentLang] || fieldValue['fr'] || '';
     }
     
-    return action[field] || '';
+    return (action[field] as string) || '';
   };
 
   return (

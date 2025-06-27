@@ -21,8 +21,7 @@ const QuickActionsManager: React.FC = () => {
     quickActions,
     toggleAction,
     removeAction,
-    addCustomAction,
-    refreshActions
+    addCustomAction
   } = useQuickActionsManager();
 
   const getLocalizedText = (key: string) => {

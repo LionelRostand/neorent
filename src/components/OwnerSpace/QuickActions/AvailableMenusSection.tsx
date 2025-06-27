@@ -80,7 +80,7 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
   const getMenuLabel = (menuItem: any) => {
     const currentLang = i18n.language;
     
-    // Menu translations
+    // Menu translations with enhanced support for maintenance, taxes, and forecasting
     const menuTranslations: Record<string, Record<string, string>> = {
       'Tableau de bord': {
         fr: 'Tableau de bord',
