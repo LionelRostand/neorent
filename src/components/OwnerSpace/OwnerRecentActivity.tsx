@@ -45,33 +45,59 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
       });
     });
 
-    // Nouveaux locataires/colocataires récents
-    const recentTenants = [...tenants, ...roommates]
-      .filter(person => 
-        person.status === 'Actif' && 
-        (person.leaseStart || person.moveInDate)
+    // Nouveaux locataires récents
+    const recentTenants = tenants
+      .filter(tenant => 
+        tenant.status === 'Actif' && tenant.leaseStart
       )
       .sort((a, b) => {
-        const dateA = new Date(a.leaseStart || a.moveInDate || 0);
-        const dateB = new Date(b.leaseStart || b.moveInDate || 0);
+        const dateA = new Date(a.leaseStart || 0);
+        const dateB = new Date(b.leaseStart || 0);
         return dateB.getTime() - dateA.getTime();
       })
       .slice(0, 2);
 
     recentTenants.forEach(tenant => {
-      const moveDate = tenant.leaseStart || tenant.moveInDate;
       activities.push({
         id: `tenant-${tenant.id}`,
         type: 'tenant',
-        title: tenant.type === 'Colocataire' ? t('ownerSpace.recentActivity.activities.newRoommate') : t('ownerSpace.recentActivity.activities.newTenant'),
+        title: t('ownerSpace.recentActivity.activities.newTenant'),
         description: t('ownerSpace.recentActivity.activities.newTenantDescription', { 
           tenant: tenant.name,
           number: tenant.property.split(' ').pop() || 'N/A'
         }),
-        time: getTimeAgo(moveDate!),
+        time: getTimeAgo(tenant.leaseStart!),
         status: 'info',
         icon: User,
-        date: new Date(moveDate!)
+        date: new Date(tenant.leaseStart!)
+      });
+    });
+
+    // Nouveaux colocataires récents
+    const recentRoommates = roommates
+      .filter(roommate => 
+        roommate.status === 'Actif' && roommate.moveInDate
+      )
+      .sort((a, b) => {
+        const dateA = new Date(a.moveInDate || 0);
+        const dateB = new Date(b.moveInDate || 0);
+        return dateB.getTime() - dateA.getTime();
+      })
+      .slice(0, 2);
+
+    recentRoommates.forEach(roommate => {
+      activities.push({
+        id: `roommate-${roommate.id}`,
+        type: 'tenant',
+        title: t('ownerSpace.recentActivity.activities.newRoommate'),
+        description: t('ownerSpace.recentActivity.activities.newTenantDescription', { 
+          tenant: roommate.name,
+          number: roommate.property.split(' ').pop() || 'N/A'
+        }),
+        time: getTimeAgo(roommate.moveInDate!),
+        status: 'info',
+        icon: User,
+        date: new Date(roommate.moveInDate!)
       });
     });
 
