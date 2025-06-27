@@ -1,3 +1,4 @@
+
 {
   "settings": {
     "title": "Settings",
@@ -126,10 +127,21 @@
     "adminAccess": "Administrator Access",
     "adminAccessDescription": "Manage administrator access to tenant spaces",
     "adminMode": "Administrator Mode",
+    "adminModeTitle": "Admin Mode",
+    "adminModeConsultation": "Administrator Mode - Viewing {name}'s space",
     "selectTenantRoommate": "Select Tenant/Roommate",
     "chooseProfileToView": "Choose a profile to view",
     "accessTenantSpace": "Access Tenant Space",
+    "viewTenantSpace": "View Tenant Space",
     "featureReservedForAdmin": "This feature is reserved for administrators",
+    "viewingAsAdmin": "Viewing as administrator",
+    "tenantType": "Type",
+    "tenantEmail": "Email",
+    "tenantAddress": "Address",
+    "returnButton": "Return",
+    "returnedToAdmin": "Returned to administrator mode",
+    "accessingTenantSpace": "Accessing {name}'s space",
+    "viewingTenantType": "Viewing as {type}",
     "company": {
       "title": "Company Management",
       "subtitle": "Manage your company information",
