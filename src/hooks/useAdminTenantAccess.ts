@@ -101,8 +101,18 @@ export const useAdminTenantAccess = () => {
       console.log('Returning selected admin profile:', selectedTenantProfile);
       return selectedTenantProfile;
     }
-    console.log('Returning user profile:', userProfile);
-    return userProfile;
+    
+    // Si pas de profil sélectionné, retourner le profil utilisateur ou créer un profil par défaut
+    const profile = userProfile || {
+      id: user?.uid || '1',
+      name: user?.email === 'admin@neotech-consulting.com' ? 'Lionel DJOSSA' : (user?.displayName || user?.email || 'Utilisateur'),
+      email: user?.email || 'Non spécifié',
+      role: user?.email === 'admin@neotech-consulting.com' ? 'admin' : 'owner',
+      type: user?.email === 'admin@neotech-consulting.com' ? 'admin' : 'owner'
+    };
+    
+    console.log('Returning user profile:', profile);
+    return profile;
   };
 
   const getCurrentUserType = () => {
@@ -110,7 +120,7 @@ export const useAdminTenantAccess = () => {
       console.log('Returning selected profile type:', selectedTenantProfile.type);
       return selectedTenantProfile.type;
     }
-    const type = user?.email === 'admin@neotech-consulting.com' ? 'admin' : userProfile?.role || 'locataire';
+    const type = user?.email === 'admin@neotech-consulting.com' ? 'admin' : userProfile?.role || 'owner';
     console.log('Returning user type:', type);
     return type;
   };

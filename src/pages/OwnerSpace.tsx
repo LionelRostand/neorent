@@ -21,16 +21,22 @@ const OwnerSpace = () => {
   // Get current profile (logged user or profile selected by admin)
   const currentProfile = getCurrentProfile();
 
+  // Debug: Log profile data
+  console.log('OwnerSpace - userProfile:', userProfile);
+  console.log('OwnerSpace - currentProfile:', currentProfile);
+  console.log('OwnerSpace - userType:', userType);
+  console.log('OwnerSpace - isAuthorizedAdmin:', isAuthorizedAdmin);
+
   // Check that user is owner or administrator
   if ((userType !== 'owner' && userType !== 'admin') || !currentProfile) {
     return (
       <div className="min-h-screen flex w-full bg-gray-50">
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <p className="text-lg text-gray-600">Unauthorized access</p>
-            <p className="text-gray-500">This space is reserved for owners.</p>
+            <p className="text-lg text-gray-600">Accès non autorisé</p>
+            <p className="text-gray-500">Cet espace est réservé aux propriétaires.</p>
             <Button onClick={() => navigate('/admin/dashboard')} className="mt-4">
-              Back to dashboard
+              Retour au tableau de bord
             </Button>
           </div>
         </div>

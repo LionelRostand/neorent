@@ -39,16 +39,28 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
     }
   };
 
+  // Debug: Log current profile data
+  console.log('OwnerSpaceProfileHeader - currentProfile:', currentProfile);
+
+  // Determine display name and email
+  const displayName = currentProfile?.name || 'Propriétaire';
+  const displayEmail = currentProfile?.email || 'Non spécifié';
+
   return (
     <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
       <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
-            {currentProfile?.name || t('ownerSpace.owner')}
+            {displayName}
           </h2>
           <p className="text-sm text-gray-500 truncate">
-            {currentProfile?.email || t('ownerSpace.ownerSpace')}
+            {displayEmail}
           </p>
+          {currentProfile?.role && (
+            <p className="text-xs text-blue-600 mt-1">
+              {currentProfile.role}
+            </p>
+          )}
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-3">
