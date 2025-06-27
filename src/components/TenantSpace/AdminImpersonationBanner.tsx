@@ -45,6 +45,8 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
         return t('common.roommate');
       case 'admin':
         return t('common.administrator');
+      case 'owner':
+        return t('settings.owners.owner');
       default:
         return currentType;
     }
