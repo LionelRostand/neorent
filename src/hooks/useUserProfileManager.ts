@@ -36,11 +36,14 @@ export const useUserProfileManager = (user: User | null) => {
         name: isAdmin ? 'Lionel DJOSSA' : (user.displayName || user.email || ''),
         email: user.email || '',
         role: isAdmin ? 'admin' : 'locataire',
-        type: isAdmin ? 'admin' : 'locataire'
+        type: isAdmin ? 'admin' as const : 'locataire' as const
       } as UserProfile;
       
       setSelectedProfile(profile);
       setUserType(isAdmin ? 'admin' : 'locataire');
+      
+      console.log('Setting user profile:', profile);
+      console.log('Setting user type:', isAdmin ? 'admin' : 'locataire');
     }
   }, [user]);
 
