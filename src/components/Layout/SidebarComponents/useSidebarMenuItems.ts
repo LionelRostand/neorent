@@ -1,116 +1,104 @@
 
-import { useTranslation } from 'react-i18next';
 import { 
-  Home, 
-  Building, 
+  LayoutDashboard, 
+  Building2, 
   Users, 
+  UserPlus, 
   FileText, 
+  ClipboardCheck, 
   DollarSign, 
-  ClipboardList, 
+  Receipt, 
+  TrendingUp, 
   Wrench, 
+  MessageSquare, 
+  Calculator, 
+  Globe, 
   Settings, 
-  UserCheck,
-  Globe,
-  Calculator,
-  MessageCircle,
-  HelpCircle,
-  TrendingUp
+  HelpCircle 
 } from 'lucide-react';
-import { EmployeePermissions } from '@/components/Settings/types/permissions';
 
-export const useSidebarMenuItems = () => {
-  const { t } = useTranslation();
+export interface SidebarMenuItem {
+  label: string;
+  path: string;
+  icon: any;
+}
 
+export const useSidebarMenuItems = (): SidebarMenuItem[] => {
   return [
-    { 
-      icon: Home, 
-      label: t('navigation.dashboard'), 
+    {
+      label: 'Tableau de bord',
       path: '/admin/dashboard',
-      permission: 'dashboard' as keyof EmployeePermissions
+      icon: LayoutDashboard
     },
-    { 
-      icon: Building, 
-      label: t('navigation.properties'), 
+    {
+      label: 'Propriétés',
       path: '/admin/properties',
-      permission: 'properties' as keyof EmployeePermissions
+      icon: Building2
     },
-    { 
-      icon: Users, 
-      label: t('navigation.tenants'), 
+    {
+      label: 'Locataires',
       path: '/admin/tenants',
-      permission: 'tenants' as keyof EmployeePermissions
+      icon: Users
     },
-    { 
-      icon: UserCheck, 
-      label: t('navigation.roommates'), 
+    {
+      label: 'Colocataires',
       path: '/admin/roommates',
-      permission: 'roommates' as keyof EmployeePermissions
+      icon: UserPlus
     },
-    { 
-      icon: FileText, 
-      label: t('navigation.contracts'), 
+    {
+      label: 'Contrats',
       path: '/admin/contracts',
-      permission: 'contracts' as keyof EmployeePermissions
+      icon: FileText
     },
-    { 
-      icon: ClipboardList, 
-      label: t('navigation.inspections'), 
+    {
+      label: 'Inspections',
       path: '/admin/inspections',
-      permission: 'inspections' as keyof EmployeePermissions
+      icon: ClipboardCheck
     },
-    { 
-      icon: DollarSign, 
-      label: t('navigation.rentManagement'), 
+    {
+      label: 'Gestion des loyers',
       path: '/admin/rent-management',
-      permission: 'rentManagement' as keyof EmployeePermissions
+      icon: DollarSign
     },
-    { 
-      icon: Calculator, 
-      label: t('navigation.rentalCharges'), 
+    {
+      label: 'Charges locatives',
       path: '/admin/rental-charges',
-      permission: 'rentalCharges' as keyof EmployeePermissions
+      icon: Receipt
     },
-    { 
-      icon: TrendingUp, 
-      label: t('navigation.forecasting'), 
+    {
+      label: 'Prévisions',
       path: '/admin/forecasting',
-      permission: 'dashboard' as keyof EmployeePermissions
+      icon: TrendingUp
     },
-    { 
-      icon: Wrench, 
-      label: t('navigation.maintenance'), 
+    {
+      label: 'Maintenance',
       path: '/admin/maintenance',
-      permission: 'maintenance' as keyof EmployeePermissions
+      icon: Wrench
     },
-    { 
-      icon: MessageCircle, 
-      label: t('navigation.messages'), 
+    {
+      label: 'Messages',
       path: '/admin/messages',
-      permission: 'messages' as keyof EmployeePermissions
+      icon: MessageSquare
     },
-    { 
-      icon: FileText, 
-      label: t('navigation.taxes'), 
+    {
+      label: 'Fiscalité',
       path: '/admin/taxes',
-      permission: 'taxes' as keyof EmployeePermissions
+      icon: Calculator
     },
-    { 
-      icon: Globe, 
-      label: t('navigation.website'), 
+    {
+      label: 'Site web',
       path: '/admin/website',
-      permission: 'website' as keyof EmployeePermissions
+      icon: Globe
     },
-    { 
-      icon: Settings, 
-      label: t('navigation.settings'), 
+    {
+      label: 'Paramètres',
       path: '/admin/settings',
-      permission: 'settings' as keyof EmployeePermissions
+      icon: Settings
     },
-    { 
-      icon: HelpCircle, 
-      label: t('navigation.help'), 
+    {
+      label: 'Aide',
       path: '/admin/help',
-      permission: 'dashboard' as keyof EmployeePermissions
+      icon: HelpCircle
     }
   ];
 };

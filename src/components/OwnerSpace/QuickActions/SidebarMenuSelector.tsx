@@ -1,26 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { 
-  LayoutDashboard, 
-  Building, 
-  Users, 
-  FileText, 
-  Home, 
-  Calculator, 
-  Wrench, 
-  MessageSquare,
-  TrendingUp,
-  CreditCard,
-  Settings,
-  HelpCircle,
-  Globe,
-  Building2,
-  UserCog,
-  Bell
-} from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Search, Plus, X } from 'lucide-react';
+import { useSidebarMenuItems } from '@/components/Layout/SidebarComponents/useSidebarMenuItems';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 
 interface SidebarMenuSelectorProps {
@@ -28,9 +15,14 @@ interface SidebarMenuSelectorProps {
   onMenuSelect: (menuItem: any) => void;
 }
 
-const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({ onClose, onMenuSelect }) => {
-  const { t, i18n } = useTranslation();
-  const { addCustomAction, quickActions } = useQuickActionsManager();
+const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({ 
+  onClose, 
+  onMenuSelect 
+}) => {
+  const { i18n } = useTranslation();
+  const [searchTerm, setSearchTerm] = useState('');
+  const sidebarMenuItems = useSidebarMenuItems();
+  const { quickActions, addCustomAction } = useQuickActionsManager();
 
   const getLocalizedText = (key: string) => {
     const currentLang = i18n.language;
@@ -38,218 +30,230 @@ const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({ onClose, onMe
     const texts: Record<string, Record<string, string>> = {
       selectMenu: {
         fr: 'Sélectionner un menu',
-        en: 'Select a Menu'
+        en: 'Select a menu'
       },
-      selectMenuDesc: {
-        fr: 'Choisissez un menu de la sidebar à ajouter aux actions rapides',
-        en: 'Choose a sidebar menu to add to quick actions'
+      search: {
+        fr: 'Rechercher...',
+        en: 'Search...'
       },
-      cancel: {
-        fr: 'Annuler',
-        en: 'Cancel'
+      add: {
+        fr: 'Ajouter',
+        en: 'Add'
       },
-      noMenusAvailable: {
-        fr: 'Aucun menu disponible',
-        en: 'No menus available'
+      close: {
+        fr: 'Fermer',
+        en: 'Close'
       },
-      allMenusAdded: {
-        fr: 'Tous les menus de la sidebar ont déjà été ajoutés aux actions rapides.',
-        en: 'All sidebar menus have already been added to quick actions.'
+      alreadyAdded: {
+        fr: 'Déjà ajouté',
+        en: 'Already added'
+      },
+      noResults: {
+        fr: 'Aucun résultat trouvé',
+        en: 'No results found'
       }
     };
 
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
-  // Menus disponibles dans la sidebar
-  const allSidebarMenus = [
-    {
-      id: 'dashboard',
-      title: { fr: t('navigation.dashboard', 'Tableau de bord'), en: 'Dashboard' },
-      description: { fr: 'Vue d\'ensemble du système', en: 'System overview' },
-      icon: 'LayoutDashboard',
-      color: 'bg-slate-500',
-      route: '/admin/dashboard'
-    },
-    {
-      id: 'properties',
-      title: { fr: t('navigation.properties', 'Propriétés'), en: 'Properties' },
-      description: { fr: 'Gestion des propriétés', en: 'Property management' },
-      icon: 'Building',
-      color: 'bg-blue-500',
-      route: '/admin/properties'
-    },
-    {
-      id: 'tenants',
-      title: { fr: t('navigation.tenants', 'Locataires'), en: 'Tenants' },
-      description: { fr: 'Gestion des locataires', en: 'Tenant management' },
-      icon: 'Users',
-      color: 'bg-purple-500',
-      route: '/admin/tenants'
-    },
-    {
-      id: 'contracts',
-      title: { fr: t('navigation.contracts', 'Contrats'), en: 'Contracts' },
-      description: { fr: 'Gestion des contrats', en: 'Contract management' },
-      icon: 'FileText',
-      color: 'bg-yellow-500',
-      route: '/admin/contracts'
-    },
-    {
-      id: 'inspections',
-      title: { fr: t('navigation.inspections', 'Inspections'), en: 'Inspections' },
-      description: { fr: 'États des lieux', en: 'Property inspections' },
-      icon: 'Home',
-      color: 'bg-orange-500',
-      route: '/admin/inspections'
-    },
-    {
-      id: 'charges',
-      title: { fr: t('navigation.rentalCharges', 'Charges locatives'), en: 'Rental Charges' },
-      description: { fr: 'Charges locatives', en: 'Rental charges management' },
-      icon: 'Calculator',
-      color: 'bg-teal-500',
-      route: '/admin/rental-charges'
-    },
-    {
-      id: 'maintenance',
-      title: { fr: t('navigation.maintenance', 'Maintenance'), en: 'Maintenance' },
-      description: { fr: 'Demandes de maintenance', en: 'Maintenance requests' },
-      icon: 'Wrench',
-      color: 'bg-red-500',
-      route: '/admin/maintenance'
-    },
-    {
-      id: 'messages',
-      title: { fr: t('navigation.messages', 'Messages'), en: 'Messages' },
-      description: { fr: 'Communication', en: 'Communication center' },
-      icon: 'MessageSquare',
-      color: 'bg-indigo-500',
-      route: '/admin/messages'
-    },
-    {
-      id: 'forecasting',
-      title: { fr: t('navigation.forecasting', 'Prévisions'), en: 'Forecasting' },
-      description: { fr: 'Prévisions financières', en: 'Financial forecasting' },
-      icon: 'TrendingUp',
-      color: 'bg-emerald-500',
-      route: '/admin/forecasting'
-    },
-    {
-      id: 'payments',
-      title: { fr: t('navigation.rentManagement', 'Paiements'), en: 'Payments' },
-      description: { fr: 'Gestion des paiements', en: 'Payment management' },
-      icon: 'CreditCard',
-      color: 'bg-cyan-500',
-      route: '/admin/rent-management'
-    },
-    {
-      id: 'taxes',
-      title: { fr: t('navigation.taxes', 'Taxes'), en: 'Taxes' },
-      description: { fr: 'Gestion fiscale', en: 'Tax management' },
-      icon: 'FileText',
-      color: 'bg-pink-500',
-      route: '/admin/taxes'
-    },
-    {
-      id: 'settings',
-      title: { fr: t('navigation.settings', 'Paramètres'), en: 'Settings' },
-      description: { fr: 'Configuration du système', en: 'System configuration' },
-      icon: 'Settings',
-      color: 'bg-gray-500',
-      route: '/admin/settings'
-    }
-  ];
+  // Menu translations
+  const getMenuLabel = (menuItem: any) => {
+    const currentLang = i18n.language;
+    
+    const menuTranslations: Record<string, Record<string, string>> = {
+      'Tableau de bord': {
+        fr: 'Tableau de bord',
+        en: 'Dashboard'
+      },
+      'Propriétés': {
+        fr: 'Propriétés',
+        en: 'Properties'
+      },
+      'Locataires': {
+        fr: 'Locataires',
+        en: 'Tenants'
+      },
+      'Colocataires': {
+        fr: 'Colocataires',
+        en: 'Roommates'
+      },
+      'Contrats': {
+        fr: 'Contrats',
+        en: 'Contracts'
+      },
+      'Inspections': {
+        fr: 'Inspections',
+        en: 'Inspections'
+      },
+      'Gestion des loyers': {
+        fr: 'Gestion des loyers',
+        en: 'Rent Management'
+      },
+      'Charges locatives': {
+        fr: 'Charges locatives',
+        en: 'Rental Charges'
+      },
+      'Prévisions': {
+        fr: 'Prévisions',
+        en: 'Forecasting'
+      },
+      'Maintenance': {
+        fr: 'Maintenance',
+        en: 'Maintenance'
+      },
+      'Messages': {
+        fr: 'Messages',
+        en: 'Messages'
+      },
+      'Fiscalité': {
+        fr: 'Fiscalité',
+        en: 'Tax Management'
+      },
+      'Site web': {
+        fr: 'Site web',
+        en: 'Website'
+      },
+      'Paramètres': {
+        fr: 'Paramètres',
+        en: 'Settings'
+      },
+      'Aide': {
+        fr: 'Aide',
+        en: 'Help'
+      }
+    };
 
-  const iconMap: Record<string, any> = {
-    LayoutDashboard,
-    Building,
-    Users,
-    FileText,
-    Home,
-    Calculator,
-    Wrench,
-    MessageSquare,
-    TrendingUp,
-    CreditCard,
-    Settings,
-    HelpCircle,
-    Globe,
-    Building2,
-    UserCog,
-    Bell
+    return menuTranslations[menuItem.label]?.[currentLang] || menuItem.label;
   };
 
-  // Filtrer les menus qui ne sont pas déjà présents dans les actions rapides
-  const existingMenuIds = quickActions.map(action => action.id);
-  const availableMenus = allSidebarMenus.filter(menu => !existingMenuIds.includes(menu.id));
+  const getColorForMenu = (path: string): string => {
+    const colorMap: Record<string, string> = {
+      '/admin/dashboard': 'bg-slate-500',
+      '/admin/properties': 'bg-blue-500',
+      '/admin/tenants': 'bg-purple-500',
+      '/admin/roommates': 'bg-pink-500',
+      '/admin/contracts': 'bg-yellow-500',
+      '/admin/inspections': 'bg-orange-500',
+      '/admin/rent-management': 'bg-green-500',
+      '/admin/rental-charges': 'bg-teal-500',
+      '/admin/forecasting': 'bg-emerald-500',
+      '/admin/maintenance': 'bg-red-500',
+      '/admin/messages': 'bg-indigo-500',
+      '/admin/taxes': 'bg-cyan-500',
+      '/admin/website': 'bg-violet-500',
+      '/admin/settings': 'bg-gray-500',
+      '/admin/help': 'bg-amber-500'
+    };
+    return colorMap[path] || 'bg-gray-500';
+  };
 
-  const handleMenuSelect = async (menu: any) => {
-    try {
-      const newAction = {
-        id: menu.id,
-        title: menu.title,
-        description: menu.description,
-        icon: menu.icon,
-        color: menu.color,
-        enabled: true,
-        action: 'navigate' as const,
-        actionValue: menu.route
-      };
+  const isMenuAlreadyAdded = (menuPath: string): boolean => {
+    const menuId = menuPath.replace('/admin/', '');
+    return quickActions.some(action => action.id === menuId || action.actionValue === menuPath);
+  };
 
-      await addCustomAction(newAction);
-      onMenuSelect(newAction);
-    } catch (error) {
-      console.error('Erreur lors de l\'ajout du menu:', error);
-    }
+  const filteredMenus = sidebarMenuItems.filter(menu => 
+    getMenuLabel(menu).toLowerCase().includes(searchTerm.toLowerCase()) ||
+    menu.path.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleAddMenu = async (menuItem: any) => {
+    const newAction = {
+      id: menuItem.path.replace('/admin/', ''),
+      title: {
+        fr: menuItem.label,
+        en: getMenuLabel(menuItem)
+      },
+      description: {
+        fr: `Accéder à ${menuItem.label}`,
+        en: `Access ${getMenuLabel(menuItem)}`
+      },
+      icon: menuItem.icon?.name || 'Settings',
+      color: getColorForMenu(menuItem.path),
+      enabled: true,
+      action: 'navigate' as const,
+      actionValue: menuItem.path
+    };
+
+    await addCustomAction(newAction);
+    onMenuSelect(menuItem);
   };
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
         <DialogHeader>
-          <DialogTitle className="text-lg sm:text-xl">{getLocalizedText('selectMenu')}</DialogTitle>
-          <p className="text-sm text-gray-600 mt-2">
-            {getLocalizedText('selectMenuDesc')}
-          </p>
+          <DialogTitle className="flex items-center gap-2">
+            <Plus className="h-5 w-5" />
+            {getLocalizedText('selectMenu')}
+          </DialogTitle>
         </DialogHeader>
 
-        {availableMenus.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-500 mb-2">{getLocalizedText('noMenusAvailable')}</p>
-            <p className="text-sm text-gray-400">{getLocalizedText('allMenusAdded')}</p>
+        <div className="space-y-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input
+              placeholder={getLocalizedText('search')}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
-            {availableMenus.map((menu) => {
-              const Icon = iconMap[menu.icon] || LayoutDashboard;
-              
-              return (
-                <button
-                  key={menu.id}
-                  onClick={() => handleMenuSelect(menu)}
-                  className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 text-left transition-colors w-full"
-                >
-                  <div className={`p-2 rounded ${menu.color} flex-shrink-0`}>
-                    <Icon className="h-4 w-4 text-white" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-sm truncate">
-                      {menu.title[i18n.language as 'fr' | 'en'] || menu.title.fr}
-                    </div>
-                    <div className="text-xs text-gray-500 truncate">
-                      {menu.description[i18n.language as 'fr' | 'en'] || menu.description.fr}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
 
-        <div className="flex justify-end mt-6">
+          <div className="max-h-96 overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {filteredMenus.map((menuItem) => {
+                const Icon = menuItem.icon;
+                const isAlreadyAdded = isMenuAlreadyAdded(menuItem.path);
+                
+                return (
+                  <Card key={menuItem.path} className="hover:shadow-md transition-shadow">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded ${getColorForMenu(menuItem.path)} flex-shrink-0`}>
+                          <Icon className="h-4 w-4 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-sm truncate">
+                            {getMenuLabel(menuItem)}
+                          </div>
+                          <div className="text-xs text-gray-500 truncate">
+                            {menuItem.path}
+                          </div>
+                          {isAlreadyAdded && (
+                            <Badge variant="secondary" className="text-xs mt-1">
+                              {getLocalizedText('alreadyAdded')}
+                            </Badge>
+                          )}
+                        </div>
+                        <Button
+                          size="sm"
+                          onClick={() => handleAddMenu(menuItem)}
+                          disabled={isAlreadyAdded}
+                          className="flex-shrink-0"
+                        >
+                          <Plus className="h-3 w-3 mr-1" />
+                          {getLocalizedText('add')}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+              {filteredMenus.length === 0 && (
+                <div className="col-span-full text-center py-8 text-gray-500">
+                  <p className="text-sm">{getLocalizedText('noResults')}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end mt-4">
           <Button variant="outline" onClick={onClose}>
-            {getLocalizedText('cancel')}
+            <X className="h-4 w-4 mr-2" />
+            {getLocalizedText('close')}
           </Button>
         </div>
       </DialogContent>
