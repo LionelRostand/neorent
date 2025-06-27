@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '@/components/ui/dialog';
 import InspectionForm from '@/components/InspectionForm';
+import InspectionDetailsModal from '@/components/InspectionDetailsModal';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
@@ -23,6 +24,8 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
   const { getButtonConfig } = useFormButtonConfig();
   const { inspections } = useOwnerData(profile);
   const [showInspectionForm, setShowInspectionForm] = useState(false);
+  const [selectedInspection, setSelectedInspection] = useState(null);
+  const [showInspectionDetails, setShowInspectionDetails] = useState(false);
 
   const inspectionButtonConfig = getButtonConfig('inspection');
 
@@ -30,6 +33,11 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
   const completedInspections = inspections?.filter(i => i.status === t('inspections.completed')).length || 0;
   const plannedInspections = inspections?.filter(i => i.status === t('inspections.planned')).length || 0;
   const inProgressInspections = inspections?.filter(i => i.status === t('inspections.inProgress')).length || 0;
+
+  const handleViewInspection = (inspection: any) => {
+    setSelectedInspection(inspection);
+    setShowInspectionDetails(true);
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -42,7 +50,10 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
         inProgressInspections={inProgressInspections}
       />
 
-      <AdminInspectionsTable inspections={inspections} />
+      <AdminInspectionsTable 
+        inspections={inspections} 
+        onViewInspection={handleViewInspection}
+      />
 
       <Dialog open={showInspectionForm} onOpenChange={setShowInspectionForm}>
         <InspectionForm 
@@ -51,6 +62,17 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
           buttonConfig={inspectionButtonConfig}
         />
       </Dialog>
+
+      {selectedInspection && (
+        <InspectionDetailsModal
+          inspection={selectedInspection}
+          isOpen={showInspectionDetails}
+          onClose={() => {
+            setShowInspectionDetails(false);
+            setSelectedInspection(null);
+          }}
+        />
+      )}
     </div>
   );
 };

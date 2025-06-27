@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Eye, Edit, Trash2, FileCheck } from 'lucide-react';
@@ -20,9 +19,13 @@ interface Inspection {
 
 interface AdminInspectionsTableProps {
   inspections: Inspection[] | null;
+  onViewInspection?: (inspection: Inspection) => void;
 }
 
-const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspections }) => {
+const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ 
+  inspections, 
+  onViewInspection 
+}) => {
   const { t } = useTranslation();
 
   const getStatusBadgeVariant = (status: string) => {
@@ -76,6 +79,19 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspectio
     }
   };
 
+  const handleRowClick = (inspection: Inspection) => {
+    if (onViewInspection) {
+      onViewInspection(inspection);
+    }
+  };
+
+  const handleViewClick = (e: React.MouseEvent, inspection: Inspection) => {
+    e.stopPropagation();
+    if (onViewInspection) {
+      onViewInspection(inspection);
+    }
+  };
+
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
@@ -98,7 +114,11 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspectio
             </TableHeader>
             <TableBody>
               {inspections.map((inspection) => (
-                <TableRow key={inspection.id}>
+                <TableRow 
+                  key={inspection.id}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => handleRowClick(inspection)}
+                >
                   <TableCell className="font-medium">{inspection.title}</TableCell>
                   <TableCell>{getTranslatedType(inspection.type)}</TableCell>
                   <TableCell>{inspection.property}</TableCell>
@@ -112,7 +132,11 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspectio
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end space-x-2">
-                      <Button variant="ghost" size="sm">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={(e) => handleViewClick(e, inspection)}
+                      >
                         <Eye className="h-4 w-4" />
                       </Button>
                       <Button variant="ghost" size="sm">
