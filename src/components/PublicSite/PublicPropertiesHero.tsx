@@ -35,10 +35,10 @@ export const PublicPropertiesHero: React.FC<PublicPropertiesHeroProps> = ({ onSe
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Nos Propriétés Disponibles
+            {t('publicSite.propertiesPage.title')}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Découvrez notre sélection de propriétés soigneusement choisies pour vous offrir le meilleur cadre de vie
+            {t('publicSite.propertiesPage.subtitle')}
           </p>
           
           {/* Search Bar */}
@@ -47,7 +47,7 @@ export const PublicPropertiesHero: React.FC<PublicPropertiesHeroProps> = ({ onSe
               <div className="flex-1 relative">
                 <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
-                  placeholder="Rechercher par localisation..."
+                  placeholder={t('publicSite.propertiesPage.searchPlaceholder')}
                   className="pl-10 border-0 focus:ring-0"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -59,7 +59,7 @@ export const PublicPropertiesHero: React.FC<PublicPropertiesHeroProps> = ({ onSe
                 onClick={handleSearch}
               >
                 <Search className="h-4 w-4 mr-2" />
-                Rechercher
+                {t('publicSite.propertiesPage.searchButton')}
               </Button>
             </div>
           </div>
