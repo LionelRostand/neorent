@@ -11,6 +11,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import OwnerRegistrationForm from '@/components/Auth/OwnerRegistrationForm';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -24,18 +26,48 @@ const LoginForm = () => {
   const { login, userProfile, userType, user } = useAuth();
   const { toast } = useToast();
 
+  // Fonction pour créer automatiquement le compte admin s'il n'existe pas
+  const createAdminAccountIfNeeded = async (email: string, password: string) => {
+    if (email === 'admin@neotech-consulting.com') {
+      try {
+        console.log('🔧 Tentative de création du compte admin...');
+        await createUserWithEmailAndPassword(auth, email, password);
+        console.log('✅ Compte admin créé avec succès');
+        
+        toast({
+          title: "Compte administrateur créé",
+          description: "Le compte administrateur a été créé automatiquement",
+        });
+      } catch (error: any) {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('📝 Le compte admin existe déjà');
+          // C'est normal, le compte existe déjà
+        } else {
+          console.error('❌ Erreur lors de la création du compte admin:', error);
+          throw error;
+        }
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
       console.log('🔐 Tentative de connexion pour:', email);
-      await login(email, password);
-      
-      console.log('✅ Connexion Firebase réussie');
       
       // Vérification immédiate si c'est un admin
       const isAdmin = email === 'admin@neotech-consulting.com';
+      
+      if (isAdmin) {
+        // Essayer de créer le compte admin si besoin
+        await createAdminAccountIfNeeded(email, password);
+      }
+      
+      await login(email, password);
+      
+      console.log('✅ Connexion Firebase réussie');
       
       if (isAdmin) {
         console.log('🔑 Admin détecté, redirection vers le backend');
@@ -126,6 +158,8 @@ const LoginForm = () => {
         errorMessage = "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
       } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
         errorMessage = "Identifiants invalides. Vérifiez votre email et mot de passe.";
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = "Le mot de passe doit contenir au moins 6 caractères.";
       }
       
       toast({
