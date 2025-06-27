@@ -1,108 +1,66 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building, Users, FileText, Calendar } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { UserProfileDropdown } from '@/components/Layout/UserProfile/UserProfileDropdown';
+import { Button } from '@/components/ui/button';
+import { Building, User, ArrowLeft } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import LanguageSelector from '@/components/LanguageSelector';
 
 interface OwnerSpaceProfileHeaderProps {
   currentProfile: any;
 }
 
 const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ currentProfile }) => {
+  const navigate = useNavigate();
+  const { userType } = useAuth();
   const { t } = useTranslation();
-
-  if (!currentProfile) {
-    return null;
-  }
+  
+  const handleBackToAdmin = () => {
+    navigate('/admin/dashboard');
+  };
 
   return (
-    <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        {/* Profile info */}
-        <div className="flex items-center space-x-4">
-          <div className="flex-shrink-0">
-            <div className="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-semibold text-lg">
-                {currentProfile.name?.charAt(0)?.toUpperCase() || 'P'}
-              </span>
+    <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-white/20 rounded-full">
+              <Building className="h-8 w-8" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">
+                {t('ownerSpace.title')}
+              </h1>
+              <p className="text-white/90 mt-1">
+                {t('ownerSpace.welcome')}, {currentProfile?.name || t('ownerSpace.status.owner')}
+              </p>
             </div>
           </div>
-          <div className="min-w-0 flex-1">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
-              {currentProfile.name}
-            </h1>
-            <div className="flex flex-wrap items-center gap-2 mt-1">
-              <Badge variant="outline" className="text-xs">
-                {currentProfile.role === 'admin' ? 'Administrateur' : 'Propriétaire'}
-              </Badge>
-              {currentProfile.company && (
-                <span className="text-sm text-gray-500 truncate">
-                  {currentProfile.company}
-                </span>
-              )}
+          <div className="flex items-center space-x-4">
+            {/* Sélecteur de langue */}
+            <LanguageSelector />
+            
+            {/* Bouton de retour pour les admins */}
+            {userType === 'admin' && (
+              <Button
+                variant="outline"
+                onClick={handleBackToAdmin}
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                {t('settings.backToAdmin')}
+              </Button>
+            )}
+            <div className="hidden md:flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-lg">
+              <User className="h-5 w-5" />
+              <span className="font-medium">{currentProfile?.role || t('ownerSpace.status.owner')}</span>
             </div>
           </div>
         </div>
-
-        {/* User actions dropdown */}
-        <div className="flex items-center">
-          <UserProfileDropdown />
-        </div>
-      </div>
-
-      {/* Quick stats */}
-      <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <Card className="p-3">
-          <CardContent className="p-0">
-            <div className="flex items-center space-x-2">
-              <Building className="h-4 w-4 text-blue-600" />
-              <div>
-                <p className="text-xs text-gray-500">Propriétés</p>
-                <p className="text-sm font-semibold">{currentProfile.propertyCount || 0}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="p-3">
-          <CardContent className="p-0">
-            <div className="flex items-center space-x-2">
-              <Users className="h-4 w-4 text-green-600" />
-              <div>
-                <p className="text-xs text-gray-500">Contrats actifs</p>
-                <p className="text-sm font-semibold">{currentProfile.activeContracts || 0}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="p-3">
-          <CardContent className="p-0">
-            <div className="flex items-center space-x-2">
-              <FileText className="h-4 w-4 text-yellow-600" />
-              <div>
-                <p className="text-xs text-gray-500">Documents</p>
-                <p className="text-sm font-semibold">-</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="p-3">
-          <CardContent className="p-0">
-            <div className="flex items-center space-x-2">
-              <Calendar className="h-4 w-4 text-purple-600" />
-              <div>
-                <p className="text-xs text-gray-500">Échéances</p>
-                <p className="text-sm font-semibold">-</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
