@@ -15,6 +15,7 @@ export interface QuickActionConfig {
   order: number;
   action: string; // action type like 'navigate' or 'dialog'
   actionValue: string; // route or dialog name
+  hiddenFromSidebar?: boolean; // Optional property to hide from sidebar
 }
 
 export const defaultQuickActions: QuickActionConfig[] = [

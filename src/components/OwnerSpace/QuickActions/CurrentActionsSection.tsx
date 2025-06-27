@@ -106,12 +106,6 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
     onConfigureAction(actionId);
   };
 
-  // Filter actions to only show those that are not visible in sidebar
-  const filteredActions = quickActions.filter(action => {
-    // Only show actions that are either disabled or specifically configured to be hidden from sidebar
-    return !action.enabled || action.hiddenFromSidebar;
-  });
-
   return (
     <Card className="w-full max-w-6xl mx-auto">
       <CardHeader className="pb-3 px-3 sm:px-6">
