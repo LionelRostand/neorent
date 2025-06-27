@@ -28,16 +28,19 @@ export const useUserProfileManager = (user: User | null) => {
         console.error('Error parsing admin profile:', error);
       }
     } else if (user) {
-      // Regular user profile
+      // Regular user profile - check if it's the admin email
+      const isAdmin = user.email === 'admin@neotech-consulting.com';
+      const displayName = isAdmin ? 'Lionel DJOSSA' : (user.displayName || user.email || '');
+      
       const profile = {
         id: user.uid,
-        name: user.displayName || user.email || '',
+        name: displayName,
         email: user.email || '',
-        role: 'locataire',
-        type: 'locataire' as const
+        role: isAdmin ? 'admin' : 'locataire',
+        type: (isAdmin ? 'admin' : 'locataire') as const
       };
       setSelectedProfile(profile);
-      setUserType('locataire');
+      setUserType(isAdmin ? 'admin' : 'locataire');
     }
   }, [user]);
 
