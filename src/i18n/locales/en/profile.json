@@ -1,0 +1,14 @@
+
+{
+  "profile": {
+    "viewProfile": "View Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "administrator": "Administrator",
+    "owner": "Owner",
+    "tenant": "Tenant",
+    "roommate": "Roommate",
+    "unknownUser": "Unknown User",
+    "changePassword": "Change Password"
+  }
+}

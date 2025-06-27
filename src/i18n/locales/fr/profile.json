@@ -1,0 +1,14 @@
+
+{
+  "profile": {
+    "viewProfile": "Voir le profil",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "administrator": "Administrateur",
+    "owner": "Propriétaire",
+    "tenant": "Locataire",
+    "roommate": "Colocataire",
+    "unknownUser": "Utilisateur inconnu",
+    "changePassword": "Changer le mot de passe"
+  }
+}
