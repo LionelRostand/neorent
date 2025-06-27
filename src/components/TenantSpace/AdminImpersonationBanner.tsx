@@ -1,9 +1,10 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Shield, ArrowLeft } from 'lucide-react';
+import { Shield, ArrowLeft, Settings } from 'lucide-react';
 
 interface AdminImpersonationBannerProps {
   isImpersonating: boolean;
@@ -26,6 +27,7 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
   onBackToAdmin
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   if (!isImpersonating || !isAuthorizedAdmin) return null;
 
@@ -50,6 +52,10 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
       default:
         return currentType;
     }
+  };
+
+  const handleBackToBackend = () => {
+    navigate('/admin/dashboard');
   };
 
   console.log('AdminImpersonationBanner:', {
@@ -86,7 +92,16 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
               </div>
             </div>
           </div>
-          <div className="flex justify-end sm:justify-start">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end sm:justify-start">
+            <Button 
+              onClick={handleBackToBackend}
+              variant="default"
+              size="sm"
+              className="flex items-center gap-1.5 text-xs px-2 py-1 h-8 sm:h-9 flex-shrink-0 bg-blue-600 hover:bg-blue-700"
+            >
+              <Settings className="h-3 w-3" />
+              <span>Backend</span>
+            </Button>
             <Button 
               onClick={onBackToAdmin}
               variant="outline"
