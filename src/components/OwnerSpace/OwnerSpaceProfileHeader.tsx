@@ -55,7 +55,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
             )}
             <div className="hidden md:flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-lg">
               <User className="h-5 w-5" />
-              <span className="font-medium">{currentProfile?.role || t('ownerSpace.status.owner')}</span>
+              <span className="font-medium">Propriétaire</span>
             </div>
           </div>
         </div>
