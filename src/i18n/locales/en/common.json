@@ -35,6 +35,11 @@
     "studio": "Studio",
     "house": "House",
     "loft": "Loft",
-    "duplex": "Duplex"
+    "duplex": "Duplex",
+    "theme": "Theme",
+    "footer": "Footer",
+    "map": "Map",
+    "analytics": "Analytics",
+    "config": "Configuration"
   }
 }
