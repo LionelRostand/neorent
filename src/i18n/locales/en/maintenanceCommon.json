@@ -89,6 +89,9 @@
     "completedRequests": "Completed",
     "completed": "completed",
     "maintenanceRequestsList": "Maintenance Requests",
+    "recentRequests": "Recent Requests",
+    "noRequests": "No maintenance requests",
+    "noRequestsDescription": "Start by adding your first maintenance request",
     "categories": {
       "plumbing": "Plumbing",
       "electricity": "Electricity",
