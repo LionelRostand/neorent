@@ -122,10 +122,11 @@ export const UserProfileDropdown = () => {
         />
       )}
 
-      {canChangePassword && (
+      {canChangePassword && user && (
         <PasswordChangeDialog
           open={showPasswordDialog}
           onOpenChange={setShowPasswordDialog}
+          user={user}
         />
       )}
     </>
