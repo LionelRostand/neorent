@@ -1,155 +1,133 @@
 
 import React, { useState } from 'react';
-import { User, Settings, LogOut, Lock, UserCheck, Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { User, Settings, LogOut, KeyRound } from 'lucide-react';
 import { ProfileDialog } from './ProfileDialog';
 import { PasswordChangeDialog } from './PasswordChangeDialog';
-import { useTranslation } from 'react-i18next';
 
 export const UserProfileDropdown = () => {
+  const { t } = useTranslation();
   const { user, logout, userProfile, userType } = useAuth();
-  const { toast } = useToast();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
-  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
-  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+
+  if (!user) return null;
 
   const handleLogout = async () => {
     try {
       await logout();
-      toast({
-        title: "Déconnexion",
-        description: "Vous avez été déconnecté avec succès.",
-      });
       navigate('/login');
     } catch (error) {
-      toast({
-        title: "Erreur",
-        description: "Erreur lors de la déconnexion.",
-        variant: "destructive",
-      });
+      console.error('Error during logout:', error);
     }
   };
 
-  const handleTenantSpaceAccess = () => {
-    navigate('/tenant-space');
+  const handleSettings = () => {
+    if (userType === 'admin' || userType === 'owner') {
+      navigate('/admin/settings');
+    } else {
+      // Pour les locataires et colocataires, on pourrait avoir une page de paramètres spécifique
+      console.log('Settings for tenant/roommate not implemented yet');
+    }
   };
 
-  const isAdminOrOwner = userType === 'admin' || userType === 'owner';
-
-  // Get texts based on current language
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      myProfile: {
-        fr: 'Mon profil',
-        en: 'My Profile'
-      },
-      changePassword: {
-        fr: 'Changer mot de passe',
-        en: 'Change Password'
-      },
-      tenantSpace: {
-        fr: 'Espace locataire',
-        en: 'Tenant Space'
-      },
-      logout: {
-        fr: 'Déconnexion',
-        en: 'Logout'
-      },
-      administrator: {
-        fr: 'Administrateur',
-        en: 'Administrator'
-      },
-      owner: {
-        fr: 'Propriétaire',
-        en: 'Owner'
+  const getInitials = (name?: string | null, email?: string | null) => {
+    if (name) {
+      const names = name.split(' ');
+      if (names.length >= 2) {
+        return `${names[0][0]}${names[1][0]}`.toUpperCase();
       }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+      return name.substring(0, 2).toUpperCase();
+    }
+    if (email) {
+      return email.substring(0, 2).toUpperCase();
+    }
+    return 'U';
   };
 
-  if (!user) {
-    return null;
-  }
+  const displayName = userProfile?.name || user.displayName || user.email || t('profile.unknownUser');
+
+  // Vérifier si l'utilisateur peut changer son mot de passe
+  const canChangePassword = userType === 'owner' || userType === 'admin';
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className="relative h-8 w-8 rounded-full">
-            <User className="h-5 w-5" />
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-green-100 text-green-700 text-xs">
+                {getInitials(userProfile?.name, user.email)}
+              </AvatarFallback>
+            </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 bg-white" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {userProfile?.name || user.displayName || 'Utilisateur'}
-              </p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {user.email}
-              </p>
-              {isAdminOrOwner && (
-                <p className="text-xs leading-none text-blue-600 font-medium">
-                  {userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('owner')}
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <div className="flex items-center justify-start gap-2 p-2">
+            <div className="flex flex-col space-y-1 leading-none">
+              <p className="font-medium text-sm">{displayName}</p>
+              <p className="text-xs text-muted-foreground">{user.email}</p>
+              {userType && (
+                <p className="text-xs text-blue-600">
+                  {userType === 'admin' ? t('profile.administrator') : 
+                   userType === 'owner' ? t('profile.owner') :
+                   userType === 'locataire' ? t('profile.tenant') : 
+                   t('profile.roommate')}
                 </p>
               )}
             </div>
-          </DropdownMenuLabel>
+          </div>
           <DropdownMenuSeparator />
-          
-          {isAdminOrOwner && (
-            <>
-              <DropdownMenuItem onClick={() => setIsProfileDialogOpen(true)}>
-                <UserCheck className="mr-2 h-4 w-4" />
-                <span>{getLocalizedText('myProfile')}</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setIsPasswordDialogOpen(true)}>
-                <Lock className="mr-2 h-4 w-4" />
-                <span>{getLocalizedText('changePassword')}</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleTenantSpaceAccess}>
-                <Home className="mr-2 h-4 w-4" />
-                <span>{getLocalizedText('tenantSpace')}</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-            </>
+          <DropdownMenuItem onClick={() => setShowProfile(true)}>
+            <User className="mr-2 h-4 w-4" />
+            {t('profile.viewProfile')}
+          </DropdownMenuItem>
+          {canChangePassword && (
+            <DropdownMenuItem onClick={() => setShowPasswordDialog(true)}>
+              <KeyRound className="mr-2 h-4 w-4" />
+              {t('profile.changePassword')}
+            </DropdownMenuItem>
           )}
-          
+          <DropdownMenuItem onClick={handleSettings}>
+            <Settings className="mr-2 h-4 w-4" />
+            {t('profile.settings')}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>{getLocalizedText('logout')}</span>
+            {t('profile.logout')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <ProfileDialog
-        open={isProfileDialogOpen}
-        onOpenChange={setIsProfileDialogOpen}
-        user={user}
-        userProfile={userProfile}
-        userType={userType}
-      />
+      {user && (
+        <ProfileDialog
+          open={showProfile}
+          onOpenChange={setShowProfile}
+          user={user}
+          userProfile={userProfile}
+          userType={userType}
+        />
+      )}
 
-      <PasswordChangeDialog
-        open={isPasswordDialogOpen}
-        onOpenChange={setIsPasswordDialogOpen}
-        user={user}
-      />
+      {canChangePassword && (
+        <PasswordChangeDialog
+          open={showPasswordDialog}
+          onOpenChange={setShowPasswordDialog}
+        />
+      )}
     </>
   );
 };
