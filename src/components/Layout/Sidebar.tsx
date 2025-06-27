@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useUserPermissions } from '@/hooks/useUserPermissions';
+import { useAuth } from '@/hooks/useAuth';
 import SidebarHeader from './SidebarComponents/SidebarHeader';
 import SidebarNavigation from './SidebarComponents/SidebarNavigation';
 import SidebarFooter from './SidebarComponents/SidebarFooter';
@@ -15,10 +15,12 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose }) => {
-  const { isAdmin } = useUserPermissions();
+  const { user, userType } = useAuth();
 
-  // Si l'utilisateur n'est pas admin, ne pas afficher la sidebar
-  if (!isAdmin) {
+  // Afficher la sidebar pour les admins ou si l'utilisateur est admin@neotech-consulting.com
+  const shouldShowSidebar = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
+
+  if (!shouldShowSidebar) {
     return null;
   }
 
