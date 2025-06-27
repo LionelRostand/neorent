@@ -207,7 +207,7 @@ const EmployeeManagement: React.FC = () => {
   };
 
   if (loading || companiesLoading) {
-    return <div>{t('employees.loading')}</div>;
+    return <div>{t('settings.employees.loading')}</div>;
   }
 
   return (
@@ -216,7 +216,7 @@ const EmployeeManagement: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between text-lg md:text-xl">
             <div className="flex items-center gap-2">
-              👥 {t('employees.management')}
+              👥 {t('settings.employees.management')}
             </div>
           </CardTitle>
         </CardHeader>
@@ -236,18 +236,18 @@ const EmployeeManagement: React.FC = () => {
             <TabsContent value="employees" className="space-y-4">
               <div className="flex justify-between items-center">
                 <p className="text-gray-600 text-sm md:text-base">
-                  {t('employees.description')}
+                  {t('settings.employees.description')}
                 </p>
                 <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                   <DialogTrigger asChild>
                     <Button className="flex items-center gap-2">
                       <Plus className="h-4 w-4" />
-                      {t('employees.addEmployee')}
+                      {t('settings.employees.addEmployee')}
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>{t('employees.addEmployee')}</DialogTitle>
+                      <DialogTitle>{t('settings.employees.addEmployee')}</DialogTitle>
                     </DialogHeader>
                     <EmployeeForm
                       formData={formData}
@@ -280,7 +280,7 @@ const EmployeeManagement: React.FC = () => {
           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>{t('employees.editEmployee')}</DialogTitle>
+                <DialogTitle>{t('settings.employees.editEmployee')}</DialogTitle>
               </DialogHeader>
               <EmployeeForm
                 formData={formData}
