@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { LogOut, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import LanguageSelector from '@/components/LanguageSelector';
 
 interface OwnerSpaceProfileHeaderProps {
   currentProfile: any;
@@ -39,7 +40,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   };
 
   return (
-    <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0">
+    <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
       <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
@@ -51,6 +52,9 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Sélecteur de langue */}
+          <LanguageSelector />
+
           {/* Bouton de retour pour les admins */}
           {userType === 'admin' && (
             <Button

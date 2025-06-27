@@ -56,6 +56,21 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     }
   }
 
+  // Vérification spécifique pour l'espace propriétaires - admins et owners autorisés
+  if (location.pathname.startsWith('/owner-space')) {
+    if (userType !== 'admin' && userType !== 'owner') {
+      console.log('🔐 Accès espace propriétaires refusé pour:', userType);
+      
+      // Rediriger les colocataires et locataires vers leur espace
+      if (userType === 'colocataire' || userType === 'locataire') {
+        return <Navigate to="/tenant-space" replace />;
+      }
+      
+      // Pour les autres types non autorisés
+      return <Navigate to="/login" replace />;
+    }
+  }
+
   // Si des types d'utilisateur sont requis, vérifier les permissions
   if (requiredUserTypes && requiredUserTypes.length > 0) {
     // Attendre que userType soit chargé avant de vérifier les permissions
