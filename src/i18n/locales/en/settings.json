@@ -1,4 +1,3 @@
-
 {
   "settings": {
     "title": "Settings",
@@ -76,7 +75,7 @@
     "employees": {
       "title": "Employee Management",
       "subtitle": "Manage your employees and their information",
-      "management": "Employee management",
+      "management": "Employee Management",
       "description": "Manage your team and their access",
       "addEmployee": "Add Employee",
       "editEmployee": "Edit Employee",

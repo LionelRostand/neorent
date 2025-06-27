@@ -1,4 +1,3 @@
-
 {
   "settings": {
     "title": "Paramètres",
@@ -76,7 +75,7 @@
     "employees": {
       "title": "Gestion des Employés",
       "subtitle": "Gérez vos employés et leurs informations",
-      "management": "Gestion des employés",
+      "management": "Gestion des Employés",
       "description": "Gérez votre équipe et leurs accès",
       "addEmployee": "Ajouter un employé",
       "editEmployee": "Modifier l'employé",
