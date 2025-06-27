@@ -29,6 +29,10 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
       ownerSpace: {
         fr: 'Espace Propriétaire',
         en: 'Owner Space'
+      },
+      owner: {
+        fr: 'Propriétaire',
+        en: 'Owner'
       }
     };
 
@@ -43,7 +47,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
           <Building className="h-6 w-6 text-white mr-2" />
           <div>
             <h1 className="text-sm font-bold text-white">{getLocalizedText('ownerSpace')}</h1>
-            <p className="text-xs text-green-200">{ownerProfile?.name || 'Propriétaire'}</p>
+            <p className="text-xs text-green-200">{ownerProfile?.name || getLocalizedText('owner')}</p>
           </div>
         </div>
         {onMobileClose && (

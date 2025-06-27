@@ -20,6 +20,14 @@ const QuickActionItem: React.FC<QuickActionItemProps> = ({ action }) => {
       delete: {
         fr: 'Supprimer',
         en: 'Delete'
+      },
+      manage: {
+        fr: 'Gérer',
+        en: 'Manage'
+      },
+      configure: {
+        fr: 'Configurer',
+        en: 'Configure'
       }
     };
 

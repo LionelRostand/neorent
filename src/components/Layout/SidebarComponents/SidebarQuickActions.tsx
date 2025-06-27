@@ -30,6 +30,14 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
       delete: {
         fr: 'Supprimer',
         en: 'Delete'
+      },
+      manage: {
+        fr: 'Gérer',
+        en: 'Manage'
+      },
+      configure: {
+        fr: 'Configurer',
+        en: 'Configure'
       }
     };
 
@@ -57,7 +65,9 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     expiringContracts, // Already a number from the hook
     pendingPayments, // Already a number from the hook
     () => '', // dummy t function since we're using getLocalizedText
-    enabledActions // Pass only enabled actions
+    enabledActions, // Pass only enabled actions
+    undefined, // setActiveView not needed here
+    i18n.language // Pass current language
   ) : [];
 
   console.log('SidebarQuickActions quickActionsConfig:', quickActionsConfig);
