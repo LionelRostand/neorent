@@ -62,6 +62,7 @@
     },
     "adminAccess": "Accès Administrateur",
     "adminAccessDescription": "Gérez l'accès administrateur aux espaces locataires",
+    "adminMode": "Mode Administrateur",
     "company": {
       "title": "Gestion d'Entreprise",
       "subtitle": "Gérez vos informations d'entreprise",
@@ -78,6 +79,7 @@
       "management": "Gestion des employés",
       "description": "Gérez votre équipe et leurs accès",
       "addEmployee": "Ajouter un employé",
+      "editEmployee": "Modifier l'employé",
       "fullName": "Nom complet",
       "role": "Rôle",
       "company": "Entreprise",
@@ -85,7 +87,17 @@
       "employee": "Employé",
       "administrator": "Administrateur",
       "noCompany": "Aucune entreprise",
-      "creationDate": "Date de création"
+      "unknownCompany": "Entreprise inconnue",
+      "creationDate": "Date de création",
+      "loading": "Chargement des employés...",
+      "noPermissions": "Aucune permission",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet employé ?",
+      "addSuccess": "Employé ajouté avec succès",
+      "addError": "Erreur lors de l'ajout de l'employé",
+      "updateSuccess": "Employé mis à jour avec succès",
+      "updateError": "Erreur lors de la mise à jour de l'employé",
+      "deleteSuccess": "Employé supprimé avec succès",
+      "deleteError": "Erreur lors de la suppression de l'employé"
     },
     "permissions": {
       "title": "Gestion des Permissions",
