@@ -22,7 +22,7 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
 
   return (
     <div className="p-6 space-y-6">
-      {/* Header harmonisé */}
+      {/* Header */}
       <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
@@ -101,11 +101,11 @@ const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onVie
             <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
               <Wrench className="h-8 w-8 text-gray-400" />
             </div>
-            <h3 className="text-lg font-medium text-gray-700 mb-2">{t('maintenanceRequests.noRequests')}</h3>
-            <p className="text-gray-500 mb-4">{t('maintenanceRequests.noRequestsDescription')}</p>
+            <h3 className="text-lg font-medium text-gray-700 mb-2">{t('maintenance.noRequests')}</h3>
+            <p className="text-gray-500 mb-4">{t('maintenance.noRequestsDescription')}</p>
             <Button className="bg-orange-600 hover:bg-orange-700 text-white">
               <Plus className="h-4 w-4 mr-2" />
-              {t('maintenanceRequests.createRequest')}
+              {t('maintenance.newRequest')}
             </Button>
           </div>
         </CardContent>
