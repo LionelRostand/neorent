@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -38,7 +37,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
     },
     {
       path: '/properties',
-      label: 'Propriétés',
+      label: t('publicSite.properties'),
       icon: Building
     },
     {
@@ -217,7 +216,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 </li>
                 <li>
                   <Link to="/properties" className="text-gray-400 hover:text-white transition-colors">
-                    Propriétés
+                    {t('publicSite.properties')}
                   </Link>
                 </li>
                 <li>
