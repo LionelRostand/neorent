@@ -34,7 +34,7 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
 
   // Determine the display type based on user profile
   const getDisplayType = () => {
-    if (currentType === 'employee' || (currentType === 'employee' && currentProfile?.isOwner)) {
+    if (currentType === 'employee') {
       return t('settings.owners.owner'); // Will display "Propriétaire" in French, "Owner" in English
     }
     // Handle other types with proper translation
