@@ -28,13 +28,13 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspectio
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
       case t('inspections.completed'):
-      case 'Terminé':
+      case 'Completed':
         return 'default';
       case t('inspections.inProgress'):
-      case 'En cours':
+      case 'In Progress':
         return 'secondary';
       case t('inspections.planned'):
-      case 'Planifié':
+      case 'Planned':
         return 'outline';
       default:
         return 'outline';
@@ -44,10 +44,13 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspectio
   const getTranslatedStatus = (status: string) => {
     switch (status) {
       case 'Terminé':
+      case 'Completed':
         return t('inspections.completed');
       case 'En cours':
+      case 'In Progress':
         return t('inspections.inProgress');
       case 'Planifié':
+      case 'Planned':
         return t('inspections.planned');
       default:
         return status;
@@ -57,10 +60,13 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspectio
   const getTranslatedType = (type: string) => {
     switch (type) {
       case 'Entrée':
+      case 'Entry':
         return t('inspections.entryInspection');
       case 'Sortie':
+      case 'Exit':
         return t('inspections.exitInspection');
       case 'Intermédiaire':
+      case 'Intermediate':
         return t('inspections.intermediateInspection');
       default:
         return type;
