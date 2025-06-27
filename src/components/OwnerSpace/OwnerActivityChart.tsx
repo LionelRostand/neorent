@@ -69,15 +69,46 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
     ];
   }, [tenants, roommates]);
 
-  // Données pour l'évolution des occupants
+  // Données pour l'évolution des occupants - basées sur les données réelles
   const occupancyTrend = useMemo(() => {
-    // Simulation de données d'évolution (en réalité, il faudrait stocker l'historique)
-    const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
-    return months.map((month, index) => ({
-      month,
-      total: Math.floor(Math.random() * 5) + tenants.length + roommates.length - 2 + index
-    }));
-  }, [tenants.length, roommates.length]);
+    const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
+    const last6Months = [];
+    
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date();
+      date.setMonth(date.getMonth() - i);
+      last6Months.push({
+        month: monthNames[date.getMonth()],
+        monthIndex: date.getMonth(),
+        year: date.getFullYear()
+      });
+    }
+
+    return last6Months.map(({ month, monthIndex, year }) => {
+      // Calculer le nombre de locataires actifs pour ce mois
+      const monthlyTenants = tenants.filter(tenant => {
+        if (!tenant.leaseStart || tenant.status !== 'Actif') return false;
+        const leaseStart = new Date(tenant.leaseStart);
+        const targetDate = new Date(year, monthIndex, 1);
+        return leaseStart <= targetDate;
+      }).length;
+
+      // Calculer le nombre de colocataires actifs pour ce mois
+      const monthlyRoommates = roommates.filter(roommate => {
+        if (!roommate.moveInDate || roommate.status !== 'Actif') return false;
+        const moveInDate = new Date(roommate.moveInDate);
+        const targetDate = new Date(year, monthIndex, 1);
+        return moveInDate <= targetDate;
+      }).length;
+
+      return {
+        month,
+        total: monthlyTenants + monthlyRoommates,
+        locataires: monthlyTenants,
+        colocataires: monthlyRoommates
+      };
+    });
+  }, [tenants, roommates]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -138,7 +169,7 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
         </CardContent>
       </Card>
 
-      {/* Évolution du nombre d'occupants */}
+      {/* Évolution du nombre d'occupants - avec données réelles */}
       <Card className="lg:col-span-2 xl:col-span-3">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -153,13 +184,38 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
-                <Tooltip formatter={(value) => [`${value}`, 'Occupants']} />
+                <Tooltip 
+                  formatter={(value, name) => [
+                    `${value}`, 
+                    name === 'total' ? 'Total' : name === 'locataires' ? 'Locataires' : 'Colocataires'
+                  ]}
+                  labelFormatter={(label) => `Mois: ${label}`}
+                />
                 <Line 
                   type="monotone" 
                   dataKey="total" 
                   stroke="#8b5cf6" 
                   strokeWidth={3}
                   dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
+                  name="total"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="locataires" 
+                  stroke="#3b82f6" 
+                  strokeWidth={2}
+                  dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
+                  name="locataires"
+                  strokeDasharray="5 5"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="colocataires" 
+                  stroke="#10b981" 
+                  strokeWidth={2}
+                  dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
+                  name="colocataires"
+                  strokeDasharray="5 5"
                 />
               </LineChart>
             </ResponsiveContainer>
