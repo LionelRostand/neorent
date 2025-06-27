@@ -77,6 +77,17 @@
     "confirmDelete": "Are you sure you want to delete this tax declaration?",
     "confirmDeleteTitle": "Confirm Deletion",
     "deleteConfirmation": "This action cannot be undone.",
-    "annualRevenue": "Annual Revenue"
+    "annualRevenue": "Annual Revenue",
+    "newTaxDeclaration": "New Tax Declaration",
+    "declarationYear": "Declaration Year",
+    "taxResidenceCountry": "Tax Residence Country",
+    "addRealEstateProperty": "Add Real Estate Property",
+    "noPropertySelected": "No Property Selected",
+    "additionalDeductibleCharges": "Additional Deductible Charges",
+    "chargesPlaceholder": "Amount of deductible charges...",
+    "chargesDescription": "Enter the total amount of additional deductible charges (work, management fees, etc.)",
+    "marginalTaxBracket": "Marginal Tax Bracket",
+    "selectTaxBracket": "Select a tax bracket",
+    "automaticCharges": "Automatic charges included: {{amount}}€"
   }
 }

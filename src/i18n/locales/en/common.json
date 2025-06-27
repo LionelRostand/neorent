@@ -25,6 +25,16 @@
     "inactive": "Inactive",
     "pending": "Pending",
     "completed": "Completed",
-    "cancelled": "Cancelled"
+    "cancelled": "Cancelled",
+    "property": "property",
+    "rent": "Rent",
+    "month": "month",
+    "type": "Type",
+    "surface": "Surface",
+    "apartment": "Apartment",
+    "studio": "Studio",
+    "house": "House",
+    "loft": "Loft",
+    "duplex": "Duplex"
   }
 }

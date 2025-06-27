@@ -62,6 +62,13 @@
     "taxList2025": "Liste des Impôts {{year}}",
     "cancel": "Annuler",
     "marginalTaxBracket": "Tranche d'Imposition Marginale",
-    "selectTaxBracket": "Sélectionner une tranche d'imposition"
+    "selectTaxBracket": "Sélectionner une tranche d'imposition",
+    "annualRevenue": "Revenus Annuels",
+    "declarations": "Déclarations",
+    "allDeclarations": "Toutes les déclarations",
+    "rentalIncome": "Revenus locatifs annuels",
+    "status": "Statut",
+    "approved": "À jour",
+    "automaticCharges": "Charges automatiques incluses : {{amount}}€"
   }
 }

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,15 +53,16 @@ const PropertyOccupantSelector = ({
   selectedProperties, 
   onPropertyChange 
 }: PropertyOccupantSelectorProps) => {
+  const { t } = useTranslation();
   const [isPropertyFormOpen, setIsPropertyFormOpen] = useState(false);
   const [selectedPropertyType, setSelectedPropertyType] = useState('');
 
   const propertyTypes = [
-    { value: 'Appartement', label: 'Appartement' },
-    { value: 'Studio', label: 'Studio' },
-    { value: 'Maison', label: 'Maison' },
-    { value: 'Loft', label: 'Loft' },
-    { value: 'Duplex', label: 'Duplex' },
+    { value: 'Appartement', label: t('common.apartment', 'Appartement') },
+    { value: 'Studio', label: t('common.studio', 'Studio') },
+    { value: 'Maison', label: t('common.house', 'Maison') },
+    { value: 'Loft', label: t('common.loft', 'Loft') },
+    { value: 'Duplex', label: t('common.duplex', 'Duplex') },
   ];
 
   const handlePropertyTypeSelect = (type: string) => {
@@ -77,19 +79,19 @@ const PropertyOccupantSelector = ({
   if (properties.length === 0) {
     return (
       <div className="space-y-4">
-        <Label>Sélectionner les sources de revenus locatifs</Label>
+        <Label>{t('taxes.selectProperty')}</Label>
         
         <Card className="border-orange-200 bg-orange-50">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Building2 className="h-16 w-16 text-orange-400 mb-4" />
-            <h3 className="text-lg font-semibold text-orange-800 mb-2">Ajouter un Bien Immobilier</h3>
-            <p className="text-orange-600 mb-6">Aucun Bien Sélectionné</p>
+            <h3 className="text-lg font-semibold text-orange-800 mb-2">{t('taxes.addRealEstateProperty')}</h3>
+            <p className="text-orange-600 mb-6">{t('taxes.noPropertySelected')}</p>
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="bg-orange-600 hover:bg-orange-700 text-white">
                   <Plus className="mr-2 h-5 w-5" />
-                  Ajouter un bien
+                  {t('common.add')} {t('common.property')}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 bg-white z-50">
@@ -122,12 +124,12 @@ const PropertyOccupantSelector = ({
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <Label>Sélectionner les sources de revenus locatifs</Label>
+        <Label>{t('taxes.selectProperty')}</Label>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
               <Plus className="mr-2 h-4 w-4" />
-              Ajouter un bien
+              {t('common.add')} {t('common.property')}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56 bg-white z-50">
@@ -149,7 +151,7 @@ const PropertyOccupantSelector = ({
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Building2 className="h-5 w-5" />
-            Biens Immobiliers
+            {t('common.properties')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -167,10 +169,10 @@ const PropertyOccupantSelector = ({
                   {property.title}
                 </label>
                 <p className="text-xs text-gray-500">
-                  {property.address} • Loyer: {property.rent}€/mois
+                  {property.address} • {t('common.rent')}: {property.rent}€/{t('common.month')}
                 </p>
                 <p className="text-xs text-gray-400">
-                  Type: {property.type} • Surface: {property.surface}m²
+                  {t('common.type')}: {property.type} • {t('common.surface')}: {property.surface}m²
                 </p>
               </div>
             </div>
