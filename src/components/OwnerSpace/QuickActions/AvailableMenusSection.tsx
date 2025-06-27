@@ -44,7 +44,7 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
-  const getColorForMenu = (url: string): string => {
+  const getColorForMenu = (path: string): string => {
     const colorMap: Record<string, string> = {
       '/admin/dashboard': 'bg-slate-500',
       '/admin/properties': 'bg-blue-500',
@@ -62,16 +62,16 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
       '/admin/settings': 'bg-gray-500',
       '/admin/help': 'bg-amber-500'
     };
-    return colorMap[url] || 'bg-gray-500';
+    return colorMap[path] || 'bg-gray-500';
   };
 
-  const isMenuAlreadyAdded = (menuUrl: string): boolean => {
-    const menuId = menuUrl.replace('/admin/', '');
-    return quickActions.some(action => action.id === menuId || action.actionValue === menuUrl);
+  const isMenuAlreadyAdded = (menuPath: string): boolean => {
+    const menuId = menuPath.replace('/admin/', '');
+    return quickActions.some(action => action.id === menuId || action.actionValue === menuPath);
   };
 
   const getAvailableMenus = () => {
-    return sidebarMenuItems.filter(menu => !isMenuAlreadyAdded(menu.url));
+    return sidebarMenuItems.filter(menu => !isMenuAlreadyAdded(menu.path));
   };
 
   const availableMenus = getAvailableMenus();
@@ -144,7 +144,7 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
       }
     };
 
-    return menuTranslations[menuItem.title]?.[currentLang] || menuItem.title;
+    return menuTranslations[menuItem.label]?.[currentLang] || menuItem.label;
   };
 
   return (
@@ -160,16 +160,16 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {availableMenus.map((menuItem) => {
             const Icon = menuItem.icon;
-            const isAdding = addingMenus[menuItem.url];
+            const isAdding = addingMenus[menuItem.path];
             
             return (
-              <div key={menuItem.url} className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors">
-                <div className={`p-2 rounded ${getColorForMenu(menuItem.url)} flex-shrink-0`}>
+              <div key={menuItem.path} className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                <div className={`p-2 rounded ${getColorForMenu(menuItem.path)} flex-shrink-0`}>
                   <Icon className="h-4 w-4 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-sm truncate">{getMenuLabel(menuItem)}</div>
-                  <div className="text-xs text-gray-500 truncate">{menuItem.url}</div>
+                  <div className="text-xs text-gray-500 truncate">{menuItem.path}</div>
                 </div>
                 <Button
                   size="sm"
