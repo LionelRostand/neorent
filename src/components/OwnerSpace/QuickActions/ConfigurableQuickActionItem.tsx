@@ -70,16 +70,16 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
         </div>
       </button>
 
-      {/* Delete button - always visible if showControls is true and user is admin */}
+      {/* Delete button - visible to admins when showControls is true */}
       {showControls && isAdmin && actionId && (
         <Button
           size="sm"
           variant="ghost"
           onClick={handleRemove}
-          className="absolute top-1 right-1 h-8 w-8 p-0 bg-red-500/90 hover:bg-red-600 text-white transition-all duration-200"
+          className="absolute top-1 right-1 h-7 w-7 p-0 bg-red-500/90 hover:bg-red-600 text-white transition-all duration-200 opacity-90 hover:opacity-100"
           title={getLocalizedText('remove')}
         >
-          <X className="h-4 w-4" />
+          <X className="h-3 w-3" />
         </Button>
       )}
     </div>

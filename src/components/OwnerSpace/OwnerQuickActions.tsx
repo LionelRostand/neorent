@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
@@ -46,6 +45,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
       quickActions: {
         fr: 'Actions rapides',
         en: 'Quick Actions'
+      },
+      noActionsConfigured: {
+        fr: 'Aucune action rapide configurée',
+        en: 'No quick actions configured'
       }
     };
 
@@ -81,45 +84,36 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
     }
   };
 
-  if (enabledActions.length === 0) {
-    return (
-      <div className="bg-green-600 rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">
-          {getLocalizedText('quickActions')}
-        </h3>
-        <p className="text-white/70 text-sm mb-4">Aucune action rapide configurée</p>
-        
-        {/* Show QuickActionsManager for admins even when no actions */}
-        {showControls && isAdmin && <QuickActionsManager />}
-      </div>
-    );
-  }
-
   return (
     <>
       <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">
-          {getLocalizedText('quickActions')}
-        </h3>
-        
-        {/* Vertical stack of actions */}
-        <div className="space-y-3">
-          {enabledActions.map((action) => (
-            <ConfigurableQuickActionItem
-              key={action.id}
-              title={getLocalizedActionText(action, 'title')}
-              description={getLocalizedActionText(action, 'description')}
-              icon={action.icon}
-              color={action.color}
-              onClick={() => handleActionClick(action)}
-              actionId={action.id}
-              showControls={showControls && isAdmin}
-            />
-          ))}
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-white">
+            {getLocalizedText('quickActions')}
+          </h3>
+          {/* Show QuickActionsManager button for admins */}
+          {showControls && isAdmin && <QuickActionsManager />}
         </div>
-
-        {/* Show QuickActionsManager for admins */}
-        {showControls && isAdmin && <QuickActionsManager />}
+        
+        {enabledActions.length === 0 ? (
+          <p className="text-white/70 text-sm">{getLocalizedText('noActionsConfigured')}</p>
+        ) : (
+          /* Vertical stack of actions */
+          <div className="space-y-3">
+            {enabledActions.map((action) => (
+              <ConfigurableQuickActionItem
+                key={action.id}
+                title={getLocalizedActionText(action, 'title')}
+                description={getLocalizedActionText(action, 'description')}
+                icon={action.icon}
+                color={action.color}
+                onClick={() => handleActionClick(action)}
+                actionId={action.id}
+                showControls={showControls && isAdmin}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <QuickActionDialogs
