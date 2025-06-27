@@ -29,12 +29,15 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ inspectio
     switch (status) {
       case t('inspections.completed'):
       case 'Completed':
+      case 'Terminé':
         return 'default';
       case t('inspections.inProgress'):
       case 'In Progress':
+      case 'En cours':
         return 'secondary';
       case t('inspections.planned'):
       case 'Planned':
+      case 'Planifié':
         return 'outline';
       default:
         return 'outline';
