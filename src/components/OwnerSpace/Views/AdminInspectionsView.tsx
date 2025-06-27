@@ -8,6 +8,7 @@ import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 import AdminInspectionsHeader from './AdminInspections/AdminInspectionsHeader';
 import AdminInspectionsMetrics from './AdminInspections/AdminInspectionsMetrics';
 import AdminInspectionsTable from './AdminInspections/AdminInspectionsTable';
@@ -23,6 +24,7 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
   const { handleInspectionSubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
   const { inspections } = useOwnerData(profile);
+  const { deleteInspection } = useFirebaseInspections();
   const [showInspectionForm, setShowInspectionForm] = useState(false);
   const [selectedInspection, setSelectedInspection] = useState(null);
   const [showInspectionDetails, setShowInspectionDetails] = useState(false);
@@ -39,6 +41,16 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
     setShowInspectionDetails(true);
   };
 
+  const handleDeleteInspection = async (inspection: any) => {
+    try {
+      await deleteInspection(inspection.id);
+      console.log('Inspection supprimée avec succès:', inspection.title);
+    } catch (error) {
+      console.error('Erreur lors de la suppression de l\'inspection:', error);
+      alert(t('inspections.deleteError'));
+    }
+  };
+
   return (
     <div className="p-6 space-y-6">
       <AdminInspectionsHeader onNewInspection={() => setShowInspectionForm(true)} />
@@ -53,6 +65,7 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
       <AdminInspectionsTable 
         inspections={inspections} 
         onViewInspection={handleViewInspection}
+        onDeleteInspection={handleDeleteInspection}
       />
 
       <Dialog open={showInspectionForm} onOpenChange={setShowInspectionForm}>

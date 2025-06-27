@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Eye, Edit, Trash2, FileCheck } from 'lucide-react';
@@ -20,11 +21,13 @@ interface Inspection {
 interface AdminInspectionsTableProps {
   inspections: Inspection[] | null;
   onViewInspection?: (inspection: Inspection) => void;
+  onDeleteInspection?: (inspection: Inspection) => void;
 }
 
 const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({ 
   inspections, 
-  onViewInspection 
+  onViewInspection,
+  onDeleteInspection 
 }) => {
   const { t } = useTranslation();
 
@@ -92,6 +95,16 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({
     }
   };
 
+  const handleDeleteClick = (e: React.MouseEvent, inspection: Inspection) => {
+    e.stopPropagation();
+    if (onDeleteInspection) {
+      const confirmed = window.confirm(t('inspections.confirmDelete'));
+      if (confirmed) {
+        onDeleteInspection(inspection);
+      }
+    }
+  };
+
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
@@ -142,7 +155,12 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({
                       <Button variant="ghost" size="sm">
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="sm">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={(e) => handleDeleteClick(e, inspection)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
