@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { LogOut, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useToast } from '@/hooks/use-toast';
 import LanguageSelector from '@/components/LanguageSelector';
 
@@ -15,6 +16,7 @@ interface OwnerSpaceProfileHeaderProps {
 const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ currentProfile }) => {
   const navigate = useNavigate();
   const { userType, logout } = useAuth();
+  const { isAuthorizedAdmin } = useAdminTenantAccess();
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
   
@@ -41,21 +43,38 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
 
   // Debug: Log current profile data
   console.log('OwnerSpaceProfileHeader - currentProfile:', currentProfile);
+  console.log('OwnerSpaceProfileHeader - userType:', userType);
+  console.log('OwnerSpaceProfileHeader - isAuthorizedAdmin:', isAuthorizedAdmin);
 
-  // Determine display name and email
+  // Determine display name and email - prioritize admin profile
   const displayName = currentProfile?.name || t('profile.owner');
   const displayEmail = currentProfile?.email || 'Non spécifié';
   
-  // Display role - replace "employee" with "owner" and translate
-  const getRoleTranslation = (role: string) => {
+  // Display role - ensure admin shows correctly
+  const getRoleTranslation = (role: string, type: string) => {
+    // Si c'est un admin autorisé, toujours afficher "Administrateur"
+    if (isAuthorizedAdmin || type === 'admin' || role === 'admin') {
+      return t('profile.administrator');
+    }
     if (role === 'employee' || role === 'owner') return t('profile.owner');
-    if (role === 'admin') return t('profile.administrator');
     if (role === 'tenant' || role === 'locataire') return t('profile.tenant');
     if (role === 'roommate' || role === 'colocataire') return t('profile.roommate');
     return t('profile.owner'); // default to owner
   };
   
-  const displayRole = getRoleTranslation(currentProfile?.role || 'owner');
+  const displayRole = getRoleTranslation(currentProfile?.role || 'admin', currentProfile?.type || userType);
+
+  // Afficher un badge spécial pour les admins avec pleins droits
+  const getAdminBadge = () => {
+    if (isAuthorizedAdmin || userType === 'admin') {
+      return (
+        <p className="text-xs text-green-600 mt-1 font-semibold">
+          {i18n.language === 'fr' ? '• Pleins droits administrateur' : '• Full admin rights'}
+        </p>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
@@ -70,6 +89,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
           <p className="text-xs text-blue-600 mt-1">
             {displayRole}
           </p>
+          {getAdminBadge()}
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-3">
@@ -77,7 +97,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
           <LanguageSelector />
 
           {/* Bouton de retour pour les admins */}
-          {userType === 'admin' && (
+          {(userType === 'admin' || isAuthorizedAdmin) && (
             <Button
               variant="outline"
               onClick={handleBackToAdmin}
