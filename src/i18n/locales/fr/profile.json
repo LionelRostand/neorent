@@ -9,6 +9,11 @@
     "tenant": "Locataire",
     "roommate": "Colocataire",
     "unknownUser": "Utilisateur inconnu",
-    "changePassword": "Changer le mot de passe"
+    "changePassword": "Changer le mot de passe",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "status": "Statut",
+    "leaseStart": "Début du bail"
   }
 }
