@@ -68,7 +68,7 @@ const LoginForm = () => {
           } else {
             navigate('/admin');
           }
-        } else if (userType === 'employee') {
+        } else if (userType === 'owner') {
           // Vérifier si c'est un propriétaire
           if (userProfile.isOwner) {
             console.log('🏠 Propriétaire détecté, redirection vers l\'espace propriétaire');
@@ -78,7 +78,7 @@ const LoginForm = () => {
               navigate('/owner-space');
             }
           } else {
-            // Employé normal, vers l'admin
+            // Propriétaire normal, vers l'admin
             if (from && from.startsWith('/admin')) {
               navigate(from);
             } else {
