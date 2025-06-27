@@ -79,7 +79,7 @@ export const ProfileDialog = ({
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
-  // Déterminer le nom à afficher
+  // Déterminer le nom à afficher - correction pour l'admin
   const isAdmin = user.email === 'admin@neotech-consulting.com';
   const displayName = isAdmin ? 'Lionel DJOSSA' : (userProfile?.name || getLocalizedText('notDefined'));
   
