@@ -27,6 +27,12 @@
     "fullyOccupied": "Complet",
     "vacant": "Libre",
     "perMonth": "/mois",
+    "address": "Adresse",
+    "surface": "Surface",
+    "rent": "Loyer",
+    "totalRooms": "Nombre de chambres",
+    "type": "Type",
+    "selectType": "Sélectionner un type",
     "metrics": {
       "totalProperties": "Total des Propriétés",
       "totalDescription": "{{count}} propriétés dans votre portefeuille",
