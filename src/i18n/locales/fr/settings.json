@@ -8,7 +8,60 @@
     "account": "Compte Utilisateur",
     "notifications": "Notifications",
     "privacy": "Confidentialité",
-    "security": "Sécurité",
+    "security": {
+      "title": "Paramètres de Sécurité",
+      "subtitle": "Configurez les politiques de sécurité de votre plateforme",
+      "loadingSettings": "Chargement des paramètres de sécurité...",
+      "saving": "Sauvegarde en cours...",
+      "passwordPolicy": "Politique de mot de passe",
+      "minLength": "Longueur minimale",
+      "passwordExpiry": "Expiration du mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "changePassword": "Changer le mot de passe",
+      "expiryOptions": {
+        "90days": "90 jours"
+      },
+      "complexityRequirements": "Exigences de complexité",
+      "requireUppercase": "Exiger des lettres majuscules",
+      "requireLowercase": "Exiger des lettres minuscules",
+      "requireNumbers": "Exiger des chiffres",
+      "requireSpecialChars": "Exiger des caractères spéciaux",
+      "preventCommonPasswords": "Empêcher les mots de passe courants",
+      "preventCommonPasswordsDescription": "Bloquer les mots de passe faibles couramment utilisés",
+      "twoFactor": {
+        "title": "Authentification à deux facteurs",
+        "enable": "Activer l'authentification à deux facteurs",
+        "enableDescription": "Ajouter une couche de sécurité supplémentaire aux comptes utilisateur"
+      },
+      "sessionSecurity": "Sécurité de session",
+      "sessionTimeout": "Délai d'expiration de session",
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 heure",
+        "2hours": "2 heures",
+        "8hours": "8 heures",
+        "never": "Jamais"
+      },
+      "maxLoginAttempts": "Tentatives de connexion maximales",
+      "lockoutDuration": "Durée de verrouillage",
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 heure",
+        "2hours": "2 heures"
+      },
+      "recommendations": {
+        "title": "Recommandations de sécurité",
+        "sessionTimeout": "Définir des délais d'expiration de session appropriés pour votre environnement",
+        "loginAttempts": "Limiter les tentatives de connexion pour prévenir les attaques par force brute",
+        "twoFactor": "Activer l'authentification à deux facteurs pour les administrateurs",
+        "checkLogs": "Examiner régulièrement les journaux de sécurité"
+      }
+    },
     "preferences": "Préférences",
     "language": "Langue",
     "theme": "Thème",
@@ -16,15 +69,21 @@
     "currency": "Devise",
     "dateFormat": "Format de Date",
     "emailNotifications": "Notifications Email",
+    "emailNotificationsDesc": "Recevoir des notifications importantes",
     "smsNotifications": "Notifications SMS",
     "pushNotifications": "Notifications Push",
     "weeklyReports": "Rapports Hebdomadaires",
     "monthlyReports": "Rapports Mensuels",
     "paymentAlerts": "Alertes de Paiement",
+    "paymentAlertsDesc": "Être notifié des retards de paiement",
     "maintenanceAlerts": "Alertes de Maintenance",
+    "maintenanceAlertsDesc": "Notifications de maintenance prioritaires",
     "contractExpiry": "Expiration de Contrat",
     "autoBackup": "Sauvegarde Automatique",
+    "autoBackupDesc": "Sauvegarder automatiquement vos données",
     "dataExport": "Export de Données",
+    "dataExportDesc": "Télécharger toutes vos données au format CSV",
+    "dataManagement": "Gestion des Données",
     "apiAccess": "Accès API",
     "integrations": "Intégrations",
     "billing": "Facturation",
@@ -45,9 +104,14 @@
     "delete": "Supprimer",
     "enabled": "Activé",
     "disabled": "Désactivé",
+    "configure": "Configurer",
+    "currentLanguage": "Langue actuelle",
+    "deleteAccount": "Supprimer mon compte",
+    "deleteAccountDesc": "Supprimer définitivement votre compte et toutes vos données",
     "loading": "Chargement des paramètres...",
     "saveSuccess": "Paramètres sauvegardés avec succès",
     "saveError": "Erreur lors de la sauvegarde des paramètres",
+    "backToAdmin": "Retour à l'Admin",
     "tabs": {
       "company": "Entreprise",
       "employees": "Propriétaires",
@@ -166,56 +230,6 @@
         "monitorQuota": "Surveillez votre quota Firestore pour éviter les dépassements",
         "optimizeQueries": "Optimisez vos requêtes pour réduire les coûts",
         "configureBilling": "Configurez les alertes de facturation Firebase"
-      }
-    },
-    "security": {
-      "title": "Paramètres de Sécurité",
-      "subtitle": "Configurez les politiques de sécurité de votre plateforme",
-      "loadingSettings": "Chargement des paramètres de sécurité...",
-      "saving": "Sauvegarde en cours...",
-      "passwordPolicy": "Politique de mot de passe",
-      "minLength": "Longueur minimale",
-      "passwordExpiry": "Expiration du mot de passe",
-      "expiryOptions": {
-        "90days": "90 jours"
-      },
-      "complexityRequirements": "Exigences de complexité",
-      "requireUppercase": "Exiger des lettres majuscules",
-      "requireLowercase": "Exiger des lettres minuscules",
-      "requireNumbers": "Exiger des chiffres",
-      "requireSpecialChars": "Exiger des caractères spéciaux",
-      "preventCommonPasswords": "Empêcher les mots de passe courants",
-      "preventCommonPasswordsDescription": "Bloquer les mots de passe faibles couramment utilisés",
-      "twoFactor": {
-        "title": "Authentification à deux facteurs",
-        "enable": "Activer l'authentification à deux facteurs",
-        "enableDescription": "Ajouter une couche de sécurité supplémentaire aux comptes utilisateur"
-      },
-      "sessionSecurity": "Sécurité de session",
-      "sessionTimeout": "Délai d'expiration de session",
-      "timeoutOptions": {
-        "15min": "15 minutes",
-        "30min": "30 minutes",
-        "1hour": "1 heure",
-        "2hours": "2 heures",
-        "8hours": "8 heures",
-        "never": "Jamais"
-      },
-      "maxLoginAttempts": "Tentatives de connexion maximales",
-      "lockoutDuration": "Durée de verrouillage",
-      "lockoutOptions": {
-        "5min": "5 minutes",
-        "15min": "15 minutes",
-        "30min": "30 minutes",
-        "1hour": "1 heure",
-        "2hours": "2 heures"
-      },
-      "recommendations": {
-        "title": "Recommandations de sécurité",
-        "sessionTimeout": "Définir des délais d'expiration de session appropriés pour votre environnement",
-        "loginAttempts": "Limiter les tentatives de connexion pour prévenir les attaques par force brute",
-        "twoFactor": "Activer l'authentification à deux facteurs pour les administrateurs",
-        "checkLogs": "Examiner régulièrement les journaux de sécurité"
       }
     },
     "firebase": {

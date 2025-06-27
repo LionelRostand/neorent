@@ -8,7 +8,60 @@
     "account": "User Account",
     "notifications": "Notifications",
     "privacy": "Privacy",
-    "security": "Security",
+    "security": {
+      "title": "Security Settings",
+      "subtitle": "Configure your platform's security policies",
+      "loadingSettings": "Loading security settings...",
+      "saving": "Saving...",
+      "passwordPolicy": "Password Policy",
+      "minLength": "Minimum Length",
+      "passwordExpiry": "Password Expiry",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "changePassword": "Change Password",
+      "expiryOptions": {
+        "90days": "90 days"
+      },
+      "complexityRequirements": "Complexity Requirements",
+      "requireUppercase": "Require uppercase letters",
+      "requireLowercase": "Require lowercase letters",
+      "requireNumbers": "Require numbers",
+      "requireSpecialChars": "Require special characters",
+      "preventCommonPasswords": "Prevent common passwords",
+      "preventCommonPasswordsDescription": "Block commonly used weak passwords",
+      "twoFactor": {
+        "title": "Two-Factor Authentication",
+        "enable": "Enable two-factor authentication",
+        "enableDescription": "Add an extra layer of security to user accounts"
+      },
+      "sessionSecurity": "Session Security",
+      "sessionTimeout": "Session timeout",
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours",
+        "8hours": "8 hours",
+        "never": "Never"
+      },
+      "maxLoginAttempts": "Maximum login attempts",
+      "lockoutDuration": "Lockout duration",
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours"
+      },
+      "recommendations": {
+        "title": "Security Recommendations",
+        "sessionTimeout": "Set appropriate session timeouts for your environment",
+        "loginAttempts": "Limit login attempts to prevent brute force attacks",
+        "twoFactor": "Enable two-factor authentication for administrators",
+        "checkLogs": "Regularly review security logs"
+      }
+    },
     "preferences": "Preferences",
     "language": "Language",
     "theme": "Theme",
@@ -177,56 +230,6 @@
         "monitorQuota": "Monitor your Firestore quota to avoid overages",
         "optimizeQueries": "Optimize your queries to reduce costs",
         "configureBilling": "Configure Firebase billing alerts"
-      }
-    },
-    "security": {
-      "title": "Security Settings",
-      "subtitle": "Configure your platform's security policies",
-      "loadingSettings": "Loading security settings...",
-      "saving": "Saving...",
-      "passwordPolicy": "Password Policy",
-      "minLength": "Minimum Length",
-      "passwordExpiry": "Password Expiry",
-      "expiryOptions": {
-        "90days": "90 days"
-      },
-      "complexityRequirements": "Complexity Requirements",
-      "requireUppercase": "Require uppercase letters",
-      "requireLowercase": "Require lowercase letters",
-      "requireNumbers": "Require numbers",
-      "requireSpecialChars": "Require special characters",
-      "preventCommonPasswords": "Prevent common passwords",
-      "preventCommonPasswordsDescription": "Block commonly used weak passwords",
-      "twoFactor": {
-        "title": "Two-Factor Authentication",
-        "enable": "Enable two-factor authentication",
-        "enableDescription": "Add an extra layer of security to user accounts"
-      },
-      "sessionSecurity": "Session Security",
-      "sessionTimeout": "Session timeout",
-      "timeoutOptions": {
-        "15min": "15 minutes",
-        "30min": "30 minutes",
-        "1hour": "1 hour",
-        "2hours": "2 hours",
-        "8hours": "8 hours",
-        "never": "Never"
-      },
-      "maxLoginAttempts": "Maximum login attempts",
-      "lockoutDuration": "Lockout duration",
-      "lockoutOptions": {
-        "5min": "5 minutes",
-        "15min": "15 minutes",
-        "30min": "30 minutes",
-        "1hour": "1 hour",
-        "2hours": "2 hours"
-      },
-      "recommendations": {
-        "title": "Security Recommendations",
-        "sessionTimeout": "Set appropriate session timeouts for your environment",
-        "loginAttempts": "Limit login attempts to prevent brute force attacks",
-        "twoFactor": "Enable two-factor authentication for administrators",
-        "checkLogs": "Regularly review security logs"
       }
     },
     "firebase": {
