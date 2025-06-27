@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Eye, Users, Building } from 'lucide-react';
+import { Eye, ArrowLeft, Users, Building } from 'lucide-react';
 import { useFirebaseUserRoles } from '@/hooks/useFirebaseUserRoles';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
@@ -37,6 +37,10 @@ const AdminOwnerSpaceManager: React.FC = () => {
     }
   };
 
+  const handleBackToAdmin = () => {
+    navigate('/admin/dashboard');
+  };
+
   if (loading) {
     return (
       <div className="p-6">
@@ -60,6 +64,14 @@ const AdminOwnerSpaceManager: React.FC = () => {
             Gérez et accédez aux espaces des propriétaires
           </p>
         </div>
+        <Button
+          variant="outline"
+          onClick={handleBackToAdmin}
+          className="flex items-center space-x-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Retour au Backend</span>
+        </Button>
       </div>
 
       {/* Stats */}

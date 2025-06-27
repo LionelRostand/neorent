@@ -29,7 +29,6 @@ import NotFound from '@/pages/NotFound';
 import LegalNotice from '@/pages/PublicSite/LegalNotice';
 import PrivacyPolicy from '@/pages/PublicSite/PrivacyPolicy';
 import CookiePolicy from '@/pages/PublicSite/CookiePolicy';
-import MainLayout from '@/components/Layout/MainLayout';
 import AdminOwnerSpaceManager from '@/components/OwnerSpace/AdminOwnerSpaceManager';
 
 export const AppRoutes = () => {
@@ -64,14 +63,12 @@ export const AppRoutes = () => {
         } 
       />
       
-      {/* Admin Routes with MainLayout */}
+      {/* Admin Routes */}
       <Route 
         path="/admin" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Dashboard />
-            </MainLayout>
+            <Dashboard />
           </ProtectedRoute>
         } 
       />
@@ -79,9 +76,7 @@ export const AppRoutes = () => {
         path="/admin/dashboard" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Dashboard />
-            </MainLayout>
+            <Dashboard />
           </ProtectedRoute>
         } 
       />
@@ -89,9 +84,7 @@ export const AppRoutes = () => {
         path="/admin/properties" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Properties />
-            </MainLayout>
+            <Properties />
           </ProtectedRoute>
         } 
       />
@@ -99,9 +92,7 @@ export const AppRoutes = () => {
         path="/admin/tenants" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Tenants />
-            </MainLayout>
+            <Tenants />
           </ProtectedRoute>
         } 
       />
@@ -109,9 +100,7 @@ export const AppRoutes = () => {
         path="/admin/roommates" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Roommates />
-            </MainLayout>
+            <Roommates />
           </ProtectedRoute>
         } 
       />
@@ -119,9 +108,7 @@ export const AppRoutes = () => {
         path="/admin/contracts" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Contracts />
-            </MainLayout>
+            <Contracts />
           </ProtectedRoute>
         } 
       />
@@ -129,9 +116,7 @@ export const AppRoutes = () => {
         path="/admin/leases" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Leases />
-            </MainLayout>
+            <Leases />
           </ProtectedRoute>
         } 
       />
@@ -139,9 +124,7 @@ export const AppRoutes = () => {
         path="/admin/inspections" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Inspections />
-            </MainLayout>
+            <Inspections />
           </ProtectedRoute>
         } 
       />
@@ -149,9 +132,7 @@ export const AppRoutes = () => {
         path="/admin/rent-management" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <RentManagement />
-            </MainLayout>
+            <RentManagement />
           </ProtectedRoute>
         } 
       />
@@ -159,9 +140,7 @@ export const AppRoutes = () => {
         path="/admin/rental-charges" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <RentalCharges />
-            </MainLayout>
+            <RentalCharges />
           </ProtectedRoute>
         } 
       />
@@ -169,9 +148,7 @@ export const AppRoutes = () => {
         path="/admin/forecasting" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Forecasting />
-            </MainLayout>
+            <Forecasting />
           </ProtectedRoute>
         } 
       />
@@ -179,9 +156,7 @@ export const AppRoutes = () => {
         path="/admin/maintenance" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Maintenance />
-            </MainLayout>
+            <Maintenance />
           </ProtectedRoute>
         } 
       />
@@ -189,9 +164,7 @@ export const AppRoutes = () => {
         path="/admin/messages" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Messages />
-            </MainLayout>
+            <Messages />
           </ProtectedRoute>
         } 
       />
@@ -199,9 +172,7 @@ export const AppRoutes = () => {
         path="/admin/taxes" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Taxes />
-            </MainLayout>
+            <Taxes />
           </ProtectedRoute>
         } 
       />
@@ -209,9 +180,7 @@ export const AppRoutes = () => {
         path="/admin/website" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Website />
-            </MainLayout>
+            <Website />
           </ProtectedRoute>
         } 
       />
@@ -219,9 +188,7 @@ export const AppRoutes = () => {
         path="/admin/settings" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Settings />
-            </MainLayout>
+            <Settings />
           </ProtectedRoute>
         } 
       />
@@ -229,21 +196,17 @@ export const AppRoutes = () => {
         path="/admin/help" 
         element={
           <ProtectedRoute>
-            <MainLayout>
-              <Help />
-            </MainLayout>
+            <Help />
           </ProtectedRoute>
         } 
       />
       
-      {/* Route pour l'administration des espaces propriétaires avec MainLayout */}
+      {/* Nouvelle route pour l'administration des espaces propriétaires */}
       <Route 
         path="/admin/owner-spaces" 
         element={
           <ProtectedRoute requiredUserTypes={['admin']}>
-            <MainLayout>
-              <AdminOwnerSpaceManager />
-            </MainLayout>
+            <AdminOwnerSpaceManager />
           </ProtectedRoute>
         } 
       />
