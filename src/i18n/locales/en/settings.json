@@ -91,6 +91,9 @@
       "creationDate": "Creation Date",
       "loading": "Loading employees...",
       "noPermissions": "No permissions",
+      "permissions": "Permissions",
+      "passwordStatus": "Password Status",
+      "actions": "Actions",
       "confirmDelete": "Are you sure you want to delete this employee?",
       "addSuccess": "Employee added successfully",
       "addError": "Error adding employee",
@@ -144,6 +147,7 @@
       "copy": "copied to clipboard",
       "manualUpdate": "Manual Update",
       "applyAuto": "Apply Automatically",
+      "userRolesDefined": "User roles defined",
       "config": {
         "connectionStatus": {
           "connected": "Connected",
@@ -159,6 +163,35 @@
           "rulesProtection": "Security rules protect your data",
           "checkRules": "Regularly check your rules",
           "monitorUsage": "Monitor your database usage"
+        }
+      },
+      "collections": {
+        "title": "Firebase Collections",
+        "properties": "Real estate properties",
+        "tenants": "Tenants",
+        "roommates": "Roommates",
+        "payments": "Payments",
+        "contracts": "Contracts",
+        "inspections": "Inspections",
+        "maintenances": "Maintenances",
+        "companies": "Companies",
+        "documents": "documents",
+        "document": "document",
+        "docs": "docs",
+        "modified": "modified",
+        "active": "Active",
+        "inactive": "Inactive",
+        "lastUpdate": "Last update",
+        "refresh": "Refresh",
+        "refreshing": "Refreshing...",
+        "refreshed": "Collections refreshed",
+        "refreshedDescription": "Collection data has been updated",
+        "importantInfo": {
+          "title": "Important information",
+          "autoCreated": "Collections are automatically created when adding data",
+          "rulesApply": "Security rules apply to all collections",
+          "realTimeSync": "Real-time synchronization with the interface",
+          "refreshStats": "Refresh to get the latest statistics"
         }
       }
     },

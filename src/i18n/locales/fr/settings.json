@@ -91,6 +91,9 @@
       "creationDate": "Date de création",
       "loading": "Chargement des employés...",
       "noPermissions": "Aucune permission",
+      "permissions": "Permissions",
+      "passwordStatus": "Statut du mot de passe",
+      "actions": "Actions",
       "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet employé ?",
       "addSuccess": "Employé ajouté avec succès",
       "addError": "Erreur lors de l'ajout de l'employé",
@@ -144,6 +147,7 @@
       "copy": "copié dans le presse-papiers",
       "manualUpdate": "Mise à jour manuelle",
       "applyAuto": "Appliquer automatiquement",
+      "userRolesDefined": "Rôles utilisateurs définis",
       "config": {
         "connectionStatus": {
           "connected": "Connecté",
@@ -159,6 +163,35 @@
           "rulesProtection": "Les règles de sécurité protègent vos données",
           "checkRules": "Vérifiez régulièrement vos règles",
           "monitorUsage": "Surveillez l'utilisation de votre base de données"
+        }
+      },
+      "collections": {
+        "title": "Collections Firebase",
+        "properties": "Propriétés immobilières",
+        "tenants": "Locataires",
+        "roommates": "Colocataires",
+        "payments": "Paiements",
+        "contracts": "Contrats",
+        "inspections": "Inspections",
+        "maintenances": "Maintenances",
+        "companies": "Entreprises",
+        "documents": "documents",
+        "document": "document",
+        "docs": "docs",
+        "modified": "modifié le",
+        "active": "Actif",
+        "inactive": "Inactif",
+        "lastUpdate": "Dernière mise à jour",
+        "refresh": "Actualiser",
+        "refreshing": "Actualisation...",
+        "refreshed": "Collections actualisées",
+        "refreshedDescription": "Les données des collections ont été mises à jour",
+        "importantInfo": {
+          "title": "Informations importantes",
+          "autoCreated": "Les collections sont créées automatiquement lors de l'ajout de données",
+          "rulesApply": "Les règles de sécurité s'appliquent à toutes les collections",
+          "realTimeSync": "Synchronisation en temps réel avec l'interface",
+          "refreshStats": "Actualisez pour obtenir les statistiques les plus récentes"
         }
       }
     },
