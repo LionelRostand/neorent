@@ -204,7 +204,11 @@
         "authentication": "Authentication",
         "storage": "Storage",
         "region": "Region",
-        "europe": "Europe"
+        "europe": "Europe",
+        "title": "Connection Status",
+        "configured": "Configured",
+        "available": "Available",
+        "uscentral": "US Central"
       },
       "security": {
         "title": "Security Information",
@@ -272,7 +276,14 @@
         "none": "None",
         "tls": "TLS",
         "ssl": "SSL"
-      }
+      },
+      "recommendedConfig": "Recommended Configuration",
+      "gmailConfig": "Gmail SMTP Configuration",
+      "outlookConfig": "Outlook/Hotmail Configuration",
+      "appPasswordRecommendation": "Use app-specific passwords for better security",
+      "testConnectionRecommendation": "Test your connection before saving",
+      "enabled": "Email enabled",
+      "testMode": "Test mode"
     },
     "payment": {
       "title": "Payment Configuration",
