@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Chargement...",
@@ -282,6 +281,18 @@
     "loft": "Loft",
     "duplex": "Duplex",
     "pages": "Pages",
-    "page": "Page"
+    "page": "Page",
+    "companyInformation": "Informations de l'entreprise",
+    "companyName": "Nom de l'entreprise",
+    "openingHours": "Heures d'ouverture",
+    "monday": "Lundi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi",
+    "thursday": "Jeudi",
+    "friday": "Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche",
+    "saving": "Sauvegarde...",
+    "contentManagement": "Gestion de contenu"
   }
 }
