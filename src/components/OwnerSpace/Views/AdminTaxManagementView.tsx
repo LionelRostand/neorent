@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, FileText, Calculator, TrendingUp, AlertCircle } from 'lucide-react';
@@ -136,16 +135,11 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
       </Card>
 
       {/* Tax Form Dialog */}
-      <Dialog open={showTaxForm} onOpenChange={setShowTaxForm}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{t('taxes.newDeclaration')}</DialogTitle>
-          </DialogHeader>
-          <div className="mt-4">
-            <TaxDeclarationForm onSubmit={handleTaxSubmit} />
-          </div>
-        </DialogContent>
-      </Dialog>
+      <TaxDeclarationForm 
+        isOpen={showTaxForm}
+        onClose={() => setShowTaxForm(false)}
+        onSubmit={handleTaxSubmit}
+      />
     </div>
   );
 };
