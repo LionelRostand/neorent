@@ -124,10 +124,10 @@ const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({
       }
     };
 
-    return menuTranslations[menuItem.label]?.[currentLang] || menuItem.label;
+    return menuTranslations[menuItem.title]?.[currentLang] || menuItem.title;
   };
 
-  const getColorForMenu = (path: string): string => {
+  const getColorForMenu = (url: string): string => {
     const colorMap: Record<string, string> = {
       '/admin/dashboard': 'bg-slate-500',
       '/admin/properties': 'bg-blue-500',
@@ -145,35 +145,35 @@ const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({
       '/admin/settings': 'bg-gray-500',
       '/admin/help': 'bg-amber-500'
     };
-    return colorMap[path] || 'bg-gray-500';
+    return colorMap[url] || 'bg-gray-500';
   };
 
-  const isMenuAlreadyAdded = (menuPath: string): boolean => {
-    const menuId = menuPath.replace('/admin/', '');
-    return quickActions.some(action => action.id === menuId || action.actionValue === menuPath);
+  const isMenuAlreadyAdded = (menuUrl: string): boolean => {
+    const menuId = menuUrl.replace('/admin/', '');
+    return quickActions.some(action => action.id === menuId || action.actionValue === menuUrl);
   };
 
   const filteredMenus = sidebarMenuItems.filter(menu => 
     getMenuLabel(menu).toLowerCase().includes(searchTerm.toLowerCase()) ||
-    menu.path.toLowerCase().includes(searchTerm.toLowerCase())
+    menu.url.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleAddMenu = async (menuItem: any) => {
     const newAction = {
-      id: menuItem.path.replace('/admin/', ''),
+      id: menuItem.url.replace('/admin/', ''),
       title: {
-        fr: menuItem.label,
+        fr: menuItem.title,
         en: getMenuLabel(menuItem)
       },
       description: {
-        fr: `Accéder à ${menuItem.label}`,
+        fr: `Accéder à ${menuItem.title}`,
         en: `Access ${getMenuLabel(menuItem)}`
       },
       icon: menuItem.icon?.name || 'Settings',
-      color: getColorForMenu(menuItem.path),
+      color: getColorForMenu(menuItem.url),
       enabled: true,
       action: 'navigate' as const,
-      actionValue: menuItem.path
+      actionValue: menuItem.url
     };
 
     await addCustomAction(newAction);
@@ -205,13 +205,13 @@ const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {filteredMenus.map((menuItem) => {
                 const Icon = menuItem.icon;
-                const isAlreadyAdded = isMenuAlreadyAdded(menuItem.path);
+                const isAlreadyAdded = isMenuAlreadyAdded(menuItem.url);
                 
                 return (
-                  <Card key={menuItem.path} className="hover:shadow-md transition-shadow">
+                  <Card key={menuItem.url} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded ${getColorForMenu(menuItem.path)} flex-shrink-0`}>
+                        <div className={`p-2 rounded ${getColorForMenu(menuItem.url)} flex-shrink-0`}>
                           <Icon className="h-4 w-4 text-white" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -219,7 +219,7 @@ const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({
                             {getMenuLabel(menuItem)}
                           </div>
                           <div className="text-xs text-gray-500 truncate">
-                            {menuItem.path}
+                            {menuItem.url}
                           </div>
                           {isAlreadyAdded && (
                             <Badge variant="secondary" className="text-xs mt-1">
