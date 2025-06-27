@@ -36,112 +36,116 @@ export const CookieBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
-      <Card className="max-w-4xl mx-auto bg-white shadow-lg border">
-        <CardContent className="p-6">
+    <div className="fixed inset-x-0 bottom-0 z-50 p-2 sm:p-4">
+      <Card className="max-w-6xl mx-auto bg-white shadow-lg border">
+        <CardContent className="p-3 sm:p-4 md:p-6">
           {!showSettings ? (
-            <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-              <div className="flex items-start gap-3 flex-1">
-                <Cookie className="h-6 w-6 text-orange-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
-                    {t('cookies.title', 'Nous utilisons des cookies')}
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <div className="flex items-start gap-2 sm:gap-3">
+                <Cookie className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600 flex-shrink-0 mt-0.5 sm:mt-1" />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-gray-900 text-sm sm:text-base mb-1 sm:mb-2">
+                    {t('cookies.title')}
                   </h3>
-                  <p className="text-sm text-gray-600">
-                    {t('cookies.description', 'Ce site utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic et personnaliser le contenu. En continuant à naviguer, vous acceptez notre utilisation des cookies.')}
+                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                    {t('cookies.description')}
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0">
+              
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setShowSettings(true)}
-                  className="text-xs"
+                  className="text-xs sm:text-sm px-3 py-2 h-auto whitespace-nowrap"
                 >
-                  <Settings className="h-3 w-3 mr-1" />
-                  {t('cookies.settings', 'Paramètres')}
+                  <Settings className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  {t('cookies.settings')}
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={acceptNecessary}
-                  className="text-xs"
+                  className="text-xs sm:text-sm px-3 py-2 h-auto"
                 >
-                  {t('cookies.necessaryOnly', 'Nécessaires uniquement')}
+                  {t('cookies.necessaryOnly')}
                 </Button>
                 <Button
                   size="sm"
                   onClick={acceptAll}
-                  className="bg-green-600 hover:bg-green-700 text-xs"
+                  className="bg-green-600 hover:bg-green-700 text-xs sm:text-sm px-3 py-2 h-auto"
                 >
-                  {t('cookies.acceptAll', 'Accepter tout')}
+                  {t('cookies.acceptAll')}
                 </Button>
               </div>
             </div>
           ) : (
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-gray-900">
-                  {t('cookies.settingsTitle', 'Paramètres des cookies')}
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold text-gray-900 text-sm sm:text-base">
+                  {t('cookies.settingsTitle')}
                 </h3>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowSettings(false)}
+                  className="p-1 h-auto"
                 >
                   <X className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="space-y-4">
-                <div className="border-b pb-3">
-                  <h4 className="font-medium text-gray-900 mb-1">
-                    {t('cookies.necessary', 'Cookies nécessaires')}
+              
+              <div className="space-y-3 sm:space-y-4">
+                <div className="border-b pb-2 sm:pb-3">
+                  <h4 className="font-medium text-gray-900 text-xs sm:text-sm mb-1">
+                    {t('cookies.necessary')}
                   </h4>
-                  <p className="text-sm text-gray-600">
-                    {t('cookies.necessaryDescription', 'Ces cookies sont indispensables au fonctionnement du site web.')}
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    {t('cookies.necessaryDescription')}
                   </p>
                 </div>
-                <div className="border-b pb-3">
-                  <h4 className="font-medium text-gray-900 mb-1">
-                    {t('cookies.analytics', 'Cookies analytiques')}
+                <div className="border-b pb-2 sm:pb-3">
+                  <h4 className="font-medium text-gray-900 text-xs sm:text-sm mb-1">
+                    {t('cookies.analytics')}
                   </h4>
-                  <p className="text-sm text-gray-600">
-                    {t('cookies.analyticsDescription', 'Ces cookies nous aident à comprendre comment vous utilisez notre site.')}
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    {t('cookies.analyticsDescription')}
                   </p>
                 </div>
-                <div className="border-b pb-3">
-                  <h4 className="font-medium text-gray-900 mb-1">
-                    {t('cookies.marketing', 'Cookies de marketing')}
+                <div className="border-b pb-2 sm:pb-3">
+                  <h4 className="font-medium text-gray-900 text-xs sm:text-sm mb-1">
+                    {t('cookies.marketing')}
                   </h4>
-                  <p className="text-sm text-gray-600">
-                    {t('cookies.marketingDescription', 'Ces cookies sont utilisés pour personnaliser les publicités.')}
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    {t('cookies.marketingDescription')}
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2 mt-4">
+              
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={rejectAll}
-                  className="text-xs"
+                  className="text-xs sm:text-sm px-3 py-2 h-auto"
                 >
-                  {t('cookies.rejectAll', 'Tout refuser')}
+                  {t('cookies.rejectAll')}
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={acceptNecessary}
-                  className="text-xs"
+                  className="text-xs sm:text-sm px-3 py-2 h-auto"
                 >
-                  {t('cookies.necessaryOnly', 'Nécessaires uniquement')}
+                  {t('cookies.necessaryOnly')}
                 </Button>
                 <Button
                   size="sm"
                   onClick={acceptAll}
-                  className="bg-green-600 hover:bg-green-700 text-xs"
+                  className="bg-green-600 hover:bg-green-700 text-xs sm:text-sm px-3 py-2 h-auto"
                 >
-                  {t('cookies.acceptAll', 'Accepter tout')}
+                  {t('cookies.acceptAll')}
                 </Button>
               </div>
             </div>
