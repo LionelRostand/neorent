@@ -8,6 +8,7 @@ import MaintenanceView from './MaintenanceView';
 import RoommateView from './RoommateView';
 import RentalChargesView from './RentalChargesView';
 import AdminViewRenderer from './AdminViewRenderer';
+import AdminDashboardView from './AdminDashboardView';
 
 interface ViewRendererProps {
   activeView: string;
@@ -34,7 +35,7 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
   const renderView = () => {
     switch (activeView) {
       case 'dashboard':
-        return <DashboardView currentProfile={currentProfile} />;
+        return <AdminDashboardView currentProfile={currentProfile} />;
       case 'properties':
         return <PropertyView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'contracts':
@@ -48,7 +49,7 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       case 'rental-charges':
         return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
       default:
-        return <DashboardView currentProfile={currentProfile} />;
+        return <AdminDashboardView currentProfile={currentProfile} />;
     }
   };
 
