@@ -2,7 +2,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useUserPermissions } from '@/hooks/useUserPermissions';
 import { useSidebarMenuItems } from './useSidebarMenuItems';
 
 interface SidebarNavigationProps {
@@ -11,16 +10,13 @@ interface SidebarNavigationProps {
 
 const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ onMobileClose }) => {
   const location = useLocation();
-  const { canAccessMenu } = useUserPermissions();
   const menuItems = useSidebarMenuItems();
 
   const isActive = (path: string) => location.pathname === path;
 
-  const filteredMenuItems = menuItems.filter(item => canAccessMenu(item.permission));
-
   return (
     <nav className="space-y-2 py-4 px-3">
-      {filteredMenuItems.map((item) => {
+      {menuItems.map((item) => {
         const Icon = item.icon;
         return (
           <Link
