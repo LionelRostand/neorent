@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,7 @@ const LoginForm = () => {
   const [showRegistration, setShowRegistration] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { login, userProfile, userType } = useAuth();
+  const { login, userProfile, userType, user } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +34,20 @@ const LoginForm = () => {
       
       console.log('✅ Connexion Firebase réussie');
       
-      // Attendre que les données se chargent
+      // Vérification immédiate si c'est un admin
+      const isAdmin = email === 'admin@neotech-consulting.com';
+      
+      if (isAdmin) {
+        console.log('🔑 Admin détecté, redirection vers le backend');
+        toast({
+          title: "Connexion administrateur",
+          description: "Bienvenue dans l'interface d'administration",
+        });
+        navigate('/admin/dashboard');
+        return;
+      }
+      
+      // Attendre que les données se chargent pour les autres utilisateurs
       setTimeout(() => {
         console.log('📊 Vérification du profil:', { userProfile, userType, email });
         
@@ -66,7 +80,7 @@ const LoginForm = () => {
           if (from && from.startsWith('/admin')) {
             navigate(from);
           } else {
-            navigate('/admin');
+            navigate('/admin/dashboard');
           }
         } else if (userType === 'owner') {
           // Vérifier si c'est un propriétaire
@@ -82,7 +96,7 @@ const LoginForm = () => {
             if (from && from.startsWith('/admin')) {
               navigate(from);
             } else {
-              navigate('/admin');
+              navigate('/admin/dashboard');
             }
           }
         } else {
@@ -93,7 +107,7 @@ const LoginForm = () => {
             navigate('/tenant-space');
           }
         }
-      }, 2000);
+      }, 1000); // Réduction du délai pour une meilleure UX
       
     } catch (error: any) {
       console.error('❌ Erreur de connexion:', error);
