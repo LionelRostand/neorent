@@ -41,6 +41,21 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <>{children}</>;
   }
 
+  // Vérification spécifique pour les pages admin - seuls admin et owner sont autorisés
+  if (location.pathname.startsWith('/admin')) {
+    if (userType !== 'admin' && userType !== 'owner') {
+      console.log('🔐 Accès admin refusé pour:', userType, 'redirection vers espace approprié');
+      
+      // Rediriger les colocataires et locataires vers leur espace
+      if (userType === 'colocataire' || userType === 'locataire') {
+        return <Navigate to="/tenant-space" replace />;
+      }
+      
+      // Pour les autres types non autorisés
+      return <Navigate to="/login" replace />;
+    }
+  }
+
   // Si des types d'utilisateur sont requis, vérifier les permissions
   if (requiredUserTypes && requiredUserTypes.length > 0) {
     // Attendre que userType soit chargé avant de vérifier les permissions
