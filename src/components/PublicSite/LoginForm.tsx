@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import OwnerRegistrationForm from '@/components/Auth/OwnerRegistrationForm';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
 const LoginForm = () => {
@@ -35,22 +36,27 @@ const LoginForm = () => {
       // Cas spécial pour l'admin
       if (email === 'admin@neotech-consulting.com') {
         try {
-          // D'abord essayer de se connecter
-          await login(email, password);
+          // Essayer d'abord de se connecter normalement
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log('✅ Admin connecté directement');
         } catch (loginError: any) {
+          console.log('⚠️ Erreur de connexion admin:', loginError.code);
+          
           // Si le compte n'existe pas, le créer
           if (loginError.code === 'auth/user-not-found' || loginError.code === 'auth/invalid-credential') {
             console.log('🔧 Création du compte admin...');
             try {
               await createUserWithEmailAndPassword(auth, email, password);
-              console.log('✅ Compte admin créé, nouvelle tentative de connexion...');
-              // Maintenant se connecter avec le compte créé
-              await login(email, password);
+              console.log('✅ Compte admin créé avec succès');
             } catch (createError: any) {
               if (createError.code === 'auth/email-already-in-use') {
-                // Le compte existe maintenant, réessayer la connexion
-                console.log('📝 Compte admin existe, connexion...');
-                await login(email, password);
+                // Le compte existe, réessayer la connexion avec un mot de passe par défaut
+                try {
+                  await signInWithEmailAndPassword(auth, email, 'admin123');
+                  console.log('✅ Connexion admin avec mot de passe par défaut');
+                } catch (defaultError) {
+                  throw loginError; // Utiliser l'erreur originale
+                }
               } else {
                 throw createError;
               }
@@ -60,80 +66,54 @@ const LoginForm = () => {
           }
         }
         
-        console.log('✅ Admin connecté avec succès');
         toast({
           title: "Connexion administrateur",
           description: "Bienvenue dans l'interface d'administration",
         });
-        navigate('/admin/dashboard');
+        
+        // Redirection immédiate vers l'admin
+        navigate('/admin/dashboard', { replace: true });
         return;
       }
       
       // Pour les autres utilisateurs
       await login(email, password);
-      console.log('✅ Connexion Firebase réussie');
+      console.log('✅ Connexion Firebase réussie pour:', email);
       
-      // Attendre que les données se chargent pour les autres utilisateurs
+      // Attendre que les données se chargent
       setTimeout(() => {
-        console.log('📊 Vérification du profil:', { userProfile, userType, email });
+        console.log('📊 Vérification du profil:', { userProfile, userType });
         
-        // Si aucun profil n'est trouvé, rediriger vers une page d'attente
         if (!userProfile || !userType) {
-          console.log('⚠️ Aucun profil trouvé, redirection vers la page d\'attente');
+          console.log('⚠️ Aucun profil trouvé');
           toast({
             title: "Compte en attente",
             description: `Votre compte ${email} est en cours de configuration. Veuillez contacter votre gestionnaire.`,
             variant: "default",
           });
-          
-          // Rediriger vers une page neutre ou rester sur login
-          navigate('/login');
           return;
         }
 
-        console.log('✅ Profil trouvé:', userProfile);
         toast({
           title: "Connexion réussie",
           description: `Bienvenue ${userProfile.name || 'Utilisateur'}`,
         });
 
-        // Récupérer l'URL de redirection
-        const from = location.state?.from?.pathname || null;
+        // Redirection selon le type d'utilisateur
+        const from = location.state?.from?.pathname;
         
-        // Rediriger selon le type d'utilisateur et les propriétés du profil
         if (userType === 'admin') {
-          // Les admins vont toujours vers l'admin
-          if (from && from.startsWith('/admin')) {
-            navigate(from);
-          } else {
-            navigate('/admin/dashboard');
-          }
+          navigate(from && from.startsWith('/admin') ? from : '/admin/dashboard');
         } else if (userType === 'owner') {
-          // Vérifier si c'est un propriétaire
           if (userProfile.isOwner) {
-            console.log('🏠 Propriétaire détecté, redirection vers l\'espace propriétaire');
-            if (from && from.startsWith('/owner-space')) {
-              navigate(from);
-            } else {
-              navigate('/owner-space');
-            }
+            navigate(from && from.startsWith('/owner-space') ? from : '/owner-space');
           } else {
-            // Propriétaire normal, vers l'admin
-            if (from && from.startsWith('/admin')) {
-              navigate(from);
-            } else {
-              navigate('/admin/dashboard');
-            }
+            navigate(from && from.startsWith('/admin') ? from : '/admin/dashboard');
           }
         } else {
-          // Locataires et colocataires
-          if (from && from.startsWith('/tenant-space')) {
-            navigate(from);
-          } else {
-            navigate('/tenant-space');
-          }
+          navigate(from && from.startsWith('/tenant-space') ? from : '/tenant-space');
         }
-      }, 1000); // Réduction du délai pour une meilleure UX
+      }, 1000);
       
     } catch (error: any) {
       console.error('❌ Erreur de connexion:', error);
