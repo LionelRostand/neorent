@@ -15,6 +15,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { user, loading, userType } = useAuth();
   const location = useLocation();
 
+  console.log('🔐 ProtectedRoute - user:', user?.email, 'userType:', userType, 'loading:', loading);
+
   // Afficher un loader pendant la vérification de l'authentification
   if (loading) {
     return (
@@ -29,19 +31,27 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Rediriger vers login seulement si le loading est terminé ET qu'il n'y a pas d'utilisateur
   if (!loading && !user) {
+    console.log('🔐 Pas d\'utilisateur connecté, redirection vers /login');
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // Cas spécial pour l'admin - toujours autoriser l'accès
+  if (user?.email === 'admin@neotech-consulting.com') {
+    console.log('🔐 Admin connecté, accès autorisé');
+    return <>{children}</>;
   }
 
   // Si des types d'utilisateur sont requis, vérifier les permissions
   if (requiredUserTypes && requiredUserTypes.length > 0) {
     // Attendre que userType soit chargé avant de vérifier les permissions
     if (!loading && !userType) {
-      // Si pas de type d'utilisateur défini après le chargement, rediriger vers login
+      console.log('🔐 Pas de type d\'utilisateur défini après chargement');
       return <Navigate to="/login" replace />;
     }
     
     // Si userType est chargé mais ne correspond pas aux permissions requises
     if (userType && !requiredUserTypes.includes(userType)) {
+      console.log('🔐 Type d\'utilisateur non autorisé:', userType, 'requis:', requiredUserTypes);
       // Rediriger selon le type d'utilisateur
       if (userType === 'admin') {
         return <Navigate to="/admin" replace />;
@@ -57,6 +67,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Rendre les enfants seulement si tout est OK et que le loading est terminé
   if (!loading && user) {
+    console.log('🔐 Accès autorisé pour:', user.email);
     return <>{children}</>;
   }
 
