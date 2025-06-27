@@ -24,7 +24,7 @@ export const PropertyStatsCards = ({
   onSave
 }: PropertyStatsCardsProps) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
       <Card>
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
@@ -63,17 +63,16 @@ export const PropertyStatsCards = ({
 
       <Card>
         <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <Button 
-                onClick={onSave} 
-                disabled={isSaving}
-                className="w-full"
-              >
-                <Save className="h-4 w-4 mr-2" />
-                {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
-              </Button>
-            </div>
+          <div className="flex items-center justify-center h-full">
+            <Button 
+              onClick={onSave} 
+              disabled={isSaving}
+              className="w-full h-12 text-base font-medium"
+              size="lg"
+            >
+              <Save className="h-5 w-5 mr-2" />
+              {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
+            </Button>
           </div>
         </CardContent>
       </Card>
