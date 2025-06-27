@@ -48,11 +48,15 @@ export const UserProfileDropdown = () => {
     return 'U';
   };
 
-  // Utiliser le nom du profil géré, sinon fallback sur les données utilisateur
-  const displayName = userProfile?.name || user.displayName || user.email || t('profile.unknownUser');
+  // Utiliser le nom du profil géré ou définir explicitement pour l'admin
+  const isAdmin = user.email === 'admin@neotech-consulting.com';
+  const displayName = isAdmin ? 'Lionel DJOSSA' : (userProfile?.name || user.displayName || user.email || t('profile.unknownUser'));
 
   // Vérifier si l'utilisateur peut changer son mot de passe
   const canChangePassword = userType === 'owner' || userType === 'admin';
+
+  // Déterminer le type d'utilisateur à afficher
+  const displayUserType = isAdmin ? 'admin' : userType;
 
   return (
     <>
@@ -71,11 +75,11 @@ export const UserProfileDropdown = () => {
             <div className="flex flex-col space-y-1 leading-none">
               <p className="font-medium text-sm">{displayName}</p>
               <p className="text-xs text-muted-foreground">{user.email}</p>
-              {userType && (
+              {displayUserType && (
                 <p className="text-xs text-blue-600">
-                  {userType === 'admin' ? t('profile.administrator') : 
-                   userType === 'owner' ? t('profile.owner') :
-                   userType === 'locataire' ? t('profile.tenant') : 
+                  {displayUserType === 'admin' ? t('profile.administrator') : 
+                   displayUserType === 'owner' ? t('profile.owner') :
+                   displayUserType === 'locataire' ? t('profile.tenant') : 
                    t('profile.roommate')}
                 </p>
               )}
