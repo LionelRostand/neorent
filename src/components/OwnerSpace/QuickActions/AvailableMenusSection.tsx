@@ -30,6 +30,14 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
       availableMenus: {
         fr: 'Menus disponibles du sidebar',
         en: 'Available sidebar menus'
+      },
+      addButton: {
+        fr: 'Ajouter',
+        en: 'Add'
+      },
+      noMenusAvailable: {
+        fr: 'Tous les menus du sidebar ont déjà été ajoutés aux actions rapides',
+        en: 'All sidebar menus have already been added to quick actions'
       }
     };
 
@@ -68,6 +76,77 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
 
   const availableMenus = getAvailableMenus();
 
+  // Get localized label for menu item
+  const getMenuLabel = (menuItem: any) => {
+    const currentLang = i18n.language;
+    
+    // Menu translations
+    const menuTranslations: Record<string, Record<string, string>> = {
+      'Tableau de bord': {
+        fr: 'Tableau de bord',
+        en: 'Dashboard'
+      },
+      'Propriétés': {
+        fr: 'Propriétés',
+        en: 'Properties'
+      },
+      'Locataires': {
+        fr: 'Locataires',
+        en: 'Tenants'
+      },
+      'Colocataires': {
+        fr: 'Colocataires',
+        en: 'Roommates'
+      },
+      'Contrats': {
+        fr: 'Contrats',
+        en: 'Contracts'
+      },
+      'Inspections': {
+        fr: 'Inspections',
+        en: 'Inspections'
+      },
+      'Gestion des loyers': {
+        fr: 'Gestion des loyers',
+        en: 'Rent Management'
+      },
+      'Charges locatives': {
+        fr: 'Charges locatives',
+        en: 'Rental Charges'
+      },
+      'Prévisions': {
+        fr: 'Prévisions',
+        en: 'Forecasting'
+      },
+      'Maintenance': {
+        fr: 'Maintenance',
+        en: 'Maintenance'
+      },
+      'Messages': {
+        fr: 'Messages',
+        en: 'Messages'
+      },
+      'Fiscalité': {
+        fr: 'Fiscalité',
+        en: 'Tax Management'
+      },
+      'Site web': {
+        fr: 'Site web',
+        en: 'Website'
+      },
+      'Paramètres': {
+        fr: 'Paramètres',
+        en: 'Settings'
+      },
+      'Aide': {
+        fr: 'Aide',
+        en: 'Help'
+      }
+    };
+
+    return menuTranslations[menuItem.label]?.[currentLang] || menuItem.label;
+  };
+
   return (
     <Card className="w-full max-w-6xl mx-auto">
       <CardHeader className="pb-3 px-3 sm:px-6">
@@ -89,7 +168,7 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
                   <Icon className="h-4 w-4 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm truncate">{menuItem.label}</div>
+                  <div className="font-medium text-sm truncate">{getMenuLabel(menuItem)}</div>
                   <div className="text-xs text-gray-500 truncate">{menuItem.path}</div>
                 </div>
                 <Button
@@ -100,14 +179,14 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
                 >
                   {isAdding && <Loader2 className="h-3 w-3 mr-1 animate-spin" />}
                   <Plus className="h-3 w-3 mr-1" />
-                  Ajouter
+                  {getLocalizedText('addButton')}
                 </Button>
               </div>
             );
           })}
           {availableMenus.length === 0 && (
             <div className="col-span-full text-center py-8 text-gray-500">
-              <p className="text-sm">Tous les menus du sidebar ont déjà été ajoutés aux actions rapides</p>
+              <p className="text-sm">{getLocalizedText('noMenusAvailable')}</p>
             </div>
           )}
         </div>

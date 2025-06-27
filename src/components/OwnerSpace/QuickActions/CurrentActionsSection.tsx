@@ -46,10 +46,29 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       configure: {
         fr: 'Configurer',
         en: 'Configure'
+      },
+      remove: {
+        fr: 'Supprimer',
+        en: 'Remove'
+      },
+      noActions: {
+        fr: 'Aucune action rapide configurée',
+        en: 'No quick actions configured'
       }
     };
 
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
+
+  // Helper function to get localized title and description
+  const getLocalizedActionText = (action: QuickActionConfig, field: 'title' | 'description') => {
+    const currentLang = i18n.language as 'fr' | 'en';
+    
+    if (typeof action[field] === 'object' && action[field] !== null) {
+      return action[field][currentLang] || action[field]['fr'] || action[field];
+    }
+    
+    return action[field] || '';
   };
 
   return (
@@ -69,8 +88,12 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
                 <Settings className="h-4 w-4 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm truncate">{action.title.fr}</div>
-                <div className="text-xs text-gray-500 truncate">{action.description.fr}</div>
+                <div className="font-medium text-sm truncate">
+                  {getLocalizedActionText(action, 'title')}
+                </div>
+                <div className="text-xs text-gray-500 truncate">
+                  {getLocalizedActionText(action, 'description')}
+                </div>
                 <Badge variant={action.enabled ? "default" : "secondary"} className="text-xs mt-1">
                   {action.enabled ? getLocalizedText('enabled') : getLocalizedText('disabled')}
                 </Badge>
@@ -95,6 +118,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
                   variant="destructive"
                   onClick={() => onRemoveAction(action.id)}
                   disabled={saving}
+                  title={getLocalizedText('remove')}
                 >
                   <Trash2 className="h-3 w-3" />
                 </Button>
@@ -103,7 +127,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
           ))}
           {quickActions.length === 0 && (
             <div className="col-span-full text-center py-8 text-gray-500">
-              <p className="text-sm">Aucune action rapide configurée</p>
+              <p className="text-sm">{getLocalizedText('noActions')}</p>
             </div>
           )}
         </div>
