@@ -1,25 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-
-interface Property {
-  id: string;
-  title: string;
-  address: string;
-  type: string;
-  surface: string;
-  rent: string;
-  status: string;
-  tenant: string | null;
-  image: string;
-  locationType: string;
-  totalRooms: number;
-  availableRooms: number;
-  creditImmobilier?: string;
-  owner?: string;
-  charges?: any;
-  floor?: string;
-}
+import { Property } from '@/types/property';
 
 export const useFirebaseProperties = () => {
   const [properties, setProperties] = useState<Property[]>([]);
