@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { User, Settings, LogOut, KeyRound } from 'lucide-react';
+import { User, LogOut, KeyRound } from 'lucide-react';
 import { ProfileDialog } from './ProfileDialog';
 import { PasswordChangeDialog } from './PasswordChangeDialog';
 
@@ -31,15 +31,6 @@ export const UserProfileDropdown = () => {
       navigate('/login');
     } catch (error) {
       console.error('Error during logout:', error);
-    }
-  };
-
-  const handleSettings = () => {
-    if (userType === 'admin' || userType === 'owner') {
-      navigate('/admin/settings');
-    } else {
-      // Pour les locataires et colocataires, on pourrait avoir une page de paramètres spécifique
-      console.log('Settings for tenant/roommate not implemented yet');
     }
   };
 
@@ -101,10 +92,6 @@ export const UserProfileDropdown = () => {
               {t('profile.changePassword')}
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem onClick={handleSettings}>
-            <Settings className="mr-2 h-4 w-4" />
-            {t('profile.settings')}
-          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
