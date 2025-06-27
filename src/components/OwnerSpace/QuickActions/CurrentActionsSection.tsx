@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,6 +81,11 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
     return '';
   };
 
+  const handleToggleAction = async (actionId: string) => {
+    console.log('Toggling action:', actionId);
+    await onToggleAction(actionId);
+  };
+
   const handleRemoveClick = async (actionId: string) => {
     if (window.confirm(getLocalizedText('confirmDelete'))) {
       await onRemoveAction(actionId);
@@ -124,7 +128,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
               <div className="flex items-center gap-2 flex-shrink-0">
                 <Switch
                   checked={action.enabled}
-                  onCheckedChange={() => onToggleAction(action.id)}
+                  onCheckedChange={() => handleToggleAction(action.id)}
                   disabled={toggleStates[action.id] || saving}
                 />
                 <Button
