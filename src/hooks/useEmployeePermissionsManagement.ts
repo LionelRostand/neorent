@@ -15,8 +15,17 @@ export const useEmployeePermissionsManagement = () => {
   const [permissions, setPermissions] = useState<EmployeePermissions>(defaultEmployeePermissions);
   const [isSaving, setIsSaving] = useState(false);
 
-  const employees = userRoles.filter(user => user.role === 'owner');
+  // Filtrer les employés - inclure tous ceux qui ont le rôle 'owner' ou qui sont marqués comme propriétaires
+  const employees = userRoles.filter(user => 
+    user.role === 'owner' || 
+    user.isOwner === true || 
+    (user.role === 'admin' && user.email !== 'admin@neotech-consulting.com') // Exclure l'admin principal
+  );
+  
   const selectedEmployee = employees.find(emp => emp.id === selectedEmployeeId);
+
+  console.log('🔍 All user roles:', userRoles);
+  console.log('👥 Filtered employees for permissions:', employees);
 
   // Load permissions when employee is selected
   useEffect(() => {
