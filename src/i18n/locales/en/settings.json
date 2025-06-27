@@ -62,6 +62,10 @@
     "adminAccess": "Administrator Access",
     "adminAccessDescription": "Manage administrator access to tenant spaces",
     "adminMode": "Administrator Mode",
+    "selectTenantRoommate": "Select Tenant/Roommate",
+    "chooseProfileToView": "Choose a profile to view",
+    "accessTenantSpace": "Access Tenant Space",
+    "featureReservedForAdmin": "This feature is reserved for administrators",
     "company": {
       "title": "Company Management",
       "subtitle": "Manage your company information",
@@ -138,7 +142,51 @@
       "title": "Security Settings",
       "subtitle": "Configure your platform's security policies",
       "loadingSettings": "Loading security settings...",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "passwordPolicy": "Password Policy",
+      "minLength": "Minimum Length",
+      "passwordExpiry": "Password Expiry",
+      "expiryOptions": {
+        "90days": "90 days"
+      },
+      "complexityRequirements": "Complexity Requirements",
+      "requireUppercase": "Require uppercase letters",
+      "requireLowercase": "Require lowercase letters",
+      "requireNumbers": "Require numbers",
+      "requireSpecialChars": "Require special characters",
+      "preventCommonPasswords": "Prevent common passwords",
+      "preventCommonPasswordsDescription": "Block commonly used weak passwords",
+      "twoFactor": {
+        "title": "Two-Factor Authentication",
+        "enable": "Enable two-factor authentication",
+        "enableDescription": "Add an extra layer of security to user accounts"
+      },
+      "sessionSecurity": "Session Security",
+      "sessionTimeout": "Session timeout",
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours",
+        "8hours": "8 hours",
+        "never": "Never"
+      },
+      "maxLoginAttempts": "Maximum login attempts",
+      "lockoutDuration": "Lockout duration",
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours"
+      },
+      "recommendations": {
+        "title": "Security Recommendations",
+        "sessionTimeout": "Set appropriate session timeouts for your environment",
+        "loginAttempts": "Limit login attempts to prevent brute force attacks",
+        "twoFactor": "Enable two-factor authentication for administrators",
+        "checkLogs": "Regularly review security logs"
+      }
     },
     "firebase": {
       "title": "Firebase Configuration",
@@ -195,56 +243,59 @@
       "instructionsCopied": "Instructions Copied",
       "followInstructions": "Follow the instructions to update your rules",
       "updating": "Updating...",
-      "manualUpdateInstructions": "Manual Update Instructions"
-    },
-    "config": {
-      "connectionStatus": {
-        "connected": "Connected",
-        "firestore": "Firestore",
-        "authentication": "Authentication",
-        "storage": "Storage",
-        "region": "Region",
-        "europe": "Europe",
-        "title": "Connection Status",
-        "configured": "Configured",
-        "available": "Available",
-        "uscentral": "US Central"
+      "manualUpdateInstructions": "Manual Update Instructions",
+      "config": {
+        "connectionStatus": {
+          "connected": "Connected",
+          "firestore": "Firestore",
+          "authentication": "Authentication",
+          "storage": "Storage",
+          "region": "Region",
+          "europe": "Europe",
+          "title": "Connection Status",
+          "configured": "Configured",
+          "available": "Available",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Security Information",
+          "apiKeyPublic": "API key is public",
+          "rulesProtection": "Security rules protect your data",
+          "checkRules": "Regularly check your rules",
+          "monitorUsage": "Monitor your database usage"
+        },
+        "title": "Firebase Configuration",
+        "copy": "Copy configuration",
+        "console": "Open console"
       },
-      "security": {
-        "title": "Security Information",
-        "apiKeyPublic": "API key is public",
-        "rulesProtection": "Security rules protect your data",
-        "checkRules": "Regularly check your rules",
-        "monitorUsage": "Monitor your database usage"
-      }
-    },
-    "collections": {
-      "title": "Firebase Collections",
-      "properties": "Real estate properties",
-      "tenants": "Tenants",
-      "roommates": "Roommates",
-      "payments": "Payments",
-      "contracts": "Contracts",
-      "inspections": "Inspections",
-      "maintenances": "Maintenances",
-      "companies": "Companies",
-      "documents": "documents",
-      "document": "document",
-      "docs": "docs",
-      "modified": "modified",
-      "active": "Active",
-      "inactive": "Inactive",
-      "lastUpdate": "Last update",
-      "refresh": "Refresh",
-      "refreshing": "Refreshing...",
-      "refreshed": "Collections refreshed",
-      "refreshedDescription": "Collection data has been updated",
-      "importantInfo": {
-        "title": "Important information",
-        "autoCreated": "Collections are automatically created when adding data",
-        "rulesApply": "Security rules apply to all collections",
-        "realTimeSync": "Real-time synchronization with the interface",
-        "refreshStats": "Refresh to get the latest statistics"
+      "collections": {
+        "title": "Firebase Collections",
+        "properties": "Real estate properties",
+        "tenants": "Tenants",
+        "roommates": "Roommates",
+        "payments": "Payments",
+        "contracts": "Contracts",
+        "inspections": "Inspections",
+        "maintenances": "Maintenances",
+        "companies": "Companies",
+        "documents": "documents",
+        "document": "document",
+        "docs": "docs",
+        "modified": "modified",
+        "active": "Active",
+        "inactive": "Inactive",
+        "lastUpdate": "Last update",
+        "refresh": "Refresh",
+        "refreshing": "Refreshing...",
+        "refreshed": "Collections refreshed",
+        "refreshedDescription": "Collection data has been updated",
+        "importantInfo": {
+          "title": "Important information",
+          "autoCreated": "Collections are automatically created when adding data",
+          "rulesApply": "Security rules apply to all collections",
+          "realTimeSync": "Real-time synchronization with the interface",
+          "refreshStats": "Refresh to get the latest statistics"
+        }
       }
     },
     "email": {

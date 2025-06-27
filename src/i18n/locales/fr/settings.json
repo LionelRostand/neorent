@@ -62,6 +62,10 @@
     "adminAccess": "Accès Administrateur",
     "adminAccessDescription": "Gérez l'accès administrateur aux espaces locataires",
     "adminMode": "Mode Administrateur",
+    "selectTenantRoommate": "Sélectionner Locataire/Colocataire",
+    "chooseProfileToView": "Choisir un profil à consulter",
+    "accessTenantSpace": "Accéder à l'Espace Locataire",
+    "featureReservedForAdmin": "Cette fonctionnalité est réservée aux administrateurs",
     "company": {
       "title": "Gestion d'Entreprise",
       "subtitle": "Gérez vos informations d'entreprise",
@@ -138,7 +142,51 @@
       "title": "Paramètres de Sécurité",
       "subtitle": "Configurez les politiques de sécurité de votre plateforme",
       "loadingSettings": "Chargement des paramètres de sécurité...",
-      "saving": "Sauvegarde en cours..."
+      "saving": "Sauvegarde en cours...",
+      "passwordPolicy": "Politique de mot de passe",
+      "minLength": "Longueur minimale",
+      "passwordExpiry": "Expiration du mot de passe",
+      "expiryOptions": {
+        "90days": "90 jours"
+      },
+      "complexityRequirements": "Exigences de complexité",
+      "requireUppercase": "Exiger des lettres majuscules",
+      "requireLowercase": "Exiger des lettres minuscules",
+      "requireNumbers": "Exiger des chiffres",
+      "requireSpecialChars": "Exiger des caractères spéciaux",
+      "preventCommonPasswords": "Empêcher les mots de passe courants",
+      "preventCommonPasswordsDescription": "Bloquer les mots de passe faibles couramment utilisés",
+      "twoFactor": {
+        "title": "Authentification à deux facteurs",
+        "enable": "Activer l'authentification à deux facteurs",
+        "enableDescription": "Ajouter une couche de sécurité supplémentaire aux comptes utilisateur"
+      },
+      "sessionSecurity": "Sécurité de session",
+      "sessionTimeout": "Délai d'expiration de session",
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 heure",
+        "2hours": "2 heures",
+        "8hours": "8 heures",
+        "never": "Jamais"
+      },
+      "maxLoginAttempts": "Tentatives de connexion maximales",
+      "lockoutDuration": "Durée de verrouillage",
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 heure",
+        "2hours": "2 heures"
+      },
+      "recommendations": {
+        "title": "Recommandations de sécurité",
+        "sessionTimeout": "Définir des délais d'expiration de session appropriés pour votre environnement",
+        "loginAttempts": "Limiter les tentatives de connexion pour prévenir les attaques par force brute",
+        "twoFactor": "Activer l'authentification à deux facteurs pour les administrateurs",
+        "checkLogs": "Examiner régulièrement les journaux de sécurité"
+      }
     },
     "firebase": {
       "title": "Configuration Firebase",
@@ -203,7 +251,11 @@
           "authentication": "Authentification",
           "storage": "Stockage",
           "region": "Région",
-          "europe": "Europe"
+          "europe": "Europe",
+          "title": "État de la connexion",
+          "configured": "Configuré",
+          "available": "Disponible",
+          "uscentral": "Centre des États-Unis"
         },
         "security": {
           "title": "Informations de Sécurité",
@@ -211,7 +263,10 @@
           "rulesProtection": "Les règles de sécurité protègent vos données",
           "checkRules": "Vérifiez régulièrement vos règles",
           "monitorUsage": "Surveillez l'utilisation de votre base de données"
-        }
+        },
+        "title": "Configuration Firebase",
+        "copy": "Copier la configuration",
+        "console": "Ouvrir la console"
       },
       "collections": {
         "title": "Collections Firebase",
@@ -272,7 +327,14 @@
         "none": "Aucune",
         "tls": "TLS",
         "ssl": "SSL"
-      }
+      },
+      "recommendedConfig": "Configuration recommandée",
+      "gmailConfig": "Configuration SMTP Gmail",
+      "outlookConfig": "Configuration Outlook/Hotmail",
+      "appPasswordRecommendation": "Utilisez des mots de passe d'application pour une meilleure sécurité",
+      "testConnectionRecommendation": "Testez votre connexion avant de sauvegarder",
+      "enabled": "Email activé",
+      "testMode": "Mode test"
     },
     "payment": {
       "title": "Configuration des Paiements",
@@ -334,80 +396,6 @@
         "pending": "En attente",
         "approved": "Approuvée",
         "rejected": "Rejetée"
-      }
-    },
-    "firebase": {
-      "config": {
-        "connectionStatus": {
-          "connected": "Connecté",
-          "firestore": "Firestore",
-          "authentication": "Authentification",
-          "storage": "Stockage",
-          "region": "Région",
-          "europe": "Europe",
-          "title": "État de la connexion",
-          "configured": "Configuré",
-          "available": "Disponible",
-          "uscentral": "Centre des États-Unis"
-        },
-        "title": "Configuration Firebase",
-        "copy": "Copier la configuration",
-        "console": "Ouvrir la console"
-      }
-    },
-    "email": {
-      "recommendedConfig": "Configuration recommandée",
-      "gmailConfig": "Configuration SMTP Gmail",
-      "outlookConfig": "Configuration Outlook/Hotmail",
-      "appPasswordRecommendation": "Utilisez des mots de passe d'application pour une meilleure sécurité",
-      "testConnectionRecommendation": "Testez votre connexion avant de sauvegarder",
-      "enabled": "Email activé",
-      "testMode": "Mode test"
-    },
-    "security": {
-      "passwordPolicy": "Politique de mot de passe",
-      "minLength": "Longueur minimale",
-      "passwordExpiry": "Expiration du mot de passe",
-      "expiryOptions": {
-        "90days": "90 jours"
-      },
-      "complexityRequirements": "Exigences de complexité",
-      "requireUppercase": "Exiger des lettres majuscules",
-      "requireLowercase": "Exiger des lettres minuscules",
-      "requireNumbers": "Exiger des chiffres",
-      "requireSpecialChars": "Exiger des caractères spéciaux",
-      "preventCommonPasswords": "Empêcher les mots de passe courants",
-      "preventCommonPasswordsDescription": "Bloquer les mots de passe faibles couramment utilisés",
-      "twoFactor": {
-        "title": "Authentification à deux facteurs",
-        "enable": "Activer l'authentification à deux facteurs",
-        "enableDescription": "Ajouter une couche de sécurité supplémentaire aux comptes utilisateur"
-      },
-      "sessionSecurity": "Sécurité de session",
-      "sessionTimeout": "Délai d'expiration de session",
-      "timeoutOptions": {
-        "15min": "15 minutes",
-        "30min": "30 minutes",
-        "1hour": "1 heure",
-        "2hours": "2 heures",
-        "8hours": "8 heures",
-        "never": "Jamais"
-      },
-      "maxLoginAttempts": "Tentatives de connexion maximales",
-      "lockoutDuration": "Durée de verrouillage",
-      "lockoutOptions": {
-        "5min": "5 minutes",
-        "15min": "15 minutes",
-        "30min": "30 minutes",
-        "1hour": "1 heure",
-        "2hours": "2 heures"
-      },
-      "recommendations": {
-        "title": "Recommandations de sécurité",
-        "sessionTimeout": "Définir des délais d'expiration de session appropriés pour votre environnement",
-        "loginAttempts": "Limiter les tentatives de connexion pour prévenir les attaques par force brute",
-        "twoFactor": "Activer l'authentification à deux facteurs pour les administrateurs",
-        "checkLogs": "Examiner régulièrement les journaux de sécurité"
       }
     }
   }
