@@ -39,17 +39,21 @@ const EmployeePermissionsTab: React.FC = () => {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-semibold text-gray-900">
+          <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xl md:text-2xl font-semibold text-gray-900">
             <div className="flex items-center gap-3">
-              <Shield className="h-6 w-6 text-blue-600" />
+              <Shield className="h-6 w-6 text-blue-600 flex-shrink-0" />
               <span>🔐 {t('settings.permissions.title')}</span>
             </div>
             <Button 
               onClick={savePermissions} 
               disabled={saving || !selectedEmployeeId}
+              className="w-full sm:w-auto flex items-center justify-center gap-2"
+              size="sm"
             >
-              <Save className="h-4 w-4 mr-2" />
-              {saving ? t('settings.permissions.saving') : t('settings.permissions.save')}
+              <Save className="h-4 w-4" />
+              <span className="whitespace-nowrap">
+                {saving ? t('settings.permissions.saving') : t('settings.permissions.save')}
+              </span>
             </Button>
           </CardTitle>
         </CardHeader>
