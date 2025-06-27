@@ -2,10 +2,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Settings } from 'lucide-react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
-import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 
 interface ConfigurableQuickActionItemProps {
   title: string;
@@ -36,10 +34,6 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
       remove: {
         fr: 'Supprimer',
         en: 'Remove'
-      },
-      configure: {
-        fr: 'Configurer',
-        en: 'Configure'
       },
       confirmDelete: {
         fr: 'Êtes-vous sûr de vouloir supprimer cette action ?',
@@ -76,35 +70,16 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
         </div>
       </button>
 
-      {/* Controls - visible on hover if showControls is true and user is admin */}
+      {/* Delete button - visible on hover if showControls is true and user is admin */}
       {showControls && isAdmin && actionId && (
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="h-6 w-6 p-0 bg-black/20 hover:bg-black/40 text-white"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Settings className="h-3 w-3" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-2" align="end">
-              <div className="flex flex-col gap-1">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={handleRemove}
-                  className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
-                >
-                  <X className="h-3 w-3 mr-2" />
-                  {getLocalizedText('remove')}
-                </Button>
-              </div>
-            </PopoverContent>
-          </Popover>
-        </div>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={handleRemove}
+          className="absolute top-2 right-2 h-6 w-6 p-0 bg-red-500/80 hover:bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <X className="h-3 w-3" />
+        </Button>
       )}
     </div>
   );
