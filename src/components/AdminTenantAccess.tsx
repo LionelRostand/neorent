@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { UserCheck, Users, ArrowLeft, Shield } from 'lucide-react';
+import { UserCheck, Users, ArrowLeft, Shield, Building } from 'lucide-react';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -16,6 +16,7 @@ const AdminTenantAccess: React.FC = () => {
     isAuthorizedAdmin,
     getAllTenantProfiles,
     switchToTenantProfile,
+    switchToOwnerSpace,
     switchBackToAdmin,
     selectedTenantProfile,
     isImpersonating
@@ -57,6 +58,21 @@ const AdminTenantAccess: React.FC = () => {
     }
   };
 
+  const handleSwitchToOwnerSpace = () => {
+    console.log('Admin switching to owner space');
+    if (switchToOwnerSpace()) {
+      toast.success(t('settings.accessingOwnerSpace'), {
+        description: t('settings.viewingAsOwner')
+      });
+      
+      setTimeout(() => {
+        navigate('/owner-space');
+      }, 100);
+    } else {
+      toast.error(t('common.errorAccessingOwnerSpace'));
+    }
+  };
+
   const handleSwitchBack = () => {
     console.log('Switching back to admin');
     switchBackToAdmin();
@@ -67,6 +83,11 @@ const AdminTenantAccess: React.FC = () => {
   const handleViewTenantSpace = () => {
     console.log('Viewing tenant space with current profile:', selectedTenantProfile);
     navigate('/tenant-space');
+  };
+
+  const handleViewOwnerSpace = () => {
+    console.log('Viewing owner space with current profile:', selectedTenantProfile);
+    navigate('/owner-space');
   };
 
   return (
@@ -91,7 +112,10 @@ const AdminTenantAccess: React.FC = () => {
                   <div className="min-w-0 flex-1 space-y-2 sm:space-y-3">
                     <div className="space-y-2">
                       <h3 className="font-medium text-blue-900 text-xs sm:text-sm md:text-base break-words leading-tight">
-                        {t('settings.adminModeConsultation', { name: selectedTenantProfile?.name })}
+                        {selectedTenantProfile?.isAdminAsOwner 
+                          ? t('settings.adminModeOwner', { name: selectedTenantProfile?.name })
+                          : t('settings.adminModeConsultation', { name: selectedTenantProfile?.name })
+                        }
                       </h3>
                       <div className="flex flex-col sm:flex-row gap-2">
                         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
@@ -114,18 +138,25 @@ const AdminTenantAccess: React.FC = () => {
                     
                     <div className="bg-white/50 rounded-md p-2 sm:p-3 space-y-1">
                       <p className="text-xs sm:text-sm text-blue-700">
-                        <span className="font-medium">{t('settings.viewingAsAdmin')}</span>
+                        <span className="font-medium">
+                          {selectedTenantProfile?.isAdminAsOwner 
+                            ? t('settings.viewingAsOwner')
+                            : t('settings.viewingAsAdmin')
+                          }
+                        </span>
                       </p>
                       <div className="space-y-0.5 sm:space-y-1 text-xs">
                         <p className="text-blue-700">
-                          <span className="font-medium">{t('settings.tenantType')}:</span> {selectedTenantProfile?.type}
+                          <span className="font-medium">{t('settings.profileType')}:</span> {selectedTenantProfile?.type}
                         </p>
                         <p className="text-blue-600 break-all">
-                          <span className="font-medium">{t('settings.tenantEmail')}:</span> {selectedTenantProfile?.email}
+                          <span className="font-medium">{t('settings.email')}:</span> {selectedTenantProfile?.email}
                         </p>
-                        <p className="text-blue-600 break-words">
-                          <span className="font-medium">{t('settings.tenantAddress')}:</span> {selectedTenantProfile?.address}
-                        </p>
+                        {!selectedTenantProfile?.isAdminAsOwner && (
+                          <p className="text-blue-600 break-words">
+                            <span className="font-medium">{t('settings.address')}:</span> {selectedTenantProfile?.address}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -134,51 +165,75 @@ const AdminTenantAccess: React.FC = () => {
             </div>
             
             <div className="flex flex-col gap-2">
-              <Button 
-                onClick={handleViewTenantSpace}
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
-              >
-                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="truncate">{t('settings.viewTenantSpace')}</span>
-              </Button>
+              {selectedTenantProfile?.isAdminAsOwner ? (
+                <Button 
+                  onClick={handleViewOwnerSpace}
+                  className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
+                >
+                  <Building className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="truncate">{t('settings.viewOwnerSpace')}</span>
+                </Button>
+              ) : (
+                <Button 
+                  onClick={handleViewTenantSpace}
+                  className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
+                >
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="truncate">{t('settings.viewTenantSpace')}</span>
+                </Button>
+              )}
             </div>
           </div>
         ) : (
           <div className="space-y-3 sm:space-y-4">
+            {/* Accès à l'espace propriétaire */}
             <div className="space-y-2">
-              <label className="text-xs sm:text-sm font-medium block">
-                {t('settings.selectTenantRoommate')}
-              </label>
-              <Select value={selectedTenantId} onValueChange={setSelectedTenantId}>
-                <SelectTrigger className="w-full text-xs sm:text-sm">
-                  <SelectValue placeholder={t('settings.chooseProfileToView')} />
-                </SelectTrigger>
-                <SelectContent>
-                  {tenantProfiles.map((tenant) => (
-                    <SelectItem key={tenant.id} value={tenant.id.toString()}>
-                      <div className="flex flex-col gap-1 py-1 w-full">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-xs sm:text-sm">{tenant.name}</span>
-                          <Badge variant="outline" className="text-xs">
-                            {tenant.type}
-                          </Badge>
-                        </div>
-                        <span className="text-xs text-gray-500 break-all">({tenant.email})</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <h4 className="text-sm font-medium">{t('settings.ownerSpaceAccess')}</h4>
+              <Button 
+                onClick={handleSwitchToOwnerSpace}
+                className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
+              >
+                <Building className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span>{t('settings.accessOwnerSpace')}</span>
+              </Button>
             </div>
-            
-            <Button 
-              onClick={handleSwitchToTenant}
-              disabled={!selectedTenantId}
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
-            >
-              <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span>{t('settings.accessTenantSpace')}</span>
-            </Button>
+
+            <div className="border-t pt-3 sm:pt-4">
+              <div className="space-y-2">
+                <label className="text-xs sm:text-sm font-medium block">
+                  {t('settings.selectTenantRoommate')}
+                </label>
+                <Select value={selectedTenantId} onValueChange={setSelectedTenantId}>
+                  <SelectTrigger className="w-full text-xs sm:text-sm">
+                    <SelectValue placeholder={t('settings.chooseProfileToView')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {tenantProfiles.map((tenant) => (
+                      <SelectItem key={tenant.id} value={tenant.id.toString()}>
+                        <div className="flex flex-col gap-1 py-1 w-full">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-xs sm:text-sm">{tenant.name}</span>
+                            <Badge variant="outline" className="text-xs">
+                              {tenant.type}
+                            </Badge>
+                          </div>
+                          <span className="text-xs text-gray-500 break-all">({tenant.email})</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <Button 
+                onClick={handleSwitchToTenant}
+                disabled={!selectedTenantId}
+                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px] mt-3"
+              >
+                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span>{t('settings.accessTenantSpace')}</span>
+              </Button>
+            </div>
             
             <p className="text-xs text-gray-500 text-center break-words">
               {t('settings.featureReservedForAdmin')}
