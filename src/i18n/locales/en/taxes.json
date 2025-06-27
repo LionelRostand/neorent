@@ -48,7 +48,7 @@
     "taxAmount": "Tax Amount",
     "netIncome": "Net Income",
     "grossIncome": "Gross Income",
-    "rentalIncome": "Rental Income",
+    "rentalIncome": "Annual rental income",
     "otherIncome": "Other Income",
     "maintenanceCosts": "Maintenance Costs",
     "managementFees": "Management Fees",
@@ -62,7 +62,7 @@
     "draft": "Draft",
     "pending": "Pending",
     "submitted": "Submitted",
-    "approved": "Approved",
+    "approved": "Up to date",
     "rejected": "Rejected",
     "save": "Save",
     "submit": "Submit",
@@ -76,6 +76,7 @@
     "confirm": "Confirm",
     "confirmDelete": "Are you sure you want to delete this tax declaration?",
     "confirmDeleteTitle": "Confirm Deletion",
-    "deleteConfirmation": "This action cannot be undone."
+    "deleteConfirmation": "This action cannot be undone.",
+    "annualRevenue": "Annual Revenue"
   }
 }

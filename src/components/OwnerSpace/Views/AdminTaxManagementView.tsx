@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, FileText, Calculator, TrendingUp, AlertCircle } from 'lucide-react';
@@ -39,138 +40,110 @@ const AdminTaxManagementView: React.FC<AdminTaxManagementViewProps> = ({ current
 
   return (
     <div className="p-6 space-y-6">
-      {/* Header harmonisé avec la sidebar */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 text-white shadow-lg">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-cyan-600 to-cyan-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Déclarations Fiscales</h1>
-            <p className="text-green-100 mt-2">Gérez vos déclarations et obligations fiscales</p>
+            <h1 className="text-3xl font-bold">{t('taxes.title')}</h1>
+            <p className="text-cyan-100 mt-2">{t('taxes.subtitle')}</p>
           </div>
           <Button 
-            className="bg-white text-green-600 hover:bg-green-50 border-0 shadow-md"
+            className="bg-white text-cyan-600 hover:bg-cyan-50 border-0 shadow-md"
             onClick={() => setShowTaxForm(true)}
           >
             <Plus className="h-4 w-4 mr-2" />
-            Nouvelle déclaration
+            {t('taxes.newDeclaration')}
           </Button>
         </div>
       </div>
 
-      {/* Metrics Grid avec style harmonisé */}
+      {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
+        <Card className="border-l-4 border-l-cyan-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Revenus Annuels</CardTitle>
-            <div className="p-2 bg-green-100 rounded-lg">
-              <TrendingUp className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium text-gray-600">{t('taxes.annualRevenue')}</CardTitle>
+            <div className="p-2 bg-cyan-100 rounded-lg">
+              <TrendingUp className="h-4 w-4 text-cyan-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{totalRevenue}€</div>
-            <p className="text-xs text-gray-500 mt-1">Revenus locatifs annuels</p>
+            <p className="text-xs text-gray-500 mt-1">{t('taxes.rentalIncome')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Déclarations</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('taxes.declarations')}</CardTitle>
             <div className="p-2 bg-blue-100 rounded-lg">
               <FileText className="h-4 w-4 text-blue-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{totalDeclarations}</div>
-            <p className="text-xs text-gray-500 mt-1">{totalDeclarations} déclarations totales</p>
+            <p className="text-xs text-gray-500 mt-1">{totalDeclarations} {t('taxes.allDeclarations')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Année Courante</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('taxes.taxYear')}</CardTitle>
             <div className="p-2 bg-purple-100 rounded-lg">
               <Calculator className="h-4 w-4 text-purple-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{currentYearDeclarations}</div>
-            <p className="text-xs text-gray-500 mt-1">Déclarations {currentYear}</p>
+            <p className="text-xs text-gray-500 mt-1">{t('taxes.declarations')} {currentYear}</p>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
+        <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Statut Fiscal</CardTitle>
-            <div className="p-2 bg-orange-100 rounded-lg">
-              <AlertCircle className="h-4 w-4 text-orange-600" />
+            <CardTitle className="text-sm font-medium text-gray-600">{t('taxes.status')}</CardTitle>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <AlertCircle className="h-4 w-4 text-green-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">À jour</div>
-            <p className="text-xs text-gray-500 mt-1">Obligations fiscales</p>
+            <div className="text-2xl font-bold text-green-600">{t('taxes.approved')}</div>
+            <p className="text-xs text-gray-500 mt-1">{t('taxes.taxableIncome')}</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Tax Declarations List avec style amélioré */}
+      {/* Declarations List */}
       <Card className="shadow-lg border-0">
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
-          <CardTitle className="text-xl text-gray-800">Déclarations Fiscales</CardTitle>
+          <CardTitle className="text-xl text-gray-800">{t('taxes.declarationList')}</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          {ownerFiscalities.length === 0 ? (
-            <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
-              <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <FileText className="h-8 w-8 text-gray-400" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Aucune déclaration fiscale</h3>
-              <p className="text-gray-500 mb-4">Commencez par créer votre première déclaration</p>
-              <Button className="bg-green-600 hover:bg-green-700 text-white">
-                <Plus className="h-4 w-4 mr-2" />
-                Créer une déclaration
-              </Button>
+          <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
+            <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <FileText className="h-8 w-8 text-gray-400" />
             </div>
-          ) : (
-            <div className="space-y-4">
-              {ownerFiscalities.map((fiscal) => (
-                <div key={fiscal.id} className="flex items-center justify-between p-6 border rounded-xl hover:shadow-md transition-all duration-200 bg-gradient-to-r from-white to-gray-50">
-                  <div className="flex items-center space-x-4">
-                    <div className="h-14 w-14 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center">
-                      <FileText className="h-7 w-7 text-green-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800">Année {fiscal.year}</h3>
-                      <p className="text-sm text-gray-600 font-medium">{fiscal.property}</p>
-                      <div className="flex items-center space-x-4 mt-1">
-                        <p className="text-sm text-gray-500">Type: {fiscal.type}</p>
-                        <p className="text-sm text-gray-500">Montant: {fiscal.amount}€</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xl font-bold text-gray-800 mb-2">
-                      {fiscal.amount}€
-                    </p>
-                    <Badge variant="default" className="bg-green-100 text-green-800 hover:bg-green-200">
-                      {fiscal.status}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+            <h3 className="text-lg font-medium text-gray-700 mb-2">{t('taxes.noDeclarations')}</h3>
+            <p className="text-gray-500 mb-4">{t('taxes.noDeclarationsDescription')}</p>
+            <Button 
+              className="bg-cyan-600 hover:bg-cyan-700 text-white"
+              onClick={() => setShowTaxForm(true)}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              {t('taxes.createDeclaration')}
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
+      {/* Tax Form Dialog */}
       <Dialog open={showTaxForm} onOpenChange={setShowTaxForm}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Nouvelle Déclaration Fiscale</DialogTitle>
+            <DialogTitle>{t('taxes.newDeclaration')}</DialogTitle>
           </DialogHeader>
-          <TaxDeclarationForm 
-            isOpen={true}
-            onClose={() => setShowTaxForm(false)}
-            onSubmit={handleTaxSubmit}
-          />
+          <div className="mt-4">
+            <TaxDeclarationForm onSubmit={handleTaxSubmit} />
+          </div>
         </DialogContent>
       </Dialog>
     </div>
