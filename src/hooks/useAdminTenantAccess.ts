@@ -91,31 +91,6 @@ export const useAdminTenantAccess = () => {
     return true;
   };
 
-  const switchToOwnerSpace = () => {
-    if (!isAuthorizedAdmin()) {
-      console.error('Accès non autorisé - utilisateur non admin');
-      return false;
-    }
-    
-    console.log('Admin switching to owner space with admin profile');
-    
-    // Créer un profil propriétaire pour l'admin
-    const adminAsOwner = {
-      id: user?.uid || 'admin-owner',
-      name: 'Lionel DJOSSA',
-      email: user?.email || 'admin@neotech-consulting.com',
-      role: 'owner',
-      type: 'owner',
-      address: 'Administration',
-      phone: 'Non spécifié',
-      status: 'Actif',
-      isAdminAsOwner: true // Flag pour identifier que c'est l'admin en tant que propriétaire
-    };
-    
-    setSelectedTenantProfile(adminAsOwner);
-    return true;
-  };
-
   const switchBackToAdmin = () => {
     console.log('Switching back to admin - clearing selected profile');
     setSelectedTenantProfile(null);
@@ -165,7 +140,6 @@ export const useAdminTenantAccess = () => {
     isAuthorizedAdmin: isAuthorizedAdmin(),
     getAllTenantProfiles,
     switchToTenantProfile,
-    switchToOwnerSpace,
     switchBackToAdmin,
     getCurrentProfile,
     getCurrentUserType,

@@ -15,30 +15,5 @@
     "phone": "Phone",
     "status": "Status",
     "leaseStart": "Lease Start"
-  },
-  "settings": {
-    "adminAccess": "Administrator Access",
-    "adminModeTitle": "Admin Mode",
-    "adminModeConsultation": "Consultation mode - {name}",
-    "adminModeOwner": "Owner mode - {name}",
-    "returnButton": "Return",
-    "viewingAsAdmin": "Viewing as administrator",
-    "viewingAsOwner": "Managing as owner",
-    "profileType": "Profile type",
-    "email": "Email",
-    "address": "Address",
-    "ownerSpaceAccess": "Owner space access",
-    "accessOwnerSpace": "Access owner space",
-    "viewOwnerSpace": "View owner space",
-    "accessingOwnerSpace": "Accessing owner space",
-    "selectTenantRoommate": "Select a tenant/roommate",
-    "chooseProfileToView": "Choose a profile to view",
-    "accessTenantSpace": "Access tenant space",
-    "viewTenantSpace": "View tenant space",
-    "accessingTenantSpace": "Accessing tenant space - {name}",
-    "viewingTenantType": "Viewing as {type}",
-    "returnedToAdmin": "Returned to admin mode",
-    "featureReservedForAdmin": "This feature is reserved for administrators",
-    "backToAdmin": "Back to admin"
   }
 }

@@ -57,9 +57,6 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   
   const displayRole = getRoleTranslation(currentProfile?.role || 'owner');
 
-  // Vérifier si c'est l'admin qui accède à l'espace propriétaire
-  const isAdminAsOwner = userType === 'admin' || currentProfile?.isAdminAsOwner;
-
   return (
     <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
       <div className="flex items-center justify-between">
@@ -80,7 +77,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
           <LanguageSelector />
 
           {/* Bouton de retour pour les admins */}
-          {isAdminAsOwner && (
+          {userType === 'admin' && (
             <Button
               variant="outline"
               onClick={handleBackToAdmin}

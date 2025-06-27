@@ -3,7 +3,7 @@
   "profile": {
     "viewProfile": "Voir le profil",
     "settings": "Paramètres",
-    "logout": "Se déconnecter",
+    "logout": "Déconnexion",
     "administrator": "Administrateur",
     "owner": "Propriétaire",
     "tenant": "Locataire",
@@ -15,30 +15,5 @@
     "phone": "Téléphone",
     "status": "Statut",
     "leaseStart": "Début du bail"
-  },
-  "settings": {
-    "adminAccess": "Accès administrateur",
-    "adminModeTitle": "Mode Admin",
-    "adminModeConsultation": "Mode consultation - {name}",
-    "adminModeOwner": "Mode propriétaire - {name}",
-    "returnButton": "Retour",
-    "viewingAsAdmin": "Consultation en tant qu'administrateur",
-    "viewingAsOwner": "Gestion en tant que propriétaire",
-    "profileType": "Type de profil",
-    "email": "Email",
-    "address": "Adresse",
-    "ownerSpaceAccess": "Accès à l'espace propriétaire",
-    "accessOwnerSpace": "Accéder à l'espace propriétaire",
-    "viewOwnerSpace": "Voir l'espace propriétaire",
-    "accessingOwnerSpace": "Accès à l'espace propriétaire",
-    "selectTenantRoommate": "Sélectionner un locataire/colocataire",
-    "chooseProfileToView": "Choisir un profil à consulter",
-    "accessTenantSpace": "Accéder à l'espace locataire",
-    "viewTenantSpace": "Voir l'espace locataire",
-    "accessingTenantSpace": "Accès à l'espace locataire - {name}",
-    "viewingTenantType": "Consultation en tant que {type}",
-    "returnedToAdmin": "Retour au mode administrateur",
-    "featureReservedForAdmin": "Cette fonctionnalité est réservée aux administrateurs",
-    "backToAdmin": "Retour admin"
   }
 }
