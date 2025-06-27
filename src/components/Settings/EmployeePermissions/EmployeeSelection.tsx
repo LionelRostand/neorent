@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 interface UserRole {
   id: string;
-  role: 'admin' | 'employee';
+  role: 'admin' | 'owner';
   email: string;
   name: string;
   createdAt: string;
@@ -40,10 +40,10 @@ const EmployeeSelection: React.FC<EmployeeSelectionProps> = ({
   return (
     <div className="space-y-4">
       <div>
-        <Label htmlFor="employee-select">{t('settings.permissions.selectEmployee')}</Label>
+        <Label htmlFor="employee-select">{t('settings.permissions.selectOwner')}</Label>
         <Select value={selectedEmployeeId} onValueChange={onEmployeeSelect}>
           <SelectTrigger>
-            <SelectValue placeholder={t('settings.permissions.chooseEmployee')} />
+            <SelectValue placeholder={t('settings.permissions.chooseOwner')} />
           </SelectTrigger>
           <SelectContent>
             {employees.map((employee) => (
@@ -57,7 +57,7 @@ const EmployeeSelection: React.FC<EmployeeSelectionProps> = ({
 
       {selectedEmployee && (
         <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-          <h3 className="font-medium text-sm mb-2">{t('settings.permissions.selectedEmployeeInfo')}</h3>
+          <h3 className="font-medium text-sm mb-2">{t('settings.permissions.selectedOwnerInfo')}</h3>
           <p className="text-sm text-gray-600">
             <strong>{t('settings.permissions.name')}:</strong> {selectedEmployee.name}
           </p>

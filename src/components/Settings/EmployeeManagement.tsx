@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 
 interface Employee {
   id: string;
-  role: 'admin' | 'employee';
+  role: 'admin' | 'owner';
   email: string;
   name: string;
   companyId?: string;
@@ -31,7 +31,7 @@ interface Employee {
 interface EmployeeFormData {
   name: string;
   email: string;
-  role: 'admin' | 'employee';
+  role: 'admin' | 'owner';
   companyId: string;
 }
 
@@ -48,7 +48,7 @@ const EmployeeManagement: React.FC = () => {
   const [formData, setFormData] = useState<EmployeeFormData>({
     name: '',
     email: '',
-    role: 'employee',
+    role: 'owner',
     companyId: ''
   });
 
@@ -56,7 +56,7 @@ const EmployeeManagement: React.FC = () => {
     setFormData({
       name: '',
       email: '',
-      role: 'employee',
+      role: 'owner',
       companyId: ''
     });
   };
@@ -83,7 +83,7 @@ const EmployeeManagement: React.FC = () => {
       setIsAddDialogOpen(false);
       refetch();
     } catch (error) {
-      console.error('Error adding employee:', error);
+      console.error('Error adding owner:', error);
       toast({
         title: t('common.error'),
         description: t('settings.owners.addError'),
@@ -116,7 +116,7 @@ const EmployeeManagement: React.FC = () => {
       setSelectedEmployee(null);
       refetch();
     } catch (error) {
-      console.error('Error updating employee:', error);
+      console.error('Error updating owner:', error);
       toast({
         title: t('common.error'),
         description: t('settings.owners.updateError'),
@@ -138,7 +138,7 @@ const EmployeeManagement: React.FC = () => {
       
       refetch();
     } catch (error) {
-      console.error('Error deleting employee:', error);
+      console.error('Error deleting owner:', error);
       toast({
         title: t('common.error'),
         description: t('settings.owners.deleteError'),
@@ -222,9 +222,9 @@ const EmployeeManagement: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 md:space-y-6">
-          <Tabs defaultValue="employees" className="w-full">
+          <Tabs defaultValue="owners" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="employees" className="flex items-center gap-2">
+              <TabsTrigger value="owners" className="flex items-center gap-2">
                 <Plus className="h-4 w-4" />
                 Propriétaires
               </TabsTrigger>
@@ -234,7 +234,7 @@ const EmployeeManagement: React.FC = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="employees" className="space-y-4">
+            <TabsContent value="owners" className="space-y-4">
               <div className="flex justify-between items-center">
                 <p className="text-gray-600 text-sm md:text-base">
                   {t('settings.owners.description')}

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Edit, Trash2, Lock, Eye } from 'lucide-react';
@@ -7,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface Employee {
   id: string;
-  role: 'admin' | 'employee';
+  role: 'admin' | 'owner';
   email: string;
   name: string;
   companyId?: string;
@@ -45,7 +46,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
       name: employee.name,
       email: employee.email,
       role: employee.role,
-      type: 'employee',
+      type: 'owner',
       companyId: employee.companyId,
       permissions: employee.permissions
     };
@@ -73,7 +74,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
               {employee.name}
             </button>
             <p className="text-sm text-gray-600">
-              {employee.role === 'admin' ? t('employees.administrator') : t('employees.employee')}
+              {employee.role === 'admin' ? t('owners.administrator') : t('owners.owner')}
             </p>
             <p className="text-sm text-gray-500">{getCompanyName(employee.companyId)}</p>
           </div>
@@ -90,7 +91,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
               variant="ghost" 
               size="sm" 
               onClick={() => onPasswordClick(employee)}
-              title={t('employees.managePassword')}
+              title={t('owners.managePassword')}
             >
               <Lock className="h-4 w-4" />
             </Button>
@@ -105,10 +106,10 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
         <div className="space-y-1">
           <p className="text-sm text-gray-600">{employee.email}</p>
           <p className="text-xs text-gray-500">
-            {t('employees.createdOn')}: {new Date(employee.createdAt).toLocaleDateString()}
+            {t('owners.createdOn')}: {new Date(employee.createdAt).toLocaleDateString()}
           </p>
           <p className="text-xs text-gray-500">
-            {t('employees.password')}: {employee.hasPassword ? t('employees.passwordDefined') : t('employees.passwordNotDefined')}
+            {t('owners.password')}: {employee.hasPassword ? t('owners.passwordDefined') : t('owners.passwordNotDefined')}
           </p>
         </div>
       </div>
@@ -126,7 +127,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
         </div>
         <div className="text-sm text-gray-600 truncate">{employee.email}</div>
         <div className="text-sm text-gray-600">
-          {employee.role === 'admin' ? t('employees.administrator') : t('employees.employee')}
+          {employee.role === 'admin' ? t('owners.administrator') : t('owners.owner')}
         </div>
         <div className="text-sm text-gray-600">
           {getCompanyName(employee.companyId)}
@@ -139,9 +140,9 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
         </div>
         <div className="text-sm text-gray-600">
           {employee.hasPassword ? (
-            <span className="text-green-600">{t('employees.passwordDefined')}</span>
+            <span className="text-green-600">{t('owners.passwordDefined')}</span>
           ) : (
-            <span className="text-red-600">{t('employees.passwordNotDefined')}</span>
+            <span className="text-red-600">{t('owners.passwordNotDefined')}</span>
           )}
         </div>
         <div className="flex gap-2">
@@ -157,7 +158,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({
             variant="ghost" 
             size="sm" 
             onClick={() => onPasswordClick(employee)}
-            title={t('employees.managePassword')}
+            title={t('owners.managePassword')}
           >
             <Lock className="h-4 w-4" />
           </Button>

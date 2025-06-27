@@ -9,7 +9,7 @@ import { Company } from '@/hooks/useFirebaseCompanies';
 
 interface Employee {
   id: string;
-  role: 'admin' | 'employee';
+  role: 'admin' | 'owner';
   email: string;
   name: string;
   companyId?: string;
@@ -49,7 +49,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
       name: employee.name,
       email: employee.email,
       role: employee.role,
-      type: 'employee',
+      type: 'owner',
       companyId: employee.companyId,
       permissions: employee.permissions
     };
@@ -68,14 +68,14 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>{t('settings.employees.fullName')}</TableHead>
+            <TableHead>{t('settings.owners.fullName')}</TableHead>
             <TableHead>{t('common.email')}</TableHead>
-            <TableHead>{t('settings.employees.role')}</TableHead>
-            <TableHead>{t('settings.employees.company')}</TableHead>
-            <TableHead>{t('settings.employees.creationDate')}</TableHead>
-            <TableHead>{t('settings.employees.permissions')}</TableHead>
-            <TableHead>{t('settings.employees.passwordStatus')}</TableHead>
-            <TableHead>{t('settings.employees.actions')}</TableHead>
+            <TableHead>{t('settings.owners.role')}</TableHead>
+            <TableHead>{t('settings.owners.company')}</TableHead>
+            <TableHead>{t('settings.owners.creationDate')}</TableHead>
+            <TableHead>{t('settings.owners.permissions')}</TableHead>
+            <TableHead>{t('settings.owners.passwordStatus')}</TableHead>
+            <TableHead>{t('settings.owners.actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -97,7 +97,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                     ? 'bg-red-100 text-red-800' 
                     : 'bg-blue-100 text-blue-800'
                 }`}>
-                  {employee.role === 'admin' ? t('settings.employees.administrator') : t('settings.employees.employee')}
+                  {employee.role === 'admin' ? t('settings.owners.administrator') : t('settings.owners.owner')}
                 </span>
               </TableCell>
               <TableCell>{getCompanyName(employee.companyId)}</TableCell>
@@ -151,7 +151,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                       size="sm"
                       onClick={() => onActivateAccess(employee)}
                       className="h-8 w-8 p-0 text-green-600 hover:text-green-700"
-                      title={t('settings.employees.activateAccess')}
+                      title={t('settings.owners.activateAccess')}
                     >
                       <UserPlus className="h-4 w-4" />
                     </Button>

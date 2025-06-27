@@ -85,8 +85,8 @@ const EmployeePermissionsTab: React.FC = () => {
             <CardContent className="p-8 text-center">
               <p className="text-gray-500">
                 {employees.length === 0 
-                  ? t('settings.permissions.noEmployees')
-                  : t('settings.permissions.selectEmployee')
+                  ? t('settings.permissions.noOwners')
+                  : t('settings.permissions.selectOwner')
                 }
               </p>
             </CardContent>
