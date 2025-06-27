@@ -39,11 +39,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
 
   const enabledActions = getEnabledActions();
 
-  console.log('OwnerQuickActions render:', { 
+  console.log('OwnerQuickActions debug:', { 
     showControls, 
     isAdmin, 
-    enabledActionsCount: enabledActions.length,
-    shouldShowManager: showControls && isAdmin 
+    enabledActionsCount: enabledActions.length
   });
 
   const getLocalizedText = (key: string) => {
@@ -99,7 +98,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
           <h3 className="text-lg font-semibold text-white">
             {getLocalizedText('quickActions')}
           </h3>
-          {/* Show QuickActionsManager button for admins */}
+          {/* Show QuickActionsManager button for admins when controls are enabled */}
           {showControls && isAdmin && (
             <div className="ml-2">
               <QuickActionsManager />

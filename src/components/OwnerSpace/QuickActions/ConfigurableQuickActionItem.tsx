@@ -60,14 +60,6 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
     }
   };
 
-  console.log('ConfigurableQuickActionItem render:', { 
-    title, 
-    actionId, 
-    showControls, 
-    isAdmin, 
-    shouldShowDeleteButton: showControls && isAdmin && actionId 
-  });
-
   return (
     <div className="relative group">
       <button
@@ -83,16 +75,16 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
         </div>
       </button>
 
-      {/* Delete button - visible to admins when showControls is true */}
+      {/* Delete button - visible to admins when showControls is true and actionId exists */}
       {showControls && isAdmin && actionId && (
         <Button
           size="sm"
           variant="ghost"
           onClick={handleRemove}
-          className="absolute top-2 right-2 h-6 w-6 p-0 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className="absolute top-1 right-1 h-8 w-8 p-0 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-100 hover:opacity-90 transition-all duration-200 shadow-lg z-10"
           title={getLocalizedText('remove')}
         >
-          <X className="h-3 w-3" />
+          <X className="h-4 w-4" />
         </Button>
       )}
     </div>
