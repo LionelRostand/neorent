@@ -84,12 +84,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
 
   const handleToggleAction = async (actionId: string) => {
     console.log('Toggling action:', actionId);
-    try {
-      await onToggleAction(actionId);
-      console.log('Action toggled successfully:', actionId);
-    } catch (error) {
-      console.error('Error toggling action:', error);
-    }
+    await onToggleAction(actionId);
   };
 
   const handleRemoveClick = async (actionId: string) => {
