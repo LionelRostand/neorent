@@ -12,6 +12,7 @@ interface AdminImpersonationBannerProps {
     name: string;
     email: string;
     address?: string;
+    isOwner?: boolean;
   };
   currentType: string;
   onBackToAdmin: () => void;
@@ -31,9 +32,20 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
   // Clean the name properly
   const cleanName = currentProfile?.name?.trim().replace(/\s+/g, ' ') || 'Utilisateur';
 
+  // Determine the display type based on user profile
+  const getDisplayType = () => {
+    if (currentType === 'employee' && currentProfile?.isOwner) {
+      return t('settings.owners.owner'); // Will display "Propriétaire" in French, "Owner" in English
+    }
+    return currentType;
+  };
+
   console.log('AdminImpersonationBanner:', {
     originalName: currentProfile?.name,
-    cleanName
+    cleanName,
+    currentType,
+    isOwner: currentProfile?.isOwner,
+    displayType: getDisplayType()
   });
 
   return (
@@ -51,7 +63,7 @@ const AdminImpersonationBanner: React.FC<AdminImpersonationBannerProps> = ({
               </p>
               <div className="mt-2 space-y-1">
                 <p className="text-xs text-blue-600">
-                  <span className="font-medium">{t('settings.tenantType')}:</span> {currentType}
+                  <span className="font-medium">{t('settings.tenantType')}:</span> {getDisplayType()}
                 </p>
                 <p className="text-xs text-blue-600 break-all">
                   <span className="font-medium">{t('settings.tenantEmail')}:</span> {currentProfile.email}
