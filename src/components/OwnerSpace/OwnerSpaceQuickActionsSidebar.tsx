@@ -67,6 +67,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
             <OwnerQuickActions 
               ownerProfile={ownerProfile} 
               setActiveView={setActiveView}
+              showControls={true}
             />
           </div>
         </ScrollArea>

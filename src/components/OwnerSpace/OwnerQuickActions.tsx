@@ -9,11 +9,16 @@ import QuickActionDialogs from './QuickActions/QuickActionDialogs';
 interface OwnerQuickActionsProps {
   ownerProfile: any;
   setActiveView?: (view: string) => void;
+  showControls?: boolean;
 }
 
-const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, setActiveView }) => {
+const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ 
+  ownerProfile, 
+  setActiveView,
+  showControls = false 
+}) => {
   const { i18n } = useTranslation();
-  const { getEnabledActions, refreshKey } = useQuickActionsManager();
+  const { getEnabledActions, refreshKey, isAdmin } = useQuickActionsManager();
   
   const {
     openDialog,
@@ -102,6 +107,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
               icon={action.icon}
               color={action.color}
               onClick={() => handleActionClick(action)}
+              actionId={action.id}
+              showControls={showControls && isAdmin}
             />
           ))}
         </div>
