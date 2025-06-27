@@ -294,5 +294,20 @@
     "sunday": "Dimanche",
     "saving": "Sauvegarde...",
     "contentManagement": "Gestion de contenu"
+  },
+  "cookies": {
+    "title": "Nous utilisons des cookies",
+    "description": "Ce site utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic et personnaliser le contenu. En continuant à naviguer, vous acceptez notre utilisation des cookies.",
+    "settings": "Paramètres",
+    "settingsTitle": "Paramètres des cookies",
+    "acceptAll": "Accepter tout",
+    "rejectAll": "Tout refuser",
+    "necessaryOnly": "Nécessaires uniquement",
+    "necessary": "Cookies nécessaires",
+    "necessaryDescription": "Ces cookies sont indispensables au fonctionnement du site web.",
+    "analytics": "Cookies analytiques",
+    "analyticsDescription": "Ces cookies nous aident à comprendre comment vous utilisez notre site.",
+    "marketing": "Cookies de marketing",
+    "marketingDescription": "Ces cookies sont utilisés pour personnaliser les publicités."
   }
 }

@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { X, Cookie, Settings } from 'lucide-react';
 
 export const CookieBanner = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isEnglish = i18n.language === 'en';
   const [isVisible, setIsVisible] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -45,13 +45,10 @@ export const CookieBanner = () => {
                 <Cookie className="h-6 w-6 text-orange-600 flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">
-                    {isEnglish ? 'We use cookies' : 'Nous utilisons des cookies'}
+                    {t('cookies.title', 'Nous utilisons des cookies')}
                   </h3>
                   <p className="text-sm text-gray-600">
-                    {isEnglish 
-                      ? 'This site uses cookies to improve your browsing experience, analyze traffic and personalize content. By continuing to browse, you accept our use of cookies.'
-                      : 'Ce site utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic et personnaliser le contenu. En continuant à naviguer, vous acceptez notre utilisation des cookies.'
-                    }
+                    {t('cookies.description', 'Ce site utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic et personnaliser le contenu. En continuant à naviguer, vous acceptez notre utilisation des cookies.')}
                   </p>
                 </div>
               </div>
@@ -63,7 +60,7 @@ export const CookieBanner = () => {
                   className="text-xs"
                 >
                   <Settings className="h-3 w-3 mr-1" />
-                  {isEnglish ? 'Settings' : 'Paramètres'}
+                  {t('cookies.settings', 'Paramètres')}
                 </Button>
                 <Button
                   variant="outline"
@@ -71,14 +68,14 @@ export const CookieBanner = () => {
                   onClick={acceptNecessary}
                   className="text-xs"
                 >
-                  {isEnglish ? 'Necessary only' : 'Nécessaires uniquement'}
+                  {t('cookies.necessaryOnly', 'Nécessaires uniquement')}
                 </Button>
                 <Button
                   size="sm"
                   onClick={acceptAll}
                   className="bg-green-600 hover:bg-green-700 text-xs"
                 >
-                  {isEnglish ? 'Accept all' : 'Accepter tout'}
+                  {t('cookies.acceptAll', 'Accepter tout')}
                 </Button>
               </div>
             </div>
@@ -86,7 +83,7 @@ export const CookieBanner = () => {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-gray-900">
-                  {isEnglish ? 'Cookie settings' : 'Paramètres des cookies'}
+                  {t('cookies.settingsTitle', 'Paramètres des cookies')}
                 </h3>
                 <Button
                   variant="ghost"
@@ -99,35 +96,26 @@ export const CookieBanner = () => {
               <div className="space-y-4">
                 <div className="border-b pb-3">
                   <h4 className="font-medium text-gray-900 mb-1">
-                    {isEnglish ? 'Necessary cookies' : 'Cookies nécessaires'}
+                    {t('cookies.necessary', 'Cookies nécessaires')}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    {isEnglish 
-                      ? 'These cookies are essential for the website to function.'
-                      : 'Ces cookies sont indispensables au fonctionnement du site web.'
-                    }
+                    {t('cookies.necessaryDescription', 'Ces cookies sont indispensables au fonctionnement du site web.')}
                   </p>
                 </div>
                 <div className="border-b pb-3">
                   <h4 className="font-medium text-gray-900 mb-1">
-                    {isEnglish ? 'Analytics cookies' : 'Cookies analytiques'}
+                    {t('cookies.analytics', 'Cookies analytiques')}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    {isEnglish 
-                      ? 'These cookies help us understand how you use our site.'
-                      : 'Ces cookies nous aident à comprendre comment vous utilisez notre site.'
-                    }
+                    {t('cookies.analyticsDescription', 'Ces cookies nous aident à comprendre comment vous utilisez notre site.')}
                   </p>
                 </div>
                 <div className="border-b pb-3">
                   <h4 className="font-medium text-gray-900 mb-1">
-                    {isEnglish ? 'Marketing cookies' : 'Cookies de marketing'}
+                    {t('cookies.marketing', 'Cookies de marketing')}
                   </h4>
                   <p className="text-sm text-gray-600">
-                    {isEnglish 
-                      ? 'These cookies are used to personalize advertisements.'
-                      : 'Ces cookies sont utilisés pour personnaliser les publicités.'
-                    }
+                    {t('cookies.marketingDescription', 'Ces cookies sont utilisés pour personnaliser les publicités.')}
                   </p>
                 </div>
               </div>
@@ -138,7 +126,7 @@ export const CookieBanner = () => {
                   onClick={rejectAll}
                   className="text-xs"
                 >
-                  {isEnglish ? 'Reject all' : 'Tout refuser'}
+                  {t('cookies.rejectAll', 'Tout refuser')}
                 </Button>
                 <Button
                   variant="outline"
@@ -146,14 +134,14 @@ export const CookieBanner = () => {
                   onClick={acceptNecessary}
                   className="text-xs"
                 >
-                  {isEnglish ? 'Necessary only' : 'Nécessaires uniquement'}
+                  {t('cookies.necessaryOnly', 'Nécessaires uniquement')}
                 </Button>
                 <Button
                   size="sm"
                   onClick={acceptAll}
                   className="bg-green-600 hover:bg-green-700 text-xs"
                 >
-                  {isEnglish ? 'Accept all' : 'Accepter tout'}
+                  {t('cookies.acceptAll', 'Accepter tout')}
                 </Button>
               </div>
             </div>
