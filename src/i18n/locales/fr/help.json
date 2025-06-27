@@ -11,6 +11,8 @@
     "noResultsDescription": "Essayez de modifier vos termes de recherche ou effacez les filtres.",
     "technicalAspect": "Aspect technique",
     "functionalUsage": "Usage fonctionnel",
+    "gettingStarted": "Prise en main",
+    "paymentConfig": "Configuration des Paiements",
     "categories": {
       "gettingStarted": "Prise en main",
       "properties": "Propriétés",
@@ -19,7 +21,18 @@
       "payments": "Paiements",
       "maintenance": "Maintenance",
       "reporting": "Rapports",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "overview": "Vue d'ensemble",
+      "realEstate": "Immobilier",
+      "rental": "Location",
+      "documentation": "Documentation",
+      "finance": "Finance",
+      "payment": "Paiement",
+      "technical": "Technique",
+      "communication": "Communication",
+      "administration": "Administration",
+      "marketing": "Marketing",
+      "configuration": "Configuration"
     },
     "sections": {
       "dashboard": {

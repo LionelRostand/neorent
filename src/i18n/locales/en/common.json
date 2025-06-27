@@ -95,6 +95,11 @@
   "tenantNotFound": "Tenant not found",
   "contactAdminForHelp": "Contact administrator for help",
   "backToAdmin": "Back to admin",
+  "pages": "Pages",
+  "new": "New",
+  "page": "Page",
+  "theme": "Theme",
+  "footer": "Footer",
   "quickActions": {
     "title": "Quick Actions",
     "dashboard": {
