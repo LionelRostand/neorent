@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   
-  const { selectedProfile, userType } = useUserProfileManager();
+  const { selectedProfile, userType } = useUserProfileManager(user);
 
   // Surveiller les changements d'authentification
   useEffect(() => {

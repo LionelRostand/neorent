@@ -1,5 +1,6 @@
+
 import { useState, useEffect } from 'react';
-import { useAuth } from './useAuth';
+import { User } from 'firebase/auth';
 
 interface UserProfile {
   id: string;
@@ -9,8 +10,7 @@ interface UserProfile {
   type: 'admin' | 'owner' | 'locataire' | 'colocataire';
 }
 
-export const useUserProfileManager = () => {
-  const { user } = useAuth();
+export const useUserProfileManager = (user: User | null) => {
   const [selectedProfile, setSelectedProfile] = useState<UserProfile | null>(null);
   const [userType, setUserType] = useState<'admin' | 'owner' | 'locataire' | 'colocataire'>('locataire');
 
