@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Building, User, ArrowLeft } from 'lucide-react';
+import { Building, User, ArrowLeft, LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import LanguageSelector from '@/components/LanguageSelector';
+import { useToast } from '@/hooks/use-toast';
 
 interface OwnerSpaceProfileHeaderProps {
   currentProfile: any;
@@ -14,11 +15,43 @@ interface OwnerSpaceProfileHeaderProps {
 
 const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ currentProfile }) => {
   const navigate = useNavigate();
-  const { userType } = useAuth();
-  const { t } = useTranslation();
+  const { userType, logout } = useAuth();
+  const { t, i18n } = useTranslation();
+  const { toast } = useToast();
   
   const handleBackToAdmin = () => {
     navigate('/admin/dashboard');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast({
+        title: i18n.language === 'fr' ? "Déconnexion" : "Logout",
+        description: i18n.language === 'fr' ? "Vous avez été déconnecté avec succès." : "You have been successfully logged out.",
+      });
+      navigate('/login');
+    } catch (error) {
+      toast({
+        title: i18n.language === 'fr' ? "Erreur" : "Error",
+        description: i18n.language === 'fr' ? "Erreur lors de la déconnexion." : "Error during logout.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      logout: {
+        fr: 'Se déconnecter',
+        en: 'Logout'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
   return (
@@ -53,6 +86,17 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
                 {t('settings.backToAdmin')}
               </Button>
             )}
+
+            {/* Bouton de déconnexion */}
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              {getLocalizedText('logout')}
+            </Button>
+            
             <div className="hidden md:flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-lg">
               <User className="h-5 w-5" />
               <span className="font-medium">Propriétaire</span>
