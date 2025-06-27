@@ -1,13 +1,23 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { Building, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Building, User, ArrowLeft } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 interface OwnerSpaceHeaderProps {
   ownerProfile: any;
 }
 
 const OwnerSpaceHeader: React.FC<OwnerSpaceHeaderProps> = ({ ownerProfile }) => {
+  const navigate = useNavigate();
+  const { userType } = useAuth();
+  
+  const handleBackToAdmin = () => {
+    navigate('/admin/dashboard');
+  };
+
   return (
     <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
       <CardContent className="p-6">
@@ -25,9 +35,22 @@ const OwnerSpaceHeader: React.FC<OwnerSpaceHeaderProps> = ({ ownerProfile }) => 
               </p>
             </div>
           </div>
-          <div className="hidden md:flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-lg">
-            <User className="h-5 w-5" />
-            <span className="font-medium">{ownerProfile?.role || 'Propriétaire'}</span>
+          <div className="flex items-center space-x-4">
+            {/* Bouton de retour pour les admins */}
+            {userType === 'admin' && (
+              <Button
+                variant="outline"
+                onClick={handleBackToAdmin}
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Retour Admin
+              </Button>
+            )}
+            <div className="hidden md:flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-lg">
+              <User className="h-5 w-5" />
+              <span className="font-medium">{ownerProfile?.role || 'Propriétaire'}</span>
+            </div>
           </div>
         </div>
       </CardContent>
