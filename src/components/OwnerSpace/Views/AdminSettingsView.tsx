@@ -56,23 +56,23 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5" />
-                {t('settings.security')}
+                {t('settings.security.title')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="current-password">{t('settings.security.currentPassword', 'Current password')}</Label>
+                <Label htmlFor="current-password">{t('settings.security.currentPassword')}</Label>
                 <Input id="current-password" type="password" />
               </div>
               <div>
-                <Label htmlFor="new-password">{t('settings.security.newPassword', 'New password')}</Label>
+                <Label htmlFor="new-password">{t('settings.security.newPassword')}</Label>
                 <Input id="new-password" type="password" />
               </div>
               <div>
-                <Label htmlFor="confirm-password">{t('settings.security.confirmPassword', 'Confirm password')}</Label>
+                <Label htmlFor="confirm-password">{t('settings.security.confirmPassword')}</Label>
                 <Input id="confirm-password" type="password" />
               </div>
-              <Button>{t('settings.security.changePassword', 'Change password')}</Button>
+              <Button>{t('settings.security.changePassword')}</Button>
             </CardContent>
           </Card>
 
@@ -88,21 +88,21 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{t('settings.emailNotifications')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.emailNotificationsDesc', 'Receive important notifications')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.emailNotificationsDesc')}</p>
                 </div>
                 <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{t('settings.paymentAlerts')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.paymentAlertsDesc', 'Be notified of late payments')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.paymentAlertsDesc')}</p>
                 </div>
                 <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{t('settings.maintenanceAlerts')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.maintenanceAlertsDesc', 'Priority maintenance notifications')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.maintenanceAlertsDesc')}</p>
                 </div>
                 <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
               </div>
@@ -121,9 +121,9 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{t('settings.language')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.currentLanguage', 'Current language')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.currentLanguage')}</p>
                 </div>
-                <Button variant="outline" size="sm">{t('common.change', 'Change')}</Button>
+                <Button variant="outline" size="sm">{t('common.change')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
@@ -137,7 +137,7 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
                   <p className="font-medium">{t('settings.dateFormat')}</p>
                   <p className="text-sm text-gray-500">DD/MM/YYYY</p>
                 </div>
-                <Button variant="outline" size="sm">{t('common.change', 'Change')}</Button>
+                <Button variant="outline" size="sm">{t('common.change')}</Button>
               </div>
             </CardContent>
           </Card>
@@ -147,28 +147,28 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Database className="h-5 w-5" />
-                {t('settings.dataManagement', 'Data Management')}
+                {t('settings.dataManagement')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{t('settings.dataExport')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.dataExportDesc', 'Download all your data in CSV format')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.dataExportDesc')}</p>
                 </div>
                 <Button variant="outline">{t('common.export')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{t('settings.autoBackup')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.autoBackupDesc', 'Automatically backup your data')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.autoBackupDesc')}</p>
                 </div>
-                <Button variant="outline" size="sm">{t('settings.configure', 'Configure')}</Button>
+                <Button variant="outline" size="sm">{t('settings.configure')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-red-600">{t('settings.deleteAccount', 'Delete my account')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.deleteAccountDesc', 'Permanently delete your account and all your data')}</p>
+                  <p className="font-medium text-red-600">{t('settings.deleteAccount')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.deleteAccountDesc')}</p>
                 </div>
                 <Button variant="destructive">{t('common.delete')}</Button>
               </div>
