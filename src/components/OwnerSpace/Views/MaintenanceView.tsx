@@ -1,126 +1,181 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Wrench, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
-import MaintenanceForm from '@/components/Maintenance/MaintenanceForm';
+import { Plus, Wrench, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface MaintenanceViewProps {
   currentProfile: any;
-  onViewChange: (view: string) => void;
 }
 
-const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onViewChange }) => {
-  const [isNewMaintenanceDialogOpen, setIsNewMaintenanceDialogOpen] = useState(false);
-  const { requests = [] } = useFirebaseMaintenances();
+const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile }) => {
+  const { i18n } = useTranslation();
 
-  // Calculate metrics
-  const totalMaintenances = requests.length;
-  const completedMaintenances = requests.filter(m => m.status === 'Terminée').length;
-  const pendingMaintenances = requests.filter(m => m.status === 'En attente' || m.status === 'Programmée').length;
-  const urgentMaintenances = requests.filter(m => m.priority === 'Urgent' && m.status !== 'Terminée').length;
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      title: {
+        fr: 'Maintenance',
+        en: 'Maintenance'
+      },
+      subtitle: {
+        fr: 'Gérez vos demandes de maintenance et de réparation',
+        en: 'Manage your maintenance and repair requests'
+      },
+      newRequest: {
+        fr: 'Nouvelle demande',
+        en: 'New Request'
+      },
+      totalRequests: {
+        fr: 'Total Demandes',
+        en: 'Total Requests'
+      },
+      totalRequestsDesc: {
+        fr: 'demandes enregistrées',
+        en: 'registered requests'
+      },
+      pending: {
+        fr: 'En Attente',
+        en: 'Pending'
+      },
+      pendingDesc: {
+        fr: 'à traiter',
+        en: 'to process'
+      },
+      urgent: {
+        fr: 'Urgentes',
+        en: 'Urgent'
+      },
+      urgentDesc: {
+        fr: 'prioritaires',
+        en: 'priority requests'
+      },
+      completed: {
+        fr: 'Terminées',
+        en: 'Completed'
+      },
+      completedDesc: {
+        fr: 'complétées',
+        en: 'completed'
+      },
+      requestsList: {
+        fr: 'Demandes de Maintenance',
+        en: 'Maintenance Requests'
+      },
+      noRequests: {
+        fr: 'Aucune demande de maintenance',
+        en: 'No maintenance requests'
+      },
+      noRequestsDesc: {
+        fr: 'Toutes vos propriétés sont en bon état',
+        en: 'All your properties are in good condition'
+      },
+      createRequest: {
+        fr: 'Créer une demande',
+        en: 'Create a request'
+      }
+    };
 
-  const metrics = [
-    {
-      title: 'Total Requests',
-      value: totalMaintenances,
-      description: `${totalMaintenances} total requests`,
-      icon: Wrench,
-      iconColor: 'text-blue-600',
-      bgColor: 'bg-blue-50'
-    },
-    {
-      title: 'Completed',
-      value: completedMaintenances,
-      description: `${completedMaintenances} resolved requests`,
-      icon: CheckCircle,
-      iconColor: 'text-green-600',
-      bgColor: 'bg-green-50'
-    },
-    {
-      title: 'Pending',
-      value: pendingMaintenances,
-      description: `${pendingMaintenances} ongoing requests`,
-      icon: Clock,
-      iconColor: 'text-purple-600',
-      bgColor: 'bg-purple-50'
-    },
-    {
-      title: 'Urgent',
-      value: urgentMaintenances,
-      description: `${urgentMaintenances} urgent requests`,
-      icon: AlertTriangle,
-      iconColor: 'text-red-600',
-      bgColor: 'bg-red-50'
-    }
-  ];
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
+
+  // Mock data for demonstration
+  const totalRequests = 0;
+  const pendingRequests = 0;
+  const urgentRequests = 0;
+  const completedRequests = 0;
 
   return (
-    <div className="space-y-6">
-      {/* Maintenance metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {metrics.map((metric, index) => {
-          const Icon = metric.icon;
-          return (
-            <Card key={index} className="border-0 shadow-sm">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-600 mb-1">
-                      {metric.title}
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900 mb-1">
-                      {metric.value}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {metric.description}
-                    </p>
-                  </div>
-                  <div className={`${metric.bgColor} p-3 rounded-lg`}>
-                    <Icon className={`h-6 w-6 ${metric.iconColor}`} />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+    <div className="p-6 space-y-6">
+      {/* Header harmonisé */}
+      <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl p-6 text-white shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">{getLocalizedText('title')}</h1>
+            <p className="text-orange-100 mt-2">{getLocalizedText('subtitle')}</p>
+          </div>
+          <Button className="bg-white text-orange-600 hover:bg-orange-50 border-0 shadow-md">
+            <Plus className="h-4 w-4 mr-2" />
+            {getLocalizedText('newRequest')}
+          </Button>
+        </div>
       </div>
-      
-      {/* Header with action button */}
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">Maintenance Management</h3>
-        <Dialog open={isNewMaintenanceDialogOpen} onOpenChange={setIsNewMaintenanceDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-red-600 hover:bg-red-700">
-              <Plus className="mr-2 h-4 w-4" />
-              New Request
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>New Maintenance Request</DialogTitle>
-            </DialogHeader>
-            <MaintenanceForm
-              onSubmit={(data) => {
-                console.log('Maintenance data:', data);
-                setIsNewMaintenanceDialogOpen(false);
-              }}
-            />
-          </DialogContent>
-        </Dialog>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('totalRequests')}</CardTitle>
+            <div className="p-2 bg-orange-100 rounded-lg">
+              <Wrench className="h-4 w-4 text-orange-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{totalRequests}</div>
+            <p className="text-xs text-gray-500 mt-1">{totalRequests} {getLocalizedText('totalRequestsDesc')}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('pending')}</CardTitle>
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Clock className="h-4 w-4 text-blue-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{pendingRequests}</div>
+            <p className="text-xs text-gray-500 mt-1">{pendingRequests} {getLocalizedText('pendingDesc')}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-red-500 hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('urgent')}</CardTitle>
+            <div className="p-2 bg-red-100 rounded-lg">
+              <AlertTriangle className="h-4 w-4 text-red-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{urgentRequests}</div>
+            <p className="text-xs text-gray-500 mt-1">{urgentRequests} {getLocalizedText('urgentDesc')}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('completed')}</CardTitle>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{completedRequests}</div>
+            <p className="text-xs text-gray-500 mt-1">{completedRequests} {getLocalizedText('completedDesc')}</p>
+          </CardContent>
+        </Card>
       </div>
-      
-      {/* Main content - maintenance table */}
-      <Card>
+
+      {/* Requests List */}
+      <Card className="shadow-lg border-0">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
+          <CardTitle className="text-xl text-gray-800">{getLocalizedText('requestsList')}</CardTitle>
+        </CardHeader>
         <CardContent className="p-6">
-          <div className="text-center py-8">
-            <Wrench className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Maintenance Requests</h3>
-            <p className="text-gray-500">
-              Manage intervention requests and maintenance for your properties
-            </p>
+          <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
+            <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <Wrench className="h-8 w-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-700 mb-2">{getLocalizedText('noRequests')}</h3>
+            <p className="text-gray-500 mb-4">{getLocalizedText('noRequestsDesc')}</p>
+            <Button className="bg-orange-600 hover:bg-orange-700 text-white">
+              <Plus className="h-4 w-4 mr-2" />
+              {getLocalizedText('createRequest')}
+            </Button>
           </div>
         </CardContent>
       </Card>
