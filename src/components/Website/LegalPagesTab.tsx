@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -116,79 +117,93 @@ Email : cookies@neorent.fr`
   };
 
   return (
-    <div className="space-y-6">
-      {/* En-tête */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900">Pages Légales</h2>
-        <p className="text-gray-600 mt-1">
+    <div className="space-y-4 md:space-y-6 p-2 md:p-4">
+      {/* En-tête responsive */}
+      <div className="text-center md:text-left">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900">Pages Légales</h2>
+        <p className="text-gray-600 mt-1 text-sm md:text-base">
           Gérez le contenu de vos pages légales obligatoires
         </p>
       </div>
 
-      <Tabs defaultValue="legal-notice" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="legal-notice" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Mentions Légales
-          </TabsTrigger>
-          <TabsTrigger value="privacy-policy" className="flex items-center gap-2">
-            <Shield className="h-4 w-4" />
-            Confidentialité
-          </TabsTrigger>
-          <TabsTrigger value="cookie-policy" className="flex items-center gap-2">
-            <Cookie className="h-4 w-4" />
-            Cookies
-          </TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="legal-notice" className="space-y-4 md:space-y-6">
+        {/* Tabs responsive avec scroll horizontal sur mobile */}
+        <div className="w-full">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto">
+            <TabsTrigger 
+              value="legal-notice" 
+              className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 p-2 sm:p-3 text-xs sm:text-sm"
+            >
+              <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-center">Mentions Légales</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="privacy-policy" 
+              className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 p-2 sm:p-3 text-xs sm:text-sm"
+            >
+              <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-center">Confidentialité</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="cookie-policy" 
+              className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 p-2 sm:p-3 text-xs sm:text-sm"
+            >
+              <Cookie className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-center">Cookies</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* Mentions Légales */}
         <TabsContent value="legal-notice">
           <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
+            <CardHeader className="pb-3 md:pb-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                  <FileText className="h-4 w-4 md:h-5 md:w-5" />
                   Mentions Légales
                 </CardTitle>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => previewPage('/legal-notice')}
+                    className="w-full sm:w-auto text-xs sm:text-sm"
                   >
-                    <Eye className="h-4 w-4 mr-1" />
+                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                     Aperçu
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => window.open('/legal-notice', '_blank')}
+                    className="w-full sm:w-auto text-xs sm:text-sm"
                   >
-                    <ExternalLink className="h-4 w-4 mr-1" />
+                    <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                     Page live
                   </Button>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4">
               <div>
-                <Label htmlFor="legal-title">Titre de la page</Label>
+                <Label htmlFor="legal-title" className="text-sm font-medium">Titre de la page</Label>
                 <Input
                   id="legal-title"
                   value={legalNotice.title}
                   onChange={(e) => setLegalNotice(prev => ({...prev, title: e.target.value}))}
-                  className="mt-1"
+                  className="mt-1 text-sm"
                 />
               </div>
               
               <div>
-                <Label htmlFor="legal-content">Contenu (Markdown supporté)</Label>
+                <Label htmlFor="legal-content" className="text-sm font-medium">Contenu (Markdown supporté)</Label>
                 <Textarea
                   id="legal-content"
-                  rows={12}
+                  rows={8}
                   value={legalNotice.content}
                   onChange={(e) => setLegalNotice(prev => ({...prev, content: e.target.value}))}
-                  className="mt-1 font-mono text-sm"
+                  className="mt-1 font-mono text-xs sm:text-sm"
                   placeholder="Saisissez le contenu des mentions légales..."
                 />
               </div>
@@ -196,7 +211,7 @@ Email : cookies@neorent.fr`
               <Button 
                 onClick={() => handleSave('mentions légales')} 
                 disabled={isSaving}
-                className="w-full"
+                className="w-full text-sm"
               >
                 <Save className="h-4 w-4 mr-2" />
                 {isSaving ? 'Sauvegarde...' : 'Sauvegarder les mentions légales'}
@@ -208,51 +223,53 @@ Email : cookies@neorent.fr`
         {/* Politique de Confidentialité */}
         <TabsContent value="privacy-policy">
           <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-5 w-5" />
+            <CardHeader className="pb-3 md:pb-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                  <Shield className="h-4 w-4 md:h-5 md:w-5" />
                   Politique de Confidentialité
                 </CardTitle>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => previewPage('/privacy-policy')}
+                    className="w-full sm:w-auto text-xs sm:text-sm"
                   >
-                    <Eye className="h-4 w-4 mr-1" />
+                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                     Aperçu
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => window.open('/privacy-policy', '_blank')}
+                    className="w-full sm:w-auto text-xs sm:text-sm"
                   >
-                    <ExternalLink className="h-4 w-4 mr-1" />
+                    <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                     Page live
                   </Button>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4">
               <div>
-                <Label htmlFor="privacy-title">Titre de la page</Label>
+                <Label htmlFor="privacy-title" className="text-sm font-medium">Titre de la page</Label>
                 <Input
                   id="privacy-title"
                   value={privacyPolicy.title}
                   onChange={(e) => setPrivacyPolicy(prev => ({...prev, title: e.target.value}))}
-                  className="mt-1"
+                  className="mt-1 text-sm"
                 />
               </div>
               
               <div>
-                <Label htmlFor="privacy-content">Contenu (Markdown supporté)</Label>
+                <Label htmlFor="privacy-content" className="text-sm font-medium">Contenu (Markdown supporté)</Label>
                 <Textarea
                   id="privacy-content"
-                  rows={12}
+                  rows={8}
                   value={privacyPolicy.content}
                   onChange={(e) => setPrivacyPolicy(prev => ({...prev, content: e.target.value}))}
-                  className="mt-1 font-mono text-sm"
+                  className="mt-1 font-mono text-xs sm:text-sm"
                   placeholder="Saisissez le contenu de la politique de confidentialité..."
                 />
               </div>
@@ -260,7 +277,7 @@ Email : cookies@neorent.fr`
               <Button 
                 onClick={() => handleSave('politique de confidentialité')} 
                 disabled={isSaving}
-                className="w-full"
+                className="w-full text-sm"
               >
                 <Save className="h-4 w-4 mr-2" />
                 {isSaving ? 'Sauvegarde...' : 'Sauvegarder la politique de confidentialité'}
@@ -272,51 +289,53 @@ Email : cookies@neorent.fr`
         {/* Politique de Cookies */}
         <TabsContent value="cookie-policy">
           <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Cookie className="h-5 w-5" />
+            <CardHeader className="pb-3 md:pb-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                  <Cookie className="h-4 w-4 md:h-5 md:w-5" />
                   Politique de Cookies
                 </CardTitle>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => previewPage('/cookie-policy')}
+                    className="w-full sm:w-auto text-xs sm:text-sm"
                   >
-                    <Eye className="h-4 w-4 mr-1" />
+                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                     Aperçu
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => window.open('/cookie-policy', '_blank')}
+                    className="w-full sm:w-auto text-xs sm:text-sm"
                   >
-                    <ExternalLink className="h-4 w-4 mr-1" />
+                    <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                     Page live
                   </Button>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4">
               <div>
-                <Label htmlFor="cookie-title">Titre de la page</Label>
+                <Label htmlFor="cookie-title" className="text-sm font-medium">Titre de la page</Label>
                 <Input
                   id="cookie-title"
                   value={cookiePolicy.title}
                   onChange={(e) => setCookiePolicy(prev => ({...prev, title: e.target.value}))}
-                  className="mt-1"
+                  className="mt-1 text-sm"
                 />
               </div>
               
               <div>
-                <Label htmlFor="cookie-content">Contenu (Markdown supporté)</Label>
+                <Label htmlFor="cookie-content" className="text-sm font-medium">Contenu (Markdown supporté)</Label>
                 <Textarea
                   id="cookie-content"
-                  rows={12}
+                  rows={8}
                   value={cookiePolicy.content}
                   onChange={(e) => setCookiePolicy(prev => ({...prev, content: e.target.value}))}
-                  className="mt-1 font-mono text-sm"
+                  className="mt-1 font-mono text-xs sm:text-sm"
                   placeholder="Saisissez le contenu de la politique de cookies..."
                 />
               </div>
@@ -324,7 +343,7 @@ Email : cookies@neorent.fr`
               <Button 
                 onClick={() => handleSave('politique de cookies')} 
                 disabled={isSaving}
-                className="w-full"
+                className="w-full text-sm"
               >
                 <Save className="h-4 w-4 mr-2" />
                 {isSaving ? 'Sauvegarde...' : 'Sauvegarder la politique de cookies'}
@@ -334,13 +353,13 @@ Email : cookies@neorent.fr`
         </TabsContent>
       </Tabs>
 
-      {/* Informations importantes */}
+      {/* Informations importantes - responsive */}
       <Card className="bg-blue-50 border-blue-200">
-        <CardContent className="pt-6">
-          <h3 className="text-lg font-semibold text-blue-900 mb-2">
+        <CardContent className="pt-4 md:pt-6">
+          <h3 className="text-base md:text-lg font-semibold text-blue-900 mb-2">
             Informations importantes
           </h3>
-          <ul className="space-y-1 text-sm text-blue-800">
+          <ul className="space-y-1 text-xs md:text-sm text-blue-800">
             <li>• Les mentions légales sont obligatoires pour tout site web professionnel</li>
             <li>• La politique de confidentialité est requise par le RGPD</li>
             <li>• La politique de cookies doit être facilement accessible</li>
