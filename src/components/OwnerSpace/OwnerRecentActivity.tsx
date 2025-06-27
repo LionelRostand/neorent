@@ -1,40 +1,32 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, CheckCircle, AlertCircle, User, Home, DollarSign, Wrench } from 'lucide-react';
-import { useFirebasePayments } from '@/hooks/useFirebasePayments';
-import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useOwnerData } from '@/hooks/useOwnerData';
 
 interface OwnerRecentActivityProps {
   ownerProfile: any;
 }
 
 const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile }) => {
-  const { t } = useTranslation();
-  const { payments } = useFirebasePayments();
-  const { roommates } = useFirebaseRoommates();
-  const { properties } = useFirebaseProperties();
+  const { t, i18n } = useTranslation();
+  const { properties, roommates, tenants, payments, contracts, inspections } = useOwnerData(ownerProfile);
 
-  // Filtrer les propriétés du propriétaire
-  const ownerProperties = properties.filter(property => 
-    property.owner === ownerProfile?.name || property.owner === ownerProfile?.email
-  );
-
-  // Récupérer les activités récentes
+  // Récupérer les activités récentes basées sur les données réelles
   const getRecentActivities = () => {
     const activities = [];
 
-    // Paiements récents
+    // Paiements récents (derniers 5)
     const recentPayments = payments
-      .filter(payment => ownerProperties.some(prop => prop.title === payment.property))
-      .sort((a, b) => new Date(b.paymentDate || b.dueDate).getTime() - new Date(a.paymentDate || a.dueDate).getTime())
+      .filter(payment => payment.paymentDate && payment.status === 'Payé')
+      .sort((a, b) => new Date(b.paymentDate!).getTime() - new Date(a.paymentDate!).getTime())
       .slice(0, 3);
 
     recentPayments.forEach(payment => {
-      const tenant = roommates.find(r => 
-        r.property === payment.property && r.status === 'Actif'
+      const tenant = [...tenants, ...roommates].find(t => 
+        t.property === payment.property && t.status === 'Actif'
       );
       activities.push({
         id: `payment-${payment.id}`,
@@ -43,64 +35,101 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
           number: payment.property.split(' ').pop() || 'N/A' 
         }),
         description: t('ownerSpace.recentActivity.activities.paymentDescription', { 
-          tenant: tenant?.name || 'Locataire', 
-          month: new Date(payment.paymentDate || payment.dueDate).toLocaleDateString('fr-FR', { month: 'long' })
+          tenant: tenant?.name || payment.tenantName || 'Locataire', 
+          month: new Date(payment.paymentDate!).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'fr-FR', { month: 'long' })
         }),
-        time: getTimeAgo(payment.paymentDate || payment.dueDate),
-        status: payment.status === 'Validé' ? 'success' : 'warning',
+        time: getTimeAgo(payment.paymentDate!),
+        status: 'success',
         icon: CheckCircle,
-        date: new Date(payment.paymentDate || payment.dueDate)
+        date: new Date(payment.paymentDate!)
       });
     });
 
-    // Nouveaux locataires
-    const recentTenants = roommates
-      .filter(roommate => 
-        roommate.status === 'Actif' && 
-        ownerProperties.some(prop => prop.title === roommate.property)
+    // Nouveaux locataires/colocataires récents
+    const recentTenants = [...tenants, ...roommates]
+      .filter(person => 
+        person.status === 'Actif' && 
+        (person.leaseStart || person.moveInDate)
       )
-      .sort((a, b) => new Date(b.moveInDate || 0).getTime() - new Date(a.moveInDate || 0).getTime())
+      .sort((a, b) => {
+        const dateA = new Date(a.leaseStart || a.moveInDate || 0);
+        const dateB = new Date(b.leaseStart || b.moveInDate || 0);
+        return dateB.getTime() - dateA.getTime();
+      })
       .slice(0, 2);
 
     recentTenants.forEach(tenant => {
+      const moveDate = tenant.leaseStart || tenant.moveInDate;
       activities.push({
         id: `tenant-${tenant.id}`,
         type: 'tenant',
-        title: t('ownerSpace.recentActivity.activities.newTenant'),
+        title: tenant.type === 'Colocataire' ? t('ownerSpace.recentActivity.activities.newRoommate') : t('ownerSpace.recentActivity.activities.newTenant'),
         description: t('ownerSpace.recentActivity.activities.newTenantDescription', { 
           tenant: tenant.name,
           number: tenant.property.split(' ').pop() || 'N/A'
         }),
-        time: getTimeAgo(tenant.moveInDate || new Date().toISOString()),
+        time: getTimeAgo(moveDate!),
         status: 'info',
         icon: User,
-        date: new Date(tenant.moveInDate || 0)
+        date: new Date(moveDate!)
       });
     });
 
-    // Ajouter quelques activités fictives pour l'exemple
-    activities.push(
-      {
-        id: 'maintenance-1',
-        type: 'maintenance',
-        title: t('ownerSpace.recentActivity.activities.maintenanceRequest'),
-        description: t('ownerSpace.recentActivity.activities.maintenanceDescription', { number: '8' }),
-        time: t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: 4 }),
-        status: 'warning',
-        icon: Wrench,
-        date: new Date(Date.now() - 4 * 60 * 60 * 1000)
-      },
-      {
-        id: 'inspection-1',
+    // Inspections récentes
+    const recentInspections = inspections
+      .filter(inspection => inspection.date)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 2);
+
+    recentInspections.forEach(inspection => {
+      activities.push({
+        id: `inspection-${inspection.id}`,
         type: 'inspection',
         title: t('ownerSpace.recentActivity.activities.inspectionCompleted'),
-        description: t('ownerSpace.recentActivity.activities.inspectionDescription', { number: '3' }),
-        time: t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: 2 }),
+        description: `${inspection.type} - ${inspection.property}`,
+        time: getTimeAgo(inspection.date),
         status: 'success',
         icon: Home,
-        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-      }
-    );
+        date: new Date(inspection.date)
+      });
+    });
+
+    // Contrats récemment signés
+    const recentContracts = contracts
+      .filter(contract => contract.signedDate && contract.status === 'Signé')
+      .sort((a, b) => new Date(b.signedDate!).getTime() - new Date(a.signedDate!).getTime())
+      .slice(0, 1);
+
+    recentContracts.forEach(contract => {
+      activities.push({
+        id: `contract-${contract.id}`,
+        type: 'contract',
+        title: t('ownerSpace.recentActivity.activities.contractSigned'),
+        description: `${contract.tenant} - ${contract.property}`,
+        time: getTimeAgo(contract.signedDate!),
+        status: 'success',
+        icon: CheckCircle,
+        date: new Date(contract.signedDate!)
+      });
+    });
+
+    // Paiements en retard
+    const latePayments = payments
+      .filter(p => p.status === 'En retard')
+      .slice(0, 1);
+
+    latePayments.forEach(payment => {
+      activities.push({
+        id: `late-${payment.id}`,
+        type: 'payment',
+        title: t('ownerSpace.recentActivity.activities.latePayment'),
+        description: `${payment.tenantName || 'Locataire'} - ${payment.property}`,
+        time: getTimeAgo(payment.dueDate),
+        status: 'warning',
+        icon: AlertCircle,
+        date: new Date(payment.dueDate)
+      });
+    });
 
     // Trier par date et retourner les 5 plus récentes
     return activities
@@ -112,14 +141,17 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
     const date = new Date(dateString);
     const now = new Date();
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    const diffInDays = Math.floor(diffInHours / 24);
 
     if (diffInHours < 24) {
       return t('ownerSpace.recentActivity.timeAgo.hoursAgo', { count: diffInHours });
     } else if (diffInHours < 48) {
       return t('ownerSpace.recentActivity.timeAgo.yesterday');
-    } else {
-      const diffInDays = Math.floor(diffInHours / 24);
+    } else if (diffInDays < 7) {
       return t('ownerSpace.recentActivity.timeAgo.daysAgo', { count: diffInDays });
+    } else {
+      const diffInWeeks = Math.floor(diffInDays / 7);
+      return t('ownerSpace.recentActivity.timeAgo.weeksAgo', { count: diffInWeeks });
     }
   };
 
@@ -168,7 +200,7 @@ const OwnerRecentActivity: React.FC<OwnerRecentActivityProps> = ({ ownerProfile 
           {activities.length === 0 ? (
             <div className="text-center py-8">
               <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500">Aucune activité récente</p>
+              <p className="text-gray-500">{t('ownerSpace.recentActivity.noActivity')}</p>
             </div>
           ) : (
             activities.map((activity) => {
