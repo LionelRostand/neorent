@@ -2,6 +2,7 @@
 {
   "publicSite": {
     "home": "Home",
+    "properties": "Properties",
     "login": "Login",
     "hero": {
       "title": "Simplify Your",
@@ -210,6 +211,34 @@
       "termsOfService": "Terms of Service",
       "intellectualProperty": "© 2025 Neo Rent - Property Management Platform. All rights reserved. Any unauthorized reproduction, distribution or use of this content is strictly prohibited.",
       "trademarks": "Neo Rent® is a registered trademark of Neotech-consulting. All other mentioned trademarks are the property of their respective owners."
+    },
+    "propertiesPage": {
+      "title": "Our Available Properties",
+      "subtitle": "Discover our selection of carefully chosen properties to offer you the best living environment",
+      "searchPlaceholder": "Search by location...",
+      "searchButton": "Search",
+      "noProperties": "No properties available",
+      "noPropertiesDescription": "No properties match your search criteria.",
+      "viewDetails": "View details",
+      "contactUs": "Contact us",
+      "scheduleVisit": "Schedule a visit",
+      "propertyDetails": {
+        "surface": "Surface",
+        "rooms": "Rooms",
+        "floor": "Floor",
+        "type": "Type",
+        "rent": "Rent",
+        "charges": "Charges",
+        "deposit": "Security deposit",
+        "availability": "Availability",
+        "available": "Available",
+        "rented": "Rented",
+        "description": "Description",
+        "equipment": "Equipment",
+        "location": "Location",
+        "contact": "Contact",
+        "visitRequest": "Visit request"
+      }
     }
   }
 }

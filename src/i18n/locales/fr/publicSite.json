@@ -2,10 +2,11 @@
 {
   "publicSite": {
     "home": "Accueil",
+    "properties": "Propriétés",
     "login": "Connexion",
     "hero": {
-      "title": "Simplifiez la Gestion",
-      "subtitle": "de vos Biens Immobiliers",
+      "title": "Simplifiez Votre",
+      "subtitle": "Gestion Immobilière",
       "description": "Gérez vos propriétés, locataires et revenus locatifs avec notre plateforme complète de gestion immobilière.",
       "startFree": "Essai Gratuit",
       "contactUs": "Nous Contacter"
@@ -14,7 +15,7 @@
       "title": "Fonctionnalités Puissantes",
       "subtitle": "Tout ce dont vous avez besoin pour gérer efficacement vos propriétés",
       "propertyManagement": {
-        "title": "Gestion Immobilière",
+        "title": "Gestion de Propriétés",
         "description": "Organisez et suivez toutes vos propriétés dans une plateforme centralisée"
       },
       "tenantTracking": {
@@ -28,29 +29,29 @@
     },
     "benefits": {
       "title": "Pourquoi Choisir Notre Plateforme ?",
-      "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour optimiser leurs opérations.",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour rationaliser leurs opérations.",
       "list": [
         "Gestion rationalisée du portefeuille immobilier",
         "Collecte et suivi automatisés des loyers",
         "Outils complets de sélection des locataires",
         "Rapports financiers et analyses en temps réel",
-        "Interface mobile pour la gestion en déplacement",
+        "Interface compatible mobile pour la gestion en déplacement",
         "Support client et assistance 24h/24 et 7j/7"
       ],
       "contactTitle": "Entrer en Contact"
     },
     "cta": {
       "title": "Prêt à Commencer ?",
-      "description": "Rejoignez des milliers de gestionnaires immobiliers qui utilisent déjà notre plateforme pour optimiser leurs opérations.",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui utilisent déjà notre plateforme pour rationaliser leurs opérations.",
       "startNow": "Commencer Maintenant"
     },
     "about": {
-      "title": "À Propos de Nous",
+      "title": "À Propos",
       "subtitle": "Innovation en Gestion Immobilière",
       "description": "Découvrez notre mission de révolutionner la gestion immobilière grâce à une technologie innovante et un service exceptionnel.",
       "story": {
         "title": "Notre Histoire",
-        "paragraph1": "Fondée avec la vision de simplifier la gestion immobilière, Neo Rent a évolué d'une petite startup à une plateforme leader de confiance pour des milliers de gestionnaires immobiliers dans le monde entier.",
+        "paragraph1": "Fondé avec la vision de simplifier la gestion immobilière, Neo Rent a évolué d'une petite startup à une plateforme leader de confiance pour des milliers de gestionnaires immobiliers dans le monde.",
         "paragraph2": "Notre équipe d'experts combine des années d'expérience immobilière avec une technologie de pointe pour créer des solutions qui font vraiment la différence dans la vie quotidienne des gestionnaires immobiliers.",
         "paragraph3": "Nous croyons que la gestion immobilière devrait être efficace, transparente et sans stress pour les propriétaires et les locataires."
       },
@@ -59,7 +60,7 @@
         "subtitle": "Ce qui nous motive chaque jour",
         "clientProximity": {
           "title": "Proximité Client",
-          "description": "Nous construisons des relations durables avec nos clients grâce à un support personnalisé et un service attentionné."
+          "description": "Nous construisons des relations durables avec nos clients grâce à un support personnalisé et un service attentif."
         },
         "innovation": {
           "title": "Innovation",
@@ -78,7 +79,7 @@
         "title": "Notre Impact",
         "managedProperties": "Propriétés Gérées",
         "satisfiedClients": "Clients Satisfaits",
-        "availability": "Disponibilité",
+        "availability": "Temps de Fonctionnement",
         "support": "Support"
       },
       "team": {
@@ -86,7 +87,7 @@
         "subtitle": "Des experts passionnés dédiés à votre succès",
         "dedication": {
           "title": "Dédiés à Votre Succès",
-          "description": "Notre équipe diversifiée d'experts en gestion immobilière, de développeurs et de spécialistes de la réussite client travaillent ensemble pour vous assurer la meilleure expérience possible avec notre plateforme."
+          "description": "Notre équipe diversifiée d'experts en gestion immobilière, développeurs et spécialistes du succès client travaillent ensemble pour vous garantir la meilleure expérience possible avec notre plateforme."
         }
       }
     },
@@ -105,7 +106,7 @@
         "subject": "Sujet",
         "message": "Message",
         "send": "Envoyer le Message",
-        "sending": "Envoi en cours...",
+        "sending": "Envoi...",
         "success": "Merci pour votre message ! Nous vous répondrons bientôt."
       },
       "info": {
@@ -118,11 +119,11 @@
         "phone": {
           "title": "Téléphone",
           "content": "+33 1 23 45 67 89",
-          "description": "Appelez-nous pendant les heures de bureau"
+          "description": "Appelez-nous pendant les heures d'ouverture"
         },
         "address": {
           "title": "Adresse",
-          "content": "123 Rue des Affaires, Paris, France",
+          "content": "123 Rue Business, Paris, France",
           "description": "Visitez notre bureau"
         },
         "hours": {
@@ -141,26 +142,26 @@
         "items": [
           {
             "question": "Comment commencer avec Neo Rent ?",
-            "answer": "Commencer est facile ! Contactez simplement notre équipe pour programmer une démo et nous vous aiderons à configurer votre compte et importer vos données immobilières."
+            "answer": "Commencer est facile ! Contactez simplement notre équipe pour programmer une démonstration et nous vous aiderons à configurer votre compte et importer vos données de propriétés."
           },
           {
             "question": "Mes données sont-elles sécurisées ?",
             "answer": "Oui, nous utilisons des mesures de sécurité de niveau entreprise incluant le chiffrement, des serveurs sécurisés et des sauvegardes régulières pour protéger vos données."
           },
           {
-            "question": "Puis-je importer mes données immobilières existantes ?",
-            "answer": "Absolument ! Notre équipe vous aidera à importer vos données existantes de propriétés et de locataires depuis des tableurs ou d'autres systèmes de gestion immobilière."
+            "question": "Puis-je importer mes données de propriétés existantes ?",
+            "answer": "Absolument ! Notre équipe vous aidera à importer vos données existantes de propriétés et locataires depuis des feuilles de calcul ou d'autres systèmes de gestion immobilière."
           },
           {
             "question": "Offrez-vous un support client ?",
-            "answer": "Oui, nous fournissons un support client complet incluant le support téléphonique, email et chat pendant les heures de bureau, plus une documentation extensive et des tutoriels vidéo."
+            "answer": "Oui, nous fournissons un support client complet incluant le support téléphonique, email et chat pendant les heures d'ouverture, plus une documentation extensive et des tutoriels vidéo."
           }
         ]
       }
     },
     "login": {
       "title": "Connectez-vous à votre espace",
-      "subtitle": "Gérez vos biens immobiliers avec facilité",
+      "subtitle": "Gérez vos propriétés immobilières en toute simplicité",
       "formTitle": "Connexion à Neo Rent",
       "formSubtitle": "Accédez à votre espace de gestion immobilière",
       "email": "Email",
@@ -168,40 +169,40 @@
       "password": "Mot de passe",
       "passwordPlaceholder": "••••••••",
       "signIn": "Se connecter",
-      "signingIn": "Connexion en cours...",
+      "signingIn": "Connexion...",
       "forgotPassword": "Mot de passe oublié ?",
       "importantInfo": "Information importante :",
       "profileWarning": "Votre compte doit être configuré par votre gestionnaire immobilier avant la première connexion. Si vous obtenez une erreur \"Accès refusé\", contactez votre gestionnaire pour activer votre compte."
     },
     "ownerRegistration": {
       "createAccountLink": "Vous êtes propriétaire ? Créer un compte",
-      "dialogTitle": "Demande de création de compte propriétaire",
-      "fullName": "Nom complet",
+      "dialogTitle": "Demande de Création de Compte Propriétaire",
+      "fullName": "Nom Complet",
       "email": "Email",
       "phone": "Téléphone",
-      "company": "Société",
+      "company": "Entreprise",
       "address": "Adresse",
       "messageOptional": "Message (optionnel)",
-      "messagePlaceholder": "Informations complémentaires...",
+      "messagePlaceholder": "Informations supplémentaires...",
       "importantInfo": "Information importante",
       "importantInfoText": "Votre demande sera examinée par un administrateur. Vous recevrez un email de confirmation une fois votre compte activé.",
-      "sendRequest": "Envoyer la demande",
-      "sending": "Envoi en cours...",
+      "sendRequest": "Envoyer la Demande",
+      "sending": "Envoi...",
       "requestSent": "Demande envoyée",
-      "requestSentDescription": "Votre demande de création de compte a été envoyée. Un administrateur l'examinera prochainement.",
-      "submitError": "Une erreur est survenue lors de l'envoi de votre demande."
+      "requestSentDescription": "Votre demande de création de compte a été envoyée. Un administrateur l'examinera sous peu.",
+      "submitError": "Une erreur s'est produite lors de l'envoi de votre demande."
     },
     "chat": {
-      "startConversation": "Démarrer une conversation",
+      "startConversation": "Commencer une conversation",
       "fillForm": "Remplissez le formulaire pour commencer à discuter avec notre équipe",
-      "fullName": "Nom complet",
+      "fullName": "Nom Complet",
       "namePlaceholder": "Votre nom",
       "email": "Email",
       "emailPlaceholder": "votre@email.com",
-      "startChat": "Démarrer le chat"
+      "startChat": "Commencer le chat"
     },
     "footer": {
-      "description": "La plateforme complète pour la gestion immobilière moderne. Simplifiez vos opérations et développez votre entreprise avec Neo Rent.",
+      "description": "La plateforme complète pour la gestion immobilière moderne. Simplifiez vos opérations et développez votre activité avec Neo Rent.",
       "usefulLinks": "Liens Utiles",
       "contact": "Contact",
       "copyright": "Tous droits réservés.",
@@ -210,6 +211,34 @@
       "termsOfService": "Conditions d'Utilisation",
       "intellectualProperty": "© 2025 Neo Rent - Plateforme de Gestion Immobilière. Tous droits réservés. Toute reproduction, distribution ou utilisation non autorisée de ce contenu est strictement interdite.",
       "trademarks": "Neo Rent® est une marque déposée de Neotech-consulting. Toutes les autres marques mentionnées sont la propriété de leurs propriétaires respectifs."
+    },
+    "propertiesPage": {
+      "title": "Nos Propriétés Disponibles",
+      "subtitle": "Découvrez notre sélection de propriétés soigneusement choisies pour vous offrir le meilleur cadre de vie",
+      "searchPlaceholder": "Rechercher par localisation...",
+      "searchButton": "Rechercher",
+      "noProperties": "Aucune propriété disponible",
+      "noPropertiesDescription": "Aucune propriété ne correspond à vos critères de recherche.",
+      "viewDetails": "Voir les détails",
+      "contactUs": "Nous contacter",
+      "scheduleVisit": "Programmer une visite",
+      "propertyDetails": {
+        "surface": "Surface",
+        "rooms": "Pièces",
+        "floor": "Étage",
+        "type": "Type",
+        "rent": "Loyer",
+        "charges": "Charges",
+        "deposit": "Dépôt de garantie",
+        "availability": "Disponibilité",
+        "available": "Disponible",
+        "rented": "Loué",
+        "description": "Description",
+        "equipment": "Équipements",
+        "location": "Localisation",
+        "contact": "Contact",
+        "visitRequest": "Demande de visite"
+      }
     }
   }
 }
