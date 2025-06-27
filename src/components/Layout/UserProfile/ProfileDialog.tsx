@@ -17,7 +17,7 @@ interface ProfileDialogProps {
   onOpenChange: (open: boolean) => void;
   user: User;
   userProfile: any | null;
-  userType: 'locataire' | 'colocataire' | 'admin' | 'employee' | null;
+  userType: 'locataire' | 'colocataire' | 'admin' | 'owner' | null;
 }
 
 export const ProfileDialog = ({ 
@@ -66,9 +66,9 @@ export const ProfileDialog = ({
         fr: 'Administrateur',
         en: 'Administrator'
       },
-      employee: {
-        fr: 'Employé',
-        en: 'Employee'
+      owner: {
+        fr: 'Propriétaire',
+        en: 'Owner'
       }
     };
 
@@ -101,7 +101,7 @@ export const ProfileDialog = ({
           <div className="space-y-2">
             <Label>{getLocalizedText('role')}</Label>
             <Input
-              value={userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('employee')}
+              value={userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('owner')}
               readOnly
               className="bg-gray-50"
             />
