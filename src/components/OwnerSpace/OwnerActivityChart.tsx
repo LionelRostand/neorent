@@ -3,9 +3,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
-import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
-import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useOwnerData } from '@/hooks/useOwnerData';
 import { Users, Home, TrendingUp } from 'lucide-react';
 
 interface OwnerActivityChartProps {
@@ -14,9 +12,7 @@ interface OwnerActivityChartProps {
 
 const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile }) => {
   const { t } = useTranslation();
-  const { tenants } = useFirebaseTenants();
-  const { roommates } = useFirebaseRoommates();
-  const { payments } = useFirebasePayments();
+  const { tenants, roommates, payments } = useOwnerData(ownerProfile);
 
   // Données pour le graphique de paiements mensuels
   const paymentData = useMemo(() => {
