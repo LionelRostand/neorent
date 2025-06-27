@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -75,7 +76,7 @@ const EmployeeManagement: React.FC = () => {
       
       toast({
         title: t('common.success'),
-        description: t('employees.addSuccess'),
+        description: t('settings.owners.addSuccess'),
       });
       
       resetForm();
@@ -85,7 +86,7 @@ const EmployeeManagement: React.FC = () => {
       console.error('Error adding employee:', error);
       toast({
         title: t('common.error'),
-        description: t('employees.addError'),
+        description: t('settings.owners.addError'),
         variant: "destructive",
       });
     }
@@ -107,7 +108,7 @@ const EmployeeManagement: React.FC = () => {
       
       toast({
         title: t('common.success'),
-        description: t('employees.updateSuccess'),
+        description: t('settings.owners.updateSuccess'),
       });
       
       resetForm();
@@ -118,21 +119,21 @@ const EmployeeManagement: React.FC = () => {
       console.error('Error updating employee:', error);
       toast({
         title: t('common.error'),
-        description: t('employees.updateError'),
+        description: t('settings.owners.updateError'),
         variant: "destructive",
       });
     }
   };
 
   const handleDeleteEmployee = async (employeeId: string) => {
-    if (!confirm(t('employees.confirmDelete'))) return;
+    if (!confirm(t('settings.owners.confirmDelete'))) return;
 
     try {
       await deleteDoc(doc(db, 'user_roles', employeeId));
       
       toast({
         title: t('common.success'),
-        description: t('employees.deleteSuccess'),
+        description: t('settings.owners.deleteSuccess'),
       });
       
       refetch();
@@ -140,7 +141,7 @@ const EmployeeManagement: React.FC = () => {
       console.error('Error deleting employee:', error);
       toast({
         title: t('common.error'),
-        description: t('employees.deleteError'),
+        description: t('settings.owners.deleteError'),
         variant: "destructive",
       });
     }
@@ -197,17 +198,17 @@ const EmployeeManagement: React.FC = () => {
     if (Array.isArray(permissions)) {
       return permissions.join(', ');
     }
-    return t('employees.noPermissions');
+    return t('settings.owners.noPermissions');
   };
 
   const getCompanyName = (companyId?: string): string => {
-    if (!companyId) return t('employees.noCompany');
+    if (!companyId) return t('settings.owners.noCompany');
     const company = companies.find(c => c.id === companyId);
-    return company ? company.name : t('employees.unknownCompany');
+    return company ? company.name : t('settings.owners.unknownCompany');
   };
 
   if (loading || companiesLoading) {
-    return <div>{t('settings.employees.loading')}</div>;
+    return <div>{t('settings.owners.loading')}</div>;
   }
 
   return (
@@ -216,7 +217,7 @@ const EmployeeManagement: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between text-lg md:text-xl">
             <div className="flex items-center gap-2">
-              👥 {t('settings.employees.management')}
+              👥 {t('settings.owners.management')}
             </div>
           </CardTitle>
         </CardHeader>
@@ -236,18 +237,18 @@ const EmployeeManagement: React.FC = () => {
             <TabsContent value="employees" className="space-y-4">
               <div className="flex justify-between items-center">
                 <p className="text-gray-600 text-sm md:text-base">
-                  {t('settings.employees.description')}
+                  {t('settings.owners.description')}
                 </p>
                 <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                   <DialogTrigger asChild>
                     <Button className="flex items-center gap-2">
                       <Plus className="h-4 w-4" />
-                      {t('settings.employees.addEmployee')}
+                      {t('settings.owners.addOwner')}
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>{t('settings.employees.addEmployee')}</DialogTitle>
+                      <DialogTitle>{t('settings.owners.addOwner')}</DialogTitle>
                     </DialogHeader>
                     <EmployeeForm
                       formData={formData}
@@ -280,7 +281,7 @@ const EmployeeManagement: React.FC = () => {
           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>{t('settings.employees.editEmployee')}</DialogTitle>
+                <DialogTitle>{t('settings.owners.editOwner')}</DialogTitle>
               </DialogHeader>
               <EmployeeForm
                 formData={formData}
