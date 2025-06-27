@@ -1,3 +1,4 @@
+
 {
   "settings": {
     "title": "Settings",
@@ -99,7 +100,8 @@
       "updateSuccess": "Employee updated successfully",
       "updateError": "Error updating employee",
       "deleteSuccess": "Employee deleted successfully",
-      "deleteError": "Error deleting employee"
+      "deleteError": "Error deleting employee",
+      "activateAccess": "Activate Access"
     },
     "permissions": {
       "title": "Permission Management",

@@ -1,3 +1,4 @@
+
 {
   "settings": {
     "title": "Paramètres",
@@ -99,7 +100,8 @@
       "updateSuccess": "Employé mis à jour avec succès",
       "updateError": "Erreur lors de la mise à jour de l'employé",
       "deleteSuccess": "Employé supprimé avec succès",
-      "deleteError": "Erreur lors de la suppression de l'employé"
+      "deleteError": "Erreur lors de la suppression de l'employé",
+      "activateAccess": "Activer l'accès"
     },
     "permissions": {
       "title": "Gestion des Permissions",

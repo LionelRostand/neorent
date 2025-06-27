@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -67,14 +68,14 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>{t('employees.fullName')}</TableHead>
-            <TableHead>{t('profile.email')}</TableHead>
-            <TableHead>{t('employees.role')}</TableHead>
-            <TableHead>{t('employees.company')}</TableHead>
-            <TableHead>{t('employees.creationDate')}</TableHead>
-            <TableHead>{t('employees.permissions')}</TableHead>
-            <TableHead>{t('employees.passwordStatus')}</TableHead>
-            <TableHead>{t('employees.actions')}</TableHead>
+            <TableHead>{t('settings.employees.fullName')}</TableHead>
+            <TableHead>{t('common.email')}</TableHead>
+            <TableHead>{t('settings.employees.role')}</TableHead>
+            <TableHead>{t('settings.employees.company')}</TableHead>
+            <TableHead>{t('settings.employees.creationDate')}</TableHead>
+            <TableHead>{t('settings.employees.permissions')}</TableHead>
+            <TableHead>{t('settings.employees.passwordStatus')}</TableHead>
+            <TableHead>{t('settings.employees.actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -96,7 +97,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                     ? 'bg-red-100 text-red-800' 
                     : 'bg-blue-100 text-blue-800'
                 }`}>
-                  {employee.role === 'admin' ? t('employees.administrator') : t('employees.employee')}
+                  {employee.role === 'admin' ? t('settings.employees.administrator') : t('settings.employees.employee')}
                 </span>
               </TableCell>
               <TableCell>{getCompanyName(employee.companyId)}</TableCell>
@@ -107,12 +108,12 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                   {employee.hasPassword ? (
                     <div className="flex items-center gap-1 text-green-600">
                       <CheckCircle className="h-4 w-4" />
-                      <span className="text-sm">{t('employees.defined')}</span>
+                      <span className="text-sm">{t('common.defined')}</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-1 text-red-600">
                       <XCircle className="h-4 w-4" />
-                      <span className="text-sm">{t('employees.notDefined')}</span>
+                      <span className="text-sm">{t('common.notDefined')}</span>
                     </div>
                   )}
                 </div>
@@ -150,7 +151,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                       size="sm"
                       onClick={() => onActivateAccess(employee)}
                       className="h-8 w-8 p-0 text-green-600 hover:text-green-700"
-                      title={t('employees.activateAccess')}
+                      title={t('settings.employees.activateAccess')}
                     >
                       <UserPlus className="h-4 w-4" />
                     </Button>

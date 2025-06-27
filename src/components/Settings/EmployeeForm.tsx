@@ -50,7 +50,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="name">{t('employees.fullName')}</Label>
+        <Label htmlFor="name">{t('settings.employees.fullName')}</Label>
         <Input
           id="name"
           value={formData.name}
@@ -60,7 +60,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       </div>
       
       <div>
-        <Label htmlFor="email">{t('profile.email')}</Label>
+        <Label htmlFor="email">{t('common.email')}</Label>
         <Input
           id="email"
           type="email"
@@ -71,26 +71,26 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       </div>
       
       <div>
-        <Label htmlFor="role">{t('employees.role')}</Label>
+        <Label htmlFor="role">{t('settings.employees.role')}</Label>
         <Select value={formData.role} onValueChange={(value: 'admin' | 'employee') => setFormData({ ...formData, role: value })}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="employee">{t('employees.employee')}</SelectItem>
-            <SelectItem value="admin">{t('employees.administrator')}</SelectItem>
+            <SelectItem value="employee">{t('settings.employees.employee')}</SelectItem>
+            <SelectItem value="admin">{t('settings.employees.administrator')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
       
       <div>
-        <Label htmlFor="company">{t('employees.company')}</Label>
+        <Label htmlFor="company">{t('settings.employees.company')}</Label>
         <Select value={formData.companyId} onValueChange={(value: string) => setFormData({ ...formData, companyId: value })}>
           <SelectTrigger>
-            <SelectValue placeholder={t('employees.selectCompany')} />
+            <SelectValue placeholder={t('settings.employees.selectCompany')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="none">{t('employees.noCompany')}</SelectItem>
+            <SelectItem value="none">{t('settings.employees.noCompany')}</SelectItem>
             {companies.map((company) => (
               <SelectItem key={company.id} value={company.id}>
                 {company.name}
@@ -103,9 +103,9 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
       {isEdit && selectedEmployee && onPasswordClick && (
         <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
           <div>
-            <Label className="font-medium">{t('employees.password')}</Label>
+            <Label className="font-medium">{t('common.password')}</Label>
             <p className="text-sm text-gray-600">
-              {selectedEmployee.hasPassword ? t('employees.passwordSet') : t('employees.passwordNotSet')}
+              {selectedEmployee.hasPassword ? t('common.passwordSet') : t('common.passwordNotSet')}
             </p>
           </div>
           <Button
@@ -115,13 +115,13 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             onClick={() => onPasswordClick(selectedEmployee)}
           >
             <Lock className="h-4 w-4 mr-2" />
-            {selectedEmployee.hasPassword ? t('employees.changePassword') : t('employees.setPassword')}
+            {selectedEmployee.hasPassword ? t('common.changePassword') : t('common.setPassword')}
           </Button>
         </div>
       )}
       
       <Button type="submit" className="w-full">
-        {isEdit ? t('employees.editEmployee') : t('employees.addEmployee')}
+        {isEdit ? t('settings.employees.editEmployee') : t('settings.employees.addEmployee')}
       </Button>
     </form>
   );
