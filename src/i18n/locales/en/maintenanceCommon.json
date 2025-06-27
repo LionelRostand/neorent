@@ -79,7 +79,7 @@
     "locationPlaceholder": "e.g: Kitchen, Bathroom, Living room...",
     "descriptionPlaceholder": "Describe the maintenance problem in detail...",
     "notesPlaceholder": "Additional notes (optional)...",
-    "newRequest": "New request",
+    "newRequest": "New Request",
     "totalRequests": "Total Requests",
     "requestsRegistered": "requests registered",
     "pendingRequests": "Pending",
