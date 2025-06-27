@@ -11,7 +11,7 @@ const DatabaseTab: React.FC = () => {
   
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
-    console.log(`${type} copié dans le presse-papier`);
+    console.log(`${type} ${t('settings.firebase.copy')}`);
   };
 
   return (

@@ -20,8 +20,8 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Paramètres</h1>
-            <p className="text-gray-600 mt-1">Configurez vos préférences et paramètres</p>
+            <h1 className="text-3xl font-bold text-gray-900">{t('settings.title')}</h1>
+            <p className="text-gray-600 mt-1">{t('settings.description')}</p>
           </div>
         </div>
 
@@ -31,23 +31,23 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
-                Profil Utilisateur
+                {t('settings.account')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="name">Nom complet</Label>
+                <Label htmlFor="name">{t('common.name')}</Label>
                 <Input id="name" defaultValue={currentProfile?.name || ''} />
               </div>
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('common.email')}</Label>
                 <Input id="email" type="email" defaultValue={currentProfile?.email || ''} />
               </div>
               <div>
-                <Label htmlFor="phone">Téléphone</Label>
+                <Label htmlFor="phone">{t('common.phone')}</Label>
                 <Input id="phone" defaultValue={currentProfile?.phone || ''} />
               </div>
-              <Button>Sauvegarder les modifications</Button>
+              <Button>{t('common.save')}</Button>
             </CardContent>
           </Card>
 
@@ -56,23 +56,23 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5" />
-                Sécurité
+                {t('settings.security')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="current-password">Mot de passe actuel</Label>
+                <Label htmlFor="current-password">{t('settings.security.currentPassword', 'Current password')}</Label>
                 <Input id="current-password" type="password" />
               </div>
               <div>
-                <Label htmlFor="new-password">Nouveau mot de passe</Label>
+                <Label htmlFor="new-password">{t('settings.security.newPassword', 'New password')}</Label>
                 <Input id="new-password" type="password" />
               </div>
               <div>
-                <Label htmlFor="confirm-password">Confirmer le mot de passe</Label>
+                <Label htmlFor="confirm-password">{t('settings.security.confirmPassword', 'Confirm password')}</Label>
                 <Input id="confirm-password" type="password" />
               </div>
-              <Button>Changer le mot de passe</Button>
+              <Button>{t('settings.security.changePassword', 'Change password')}</Button>
             </CardContent>
           </Card>
 
@@ -81,30 +81,30 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
-                Notifications
+                {t('settings.notifications')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Notifications par email</p>
-                  <p className="text-sm text-gray-500">Recevoir les notifications importantes</p>
+                  <p className="font-medium">{t('settings.emailNotifications')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.emailNotificationsDesc', 'Receive important notifications')}</p>
                 </div>
-                <Button variant="outline" size="sm">Activer</Button>
+                <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Rappels de paiement</p>
-                  <p className="text-sm text-gray-500">Être notifié des loyers en retard</p>
+                  <p className="font-medium">{t('settings.paymentAlerts')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.paymentAlertsDesc', 'Be notified of late payments')}</p>
                 </div>
-                <Button variant="outline" size="sm">Activer</Button>
+                <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Maintenance urgente</p>
-                  <p className="text-sm text-gray-500">Notifications de maintenance prioritaire</p>
+                  <p className="font-medium">{t('settings.maintenanceAlerts')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.maintenanceAlertsDesc', 'Priority maintenance notifications')}</p>
                 </div>
-                <Button variant="outline" size="sm">Activer</Button>
+                <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
               </div>
             </CardContent>
           </Card>
@@ -114,30 +114,30 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
-                Système
+                {t('settings.general')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Langue</p>
-                  <p className="text-sm text-gray-500">Français</p>
+                  <p className="font-medium">{t('settings.language')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.currentLanguage', 'Current language')}</p>
                 </div>
-                <Button variant="outline" size="sm">Changer</Button>
+                <Button variant="outline" size="sm">{t('common.change', 'Change')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Fuseau horaire</p>
+                  <p className="font-medium">{t('settings.timezone')}</p>
                   <p className="text-sm text-gray-500">Europe/Paris</p>
                 </div>
-                <Button variant="outline" size="sm">Modifier</Button>
+                <Button variant="outline" size="sm">{t('common.edit')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Format de date</p>
+                  <p className="font-medium">{t('settings.dateFormat')}</p>
                   <p className="text-sm text-gray-500">DD/MM/YYYY</p>
                 </div>
-                <Button variant="outline" size="sm">Changer</Button>
+                <Button variant="outline" size="sm">{t('common.change', 'Change')}</Button>
               </div>
             </CardContent>
           </Card>
@@ -147,30 +147,30 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Database className="h-5 w-5" />
-                Gestion des Données
+                {t('settings.dataManagement', 'Data Management')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Exporter mes données</p>
-                  <p className="text-sm text-gray-500">Télécharger toutes vos données en format CSV</p>
+                  <p className="font-medium">{t('settings.dataExport')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.dataExportDesc', 'Download all your data in CSV format')}</p>
                 </div>
-                <Button variant="outline">Exporter</Button>
+                <Button variant="outline">{t('common.export')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Sauvegarde automatique</p>
-                  <p className="text-sm text-gray-500">Sauvegarder automatiquement vos données</p>
+                  <p className="font-medium">{t('settings.autoBackup')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.autoBackupDesc', 'Automatically backup your data')}</p>
                 </div>
-                <Button variant="outline" size="sm">Configurer</Button>
+                <Button variant="outline" size="sm">{t('settings.configure', 'Configure')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-red-600">Supprimer mon compte</p>
-                  <p className="text-sm text-gray-500">Supprimer définitivement votre compte et toutes vos données</p>
+                  <p className="font-medium text-red-600">{t('settings.deleteAccount', 'Delete my account')}</p>
+                  <p className="text-sm text-gray-500">{t('settings.deleteAccountDesc', 'Permanently delete your account and all your data')}</p>
                 </div>
-                <Button variant="destructive">Supprimer</Button>
+                <Button variant="destructive">{t('common.delete')}</Button>
               </div>
             </CardContent>
           </Card>
