@@ -15,7 +15,7 @@ interface OwnerSpaceProfileHeaderProps {
 
 const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ currentProfile }) => {
   const navigate = useNavigate();
-  const { userType, logout } = useAuth();
+  const { userType, logout, user } = useAuth();
   const { isAuthorizedAdmin } = useAdminTenantAccess();
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
@@ -46,9 +46,24 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   console.log('OwnerSpaceProfileHeader - userType:', userType);
   console.log('OwnerSpaceProfileHeader - isAuthorizedAdmin:', isAuthorizedAdmin);
 
-  // Determine display name and email - prioritize admin profile
-  const displayName = currentProfile?.name || t('profile.owner');
-  const displayEmail = currentProfile?.email || 'Non spécifié';
+  // Déterminer si c'est un admin qui accède à l'espace propriétaire
+  const isAdminAccessingOwnerSpace = isAuthorizedAdmin || userType === 'admin';
+  const isAdmin = user?.email === 'admin@neotech-consulting.com';
+  
+  // Nom de l'admin connecté
+  const adminName = isAdmin ? 'Lionel DJOSSA' : (user?.displayName || user?.email || 'Administrateur');
+  
+  // Nom du propriétaire de l'espace
+  const ownerName = currentProfile?.name || t('profile.owner');
+  
+  // Affichage du nom principal
+  const displayName = isAdminAccessingOwnerSpace ? 
+    `${adminName} → ${ownerName}` : ownerName;
+  
+  // Email à afficher
+  const displayEmail = isAdminAccessingOwnerSpace ? 
+    user?.email || 'admin@neotech-consulting.com' : 
+    (currentProfile?.email || 'Non spécifié');
   
   // Display role - ensure admin shows correctly
   const getRoleTranslation = (role: string, type: string) => {
@@ -76,6 +91,28 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
     return null;
   };
 
+  // Afficher les informations du propriétaire si l'admin accède à l'espace
+  const getOwnerInfo = () => {
+    if (isAdminAccessingOwnerSpace && currentProfile) {
+      return (
+        <div className="mt-2 p-2 bg-blue-50 rounded-md border-l-4 border-blue-400">
+          <p className="text-xs text-blue-800 font-medium">
+            {i18n.language === 'fr' ? 'Espace propriétaire :' : 'Owner space:'}
+          </p>
+          <p className="text-xs text-blue-700">
+            {currentProfile.name} - {currentProfile.email}
+          </p>
+          {currentProfile.type && (
+            <p className="text-xs text-blue-600">
+              {i18n.language === 'fr' ? 'Type :' : 'Type:'} {currentProfile.type}
+            </p>
+          )}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
       <div className="flex items-center justify-between">
@@ -90,6 +127,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
             {displayRole}
           </p>
           {getAdminBadge()}
+          {getOwnerInfo()}
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-3">

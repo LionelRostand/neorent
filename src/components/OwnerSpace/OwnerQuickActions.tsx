@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus } from 'lucide-react';
+import { Plus, Settings } from 'lucide-react';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
@@ -10,6 +10,9 @@ import QuickActionItem from './QuickActions/QuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
 import QuickActionsManager from './QuickActions/QuickActionsManager';
 import SidebarMenuSelector from './QuickActions/SidebarMenuSelector';
+import PermissionDeniedView from './QuickActions/PermissionDeniedView';
+import { useAuth } from '@/hooks/useAuth';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
@@ -18,8 +21,13 @@ interface OwnerQuickActionsProps {
 
 const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, setActiveView }) => {
   const { i18n } = useTranslation();
+  const { userType } = useAuth();
+  const { isAuthorizedAdmin } = useAdminTenantAccess();
   const { getEnabledActions, isAdmin, refreshKey } = useQuickActionsManager();
   const [showMenuSelector, setShowMenuSelector] = useState(false);
+  
+  // Vérifier si l'utilisateur est admin
+  const hasAdminRights = userType === 'admin' || isAuthorizedAdmin || isAdmin;
   
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -33,6 +41,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
       addMenu: {
         fr: 'Ajouter un menu',
         en: 'Add Menu'
+      },
+      manageActions: {
+        fr: 'Gérer les actions',
+        en: 'Manage Actions'
       }
     };
 
@@ -52,6 +64,11 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
     expiringContracts,
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
+
+  // Si l'utilisateur n'a pas les droits admin, afficher la vue de permission refusée
+  if (!hasAdminRights) {
+    return <PermissionDeniedView />;
+  }
 
   const enabledActions = getEnabledActions();
   const quickActions = createQuickActionsConfig(
@@ -76,7 +93,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
               <Plus className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               <span className="text-white truncate">{getLocalizedText('quickActionsTitle')}</span>
             </div>
-            {isAdmin && (
+            <div className="flex items-center gap-2">
+              {/* Bouton pour ajouter un menu */}
               <button
                 onClick={() => setShowMenuSelector(true)}
                 className="p-1.5 sm:p-2 hover:bg-green-500/30 rounded-full transition-colors flex-shrink-0"
@@ -84,7 +102,15 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
               >
                 <Plus className="h-3 w-3 sm:h-4 sm:w-4 text-white/80" />
               </button>
-            )}
+              {/* Bouton pour gérer les actions */}
+              <button
+                onClick={() => {/* Le gestionnaire d'actions s'ouvre via le composant QuickActionsManager */}}
+                className="p-1.5 sm:p-2 hover:bg-green-500/30 rounded-full transition-colors flex-shrink-0"
+                title={getLocalizedText('manageActions')}
+              >
+                <Settings className="h-3 w-3 sm:h-4 sm:w-4 text-white/80" />
+              </button>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 sm:space-y-3 p-3 sm:p-4 pt-0">
@@ -94,10 +120,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
         </CardContent>
       </Card>
 
-      {isAdmin && (
-        <QuickActionsManager />
-      )}
+      {/* Gestionnaire d'actions rapides pour les admins */}
+      <QuickActionsManager />
 
+      {/* Sélecteur de menu de la sidebar */}
       {showMenuSelector && (
         <SidebarMenuSelector
           onClose={() => setShowMenuSelector(false)}
@@ -108,6 +134,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
         />
       )}
 
+      {/* Dialogues des actions rapides */}
       <QuickActionDialogs
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
