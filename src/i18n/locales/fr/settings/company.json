@@ -1,0 +1,15 @@
+
+{
+  "settings": {
+    "company": {
+      "title": "Gestion des Entreprises",
+      "subtitle": "Gérez les informations de votre entreprise",
+      "addCompany": "Ajouter une Entreprise",
+      "editCompany": "Modifier l'Entreprise",
+      "companyName": "Nom de l'Entreprise",
+      "companyAddress": "Adresse de l'Entreprise",
+      "companyPhone": "Téléphone de l'Entreprise",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette entreprise ?"
+    }
+  }
+}

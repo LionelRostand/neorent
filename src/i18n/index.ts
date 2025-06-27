@@ -57,7 +57,6 @@ import frMaintenanceResponsibilities from './locales/fr/maintenanceResponsibilit
 import frMessages from './locales/fr/messages.json';
 import frTaxes from './locales/fr/taxes.json';
 import frWebsite from './locales/fr/website.json';
-import frSettings from './locales/fr/settings.json';
 import frHelp from './locales/fr/help.json';
 import frPublicSite from './locales/fr/publicSite.json';
 import frTenantSpace from './locales/fr/tenantSpace.json';
@@ -67,6 +66,32 @@ import frTenantUpload from './locales/fr/tenantUpload.json';
 import frTenantProfile from './locales/fr/tenantProfile.json';
 import frOwnerSpace from './locales/fr/ownerSpace.json';
 import frProfile from './locales/fr/profile.json';
+
+// French settings translations (split into multiple files)
+import frSettingsGeneral from './locales/fr/settings/general.json';
+import frSettingsSecurity from './locales/fr/settings/security.json';
+import frSettingsAdminAccess from './locales/fr/settings/adminAccess.json';
+import frSettingsFirebase from './locales/fr/settings/firebase.json';
+import frSettingsDatabase from './locales/fr/settings/database.json';
+import frSettingsCompany from './locales/fr/settings/company.json';
+import frSettingsOwners from './locales/fr/settings/owners.json';
+import frSettingsPermissions from './locales/fr/settings/permissions.json';
+import frSettingsOwnerRegistrations from './locales/fr/settings/ownerRegistrations.json';
+
+// Merge French settings translations
+const frSettings = {
+  settings: {
+    ...frSettingsGeneral.settings,
+    ...frSettingsSecurity.settings,
+    ...frSettingsAdminAccess.settings,
+    ...frSettingsFirebase.settings,
+    ...frSettingsDatabase.settings,
+    ...frSettingsCompany.settings,
+    ...frSettingsOwners.settings,
+    ...frSettingsPermissions.settings,
+    ...frSettingsOwnerRegistrations.settings,
+  }
+};
 
 const resources = {
   en: {

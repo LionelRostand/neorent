@@ -1,0 +1,41 @@
+
+{
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Configurez votre plateforme selon vos besoins",
+    "description": "Gérez les paramètres de votre application",
+    "account": "Compte utilisateur",
+    "notifications": "Notifications",
+    "emailNotifications": "Notifications par email",
+    "emailNotificationsDesc": "Recevoir des notifications par email",
+    "paymentAlerts": "Alertes de paiement",
+    "paymentAlertsDesc": "Notifications pour les paiements en retard",
+    "maintenanceAlerts": "Alertes de maintenance",
+    "maintenanceAlertsDesc": "Notifications pour les demandes de maintenance",
+    "general": "Général",
+    "language": "Langue",
+    "currentLanguage": "Français",
+    "timezone": "Fuseau horaire",
+    "dateFormat": "Format de date",
+    "dataManagement": "Gestion des données",
+    "dataExport": "Exporter les données",
+    "dataExportDesc": "Télécharger toutes vos données",
+    "autoBackup": "Sauvegarde automatique",
+    "autoBackupDesc": "Configuration des sauvegardes",
+    "deleteAccount": "Supprimer le compte",
+    "deleteAccountDesc": "Supprimer définitivement votre compte",
+    "configure": "Configurer",
+    "enabled": "Activé",
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Propriétaires",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Admin"
+    }
+  }
+}

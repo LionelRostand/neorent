@@ -1,0 +1,21 @@
+
+{
+  "settings": {
+    "ownerRegistrations": {
+      "title": "Demandes d'inscription des propriétaires",
+      "pendingCount": "demandes en attente",
+      "noRequests": "Aucune demande d'inscription en attente",
+      "noRequestsDescription": "Les nouvelles demandes d'inscription de propriétaires apparaîtront ici pour approbation",
+      "loading": "Chargement des demandes d'inscription...",
+      "requestCreated": "Demande créée le",
+      "message": "Message",
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "status": {
+        "pending": "En attente",
+        "approved": "Approuvée",
+        "rejected": "Rejetée"
+      }
+    }
+  }
+}

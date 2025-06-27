@@ -1,0 +1,33 @@
+
+{
+  "settings": {
+    "owners": {
+      "management": "Gestion des propriétaires",
+      "description": "Gérez les propriétaires et leurs permissions",
+      "addOwner": "Ajouter un propriétaire",
+      "editOwner": "Modifier le propriétaire",
+      "fullName": "Nom complet",
+      "role": "Rôle",
+      "owner": "Propriétaire",
+      "administrator": "Administrateur",
+      "company": "Entreprise",
+      "selectCompany": "Sélectionner une entreprise",
+      "noCompany": "Aucune entreprise",
+      "unknownCompany": "Entreprise inconnue",
+      "creationDate": "Date de création",
+      "permissions": "Permissions",
+      "noPermissions": "Aucune permission",
+      "passwordStatus": "État du mot de passe",
+      "actions": "Actions",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce propriétaire ?",
+      "addSuccess": "Propriétaire ajouté avec succès",
+      "addError": "Erreur lors de l'ajout du propriétaire",
+      "updateSuccess": "Propriétaire mis à jour avec succès",
+      "updateError": "Erreur lors de la mise à jour du propriétaire",
+      "deleteSuccess": "Propriétaire supprimé avec succès",
+      "deleteError": "Erreur lors de la suppression du propriétaire",
+      "loading": "Chargement...",
+      "activateAccess": "Activer l'accès"
+    }
+  }
+}

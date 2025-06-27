@@ -1,0 +1,27 @@
+
+{
+  "settings": {
+    "permissions": {
+      "title": "Permissions des propriétaires",
+      "subtitle": "Configurez les permissions détaillées pour chaque propriétaire",
+      "selectOwner": "Sélectionner un propriétaire",
+      "chooseOwner": "Choisir un propriétaire",
+      "selectedOwnerInfo": "Informations du propriétaire sélectionné",
+      "name": "Nom",
+      "email": "Email",
+      "company": "Entreprise",
+      "noCompany": "Aucune entreprise",
+      "unknownCompany": "Entreprise inconnue",
+      "noOwners": "Aucun propriétaire disponible",
+      "allowAll": "Tout autoriser",
+      "denyAll": "Tout refuser",
+      "read": "Lecture",
+      "write": "Écriture",
+      "view": "Visualisation",
+      "delete": "Suppression",
+      "loading": "Chargement des permissions...",
+      "saving": "Sauvegarde...",
+      "save": "Sauvegarder"
+    }
+  }
+}
