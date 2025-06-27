@@ -9,7 +9,7 @@ export interface Property {
   status: string;
   tenant: string | null;
   image: string;
-  images?: string[]; // Add support for multiple images (max 3)
+  images?: string[]; // Support for multiple images (max 3)
   locationType: string;
   totalRooms: number;
   availableRooms: number;

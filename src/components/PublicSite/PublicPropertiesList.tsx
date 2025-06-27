@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { Property } from '@/types/property';
 import { 
   MapPin, 
   Euro, 
@@ -22,7 +24,7 @@ interface PublicPropertiesListProps {
 }
 
 export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps) => {
-  const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
   
@@ -81,7 +83,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     }
   };
 
-  const getRoomInfo = (property: any) => {
+  const getRoomInfo = (property: Property) => {
     const rooms = property.locationType === 'Colocation' 
       ? property.totalRooms || 1
       : property.type === 'Studio' ? 1 : 2;
@@ -89,7 +91,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return { rooms, bathrooms };
   };
 
-  const getPropertyMainImage = (property: any) => {
+  const getPropertyMainImage = (property: Property) => {
     // Get the first available image from either the legacy 'image' field or new 'images' array
     if (property.image && property.image !== '/placeholder.svg') {
       return property.image;
@@ -100,7 +102,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return null;
   };
 
-  const handlePropertyClick = (property: any) => {
+  const handlePropertyClick = (property: Property) => {
     setSelectedProperty(property);
     setIsModalOpen(true);
   };
