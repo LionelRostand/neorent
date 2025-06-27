@@ -5,7 +5,7 @@ import { EmployeePermissions, MenuPermission } from '@/components/Settings/types
 export const useUserPermissions = () => {
   const { userProfile, userType } = useAuth();
 
-  const isOwner = userType === 'employee' && userProfile?.isOwner;
+  const isOwner = userType === 'owner' && userProfile?.isOwner;
 
   const hasPermission = (
     menu: keyof EmployeePermissions,
@@ -31,8 +31,8 @@ export const useUserPermissions = () => {
       return false;
     }
 
-    // Pour les employés normaux, vérifier les permissions détaillées
-    if (userType === 'employee' && userProfile?.detailedPermissions) {
+    // Pour les propriétaires normaux, vérifier les permissions détaillées
+    if (userType === 'owner' && userProfile?.detailedPermissions) {
       const menuPermissions = userProfile.detailedPermissions[menu];
       return menuPermissions ? menuPermissions[action] : false;
     }
@@ -65,8 +65,8 @@ export const useUserPermissions = () => {
     canDelete,
     userType,
     isAdmin: userType === 'admin',
-    isEmployee: userType === 'employee',
-    isOwner,
+    isOwner: userType === 'owner',
+    isOwnerWithPermissions: isOwner,
     isTenant: userType === 'locataire',
     isRoommate: userType === 'colocataire'
   };

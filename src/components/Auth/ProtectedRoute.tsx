@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredUserTypes?: ('admin' | 'employee' | 'locataire' | 'colocataire')[];
+  requiredUserTypes?: ('admin' | 'owner' | 'locataire' | 'colocataire')[];
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
@@ -45,7 +45,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       // Rediriger selon le type d'utilisateur
       if (userType === 'admin') {
         return <Navigate to="/admin" replace />;
-      } else if (userType === 'employee') {
+      } else if (userType === 'owner') {
         return <Navigate to="/owner-space" replace />;
       } else if (userType === 'locataire' || userType === 'colocataire') {
         return <Navigate to="/tenant-space" replace />;

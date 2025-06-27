@@ -46,7 +46,7 @@ export const UserProfileDropdown = () => {
     navigate('/tenant-space');
   };
 
-  const isAdminOrEmployee = userType === 'admin' || userType === 'employee';
+  const isAdminOrOwner = userType === 'admin' || userType === 'owner';
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -73,9 +73,9 @@ export const UserProfileDropdown = () => {
         fr: 'Administrateur',
         en: 'Administrator'
       },
-      employee: {
-        fr: 'Employé',
-        en: 'Employee'
+      owner: {
+        fr: 'Propriétaire',
+        en: 'Owner'
       }
     };
 
@@ -103,16 +103,16 @@ export const UserProfileDropdown = () => {
               <p className="text-xs leading-none text-muted-foreground">
                 {user.email}
               </p>
-              {isAdminOrEmployee && (
+              {isAdminOrOwner && (
                 <p className="text-xs leading-none text-blue-600 font-medium">
-                  {userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('employee')}
+                  {userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('owner')}
                 </p>
               )}
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           
-          {isAdminOrEmployee && (
+          {isAdminOrOwner && (
             <>
               <DropdownMenuItem onClick={() => setIsProfileDialogOpen(true)}>
                 <UserCheck className="mr-2 h-4 w-4" />

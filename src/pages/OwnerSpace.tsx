@@ -21,8 +21,8 @@ const OwnerSpace = () => {
   // Get current profile (logged user or profile selected by admin)
   const currentProfile = getCurrentProfile();
 
-  // Check that user is owner/employee or administrator
-  if ((userType !== 'employee' && userType !== 'admin') || !currentProfile) {
+  // Check that user is owner or administrator
+  if ((userType !== 'owner' && userType !== 'admin') || !currentProfile) {
     return (
       <div className="min-h-screen flex w-full bg-gray-50">
         <div className="flex-1 flex items-center justify-center">

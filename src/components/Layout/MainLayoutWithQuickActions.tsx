@@ -21,7 +21,7 @@ const MainLayoutWithQuickActions: React.FC<MainLayoutWithQuickActionsProps> = ({
   };
 
   // Vérifier si l'utilisateur peut voir les actions rapides
-  const canShowQuickActions = userType === 'employee' || isAdmin;
+  const canShowQuickActions = userType === 'owner' || isAdmin;
 
   return (
     <div className="min-h-screen flex w-full">

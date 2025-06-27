@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 export const useOwnerPermissions = () => {
   const { userProfile, userType } = useAuth();
 
-  const isOwner = userType === 'employee' && userProfile?.isOwner;
+  const isOwner = userType === 'owner' && userProfile?.isOwner;
   const isAdmin = userType === 'admin';
 
   const hasOwnerAccess = (action: string): boolean => {
@@ -13,7 +13,7 @@ export const useOwnerPermissions = () => {
       return true;
     }
 
-    // Les propriétaires (employees with isOwner=true) ont accès à leur espace
+    // Les propriétaires (owners with isOwner=true) ont accès à leur espace
     if (isOwner) {
       // Vérifier les permissions spécifiques si disponibles
       if (userProfile?.permissions && Array.isArray(userProfile.permissions)) {
