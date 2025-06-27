@@ -63,7 +63,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, set
     pendingPayments,
     () => '',
     enabledActions,
-    setActiveView
+    setActiveView,
+    i18n.language // Pass current language
   );
 
   return (

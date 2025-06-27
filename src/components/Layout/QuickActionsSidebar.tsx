@@ -54,7 +54,9 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     expiringContracts, // Already a number from the hook
     pendingPayments, // Already a number from the hook
     () => '', // dummy t function since we're using getLocalizedText
-    enabledActions // Pass only enabled actions
+    enabledActions, // Pass only enabled actions
+    undefined, // setActiveView not needed here
+    i18n.language // Pass current language
   ) : [];
 
   if (!isOpen) return null;

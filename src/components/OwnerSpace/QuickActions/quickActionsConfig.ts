@@ -37,17 +37,100 @@ export const createQuickActionsConfig = (
   pendingPaymentsCount: number,
   t: (key: string) => string,
   enabledActions: any[],
-  setActiveView?: (view: string) => void
+  setActiveView?: (view: string) => void,
+  currentLanguage?: string
 ): QuickAction[] => {
   
-  const baseActions: Record<string, QuickAction> = {
+  // Helper function to get localized text
+  const getText = (actionId: string, textType: 'title' | 'description' | 'preview') => {
+    const lang = currentLanguage || 'fr';
+    
+    const translations: Record<string, Record<string, Record<string, string>>> = {
+      dashboard: {
+        title: { fr: 'Tableau de bord', en: 'Dashboard' },
+        description: { fr: 'Vue d\'ensemble', en: 'Overview' },
+        preview: { fr: `${ownerProperties.length} biens`, en: `${ownerProperties.length} properties` }
+      },
+      properties: {
+        title: { fr: 'Propriétés', en: 'Properties' },
+        description: { fr: 'Gestion des biens', en: 'Property management' },
+        preview: { fr: `${ownerProperties.length} propriétés`, en: `${ownerProperties.length} properties` }
+      },
+      tenants: {
+        title: { fr: 'Locataires', en: 'Tenants' },
+        description: { fr: 'Gestion locataires', en: 'Tenant management' },
+        preview: { fr: `${activeTenants.length} actifs`, en: `${activeTenants.length} active` }
+      },
+      roommates: {
+        title: { fr: 'Colocataires', en: 'Roommates' },
+        description: { fr: 'Gestion colocataires', en: 'Roommate management' },
+        preview: { fr: 'Gérer les colocataires', en: 'Manage roommates' }
+      },
+      contracts: {
+        title: { fr: 'Contrats', en: 'Contracts' },
+        description: { fr: 'Gestion des baux', en: 'Lease management' },
+        preview: { fr: `${expiringContractsCount} expirent bientôt`, en: `${expiringContractsCount} expiring soon` }
+      },
+      inspections: {
+        title: { fr: 'Inspections', en: 'Inspections' },
+        description: { fr: 'États des lieux', en: 'Property inspections' },
+        preview: { fr: 'Inspections programmées', en: 'Scheduled inspections' }
+      },
+      'rent-management': {
+        title: { fr: 'Gestion des loyers', en: 'Rent Management' },
+        description: { fr: 'Suivi des paiements', en: 'Payment tracking' },
+        preview: { fr: `${pendingPaymentsCount} en attente`, en: `${pendingPaymentsCount} pending` }
+      },
+      'rental-charges': {
+        title: { fr: 'Charges locatives', en: 'Rental Charges' },
+        description: { fr: 'Gestion des charges', en: 'Charges management' },
+        preview: { fr: 'Charges mensuelles', en: 'Monthly charges' }
+      },
+      forecasting: {
+        title: { fr: 'Prévisions', en: 'Forecasting' },
+        description: { fr: 'Analyse financière', en: 'Financial analysis' },
+        preview: { fr: 'Projections revenus', en: 'Revenue projections' }
+      },
+      maintenance: {
+        title: { fr: 'Maintenance', en: 'Maintenance' },
+        description: { fr: 'Interventions', en: 'Service requests' },
+        preview: { fr: 'Demandes ouvertes', en: 'Open requests' }
+      },
+      messages: {
+        title: { fr: 'Messages', en: 'Messages' },
+        description: { fr: 'Communication', en: 'Communication' },
+        preview: { fr: 'Nouveaux messages', en: 'New messages' }
+      },
+      taxes: {
+        title: { fr: 'Fiscalité', en: 'Tax Management' },
+        description: { fr: 'Gestion fiscale', en: 'Tax management' },
+        preview: { fr: 'Déclarations', en: 'Tax returns' }
+      },
+      website: {
+        title: { fr: 'Site web', en: 'Website' },
+        description: { fr: 'Gestion site', en: 'Website management' },
+        preview: { fr: 'Configuration', en: 'Configuration' }
+      },
+      settings: {
+        title: { fr: 'Paramètres', en: 'Settings' },
+        description: { fr: 'Configuration', en: 'Configuration' },
+        preview: { fr: 'Système', en: 'System' }
+      },
+      help: {
+        title: { fr: 'Aide', en: 'Help' },
+        description: { fr: 'Support', en: 'Support' },
+        preview: { fr: 'Documentation', en: 'Documentation' }
+      }
+    };
+
+    return translations[actionId]?.[textType]?.[lang] || translations[actionId]?.[textType]?.['fr'] || '';
+  };
+  
+  const baseActions: Record<string, Omit<QuickAction, 'title' | 'description' | 'preview'>> = {
     dashboard: {
       id: 'dashboard',
-      title: 'Tableau de bord',
-      description: 'Vue d\'ensemble',
       icon: LayoutDashboard,
       color: 'bg-slate-500',
-      preview: `${ownerProperties.length} biens`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-dashboard');
@@ -58,11 +141,8 @@ export const createQuickActionsConfig = (
     },
     properties: {
       id: 'properties',
-      title: 'Propriétés',
-      description: 'Gestion des biens',
       icon: Building,
       color: 'bg-blue-500',
-      preview: `${ownerProperties.length} propriétés`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-properties');
@@ -73,11 +153,8 @@ export const createQuickActionsConfig = (
     },
     tenants: {
       id: 'tenants',
-      title: 'Locataires',
-      description: 'Gestion locataires',
       icon: Users,
       color: 'bg-purple-500',
-      preview: `${activeTenants.length} actifs`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-tenants');
@@ -88,11 +165,8 @@ export const createQuickActionsConfig = (
     },
     roommates: {
       id: 'roommates',
-      title: 'Colocataires',
-      description: 'Gestion colocataires',
       icon: UserPlus,
       color: 'bg-pink-500',
-      preview: `Gérer les colocataires`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-roommates');
@@ -103,11 +177,8 @@ export const createQuickActionsConfig = (
     },
     contracts: {
       id: 'contracts',
-      title: 'Contrats',
-      description: 'Gestion des baux',
       icon: FileText,
       color: 'bg-yellow-500',
-      preview: `${expiringContractsCount} expirent bientôt`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-contracts');
@@ -118,11 +189,8 @@ export const createQuickActionsConfig = (
     },
     inspections: {
       id: 'inspections',
-      title: 'Inspections',
-      description: 'États des lieux',
       icon: ClipboardCheck,
       color: 'bg-orange-500',
-      preview: `Inspections programmées`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-inspections');
@@ -133,11 +201,8 @@ export const createQuickActionsConfig = (
     },
     'rent-management': {
       id: 'rent-management',
-      title: 'Gestion des loyers',
-      description: 'Suivi des paiements',
       icon: DollarSign,
       color: 'bg-green-500',
-      preview: `${pendingPaymentsCount} en attente`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-rent-management');
@@ -148,11 +213,8 @@ export const createQuickActionsConfig = (
     },
     'rental-charges': {
       id: 'rental-charges',
-      title: 'Charges locatives',
-      description: 'Gestion des charges',
       icon: Receipt,
       color: 'bg-teal-500',
-      preview: `Charges mensuelles`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-rental-charges');
@@ -163,11 +225,8 @@ export const createQuickActionsConfig = (
     },
     forecasting: {
       id: 'forecasting',
-      title: 'Prévisions',
-      description: 'Analyse financière',
       icon: TrendingUp,
       color: 'bg-emerald-500',
-      preview: `Projections revenus`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-forecasting');
@@ -178,11 +237,8 @@ export const createQuickActionsConfig = (
     },
     maintenance: {
       id: 'maintenance',
-      title: 'Maintenance',
-      description: 'Interventions',
       icon: Wrench,
       color: 'bg-red-500',
-      preview: `Demandes ouvertes`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-maintenance');
@@ -193,11 +249,8 @@ export const createQuickActionsConfig = (
     },
     messages: {
       id: 'messages',
-      title: 'Messages',
-      description: 'Communication',
       icon: MessageSquare,
       color: 'bg-indigo-500',
-      preview: `Nouveaux messages`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-messages');
@@ -208,11 +261,8 @@ export const createQuickActionsConfig = (
     },
     taxes: {
       id: 'taxes',
-      title: 'Fiscalité',
-      description: 'Gestion fiscale',
       icon: Calculator,
       color: 'bg-cyan-500',
-      preview: `Déclarations`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-taxes');
@@ -223,11 +273,8 @@ export const createQuickActionsConfig = (
     },
     website: {
       id: 'website',
-      title: 'Site web',
-      description: 'Gestion site',
       icon: Globe,
       color: 'bg-violet-500',
-      preview: `Configuration`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-website');
@@ -238,11 +285,8 @@ export const createQuickActionsConfig = (
     },
     settings: {
       id: 'settings',
-      title: 'Paramètres',
-      description: 'Configuration',
       icon: Settings,
       color: 'bg-gray-500',
-      preview: `Système`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-settings');
@@ -253,11 +297,8 @@ export const createQuickActionsConfig = (
     },
     help: {
       id: 'help',
-      title: 'Aide',
-      description: 'Support',
       icon: HelpCircle,
       color: 'bg-amber-500',
-      preview: `Documentation`,
       action: () => {
         if (setActiveView) {
           setActiveView('admin-help');
@@ -275,8 +316,9 @@ export const createQuickActionsConfig = (
 
       return {
         ...baseAction,
-        title: actionConfig.title?.fr || baseAction.title,
-        description: actionConfig.description?.fr || baseAction.description,
+        title: getText(actionConfig.id, 'title'),
+        description: getText(actionConfig.id, 'description'),
+        preview: getText(actionConfig.id, 'preview'),
         color: actionConfig.color || baseAction.color,
       };
     })
