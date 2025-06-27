@@ -280,6 +280,8 @@
     "rent": "Loyer",
     "surface": "Surface",
     "loft": "Loft",
-    "duplex": "Duplex"
+    "duplex": "Duplex",
+    "pages": "Pages",
+    "page": "Page"
   }
 }
