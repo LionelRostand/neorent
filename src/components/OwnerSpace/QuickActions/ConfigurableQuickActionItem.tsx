@@ -26,7 +26,7 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 p-3 text-left hover:bg-white/10 rounded-lg transition-colors"
+      className="w-full flex items-center gap-3 p-3 text-left hover:bg-green-500/10 rounded-lg transition-colors bg-white/5"
     >
       <div className={`p-2 rounded-lg ${color}`}>
         <Settings className="h-4 w-4 text-white" />
