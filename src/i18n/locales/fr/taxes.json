@@ -11,6 +11,7 @@
     "taxResidenceCountry": "Pays de Résidence Fiscale",
     "addRealEstateProperty": "Ajouter un Bien Immobilier",
     "noPropertySelected": "Aucun Bien Sélectionné",
+    "selectProperty": "Sélectionner les biens immobiliers",
     "additionalDeductibleCharges": "Charges Déductibles Supplémentaires",
     "chargesPlaceholder": "Montant des charges déductibles...",
     "chargesDescription": "Entrez le montant total des charges déductibles supplémentaires (travaux, frais de gestion, etc.)",
