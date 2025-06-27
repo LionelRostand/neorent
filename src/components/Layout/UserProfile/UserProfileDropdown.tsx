@@ -55,8 +55,16 @@ export const UserProfileDropdown = () => {
   // Vérifier si l'utilisateur peut changer son mot de passe
   const canChangePassword = userType === 'owner' || userType === 'admin';
 
-  // Déterminer le type d'utilisateur à afficher
-  const displayUserType = isAdmin ? 'admin' : userType;
+  // Déterminer le type d'utilisateur à afficher avec traduction
+  const getRoleTranslation = (role: string) => {
+    if (role === 'admin') return t('profile.administrator');
+    if (role === 'owner' || role === 'employee') return t('profile.owner');
+    if (role === 'tenant' || role === 'locataire') return t('profile.tenant');
+    if (role === 'roommate' || role === 'colocataire') return t('profile.roommate');
+    return t('profile.owner');
+  };
+
+  const displayUserType = getRoleTranslation(isAdmin ? 'admin' : userType);
 
   return (
     <>
@@ -77,10 +85,7 @@ export const UserProfileDropdown = () => {
               <p className="text-xs text-muted-foreground">{user.email}</p>
               {displayUserType && (
                 <p className="text-xs text-blue-600">
-                  {displayUserType === 'admin' ? t('profile.administrator') : 
-                   displayUserType === 'owner' ? t('profile.owner') :
-                   displayUserType === 'locataire' ? t('profile.tenant') : 
-                   t('profile.roommate')}
+                  {displayUserType}
                 </p>
               )}
             </div>

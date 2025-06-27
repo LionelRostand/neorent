@@ -9,6 +9,11 @@
     "tenant": "Tenant",
     "roommate": "Roommate",
     "unknownUser": "Unknown User",
-    "changePassword": "Change Password"
+    "changePassword": "Change Password",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "status": "Status",
+    "leaseStart": "Lease Start"
   }
 }

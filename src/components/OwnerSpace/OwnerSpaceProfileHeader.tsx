@@ -26,7 +26,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
     try {
       await logout();
       toast({
-        title: i18n.language === 'fr' ? "Déconnexion" : "Logout",
+        title: t('profile.logout'),
         description: i18n.language === 'fr' ? "Vous avez été déconnecté avec succès." : "You have been successfully logged out.",
       });
       navigate('/login');
@@ -43,11 +43,19 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   console.log('OwnerSpaceProfileHeader - currentProfile:', currentProfile);
 
   // Determine display name and email
-  const displayName = currentProfile?.name || 'Propriétaire';
+  const displayName = currentProfile?.name || t('profile.owner');
   const displayEmail = currentProfile?.email || 'Non spécifié';
   
-  // Display role - replace "employee" with "owner"
-  const displayRole = currentProfile?.role === 'employee' ? 'owner' : (currentProfile?.role || 'owner');
+  // Display role - replace "employee" with "owner" and translate
+  const getRoleTranslation = (role: string) => {
+    if (role === 'employee' || role === 'owner') return t('profile.owner');
+    if (role === 'admin') return t('profile.administrator');
+    if (role === 'tenant' || role === 'locataire') return t('profile.tenant');
+    if (role === 'roommate' || role === 'colocataire') return t('profile.roommate');
+    return t('profile.owner'); // default to owner
+  };
+  
+  const displayRole = getRoleTranslation(currentProfile?.role || 'owner');
 
   return (
     <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
@@ -88,7 +96,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
             className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 border-red-200 text-red-600 hover:bg-red-50"
           >
             <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-            <span className="hidden sm:inline">{i18n.language === 'fr' ? 'Se déconnecter' : 'Logout'}</span>
+            <span className="hidden sm:inline">{t('profile.logout')}</span>
             <span className="sm:hidden">{i18n.language === 'fr' ? 'Sortir' : 'Out'}</span>
           </Button>
         </div>
