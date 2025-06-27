@@ -75,6 +75,15 @@ export const ProfileDialog = ({
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
+  // Déterminer le nom à afficher
+  const isAdmin = user.email === 'admin@neotech-consulting.com';
+  const displayName = isAdmin ? 'Lionel DJOSSA' : (userProfile?.name || getLocalizedText('notDefined'));
+  
+  // Déterminer le rôle à afficher
+  const displayRole = isAdmin ? getLocalizedText('administrator') : 
+                     userType === 'owner' ? getLocalizedText('owner') : 
+                     userProfile?.role || getLocalizedText('notDefined');
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white">
@@ -85,7 +94,7 @@ export const ProfileDialog = ({
           <div className="space-y-2">
             <Label>{getLocalizedText('name')}</Label>
             <Input
-              value={userProfile?.name || getLocalizedText('notDefined')}
+              value={displayName}
               readOnly
               className="bg-gray-50"
             />
@@ -101,7 +110,7 @@ export const ProfileDialog = ({
           <div className="space-y-2">
             <Label>{getLocalizedText('role')}</Label>
             <Input
-              value={userType === 'admin' ? getLocalizedText('administrator') : getLocalizedText('owner')}
+              value={displayRole}
               readOnly
               className="bg-gray-50"
             />
