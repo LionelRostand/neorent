@@ -58,6 +58,14 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       confirmDelete: {
         fr: 'Êtes-vous sûr de vouloir supprimer cette action ?',
         en: 'Are you sure you want to delete this action?'
+      },
+      visibleInSidebar: {
+        fr: 'Visible dans la sidebar',
+        en: 'Visible in sidebar'
+      },
+      hiddenFromSidebar: {
+        fr: 'Masqué de la sidebar',
+        en: 'Hidden from sidebar'
       }
     };
 
@@ -94,10 +102,15 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
   };
 
   const handleConfigureClick = (actionId: string) => {
-    // For now, just log the action - this could open a configuration modal
     console.log('Configure action:', actionId);
     onConfigureAction(actionId);
   };
+
+  // Filter actions to only show those that are not visible in sidebar
+  const filteredActions = quickActions.filter(action => {
+    // Only show actions that are either disabled or specifically configured to be hidden from sidebar
+    return !action.enabled || action.hiddenFromSidebar;
+  });
 
   return (
     <Card className="w-full max-w-6xl mx-auto">
@@ -123,7 +136,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
                   {getLocalizedActionText(action, 'description')}
                 </div>
                 <Badge variant={action.enabled ? "default" : "secondary"} className="text-xs mt-1">
-                  {action.enabled ? getLocalizedText('enabled') : getLocalizedText('disabled')}
+                  {action.enabled ? getLocalizedText('visibleInSidebar') : getLocalizedText('hiddenFromSidebar')}
                 </Badge>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
