@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -83,7 +84,12 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
 
   const handleToggleAction = async (actionId: string) => {
     console.log('Toggling action:', actionId);
-    await onToggleAction(actionId);
+    try {
+      await onToggleAction(actionId);
+      console.log('Action toggled successfully:', actionId);
+    } catch (error) {
+      console.error('Error toggling action:', error);
+    }
   };
 
   const handleRemoveClick = async (actionId: string) => {
