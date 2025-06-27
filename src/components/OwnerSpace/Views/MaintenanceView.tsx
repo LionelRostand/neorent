@@ -8,9 +8,10 @@ import { Badge } from '@/components/ui/badge';
 
 interface MaintenanceViewProps {
   currentProfile: any;
+  onViewChange?: (view: string) => void;
 }
 
-const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile }) => {
+const MaintenanceView: React.FC<MaintenanceViewProps> = ({ currentProfile, onViewChange }) => {
   const { i18n } = useTranslation();
 
   // Get texts based on current language
