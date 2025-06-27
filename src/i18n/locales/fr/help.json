@@ -13,6 +13,9 @@
     "functionalUsage": "Usage fonctionnel",
     "gettingStarted": "Prise en main",
     "paymentConfig": "Configuration des Paiements",
+    "paymentConfigDescription": "Configurez les différents modes de paiement pour votre plateforme",
+    "configurationSteps": "Étapes de Configuration",
+    "comingSoonMessage": "Cette méthode de paiement sera disponible prochainement dans une future mise à jour.",
     "categories": {
       "gettingStarted": "Prise en main",
       "properties": "Propriétés",
@@ -83,6 +86,65 @@
         "technical": "Interface de configuration avec sauvegarde des préférences utilisateur",
         "functional": "Configurez les notifications, modèles de documents et paramètres généraux"
       }
+    },
+    "paymentMethods": {
+      "creditCard": {
+        "name": "Carte Bancaire",
+        "description": "Accepter les paiements par carte bancaire via Stripe",
+        "steps": [
+          "Créer un compte Stripe sur stripe.com",
+          "Obtenir vos clés API depuis le tableau de bord Stripe",
+          "Configurer vos endpoints webhook",
+          "Tester l'intégration en mode sandbox",
+          "Passer en mode live avec de vrais paiements"
+        ]
+      },
+      "bankTransfer": {
+        "name": "Virement Bancaire",
+        "description": "Accepter les virements bancaires directs des locataires",
+        "steps": [
+          "Fournir vos coordonnées bancaires",
+          "Configurer les codes IBAN et BIC",
+          "Mettre en place la réconciliation automatique",
+          "Créer des instructions de paiement pour les locataires",
+          "Surveiller les virements entrants"
+        ]
+      },
+      "mobile": {
+        "name": "Paiement Mobile",
+        "description": "Accepter les paiements mobile money (Orange Money, MTN, etc.)",
+        "steps": [
+          "S'inscrire auprès des fournisseurs de paiement mobile",
+          "Obtenir les identifiants API pour chaque fournisseur",
+          "Configurer les notifications webhook",
+          "Tester avec de petits montants d'abord",
+          "Activer pour les paiements des locataires"
+        ]
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Accepter les paiements via PayPal",
+        "steps": [
+          "Créer un compte PayPal Business",
+          "Obtenir votre Client ID et Secret",
+          "Configurer les URLs webhook",
+          "Tester en environnement sandbox",
+          "Passer en mode live"
+        ]
+      }
+    },
+    "status": {
+      "available": "Disponible",
+      "comingSoon": "Bientôt Disponible"
+    },
+    "complexity": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    },
+    "securityNote": {
+      "title": "Note de Sécurité",
+      "description": "Toutes les méthodes de paiement sont sécurisées avec un chiffrement de niveau industriel et respectent les réglementations financières. Vos données sensibles sont protégées."
     }
   }
 }

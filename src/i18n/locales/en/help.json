@@ -13,6 +13,9 @@
     "functionalUsage": "Functional usage",
     "gettingStarted": "Getting Started",
     "paymentConfig": "Payment Configuration",
+    "paymentConfigDescription": "Configure different payment methods for your platform",
+    "configurationSteps": "Configuration Steps",
+    "comingSoonMessage": "This payment method will be available soon in a future update.",
     "categories": {
       "gettingStarted": "Getting Started",
       "properties": "Properties",
@@ -83,6 +86,65 @@
         "technical": "Configuration interface with user preference saving",
         "functional": "Configure notifications, document templates and general settings"
       }
+    },
+    "paymentMethods": {
+      "creditCard": {
+        "name": "Credit Card",
+        "description": "Accept credit card payments via Stripe",
+        "steps": [
+          "Create a Stripe account at stripe.com",
+          "Get your API keys from the Stripe dashboard",
+          "Configure your webhook endpoints",
+          "Test the integration in sandbox mode",
+          "Go live with real payments"
+        ]
+      },
+      "bankTransfer": {
+        "name": "Bank Transfer",
+        "description": "Accept direct bank transfers from tenants",
+        "steps": [
+          "Provide your bank account details",
+          "Configure IBAN and BIC codes",
+          "Set up automatic reconciliation",
+          "Create payment instructions for tenants",
+          "Monitor incoming transfers"
+        ]
+      },
+      "mobile": {
+        "name": "Mobile Payment",
+        "description": "Accept mobile money payments (Orange Money, MTN, etc.)",
+        "steps": [
+          "Register with mobile payment providers",
+          "Get API credentials for each provider",
+          "Configure webhook notifications",
+          "Test with small amounts first",
+          "Enable for tenant payments"
+        ]
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Accept payments via PayPal",
+        "steps": [
+          "Create a PayPal Business account",
+          "Get your Client ID and Secret",
+          "Configure webhook URLs",
+          "Test in sandbox environment",
+          "Switch to live mode"
+        ]
+      }
+    },
+    "status": {
+      "available": "Available",
+      "comingSoon": "Coming Soon"
+    },
+    "complexity": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "securityNote": {
+      "title": "Security Note",
+      "description": "All payment methods are secured with industry-standard encryption and comply with financial regulations. Your sensitive data is protected."
     }
   }
 }
