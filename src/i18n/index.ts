@@ -1,3 +1,4 @@
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
@@ -77,6 +78,7 @@ import frSettingsOwners from './locales/fr/settings/owners.json';
 import frSettingsPermissions from './locales/fr/settings/permissions.json';
 import frSettingsOwnerRegistrations from './locales/fr/settings/ownerRegistrations.json';
 import frSettingsEmail from './locales/fr/settings/email.json';
+import frSettingsPayment from './locales/fr/settings/payment.json';
 
 // Merge French settings translations
 const frSettings = {
@@ -91,6 +93,7 @@ const frSettings = {
     ...frSettingsPermissions.settings,
     ...frSettingsOwnerRegistrations.settings,
     ...frSettingsEmail.settings,
+    ...frSettingsPayment.settings,
   }
 };
 

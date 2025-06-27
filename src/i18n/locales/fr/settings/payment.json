@@ -1,0 +1,51 @@
+
+{
+  "settings": {
+    "payment": {
+      "title": "Configuration des Paiements",
+      "subtitle": "Gérez les méthodes de paiement et leurs paramètres",
+      "stripe": {
+        "title": "Configuration Stripe",
+        "description": "Configurez les paiements par carte de crédit avec Stripe",
+        "enable": "Activer Stripe",
+        "publicKey": "Clé publique",
+        "secretKey": "Clé secrète",
+        "webhookSecret": "Secret webhook",
+        "save": "Sauvegarder Stripe"
+      },
+      "paypal": {
+        "title": "Configuration PayPal",
+        "description": "Configurez les paiements PayPal pour vos locataires",
+        "enable": "Activer PayPal",
+        "clientId": "ID Client",
+        "clientIdPlaceholder": "Votre ID client PayPal",
+        "clientSecret": "Client Secret",
+        "clientSecretPlaceholder": "Votre secret client PayPal",
+        "save": "Sauvegarder PayPal"
+      },
+      "bank": {
+        "title": "Virement Bancaire",
+        "description": "Configurez les informations pour les virements bancaires",
+        "enable": "Activer les virements bancaires",
+        "iban": "IBAN",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 7890 123",
+        "bic": "BIC/SWIFT",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankName": "Nom de la banque",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolder": "Titulaire du compte",
+        "accountHolderPlaceholder": "Nom du titulaire",
+        "save": "Sauvegarder Virement"
+      },
+      "mobile": {
+        "title": "Paiement Mobile",
+        "description": "Configurez les solutions de paiement mobile",
+        "enable": "Activer le paiement mobile",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Money",
+        "moovMoney": "Moov Money",
+        "save": "Sauvegarder Mobile"
+      }
+    }
+  }
+}
