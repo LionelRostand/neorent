@@ -89,6 +89,17 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return { rooms, bathrooms };
   };
 
+  const getPropertyMainImage = (property: any) => {
+    // Get the first available image from either the legacy 'image' field or new 'images' array
+    if (property.image && property.image !== '/placeholder.svg') {
+      return property.image;
+    }
+    if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+      return property.images[0];
+    }
+    return null;
+  };
+
   const handlePropertyClick = (property: any) => {
     setSelectedProperty(property);
     setIsModalOpen(true);
@@ -146,7 +157,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
               soigneusement sélectionnés pour répondre à vos besoins
             </p>
             
-            {/* Toggle pour afficher la carte */}
             <div className="flex justify-center">
               <Button
                 variant={showMap ? "default" : "outline"}
@@ -159,7 +169,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
             </div>
           </div>
 
-          {/* Carte des propriétés */}
           {showMap && (
             <div className="mb-12">
               <PropertyMap 
@@ -174,6 +183,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
             {sortedProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
               const settings = propertySettings[property.id] || {};
+              const mainImage = getPropertyMainImage(property);
               
               return (
                 <Card 
@@ -184,9 +194,9 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                   <div className="relative">
                     {/* Image de la propriété */}
                     <div className="w-full h-48 bg-gray-200 rounded-t-lg overflow-hidden">
-                      {property.image && property.image !== '/placeholder.svg' ? (
+                      {mainImage ? (
                         <img 
-                          src={property.image} 
+                          src={mainImage} 
                           alt={property.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -209,6 +219,13 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                         </Badge>
                       )}
                     </div>
+
+                    {/* Image count indicator */}
+                    {property.images && Array.isArray(property.images) && property.images.length > 1 && (
+                      <div className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                        {property.images.length} photos
+                      </div>
+                    )}
                   </div>
 
                   <CardContent className="p-6">
