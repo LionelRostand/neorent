@@ -1,3 +1,4 @@
+
 {
   "common": {
     "loading": "Chargement...",
@@ -293,7 +294,11 @@
     "saturday": "Samedi",
     "sunday": "Dimanche",
     "saving": "Sauvegarde...",
-    "contentManagement": "Gestion de contenu"
+    "contentManagement": "Gestion de contenu",
+    "map": "Carte",
+    "analytics": "Analyses",
+    "config": "Configuration",
+    "footer": "Pied de page"
   },
   "cookies": {
     "title": "Nous utilisons des cookies",
