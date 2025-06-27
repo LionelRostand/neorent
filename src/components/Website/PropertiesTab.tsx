@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -40,13 +39,13 @@ const PropertiesTab = () => {
     featured: boolean;
   }}>({});
 
-  // Initialiser les paramètres des propriétés
+  // Initialiser les paramètres des propriétés avec visibilité activée par défaut
   useEffect(() => {
     if (properties) {
       const initialSettings: any = {};
       properties.forEach((property) => {
         initialSettings[property.id] = {
-          visible: false,
+          visible: true, // Toujours activer la visibilité par défaut
           description: '',
           featured: false
         };
