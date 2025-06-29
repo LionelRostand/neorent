@@ -53,20 +53,21 @@ export const AppRoutes = () => {
         } 
       />
       
+      {/* Owner Space avec nom personnalisé - accessible uniquement aux propriétaires */}
       <Route 
-        path="/owner-space" 
+        path="/owner-space-:ownerName" 
         element={
-          <ProtectedRoute requiredUserTypes={['admin', 'owner']}>
+          <ProtectedRoute requiredUserTypes={['owner']}>
             <OwnerSpace />
           </ProtectedRoute>
         } 
       />
       
-      {/* Admin Routes - Simplifié pour corriger le problème */}
+      {/* Admin Routes - Accessible UNIQUEMENT à l'admin */}
       <Route 
         path="/admin" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Dashboard />
           </ProtectedRoute>
         } 
@@ -74,7 +75,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/dashboard" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Dashboard />
           </ProtectedRoute>
         } 
@@ -82,7 +83,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/properties" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Properties />
           </ProtectedRoute>
         } 
@@ -90,7 +91,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/tenants" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Tenants />
           </ProtectedRoute>
         } 
@@ -98,7 +99,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/roommates" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Roommates />
           </ProtectedRoute>
         } 
@@ -106,7 +107,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/contracts" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Contracts />
           </ProtectedRoute>
         } 
@@ -114,7 +115,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/leases" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Leases />
           </ProtectedRoute>
         } 
@@ -122,7 +123,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/inspections" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Inspections />
           </ProtectedRoute>
         } 
@@ -130,7 +131,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/rent-management" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <RentManagement />
           </ProtectedRoute>
         } 
@@ -138,7 +139,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/rental-charges" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <RentalCharges />
           </ProtectedRoute>
         } 
@@ -146,7 +147,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/forecasting" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Forecasting />
           </ProtectedRoute>
         } 
@@ -154,7 +155,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/maintenance" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Maintenance />
           </ProtectedRoute>
         } 
@@ -162,7 +163,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/messages" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Messages />
           </ProtectedRoute>
         } 
@@ -170,7 +171,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/taxes" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Taxes />
           </ProtectedRoute>
         } 
@@ -178,7 +179,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/website" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Website />
           </ProtectedRoute>
         } 
@@ -186,7 +187,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/settings" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Settings />
           </ProtectedRoute>
         } 
@@ -194,7 +195,7 @@ export const AppRoutes = () => {
       <Route 
         path="/admin/help" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredUserTypes={['admin']}>
             <Help />
           </ProtectedRoute>
         } 
