@@ -38,6 +38,20 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
   }).length;
   const pendingPayments = payments.filter(p => p.status === 'En attente').length;
 
+  // Enhanced navigate function that handles admin paths
+  const enhancedNavigate = (path: string) => {
+    console.log('Enhanced navigate called with path:', path);
+    
+    // If it's an admin path, navigate to the actual admin route
+    if (path.startsWith('/admin/')) {
+      console.log('Navigating to admin path:', path);
+      navigate(path);
+    } else {
+      // For other paths, use the original navigate
+      navigate(path);
+    }
+  };
+
   const handlePropertySubmit = async (propertyData: any) => {
     try {
       const propertyWithOwner = {
@@ -207,8 +221,8 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
     openDialog,
     setOpenDialog,
     
-    // Navigation
-    navigate,
+    // Navigation - use enhanced navigate
+    navigate: enhancedNavigate,
     
     // Data
     properties,

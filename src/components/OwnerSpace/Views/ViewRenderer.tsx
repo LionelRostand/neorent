@@ -21,11 +21,14 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
   currentProfile,
   onViewChange
 }) => {
-  // Check if this is an admin view
-  if (activeView.startsWith('admin-')) {
+  console.log('ViewRenderer - activeView:', activeView);
+
+  // Check if this is an admin view (either starting with 'admin-' or matching admin paths)
+  if (activeView.startsWith('admin-') || activeView.startsWith('/admin/')) {
+    console.log('Rendering admin view for:', activeView);
     return (
       <AdminViewRenderer 
-        activeView={activeView}
+        activeView={activeView.startsWith('/admin/') ? `admin-${activeView.replace('/admin/', '')}` : activeView}
         currentProfile={currentProfile}
       />
     );
@@ -49,6 +52,7 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       case 'rental-charges':
         return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
       default:
+        console.log('Default view, rendering AdminDashboardView for:', activeView);
         return <AdminDashboardView currentProfile={currentProfile} />;
     }
   };
