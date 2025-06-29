@@ -4,17 +4,17 @@
     "dashboard": "Dashboard",
     "properties": "Properties",
     "tenants": "Tenants",
-    "roommates": "Roommates",
-    "contracts": "Lease Contracts",
-    "inspections": "Property Inspections",
+    "roommates": "Roommates", 
+    "contracts": "Contracts",
     "rentManagement": "Rent Management",
     "rentalCharges": "Rental Charges",
-    "forecasting": "Financial Forecasting",
+    "inspections": "Inspections",
     "maintenance": "Maintenance",
-    "messages": "Messages",
     "taxes": "Tax Management",
-    "website": "Website",
+    "forecasting": "Forecasting",
+    "messages": "Messages",
     "settings": "Settings",
+    "website": "Website",
     "help": "Help"
   }
 }

@@ -15,7 +15,19 @@ import quickActionsFR from './locales/fr/quickActions.json';
 import publicSiteEN from './locales/en/publicSite.json';
 import publicSiteFR from './locales/fr/publicSite.json';
 
-// Import other translations (assuming they exist)
+// Import properties translations
+import propertiesEN from './locales/en/properties.json';
+import propertiesFR from './locales/fr/properties.json';
+
+// Import tenants translations
+import tenantsEN from './locales/en/tenants.json';
+import tenantsFR from './locales/fr/tenants.json';
+
+// Import roommates translations
+import roommatesEN from './locales/en/roommates.json';
+import roommatesFR from './locales/fr/roommates.json';
+
+// Import common translations
 import commonEN from './locales/en/common.json';
 import commonFR from './locales/fr/common.json';
 
@@ -25,7 +37,10 @@ const resources = {
       ...commonEN,
       ...navigationEN,
       ...quickActionsEN,
-      ...publicSiteEN
+      ...publicSiteEN,
+      ...propertiesEN,
+      ...tenantsEN,
+      ...roommatesEN
     }
   },
   fr: {
@@ -33,7 +48,10 @@ const resources = {
       ...commonFR,
       ...navigationFR,
       ...quickActionsFR,
-      ...publicSiteFR
+      ...publicSiteFR,
+      ...propertiesFR,
+      ...tenantsFR,
+      ...roommatesFR
     }
   }
 };

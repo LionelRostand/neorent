@@ -18,11 +18,15 @@
     "latePayments": "Late Payments",
     "monthlyRevenue": "Monthly Revenue",
     "tenantList": "Tenant List",
+    "listTitle": "Tenant List",
+    "listDescription": "View and manage all your tenants",
     "noTenants": "No tenants",
     "noTenantsDescription": "Start by adding your first tenant",
     "viewDetails": "View details",
     "editTenant": "Edit",
     "confirmDelete": "Are you sure you want to delete this tenant?",
+    "contact": "Contact",
+    "rentPerMonth": "€/month",
     "status": {
       "active": "Active",
       "inactive": "Inactive"
@@ -38,13 +42,9 @@
       "inactiveDescription": "{{count}} inactive tenant",
       "inactiveDescription_plural": "{{count}} inactive tenants",
       "total": "Total",
-      "totalDescription": "{{count}} tenant in total",
-      "totalDescription_plural": "{{count}} tenants in total"
-    },
-    "listTitle": "Tenant List",
-    "listDescription": "View and manage all your tenants",
-    "contact": "Contact",
-    "rentPerMonth": "/month"
+      "totalDescription": "{{count}} tenant total",
+      "totalDescription_plural": "{{count}} tenants total"
+    }
   },
   "tenantForm": {
     "password": "Password",
@@ -57,7 +57,7 @@
     "creating": "Creating..."
   },
   "forms": {
-    "addTenant": "Add Tenant"
+    "addTenant": "Add tenant"
   },
   "profile": {
     "name": "Name",
