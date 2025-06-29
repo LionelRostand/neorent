@@ -1,77 +1,22 @@
 
 {
   "quickActions": {
-    "dashboard": {
-      "title": "Tableau de bord",
-      "description": "Vue d'ensemble"
-    },
-    "property": {
-      "title": "Nouvelle propriété",
-      "description": "Ajouter un bien"
-    },
-    "contract": {
-      "title": "Nouveau contrat",
-      "description": "Créer un bail"
-    },
-    "roommate": {
-      "title": "Ajouter locataire",
-      "description": "Enregistrer un locataire"
-    },
-    "website": {
-      "title": "Site web",
-      "description": "Accéder au Site web"
-    },
-    "settings": {
-      "title": "Paramètres",
-      "description": "Accéder aux Paramètres"
-    },
-    "tenants": {
-      "title": "Locataires",
-      "description": "Accès Locataires"
-    },
-    "rentManagement": {
-      "title": "Gestion des loyers",
-      "description": "Accès Gestion des loyers"
-    },
-    "rentalCharges": {
-      "title": "Charges locatives",
-      "description": "Accès Charges locatives"
-    },
-    "roommates": {
-      "title": "Colocataires",
-      "description": "Accès Colocataires"
-    },
-    "inspections": {
-      "title": "Inspections",
-      "description": "Accès Inspections"
-    },
-    "taxes": {
-      "title": "Fiscalité",
-      "description": "Accès Fiscalité"
-    },
-    "forecasting": {
-      "title": "Prévisions",
-      "description": "Accès Prévisions"
-    },
-    "help": {
-      "title": "Aide",
-      "description": "Accès Aide"
-    },
-    "properties": {
-      "title": "Propriétés",
-      "description": "Accès Propriétés"
-    },
-    "contracts": {
-      "title": "Contrats",
-      "description": "Accès Contrats"
-    },
-    "maintenance": {
-      "title": "Maintenance",
-      "description": "Accès Maintenance"
-    },
-    "messages": {
-      "title": "Messages",
-      "description": "Accès Messages"
-    }
+    "title": "Actions Rapides",
+    "subtitle": "Accès rapide aux fonctionnalités principales",
+    "addProperty": "Ajouter une Propriété",
+    "addTenant": "Ajouter un Locataire",
+    "addRoommate": "Ajouter un Colocataire",
+    "createContract": "Créer un Contrat",
+    "scheduleInspection": "Programmer une Inspection",
+    "recordPayment": "Enregistrer un Paiement",
+    "newMaintenanceRequest": "Nouvelle Demande de Maintenance",
+    "sendMessage": "Envoyer un Message",
+    "generateReport": "Générer un Rapport",
+    "viewDocuments": "Voir les Documents",
+    "manageCharges": "Gérer les Charges",
+    "taxCalculation": "Calcul Fiscal",
+    "customize": "Personnaliser",
+    "settings": "Paramètres",
+    "help": "Aide"
   }
 }

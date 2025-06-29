@@ -55,6 +55,22 @@ import maintenanceFR from './locales/fr/maintenanceCommon.json';
 import maintenanceRequestsEN from './locales/en/maintenanceRequests.json';
 import maintenanceRequestsFR from './locales/fr/maintenanceRequests.json';
 
+// Import maintenance responsibilities translations
+import maintenanceResponsibilitiesEN from './locales/en/maintenanceResponsibilities.json';
+import maintenanceResponsibilitiesFR from './locales/fr/maintenanceResponsibilities.json';
+
+// Import maintenance interventions translations
+import maintenanceInterventionsEN from './locales/en/maintenanceInterventions.json';
+import maintenanceInterventionsFR from './locales/fr/maintenanceInterventions.json';
+
+// Import maintenance history translations
+import maintenanceHistoryEN from './locales/en/maintenanceHistory.json';
+import maintenanceHistoryFR from './locales/fr/maintenanceHistory.json';
+
+// Import maintenance costs translations
+import maintenanceCostsEN from './locales/en/maintenanceCosts.json';
+import maintenanceCostsFR from './locales/fr/maintenanceCosts.json';
+
 // Import messages translations
 import messagesEN from './locales/en/messages.json';
 import messagesFR from './locales/fr/messages.json';
@@ -92,6 +108,10 @@ const resources = {
       ...forecastingEN,
       ...maintenanceEN,
       ...maintenanceRequestsEN,
+      ...maintenanceResponsibilitiesEN,
+      ...maintenanceInterventionsEN,
+      ...maintenanceHistoryEN,
+      ...maintenanceCostsEN,
       ...messagesEN,
       ...taxesEN,
       ...settingsEN,
@@ -114,6 +134,10 @@ const resources = {
       ...forecastingFR,
       ...maintenanceFR,
       ...maintenanceRequestsFR,
+      ...maintenanceResponsibilitiesFR,
+      ...maintenanceInterventionsFR,
+      ...maintenanceHistoryFR,
+      ...maintenanceCostsFR,
       ...messagesFR,
       ...taxesFR,
       ...settingsFR,
