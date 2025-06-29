@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Building, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import OwnerQuickActions from './OwnerQuickActions';
+import { useAuth } from '@/hooks/useAuth';
 
 interface OwnerSpaceQuickActionsSidebarProps {
   ownerProfile: any;
@@ -19,7 +20,11 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   onMobileClose 
 }) => {
   const { i18n } = useTranslation();
+  const { userType } = useAuth();
   const currentYear = new Date().getFullYear();
+
+  // Vérifier si l'utilisateur est admin
+  const isAdmin = userType === 'admin';
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -67,7 +72,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
             <OwnerQuickActions 
               ownerProfile={ownerProfile} 
               setActiveView={setActiveView}
-              showControls={true}
+              showControls={isAdmin}
             />
           </div>
         </ScrollArea>
