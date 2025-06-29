@@ -1,20 +1,24 @@
 
 {
   "navigation": {
-    "dashboard": "Tableau de bord",
+    "dashboard": "Tableau de Bord",
     "properties": "Propriétés",
-    "tenants": "Locataires", 
+    "tenants": "Locataires",
     "roommates": "Colocataires",
     "contracts": "Contrats",
-    "rentManagement": "Gestion des loyers",
-    "rentalCharges": "Charges locatives",
     "inspections": "Inspections",
-    "maintenance": "Maintenance",
-    "taxes": "Fiscalité",
+    "rentManagement": "Gestion des Loyers",
+    "rentalCharges": "Charges Locatives",
     "forecasting": "Prévisions",
+    "maintenance": "Maintenance",
     "messages": "Messages",
+    "taxes": "Fiscalité",
+    "website": "Site Web",
     "settings": "Paramètres",
-    "website": "Site web",
-    "help": "Aide"
+    "help": "Aide",
+    "logout": "Déconnexion",
+    "profile": "Profil",
+    "notifications": "Notifications",
+    "search": "Rechercher"
   }
 }

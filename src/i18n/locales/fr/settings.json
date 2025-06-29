@@ -34,6 +34,46 @@
     "success": "Succès",
     "error": "Erreur",
     "saved": "Paramètres sauvegardés",
-    "savedDescription": "Vos paramètres ont été sauvegardés avec succès"
+    "savedDescription": "Vos paramètres ont été sauvegardés avec succès",
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Employés",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de Données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Admin"
+    },
+    "adminAccess": "Accès Administrateur",
+    "adminAccessDescription": "Gérez les accès administrateur aux différentes sections",
+    "account": "Compte",
+    "description": "Configurez votre plateforme selon vos besoins",
+    "general": "Général",
+    "security": {
+      "title": "Sécurité",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "changePassword": "Changer le mot de passe"
+    },
+    "emailNotifications": "Notifications Email",
+    "emailNotificationsDesc": "Recevoir des notifications par email",
+    "paymentAlerts": "Alertes de Paiement",
+    "paymentAlertsDesc": "Être alerté des paiements en retard",
+    "maintenanceAlerts": "Alertes de Maintenance",
+    "maintenanceAlertsDesc": "Notifications pour les demandes de maintenance",
+    "enabled": "Activé",
+    "currentLanguage": "Français",
+    "dateFormat": "Format de Date",
+    "dataManagement": "Gestion des Données",
+    "dataExport": "Export des Données",
+    "dataExportDesc": "Exporter toutes vos données",
+    "autoBackup": "Sauvegarde Automatique",
+    "autoBackupDesc": "Sauvegarde automatique de vos données",
+    "configure": "Configurer",
+    "deleteAccount": "Supprimer le Compte",
+    "deleteAccountDesc": "Supprimer définitivement votre compte"
   }
 }
