@@ -54,9 +54,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       
       // Rediriger les propriétaires vers leur espace personnel
       if (userType === 'owner') {
-        const ownerName = userProfile?.name || user?.displayName || user?.email?.split('@')[0] || 'owner';
-        const ownerSpaceUrl = getOwnerSpaceUrl(ownerName);
-        return <Navigate to={ownerSpaceUrl} replace />;
+        return <Navigate to="/owner-space-lionel-rostand" replace />;
       }
       
       // Rediriger les locataires vers leur espace
@@ -91,13 +89,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return <Navigate to="/login" replace />;
     }
 
-    // L'admin peut accéder à tous les espaces propriétaires
-    // Les propriétaires peuvent accéder à n'importe quel espace propriétaire (pour la flexibilité)
-    if (isAdmin) {
-      console.log('🔐 Admin accède à l\'espace propriétaire:', location.pathname);
-    } else if (isOwner) {
-      console.log('🔐 Propriétaire accède à l\'espace propriétaire:', location.pathname);
-    }
+    // L'admin et les propriétaires peuvent accéder à tous les espaces propriétaires
+    console.log('🔐 Accès autorisé à l\'espace propriétaire:', location.pathname);
   }
 
   // Vérification des types d'utilisateur requis
@@ -137,9 +130,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       if (userType === 'admin') {
         return <Navigate to="/admin" replace />;
       } else if (userType === 'owner') {
-        const ownerName = userProfile?.name || user?.displayName || user?.email?.split('@')[0] || 'owner';
-        const ownerSpaceUrl = getOwnerSpaceUrl(ownerName);
-        return <Navigate to={ownerSpaceUrl} replace />;
+        return <Navigate to="/owner-space-lionel-rostand" replace />;
       } else if (userType === 'locataire' || userType === 'colocataire') {
         return <Navigate to="/tenant-space" replace />;
       } else {
