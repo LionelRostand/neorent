@@ -45,7 +45,7 @@ export const defaultQuickActions: QuickActionConfig[] = [
     id: 'contract',
     titleKey: 'quickActions.contract.title',
     descriptionKey: 'quickActions.contract.description',
-    icon: 'FileText',
+    icon: 'FileCheck',
     color: 'bg-yellow-500',
     enabled: true,
     order: 3,

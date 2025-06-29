@@ -57,9 +57,7 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
     }
   };
 
-  const handleToggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleToggle = (checked: boolean) => {
     if (onToggle) {
       onToggle(action.id);
     }

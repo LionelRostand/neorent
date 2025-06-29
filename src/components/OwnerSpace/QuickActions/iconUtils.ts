@@ -17,7 +17,7 @@ import {
   Receipt,
   TrendingUp,
   HelpCircle,
-  FileContract,
+  FileCheck,
   ClipboardList,
   DollarSign,
   Plus
@@ -41,7 +41,7 @@ const iconMap = {
   Receipt,
   TrendingUp,
   HelpCircle,
-  FileContract,
+  FileCheck,
   ClipboardList,
   DollarSign,
   Plus
