@@ -27,6 +27,10 @@ import tenantsFR from './locales/fr/tenants.json';
 import roommatesEN from './locales/en/roommates.json';
 import roommatesFR from './locales/fr/roommates.json';
 
+// Import contracts translations
+import contractsEN from './locales/en/contracts.json';
+import contractsFR from './locales/fr/contracts.json';
+
 // Import common translations
 import commonEN from './locales/en/common.json';
 import commonFR from './locales/fr/common.json';
@@ -40,7 +44,8 @@ const resources = {
       ...publicSiteEN,
       ...propertiesEN,
       ...tenantsEN,
-      ...roommatesEN
+      ...roommatesEN,
+      ...contractsEN
     }
   },
   fr: {
@@ -51,7 +56,8 @@ const resources = {
       ...publicSiteFR,
       ...propertiesFR,
       ...tenantsFR,
-      ...roommatesFR
+      ...roommatesFR,
+      ...contractsFR
     }
   }
 };
