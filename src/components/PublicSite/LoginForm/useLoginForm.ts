@@ -68,9 +68,36 @@ export const useLoginForm = () => {
         return;
       }
       
-      // Pour les autres utilisateurs
-      await login(email, password);
-      console.log('✅ Connexion Firebase réussie pour:', email);
+      // Pour les autres utilisateurs, essayer de se connecter normalement
+      try {
+        await login(email, password);
+        console.log('✅ Connexion Firebase réussie pour:', email);
+      } catch (loginError: any) {
+        console.log('⚠️ Erreur de connexion:', loginError.code);
+        
+        // Si le compte n'existe pas, le créer pour les propriétaires potentiels
+        if (loginError.code === 'auth/user-not-found' || loginError.code === 'auth/invalid-credential') {
+          console.log('🔧 Tentative de création du compte propriétaire...');
+          try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            console.log('✅ Compte propriétaire créé avec succès');
+            
+            toast({
+              title: "Compte créé",
+              description: "Votre compte propriétaire a été créé avec succès",
+            });
+          } catch (createError: any) {
+            if (createError.code === 'auth/email-already-in-use') {
+              // Le compte existe mais le mot de passe est incorrect
+              throw new Error('Mot de passe incorrect pour ce compte existant');
+            } else {
+              throw createError;
+            }
+          }
+        } else {
+          throw loginError;
+        }
+      }
       
       toast({
         title: "Connexion réussie",
@@ -93,7 +120,7 @@ export const useLoginForm = () => {
         } else if (userType === 'colocataire' || userType === 'locataire') {
           navigate('/tenant-space', { replace: true });
         } else {
-          // Par défaut, si on ne peut pas déterminer le type, rediriger vers l'espace propriétaire
+          // Par défaut, rediriger vers l'espace propriétaire pour les nouveaux comptes
           console.log('⚠️ Type utilisateur non déterminé, redirection vers owner-space');
           navigate('/owner-space-lionel-rostand', { replace: true });
         }
@@ -118,6 +145,8 @@ export const useLoginForm = () => {
         errorMessage = "Identifiants invalides. Vérifiez votre email et mot de passe.";
       } else if (error.code === 'auth/weak-password') {
         errorMessage = "Le mot de passe doit contenir au moins 6 caractères.";
+      } else if (error.message) {
+        errorMessage = error.message;
       }
       
       toast({
