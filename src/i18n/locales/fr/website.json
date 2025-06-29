@@ -51,6 +51,7 @@
     "propertyDescription": "Description pour le site web",
     "websitePreview": "Aperçu du site web",
     "availableProperties": "Propriétés Disponibles",
-    "noVisibleProperties": "Aucune propriété visible sur le site web"
+    "noVisibleProperties": "Aucune propriété visible sur le site web",
+    "viewWebsite": "Voir le Site Web"
   }
 }

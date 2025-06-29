@@ -91,6 +91,14 @@ import helpFR from './locales/fr/help.json';
 import commonEN from './locales/en/common.json';
 import commonFR from './locales/fr/common.json';
 
+// Import website translations
+import websiteEN from './locales/en/website.json';
+import websiteFR from './locales/fr/website.json';
+
+// Import pages translations
+import pagesEN from './locales/en/pages.json';
+import pagesFR from './locales/fr/pages.json';
+
 const resources = {
   en: {
     translation: {
@@ -115,7 +123,9 @@ const resources = {
       ...messagesEN,
       ...taxesEN,
       ...settingsEN,
-      ...helpEN
+      ...helpEN,
+      ...websiteEN,
+      ...pagesEN
     }
   },
   fr: {
@@ -141,7 +151,9 @@ const resources = {
       ...messagesFR,
       ...taxesFR,
       ...settingsFR,
-      ...helpFR
+      ...helpFR,
+      ...websiteFR,
+      ...pagesFR
     }
   }
 };
