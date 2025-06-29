@@ -15,15 +15,15 @@
       "occupancyDescription": "average occupancy rate",
       "colocationDescription": "colocation rooms",
       "revenueDescription": "total monthly revenue"
-    },
-    "form": {
-      "propertyTypes": {
-        "app": "Apartment",
-        "studio": "Studio",
-        "maison": "House",
-        "loft": "Loft",
-        "duplex": "Duplex"
-      }
+    }
+  },
+  "propertyForm": {
+    "propertyTypes": {
+      "appartement": "Apartment",
+      "studio": "Studio",
+      "maison": "House",
+      "loft": "Loft",
+      "duplex": "Duplex"
     }
   }
 }

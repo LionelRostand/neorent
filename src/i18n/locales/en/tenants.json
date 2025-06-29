@@ -3,6 +3,8 @@
   "tenants": {
     "title": "Tenants",
     "subtitle": "Manage your tenants and their information",
+    "management": "Tenant Management",
+    "description": "Efficiently manage your tenants and their information",
     "totalTenants": "Total Tenants",
     "totalTenantsDesc": "registered tenants",
     "activeTenants": "Active Tenants",
@@ -18,6 +20,8 @@
     "editTenant": "Edit Tenant",
     "deleteTenant": "Delete Tenant",
     "tenantsList": "Tenants List",
+    "listTitle": "Tenants List",
+    "listDescription": "Manage all your tenants from this interface",
     "tenantDetails": "Tenant Details",
     "tenantProfile": "Tenant Profile",
     "personalInfo": "Personal Information",
@@ -38,6 +42,7 @@
     "property": "Property",
     "rentAmount": "Rent Amount",
     "rent": "Rent",
+    "rentPerMonth": "/month",
     "deposit": "Deposit",
     "moveInDate": "Move-in Date",
     "moveOutDate": "Move-out Date",
@@ -75,7 +80,17 @@
     "generateContract": "Generate contract",
     "downloadDocuments": "Download documents",
     "printProfile": "Print profile",
-    "exportData": "Export data"
+    "exportData": "Export data",
+    "metrics": {
+      "activeTenants": "Active Tenants",
+      "activeDescription": "active tenants",
+      "searching": "Searching",
+      "searchingDescription": "tenants searching",
+      "inactive": "Inactive",
+      "inactiveDescription": "inactive tenants",
+      "total": "Total",
+      "totalDescription": "total tenants"
+    }
   },
   "tenantForm": {
     "title": "Add tenant",

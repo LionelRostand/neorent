@@ -3,6 +3,8 @@
   "tenants": {
     "title": "Locataires",
     "subtitle": "Gérez vos locataires et leurs informations",
+    "management": "Gestion des Locataires",
+    "description": "Gérez efficacement vos locataires et leurs informations",
     "totalTenants": "Total Locataires",
     "totalTenantsDesc": "locataires enregistrés",
     "activeTenants": "Locataires Actifs",
@@ -18,6 +20,8 @@
     "editTenant": "Modifier le Locataire",
     "deleteTenant": "Supprimer le Locataire",
     "tenantsList": "Liste des Locataires",
+    "listTitle": "Liste des Locataires",
+    "listDescription": "Gérez tous vos locataires depuis cette interface",
     "tenantDetails": "Détails du Locataire",
     "tenantProfile": "Profil du Locataire",
     "personalInfo": "Informations Personnelles",
@@ -38,6 +42,7 @@
     "property": "Propriété",
     "rentAmount": "Montant du Loyer",
     "rent": "Loyer",
+    "rentPerMonth": "€/mois",
     "deposit": "Caution",
     "moveInDate": "Date d'Entrée",
     "moveOutDate": "Date de Sortie",
@@ -70,7 +75,17 @@
     "deleteError": "Erreur lors de la suppression du locataire",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce locataire ?",
     "viewDetails": "Voir les détails",
-    "contact": "Contacter"
+    "contact": "Contacter",
+    "metrics": {
+      "activeTenants": "Locataires Actifs",
+      "activeDescription": "locataires actifs",
+      "searching": "En Recherche",
+      "searchingDescription": "locataires en recherche",
+      "inactive": "Inactifs",
+      "inactiveDescription": "locataires inactifs",
+      "total": "Total",
+      "totalDescription": "total des locataires"
+    }
   },
   "tenantForm": {
     "title": "Ajouter un locataire",
