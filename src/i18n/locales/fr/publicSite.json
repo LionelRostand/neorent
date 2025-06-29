@@ -1,13 +1,29 @@
 
 {
   "publicSite": {
+    "home": "Accueil",
+    "properties": "Propriétés",
+    "about": {
+      "title": "À propos"
+    },
+    "contact": {
+      "hero": {
+        "title": "Contact"
+      }
+    },
+    "login": {
+      "title": "Connexion"
+    },
     "title": "Site Public",
     "subtitle": "Gérez votre site web public",
     "hero": {
       "title": "Gestion Immobilière Simplifiée",
       "subtitle": "Gérez vos propriétés, locataires et revenus en toute simplicité",
+      "description": "Gérez vos propriétés, locataires et revenus locatifs avec notre plateforme complète de gestion immobilière.",
       "getStarted": "Commencer",
-      "learnMore": "En savoir plus"
+      "learnMore": "En savoir plus",
+      "startFree": "Essai Gratuit",
+      "contactUs": "Nous Contacter"
     },
     "features": {
       "title": "Fonctionnalités",
@@ -27,7 +43,10 @@
       "send": "Envoyer",
       "phone": "Téléphone",
       "address": "Adresse",
-      "hours": "Heures d'Ouverture"
+      "hours": "Heures d'Ouverture",
+      "hero": {
+        "title": "Contact"
+      }
     },
     "footer": {
       "copyright": "Tous droits réservés",
