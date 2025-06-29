@@ -10,13 +10,13 @@ export const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <PublicRoutes />
+      {PublicRoutes}
 
       {/* User Space Routes (Tenant & Owner) */}
-      <UserSpaceRoutes />
+      {UserSpaceRoutes}
       
       {/* Admin Routes */}
-      <AdminRoutes />
+      {AdminRoutes}
 
       {/* 404 Route */}
       <Route path="*" element={<NotFound />} />

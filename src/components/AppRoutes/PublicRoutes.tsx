@@ -10,15 +10,13 @@ import LegalNotice from '@/pages/PublicSite/LegalNotice';
 import PrivacyPolicy from '@/pages/PublicSite/PrivacyPolicy';
 import CookiePolicy from '@/pages/PublicSite/CookiePolicy';
 
-export const PublicRoutes = () => (
-  <>
-    <Route path="/" element={<PublicHome />} />
-    <Route path="/about" element={<PublicAbout />} />
-    <Route path="/contact" element={<PublicContact />} />
-    <Route path="/properties" element={<PublicProperties />} />
-    <Route path="/login" element={<PublicLogin />} />
-    <Route path="/legal-notice" element={<LegalNotice />} />
-    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-    <Route path="/cookie-policy" element={<CookiePolicy />} />
-  </>
-);
+export const PublicRoutes = [
+  <Route key="home" path="/" element={<PublicHome />} />,
+  <Route key="about" path="/about" element={<PublicAbout />} />,
+  <Route key="contact" path="/contact" element={<PublicContact />} />,
+  <Route key="properties" path="/properties" element={<PublicProperties />} />,
+  <Route key="login" path="/login" element={<PublicLogin />} />,
+  <Route key="legal-notice" path="/legal-notice" element={<LegalNotice />} />,
+  <Route key="privacy-policy" path="/privacy-policy" element={<PrivacyPolicy />} />,
+  <Route key="cookie-policy" path="/cookie-policy" element={<CookiePolicy />} />
+];
