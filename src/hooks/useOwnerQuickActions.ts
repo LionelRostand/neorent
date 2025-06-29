@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -42,10 +43,13 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
   const enhancedNavigate = (path: string) => {
     console.log('Enhanced navigate called with path:', path);
     
-    // If it's an admin path, navigate to the actual admin route
+    // Since we're in OwnerSpace context, we should NOT navigate away from the owner space
+    // Instead, we should use the setActiveView function if available
+    // This function will be overridden by components that provide a setActiveView function
     if (path.startsWith('/admin/')) {
-      console.log('Navigating to admin path:', path);
-      navigate(path);
+      console.log('Admin path detected, should use setActiveView instead of navigate');
+      // This will be handled by the component that calls this hook
+      return;
     } else {
       // For other paths, use the original navigate
       navigate(path);

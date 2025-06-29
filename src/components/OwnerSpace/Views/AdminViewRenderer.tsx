@@ -36,6 +36,16 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
 }) => {
   console.log('AdminViewRenderer - activeView:', activeView);
   
+  // For views that are rendered within OwnerSpace, we need to render just the content
+  // without any additional layout or sidebar to avoid conflicts
+  const renderContentOnly = (Component: React.ComponentType<any>, props: any = {}) => {
+    return (
+      <div className="p-6">
+        <Component {...props} />
+      </div>
+    );
+  };
+  
   // Render owner-specific admin views
   switch (activeView) {
     case 'admin-dashboard':
@@ -59,15 +69,15 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
     case 'admin-maintenance':
       return <AdminMaintenanceView currentProfile={currentProfile} />;
     case 'admin-messages':
-      return <Messages />;
+      return renderContentOnly(Messages);
     case 'admin-taxes':
       return <AdminTaxManagementView currentProfile={currentProfile} />;
     case 'admin-website':
-      return <Website />;
+      return renderContentOnly(Website);
     case 'admin-settings':
-      return <AdminSettingsView currentProfile={currentProfile} />;
+      return renderContentOnly(Settings);
     case 'admin-help':
-      return <Help />;
+      return renderContentOnly(Help);
     default:
       console.log('AdminViewRenderer - No matching view for:', activeView);
       return (

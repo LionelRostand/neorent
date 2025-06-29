@@ -80,9 +80,17 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
     console.log('Quick action clicked:', action);
     
     if (action.action === 'navigate' && action.actionValue) {
-      if (setActiveView) {
+      // Check if it's an admin path and we have setActiveView
+      if (action.actionValue.startsWith('/admin/') && setActiveView) {
+        // Convert admin path to activeView format
+        const viewName = action.actionValue.replace('/admin/', 'admin-');
+        console.log('Setting active view to:', viewName);
+        setActiveView(viewName);
+      } else if (setActiveView) {
+        // For non-admin paths within owner space
         setActiveView(action.actionValue);
       } else {
+        // Fallback to navigation
         navigate(action.actionValue);
       }
     } else if (action.action === 'dialog' && action.actionValue) {
