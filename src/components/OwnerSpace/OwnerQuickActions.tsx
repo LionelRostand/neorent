@@ -41,7 +41,8 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
   console.log('OwnerQuickActions debug:', { 
     showControls, 
     isAdmin, 
-    enabledActionsCount: enabledActions.length
+    enabledActionsCount: enabledActions.length,
+    ownerProfile: ownerProfile
   });
 
   const getLocalizedText = (key: string) => {
@@ -78,6 +79,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
 
   const handleActionClick = (action: any) => {
     console.log('Quick action clicked:', action);
+    console.log('setActiveView function available:', !!setActiveView);
     
     if (action.action === 'navigate' && action.actionValue) {
       // Check if it's an admin path and we have setActiveView

@@ -26,6 +26,9 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
   const { roommates, tenants, payments } = useOwnerData(profile);
   const [showRoommateForm, setShowRoommateForm] = useState(false);
 
+  console.log('AdminRoommatesView - Using profile:', profile);
+  console.log('AdminRoommatesView - Filtered roommates:', roommates);
+
   const roommateButtonConfig = getButtonConfig('roommate');
 
   const totalTenants = tenants?.length || 0;
@@ -52,6 +55,11 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">Colocataires</h1>
             <p className="text-blue-100 mt-1 sm:mt-2 text-sm sm:text-base">Gérez vos colocataires et leurs informations</p>
+            {profile && (
+              <p className="text-blue-200 text-sm mt-1">
+                Propriétaire: {profile.name || profile.email}
+              </p>
+            )}
           </div>
           <Button 
             onClick={() => setShowRoommateForm(true)}

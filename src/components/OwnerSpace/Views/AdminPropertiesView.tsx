@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Home, Users, AlertCircle, DollarSign, Edit, Trash2, Eye } from 'lucide-react';
@@ -25,6 +24,9 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
   const { getButtonConfig } = useFormButtonConfig();
   const { properties, tenants, payments } = useOwnerData(profile);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
+
+  console.log('AdminPropertiesView - Using profile:', profile);
+  console.log('AdminPropertiesView - Filtered properties:', properties);
 
   const propertyButtonConfig = getButtonConfig('property');
 
@@ -53,7 +55,14 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">Propriétés</h1>
-            <p className="text-slate-100 mt-1 sm:mt-2 text-sm sm:text-base">Gérez vos propriétés et leurs informations</p>
+            <p className="text-slate-100 mt-1 sm:mt-2 text-sm sm:text-base">
+              Gérez vos propriétés et leurs informations
+            </p>
+            {profile && (
+              <p className="text-slate-200 text-sm mt-1">
+                Propriétaire: {profile.name || profile.email}
+              </p>
+            )}
           </div>
           <Button 
             onClick={() => setShowPropertyForm(true)}
