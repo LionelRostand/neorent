@@ -95,15 +95,18 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   const getOwnerInfo = () => {
     if (isAdminAccessingOwnerSpace && currentProfile) {
       return (
-        <div className="mt-2 p-2 bg-blue-50 rounded-md border-l-4 border-blue-400">
-          <p className="text-xs text-blue-800 font-medium">
+        <div className="mt-2 p-2 sm:p-3 bg-blue-50 rounded-md border-l-4 border-blue-400">
+          <p className="text-xs sm:text-sm text-blue-800 font-medium mb-1">
             {i18n.language === 'fr' ? 'Espace propriétaire :' : 'Owner space:'}
           </p>
-          <p className="text-xs text-blue-700">
-            {currentProfile.name} - {currentProfile.email}
+          <p className="text-xs sm:text-sm text-blue-700 font-medium">
+            {currentProfile.name}
+          </p>
+          <p className="text-xs text-blue-600 break-all">
+            {currentProfile.email}
           </p>
           {currentProfile.type && (
-            <p className="text-xs text-blue-600">
+            <p className="text-xs text-blue-600 mt-1">
               {i18n.language === 'fr' ? 'Type :' : 'Type:'} {currentProfile.type}
             </p>
           )}
@@ -114,36 +117,46 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   };
 
   return (
-    <div className="bg-white px-4 sm:px-6 py-4 flex-shrink-0 border-b">
-      <div className="flex items-center justify-between">
+    <div className="bg-white px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex-shrink-0 border-b">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        {/* Profile Information */}
         <div className="min-w-0 flex-1">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
-            {displayName}
-          </h2>
-          <p className="text-sm text-gray-500 truncate">
-            {displayEmail}
-          </p>
-          <p className="text-xs text-blue-600 mt-1">
-            {displayRole}
-          </p>
+          <div className="flex flex-col xs:flex-row xs:items-start xs:justify-between xs:gap-2">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 break-words">
+                {displayName}
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-500 break-all mt-1">
+                {displayEmail}
+              </p>
+            </div>
+            <div className="flex-shrink-0 mt-2 xs:mt-0">
+              <p className="text-xs sm:text-sm text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded-md">
+                {displayRole}
+              </p>
+            </div>
+          </div>
           {getAdminBadge()}
           {getOwnerInfo()}
         </div>
         
-        <div className="flex items-center space-x-2 sm:space-x-3">
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-end">
           {/* Sélecteur de langue */}
-          <LanguageSelector />
+          <div className="order-1">
+            <LanguageSelector />
+          </div>
 
           {/* Bouton de retour pour les admins */}
           {(userType === 'admin' || isAuthorizedAdmin) && (
             <Button
               variant="outline"
               onClick={handleBackToAdmin}
-              className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
+              className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 order-2"
             >
               <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">{t('settings.backToAdmin')}</span>
-              <span className="sm:hidden">Admin</span>
+              <span className="hidden xs:inline">{t('settings.backToAdmin')}</span>
+              <span className="xs:hidden">Admin</span>
             </Button>
           )}
 
@@ -151,11 +164,11 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
           <Button
             variant="outline"
             onClick={handleLogout}
-            className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 border-red-200 text-red-600 hover:bg-red-50"
+            className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 border-red-200 text-red-600 hover:bg-red-50 order-3"
           >
             <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-            <span className="hidden sm:inline">{t('profile.logout')}</span>
-            <span className="sm:hidden">{i18n.language === 'fr' ? 'Sortir' : 'Out'}</span>
+            <span className="hidden xs:inline">{t('profile.logout')}</span>
+            <span className="xs:hidden">{i18n.language === 'fr' ? 'Sortir' : 'Out'}</span>
           </Button>
         </div>
       </div>
