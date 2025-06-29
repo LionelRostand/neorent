@@ -72,40 +72,32 @@ export const useLoginForm = () => {
       await login(email, password);
       console.log('✅ Connexion Firebase réussie pour:', email);
       
-      // Attendre que les données se chargent
+      toast({
+        title: "Connexion réussie",
+        description: `Bienvenue ${userProfile?.name || email}`,
+      });
+
+      // Attendre un peu pour que l'auth se stabilise puis rediriger
       setTimeout(() => {
-        console.log('📊 Vérification du profil:', { userProfile, userType });
+        console.log('📊 Redirection - userType:', userType, 'userProfile:', userProfile);
         
-        if (!userProfile || !userType) {
-          console.log('⚠️ Aucun profil trouvé');
-          toast({
-            title: "Compte en attente",
-            description: `Votre compte ${email} est en cours de configuration. Veuillez contacter votre gestionnaire.`,
-            variant: "default",
-          });
-          return;
-        }
-
-        toast({
-          title: "Connexion réussie",
-          description: `Bienvenue ${userProfile.name || 'Utilisateur'}`,
-        });
-
-        // Redirection selon le type d'utilisateur
         const from = location.state?.from?.pathname;
         
-        if (userType === 'admin') {
-          navigate(from && from.startsWith('/admin') ? from : '/admin/dashboard');
-        } else if (userType === 'owner') {
-          if (userProfile.isOwner) {
-            navigate(from && from.startsWith('/owner-space') ? from : '/owner-space');
-          } else {
-            navigate(from && from.startsWith('/admin') ? from : '/admin/dashboard');
-          }
+        // Redirection basée sur l'email ou le type d'utilisateur
+        if (email === 'admin@neotech-consulting.com') {
+          navigate('/admin/dashboard', { replace: true });
+        } else if (userType === 'admin') {
+          navigate(from && from.startsWith('/admin') ? from : '/admin/dashboard', { replace: true });
+        } else if (userType === 'owner' || userProfile?.isOwner) {
+          navigate('/owner-space-lionel-rostand', { replace: true });
+        } else if (userType === 'colocataire' || userType === 'locataire') {
+          navigate('/tenant-space', { replace: true });
         } else {
-          navigate(from && from.startsWith('/tenant-space') ? from : '/tenant-space');
+          // Par défaut, si on ne peut pas déterminer le type, rediriger vers l'espace propriétaire
+          console.log('⚠️ Type utilisateur non déterminé, redirection vers owner-space');
+          navigate('/owner-space-lionel-rostand', { replace: true });
         }
-      }, 1000);
+      }, 500);
       
     } catch (error: any) {
       console.error('❌ Erreur de connexion:', error);
