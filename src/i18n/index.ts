@@ -83,6 +83,11 @@ import taxesFR from './locales/fr/taxes.json';
 import settingsEN from './locales/en/settings.json';
 import settingsFR from './locales/fr/settings.json';
 
+// Import specific settings translations
+import settingsPermissionsFR from './locales/fr/settings/permissions.json';
+import settingsOwnersFR from './locales/fr/settings/owners.json';
+import settingsFirebaseFR from './locales/fr/settings/firebase.json';
+
 // Import help translations
 import helpEN from './locales/en/help.json';
 import helpFR from './locales/fr/help.json';
@@ -151,6 +156,9 @@ const resources = {
       ...messagesFR,
       ...taxesFR,
       ...settingsFR,
+      ...settingsPermissionsFR,
+      ...settingsOwnersFR,
+      ...settingsFirebaseFR,
       ...helpFR,
       ...websiteFR,
       ...pagesFR
