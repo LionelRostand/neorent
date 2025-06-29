@@ -18,7 +18,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
   setActiveView,
   showControls = false 
 }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { getEnabledActions, refreshKey, isAdmin, reorderActions } = useQuickActionsManager();
   
   const {
@@ -43,25 +43,9 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
     showControls, 
     isAdmin, 
     enabledActionsCount: enabledActions.length,
+    currentLanguage: i18n.language,
     ownerProfile: ownerProfile
   });
-
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      quickActions: {
-        fr: 'Actions rapides',
-        en: 'Quick Actions'
-      },
-      noActionsConfigured: {
-        fr: 'Aucune action rapide configurée',
-        en: 'No quick actions configured'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
 
   const getLocalizedActionText = (action: any, field: 'title' | 'description'): string => {
     const currentLang = i18n.language as 'fr' | 'en';
@@ -126,12 +110,14 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
       <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-4 md:p-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
           <h3 className="text-base md:text-lg font-semibold text-white">
-            {getLocalizedText('quickActions')}
+            {t('navigation.quickActions', 'Actions rapides')}
           </h3>
         </div>
         
         {enabledActions.length === 0 ? (
-          <p className="text-white/70 text-sm">{getLocalizedText('noActionsConfigured')}</p>
+          <p className="text-white/70 text-sm">
+            {i18n.language === 'en' ? 'No quick actions configured' : 'Aucune action rapide configurée'}
+          </p>
         ) : (
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="quick-actions">
