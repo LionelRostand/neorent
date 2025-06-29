@@ -11,13 +11,9 @@
     "noResultsDescription": "Essayez de modifier vos termes de recherche ou effacez les filtres.",
     "technicalAspect": "Aspect technique",
     "functionalUsage": "Usage fonctionnel",
-    "gettingStarted": "Prise en main",
-    "paymentConfig": "Configuration des Paiements",
-    "paymentConfigDescription": "Configurez les différents modes de paiement pour votre plateforme",
-    "configurationSteps": "Étapes de Configuration",
-    "comingSoonMessage": "Cette méthode de paiement sera disponible prochainement dans une future mise à jour.",
+    "gettingStarted": "Premiers Pas",
     "categories": {
-      "gettingStarted": "Prise en main",
+      "gettingStarted": "Premiers Pas",
       "properties": "Propriétés",
       "tenants": "Locataires",
       "contracts": "Contrats",
@@ -41,14 +37,14 @@
       "dashboard": {
         "title": "Tableau de bord",
         "description": "Vue d'ensemble de votre activité immobilière avec statistiques et indicateurs clés",
-        "technical": "Interface React avec composants de métriques et graphiques en temps réel",
-        "functional": "Consultez vos revenus, propriétés gérées, locataires actifs et alertes importantes"
+        "technical": "Interface React avec composants de métriques temps réel et graphiques",
+        "functional": "Visualisez vos revenus, propriétés gérées, locataires actifs et alertes importantes"
       },
       "properties": {
         "title": "Gestion des propriétés",
         "description": "Ajoutez, modifiez et gérez vos biens immobiliers avec photos et détails",
-        "technical": "CRUD complet avec upload d'images et validation des formulaires",
-        "functional": "Créez des fiches propriétés complètes avec localisation, équipements et statut"
+        "technical": "CRUD complet avec upload d'images et validation de formulaires",
+        "functional": "Créez des fiches complètes de propriétés avec localisation, équipements et statut"
       },
       "tenants": {
         "title": "Gestion des locataires",
@@ -59,19 +55,19 @@
       "contracts": {
         "title": "Contrats de bail",
         "description": "Créez, modifiez et suivez les contrats de location avec modèles prédéfinis",
-        "technical": "Générateur de PDF avec templates personnalisables selon la juridiction",
+        "technical": "Générateur PDF avec modèles personnalisables par juridiction",
         "functional": "Rédigez des baux conformes, suivez les échéances et gérez les renouvellements"
       },
       "rentPayments": {
         "title": "Suivi des loyers",
-        "description": "Enregistrez et suivez tous les paiements de loyers avec relances automatiques",
+        "description": "Enregistrez et suivez tous les paiements de loyers avec rappels automatiques",
         "technical": "Système de gestion des paiements avec états et notifications",
         "functional": "Marquez les paiements reçus, générez des quittances et suivez les impayés"
       },
       "maintenance": {
         "title": "Maintenance",
         "description": "Gérez les demandes de maintenance, interventions et suivi des coûts",
-        "technical": "Workflow de gestion des tickets avec statuts et assignation",
+        "technical": "Workflow de gestion de tickets avec statuts et assignation",
         "functional": "Recevez les demandes, planifiez les interventions et suivez les dépenses"
       },
       "reporting": {
@@ -86,65 +82,6 @@
         "technical": "Interface de configuration avec sauvegarde des préférences utilisateur",
         "functional": "Configurez les notifications, modèles de documents et paramètres généraux"
       }
-    },
-    "paymentMethods": {
-      "creditCard": {
-        "name": "Carte Bancaire",
-        "description": "Accepter les paiements par carte bancaire via Stripe",
-        "steps": [
-          "Créer un compte Stripe sur stripe.com",
-          "Obtenir vos clés API depuis le tableau de bord Stripe",
-          "Configurer vos endpoints webhook",
-          "Tester l'intégration en mode sandbox",
-          "Passer en mode live avec de vrais paiements"
-        ]
-      },
-      "bankTransfer": {
-        "name": "Virement Bancaire",
-        "description": "Accepter les virements bancaires directs des locataires",
-        "steps": [
-          "Fournir vos coordonnées bancaires",
-          "Configurer les codes IBAN et BIC",
-          "Mettre en place la réconciliation automatique",
-          "Créer des instructions de paiement pour les locataires",
-          "Surveiller les virements entrants"
-        ]
-      },
-      "mobile": {
-        "name": "Paiement Mobile",
-        "description": "Accepter les paiements mobile money (Orange Money, MTN, etc.)",
-        "steps": [
-          "S'inscrire auprès des fournisseurs de paiement mobile",
-          "Obtenir les identifiants API pour chaque fournisseur",
-          "Configurer les notifications webhook",
-          "Tester avec de petits montants d'abord",
-          "Activer pour les paiements des locataires"
-        ]
-      },
-      "paypal": {
-        "name": "PayPal",
-        "description": "Accepter les paiements via PayPal",
-        "steps": [
-          "Créer un compte PayPal Business",
-          "Obtenir votre Client ID et Secret",
-          "Configurer les URLs webhook",
-          "Tester en environnement sandbox",
-          "Passer en mode live"
-        ]
-      }
-    },
-    "status": {
-      "available": "Disponible",
-      "comingSoon": "Bientôt Disponible"
-    },
-    "complexity": {
-      "easy": "Facile",
-      "medium": "Moyen",
-      "hard": "Difficile"
-    },
-    "securityNote": {
-      "title": "Note de Sécurité",
-      "description": "Toutes les méthodes de paiement sont sécurisées avec un chiffrement de niveau industriel et respectent les réglementations financières. Vos données sensibles sont protégées."
     }
   }
 }

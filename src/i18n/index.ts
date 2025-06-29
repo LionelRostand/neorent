@@ -31,6 +31,46 @@ import roommatesFR from './locales/fr/roommates.json';
 import contractsEN from './locales/en/contracts.json';
 import contractsFR from './locales/fr/contracts.json';
 
+// Import inspections translations
+import inspectionsEN from './locales/en/inspections.json';
+import inspectionsFR from './locales/fr/inspections.json';
+
+// Import rent management translations
+import rentManagementEN from './locales/en/rentManagement.json';
+import rentManagementFR from './locales/fr/rentManagement.json';
+
+// Import rental charges translations
+import rentalChargesEN from './locales/en/rentalCharges.json';
+import rentalChargesFR from './locales/fr/rentalCharges.json';
+
+// Import forecasting translations
+import forecastingEN from './locales/en/forecasting.json';
+import forecastingFR from './locales/fr/forecasting.json';
+
+// Import maintenance translations
+import maintenanceEN from './locales/en/maintenanceCommon.json';
+import maintenanceFR from './locales/fr/maintenanceCommon.json';
+
+// Import maintenance requests translations
+import maintenanceRequestsEN from './locales/en/maintenanceRequests.json';
+import maintenanceRequestsFR from './locales/fr/maintenanceRequests.json';
+
+// Import messages translations
+import messagesEN from './locales/en/messages.json';
+import messagesFR from './locales/fr/messages.json';
+
+// Import taxes translations
+import taxesEN from './locales/en/taxes.json';
+import taxesFR from './locales/fr/taxes.json';
+
+// Import settings translations
+import settingsEN from './locales/en/settings.json';
+import settingsFR from './locales/fr/settings.json';
+
+// Import help translations
+import helpEN from './locales/en/help.json';
+import helpFR from './locales/fr/help.json';
+
 // Import common translations
 import commonEN from './locales/en/common.json';
 import commonFR from './locales/fr/common.json';
@@ -45,7 +85,17 @@ const resources = {
       ...propertiesEN,
       ...tenantsEN,
       ...roommatesEN,
-      ...contractsEN
+      ...contractsEN,
+      ...inspectionsEN,
+      ...rentManagementEN,
+      ...rentalChargesEN,
+      ...forecastingEN,
+      ...maintenanceEN,
+      ...maintenanceRequestsEN,
+      ...messagesEN,
+      ...taxesEN,
+      ...settingsEN,
+      ...helpEN
     }
   },
   fr: {
@@ -57,7 +107,17 @@ const resources = {
       ...propertiesFR,
       ...tenantsFR,
       ...roommatesFR,
-      ...contractsFR
+      ...contractsFR,
+      ...inspectionsFR,
+      ...rentManagementFR,
+      ...rentalChargesFR,
+      ...forecastingFR,
+      ...maintenanceFR,
+      ...maintenanceRequestsFR,
+      ...messagesFR,
+      ...taxesFR,
+      ...settingsFR,
+      ...helpFR
     }
   }
 };
