@@ -12,6 +12,10 @@
     "technicalAspect": "Aspect technique",
     "functionalUsage": "Usage fonctionnel",
     "gettingStarted": "Premiers Pas",
+    "paymentConfig": "Configuration des Paiements",
+    "paymentConfigDescription": "Configurez vos méthodes de paiement pour accepter les loyers et autres paiements",
+    "configurationSteps": "Étapes de Configuration",
+    "comingSoonMessage": "Cette fonctionnalité sera bientôt disponible. Nous travaillons activement sur son intégration.",
     "categories": {
       "gettingStarted": "Premiers Pas",
       "properties": "Propriétés",
@@ -33,6 +37,65 @@
       "marketing": "Marketing",
       "configuration": "Configuration"
     },
+    "status": {
+      "available": "Disponible",
+      "comingSoon": "Bientôt Disponible"
+    },
+    "complexity": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    },
+    "paymentMethods": {
+      "creditCard": {
+        "name": "Cartes de Crédit",
+        "description": "Acceptez les paiements par carte de crédit via Stripe. Configuration rapide et sécurisée.",
+        "steps": [
+          "Créez un compte Stripe si vous n'en avez pas",
+          "Récupérez vos clés API depuis le tableau de bord Stripe",
+          "Configurez les clés dans les paramètres de paiement",
+          "Testez la configuration avec une transaction test",
+          "Activez le mode production"
+        ]
+      },
+      "bankTransfer": {
+        "name": "Virement Bancaire",
+        "description": "Permettez à vos locataires de payer par virement bancaire. Validation manuelle requise.",
+        "steps": [
+          "Configurez vos informations bancaires (IBAN, BIC)",
+          "Définissez les instructions de paiement",
+          "Activez les notifications de validation",
+          "Configurez le processus de validation manuelle",
+          "Testez avec un virement test"
+        ]
+      },
+      "mobile": {
+        "name": "Paiement Mobile",
+        "description": "Intégration avec Orange Money, MTN Money et Moov Money pour l'Afrique.",
+        "steps": [
+          "Contactez les fournisseurs de services mobile money",
+          "Obtenez les clés API nécessaires",
+          "Configurez les webhooks de notification",
+          "Testez chaque méthode de paiement",
+          "Activez pour vos locataires"
+        ]
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Acceptez les paiements PayPal pour plus de flexibilité.",
+        "steps": [
+          "Créez un compte PayPal Business",
+          "Activez les paiements récurrents",
+          "Configurez les clés API PayPal",
+          "Testez la configuration",
+          "Activez pour la production"
+        ]
+      }
+    },
+    "securityNote": {
+      "title": "Note de Sécurité",
+      "description": "Toutes les informations de paiement sont traitées de manière sécurisée selon les standards PCI DSS. Vos données bancaires ne sont jamais stockées sur nos serveurs."
+    },
     "sections": {
       "dashboard": {
         "title": "Tableau de bord",
@@ -52,23 +115,65 @@
         "technical": "Système de base de données relationnelle avec liens propriété-locataire",
         "functional": "Enregistrez les locataires, suivez leurs paiements et gérez leur dossier"
       },
+      "roommates": {
+        "title": "Gestion des colocataires",
+        "description": "Gérez les logements partagés et les colocataires",
+        "technical": "Système de gestion multi-locataires avec répartition des charges",
+        "functional": "Organisez les colocations, répartissez les loyers et gérez les conflits"
+      },
       "contracts": {
         "title": "Contrats de bail",
         "description": "Créez, modifiez et suivez les contrats de location avec modèles prédéfinis",
         "technical": "Générateur PDF avec modèles personnalisables par juridiction",
         "functional": "Rédigez des baux conformes, suivez les échéances et gérez les renouvellements"
       },
-      "rentPayments": {
-        "title": "Suivi des loyers",
-        "description": "Enregistrez et suivez tous les paiements de loyers avec rappels automatiques",
-        "technical": "Système de gestion des paiements avec états et notifications",
-        "functional": "Marquez les paiements reçus, générez des quittances et suivez les impayés"
+      "inspections": {
+        "title": "États des lieux",
+        "description": "Gérez les états des lieux d'entrée et de sortie",
+        "technical": "Système de formulaires avec photos et signatures électroniques",
+        "functional": "Documentez l'état des logements, protégez les dépôts de garantie"
+      },
+      "rentManagement": {
+        "title": "Gestion des loyers",
+        "description": "Suivez les paiements de loyers et gérez les impayés",
+        "technical": "Système de suivi des paiements avec alertes automatiques",
+        "functional": "Enregistrez les paiements, suivez les retards et gérez les relances"
+      },
+      "rentalCharges": {
+        "title": "Charges locatives",
+        "description": "Gérez les charges et leur répartition entre locataires",
+        "technical": "Calculateur de charges avec règles de répartition",
+        "functional": "Calculez les charges, répartissez équitablement et facturez"
+      },
+      "paymentSetup": {
+        "title": "Configuration des paiements",
+        "description": "Configurez vos méthodes de paiement acceptées",
+        "technical": "Intégrations avec Stripe, PayPal et services de paiement mobile",
+        "functional": "Permettez à vos locataires de payer facilement leurs loyers"
       },
       "maintenance": {
         "title": "Maintenance",
         "description": "Gérez les demandes de maintenance, interventions et suivi des coûts",
         "technical": "Workflow de gestion de tickets avec statuts et assignation",
         "functional": "Recevez les demandes, planifiez les interventions et suivez les dépenses"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Communiquez avec vos locataires et gérez les demandes",
+        "technical": "Système de messagerie en temps réel avec notifications",
+        "functional": "Échangez avec vos locataires, gérez les demandes et l'assistance"
+      },
+      "taxes": {
+        "title": "Gestion fiscale",
+        "description": "Gérez vos déclarations fiscales et obligations",
+        "technical": "Calculateur d'impôts avec export vers logiciels comptables",
+        "functional": "Calculez vos revenus fonciers, charges déductibles et impôts"
+      },
+      "website": {
+        "title": "Site web",
+        "description": "Gérez votre site web de présentation des propriétés",
+        "technical": "CMS intégré avec SEO et responsive design",
+        "functional": "Présentez vos biens, attirez des locataires et gérez les visites"
       },
       "reporting": {
         "title": "Rapports et analyses",
