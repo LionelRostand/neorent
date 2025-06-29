@@ -56,9 +56,10 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   // Nom du propriétaire de l'espace
   const ownerName = currentProfile?.name || t('profile.owner');
   
-  // Affichage du nom principal
-  const displayName = isAdminAccessingOwnerSpace ? 
-    `${adminName} → ${ownerName}` : ownerName;
+  // Affichage du nom principal - Corriger la logique pour éviter la répétition
+  const displayName = isAdminAccessingOwnerSpace && currentProfile ? 
+    (adminName !== ownerName ? `${adminName} → ${ownerName}` : adminName) : 
+    ownerName;
   
   // Email à afficher
   const displayEmail = isAdminAccessingOwnerSpace ? 
@@ -93,7 +94,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
 
   // Afficher les informations du propriétaire si l'admin accède à l'espace
   const getOwnerInfo = () => {
-    if (isAdminAccessingOwnerSpace && currentProfile) {
+    if (isAdminAccessingOwnerSpace && currentProfile && adminName !== ownerName) {
       return (
         <div className="mt-2 p-2 sm:p-3 bg-blue-50 rounded-md border-l-4 border-blue-400">
           <p className="text-xs sm:text-sm text-blue-800 font-medium mb-1">

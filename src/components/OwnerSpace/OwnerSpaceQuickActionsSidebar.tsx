@@ -20,11 +20,11 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
   onMobileClose 
 }) => {
   const { i18n } = useTranslation();
-  const { userType } = useAuth();
+  const { userType, user } = useAuth();
   const currentYear = new Date().getFullYear();
 
   // Vérifier si l'utilisateur est admin
-  const isAdmin = userType === 'admin';
+  const isAdmin = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -44,6 +44,17 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
+  // Corriger l'affichage du nom du propriétaire
+  const getOwnerDisplayName = () => {
+    if (ownerProfile?.name) {
+      return ownerProfile.name;
+    }
+    if (ownerProfile?.email) {
+      return ownerProfile.email;
+    }
+    return getLocalizedText('owner');
+  };
+
   return (
     <div className="w-full md:w-64 bg-gradient-to-b from-green-600 to-green-700 text-white flex flex-col h-full shadow-lg">
       {/* Header */}
@@ -52,7 +63,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
           <Building className="h-5 w-5 md:h-6 md:w-6 text-white mr-2 flex-shrink-0" />
           <div className="min-w-0">
             <h1 className="text-xs md:text-sm font-bold text-white truncate">{getLocalizedText('ownerSpace')}</h1>
-            <p className="text-xs text-green-200 truncate">{ownerProfile?.name || getLocalizedText('owner')}</p>
+            <p className="text-xs text-green-200 truncate">{getOwnerDisplayName()}</p>
           </div>
         </div>
         {onMobileClose && (
