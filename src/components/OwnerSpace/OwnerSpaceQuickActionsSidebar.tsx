@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Building, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import OwnerQuickActions from './OwnerQuickActions';
+import SidebarQuickActionsManager from './QuickActions/SidebarQuickActionsManager';
 import { useAuth } from '@/hooks/useAuth';
 
 interface OwnerSpaceQuickActionsSidebarProps {
@@ -75,6 +76,13 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
           </button>
         )}
       </div>
+
+      {/* Admin Management Button */}
+      {isAdmin && (
+        <div className="p-3 md:p-4 border-b border-green-500/30 flex-shrink-0">
+          <SidebarQuickActionsManager />
+        </div>
+      )}
       
       {/* Content - takes remaining space */}
       <div className="flex-1 overflow-hidden">
