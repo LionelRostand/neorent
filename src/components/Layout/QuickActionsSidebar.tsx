@@ -63,6 +63,24 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     i18n.language
   ) : [];
 
+  const handleActionClick = (action: any) => {
+    console.log('Quick action clicked:', action);
+    
+    if (action.action === 'navigate' && action.actionValue) {
+      // Pour les actions de navigation, utiliser navigate
+      navigate(action.actionValue);
+    } else if (action.action === 'dialog' && action.actionValue) {
+      // Pour les actions de dialogue, ouvrir le dialogue
+      setOpenDialog(action.actionValue);
+    } else {
+      // Fallback - exécuter l'action par défaut
+      if (typeof action.action === 'function') {
+        action.action();
+      }
+    }
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -92,7 +110,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
 
           {/* Bouton de gestion pour les admins */}
           {isAdmin && (
-            <div className="p-4">
+            <div className="p-4 border-b border-green-500/30">
               <SidebarQuickActionsManager />
             </div>
           )}
@@ -109,9 +127,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('Quick action clicked:', action);
-                        action.action();
-                        onClose();
+                        handleActionClick(action);
                       }}
                       className="w-full flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors text-white/90 hover:text-white hover:bg-green-500/20"
                     >

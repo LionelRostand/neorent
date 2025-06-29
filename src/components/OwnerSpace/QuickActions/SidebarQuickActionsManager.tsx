@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -203,7 +204,7 @@ const SidebarQuickActionsManager: React.FC = () => {
         <Button
           variant="outline"
           size="sm"
-          className="w-full bg-white/10 hover:bg-white/20 text-white border-white/20 text-sm py-2 px-3"
+          className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30 text-sm py-2 px-3 font-medium"
         >
           <Settings className="h-4 w-4 mr-2" />
           <span className="truncate">{getLocalizedText('manageActions')}</span>
