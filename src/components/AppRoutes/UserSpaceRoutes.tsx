@@ -31,7 +31,7 @@ export const UserSpaceRoutes = [
   // Route générique pour capturer toutes les variations d'owner-space
   <Route 
     key="owner-space-generic"
-    path="/owner-space*" 
+    path="/owner-space/*" 
     element={
       <ProtectedRoute requiredUserTypes={['owner']}>
         <OwnerSpace />

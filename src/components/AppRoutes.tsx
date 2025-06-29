@@ -12,13 +12,13 @@ export const AppRoutes = () => {
       {/* Public Routes */}
       {PublicRoutes}
 
-      {/* User Space Routes (Tenant & Owner) */}
+      {/* User Space Routes (Tenant & Owner) - Placées avant les routes admin */}
       {UserSpaceRoutes}
       
       {/* Admin Routes */}
       {AdminRoutes}
 
-      {/* 404 Route */}
+      {/* 404 Route - DOIT être la dernière */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

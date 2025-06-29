@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -89,7 +88,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Vérification pour les espaces propriétaires personnalisés
-  if (location.pathname.includes('/owner-space')) {
+  if (location.pathname.startsWith('/owner-space')) {
     const isOwner = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
     const isAdmin = user?.email === 'admin@neotech-consulting.com';
     
@@ -110,22 +109,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return <Navigate to="/login" replace />;
     }
 
-    // Pour les propriétaires, vérifier qu'ils accèdent à leur propre espace (sauf admin)
-    if (isOwner && !isAdmin) {
-      const ownerName = userProfile?.name || user?.displayName || user?.email?.split('@')[0] || 'owner';
-      const expectedUrl = getOwnerSpaceUrl(ownerName);
-      
-      console.log('🔐 Vérification URL propriétaire:', {
-        currentPath: location.pathname,
-        expectedUrl,
-        ownerName
-      });
-      
-      // Si l'URL ne correspond pas exactement, rediriger vers la bonne URL
-      if (location.pathname !== expectedUrl) {
-        console.log('🔐 Redirection propriétaire vers son espace personnel:', expectedUrl);
-        return <Navigate to={expectedUrl} replace />;
-      }
+    // Pour les propriétaires, permettre l'accès à toute URL owner-space valide
+    // L'admin peut accéder à tous les espaces propriétaires
+    if (isAdmin) {
+      console.log('🔐 Admin accède à l\'espace propriétaire:', location.pathname);
+    } else if (isOwner) {
+      console.log('🔐 Propriétaire accède à son espace:', location.pathname);
     }
   }
 
