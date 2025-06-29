@@ -14,7 +14,7 @@ interface SidebarQuickActionsProps {
 
 const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose }) => {
   const { userProfile } = useAuth();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isAdmin, removeAction, getEnabledActions, refreshKey, reorderActions } = useQuickActionsManager();
 
   console.log('SidebarQuickActions render, refreshKey:', refreshKey);
@@ -58,6 +58,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
   const enabledActions = getEnabledActions();
   console.log('SidebarQuickActions enabledActions:', enabledActions);
   
+  // Create quick actions config with proper translation function and current language
   const quickActionsConfig = userProfile ? createQuickActionsConfig(
     navigate,
     setOpenDialog,
@@ -65,10 +66,10 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     activeTenants,
     expiringContracts,
     pendingPayments,
-    () => '',
+    t, // Pass the translation function
     enabledActions,
     undefined,
-    i18n.language
+    i18n.language // Pass the current language
   ) : [];
 
   console.log('SidebarQuickActions quickActionsConfig:', quickActionsConfig);
