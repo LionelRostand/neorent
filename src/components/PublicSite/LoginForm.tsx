@@ -150,22 +150,22 @@ const LoginForm = () => {
     <Card className="w-full max-w-md mx-auto bg-white shadow-xl">
       <CardHeader className="text-center bg-green-500 text-white rounded-t-lg">
         <CardTitle className="text-2xl font-bold">
-          {t('publicSite.login.formTitle')}
+          {t('public.login.title')}
         </CardTitle>
         <p className="text-green-100">
-          {t('publicSite.login.formSubtitle')}
+          {t('public.login.subtitle')}
         </p>
       </CardHeader>
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-gray-700">{t('publicSite.login.email')}</Label>
+            <Label htmlFor="email" className="text-gray-700">{t('public.login.email')}</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 id="email"
                 type="email"
-                placeholder={t('publicSite.login.emailPlaceholder')}
+                placeholder={t('public.login.email')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
@@ -176,13 +176,13 @@ const LoginForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-gray-700">{t('publicSite.login.password')}</Label>
+            <Label htmlFor="password" className="text-gray-700">{t('public.login.password')}</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder={t('publicSite.login.passwordPlaceholder')}
+                placeholder={t('public.login.password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10 pr-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
@@ -201,23 +201,23 @@ const LoginForm = () => {
           </div>
 
           <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={isLoading}>
-            {isLoading ? t('publicSite.login.signingIn') : t('publicSite.login.signIn')}
+            {isLoading ? t('public.login.login') + '...' : t('public.login.login')}
           </Button>
           
           <div className="text-center space-y-2">
             <a href="#" className="text-sm text-green-600 hover:underline block">
-              {t('publicSite.login.forgotPassword')}
+              {t('public.login.forgotPassword')}
             </a>
             
             <Dialog open={showRegistration} onOpenChange={setShowRegistration}>
               <DialogTrigger asChild>
                 <button type="button" className="text-sm text-blue-600 hover:underline">
-                  {t('publicSite.ownerRegistration.createAccountLink')}
+                  {t('public.login.noAccount')} {t('public.login.register')}
                 </button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>{t('publicSite.ownerRegistration.dialogTitle')}</DialogTitle>
+                  <DialogTitle>{t('publicSite.ownerRegistration.dialogTitle', 'Créer un compte propriétaire')}</DialogTitle>
                 </DialogHeader>
                 <OwnerRegistrationForm onSuccess={() => setShowRegistration(false)} />
               </DialogContent>
