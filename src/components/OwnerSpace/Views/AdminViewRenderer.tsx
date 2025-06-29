@@ -37,13 +37,14 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
   currentProfile 
 }) => {
   console.log('AdminViewRenderer - activeView:', activeView);
+  console.log('AdminViewRenderer - currentProfile:', currentProfile);
   
   // For views that need to be rendered without their main layout wrapper
   const renderWithoutLayout = (Component: React.ComponentType<any>, props: any = {}) => {
-    return <Component {...props} />;
+    return <Component {...props} currentProfile={currentProfile} />;
   };
   
-  // Render owner-specific admin views
+  // Render owner-specific admin views - all views now receive currentProfile
   switch (activeView) {
     case 'admin-dashboard':
       return <AdminDashboardView currentProfile={currentProfile} />;
@@ -70,9 +71,9 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
     case 'admin-taxes':
       return <AdminTaxManagementView currentProfile={currentProfile} />;
     case 'admin-website':
-      return <WebsiteContentOnly />;
+      return <WebsiteContentOnly currentProfile={currentProfile} />;
     case 'admin-settings':
-      return <SettingsContentOnly />;
+      return <SettingsContentOnly currentProfile={currentProfile} />;
     case 'admin-help':
       return renderWithoutLayout(Help);
     default:

@@ -26,11 +26,17 @@ import CompanyManagement from '@/components/Settings/CompanyManagement';
 import AdminTenantAccess from '@/components/AdminTenantAccess';
 import { useAuth } from '@/hooks/useAuth';
 
-const SettingsContentOnly = () => {
+interface SettingsContentOnlyProps {
+  currentProfile?: any;
+}
+
+const SettingsContentOnly: React.FC<SettingsContentOnlyProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('company');
   const { user } = useAuth();
   const isAdmin = user?.email === 'admin@neotech-consulting.com';
+
+  console.log('SettingsContentOnly - currentProfile:', currentProfile);
 
   const tabs = [
     { id: 'company', label: t('settings.tabs.company'), icon: Building },
@@ -54,6 +60,11 @@ const SettingsContentOnly = () => {
             <p className="text-gray-600 mt-1 text-sm sm:text-base">
               {t('settings.subtitle')}
             </p>
+            {currentProfile && (
+              <p className="text-sm text-gray-500 mt-1">
+                Configuration pour: {currentProfile.name || currentProfile.email}
+              </p>
+            )}
           </div>
         </div>
       </div>

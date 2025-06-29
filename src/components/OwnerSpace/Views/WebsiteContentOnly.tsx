@@ -28,9 +28,15 @@ import CookiesTab from '@/components/Website/CookiesTab';
 import ImmoTab from '@/components/Website/ImmoTab';
 import LegalPagesTab from '@/components/Website/LegalPagesTab';
 
-const WebsiteContentOnly = () => {
+interface WebsiteContentOnlyProps {
+  currentProfile?: any;
+}
+
+const WebsiteContentOnly: React.FC<WebsiteContentOnlyProps> = ({ currentProfile }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('pages');
+
+  console.log('WebsiteContentOnly - currentProfile:', currentProfile);
 
   const tabs = [
     { id: 'pages', label: t('website.managePages'), icon: FileText },
