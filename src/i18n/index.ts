@@ -11,6 +11,10 @@ import navigationFR from './locales/fr/navigation.json';
 import quickActionsEN from './locales/en/quickActions.json';
 import quickActionsFR from './locales/fr/quickActions.json';
 
+// Import public site translations
+import publicSiteEN from './locales/en/publicSite.json';
+import publicSiteFR from './locales/fr/publicSite.json';
+
 // Import other translations (assuming they exist)
 import commonEN from './locales/en/common.json';
 import commonFR from './locales/fr/common.json';
@@ -20,14 +24,16 @@ const resources = {
     translation: {
       ...commonEN,
       ...navigationEN,
-      ...quickActionsEN
+      ...quickActionsEN,
+      ...publicSiteEN
     }
   },
   fr: {
     translation: {
       ...commonFR,
       ...navigationFR,
-      ...quickActionsFR
+      ...quickActionsFR,
+      ...publicSiteFR
     }
   }
 };
