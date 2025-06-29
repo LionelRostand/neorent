@@ -1,13 +1,12 @@
-
 {
   "publicSite": {
     "home": "Accueil",
     "properties": "Propriétés",
     "login": "Connexion",
     "hero": {
-      "title": "Gérez vos biens immobiliers en toute simplicité",
-      "subtitle": "Une plateforme complète pour propriétaires, locataires et colocataires",
-      "description": "Gérez vos propriétés, locataires et revenus locatifs avec notre plateforme complète de gestion immobilière.",
+      "title": "Gérez vos biens immobiliers",
+      "subtitle": "en toute simplicité",
+      "description": "Une plateforme complète pour propriétaires, locataires et colocataires.",
       "startFree": "Commencer gratuitement", 
       "contactUs": "Nous contacter"
     },
