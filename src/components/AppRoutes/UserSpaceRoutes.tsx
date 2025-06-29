@@ -17,7 +17,7 @@ export const UserSpaceRoutes = [
     } 
   />,
   
-  // Owner Space avec nom personnalisé - accessible uniquement aux propriétaires
+  // Owner Space avec nom personnalisé - accessible aux propriétaires et admins
   <Route 
     key="owner-space-named"
     path="/owner-space-:ownerName" 

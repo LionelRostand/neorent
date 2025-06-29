@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -109,12 +110,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return <Navigate to="/login" replace />;
     }
 
-    // Pour les propriétaires, permettre l'accès à toute URL owner-space valide
     // L'admin peut accéder à tous les espaces propriétaires
+    // Les propriétaires peuvent accéder à n'importe quel espace propriétaire (pour la flexibilité)
     if (isAdmin) {
       console.log('🔐 Admin accède à l\'espace propriétaire:', location.pathname);
     } else if (isOwner) {
-      console.log('🔐 Propriétaire accède à son espace:', location.pathname);
+      console.log('🔐 Propriétaire accède à l\'espace propriétaire:', location.pathname);
     }
   }
 
@@ -134,11 +135,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       }
     }
     
-    // Vérification pour propriétaire
+    // Vérification pour propriétaire - permettre à l'admin et aux propriétaires
     else if (requiredUserTypes.includes('owner')) {
       const isOwner = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
+      const isAdmin = user?.email === 'admin@neotech-consulting.com';
       
-      if (!isOwner) {
+      if (!isOwner && !isAdmin) {
         console.log('🔐 Accès propriétaire refusé:', userType);
         if (userType === 'locataire' || userType === 'colocataire') {
           return <Navigate to="/tenant-space" replace />;
