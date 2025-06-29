@@ -35,6 +35,12 @@
     "messageSent": "Message envoyé",
     "messageSentDescription": "Votre message a été envoyé avec succès",
     "messageDeleted": "Message supprimé",
-    "messageDeletedDescription": "Le message a été supprimé avec succès"
+    "messageDeletedDescription": "Le message a été supprimé avec succès",
+    "totalConversations": "Total des Conversations",
+    "unreadMessages": "Messages Non Lus",
+    "onlineClients": "Clients en Ligne",
+    "recentTh": "Récents 1h",
+    "contacts": "Contacts",
+    "noContact": "Aucun contact"
   }
 }
