@@ -60,11 +60,17 @@
     "days": "jours",
     "months": "mois",
     "years": "ans",
-    "viewDetails": "Voir les détails"
+    "viewDetails": "Voir les détails",
+    "activeContractsCount": "contrats actifs",
+    "expiredCount": "contrats expirés",
+    "toRenewCount": "à renouveler",
+    "totalCount": "contrats au total",
+    "leaseContract": "Contrat de Bail"
   },
   "contractForm": {
     "title": "Nouveau contrat",
     "editTitle": "Modifier le contrat",
+    "newContract": "Nouveau contrat",
     "contractNumber": "Numéro de contrat",
     "contractNumberPlaceholder": "Ex: CONT-2024-001",
     "tenant": "Locataire",
@@ -87,6 +93,17 @@
     "saving": "Sauvegarde en cours...",
     "addContract": "Ajouter le contrat",
     "saveChanges": "Sauvegarder les modifications",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "type": "Type de contrat",
+    "selectType": "Sélectionner un type",
+    "provider": "Fournisseur",
+    "providerPlaceholder": "Nom du fournisseur",
+    "jurisdiction": "Juridiction",
+    "selectJurisdiction": "Sélectionner une juridiction",
+    "amount": "Montant",
+    "amountPlaceholder": "Montant du contrat",
+    "description": "Description",
+    "descriptionPlaceholder": "Description du contrat",
+    "titlePlaceholder": "Titre du contrat"
   }
 }

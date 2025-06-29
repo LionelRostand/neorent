@@ -3,6 +3,8 @@
   "roommates": {
     "title": "Colocataires",
     "subtitle": "Gérez vos colocataires et leurs informations",
+    "management": "Gestion des Colocataires",
+    "description": "Gérez efficacement vos colocataires et leurs informations",
     "totalRoommates": "Total Colocataires",
     "totalRoommatesDesc": "colocataires enregistrés",
     "activeRoommates": "Colocataires Actifs",
@@ -112,7 +114,13 @@
     "generateContract": "Générer un contrat",
     "downloadDocuments": "Télécharger les documents",
     "printProfile": "Imprimer le profil",
-    "exportData": "Exporter les données"
+    "exportData": "Exporter les données",
+    "metrics": {
+      "activeMultiple": "colocataires actifs",
+      "searching": "En recherche",
+      "inactive": "colocataires inactifs",
+      "totalMultiple": "colocataires au total"
+    }
   },
   "roommateForm": {
     "title": "Ajouter un colocataire",
@@ -138,5 +146,12 @@
     "cancel": "Annuler",
     "passwordNote": "Laisser vide pour conserver le mot de passe actuel",
     "newPassword": "Nouveau mot de passe"
+  },
+  "forms": {
+    "addTenant": "Ajouter un locataire"
+  },
+  "profile": {
+    "name": "Nom complet",
+    "email": "Email"
   }
 }
