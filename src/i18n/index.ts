@@ -105,8 +105,14 @@ import pagesEN from './locales/en/pages.json';
 import pagesFR from './locales/fr/pages.json';
 
 // Import tenant and roommate space translations
+import tenantSpaceEN from './locales/en/tenantSpace.json';
 import tenantSpaceFR from './locales/fr/tenantSpace.json';
+import roommateSpaceEN from './locales/en/roommateSpace.json';
 import roommateSpaceFR from './locales/fr/roommateSpace.json';
+
+// Import dashboard translations
+import dashboardEN from './locales/en/dashboard.json';
+import dashboardFR from './locales/fr/dashboard.json';
 
 const resources = {
   en: {
@@ -134,7 +140,10 @@ const resources = {
       ...settingsEN,
       ...helpEN,
       ...websiteEN,
-      ...pagesEN
+      ...pagesEN,
+      ...tenantSpaceEN,
+      ...roommateSpaceEN,
+      ...dashboardEN
     }
   },
   fr: {
@@ -167,7 +176,8 @@ const resources = {
       ...websiteFR,
       ...pagesFR,
       ...tenantSpaceFR,
-      ...roommateSpaceFR
+      ...roommateSpaceFR,
+      ...dashboardFR
     }
   }
 };
