@@ -34,7 +34,7 @@ export const defaultQuickActions: QuickActionConfig[] = [
     id: 'property',
     titleKey: 'quickActions.property.title',
     descriptionKey: 'quickActions.property.description',
-    icon: 'Plus',
+    icon: 'Building',
     color: 'bg-blue-500',
     enabled: true,
     order: 2,
@@ -251,10 +251,13 @@ export const useQuickActionsManager = () => {
   };
 
   const getLocalizedAction = (action: QuickActionConfig) => {
+    const title = t(action.titleKey);
+    const description = t(action.descriptionKey);
+    
     return {
       ...action,
-      title: t(action.titleKey, action.titleKey),
-      description: t(action.descriptionKey, action.descriptionKey)
+      title: title !== action.titleKey ? title : action.titleKey.split('.').pop() || 'Action',
+      description: description !== action.descriptionKey ? description : action.descriptionKey.split('.').pop() || 'Description'
     };
   };
 
