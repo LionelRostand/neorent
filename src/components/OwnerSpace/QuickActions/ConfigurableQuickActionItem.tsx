@@ -1,92 +1,121 @@
 
 import React from 'react';
-import { X, GripVertical } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
-import * as Icons from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { 
+  LayoutDashboard, 
+  Plus, 
+  FileText, 
+  Users, 
+  Globe, 
+  Settings,
+  Building,
+  DollarSign,
+  Calculator,
+  UserCheck,
+  ClipboardList,
+  Receipt,
+  TrendingUp,
+  HelpCircle
+} from 'lucide-react';
+
+const iconMap = {
+  LayoutDashboard,
+  Plus,
+  FileText,
+  Users,
+  Globe,
+  Settings,
+  Building,
+  DollarSign,
+  Calculator,
+  UserCheck,
+  ClipboardList,
+  Receipt,
+  TrendingUp,
+  HelpCircle
+};
 
 interface ConfigurableQuickActionItemProps {
-  title: string;
-  description: string;
-  icon: string;
-  color: string;
-  onClick: () => void;
-  actionId: string;
-  showControls?: boolean;
+  action: any;
+  onToggle: (actionId: string) => void;
+  onRemove: (actionId: string) => void;
+  onClick: (action: any) => void;
+  showControls: boolean;
   isDragging?: boolean;
 }
 
 const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = ({
-  title,
-  description,
-  icon,
-  color,
+  action,
+  onToggle,
+  onRemove,
   onClick,
-  actionId,
-  showControls = false,
+  showControls,
   isDragging = false
 }) => {
-  const { removeAction, isAdmin } = useQuickActionsManager();
-  
-  // Import dynamically based on icon name using ES6 imports
-  const IconComponent = React.useMemo(() => {
-    try {
-      // Safely get the icon from the Icons object
-      if (icon && Icons[icon as keyof typeof Icons]) {
-        return Icons[icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>;
-      }
-      return Icons.Settings;
-    } catch {
-      return Icons.Settings;
-    }
-  }, [icon]);
+  const { t } = useTranslation();
+  const IconComponent = iconMap[action.icon as keyof typeof iconMap] || LayoutDashboard;
 
-  const handleDelete = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette action rapide ?')) {
-      await removeAction(actionId);
+  // Get localized text using translation keys
+  const getLocalizedText = (key: string) => {
+    return t(key, key);
+  };
+
+  const handleCardClick = () => {
+    if (!showControls) {
+      onClick(action);
     }
   };
 
   return (
-    <div 
-      className={`relative group flex items-center p-3 md:p-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg transition-all duration-200 cursor-pointer border border-white/20 ${
-        isDragging ? 'shadow-lg scale-105 bg-white/20' : ''
-      }`}
-      onClick={onClick}
+    <Card 
+      className={`
+        ${isDragging ? 'opacity-50' : ''} 
+        ${showControls 
+          ? 'border-2 border-dashed border-gray-300 bg-gray-50' 
+          : 'hover:shadow-md cursor-pointer transition-shadow'
+        }
+      `}
+      onClick={handleCardClick}
     >
-      {/* Drag Handle for admins */}
-      {(isAdmin || showControls) && (
-        <div className="flex items-center mr-3 opacity-0 group-hover:opacity-100 transition-opacity">
-          <GripVertical className="h-4 w-4 text-white/60 cursor-grab" />
+      <CardContent className="p-4">
+        <div className="flex items-center space-x-3">
+          <div className={`p-2 rounded-lg ${action.color} text-white flex-shrink-0`}>
+            <IconComponent className="h-5 w-5" />
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-gray-900 truncate">
+              {getLocalizedText(action.titleKey)}
+            </h3>
+            <p className="text-sm text-gray-600 truncate">
+              {getLocalizedText(action.descriptionKey)}
+            </p>
+          </div>
+
+          {showControls && (
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              <Switch
+                checked={action.enabled}
+                onCheckedChange={() => onToggle(action.id)}
+              />
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove(action.id);
+                }}
+              >
+                Supprimer
+              </Button>
+            </div>
+          )}
         </div>
-      )}
-      
-      {/* Icon */}
-      <div className={`p-2 md:p-3 rounded-lg ${color} mr-3 md:mr-4 flex-shrink-0`}>
-        <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-white" />
-      </div>
-      
-      {/* Content - Affichage du nom complet */}
-      <div className="flex-1 min-w-0">
-        <h4 className="font-semibold text-white text-sm md:text-base truncate mb-1">{title}</h4>
-        <p className="text-white/80 text-xs md:text-sm leading-relaxed">{description}</p>
-      </div>
-      
-      {/* Delete button for admins */}
-      {showControls && isAdmin && (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="absolute top-2 right-2 h-6 w-6 p-0 bg-red-500/80 hover:bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-          onClick={handleDelete}
-        >
-          <X className="h-3 w-3" />
-        </Button>
-      )}
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

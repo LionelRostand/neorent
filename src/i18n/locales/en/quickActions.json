@@ -1,0 +1,61 @@
+
+{
+  "quickActions": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Overview"
+    },
+    "property": {
+      "title": "New Property",
+      "description": "Add a property"
+    },
+    "contract": {
+      "title": "New Contract",
+      "description": "Create a lease"
+    },
+    "roommate": {
+      "title": "Add Tenant",
+      "description": "Register a tenant"
+    },
+    "website": {
+      "title": "Website",
+      "description": "Access Website"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Access Settings"
+    },
+    "tenants": {
+      "title": "Tenants",
+      "description": "Access Tenants"
+    },
+    "rentManagement": {
+      "title": "Rent Management",
+      "description": "Access Rent Management"
+    },
+    "rentalCharges": {
+      "title": "Rental Charges",
+      "description": "Access Rental Charges"
+    },
+    "roommates": {
+      "title": "Roommates",
+      "description": "Access Roommates"
+    },
+    "inspections": {
+      "title": "Inspections",
+      "description": "Access Inspections"
+    },
+    "taxes": {
+      "title": "Tax Management",
+      "description": "Access Tax Management"
+    },
+    "forecasting": {
+      "title": "Forecasting",
+      "description": "Access Forecasting"
+    },
+    "help": {
+      "title": "Help",
+      "description": "Access Help"
+    }
+  }
+}
