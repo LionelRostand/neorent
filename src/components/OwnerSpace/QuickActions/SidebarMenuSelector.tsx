@@ -161,14 +161,8 @@ const SidebarMenuSelector: React.FC<SidebarMenuSelectorProps> = ({
   const handleAddMenu = async (menuItem: any) => {
     const newAction = {
       id: menuItem.path.replace('/admin/', ''),
-      title: {
-        fr: menuItem.label,
-        en: getMenuLabel(menuItem)
-      },
-      description: {
-        fr: `Accéder à ${menuItem.label}`,
-        en: `Access ${getMenuLabel(menuItem)}`
-      },
+      titleKey: `quickActions.${menuItem.label.toLowerCase().replace(/\s+/g, '')}.title`,
+      descriptionKey: `quickActions.${menuItem.label.toLowerCase().replace(/\s+/g, '')}.description`,
       icon: menuItem.icon?.name || 'Settings',
       color: getColorForMenu(menuItem.path),
       enabled: true,
