@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -62,6 +61,28 @@ export const defaultQuickActions: QuickActionConfig[] = [
     order: 4,
     action: 'dialog',
     actionValue: 'roommate'
+  },
+  {
+    id: 'website',
+    title: { fr: 'Site web', en: 'Website' },
+    description: { fr: 'Accéder à Site web', en: 'Access Website' },
+    icon: 'Globe',
+    color: 'bg-violet-500',
+    enabled: true,
+    order: 5,
+    action: 'navigate',
+    actionValue: '/admin/website'
+  },
+  {
+    id: 'settings',
+    title: { fr: 'Paramètres', en: 'Settings' },
+    description: { fr: 'Accéder à Paramètres', en: 'Access Settings' },
+    icon: 'Settings',
+    color: 'bg-gray-500',
+    enabled: true,
+    order: 6,
+    action: 'navigate',
+    actionValue: '/admin/settings'
   }
 ];
 
