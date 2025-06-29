@@ -26,5 +26,15 @@ export const UserSpaceRoutes = () => (
         </ProtectedRoute>
       } 
     />
+    
+    {/* Route générique pour capturer toutes les variations d'owner-space */}
+    <Route 
+      path="/owner-space*" 
+      element={
+        <ProtectedRoute requiredUserTypes={['owner']}>
+          <OwnerSpace />
+        </ProtectedRoute>
+      } 
+    />
   </>
 );

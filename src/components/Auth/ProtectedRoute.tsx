@@ -16,6 +16,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
 
   console.log('🔐 ProtectedRoute - user:', user?.email, 'userType:', userType, 'loading:', loading);
+  console.log('🔐 ProtectedRoute - location:', location.pathname);
 
   // Afficher un loader pendant la vérification de l'authentification
   if (loading) {
@@ -88,9 +89,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Vérification pour les espaces propriétaires personnalisés
-  if (location.pathname.includes('/owner-space-')) {
+  if (location.pathname.includes('/owner-space')) {
     const isOwner = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
     const isAdmin = user?.email === 'admin@neotech-consulting.com';
+    
+    console.log('🔐 Vérification accès owner-space:', {
+      isOwner,
+      isAdmin,
+      userType,
+      pathname: location.pathname
+    });
     
     if (!isOwner && !isAdmin) {
       console.log('🔐 Accès espace propriétaire refusé pour:', userType);
@@ -102,11 +110,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return <Navigate to="/login" replace />;
     }
 
-    // Vérifier que le propriétaire accède à SON propre espace (sauf admin)
+    // Pour les propriétaires, vérifier qu'ils accèdent à leur propre espace (sauf admin)
     if (isOwner && !isAdmin) {
       const ownerName = userProfile?.name || user?.displayName || user?.email?.split('@')[0] || 'owner';
       const expectedUrl = getOwnerSpaceUrl(ownerName);
       
+      console.log('🔐 Vérification URL propriétaire:', {
+        currentPath: location.pathname,
+        expectedUrl,
+        ownerName
+      });
+      
+      // Si l'URL ne correspond pas exactement, rediriger vers la bonne URL
       if (location.pathname !== expectedUrl) {
         console.log('🔐 Redirection propriétaire vers son espace personnel:', expectedUrl);
         return <Navigate to={expectedUrl} replace />;
@@ -163,7 +178,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Rendre les enfants seulement si tout est OK et que le loading est terminé
   if (!loading && user) {
-    console.log('🔐 Accès autorisé pour:', user.email);
+    console.log('🔐 Accès autorisé pour:', user.email, 'sur:', location.pathname);
     return <>{children}</>;
   }
 
