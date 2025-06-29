@@ -5,7 +5,6 @@ import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import ConfigurableQuickActionItem from './QuickActions/ConfigurableQuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
-import QuickActionsManager from './QuickActions/QuickActionsManager';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
@@ -98,12 +97,6 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
           <h3 className="text-base md:text-lg font-semibold text-white">
             {getLocalizedText('quickActions')}
           </h3>
-          {/* Show QuickActionsManager button for admins when controls are enabled */}
-          {showControls && isAdmin && (
-            <div className="w-full sm:w-auto">
-              <QuickActionsManager />
-            </div>
-          )}
         </div>
         
         {enabledActions.length === 0 ? (
