@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -31,6 +30,9 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
 
+  console.log('PublicPropertiesList - allProperties:', allProperties);
+  console.log('PublicPropertiesList - loading:', loading);
+
   // Récupérer les paramètres de visibilité depuis le localStorage
   const getPropertySettings = () => {
     try {
@@ -60,6 +62,8 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     );
   }) || [];
 
+  console.log('PublicPropertiesList - filteredProperties:', filteredProperties);
+
   // Trier les propriétés pour mettre en avant celles qui sont featured
   const sortedProperties = [...filteredProperties].sort((a, b) => {
     const aSettings = propertySettings[a.id];
@@ -69,6 +73,8 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     if (!aSettings?.featured && bSettings?.featured) return 1;
     return 0;
   });
+
+  console.log('PublicPropertiesList - sortedProperties:', sortedProperties);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -182,7 +188,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedProperties.map((property) => {
+            {Array.isArray(sortedProperties) && sortedProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
               const settings = propertySettings[property.id] || {};
               const mainImage = getPropertyMainImage(property);
