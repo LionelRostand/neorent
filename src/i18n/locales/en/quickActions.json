@@ -56,6 +56,22 @@
     "help": {
       "title": "Help",
       "description": "Access Help"
+    },
+    "properties": {
+      "title": "Properties",
+      "description": "Access Properties"
+    },
+    "contracts": {
+      "title": "Contracts",
+      "description": "Access Contracts"
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "description": "Access Maintenance"
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Access Messages"
     }
   }
 }

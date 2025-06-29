@@ -19,11 +19,11 @@
     },
     "website": {
       "title": "Site web",
-      "description": "Accéder à Site web"
+      "description": "Accéder au Site web"
     },
     "settings": {
       "title": "Paramètres",
-      "description": "Accéder à Paramètres"
+      "description": "Accéder aux Paramètres"
     },
     "tenants": {
       "title": "Locataires",
@@ -56,6 +56,22 @@
     "help": {
       "title": "Aide",
       "description": "Accès Aide"
+    },
+    "properties": {
+      "title": "Propriétés",
+      "description": "Accès Propriétés"
+    },
+    "contracts": {
+      "title": "Contrats",
+      "description": "Accès Contrats"
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "description": "Accès Maintenance"
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Accès Messages"
     }
   }
 }
