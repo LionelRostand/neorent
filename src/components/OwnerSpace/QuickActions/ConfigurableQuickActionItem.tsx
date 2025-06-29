@@ -69,10 +69,10 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
         <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-white" />
       </div>
       
-      {/* Content */}
+      {/* Content - Affichage du nom complet */}
       <div className="flex-1 min-w-0">
-        <h4 className="font-medium text-white text-sm md:text-base truncate">{title}</h4>
-        <p className="text-white/70 text-xs md:text-sm truncate">{description}</p>
+        <h4 className="font-semibold text-white text-sm md:text-base truncate mb-1">{title}</h4>
+        <p className="text-white/80 text-xs md:text-sm leading-relaxed">{description}</p>
       </div>
       
       {/* Delete button for admins */}
