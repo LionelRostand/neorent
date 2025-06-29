@@ -45,25 +45,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return `/owner-space-${cleanName}`;
   };
 
-  // Redirection automatique selon le type d'utilisateur après connexion
-  if (user && !loading) {
-    const isAdmin = user.email === 'admin@neotech-consulting.com';
-    
-    // Si c'est un propriétaire sur la page de login, le rediriger vers son espace
-    if (location.pathname === '/login' && userType === 'owner' && !isAdmin) {
-      const ownerName = userProfile?.name || user.displayName || user.email?.split('@')[0] || 'owner';
-      const ownerSpaceUrl = getOwnerSpaceUrl(ownerName);
-      console.log('🔐 Redirection propriétaire vers:', ownerSpaceUrl);
-      return <Navigate to={ownerSpaceUrl} replace />;
-    }
-
-    // Si c'est l'admin sur la page de login, le rediriger vers l'admin
-    if (location.pathname === '/login' && isAdmin) {
-      console.log('🔐 Redirection admin vers /admin');
-      return <Navigate to="/admin" replace />;
-    }
-  }
-
   // Vérification stricte pour les routes admin - SEUL l'admin peut y accéder
   if (location.pathname.startsWith('/admin')) {
     const isStrictAdmin = user?.email === 'admin@neotech-consulting.com';
