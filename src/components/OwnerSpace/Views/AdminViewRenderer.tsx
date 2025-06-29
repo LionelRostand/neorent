@@ -24,6 +24,8 @@ import AdminForecastingView from './AdminForecastingView';
 import AdminMaintenanceView from './AdminMaintenanceView';
 import AdminTaxManagementView from './AdminTaxManagementView';
 import AdminSettingsView from './AdminSettingsView';
+import WebsiteContentOnly from './WebsiteContentOnly';
+import SettingsContentOnly from './SettingsContentOnly';
 
 interface AdminViewRendererProps {
   activeView: string;
@@ -68,9 +70,9 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
     case 'admin-taxes':
       return <AdminTaxManagementView currentProfile={currentProfile} />;
     case 'admin-website':
-      return renderWithoutLayout(Website);
+      return <WebsiteContentOnly />;
     case 'admin-settings':
-      return renderWithoutLayout(Settings);
+      return <SettingsContentOnly />;
     case 'admin-help':
       return renderWithoutLayout(Help);
     default:
