@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children, 
   requiredUserTypes 
 }) => {
-  const { user, loading, userType } = useAuth();
+  const { user, loading, userType, userProfile } = useAuth();
   const location = useLocation();
 
   console.log('🔐 ProtectedRoute - user:', user?.email, 'userType:', userType, 'loading:', loading);
@@ -58,7 +58,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Vérification spécifique pour l'espace propriétaires - admins et owners autorisés
   if (location.pathname.startsWith('/owner-space')) {
-    if (userType !== 'admin' && userType !== 'owner') {
+    // Vérifier si l'utilisateur est propriétaire ou admin
+    const isOwner = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
+    const isAdmin = userType === 'admin';
+    
+    if (!isAdmin && !isOwner) {
       console.log('🔐 Accès espace propriétaires refusé pour:', userType);
       
       // Rediriger les colocataires et locataires vers leur espace
@@ -79,8 +83,21 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return <Navigate to="/login" replace />;
     }
     
+    // Vérification spéciale pour les propriétaires
+    if (requiredUserTypes.includes('owner')) {
+      const isOwner = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
+      const isAdmin = userType === 'admin';
+      
+      if (!isOwner && !isAdmin) {
+        console.log('🔐 Accès propriétaire refusé:', userType);
+        if (userType === 'locataire' || userType === 'colocataire') {
+          return <Navigate to="/tenant-space" replace />;
+        }
+        return <Navigate to="/login" replace />;
+      }
+    }
     // Si userType est chargé mais ne correspond pas aux permissions requises
-    if (userType && !requiredUserTypes.includes(userType)) {
+    else if (userType && !requiredUserTypes.includes(userType)) {
       console.log('🔐 Type d\'utilisateur non autorisé:', userType, 'requis:', requiredUserTypes);
       // Rediriger selon le type d'utilisateur
       if (userType === 'admin') {

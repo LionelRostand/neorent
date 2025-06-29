@@ -27,7 +27,17 @@ export const useOwnerPermissions = () => {
   };
 
   const canAccessOwnerSpace = (): boolean => {
-    return isOwner || isAdmin;
+    // Les admins peuvent toujours accéder
+    if (isAdmin) {
+      return true;
+    }
+    
+    // Les propriétaires peuvent accéder à leur propre espace
+    if (isOwner && userProfile) {
+      return true;
+    }
+    
+    return false;
   };
 
   // Les propriétaires et admins ont pleins droits
@@ -76,10 +86,17 @@ export const useOwnerPermissions = () => {
 
     // Le propriétaire peut accéder seulement à ses propres données
     if (isOwner && userProfile) {
-      return dataOwner === userProfile.name || dataOwner === userProfile.email;
+      return dataOwner === userProfile.name || 
+             dataOwner === userProfile.email ||
+             dataOwner === userProfile.id;
     }
 
     return false;
+  };
+
+  // Fonction pour vérifier si un propriétaire peut accéder à ses propres données
+  const canAccessOwnData = (): boolean => {
+    return isOwner && userProfile !== null;
   };
 
   return {
@@ -97,6 +114,7 @@ export const useOwnerPermissions = () => {
     canManageMaintenance,
     canManageRoommates,
     canAccessData,
+    canAccessOwnData,
     userType,
     userProfile: currentProfile || userProfile
   };
