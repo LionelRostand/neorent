@@ -3,6 +3,7 @@ import React from 'react';
 import { X, GripVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
+import * as Icons from 'lucide-react';
 
 interface ConfigurableQuickActionItemProps {
   title: string;
@@ -27,14 +28,16 @@ const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = 
 }) => {
   const { removeAction, isAdmin } = useQuickActionsManager();
   
-  // Import dynamically based on icon name
+  // Import dynamically based on icon name using ES6 imports
   const IconComponent = React.useMemo(() => {
     try {
-      const icons = require('lucide-react');
-      return icons[icon] || icons.Settings;
+      // Safely get the icon from the Icons object
+      if (icon && Icons[icon as keyof typeof Icons]) {
+        return Icons[icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>;
+      }
+      return Icons.Settings;
     } catch {
-      const icons = require('lucide-react');
-      return icons.Settings;
+      return Icons.Settings;
     }
   }, [icon]);
 
