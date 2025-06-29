@@ -23,19 +23,28 @@ const OwnerSpace = () => {
   // Get current profile (logged user or profile selected by admin)
   const currentProfile = getCurrentProfile();
   
-  // Pour les propriétaires, utiliser leur propre profil
-  const ownerProfile = userType === 'owner' && !isAuthorizedAdmin ? userProfile : currentProfile;
+  // Pour les propriétaires, utiliser leur propre profil ou créer un profil par défaut
+  const ownerProfile = userType === 'owner' && !isAuthorizedAdmin 
+    ? userProfile || {
+        id: user?.uid || 'owner-default',
+        name: user?.displayName || user?.email || 'Propriétaire',
+        email: user?.email || '',
+        role: 'owner',
+        type: 'owner',
+        isOwner: true
+      }
+    : currentProfile;
 
   // Debug: Log profile data
-  console.log('OwnerSpace - userProfile:', userProfile);
-  console.log('OwnerSpace - currentProfile:', currentProfile);
-  console.log('OwnerSpace - ownerProfile:', ownerProfile);
-  console.log('OwnerSpace - userType:', userType);
-  console.log('OwnerSpace - isAuthorizedAdmin:', isAuthorizedAdmin);
+  console.log('🏠 OwnerSpace - userProfile:', userProfile);
+  console.log('🏠 OwnerSpace - currentProfile:', currentProfile);
+  console.log('🏠 OwnerSpace - ownerProfile:', ownerProfile);
+  console.log('🏠 OwnerSpace - userType:', userType);
+  console.log('🏠 OwnerSpace - isAuthorizedAdmin:', isAuthorizedAdmin);
+  console.log('🏠 OwnerSpace - user:', user?.email);
 
   // Vérifier les permissions d'accès à l'espace propriétaire
   const hasAccess = canAccessOwnerSpace();
-  const hasOwnData = canAccessOwnData();
   
   // Vérifications d'accès
   if (!hasAccess) {
@@ -43,28 +52,24 @@ const OwnerSpace = () => {
       <div className="min-h-screen flex w-full bg-gray-50">
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <p className="text-lg text-gray-600">Accès non autorisé</p>
-            <p className="text-gray-500">Cet espace est réservé aux propriétaires et administrateurs.</p>
-            <Button onClick={() => navigate('/login')} className="mt-4">
-              Retour à la connexion
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Si c'est un propriétaire mais qu'il n'a pas de profil configuré
-  if (userType === 'owner' && !ownerProfile && !isAuthorizedAdmin) {
-    return (
-      <div className="min-h-screen flex w-full bg-gray-50">
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-lg text-gray-600">Profil en cours de configuration</p>
-            <p className="text-gray-500">Votre espace propriétaire est en cours de configuration. Veuillez contacter votre administrateur.</p>
-            <Button onClick={() => navigate('/login')} className="mt-4">
-              Retour à la connexion
-            </Button>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Accès non autorisé</h2>
+            <p className="text-lg text-gray-600 mb-2">Cet espace est réservé aux propriétaires et administrateurs.</p>
+            <p className="text-gray-500 mb-6">
+              {userType === 'locataire' || userType === 'colocataire' 
+                ? "En tant que locataire/colocataire, vous avez accès à votre espace personnel."
+                : "Veuillez vous connecter avec un compte propriétaire."
+              }
+            </p>
+            <div className="space-x-4">
+              {(userType === 'locataire' || userType === 'colocataire') && (
+                <Button onClick={() => navigate('/tenant-space')} className="mr-2">
+                  Aller à mon espace
+                </Button>
+              )}
+              <Button onClick={() => navigate('/login')} variant="outline">
+                Retour à la connexion
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -108,6 +113,7 @@ const OwnerSpace = () => {
           >
             <Menu className="h-5 w-5" />
           </Button>
+          <h1 className="ml-3 text-lg font-semibold">Espace Propriétaire</h1>
         </div>
         
         {/* Owner space header - this is the ONLY header we want */}

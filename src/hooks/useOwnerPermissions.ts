@@ -33,7 +33,12 @@ export const useOwnerPermissions = () => {
     }
     
     // Les propriétaires peuvent accéder à leur propre espace
-    if (isOwner && userProfile) {
+    if (isOwner && user) {
+      return true;
+    }
+    
+    // Vérifier si l'utilisateur connecté est propriétaire même sans profil configuré
+    if (user && userType === 'owner') {
       return true;
     }
     
@@ -85,10 +90,11 @@ export const useOwnerPermissions = () => {
     }
 
     // Le propriétaire peut accéder seulement à ses propres données
-    if (isOwner && userProfile) {
-      return dataOwner === userProfile.name || 
-             dataOwner === userProfile.email ||
-             dataOwner === userProfile.id;
+    if (isOwner && user) {
+      return dataOwner === user.email || 
+             dataOwner === user.displayName ||
+             dataOwner === user.uid ||
+             (userProfile && (dataOwner === userProfile.name || dataOwner === userProfile.email));
     }
 
     return false;
@@ -96,7 +102,7 @@ export const useOwnerPermissions = () => {
 
   // Fonction pour vérifier si un propriétaire peut accéder à ses propres données
   const canAccessOwnData = (): boolean => {
-    return isOwner && userProfile !== null;
+    return (isOwner || isAdmin) && user !== null;
   };
 
   return {
