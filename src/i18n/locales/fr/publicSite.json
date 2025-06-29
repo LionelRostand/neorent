@@ -159,6 +159,48 @@
         ]
       }
     },
+    "login": {
+      "title": "Connectez-vous à votre espace",
+      "subtitle": "Gérez vos propriétés immobilières en toute simplicité",
+      "formTitle": "Connexion à Neo Rent",
+      "formSubtitle": "Accédez à votre espace de gestion immobilière",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "signIn": "Se connecter",
+      "signingIn": "Connexion en cours...",
+      "forgotPassword": "Mot de passe oublié ?",
+      "importantInfo": "Information importante :",
+      "profileWarning": "Votre compte doit être configuré par votre gestionnaire immobilier avant la première connexion. Si vous obtenez une erreur \"Accès refusé\", contactez votre gestionnaire pour activer votre compte."
+    },
+    "ownerRegistration": {
+      "createAccountLink": "Vous êtes propriétaire ? Créer un compte",
+      "dialogTitle": "Demande de Création de Compte Propriétaire",
+      "fullName": "Nom complet",
+      "email": "Email",
+      "phone": "Téléphone",
+      "company": "Entreprise",
+      "address": "Adresse",
+      "messageOptional": "Message (optionnel)",
+      "messagePlaceholder": "Informations supplémentaires...",
+      "importantInfo": "Information importante",
+      "importantInfoText": "Votre demande sera examinée par un administrateur. Vous recevrez un email de confirmation une fois votre compte activé.",
+      "sendRequest": "Envoyer la Demande",
+      "sending": "Envoi en cours...",
+      "requestSent": "Demande envoyée",
+      "requestSentDescription": "Votre demande de création de compte a été envoyée. Un administrateur l'examinera prochainement.",
+      "submitError": "Une erreur est survenue lors de l'envoi de votre demande."
+    },
+    "chat": {
+      "startConversation": "Démarrer une conversation",
+      "fillForm": "Remplissez le formulaire pour commencer à discuter avec notre équipe",
+      "fullName": "Nom complet",
+      "namePlaceholder": "Votre nom",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "startChat": "Démarrer le chat"
+    },
     "footer": {
       "description": "La plateforme complète pour la gestion immobilière moderne. Simplifiez vos opérations et développez votre entreprise avec Neo Rent.",
       "usefulLinks": "Liens Utiles",
@@ -169,6 +211,34 @@
       "termsOfService": "Conditions d'Utilisation",
       "intellectualProperty": "© 2025 Neo Rent - Plateforme de Gestion Immobilière. Tous droits réservés. Toute reproduction, distribution ou utilisation non autorisée de ce contenu est strictement interdite.",
       "trademarks": "Neo Rent® est une marque déposée de Neotech-consulting. Toutes les autres marques mentionnées sont la propriété de leurs propriétaires respectifs."
+    },
+    "propertiesPage": {
+      "title": "Nos Propriétés Disponibles",
+      "subtitle": "Découvrez notre sélection de logements soigneusement choisis pour vous offrir le meilleur cadre de vie",
+      "searchPlaceholder": "Rechercher par localisation...",
+      "searchButton": "Rechercher",
+      "noProperties": "Aucune propriété disponible",
+      "noPropertiesDescription": "Aucune propriété ne correspond à vos critères de recherche.",
+      "viewDetails": "Voir les détails",
+      "contactUs": "Nous contacter",
+      "scheduleVisit": "Programmer une visite",
+      "propertyDetails": {
+        "surface": "Surface",
+        "rooms": "Pièces",
+        "floor": "Étage",
+        "type": "Type",
+        "rent": "Loyer",
+        "charges": "Charges",
+        "deposit": "Dépôt de garantie",
+        "availability": "Disponibilité",
+        "available": "Disponible",
+        "rented": "Loué",
+        "description": "Description",
+        "equipment": "Équipements",
+        "location": "Localisation",
+        "contact": "Contact",
+        "visitRequest": "Demande de visite"
+      }
     }
   }
 }
