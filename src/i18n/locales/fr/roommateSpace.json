@@ -1,19 +1,21 @@
 
 {
-  "tenantSpace": {
-    "title": "Espace Locataire",
-    "subtitle": "Gérez votre location en toute simplicité",
+  "roommateSpace": {
+    "title": "Espace Colocataire",
+    "subtitle": "Gérez votre colocation en toute simplicité",
     "welcome": "Bienvenue",
     "dashboard": {
       "title": "Tableau de bord",
-      "overview": "Aperçu",
+      "overview": "Aperçu de la colocation",
       "nextPayment": "Prochain paiement",
       "dueDate": "Date d'échéance",
       "amount": "Montant",
       "status": "Statut",
       "paid": "Payé",
       "pending": "En attente",
-      "overdue": "En retard"
+      "overdue": "En retard",
+      "roommates": "Colocataires",
+      "sharedExpenses": "Dépenses partagées"
     },
     "payment": {
       "title": "Paiement du loyer",
@@ -23,6 +25,8 @@
       "monthlyRent": "Loyer mensuel",
       "charges": "Charges",
       "totalToPay": "Total à payer",
+      "myShare": "Ma part",
+      "sharedCosts": "Coûts partagés",
       "paymentMethod": "Méthode de paiement",
       "paymentDate": "Date de paiement",
       "paidAmount": "Montant payé",
@@ -47,36 +51,69 @@
       "receiptFullPayment": "Reçu généré uniquement pour les paiements complets",
       "importantInfo": "Informations importantes",
       "paymentBefore5th": "Paiement à effectuer avant le 5 de chaque mois",
-      "enterExactAmount": "Saisir le montant exact du loyer + charges",
+      "enterExactAmount": "Saisir le montant exact de votre part",
       "alertDifferentAmount": "Alerte en cas de montant différent"
     },
-    "property": {
-      "title": "Ma propriété",
-      "details": "Détails de la propriété",
-      "address": "Adresse",
-      "type": "Type",
+    "room": {
+      "title": "Ma chambre",
+      "details": "Détails de la chambre",
+      "roomNumber": "Numéro de chambre",
       "surface": "Surface",
-      "rooms": "Nombre de pièces",
-      "floor": "Étage",
-      "elevator": "Ascenseur",
-      "parking": "Parking",
-      "furnished": "Meublé",
-      "features": "Caractéristiques",
-      "amenities": "Équipements"
+      "furnished": "Meublée",
+      "window": "Fenêtre",
+      "balcony": "Balcon",
+      "privateRoom": "Chambre privée",
+      "sharedAreas": "Espaces communs",
+      "kitchen": "Cuisine",
+      "bathroom": "Salle de bain",
+      "livingRoom": "Salon",
+      "laundry": "Buanderie"
     },
-    "contract": {
-      "title": "Mon contrat",
-      "details": "Détails du contrat",
-      "contractNumber": "Numéro de contrat",
-      "startDate": "Date de début",
-      "endDate": "Date de fin",
-      "duration": "Durée",
-      "rentAmount": "Montant du loyer",
-      "deposit": "Caution",
-      "paymentDay": "Jour de paiement",
-      "terms": "Conditions",
-      "download": "Télécharger le contrat",
-      "renew": "Renouveler le contrat"
+    "roommates": {
+      "title": "Mes colocataires",
+      "list": "Liste des colocataires",
+      "contact": "Contacter",
+      "profile": "Profil",
+      "room": "Chambre",
+      "moveInDate": "Date d'arrivée",
+      "status": "Statut",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "totalRoommates": "Total colocataires"
+    },
+    "expenses": {
+      "title": "Dépenses partagées",
+      "add": "Ajouter une dépense",
+      "category": "Catégorie",
+      "amount": "Montant",
+      "description": "Description",
+      "date": "Date",
+      "paidBy": "Payé par",
+      "splitBetween": "Répartir entre",
+      "myShare": "Ma part",
+      "status": "Statut",
+      "paid": "Payé",
+      "pending": "En attente",
+      "utilities": "Services publics",
+      "groceries": "Courses",
+      "cleaning": "Ménage",
+      "internet": "Internet",
+      "maintenance": "Maintenance",
+      "other": "Autre"
+    },
+    "rules": {
+      "title": "Règles de la colocation",
+      "houseRules": "Règles de la maison",
+      "quietHours": "Heures de silence",
+      "visitors": "Visiteurs",
+      "cleaning": "Ménage",
+      "kitchen": "Usage de la cuisine",
+      "bathroom": "Usage de la salle de bain",
+      "common": "Espaces communs",
+      "utilities": "Services publics",
+      "parking": "Stationnement",
+      "pets": "Animaux de compagnie",
+      "smoking": "Tabac"
     },
     "maintenance": {
       "title": "Maintenance",
@@ -84,6 +121,9 @@
       "newRequest": "Nouvelle demande",
       "requestHistory": "Historique des demandes",
       "type": "Type de demande",
+      "location": "Localisation",
+      "room": "Chambre",
+      "commonArea": "Espace commun",
       "description": "Description",
       "priority": "Priorité",
       "status": "Statut",
@@ -116,7 +156,10 @@
       "delete": "Supprimer",
       "archive": "Archiver",
       "read": "Lu",
-      "unread": "Non lu"
+      "unread": "Non lu",
+      "landlord": "Propriétaire",
+      "roommate": "Colocataire",
+      "group": "Groupe"
     },
     "documents": {
       "title": "Documents",
@@ -125,6 +168,7 @@
       "invoices": "Factures",
       "insurance": "Assurance",
       "inventory": "État des lieux",
+      "houseRules": "Règlement intérieur",
       "upload": "Téléverser un document",
       "download": "Télécharger",
       "view": "Voir",
@@ -159,9 +203,11 @@
       "sms": "Notifications par SMS",
       "push": "Notifications push",
       "rentReminder": "Rappel de loyer",
+      "expenseReminder": "Rappel de dépenses",
       "maintenanceUpdates": "Mises à jour maintenance",
       "contractExpiry": "Expiration du contrat",
       "messages": "Nouveaux messages",
+      "roommateMessages": "Messages des colocataires",
       "markAllRead": "Marquer tout comme lu",
       "clear": "Effacer toutes"
     }

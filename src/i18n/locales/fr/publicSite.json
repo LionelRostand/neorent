@@ -1,75 +1,146 @@
 
 {
   "publicSite": {
-    "home": "Accueil",
-    "properties": "Propriétés",
-    "about": {
-      "title": "À propos"
-    },
-    "contact": {
-      "hero": {
-        "title": "Contact"
-      }
-    },
-    "login": {
-      "title": "Connexion",
-      "subtitle": "Accédez à votre espace personnel",
-      "email": "Adresse email",
-      "emailPlaceholder": "Entrez votre email",
-      "password": "Mot de passe",
-      "passwordPlaceholder": "Entrez votre mot de passe",
-      "signIn": "Se connecter",
-      "signingIn": "Connexion en cours...",
-      "forgotPassword": "Mot de passe oublié ?"
-    },
-    "ownerRegistration": {
-      "createAccountLink": "Créer un compte propriétaire",
-      "dialogTitle": "Inscription Propriétaire"
-    },
-    "title": "Site Public",
-    "subtitle": "Gérez votre site web public",
     "hero": {
-      "title": "Gestion Immobilière Simplifiée",
-      "subtitle": "",
-      "description": "Plateforme complète de gestion immobilière pour optimiser vos investissements.",
-      "getStarted": "Commencer",
-      "learnMore": "En savoir plus",
-      "startFree": "Essai Gratuit",
-      "contactUs": "Nous Contacter"
+      "title": "Gérez vos biens immobiliers en toute simplicité",
+      "subtitle": "Une plateforme complète pour propriétaires, locataires et colocataires",
+      "cta": "Commencer gratuitement",
+      "learnMore": "En savoir plus"
     },
     "features": {
       "title": "Fonctionnalités",
-      "propertyManagement": "Gestion des Propriétés",
-      "tenantManagement": "Gestion des Locataires",
-      "rentTracking": "Suivi des Loyers",
-      "maintenanceRequests": "Demandes de Maintenance",
-      "financialReports": "Rapports Financiers",
-      "documentStorage": "Stockage de Documents"
+      "subtitle": "Tout ce dont vous avez besoin pour gérer votre immobilier",
+      "propertyManagement": {
+        "title": "Gestion des propriétés",
+        "description": "Gérez facilement toutes vos propriétés depuis un seul endroit"
+      },
+      "tenantManagement": {
+        "title": "Gestion des locataires",
+        "description": "Suivez vos locataires et leurs paiements en temps réel"
+      },
+      "rentCollection": {
+        "title": "Collecte des loyers",
+        "description": "Automatisez la collecte des loyers et générez des quittances"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Gérez les demandes de maintenance et suivez les interventions"
+      },
+      "contracts": {
+        "title": "Contrats",
+        "description": "Créez et gérez vos contrats de location en ligne"
+      },
+      "reports": {
+        "title": "Rapports",
+        "description": "Générez des rapports détaillés sur vos revenus locatifs"
+      }
+    },
+    "about": {
+      "title": "À propos",
+      "subtitle": "Notre mission",
+      "description": "Nous simplifions la gestion immobilière pour les propriétaires et améliorons l'expérience des locataires.",
+      "mission": "Notre mission est de révolutionner la gestion immobilière en offrant des outils modernes et intuitifs.",
+      "vision": "Nous envisageons un avenir où la gestion immobilière est simple, transparente et efficace pour tous."
     },
     "contact": {
       "title": "Contact",
-      "name": "Nom",
-      "email": "Email",
-      "subject": "Sujet",
-      "message": "Message",
-      "send": "Envoyer",
-      "phone": "Téléphone",
-      "address": "Adresse",
-      "hours": "Heures d'Ouverture",
-      "hero": {
-        "title": "Contact"
+      "subtitle": "Contactez-nous",
+      "description": "Nous sommes là pour vous aider. N'hésitez pas à nous contacter.",
+      "form": {
+        "name": "Nom",
+        "email": "Email",
+        "subject": "Sujet",
+        "message": "Message",
+        "send": "Envoyer le message",
+        "sending": "Envoi en cours...",
+        "success": "Message envoyé avec succès",
+        "error": "Erreur lors de l'envoi du message"
+      },
+      "info": {
+        "address": "Adresse",
+        "phone": "Téléphone",
+        "email": "Email",
+        "hours": "Heures d'ouverture"
       }
     },
-    "footer": {
-      "description": "Plateforme complète de gestion immobilière pour optimiser vos investissements.",
-      "usefulLinks": "Liens Utiles",
-      "legalNotice": "Mentions Légales",
-      "privacyPolicy": "Politique de Confidentialité",
+    "auth": {
+      "login": {
+        "title": "Connexion",
+        "subtitle": "Connectez-vous à votre compte",
+        "email": "Adresse email",
+        "password": "Mot de passe",
+        "remember": "Se souvenir de moi",
+        "forgot": "Mot de passe oublié ?",
+        "submit": "Se connecter",
+        "noAccount": "Pas encore de compte ?",
+        "register": "S'inscrire"
+      },
+      "register": {
+        "title": "Inscription",
+        "subtitle": "Créez votre compte",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Adresse email",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "terms": "J'accepte les conditions d'utilisation",
+        "submit": "S'inscrire",
+        "hasAccount": "Déjà un compte ?",
+        "login": "Se connecter"
+      }
+    },
+    "properties": {
+      "title": "Propriétés disponibles",
+      "subtitle": "Découvrez nos propriétés",
+      "filters": {
+        "all": "Toutes",
+        "apartment": "Appartements",
+        "house": "Maisons",
+        "studio": "Studios",
+        "room": "Chambres"
+      },
+      "details": {
+        "rooms": "pièces",
+        "surface": "m²",
+        "floor": "étage",
+        "rent": "€/mois",
+        "charges": "charges comprises",
+        "deposit": "caution",
+        "available": "Disponible",
+        "unavailable": "Indisponible",
+        "contact": "Contacter",
+        "visit": "Visiter"
+      }
+    },
+    "navigation": {
+      "home": "Accueil",
+      "properties": "Propriétés",
+      "about": "À propos",
       "contact": "Contact",
-      "copyright": "Tous droits réservés",
-      "privacy": "Confidentialité",
+      "login": "Connexion",
+      "register": "S'inscrire",
+      "dashboard": "Tableau de bord"
+    },
+    "footer": {
+      "company": "Société",
+      "about": "À propos",
+      "careers": "Carrières",
+      "news": "Actualités",
+      "support": "Support",
+      "help": "Aide",
+      "contact": "Contact",
+      "faq": "FAQ",
+      "legal": "Légal",
       "terms": "Conditions d'utilisation",
-      "about": "À propos"
+      "privacy": "Politique de confidentialité",
+      "cookies": "Politique des cookies",
+      "social": "Réseaux sociaux",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram",
+      "copyright": "© 2024 Tous droits réservés",
+      "madeWith": "Fait avec ❤️ en France"
     }
   }
 }

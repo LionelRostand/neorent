@@ -104,6 +104,10 @@ import websiteFR from './locales/fr/website.json';
 import pagesEN from './locales/en/pages.json';
 import pagesFR from './locales/fr/pages.json';
 
+// Import tenant and roommate space translations
+import tenantSpaceFR from './locales/fr/tenantSpace.json';
+import roommateSpaceFR from './locales/fr/roommateSpace.json';
+
 const resources = {
   en: {
     translation: {
@@ -161,7 +165,9 @@ const resources = {
       ...settingsFirebaseFR,
       ...helpFR,
       ...websiteFR,
-      ...pagesFR
+      ...pagesFR,
+      ...tenantSpaceFR,
+      ...roommateSpaceFR
     }
   }
 };
