@@ -36,15 +36,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Fonction utilitaire pour générer l'URL de l'espace propriétaire
-  const getOwnerSpaceUrl = (ownerName: string) => {
-    const cleanName = ownerName
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9-]/g, '');
-    return `/owner-space-${cleanName}`;
-  };
-
   // Vérification stricte pour les routes admin - SEUL l'admin peut y accéder
   if (location.pathname.startsWith('/admin')) {
     const isStrictAdmin = user?.email === 'admin@neotech-consulting.com';

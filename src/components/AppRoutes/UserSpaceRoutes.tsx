@@ -26,21 +26,21 @@ export const UserSpaceRoutes = [
   
   // Owner Space avec nom personnalisé - accessible aux propriétaires et admins
   <Route 
-    key="owner-space-named"
-    path="/owner-space-:ownerName" 
+    key="owner-space-lionel-rostand"
+    path="/owner-space-lionel-rostand" 
     element={
-      <ProtectedRoute requiredUserTypes={['owner']}>
+      <ProtectedRoute requiredUserTypes={['owner', 'admin']}>
         <OwnerSpace />
       </ProtectedRoute>
     } 
   />,
   
-  // Route générique pour capturer toutes les variations d'owner-space
+  // Route générique pour capturer d'autres variations d'owner-space
   <Route 
     key="owner-space-generic"
-    path="/owner-space/*" 
+    path="/owner-space-*" 
     element={
-      <ProtectedRoute requiredUserTypes={['owner']}>
+      <ProtectedRoute requiredUserTypes={['owner', 'admin']}>
         <OwnerSpace />
       </ProtectedRoute>
     } 
