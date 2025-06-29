@@ -15,7 +15,7 @@ interface UserProfile {
 
 export const useUserProfileManager = (user: User | null) => {
   const [selectedProfile, setSelectedProfile] = useState<UserProfile | null>(null);
-  const [userType, setUserType] = useState<'admin' | 'owner' | 'locataire' | 'colocataire'>('locataire');
+  const [userType, setUserType] = useState<'admin' | 'owner' | 'locataire' | 'colocataire'>('owner');
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
 
@@ -81,10 +81,12 @@ export const useUserProfileManager = (user: User | null) => {
           return;
         }
 
-        // Default to owner if not found in tenants or roommates
+        // Si l'utilisateur n'est ni locataire ni colocataire, c'est un propriétaire
+        // Créer un profil propriétaire par défaut
+        console.log('🏠 Création profil propriétaire pour:', user.email);
         const profile = {
           id: user.uid,
-          name: user.displayName || user.email || '',
+          name: user.displayName || user.email?.split('@')[0] || 'Propriétaire',
           email: user.email || '',
           role: 'owner',
           type: 'owner' as const,
