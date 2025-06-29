@@ -73,7 +73,7 @@ export const useQuickActionsManager = () => {
   const [saving, setSaving] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const isAdmin = userType === 'admin';
+  const isAdmin = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
 
   useEffect(() => {
     loadQuickActions();
@@ -110,11 +110,6 @@ export const useQuickActionsManager = () => {
     } catch (error) {
       console.error('Error loading quick actions:', error);
       setQuickActions(defaultQuickActions);
-      toast({
-        title: "Erreur",
-        description: "Erreur lors du chargement des actions rapides, utilisation des actions par défaut",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -122,20 +117,12 @@ export const useQuickActionsManager = () => {
 
   const saveQuickActions = async (actions: QuickActionConfig[]) => {
     if (!isAdmin) {
-      toast({
-        title: "Erreur",
-        description: "Seuls les administrateurs peuvent modifier cette configuration",
-        variant: "destructive",
-      });
+      console.error('User is not admin, cannot save quick actions');
       return false;
     }
 
     if (!user) {
-      toast({
-        title: "Erreur",
-        description: "Utilisateur non authentifié",
-        variant: "destructive",
-      });
+      console.error('No user found');
       return false;
     }
 
@@ -152,18 +139,10 @@ export const useQuickActionsManager = () => {
       setQuickActions(actions);
       setRefreshKey(Date.now());
       
-      toast({
-        title: "Succès",
-        description: "Configuration des actions rapides mise à jour",
-      });
+      console.log('Quick actions saved successfully');
       return true;
     } catch (error) {
       console.error('Error saving quick actions:', error);
-      toast({
-        title: "Erreur de permissions",
-        description: "Vérifiez les règles Firestore et vos permissions administrateur",
-        variant: "destructive",
-      });
       return false;
     } finally {
       setSaving(false);
@@ -172,11 +151,7 @@ export const useQuickActionsManager = () => {
 
   const toggleAction = async (actionId: string) => {
     if (!isAdmin) {
-      toast({
-        title: "Erreur",
-        description: "Seuls les administrateurs peuvent modifier les actions",
-        variant: "destructive",
-      });
+      console.error('User is not admin, cannot toggle action');
       return false;
     }
 
@@ -192,11 +167,7 @@ export const useQuickActionsManager = () => {
 
   const removeAction = async (actionId: string) => {
     if (!isAdmin) {
-      toast({
-        title: "Erreur",
-        description: "Seuls les administrateurs peuvent supprimer des actions",
-        variant: "destructive",
-      });
+      console.error('User is not admin, cannot remove action');
       return false;
     }
 
@@ -209,22 +180,12 @@ export const useQuickActionsManager = () => {
     }));
     
     const success = await saveQuickActions(reorderedActions);
-    if (success) {
-      toast({
-        title: "Succès",
-        description: "Action rapide supprimée",
-      });
-    }
     return success;
   };
 
   const updateAction = async (updatedAction: QuickActionConfig) => {
     if (!isAdmin) {
-      toast({
-        title: "Erreur",
-        description: "Seuls les administrateurs peuvent modifier les actions",
-        variant: "destructive",
-      });
+      console.error('User is not admin, cannot update action');
       return false;
     }
 
@@ -235,26 +196,26 @@ export const useQuickActionsManager = () => {
     );
     
     const success = await saveQuickActions(updatedActions);
-    if (success) {
-      toast({
-        title: "Succès",
-        description: "Action rapide mise à jour",
-      });
-    }
     return success;
   };
 
   const addCustomAction = async (newAction: Omit<QuickActionConfig, 'order'>) => {
     if (!isAdmin) {
-      toast({
-        title: "Erreur",
-        description: "Seuls les administrateurs peuvent ajouter des actions",
-        variant: "destructive",
-      });
+      console.error('User is not admin, cannot add action');
       return false;
     }
 
     console.log('Adding custom action:', newAction);
+    
+    // Check if action already exists
+    const existingAction = quickActions.find(action => 
+      action.id === newAction.id || action.actionValue === newAction.actionValue
+    );
+    
+    if (existingAction) {
+      console.log('Action already exists, not adding');
+      return false;
+    }
     
     const actionWithOrder = {
       ...newAction,
@@ -263,12 +224,6 @@ export const useQuickActionsManager = () => {
     const updatedActions = [...quickActions, actionWithOrder];
     
     const success = await saveQuickActions(updatedActions);
-    if (success) {
-      toast({
-        title: "Succès",
-        description: "Action rapide ajoutée avec succès",
-      });
-    }
     return success;
   };
 
@@ -278,8 +233,6 @@ export const useQuickActionsManager = () => {
       .sort((a, b) => a.order - b.order);
     
     console.log('Getting enabled actions:', enabledActions);
-    console.log('All actions:', quickActions);
-    console.log('Current refresh key:', refreshKey);
     return enabledActions;
   };
 

@@ -21,7 +21,8 @@ const SidebarQuickActionsManager: React.FC = () => {
     quickActions,
     toggleAction,
     removeAction,
-    addCustomAction
+    addCustomAction,
+    isAdmin
   } = useQuickActionsManager();
 
   const getLocalizedText = (key: string) => {
@@ -79,6 +80,14 @@ const SidebarQuickActionsManager: React.FC = () => {
       addMenuError: {
         fr: 'Erreur lors de l\'ajout du menu.',
         en: 'Error adding the menu.'
+      },
+      notAuthorized: {
+        fr: 'Non autorisé',
+        en: 'Not Authorized'
+      },
+      adminRequired: {
+        fr: 'Seuls les administrateurs peuvent gérer les actions rapides.',
+        en: 'Only administrators can manage quick actions.'
       }
     };
 
@@ -86,16 +95,32 @@ const SidebarQuickActionsManager: React.FC = () => {
   };
 
   const handleToggleAction = async (actionId: string) => {
+    if (!isAdmin) {
+      toast({
+        title: getLocalizedText('notAuthorized'),
+        description: getLocalizedText('adminRequired'),
+        variant: "destructive",
+      });
+      return;
+    }
+
     setToggleStates(prev => ({ ...prev, [actionId]: true }));
     setSaving(true);
     
     try {
-      await toggleAction(actionId);
-      toast({
-        title: getLocalizedText('actionToggled'),
-        description: getLocalizedText('actionEnabledDisabled'),
-      });
+      console.log('Toggling action:', actionId);
+      const success = await toggleAction(actionId);
+      
+      if (success) {
+        toast({
+          title: getLocalizedText('actionToggled'),
+          description: getLocalizedText('actionEnabledDisabled'),
+        });
+      } else {
+        throw new Error('Toggle failed');
+      }
     } catch (error) {
+      console.error('Error toggling action:', error);
       toast({
         title: getLocalizedText('error'),
         description: getLocalizedText('toggleError'),
@@ -108,19 +133,32 @@ const SidebarQuickActionsManager: React.FC = () => {
   };
 
   const handleRemoveAction = async (actionId: string): Promise<boolean> => {
+    if (!isAdmin) {
+      toast({
+        title: getLocalizedText('notAuthorized'),
+        description: getLocalizedText('adminRequired'),
+        variant: "destructive",
+      });
+      return false;
+    }
+
     setSaving(true);
     
     try {
+      console.log('Removing action:', actionId);
       const success = await removeAction(actionId);
+      
       if (success) {
         toast({
           title: getLocalizedText('actionRemoved'),
           description: getLocalizedText('actionRemovedSuccess'),
         });
         return true;
+      } else {
+        throw new Error('Remove failed');
       }
-      return false;
     } catch (error) {
+      console.error('Error removing action:', error);
       toast({
         title: getLocalizedText('error'),
         description: getLocalizedText('removeError'),
@@ -133,11 +171,22 @@ const SidebarQuickActionsManager: React.FC = () => {
   };
 
   const handleAddMenuToQuickActions = async (menuItem: any) => {
+    if (!isAdmin) {
+      toast({
+        title: getLocalizedText('notAuthorized'),
+        description: getLocalizedText('adminRequired'),
+        variant: "destructive",
+      });
+      return;
+    }
+
     const menuPath = menuItem.path;
     setAddingMenus(prev => ({ ...prev, [menuPath]: true }));
     setSaving(true);
 
     try {
+      console.log('Adding menu to quick actions:', menuItem);
+      
       const newAction = {
         id: menuPath.replace('/admin/', ''),
         title: {
@@ -155,13 +204,18 @@ const SidebarQuickActionsManager: React.FC = () => {
         actionValue: menuPath
       };
 
-      await addCustomAction(newAction);
+      const success = await addCustomAction(newAction);
       
-      toast({
-        title: getLocalizedText('menuAdded'),
-        description: getLocalizedText('menuAddedSuccess'),
-      });
+      if (success) {
+        toast({
+          title: getLocalizedText('menuAdded'),
+          description: getLocalizedText('menuAddedSuccess'),
+        });
+      } else {
+        throw new Error('Add failed');
+      }
     } catch (error) {
+      console.error('Error adding menu:', error);
       toast({
         title: getLocalizedText('error'),
         description: getLocalizedText('addMenuError'),
@@ -196,7 +250,13 @@ const SidebarQuickActionsManager: React.FC = () => {
 
   const handleConfigureAction = (actionId: string) => {
     console.log('Configure action:', actionId);
+    // TODO: Implement configuration logic
   };
+
+  // Don't render if not admin
+  if (!isAdmin) {
+    return null;
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
