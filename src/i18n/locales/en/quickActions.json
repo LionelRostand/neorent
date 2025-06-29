@@ -1,77 +1,28 @@
 
 {
   "quickActions": {
-    "dashboard": {
-      "title": "Dashboard",
-      "description": "Overview"
-    },
-    "property": {
-      "title": "New Property",
-      "description": "Add a property"
-    },
-    "contract": {
-      "title": "New Contract",
-      "description": "Create a lease"
-    },
-    "roommate": {
-      "title": "Add Tenant",
-      "description": "Register a tenant"
-    },
-    "website": {
-      "title": "Website",
-      "description": "Access Website"
-    },
-    "settings": {
-      "title": "Settings",
-      "description": "Access Settings"
-    },
-    "tenants": {
-      "title": "Tenants",
-      "description": "Access Tenants"
-    },
-    "rentManagement": {
-      "title": "Rent Management",
-      "description": "Access Rent Management"
-    },
-    "rentalCharges": {
-      "title": "Rental Charges",
-      "description": "Access Rental Charges"
-    },
-    "roommates": {
-      "title": "Roommates",
-      "description": "Access Roommates"
-    },
-    "inspections": {
-      "title": "Inspections",
-      "description": "Access Inspections"
-    },
-    "taxes": {
-      "title": "Tax Management",
-      "description": "Access Tax Management"
-    },
-    "forecasting": {
-      "title": "Forecasting",
-      "description": "Access Forecasting"
-    },
-    "help": {
-      "title": "Help",
-      "description": "Access Help"
-    },
-    "properties": {
-      "title": "Properties",
-      "description": "Access Properties"
-    },
-    "contracts": {
-      "title": "Contracts",
-      "description": "Access Contracts"
-    },
-    "maintenance": {
-      "title": "Maintenance",
-      "description": "Access Maintenance"
-    },
-    "messages": {
-      "title": "Messages",
-      "description": "Access Messages"
-    }
+    "title": "Quick Actions",
+    "subtitle": "Quick access to main features",
+    "addProperty": "Add Property",
+    "addTenant": "Add Tenant",
+    "addRoommate": "Add Roommate",
+    "recordPayment": "Record Payment",
+    "scheduleInspection": "Schedule Inspection",
+    "sendMessage": "Send Message",
+    "generateReport": "Generate Report",
+    "viewAll": "View All",
+    "manageProperties": "Manage Properties",
+    "manageTenants": "Manage Tenants",
+    "manageRoommates": "Manage Roommates",
+    "manageContracts": "Manage Contracts",
+    "manageInspections": "Manage Inspections",
+    "manageRent": "Manage Rent",
+    "manageCharges": "Manage Charges",
+    "manageMaintenance": "Manage Maintenance",
+    "manageMessages": "Manage Messages",
+    "manageTaxes": "Manage Taxes",
+    "manageWebsite": "Manage Website",
+    "manageSettings": "Manage Settings",
+    "getHelp": "Get Help"
   }
 }
