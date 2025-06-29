@@ -67,6 +67,31 @@
     "updateSuccess": "Locataire mis à jour avec succès",
     "updateError": "Erreur lors de la mise à jour du locataire",
     "deleteSuccess": "Locataire supprimé avec succès",
-    "deleteError": "Erreur lors de la suppression du locataire"
+    "deleteError": "Erreur lors de la suppression du locataire",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce locataire ?",
+    "viewDetails": "Voir les détails",
+    "contact": "Contacter"
+  },
+  "tenantForm": {
+    "title": "Ajouter un locataire",
+    "editTitle": "Modifier le locataire",
+    "fullName": "Nom complet",
+    "email": "Email",
+    "phone": "Téléphone",
+    "password": "Mot de passe",
+    "passwordMinLength": "Minimum 6 caractères",
+    "property": "Propriété",
+    "selectProperty": "Sélectionner une propriété",
+    "rentAmount": "Montant du loyer",
+    "rentPlaceholder": "Ex: 800",
+    "moveInDate": "Date d'emménagement",
+    "status": "Statut",
+    "creating": "Création en cours...",
+    "saving": "Sauvegarde en cours...",
+    "addTenant": "Ajouter le locataire",
+    "saveChanges": "Sauvegarder les modifications",
+    "cancel": "Annuler",
+    "passwordNote": "Laisser vide pour conserver le mot de passe actuel",
+    "newPassword": "Nouveau mot de passe"
   }
 }

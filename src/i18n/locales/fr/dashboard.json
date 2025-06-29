@@ -30,6 +30,11 @@
     "viewAll": "Voir tout",
     "viewDetails": "Voir les détails",
     "revenue": "Revenus",
+    "properties": "Propriétés",
+    "tenants": "Locataires",
+    "contracts": "Contrats",
+    "thisMonth": "ce mois",
+    "chartTitle": "Revenus Mensuels - Locataires vs Colocataires",
     "timeAgo": {
       "hours": "Il y a {{hours}}h",
       "days": "Il y a {{days}}j",
