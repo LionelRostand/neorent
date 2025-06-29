@@ -93,14 +93,14 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
 
   return (
     <>
-      <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-white">
+      <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-4 md:p-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
+          <h3 className="text-base md:text-lg font-semibold text-white">
             {getLocalizedText('quickActions')}
           </h3>
           {/* Show QuickActionsManager button for admins when controls are enabled */}
           {showControls && isAdmin && (
-            <div className="ml-2">
+            <div className="w-full sm:w-auto">
               <QuickActionsManager />
             </div>
           )}
@@ -110,7 +110,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
           <p className="text-white/70 text-sm">{getLocalizedText('noActionsConfigured')}</p>
         ) : (
           /* Vertical stack of actions */
-          <div className="space-y-3">
+          <div className="space-y-2 md:space-y-3">
             {enabledActions.map((action) => (
               <ConfigurableQuickActionItem
                 key={action.id}

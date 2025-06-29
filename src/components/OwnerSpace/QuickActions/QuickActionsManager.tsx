@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -204,10 +203,10 @@ const QuickActionsManager: React.FC = () => {
         <Button
           variant="outline"
           size="sm"
-          className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white border-green-400"
+          className="w-full bg-green-500 hover:bg-green-600 text-white border-green-400 text-xs md:text-sm py-2 px-3"
         >
-          <Settings className="h-4 w-4 mr-2" />
-          {getLocalizedText('manageActions')}
+          <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+          <span className="truncate">{getLocalizedText('manageActions')}</span>
         </Button>
       </DialogTrigger>
       
