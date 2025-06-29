@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import ConfigurableQuickActionItem from './QuickActions/ConfigurableQuickActionItem';
@@ -18,7 +19,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
   showControls = false 
 }) => {
   const { i18n } = useTranslation();
-  const { getEnabledActions, refreshKey, isAdmin } = useQuickActionsManager();
+  const { getEnabledActions, refreshKey, isAdmin, reorderActions } = useQuickActionsManager();
   
   const {
     openDialog,
@@ -100,6 +101,26 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
     }
   };
 
+  const handleDragEnd = async (result: any) => {
+    if (!result.destination || !isAdmin) {
+      return;
+    }
+
+    const { source, destination } = result;
+    
+    if (source.index === destination.index) {
+      return;
+    }
+
+    console.log('Reordering actions:', { source: source.index, destination: destination.index });
+    
+    try {
+      await reorderActions(source.index, destination.index);
+    } catch (error) {
+      console.error('Error reordering actions:', error);
+    }
+  };
+
   return (
     <>
       <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-4 md:p-6">
@@ -112,21 +133,49 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
         {enabledActions.length === 0 ? (
           <p className="text-white/70 text-sm">{getLocalizedText('noActionsConfigured')}</p>
         ) : (
-          /* Vertical stack of actions */
-          <div className="space-y-2 md:space-y-3">
-            {enabledActions.map((action) => (
-              <ConfigurableQuickActionItem
-                key={action.id}
-                title={getLocalizedActionText(action, 'title')}
-                description={getLocalizedActionText(action, 'description')}
-                icon={action.icon}
-                color={action.color}
-                onClick={() => handleActionClick(action)}
-                actionId={action.id}
-                showControls={showControls}
-              />
-            ))}
-          </div>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="quick-actions">
+              {(provided) => (
+                <div 
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="space-y-2 md:space-y-3"
+                >
+                  {enabledActions.map((action, index) => (
+                    <Draggable 
+                      key={action.id} 
+                      draggableId={action.id} 
+                      index={index}
+                      isDragDisabled={!isAdmin && !showControls}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`${
+                            snapshot.isDragging ? 'opacity-75 transform rotate-2' : ''
+                          }`}
+                        >
+                          <ConfigurableQuickActionItem
+                            title={getLocalizedActionText(action, 'title')}
+                            description={getLocalizedActionText(action, 'description')}
+                            icon={action.icon}
+                            color={action.color}
+                            onClick={() => handleActionClick(action)}
+                            actionId={action.id}
+                            showControls={showControls}
+                            isDragging={snapshot.isDragging}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         )}
       </div>
 

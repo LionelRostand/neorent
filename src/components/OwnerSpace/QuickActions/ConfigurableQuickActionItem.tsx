@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { X, Settings } from 'lucide-react';
+import { X, GripVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 
@@ -11,80 +10,77 @@ interface ConfigurableQuickActionItemProps {
   icon: string;
   color: string;
   onClick: () => void;
-  actionId?: string;
+  actionId: string;
   showControls?: boolean;
+  isDragging?: boolean;
 }
 
-const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = ({ 
-  title, 
-  description, 
-  icon, 
-  color, 
+const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = ({
+  title,
+  description,
+  icon,
+  color,
   onClick,
   actionId,
-  showControls = false
+  showControls = false,
+  isDragging = false
 }) => {
-  const { i18n } = useTranslation();
   const { removeAction, isAdmin } = useQuickActionsManager();
+  
+  // Import dynamically based on icon name
+  const IconComponent = React.useMemo(() => {
+    try {
+      const icons = require('lucide-react');
+      return icons[icon] || icons.Settings;
+    } catch {
+      const icons = require('lucide-react');
+      return icons.Settings;
+    }
+  }, [icon]);
 
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      remove: {
-        fr: 'Supprimer',
-        en: 'Remove'
-      },
-      confirmDelete: {
-        fr: 'Êtes-vous sûr de vouloir supprimer cette action ?',
-        en: 'Are you sure you want to delete this action?'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
-
-  const handleRemove = async (e: React.MouseEvent) => {
+  const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     
-    if (!actionId) {
-      console.log('No actionId provided for removal');
-      return;
-    }
-    
-    console.log('Attempting to remove action:', actionId);
-    
-    if (window.confirm(getLocalizedText('confirmDelete'))) {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette action rapide ?')) {
       await removeAction(actionId);
     }
   };
 
   return (
-    <div className="relative group">
-      <button
-        onClick={onClick}
-        className="w-full flex items-center gap-3 p-3 text-left hover:bg-green-500/10 rounded-lg transition-colors bg-white/5"
-      >
-        <div className={`p-2 rounded-lg ${color}`}>
-          <Settings className="h-4 w-4 text-white" />
+    <div 
+      className={`relative group flex items-center p-3 md:p-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg transition-all duration-200 cursor-pointer border border-white/20 ${
+        isDragging ? 'shadow-lg scale-105 bg-white/20' : ''
+      }`}
+      onClick={onClick}
+    >
+      {/* Drag Handle for admins */}
+      {(isAdmin || showControls) && (
+        <div className="flex items-center mr-3 opacity-0 group-hover:opacity-100 transition-opacity">
+          <GripVertical className="h-4 w-4 text-white/60 cursor-grab" />
         </div>
-        <div className="flex-1">
-          <div className="text-sm font-medium text-white">{title}</div>
-          <div className="text-xs text-white/70">{description}</div>
-        </div>
-      </button>
-
-      {/* Delete button - visible to admins when showControls is true and actionId exists */}
-      {showControls && isAdmin && actionId && (
+      )}
+      
+      {/* Icon */}
+      <div className={`p-2 md:p-3 rounded-lg ${color} mr-3 md:mr-4 flex-shrink-0`}>
+        <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-white" />
+      </div>
+      
+      {/* Content */}
+      <div className="flex-1 min-w-0">
+        <h4 className="font-medium text-white text-sm md:text-base truncate">{title}</h4>
+        <p className="text-white/70 text-xs md:text-sm truncate">{description}</p>
+      </div>
+      
+      {/* Delete button for admins */}
+      {showControls && isAdmin && (
         <Button
-          size="sm"
           variant="ghost"
-          onClick={handleRemove}
-          className="absolute top-1 right-1 h-8 w-8 p-0 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-100 hover:opacity-90 transition-all duration-200 shadow-lg z-10"
-          title={getLocalizedText('remove')}
+          size="sm"
+          className="absolute top-2 right-2 h-6 w-6 p-0 bg-red-500/80 hover:bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={handleDelete}
         >
-          <X className="h-4 w-4" />
+          <X className="h-3 w-3" />
         </Button>
       )}
     </div>
