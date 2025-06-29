@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -189,14 +188,8 @@ const SidebarQuickActionsManager: React.FC = () => {
       
       const newAction = {
         id: menuPath.replace('/admin/', ''),
-        title: {
-          fr: menuItem.label,
-          en: menuItem.labelEn || menuItem.label
-        },
-        description: {
-          fr: `Accéder à ${menuItem.label}`,
-          en: `Access ${menuItem.labelEn || menuItem.label}`
-        },
+        titleKey: `quickActions.${menuItem.label.toLowerCase()}.title`,
+        descriptionKey: `quickActions.${menuItem.label.toLowerCase()}.description`,
         icon: menuItem.icon?.name || 'Settings',
         color: getColorForMenu(menuPath),
         enabled: true,

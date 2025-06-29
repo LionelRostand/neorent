@@ -19,7 +19,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
   showControls = false 
 }) => {
   const { t, i18n } = useTranslation();
-  const { getEnabledActions, refreshKey, isAdmin, reorderActions } = useQuickActionsManager();
+  const { getEnabledActions, refreshKey, isAdmin, reorderActions, toggleAction, removeAction } = useQuickActionsManager();
   
   const {
     openDialog,
@@ -46,21 +46,6 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
     currentLanguage: i18n.language,
     ownerProfile: ownerProfile
   });
-
-  const getLocalizedActionText = (action: any, field: 'title' | 'description'): string => {
-    const currentLang = i18n.language as 'fr' | 'en';
-    const fieldValue = action[field];
-    
-    if (fieldValue && typeof fieldValue === 'object' && 'fr' in fieldValue && 'en' in fieldValue) {
-      return fieldValue[currentLang] || fieldValue['fr'] || '';
-    }
-    
-    if (typeof fieldValue === 'string') {
-      return fieldValue;
-    }
-    
-    return '';
-  };
 
   const handleActionClick = (action: any) => {
     console.log('Quick action clicked:', action);
@@ -144,12 +129,10 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
                           }`}
                         >
                           <ConfigurableQuickActionItem
-                            title={getLocalizedActionText(action, 'title')}
-                            description={getLocalizedActionText(action, 'description')}
-                            icon={action.icon}
-                            color={action.color}
-                            onClick={() => handleActionClick(action)}
-                            actionId={action.id}
+                            action={action}
+                            onToggle={toggleAction}
+                            onRemove={removeAction}
+                            onClick={handleActionClick}
                             showControls={showControls}
                             isDragging={snapshot.isDragging}
                           />
