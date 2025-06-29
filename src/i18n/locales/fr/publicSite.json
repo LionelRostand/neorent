@@ -12,7 +12,19 @@
       }
     },
     "login": {
-      "title": "Connexion"
+      "title": "Connexion",
+      "subtitle": "Accédez à votre espace personnel",
+      "email": "Adresse email",
+      "emailPlaceholder": "Entrez votre email",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "signIn": "Se connecter",
+      "signingIn": "Connexion en cours...",
+      "forgotPassword": "Mot de passe oublié ?"
+    },
+    "ownerRegistration": {
+      "createAccountLink": "Créer un compte propriétaire",
+      "dialogTitle": "Inscription Propriétaire"
     },
     "title": "Site Public",
     "subtitle": "Gérez votre site web public",
@@ -49,11 +61,15 @@
       }
     },
     "footer": {
+      "description": "Plateforme complète de gestion immobilière pour optimiser vos investissements.",
+      "usefulLinks": "Liens Utiles",
+      "legalNotice": "Mentions Légales",
+      "privacyPolicy": "Politique de Confidentialité",
+      "contact": "Contact",
       "copyright": "Tous droits réservés",
       "privacy": "Confidentialité",
       "terms": "Conditions d'utilisation",
-      "about": "À propos",
-      "contact": "Contact"
+      "about": "À propos"
     }
   }
 }
