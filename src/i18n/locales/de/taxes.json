@@ -35,6 +35,22 @@
       "annual": "Jahresbericht",
       "quarterly": "Quartalsbericht",
       "export": "Exportieren"
-    }
+    },
+    "fiscalities": "Steuerangelegenheiten",
+    "manageFiscalObligations": "Steuerpflichten verwalten",
+    "taxEstimation2025": "Steuerschätzung 2025",
+    "approximateTotal": "Ungefähre Summe",
+    "alreadyPaid": "Bereits bezahlt",
+    "remainingToPay": "Noch zu zahlen",
+    "estimationNote": "Schätzungsnotiz",
+    "filterByYear": "Nach Jahr filtern",
+    "taxesPaid": "Bezahlte Steuern",
+    "taxPaid": "Steuer bezahlt",
+    "taxesToDeclare": "Zu erklärende Steuern",
+    "declarationToDo": "Erklärung zu erstellen",
+    "taxesToPay": "Zu zahlende Steuern",
+    "totalTaxes": "Gesamtsteuern",
+    "totalObligation": "Gesamtverpflichtung",
+    "paymentToMake": "zu leistende Zahlung"
   }
 }

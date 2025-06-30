@@ -16,6 +16,8 @@
     "taxesToDeclare": "Taxes to Declare",
     "declarationToDo": "declaration to do",
     "taxesToPay": "Taxes to Pay",
-    "totalTaxes": "Total Taxes"
+    "totalTaxes": "Total Taxes",
+    "totalObligation": "total obligation",
+    "paymentToMake": "payment to make"
   }
 }
