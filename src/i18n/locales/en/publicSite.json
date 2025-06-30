@@ -21,6 +21,10 @@
         "title": "Tenant Management",
         "description": "Track your tenants and their payments"
       },
+      "tenantTracking": {
+        "title": "Tenant Tracking",
+        "description": "Track your tenants and their payments"
+      },
       "maintenanceTracking": {
         "title": "Maintenance Tracking",
         "description": "Organize maintenance requests and interventions"
@@ -28,16 +32,25 @@
       "financialReporting": {
         "title": "Financial Reports",
         "description": "Analyze your real estate income and expenses"
+      },
+      "dataSecurity": {
+        "title": "Data Security",
+        "description": "Your data is protected by the latest security technologies"
       }
     },
     "contact": {
       "title": "Contact Us",
       "subtitle": "Have a question? We're here to help",
       "hero": {
-        "title": "Contact Us"
+        "title": "Contact Us",
+        "subtitle": "Have a question? We're here to help"
       },
       "form": {
+        "title": "Send us a message",
+        "subtitle": "We'll get back to you as soon as possible",
         "name": "Full name",
+        "firstName": "First name",
+        "lastName": "Last name",
         "email": "Email address",
         "subject": "Subject",
         "message": "Message",
@@ -45,10 +58,27 @@
         "sending": "Sending..."
       },
       "info": {
-        "address": "123 Peace Street, 75001 Paris",
-        "phone": "+33 1 23 45 67 89",
-        "email": "contact@neorent.fr",
-        "hours": "Mon-Fri: 9am-6pm"
+        "title": "Contact Information",
+        "address": {
+          "title": "Address",
+          "content": "123 Peace Street, 75001 Paris",
+          "description": "Visit us at our office"
+        },
+        "phone": {
+          "title": "Phone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Monday to Friday, 9am-6pm"
+        },
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.fr",
+          "description": "We respond within 24h"
+        },
+        "hours": {
+          "title": "Hours",
+          "content": "Mon-Fri: 9am-6pm",
+          "description": "Customer support available"
+        }
       },
       "map": {
         "title": "Our Location",
@@ -80,9 +110,12 @@
     "about": {
       "title": "About Us",
       "subtitle": "Your trusted partner in property management",
+      "description": "Your modern and intuitive property management platform",
       "story": {
         "title": "Our Story",
-        "content": "Founded in 2020, our platform revolutionizes property management by offering modern and intuitive tools."
+        "content": "Founded in 2020, our platform revolutionizes property management by offering modern and intuitive tools.",
+        "paragraph1": "Born from a passion for innovation in the real estate sector, our company was created to address modern rental management challenges.",
+        "paragraph2": "Today, we support hundreds of property owners in efficiently managing their real estate assets."
       },
       "mission": {
         "title": "Our Mission",
@@ -90,9 +123,46 @@
       },
       "values": {
         "title": "Our Values",
-        "innovation": "Innovation",
-        "transparency": "Transparency",
-        "service": "Customer Service"
+        "subtitle": "The principles that guide us daily",
+        "innovation": {
+          "title": "Innovation",
+          "description": "We constantly push the boundaries of technology"
+        },
+        "transparency": {
+          "title": "Transparency",
+          "description": "We prioritize clarity in all our relationships"
+        },
+        "service": {
+          "title": "Customer Service",
+          "description": "Your satisfaction is our absolute priority"
+        },
+        "clientProximity": {
+          "title": "Client Proximity",
+          "description": "We are always listening to your needs"
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "We strive for excellence in everything we do"
+        },
+        "growth": {
+          "title": "Growth",
+          "description": "We support your development"
+        }
+      },
+      "stats": {
+        "title": "Our Numbers",
+        "managedProperties": "Managed Properties",
+        "satisfiedClients": "Satisfied Clients",
+        "availability": "Availability",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Our Team",
+        "subtitle": "Passionate experts at your service",
+        "dedication": {
+          "title": "Dedication",
+          "description": "Our team is dedicated to your success"
+        }
       }
     },
     "properties": "Properties",

@@ -21,6 +21,10 @@
         "title": "Gestion des locataires",
         "description": "Suivez vos locataires et leurs paiements"
       },
+      "tenantTracking": {
+        "title": "Suivi des locataires",
+        "description": "Suivez vos locataires et leurs paiements"
+      },
       "maintenanceTracking": {
         "title": "Suivi de la maintenance",
         "description": "Organisez les demandes de maintenance et les interventions"
@@ -28,16 +32,25 @@
       "financialReporting": {
         "title": "Rapports financiers",
         "description": "Analysez vos revenus et dépenses immobilières"
+      },
+      "dataSecurity": {
+        "title": "Sécurité des données",
+        "description": "Vos données sont protégées par les dernières technologies de sécurité"
       }
     },
     "contact": {
       "title": "Contactez-nous",
       "subtitle": "Une question ? Nous sommes là pour vous aider",
       "hero": {
-        "title": "Contactez-nous"
+        "title": "Contactez-nous",
+        "subtitle": "Une question ? Nous sommes là pour vous aider"
       },
       "form": {
+        "title": "Envoyez-nous un message",
+        "subtitle": "Nous vous répondrons dans les plus brefs délais",
         "name": "Nom complet",
+        "firstName": "Prénom",
+        "lastName": "Nom",
         "email": "Adresse e-mail",
         "subject": "Sujet",
         "message": "Message",
@@ -45,10 +58,27 @@
         "sending": "Envoi en cours..."
       },
       "info": {
-        "address": "123 Rue de la Paix, 75001 Paris",
-        "phone": "+33 1 23 45 67 89",
-        "email": "contact@neorent.fr",
-        "hours": "Lun-Ven : 9h-18h"
+        "title": "Informations de contact",
+        "address": {
+          "title": "Adresse",
+          "content": "123 Rue de la Paix, 75001 Paris",
+          "description": "Venez nous rendre visite à notre bureau"
+        },
+        "phone": {
+          "title": "Téléphone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Du lundi au vendredi, 9h-18h"
+        },
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.fr",
+          "description": "Nous répondons sous 24h"
+        },
+        "hours": {
+          "title": "Horaires",
+          "content": "Lun-Ven : 9h-18h",
+          "description": "Support client disponible"
+        }
       },
       "map": {
         "title": "Notre Localisation",
@@ -80,9 +110,12 @@
     "about": {
       "title": "À propos",
       "subtitle": "Votre partenaire de confiance en gestion immobilière",
+      "description": "Votre plateforme de gestion immobilière moderne et intuitive",
       "story": {
         "title": "Notre histoire",
-        "content": "Fondée en 2020, notre plateforme révolutionne la gestion immobilière en offrant des outils modernes et intuitifs."
+        "content": "Fondée en 2020, notre plateforme révolutionne la gestion immobilière en offrant des outils modernes et intuitifs.",
+        "paragraph1": "Née de la passion pour l'innovation dans le secteur immobilier, notre entreprise a été créée pour répondre aux défis modernes de la gestion locative.",
+        "paragraph2": "Aujourd'hui, nous accompagnons des centaines de propriétaires dans la gestion efficace de leurs biens immobiliers."
       },
       "mission": {
         "title": "Notre mission",
@@ -90,9 +123,46 @@
       },
       "values": {
         "title": "Nos valeurs",
-        "innovation": "Innovation",
-        "transparency": "Transparence",
-        "service": "Service client"
+        "subtitle": "Les principes qui nous guident au quotidien",
+        "innovation": {
+          "title": "Innovation",
+          "description": "Nous repoussons constamment les limites de la technologie"
+        },
+        "transparency": {
+          "title": "Transparence",
+          "description": "Nous privilégions la clarté dans toutes nos relations"
+        },
+        "service": {
+          "title": "Service client",
+          "description": "Votre satisfaction est notre priorité absolue"
+        },
+        "clientProximity": {
+          "title": "Proximité client",
+          "description": "Nous sommes toujours à l'écoute de vos besoins"
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "Nous visons l'excellence dans tout ce que nous faisons"
+        },
+        "growth": {
+          "title": "Croissance",
+          "description": "Nous accompagnons votre développement"
+        }
+      },
+      "stats": {
+        "title": "Nos chiffres",
+        "managedProperties": "Propriétés gérées",
+        "satisfiedClients": "Clients satisfaits",
+        "availability": "Disponibilité",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Notre équipe",
+        "subtitle": "Des experts passionnés à votre service",
+        "dedication": {
+          "title": "Dévouement",
+          "description": "Notre équipe est dédiée à votre succès"
+        }
       }
     },
     "properties": "Propriétés",

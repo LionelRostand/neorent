@@ -21,6 +21,10 @@
         "title": "Mieterverwaltung",
         "description": "Verfolgen Sie Ihre Mieter und deren Zahlungen"
       },
+      "tenantTracking": {
+        "title": "Mieter-Tracking",
+        "description": "Verfolgen Sie Ihre Mieter und deren Zahlungen"
+      },
       "maintenanceTracking": {
         "title": "Wartungsverfolgung",
         "description": "Organisieren Sie Wartungsanfragen und Interventionen"
@@ -28,16 +32,25 @@
       "financialReporting": {
         "title": "Finanzberichte",
         "description": "Analysieren Sie Ihre Immobilienerträge und -ausgaben"
+      },
+      "dataSecurity": {
+        "title": "Datensicherheit",
+        "description": "Ihre Daten sind durch neueste Sicherheitstechnologien geschützt"
       }
     },
     "contact": {
       "title": "Kontaktieren Sie uns",
       "subtitle": "Haben Sie eine Frage? Wir sind hier um zu helfen",
       "hero": {
-        "title": "Kontaktieren Sie uns"
+        "title": "Kontaktieren Sie uns",
+        "subtitle": "Haben Sie eine Frage? Wir sind hier um zu helfen"
       },
       "form": {
+        "title": "Senden Sie uns eine Nachricht",
+        "subtitle": "Wir melden uns so schnell wie möglich bei Ihnen",
         "name": "Vollständiger Name",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
         "email": "E-Mail-Adresse",
         "subject": "Betreff",
         "message": "Nachricht",
@@ -45,10 +58,27 @@
         "sending": "Wird gesendet..."
       },
       "info": {
-        "address": "123 Friedensstraße, 75001 Paris",
-        "phone": "+33 1 23 45 67 89",
-        "email": "contact@neorent.fr",
-        "hours": "Mo-Fr: 9-18 Uhr"
+        "title": "Kontaktinformationen",
+        "address": {
+          "title": "Adresse",
+          "content": "123 Friedensstraße, 75001 Paris",
+          "description": "Besuchen Sie uns in unserem Büro"
+        },
+        "phone": {
+          "title": "Telefon",
+          "content": "+33 1 23 45 67 89",
+          "description": "Montag bis Freitag, 9-18 Uhr"
+        },
+        "email": {
+          "title": "E-Mail",
+          "content": "contact@neorent.fr",
+          "description": "Wir antworten innerhalb von 24h"
+        },
+        "hours": {
+          "title": "Öffnungszeiten",
+          "content": "Mo-Fr: 9-18 Uhr",
+          "description": "Kundensupport verfügbar"
+        }
       },
       "map": {
         "title": "Unser Standort",
@@ -80,9 +110,12 @@
     "about": {
       "title": "Über uns",
       "subtitle": "Ihr vertrauensvoller Partner in der Immobilienverwaltung",
+      "description": "Ihre moderne und intuitive Immobilienverwaltungsplattform",
       "story": {
         "title": "Unsere Geschichte",
-        "content": "2020 gegründet, revolutioniert unsere Plattform die Immobilienverwaltung durch moderne und intuitive Tools."
+        "content": "2020 gegründet, revolutioniert unsere Plattform die Immobilienverwaltung durch moderne und intuitive Tools.",
+        "paragraph1": "Aus der Leidenschaft für Innovation im Immobiliensektor entstanden, wurde unser Unternehmen geschaffen, um moderne Herausforderungen der Mietverwaltung zu bewältigen.",
+        "paragraph2": "Heute unterstützen wir Hunderte von Immobilieneigentümern bei der effizienten Verwaltung ihrer Immobilienanlagen."
       },
       "mission": {
         "title": "Unsere Mission",
@@ -90,9 +123,46 @@
       },
       "values": {
         "title": "Unsere Werte",
-        "innovation": "Innovation",
-        "transparency": "Transparenz",
-        "service": "Kundenservice"
+        "subtitle": "Die Prinzipien, die uns täglich leiten",
+        "innovation": {
+          "title": "Innovation",
+          "description": "Wir erweitern ständig die Grenzen der Technologie"
+        },
+        "transparency": {
+          "title": "Transparenz",
+          "description": "Wir priorisieren Klarheit in all unseren Beziehungen"
+        },
+        "service": {
+          "title": "Kundenservice",
+          "description": "Ihre Zufriedenheit ist unsere absolute Priorität"
+        },
+        "clientProximity": {
+          "title": "Kundennähe",
+          "description": "Wir hören immer auf Ihre Bedürfnisse"
+        },
+        "excellence": {
+          "title": "Exzellenz",
+          "description": "Wir streben nach Exzellenz in allem was wir tun"
+        },
+        "growth": {
+          "title": "Wachstum",
+          "description": "Wir unterstützen Ihre Entwicklung"
+        }
+      },
+      "stats": {
+        "title": "Unsere Zahlen",
+        "managedProperties": "Verwaltete Immobilien",
+        "satisfiedClients": "Zufriedene Kunden",
+        "availability": "Verfügbarkeit",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Unser Team",
+        "subtitle": "Leidenschaftliche Experten zu Ihren Diensten",
+        "dedication": {
+          "title": "Engagement",
+          "description": "Unser Team ist Ihrem Erfolg gewidmet"
+        }
       }
     },
     "properties": "Immobilien",
