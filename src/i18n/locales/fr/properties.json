@@ -27,6 +27,8 @@
     "occupantsList": "Liste des occupants",
     "roommate": "Colocataire",
     "perMonth": "/mois",
+    "rooms": "chambres",
+    "available": "disponible",
     "fields": {
       "name": "Nom",
       "address": "Adresse",
