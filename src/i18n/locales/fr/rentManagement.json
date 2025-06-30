@@ -108,13 +108,10 @@
     "totalMonthJune2025": "TOTAL DU MOIS JUIN 2025",
     "totalReceived": "Total reçu",
     "missing": "manquant",
-    "renter": "Mieter",
-    "dueDate": "Fälligkeitsdatum",
-    "contractualRent": "Vertragsmiete",
-    "accordingContract": "laut Vertrag",
-    "paidAmount": "Bezahlter Betrag",
-    "status": "Status",
-    "paymentDate": "Date de Paiement",
+    "renter": "Locataire",
+    "contractualRent": "Loyer Contractuel",
+    "accordingContract": "selon le contrat",
+    "paidAmount": "Montant Payé",
     "expectedPayment": "espèces"
   }
 }

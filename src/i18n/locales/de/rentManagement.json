@@ -72,8 +72,8 @@
     "received": "erhalten",
     "expected": "erwartet",
     "paid": "Bezahlt",
-    "pending": "En Attente",
-    "late": "En Retard",
-    "overdue": "Verspätet"
+    "pending": "Ausstehend",
+    "late": "Verspätet",
+    "overdue": "Überfällig"
   }
 }
