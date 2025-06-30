@@ -53,15 +53,15 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
       <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Gestion des Loyers</h1>
-            <p className="text-emerald-100 mt-2">Suivez vos paiements de loyer</p>
+            <h1 className="text-3xl font-bold">{t('rentManagement.title')}</h1>
+            <p className="text-emerald-100 mt-2">{t('rentManagement.subtitle')}</p>
           </div>
           <Button 
             className="bg-white text-emerald-600 hover:bg-emerald-50 border-0 shadow-md"
             onClick={() => setShowPaymentForm(true)}
           >
             <Plus className="h-4 w-4 mr-2" />
-            Nouveau paiement
+            {t('rentManagement.newPayment')}
           </Button>
         </div>
       </div>
@@ -70,46 +70,46 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="border-l-4 border-l-emerald-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Revenus Mensuels</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('rentManagement.monthlyRevenue')}</CardTitle>
             <div className="p-2 bg-emerald-100 rounded-lg">
               <DollarSign className="h-4 w-4 text-emerald-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
-            <p className="text-xs text-gray-500 mt-1">Revenus perçus</p>
+            <p className="text-xs text-gray-500 mt-1">{t('rentManagement.received')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Paiements Reçus</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('rentManagement.receivedPayments')}</CardTitle>
             <div className="p-2 bg-green-100 rounded-lg">
               <CheckCircle className="h-4 w-4 text-green-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{paidPayments}</div>
-            <p className="text-xs text-gray-500 mt-1">{paidPayments} paiements validés</p>
+            <p className="text-xs text-gray-500 mt-1">{paidPayments} {t('rentManagement.paymentsValidated')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-red-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Paiements en Retard</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('rentManagement.latePayments')}</CardTitle>
             <div className="p-2 bg-red-100 rounded-lg">
               <AlertCircle className="h-4 w-4 text-red-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{latePayments}</div>
-            <p className="text-xs text-gray-500 mt-1">{latePayments} en attente</p>
+            <p className="text-xs text-gray-500 mt-1">{latePayments} {t('rentManagement.paymentsPending')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Taux de Recouvrement</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">{t('rentManagement.collectionRate')}</CardTitle>
             <div className="p-2 bg-blue-100 rounded-lg">
               <TrendingUp className="h-4 w-4 text-blue-600" />
             </div>
@@ -118,7 +118,7 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
             <div className="text-2xl font-bold text-gray-900">
               {totalPayments > 0 ? Math.round((paidPayments / totalPayments) * 100) : 0}%
             </div>
-            <p className="text-xs text-gray-500 mt-1">Paiements à jour</p>
+            <p className="text-xs text-gray-500 mt-1">{t('rentManagement.paymentsUpToDate')}</p>
           </CardContent>
         </Card>
       </div>
@@ -126,7 +126,7 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
       {/* Payments Table */}
       <Card className="shadow-lg border-0">
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
-          <CardTitle className="text-xl text-gray-800">Historique des Paiements</CardTitle>
+          <CardTitle className="text-xl text-gray-800">{t('rentManagement.paymentHistory')}</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           {payments.length === 0 ? (
@@ -134,24 +134,24 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
               <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <DollarSign className="h-8 w-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Aucun paiement trouvé</h3>
-              <p className="text-gray-500 mb-4">Les paiements apparaîtront ici</p>
+              <h3 className="text-lg font-medium text-gray-700 mb-2">{t('rentManagement.noPayments')}</h3>
+              <p className="text-gray-500 mb-4">{t('rentManagement.paymentsWillAppear')}</p>
               <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
                 <Plus className="h-4 w-4 mr-2" />
-                Ajouter un paiement
+                {t('rentManagement.addPayment')}
               </Button>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Propriété</TableHead>
-                  <TableHead>Locataire</TableHead>
-                  <TableHead>Montant</TableHead>
-                  <TableHead>Date d'échéance</TableHead>
-                  <TableHead>Montant payé</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{t('rentManagement.property')}</TableHead>
+                  <TableHead>{t('rentManagement.tenant')}</TableHead>
+                  <TableHead>{t('rentManagement.amount')}</TableHead>
+                  <TableHead>{t('rentManagement.dueDate')}</TableHead>
+                  <TableHead>{t('rentManagement.paidAmount')}</TableHead>
+                  <TableHead>{t('rentManagement.status')}</TableHead>
+                  <TableHead className="text-right">{t('rentManagement.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -191,7 +191,7 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
       <Dialog open={showPaymentForm} onOpenChange={setShowPaymentForm}>
         <DialogContent className="w-[95vw] max-w-[650px] max-h-[95vh] overflow-y-auto p-3 sm:p-4 lg:p-6">
           <DialogHeader>
-            <DialogTitle>Nouveau Paiement</DialogTitle>
+            <DialogTitle>{t('rentManagement.newPayment')}</DialogTitle>
           </DialogHeader>
           <SimpleRentPaymentForm 
             onClose={() => setShowPaymentForm(false)}

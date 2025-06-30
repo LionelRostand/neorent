@@ -2,7 +2,7 @@
 {
   "rentManagement": {
     "title": "Gestion des Loyers",
-    "subtitle": "Gérez les paiements et suivez les loyers",
+    "subtitle": "Suivez vos paiements de loyer",
     "totalRevenue": "Revenus Totaux",
     "paidRents": "Loyers Payés",
     "pendingRents": "Loyers En Attente",
@@ -90,6 +90,16 @@
       "tenantRequired": "Le locataire est requis",
       "dueDateRequired": "La date d'échéance est requise",
       "methodRequired": "La méthode de paiement est requise"
-    }
+    },
+    "monthlyRevenue": "Revenus Mensuels",
+    "receivedPayments": "Paiements Reçus",
+    "latePayments": "Paiements en Retard",
+    "collectionRate": "Taux de Recouvrement",
+    "paymentsUpToDate": "Paiements à jour",
+    "paymentsValidated": "paiements validés",
+    "paymentsPending": "en attente",
+    "paymentHistory": "Historique des Paiements",
+    "paymentsWillAppear": "Les paiements de loyers apparaîtront ici.",
+    "actions": "Actions"
   }
 }

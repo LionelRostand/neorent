@@ -31,6 +31,28 @@
       "bankTransfer": "Banküberweisung",
       "check": "Scheck",
       "online": "Online"
-    }
+    },
+    "monthlyRevenue": "Monatliche Einnahmen",
+    "receivedPayments": "Erhaltene Zahlungen",
+    "latePayments": "Verspätete Zahlungen",
+    "collectionRate": "Einzugsrate",
+    "paymentsUpToDate": "Zahlungen auf dem neuesten Stand",
+    "paymentsValidated": "Zahlungen validiert",
+    "paymentsPending": "ausstehend",
+    "paymentHistory": "Zahlungshistorie",
+    "paymentsWillAppear": "Mietzahlungen werden hier erscheinen.",
+    "actions": "Aktionen",
+    "property": "Immobilie",
+    "tenant": "Mieter",
+    "amount": "Betrag",
+    "dueDate": "Fälligkeitsdatum",
+    "paidAmount": "Bezahlter Betrag",
+    "status": "Status",
+    "newPayment": "Neue Zahlung",
+    "noPayments": "Keine Zahlungen gefunden",
+    "contractRent": "Vertragsmiete",
+    "accordingToContract": "laut Vertrag",
+    "amountPaid": "Bezahlter Betrag",
+    "markAsPaidButton": "Als bezahlt markieren"
   }
 }

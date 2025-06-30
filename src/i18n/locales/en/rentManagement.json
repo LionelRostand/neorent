@@ -100,6 +100,20 @@
     "downloadReport": "Download report",
     "exportData": "Export data",
     "importData": "Import data",
-    "generateReport": "Generate report"
+    "generateReport": "Generate report",
+    "monthlyRevenue": "Monthly Revenue",
+    "receivedPayments": "Received Payments",
+    "latePayments": "Late Payments",
+    "collectionRate": "Collection Rate",
+    "paymentsUpToDate": "Payments up to date",
+    "paymentsValidated": "payments validated",
+    "paymentsPending": "pending",
+    "paymentHistory": "Payment History",
+    "paymentsWillAppear": "Rent payments will appear here.",
+    "actions": "Actions",
+    "contractRent": "Contract Rent",
+    "accordingToContract": "according to contract",
+    "amountPaid": "Amount Paid",
+    "markAsPaidButton": "Mark as Paid"
   }
 }
