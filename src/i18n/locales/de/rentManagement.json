@@ -68,12 +68,21 @@
     "contractualRent": "Vertragsmiete",
     "accordingContract": "laut Vertrag",
     "paymentDate": "Zahlungsdatum",
+    "paymentMethod": "Zahlungsmethode",
+    "selectPaymentMethod": "Zahlungsmethode auswählen",
     "expectedPayment": "Bargeld",
     "received": "erhalten",
     "expected": "erwartet",
     "paid": "Bezahlt",
     "pending": "Ausstehend",
     "late": "Verspätet",
-    "overdue": "Überfällig"
+    "overdue": "Überfällig",
+    "cash": "Bargeld",
+    "check": "Scheck",
+    "bankTransfer": "Banküberweisung",
+    "creditCard": "Kreditkarte",
+    "automaticDebit": "Lastschrift",
+    "notes": "Notizen",
+    "notesPlaceholder": "Notizen zu dieser Zahlung hinzufügen (optional)"
   }
 }
