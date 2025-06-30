@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Chargement...",
@@ -67,14 +66,14 @@
     "access": "Accès",
     "dashboard": "Tableau de bord",
     "home": "Accueil",
-    "about": "À propos",
+    "about": "À Propos",
     "contact": "Contact",
     "help": "Aide",
     "support": "Support",
     "faq": "FAQ",
     "terms": "Conditions",
     "privacy": "Confidentialité",
-    "legal": "Légal",
+    "legal": "Mentions légales",
     "copyright": "Copyright",
     "version": "Version",
     "update": "Mettre à jour",
@@ -267,6 +266,8 @@
     "tenantNotFound": "Locataire non trouvé",
     "contactAdminForHelp": "Veuillez contacter l'administrateur pour obtenir de l'aide",
     "page": "Page",
-    "pages": "Pages"
+    "pages": "Pages",
+    "properties": "Propriétés",
+    "services": "Services"
   }
 }

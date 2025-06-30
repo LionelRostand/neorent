@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Wird geladen...",
@@ -267,6 +266,8 @@
     "tenantNotFound": "Mieter nicht gefunden",
     "contactAdminForHelp": "Bitte wenden Sie sich an den Administrator für Hilfe",
     "page": "Seite",
-    "pages": "Seiten"
+    "pages": "Seiten",
+    "properties": "Immobilien",
+    "services": "Dienstleistungen"
   }
 }
