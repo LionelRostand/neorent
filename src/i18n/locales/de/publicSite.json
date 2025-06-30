@@ -33,6 +33,9 @@
     "contact": {
       "title": "Kontaktieren Sie uns",
       "subtitle": "Haben Sie eine Frage? Wir sind hier um zu helfen",
+      "hero": {
+        "title": "Kontaktieren Sie uns"
+      },
       "form": {
         "name": "Vollständiger Name",
         "email": "E-Mail-Adresse",
@@ -66,24 +69,14 @@
         "service": "Kundenservice"
       }
     },
-    "properties": {
+    "properties": "Immobilien",
+    "propertiesPage": {
       "title": "Unsere Immobilien",
-      "subtitle": "Entdecken Sie unsere Auswahl an Immobilien",
-      "filters": {
-        "all": "Alle",
-        "apartment": "Wohnungen",
-        "house": "Häuser",
-        "studio": "Studios"
-      },
-      "details": {
-        "rooms": "Zimmer",
-        "area": "m²",
-        "price": "€/Monat",
-        "available": "Verfügbar",
-        "contact": "Kontaktieren Sie uns",
-        "viewDetails": "Details anzeigen"
-      }
+      "subtitle": "Entdecken Sie unsere Auswahl an verfügbaren Immobilien",
+      "searchPlaceholder": "Suchen nach Stadt, Stadtteil...",
+      "searchButton": "Suchen"
     },
+    "home": "Startseite",
     "login": {
       "title": "Anmeldung",
       "subtitle": "Zugang zu Ihrem persönlichen Bereich",
