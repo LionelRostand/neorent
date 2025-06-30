@@ -13,6 +13,15 @@
     "propertiesWithCharges": "Propriétés avec Charges",
     "highestCharge": "Charge la Plus Élevée",
     "propertyWithMostCharges": "propriété avec le plus de charges",
-    "chargesForMonth": "Charges pour le mois"
+    "chargesForMonth": "Charges pour le mois",
+    "addCharge": "Ajouter une Charge",
+    "newCharge": "Nouvelle Charge",
+    "editCharge": "Modifier la Charge",
+    "deleteCharge": "Supprimer la Charge",
+    "totalCharges": "Total des Charges",
+    "view": "Vue",
+    "december2024": "Décembre 2024",
+    "property": "Propriété",
+    "thisMonth": "Ce Mois"
   }
 }

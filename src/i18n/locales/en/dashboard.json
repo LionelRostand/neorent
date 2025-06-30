@@ -42,6 +42,26 @@
     "recordPayment": "Record Payment",
     "scheduleInspection": "Schedule Inspection",
     "sendMessage": "Send Message",
-    "generateReport": "Generate Report"
+    "generateReport": "Generate Report",
+    "managedProperties": "Managed Properties",
+    "newThisMonth": "new this month",
+    "activeTenants": "Active Tenants",
+    "averageYield": "Average Yield",
+    "vsQuarter": "vs quarter",
+    "vsLastMonth": "vs last month",
+    "importantAlerts": "Important Alerts",
+    "lateRent": "Late Rent",
+    "late": "late",
+    "expiringLease": "Expiring Lease",
+    "days": "days",
+    "urgentInspection": "Urgent Inspection",
+    "urgent": "urgent",
+    "noRecentActivity": "No recent activity",
+    "rentReceived": "Rent received",
+    "timeAgo": {
+      "weeks": "weeks ago"
+    },
+    "latePayment": "Late payment",
+    "rentalRevenue": "Rental Revenue"
   }
 }

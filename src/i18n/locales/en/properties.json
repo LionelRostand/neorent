@@ -10,12 +10,31 @@
     "monthlyRevenue": "Monthly Revenue",
     "listTitle": "Properties List",
     "realRevenueReceived": "Real revenue received",
+    "partiallyOccupied": "Partially Occupied",
+    "perMonth": "per month",
+    "roomsAvailable": "rooms available",
+    "profitability": "Profitability",
+    "revenue": "Revenue",
+    "profit": "Profit",
+    "occupants": "occupants",
+    "propertyConfiguration": "Property Configuration",
+    "type": "Type",
+    "floor": "Floor",
+    "surface": "Surface (m²)",
     "metrics": {
       "totalDescription": "properties managed",
       "occupancyDescription": "average occupancy rate",
       "colocationDescription": "colocation rooms",
       "revenueDescription": "total monthly revenue"
-    }
+    },
+    "loading": "Loading properties...",
+    "error": "Error loading properties",
+    "addSuccess": "Property added successfully",
+    "addError": "Error adding property",
+    "updateSuccess": "Property updated successfully",
+    "updateError": "Error updating property",
+    "deleteSuccess": "Property deleted successfully",
+    "deleteError": "Error deleting property"
   },
   "propertyForm": {
     "propertyTypes": {
@@ -24,6 +43,9 @@
       "maison": "House",
       "loft": "Loft",
       "duplex": "Duplex"
+    },
+    "locationTypes": {
+      "colocation": "Colocation"
     }
   }
 }

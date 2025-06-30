@@ -51,6 +51,17 @@
     "vsLastMonth": "vs mois dernier",
     "importantAlerts": "Alertes Importantes",
     "lateRent": "Loyer en Retard",
-    "late": "en retard"
+    "late": "en retard",
+    "expiringLease": "Bail Expirant",
+    "days": "jours",
+    "urgentInspection": "Inspection Urgente",
+    "urgent": "urgent",
+    "noRecentActivity": "Aucune activité récente",
+    "rentReceived": "Loyer reçu",
+    "timeAgo": {
+      "weeks": "il y a quelques semaines"
+    },
+    "latePayment": "Paiement en retard",
+    "rentalRevenue": "Revenus Locatifs"
   }
 }
