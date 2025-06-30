@@ -115,5 +115,13 @@
     "passwordNote": "Laisser vide pour conserver le mot de passe actuel",
     "newPassword": "Nouveau mot de passe",
     "lateStatus": "En retard"
+  },
+  "profile": {
+    "phone": "Téléphone",
+    "leaseStart": "Début du bail",
+    "status": "Statut"
+  },
+  "forms": {
+    "addTenant": "Ajouter un locataire"
   }
 }
