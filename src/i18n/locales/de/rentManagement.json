@@ -53,6 +53,27 @@
     "contractRent": "Vertragsmiete",
     "accordingToContract": "laut Vertrag",
     "amountPaid": "Bezahlter Betrag",
-    "markAsPaidButton": "Als bezahlt markieren"
+    "markAsPaidButton": "Als bezahlt markieren",
+    "paidRents": "Bezahlte Mieten",
+    "unpaidRents": "Unbezahlte Mieten",
+    "pendingPayments": "Ausstehend",
+    "totalMonthJune2025": "GESAMT MONAT JUNI 2025",
+    "totalReceived": "Gesamt erhalten",
+    "missing": "fehlend",
+    "monthlyPayments": "Monatliche Zahlungen",
+    "basedOnContracts": "basierend auf Verträgen",
+    "renter": "Mieter",
+    "roommate": "Mitbewohner",
+    "room": "Zimmer",
+    "contractualRent": "Vertragsmiete",
+    "accordingContract": "laut Vertrag",
+    "paymentDate": "Zahlungsdatum",
+    "expectedPayment": "Bargeld",
+    "received": "erhalten",
+    "expected": "erwartet",
+    "paid": "Bezahlt",
+    "pending": "En Attente",
+    "late": "En Retard",
+    "overdue": "Verspätet"
   }
 }

@@ -114,6 +114,14 @@
     "contractRent": "Contract Rent",
     "accordingToContract": "according to contract",
     "amountPaid": "Amount Paid",
-    "markAsPaidButton": "Mark as Paid"
+    "markAsPaidButton": "Mark as Paid",
+    "paidRents": "Paid Rents",
+    "unpaidRents": "Unpaid Rents",
+    "pendingPayments": "Pending",
+    "totalMonthJune2025": "TOTAL MONTH JUNE 2025",
+    "renter": "Renter",
+    "contractualRent": "Contractual Rent",
+    "accordingContract": "according to contract",
+    "expectedPayment": "cash"
   }
 }

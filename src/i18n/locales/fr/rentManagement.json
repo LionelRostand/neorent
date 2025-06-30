@@ -100,6 +100,21 @@
     "paymentsPending": "en attente",
     "paymentHistory": "Historique des Paiements",
     "paymentsWillAppear": "Les paiements de loyers apparaîtront ici.",
-    "actions": "Actions"
+    "actions": "Actions",
+    "paidRents": "Loyers Payés",
+    "unpaidRents": "Loyers Impayés",
+    "pendingPayments": "En Attente",
+    "latePayments": "En Retard",
+    "totalMonthJune2025": "TOTAL DU MOIS JUIN 2025",
+    "totalReceived": "Total reçu",
+    "missing": "manquant",
+    "renter": "Mieter",
+    "dueDate": "Fälligkeitsdatum",
+    "contractualRent": "Vertragsmiete",
+    "accordingContract": "laut Vertrag",
+    "paidAmount": "Bezahlter Betrag",
+    "status": "Status",
+    "paymentDate": "Date de Paiement",
+    "expectedPayment": "espèces"
   }
 }
