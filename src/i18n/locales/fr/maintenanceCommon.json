@@ -45,6 +45,10 @@
     "noRequests": "Aucune demande",
     "noRequestsDescription": "Aucune demande de maintenance trouvée",
     "technicianPlaceholder": "Nom du technicien",
+    "locationPlaceholder": "Localisation de la maintenance",
+    "descriptionPlaceholder": "Description de la maintenance",
+    "submitRequest": "Soumettre la demande",
+    "recentRequests": "Demandes récentes",
     "statuses": {
       "pending": "En attente",
       "planned": "Planifiée",

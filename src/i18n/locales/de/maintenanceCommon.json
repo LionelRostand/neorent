@@ -45,6 +45,10 @@
     "noRequests": "Keine Anfragen",
     "noRequestsDescription": "Keine Wartungsanfragen gefunden",
     "technicianPlaceholder": "Name des Technikers",
+    "locationPlaceholder": "Wartungsstandort",
+    "descriptionPlaceholder": "Wartungsbeschreibung",
+    "submitRequest": "Anfrage einreichen",
+    "recentRequests": "Aktuelle Anfragen",
     "statuses": {
       "pending": "Ausstehend",
       "planned": "Geplant",

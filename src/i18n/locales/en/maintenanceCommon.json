@@ -45,6 +45,10 @@
     "noRequests": "No requests",
     "noRequestsDescription": "No maintenance requests found",
     "technicianPlaceholder": "Technician name",
+    "locationPlaceholder": "Maintenance location",
+    "descriptionPlaceholder": "Maintenance description",
+    "submitRequest": "Submit request",
+    "recentRequests": "Recent requests",
     "statuses": {
       "pending": "Pending",
       "planned": "Planned",
