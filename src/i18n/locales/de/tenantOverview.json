@@ -1,0 +1,42 @@
+
+{
+  "tenantOverview": {
+    "generalInfo": "Allgemeine Informationen",
+    "financialInfo": "Finanzielle Informationen",
+    "characteristics": "Immobilieneigenschaften",
+    "monthlyRent": "Monatliche Miete",
+    "monthlyCharges": "Monatliche Nebenkosten",
+    "securityDeposit": "Kaution",
+    "totalMonthly": "Monatlich gesamt (Miete + Nebenkosten)",
+    "myProperty": "Meine Immobilie",
+    "myRoom": "Mein Zimmer",
+    "type": "Typ",
+    "surface": "Fläche",
+    "rooms": "Anzahl Zimmer",
+    "floor": "Stockwerk",
+    "furnished": "Möbliert",
+    "elevator": "Aufzug",
+    "parking": "Parkplatz",
+    "equipment": "Ausstattung",
+    "rent": "Miete",
+    "charges": "Nebenkosten",
+    "deposit": "Kaution",
+    "room": "Zimmer",
+    "bedroom": "Schlafzimmer",
+    "sharedRoom": "Geteiltes Zimmer",
+    "apartment": "Wohnung",
+    "studio": "Studio",
+    "house": "Haus",
+    "roomInSharedFlat": "Zimmer in WG",
+    "roomNumber": "Zimmernummer",
+    "ordinalFloor": {
+      "1": "1. Stock",
+      "2": "2. Stock",
+      "3": "3. Stock",
+      "ground": "Erdgeschoss"
+    },
+    "contractInfo": "Vertragsinformationen",
+    "contractDetails": "Vertragsdetails",
+    "generatedHistory": "Generierter Verlauf"
+  }
+}
