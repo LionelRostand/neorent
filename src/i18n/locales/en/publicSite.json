@@ -4,8 +4,11 @@
     "hero": {
       "title": "Manage your real estate properties with ease",
       "subtitle": "Complete property management platform for owners, tenants and roommates",
+      "description": "Simplify your property management with our all-in-one solution. Track payments, manage contracts, communicate with tenants and much more.",
       "cta": "Get started for free",
-      "learnMore": "Learn more"
+      "startFree": "Get started for free",
+      "learnMore": "Learn more",
+      "contactUs": "Contact us"
     },
     "features": {
       "title": "Features",

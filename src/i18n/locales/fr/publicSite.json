@@ -2,28 +2,31 @@
 {
   "publicSite": {
     "hero": {
-      "title": "Gérez vos biens immobiliers en toute simplicité",
+      "title": "Gérez vos biens immobiliers avec facilité",
       "subtitle": "Plateforme complète de gestion immobilière pour propriétaires, locataires et colocataires",
+      "description": "Simplifiez la gestion de vos propriétés avec notre solution tout-en-un. Suivez les paiements, gérez les contrats, communiquez avec vos locataires et bien plus encore.",
       "cta": "Commencer gratuitement",
-      "learnMore": "En savoir plus"
+      "startFree": "Commencer gratuitement",
+      "learnMore": "En savoir plus",
+      "contactUs": "Nous contacter"
     },
     "features": {
       "title": "Fonctionnalités",
       "subtitle": "Tout ce dont vous avez besoin pour gérer vos biens immobiliers",
       "propertyManagement": {
-        "title": "Gestion des Propriétés",
+        "title": "Gestion des propriétés",
         "description": "Gérez facilement vos propriétés et leurs informations"
       },
       "tenantManagement": {
-        "title": "Gestion des Locataires",
+        "title": "Gestion des locataires",
         "description": "Suivez vos locataires et leurs paiements"
       },
       "maintenanceTracking": {
-        "title": "Suivi de Maintenance",
-        "description": "Organisez les demandes et interventions de maintenance"
+        "title": "Suivi de la maintenance",
+        "description": "Organisez les demandes de maintenance et les interventions"
       },
       "financialReporting": {
-        "title": "Rapports Financiers",
+        "title": "Rapports financiers",
         "description": "Analysez vos revenus et dépenses immobilières"
       }
     },
@@ -32,7 +35,7 @@
       "subtitle": "Une question ? Nous sommes là pour vous aider",
       "form": {
         "name": "Nom complet",
-        "email": "Adresse email",
+        "email": "Adresse e-mail",
         "subject": "Sujet",
         "message": "Message",
         "send": "Envoyer le message",
@@ -42,32 +45,32 @@
         "address": "123 Rue de la Paix, 75001 Paris",
         "phone": "+33 1 23 45 67 89",
         "email": "contact@neorent.fr",
-        "hours": "Lun-Ven: 9h-18h"
+        "hours": "Lun-Ven : 9h-18h"
       }
     },
     "about": {
-      "title": "À Propos de Nous",
+      "title": "À propos",
       "subtitle": "Votre partenaire de confiance en gestion immobilière",
       "story": {
-        "title": "Notre Histoire",
+        "title": "Notre histoire",
         "content": "Fondée en 2020, notre plateforme révolutionne la gestion immobilière en offrant des outils modernes et intuitifs."
       },
       "mission": {
-        "title": "Notre Mission",
+        "title": "Notre mission",
         "content": "Simplifier la gestion immobilière pour tous les acteurs du marché."
       },
       "values": {
-        "title": "Nos Valeurs",
+        "title": "Nos valeurs",
         "innovation": "Innovation",
         "transparency": "Transparence",
-        "service": "Service Client"
+        "service": "Service client"
       }
     },
     "properties": {
-      "title": "Nos Propriétés",
+      "title": "Nos propriétés",
       "subtitle": "Découvrez notre sélection de biens immobiliers",
       "filters": {
-        "all": "Toutes",
+        "all": "Tous",
         "apartment": "Appartements",
         "house": "Maisons",
         "studio": "Studios"
@@ -85,7 +88,7 @@
       "title": "Connexion",
       "subtitle": "Accédez à votre espace personnel",
       "form": {
-        "email": "Adresse email",
+        "email": "Adresse e-mail",
         "password": "Mot de passe",
         "forgotPassword": "Mot de passe oublié ?",
         "login": "Se connecter",
@@ -94,7 +97,7 @@
       }
     },
     "footer": {
-      "company": "Société",
+      "company": "Entreprise",
       "about": "À propos",
       "contact": "Contact",
       "careers": "Carrières",

@@ -4,8 +4,11 @@
     "hero": {
       "title": "Verwalten Sie Ihre Immobilien mit Leichtigkeit",
       "subtitle": "Komplette Immobilienverwaltungsplattform für Eigentümer, Mieter und Mitbewohner",
+      "description": "Vereinfachen Sie Ihre Immobilienverwaltung mit unserer All-in-One-Lösung. Verfolgen Sie Zahlungen, verwalten Sie Verträge, kommunizieren Sie mit Mietern und vieles mehr.",
       "cta": "Kostenlos starten",
-      "learnMore": "Mehr erfahren"
+      "startFree": "Kostenlos starten",
+      "learnMore": "Mehr erfahren",
+      "contactUs": "Kontaktieren Sie uns"
     },
     "features": {
       "title": "Funktionen",
