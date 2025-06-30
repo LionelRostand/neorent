@@ -49,6 +49,32 @@
         "phone": "+33 1 23 45 67 89",
         "email": "contact@neorent.fr",
         "hours": "Mon-Fri: 9am-6pm"
+      },
+      "map": {
+        "title": "Our Location",
+        "description": "Visit us at our Parisian office"
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Find quick answers to your questions",
+        "items": [
+          {
+            "question": "How can I create an owner account?",
+            "answer": "You can create an owner account by clicking the 'Create owner account' button on the login page and filling out the registration form."
+          },
+          {
+            "question": "What are the platform pricing plans?",
+            "answer": "We offer several plans tailored to your needs. Contact us for a personalized quote based on the number of properties you manage."
+          },
+          {
+            "question": "How can I add my properties?",
+            "answer": "Once logged into your owner space, go to the 'Properties' section and click 'Add property' to enter your property information."
+          },
+          {
+            "question": "Is the platform secure?",
+            "answer": "Yes, we use the latest security technologies to protect your data. All information is encrypted and stored securely."
+          }
+        ]
       }
     },
     "about": {
@@ -98,9 +124,14 @@
       "dialogTitle": "Owner Registration"
     },
     "footer": {
+      "description": "Your modern and intuitive property management platform",
+      "usefulLinks": "Useful Links",
+      "contact": "Contact",
+      "legalNotice": "Legal Notice",
+      "privacyPolicy": "Privacy Policy",
+      "copyright": "All rights reserved.",
       "company": "Company",
       "about": "About",
-      "contact": "Contact",
       "careers": "Careers",
       "legal": "Legal",
       "privacy": "Privacy",

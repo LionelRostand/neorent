@@ -49,6 +49,32 @@
         "phone": "+33 1 23 45 67 89",
         "email": "contact@neorent.fr",
         "hours": "Mo-Fr: 9-18 Uhr"
+      },
+      "map": {
+        "title": "Unser Standort",
+        "description": "Besuchen Sie uns in unserem Pariser Büro"
+      },
+      "faq": {
+        "title": "Häufig gestellte Fragen",
+        "subtitle": "Finden Sie schnell Antworten auf Ihre Fragen",
+        "items": [
+          {
+            "question": "Wie kann ich ein Eigentümerkonto erstellen?",
+            "answer": "Sie können ein Eigentümerkonto erstellen, indem Sie auf der Anmeldeseite auf 'Eigentümerkonto erstellen' klicken und das Registrierungsformular ausfüllen."
+          },
+          {
+            "question": "Was sind die Preispläne der Plattform?",
+            "answer": "Wir bieten verschiedene Pläne, die auf Ihre Bedürfnisse zugeschnitten sind. Kontaktieren Sie uns für ein personalisiertes Angebot basierend auf der Anzahl der Immobilien, die Sie verwalten."
+          },
+          {
+            "question": "Wie kann ich meine Immobilien hinzufügen?",
+            "answer": "Sobald Sie in Ihrem Eigentümerbereich angemeldet sind, gehen Sie zum Bereich 'Immobilien' und klicken Sie auf 'Immobilie hinzufügen', um Ihre Immobilieninformationen einzugeben."
+          },
+          {
+            "question": "Ist die Plattform sicher?",
+            "answer": "Ja, wir verwenden die neuesten Sicherheitstechnologien zum Schutz Ihrer Daten. Alle Informationen werden verschlüsselt und sicher gespeichert."
+          }
+        ]
       }
     },
     "about": {
@@ -98,9 +124,14 @@
       "dialogTitle": "Eigentümer-Registrierung"
     },
     "footer": {
+      "description": "Ihre moderne und intuitive Immobilienverwaltungsplattform",
+      "usefulLinks": "Nützliche Links",
+      "contact": "Kontakt",
+      "legalNotice": "Impressum",
+      "privacyPolicy": "Datenschutzrichtlinie",
+      "copyright": "Alle Rechte vorbehalten.",
       "company": "Unternehmen",
       "about": "Über uns",
-      "contact": "Kontakt",
       "careers": "Karriere",
       "legal": "Rechtliches",
       "privacy": "Datenschutz",

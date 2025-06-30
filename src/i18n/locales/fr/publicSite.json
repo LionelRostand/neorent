@@ -49,6 +49,32 @@
         "phone": "+33 1 23 45 67 89",
         "email": "contact@neorent.fr",
         "hours": "Lun-Ven : 9h-18h"
+      },
+      "map": {
+        "title": "Notre Localisation",
+        "description": "Venez nous rendre visite à notre bureau parisien"
+      },
+      "faq": {
+        "title": "Questions Fréquentes",
+        "subtitle": "Trouvez rapidement les réponses à vos questions",
+        "items": [
+          {
+            "question": "Comment puis-je créer un compte propriétaire ?",
+            "answer": "Vous pouvez créer un compte propriétaire en cliquant sur le bouton 'Créer un compte propriétaire' sur la page de connexion et en remplissant le formulaire d'inscription."
+          },
+          {
+            "question": "Quels sont les tarifs de la plateforme ?",
+            "answer": "Nous proposons plusieurs formules adaptées à vos besoins. Contactez-nous pour obtenir un devis personnalisé selon le nombre de propriétés que vous gérez."
+          },
+          {
+            "question": "Comment puis-je ajouter mes propriétés ?",
+            "answer": "Une fois connecté à votre espace propriétaire, rendez-vous dans la section 'Propriétés' et cliquez sur 'Ajouter une propriété' pour saisir les informations de votre bien."
+          },
+          {
+            "question": "La plateforme est-elle sécurisée ?",
+            "answer": "Oui, nous utilisons les dernières technologies de sécurité pour protéger vos données. Toutes les informations sont cryptées et stockées de manière sécurisée."
+          }
+        ]
       }
     },
     "about": {
@@ -98,9 +124,14 @@
       "dialogTitle": "Inscription propriétaire"
     },
     "footer": {
+      "description": "Votre plateforme de gestion immobilière moderne et intuitive",
+      "usefulLinks": "Liens utiles",
+      "contact": "Contact",
+      "legalNotice": "Mentions légales",
+      "privacyPolicy": "Politique de confidentialité",
+      "copyright": "Tous droits réservés.",
       "company": "Entreprise",
       "about": "À propos",
-      "contact": "Contact",
       "careers": "Carrières",
       "legal": "Légal",
       "privacy": "Confidentialité",
