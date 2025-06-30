@@ -42,6 +42,15 @@
     "recordPayment": "Enregistrer Paiement",
     "scheduleInspection": "Programmer Inspection",
     "sendMessage": "Envoyer Message",
-    "generateReport": "Générer Rapport"
+    "generateReport": "Générer Rapport",
+    "managedProperties": "Propriétés Gérées",
+    "newThisMonth": "nouveaux ce mois",
+    "activeTenants": "Locataires Actifs",
+    "averageYield": "Rendement Moyen",
+    "vsQuarter": "vs trimestre",
+    "vsLastMonth": "vs mois dernier",
+    "importantAlerts": "Alertes Importantes",
+    "lateRent": "Loyer en Retard",
+    "late": "en retard"
   }
 }

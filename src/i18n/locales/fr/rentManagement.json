@@ -74,6 +74,10 @@
     "enterAmount": "Saisir le montant",
     "enterReference": "Saisir la référence",
     "enterNotes": "Saisir des notes",
+    "contractRent": "Loyer Contractuel",
+    "accordingToContract": "selon le contrat",
+    "amountPaid": "Montant Payé",
+    "markAsPaidButton": "Marquer comme Payé",
     "paymentMethods": {
       "cash": "Espèces",
       "check": "Chèque",
