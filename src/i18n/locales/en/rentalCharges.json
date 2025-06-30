@@ -34,6 +34,7 @@
     "maintenance": "Maintenance (€)",
     "insurance": "Insurance (€)",
     "garbage": "Garbage (€)",
-    "enterAmount": "Enter amount"
+    "enterAmount": "Enter amount",
+    "recordCharges": "Record Charges"
   }
 }
