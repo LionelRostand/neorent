@@ -1,0 +1,32 @@
+
+{
+  "rentalCharges": {
+    "title": "Mietnebenkosten",
+    "subtitle": "Verwalten Sie Nebenkosten und Ausgaben",
+    "totalCharges": "Gesamtkosten",
+    "monthlyCharges": "Monatliche Kosten",
+    "yearlyCharges": "Jährliche Kosten",
+    "averageCharges": "Durchschnittskosten",
+    "addCharge": "Kosten hinzufügen",
+    "editCharge": "Kosten bearbeiten",
+    "deleteCharge": "Kosten löschen",
+    "fields": {
+      "property": "Immobilie",
+      "type": "Typ",
+      "amount": "Betrag",
+      "date": "Datum",
+      "description": "Beschreibung",
+      "provider": "Anbieter"
+    },
+    "types": {
+      "electricity": "Strom",
+      "water": "Wasser",
+      "gas": "Gas",
+      "heating": "Heizung",
+      "internet": "Internet",
+      "maintenance": "Wartung",
+      "insurance": "Versicherung",
+      "other": "Sonstiges"
+    }
+  }
+}

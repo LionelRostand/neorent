@@ -1,0 +1,30 @@
+
+{
+  "forecasting": {
+    "title": "Finanzprognosen",
+    "subtitle": "Finanzprognosen und Analysen",
+    "currentRevenue": "Aktuelle Einnahmen",
+    "projectedRevenue": "Prognostizierte Einnahmen",
+    "totalExpenses": "Gesamtausgaben",
+    "netIncome": "Nettoeinkommen",
+    "simulation": {
+      "title": "Finanzsimulation",
+      "description": "Simulieren Sie verschiedene Szenarien",
+      "rentIncrease": "Mieterhöhung",
+      "occupancyRate": "Belegungsrate",
+      "expenses": "Ausgaben",
+      "results": "Ergebnisse"
+    },
+    "charts": {
+      "revenue": "Einnahmen",
+      "expenses": "Ausgaben",
+      "profit": "Gewinn",
+      "occupancy": "Belegung"
+    },
+    "periods": {
+      "monthly": "Monatlich",
+      "quarterly": "Vierteljährlich",
+      "yearly": "Jährlich"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+
+{
+  "rentManagement": {
+    "title": "Mietverwaltung",
+    "subtitle": "Verwalten Sie Mietzahlungen und -historie",
+    "totalRent": "Gesamtmiete",
+    "paidRent": "Bezahlte Miete",
+    "pendingRent": "Ausstehende Miete",
+    "overdueRent": "Überfällige Miete",
+    "paymentHistory": "Zahlungshistorie",
+    "addPayment": "Zahlung hinzufügen",
+    "markAsPaid": "Als bezahlt markieren",
+    "sendReminder": "Erinnerung senden",
+    "fields": {
+      "tenant": "Mieter",
+      "property": "Immobilie",
+      "amount": "Betrag",
+      "dueDate": "Fälligkeitsdatum",
+      "paidDate": "Zahlungsdatum",
+      "status": "Status",
+      "method": "Zahlungsmethode"
+    },
+    "status": {
+      "paid": "Bezahlt",
+      "pending": "Ausstehend",
+      "overdue": "Überfällig",
+      "partial": "Teilweise"
+    },
+    "methods": {
+      "cash": "Bar",
+      "bankTransfer": "Banküberweisung",
+      "check": "Scheck",
+      "online": "Online"
+    }
+  }
+}

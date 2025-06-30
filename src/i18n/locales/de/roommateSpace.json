@@ -2,41 +2,40 @@
 {
   "roommateSpace": {
     "title": "Mitbewohner-Bereich",
-    "subtitle": "Verwalten Sie Ihr WG-Leben einfach",
     "welcome": "Willkommen in Ihrem Mitbewohner-Bereich",
-    "dashboard": {
-      "title": "Dashboard",
-      "nextRent": "Nächste Miete",
-      "sharedExpenses": "Geteilte Ausgaben",
-      "roommates": "Mitbewohner",
-      "houseRules": "Hausregeln"
-    },
-    "rent": {
-      "title": "Miete & Nebenkosten",
+    "overview": {
+      "title": "Übersicht",
+      "sharedExpenses": "Gemeinsame Ausgaben",
       "myShare": "Mein Anteil",
-      "sharedCosts": "Geteilte Kosten",
-      "utilities": "Nebenkosten",
-      "payMyShare": "Meinen Anteil bezahlen"
-    },
-    "roommates": {
-      "title": "Meine Mitbewohner",
-      "contact": "Kontakt",
-      "schedule": "Zeitplan",
-      "sharedAreas": "Gemeinschaftsbereiche"
+      "roommates": "Mitbewohner",
+      "commonAreas": "Gemeinschaftsräume"
     },
     "expenses": {
-      "title": "Geteilte Ausgaben",
-      "addExpense": "Ausgabe hinzufügen",
-      "myExpenses": "Meine Ausgaben",
-      "splitBill": "Rechnung teilen",
-      "settlements": "Abrechnungen"
+      "title": "Ausgaben",
+      "shared": "Geteilte Ausgaben",
+      "personal": "Persönliche Ausgaben",
+      "settlement": "Abrechnung",
+      "add": "Ausgabe hinzufügen"
+    },
+    "schedule": {
+      "title": "Zeitplan",
+      "cleaning": "Reinigung",
+      "maintenance": "Wartung",
+      "shared": "Gemeinsame Aktivitäten",
+      "myTurn": "Ich bin dran"
+    },
+    "roommates": {
+      "title": "Mitbewohner",
+      "contact": "Kontakt",
+      "responsibilities": "Verantwortlichkeiten",
+      "availability": "Verfügbarkeit"
     },
     "house": {
-      "title": "Haus/Wohnung",
-      "rules": "Regeln",
-      "chores": "Hausarbeiten",
-      "inventory": "Inventar",
-      "issues": "Probleme melden"
+      "title": "Haus",
+      "rules": "Hausordnung",
+      "facilities": "Einrichtungen",
+      "issues": "Probleme",
+      "improvements": "Verbesserungen"
     }
   }
 }

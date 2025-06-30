@@ -1,0 +1,36 @@
+
+{
+  "contracts": {
+    "title": "Verträge",
+    "subtitle": "Verwalten Sie Ihre Mietverträge",
+    "addContract": "Vertrag hinzufügen",
+    "editContract": "Vertrag bearbeiten",
+    "deleteContract": "Vertrag löschen",
+    "contractDetails": "Vertragsdetails",
+    "totalContracts": "Verträge gesamt",
+    "activeContracts": "Aktive Verträge",
+    "expiredContracts": "Abgelaufene Verträge",
+    "pendingContracts": "Ausstehende Verträge",
+    "fields": {
+      "tenant": "Mieter",
+      "property": "Immobilie",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "rent": "Miete",
+      "deposit": "Kaution",
+      "status": "Status",
+      "type": "Typ"
+    },
+    "status": {
+      "active": "Aktiv",
+      "expired": "Abgelaufen",
+      "pending": "Ausstehend",
+      "terminated": "Beendet"
+    },
+    "types": {
+      "residential": "Wohnen",
+      "commercial": "Gewerblich",
+      "temporary": "Temporär"
+    }
+  }
+}

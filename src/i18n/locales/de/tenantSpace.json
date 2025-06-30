@@ -2,49 +2,49 @@
 {
   "tenantSpace": {
     "title": "Mieterbereich",
-    "subtitle": "Verwalten Sie Ihre Miete mit Leichtigkeit",
     "welcome": "Willkommen in Ihrem Mieterbereich",
-    "dashboard": {
-      "title": "Dashboard",
-      "nextRent": "Nächste Miete",
-      "rentStatus": "Mietstatus",
-      "maintenanceRequests": "Wartungsanfragen",
-      "messages": "Nachrichten",
-      "documents": "Dokumente"
-    },
-    "rent": {
-      "title": "Miete",
-      "payRent": "Miete bezahlen",
-      "rentHistory": "Mietverlauf",
+    "overview": {
+      "title": "Übersicht",
+      "currentRent": "Aktuelle Miete",
       "nextPayment": "Nächste Zahlung",
-      "amount": "Betrag",
-      "dueDate": "Fälligkeitsdatum",
-      "status": "Status",
-      "paid": "Bezahlt",
-      "pending": "Ausstehend",
-      "overdue": "Überfällig"
+      "contractStatus": "Vertragsstatus",
+      "maintenanceRequests": "Wartungsanfragen"
     },
-    "maintenance": {
-      "title": "Wartung",
-      "newRequest": "Neue Anfrage",
-      "myRequests": "Meine Anfragen",
-      "requestStatus": "Anfragestatus",
-      "priority": "Priorität",
-      "category": "Kategorie",
-      "description": "Beschreibung"
+    "profile": {
+      "title": "Profil",
+      "personalInfo": "Persönliche Informationen",
+      "contactInfo": "Kontaktinformationen",
+      "emergencyContact": "Notfallkontakt",
+      "edit": "Bearbeiten",
+      "save": "Speichern"
+    },
+    "payments": {
+      "title": "Zahlungen",
+      "history": "Zahlungshistorie",
+      "upcoming": "Anstehende Zahlungen",
+      "makePayment": "Zahlung leisten",
+      "paymentMethod": "Zahlungsmethode"
     },
     "documents": {
       "title": "Dokumente",
-      "lease": "Mietvertrag",
+      "contract": "Mietvertrag",
       "receipts": "Quittungen",
       "notices": "Mitteilungen",
-      "other": "Andere"
+      "upload": "Dokument hochladen"
     },
-    "profile": {
-      "title": "Mein Profil",
-      "personalInfo": "Persönliche Informationen",
-      "contactInfo": "Kontaktinformationen",
-      "leaseInfo": "Mietvertragsinformationen"
+    "maintenance": {
+      "title": "Wartung",
+      "requests": "Anfragen",
+      "newRequest": "Neue Anfrage",
+      "status": "Status",
+      "history": "Verlauf"
+    },
+    "messages": {
+      "title": "Nachrichten",
+      "inbox": "Posteingang",
+      "sent": "Gesendet",
+      "compose": "Verfassen",
+      "reply": "Antworten"
     }
   }
 }

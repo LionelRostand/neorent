@@ -1,0 +1,32 @@
+
+{
+  "website": {
+    "title": "Website-Verwaltung",
+    "subtitle": "Konfigurieren Sie Ihre Website und Online-Präsenz",
+    "analytics": {
+      "title": "Analysen",
+      "visitors": "Besucher",
+      "pageViews": "Seitenaufrufe",
+      "sessions": "Sitzungen",
+      "bounceRate": "Absprungrate"
+    },
+    "content": {
+      "title": "Inhalte",
+      "pages": "Seiten",
+      "media": "Medien",
+      "properties": "Immobilien"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "theme": "Design",
+      "seo": "SEO",
+      "social": "Social Media"
+    },
+    "legal": {
+      "title": "Rechtliches",
+      "privacy": "Datenschutz",
+      "terms": "Nutzungsbedingungen",
+      "cookies": "Cookie-Richtlinie"
+    }
+  }
+}

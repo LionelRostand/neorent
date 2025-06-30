@@ -1,0 +1,36 @@
+
+{
+  "inspections": {
+    "title": "Inspektionen",
+    "subtitle": "Verwalten Sie Immobilieninspektionen",
+    "addInspection": "Inspektion hinzufügen",
+    "editInspection": "Inspektion bearbeiten",
+    "deleteInspection": "Inspektion löschen",
+    "inspectionDetails": "Inspektionsdetails",
+    "totalInspections": "Inspektionen gesamt",
+    "completedInspections": "Abgeschlossene Inspektionen",
+    "pendingInspections": "Ausstehende Inspektionen",
+    "scheduledInspections": "Geplante Inspektionen",
+    "fields": {
+      "property": "Immobilie",
+      "tenant": "Mieter",
+      "date": "Datum",
+      "type": "Typ",
+      "status": "Status",
+      "notes": "Notizen",
+      "inspector": "Inspektor"
+    },
+    "types": {
+      "moveIn": "Einzug",
+      "moveOut": "Auszug",
+      "routine": "Routine",
+      "maintenance": "Wartung"
+    },
+    "status": {
+      "scheduled": "Geplant",
+      "completed": "Abgeschlossen",
+      "cancelled": "Abgesagt",
+      "inProgress": "In Bearbeitung"
+    }
+  }
+}

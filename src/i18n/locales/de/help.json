@@ -1,0 +1,36 @@
+
+{
+  "help": {
+    "title": "Hilfe & Support",
+    "subtitle": "Finden Sie Antworten auf Ihre Fragen",
+    "search": "Suchen Sie nach Hilfe...",
+    "categories": {
+      "general": "Allgemein",
+      "properties": "Immobilien",
+      "tenants": "Mieter",
+      "payments": "Zahlungen",
+      "maintenance": "Wartung",
+      "reports": "Berichte"
+    },
+    "popular": {
+      "title": "Beliebte Artikel",
+      "addProperty": "Wie füge ich eine Immobilie hinzu?",
+      "manageTenants": "Mieterverwaltung",
+      "payments": "Zahlungen verwalten",
+      "maintenance": "Wartungsanfragen"
+    },
+    "contact": {
+      "title": "Kontakt zum Support",
+      "email": "E-Mail Support",
+      "phone": "Telefon Support",
+      "chat": "Live Chat"
+    },
+    "resources": {
+      "title": "Ressourcen",
+      "documentation": "Dokumentation",
+      "tutorials": "Tutorials",
+      "faq": "Häufige Fragen",
+      "downloads": "Downloads"
+    }
+  }
+}

@@ -12,6 +12,14 @@ import pagesDE from '../locales/de/pages.json';
 import tenantSpaceDE from '../locales/de/tenantSpace.json';
 import roommateSpaceDE from '../locales/de/roommateSpace.json';
 import dashboardDE from '../locales/de/dashboard.json';
+import contractsDE from '../locales/de/contracts.json';
+import inspectionsDE from '../locales/de/inspections.json';
+import rentManagementDE from '../locales/de/rentManagement.json';
+import rentalChargesDE from '../locales/de/rentalCharges.json';
+import forecastingDE from '../locales/de/forecasting.json';
+import websiteDE from '../locales/de/website.json';
+import taxesDE from '../locales/de/taxes.json';
+import helpDE from '../locales/de/help.json';
 
 export const germanResources = {
   translation: {
@@ -26,6 +34,14 @@ export const germanResources = {
     ...pagesDE,
     ...tenantSpaceDE,
     ...roommateSpaceDE,
-    ...dashboardDE
+    ...dashboardDE,
+    ...contractsDE,
+    ...inspectionsDE,
+    ...rentManagementDE,
+    ...rentalChargesDE,
+    ...forecastingDE,
+    ...websiteDE,
+    ...taxesDE,
+    ...helpDE
   }
 };

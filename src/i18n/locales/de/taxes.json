@@ -1,0 +1,40 @@
+
+{
+  "taxes": {
+    "title": "Steuerverwaltung",
+    "subtitle": "Verwalten Sie Ihre Steuererklärungen und -verpflichtungen",
+    "overview": {
+      "title": "Übersicht",
+      "totalTaxes": "Gesamtsteuern",
+      "paidTaxes": "Bezahlte Steuern",
+      "pendingTaxes": "Ausstehende Steuern",
+      "refunds": "Rückerstattungen"
+    },
+    "declarations": {
+      "title": "Steuererklärungen",
+      "create": "Erklärung erstellen",
+      "submit": "Einreichen",
+      "status": "Status",
+      "deadline": "Frist"
+    },
+    "income": {
+      "title": "Einkommen",
+      "rental": "Mieteinnahmen",
+      "other": "Sonstige Einnahmen",
+      "total": "Gesamteinkommen"
+    },
+    "expenses": {
+      "title": "Ausgaben",
+      "deductible": "Absetzbar",
+      "maintenance": "Wartung",
+      "insurance": "Versicherung",
+      "depreciation": "Abschreibung"
+    },
+    "reports": {
+      "title": "Berichte",
+      "annual": "Jahresbericht",
+      "quarterly": "Quartalsbericht",
+      "export": "Exportieren"
+    }
+  }
+}
