@@ -1,0 +1,61 @@
+
+// Import English translations
+import commonEN from '../locales/en/common.json';
+import navigationEN from '../locales/en/navigation.json';
+import quickActionsEN from '../locales/en/quickActions.json';
+import publicSiteEN from '../locales/en/publicSite.json';
+import propertiesEN from '../locales/en/properties.json';
+import tenantsEN from '../locales/en/tenants.json';
+import roommatesEN from '../locales/en/roommates.json';
+import contractsEN from '../locales/en/contracts.json';
+import inspectionsEN from '../locales/en/inspections.json';
+import rentManagementEN from '../locales/en/rentManagement.json';
+import rentalChargesEN from '../locales/en/rentalCharges.json';
+import forecastingEN from '../locales/en/forecasting.json';
+import maintenanceEN from '../locales/en/maintenanceCommon.json';
+import maintenanceRequestsEN from '../locales/en/maintenanceRequests.json';
+import maintenanceResponsibilitiesEN from '../locales/en/maintenanceResponsibilities.json';
+import maintenanceInterventionsEN from '../locales/en/maintenanceInterventions.json';
+import maintenanceHistoryEN from '../locales/en/maintenanceHistory.json';
+import maintenanceCostsEN from '../locales/en/maintenanceCosts.json';
+import messagesEN from '../locales/en/messages.json';
+import taxesEN from '../locales/en/taxes.json';
+import settingsEN from '../locales/en/settings.json';
+import helpEN from '../locales/en/help.json';
+import websiteEN from '../locales/en/website.json';
+import pagesEN from '../locales/en/pages.json';
+import tenantSpaceEN from '../locales/en/tenantSpace.json';
+import roommateSpaceEN from '../locales/en/roommateSpace.json';
+import dashboardEN from '../locales/en/dashboard.json';
+
+export const englishResources = {
+  translation: {
+    ...commonEN,
+    ...navigationEN,
+    ...quickActionsEN,
+    ...publicSiteEN,
+    ...propertiesEN,
+    ...tenantsEN,
+    ...roommatesEN,
+    ...contractsEN,
+    ...inspectionsEN,
+    ...rentManagementEN,
+    ...rentalChargesEN,
+    ...forecastingEN,
+    ...maintenanceEN,
+    ...maintenanceRequestsEN,
+    ...maintenanceResponsibilitiesEN,
+    ...maintenanceInterventionsEN,
+    ...maintenanceHistoryEN,
+    ...maintenanceCostsEN,
+    ...messagesEN,
+    ...taxesEN,
+    ...settingsEN,
+    ...helpEN,
+    ...websiteEN,
+    ...pagesEN,
+    ...tenantSpaceEN,
+    ...roommateSpaceEN,
+    ...dashboardEN
+  }
+};
