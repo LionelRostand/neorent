@@ -70,7 +70,11 @@
       "colocation": "Colocation"
     },
     "propertyTypes": {
-      "appartement": "Apartment"
+      "appartement": "Apartment",
+      "studio": "Studio",
+      "maison": "House",
+      "loft": "Loft",
+      "duplex": "Duplex"
     },
     "type": "Type",
     "surface": "Surface",

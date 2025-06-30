@@ -70,7 +70,11 @@
       "colocation": "Wohngemeinschaft"
     },
     "propertyTypes": {
-      "appartement": "Wohnung"
+      "appartement": "Wohnung",
+      "studio": "Studio",
+      "maison": "Haus",
+      "loft": "Loft",
+      "duplex": "Duplex"
     },
     "type": "Typ",
     "surface": "Fläche",
