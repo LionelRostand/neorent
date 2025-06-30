@@ -89,12 +89,20 @@
       "subtitle": "Accédez à votre espace personnel",
       "form": {
         "email": "Adresse e-mail",
+        "emailPlaceholder": "votre@email.com",
         "password": "Mot de passe",
+        "passwordPlaceholder": "Votre mot de passe",
         "forgotPassword": "Mot de passe oublié ?",
         "login": "Se connecter",
+        "signIn": "Se connecter",
+        "signingIn": "Connexion...",
         "register": "Créer un compte",
         "noAccount": "Pas encore de compte ?"
       }
+    },
+    "ownerRegistration": {
+      "createAccountLink": "Créer un compte propriétaire",
+      "dialogTitle": "Inscription propriétaire"
     },
     "footer": {
       "company": "Entreprise",

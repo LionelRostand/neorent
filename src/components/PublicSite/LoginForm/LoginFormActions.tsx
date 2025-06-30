@@ -21,12 +21,12 @@ const LoginFormActions: React.FC<LoginFormActionsProps> = ({
   return (
     <>
       <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={isLoading}>
-        {isLoading ? t('publicSite.login.signingIn') : t('publicSite.login.signIn')}
+        {isLoading ? t('publicSite.login.form.signingIn') : t('publicSite.login.form.signIn')}
       </Button>
       
       <div className="text-center space-y-2">
         <a href="#" className="text-sm text-green-600 hover:underline block">
-          {t('publicSite.login.forgotPassword')}
+          {t('publicSite.login.form.forgotPassword')}
         </a>
         
         <Dialog open={showRegistration} onOpenChange={setShowRegistration}>

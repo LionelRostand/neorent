@@ -89,12 +89,20 @@
       "subtitle": "Access your personal space",
       "form": {
         "email": "Email address",
+        "emailPlaceholder": "your@email.com",
         "password": "Password",
+        "passwordPlaceholder": "Your password",
         "forgotPassword": "Forgot password?",
         "login": "Sign in",
+        "signIn": "Sign in",
+        "signingIn": "Signing in...",
         "register": "Create account",
         "noAccount": "Don't have an account yet?"
       }
+    },
+    "ownerRegistration": {
+      "createAccountLink": "Create owner account",
+      "dialogTitle": "Owner Registration"
     },
     "footer": {
       "company": "Company",

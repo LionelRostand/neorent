@@ -89,12 +89,20 @@
       "subtitle": "Zugang zu Ihrem persönlichen Bereich",
       "form": {
         "email": "E-Mail-Adresse",
+        "emailPlaceholder": "ihre@email.com",
         "password": "Passwort",
+        "passwordPlaceholder": "Ihr Passwort",
         "forgotPassword": "Passwort vergessen?",
         "login": "Anmelden",
+        "signIn": "Anmelden",
+        "signingIn": "Anmeldung...",
         "register": "Konto erstellen",
         "noAccount": "Noch kein Konto?"
       }
+    },
+    "ownerRegistration": {
+      "createAccountLink": "Eigentümerkonto erstellen",
+      "dialogTitle": "Eigentümer-Registrierung"
     },
     "footer": {
       "company": "Unternehmen",
