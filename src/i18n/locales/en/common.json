@@ -265,6 +265,8 @@
     "whom": "Whom",
     "backToAdmin": "Back to Admin",
     "tenantNotFound": "Tenant not found",
-    "contactAdminForHelp": "Please contact the administrator for help"
+    "contactAdminForHelp": "Please contact the administrator for help",
+    "page": "Page",
+    "pages": "Pages"
   }
 }

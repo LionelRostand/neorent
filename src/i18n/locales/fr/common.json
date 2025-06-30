@@ -265,6 +265,8 @@
     "whom": "Qui",
     "backToAdmin": "Retour à l'administration",
     "tenantNotFound": "Locataire non trouvé",
-    "contactAdminForHelp": "Veuillez contacter l'administrateur pour obtenir de l'aide"
+    "contactAdminForHelp": "Veuillez contacter l'administrateur pour obtenir de l'aide",
+    "page": "Page",
+    "pages": "Pages"
   }
 }

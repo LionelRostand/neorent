@@ -265,6 +265,8 @@
     "whom": "Wen",
     "backToAdmin": "Zurück zur Administration",
     "tenantNotFound": "Mieter nicht gefunden",
-    "contactAdminForHelp": "Bitte wenden Sie sich an den Administrator für Hilfe"
+    "contactAdminForHelp": "Bitte wenden Sie sich an den Administrator für Hilfe",
+    "page": "Seite",
+    "pages": "Seiten"
   }
 }
