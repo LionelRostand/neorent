@@ -1,0 +1,19 @@
+
+{
+  "profile": {
+    "viewProfile": "Profil anzeigen",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "administrator": "Administrator",
+    "owner": "Eigentümer",
+    "tenant": "Mieter",
+    "roommate": "Mitbewohner",
+    "unknownUser": "Unbekannter Benutzer",
+    "changePassword": "Passwort ändern",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "status": "Status",
+    "leaseStart": "Mietbeginn"
+  }
+}
