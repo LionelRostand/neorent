@@ -3,21 +3,26 @@
   "roommates": {
     "title": "Roommates",
     "subtitle": "Manage your roommates and their information",
+    "management": "Roommate Management",
+    "description": "Efficiently manage all your roommates",
     "totalRoommates": "Total Roommates",
     "totalRoommatesDesc": "registered roommates",
     "activeRoommates": "Active Roommates",
     "activeRoommatesDesc": "active roommates",
     "inactiveRoommates": "Inactive Roommates",
     "newRoommates": "New Roommates",
+    "searchingRoommates": "Searching Roommates",
     "latePayments": "Late Payments",
     "latePaymentsDesc": "overdue payments",
     "monthlyRevenue": "Monthly Revenue",
     "monthlyRevenueDesc": "total monthly revenue",
+    "paymentAlerts": "Payment Alerts",
     "addRoommate": "Add Roommate",
     "newRoommate": "New Roommate",
     "editRoommate": "Edit Roommate",
     "deleteRoommate": "Delete Roommate",
     "roommatesList": "Roommates List",
+    "roommateList": "Roommates List",
     "roommateDetails": "Roommate Details",
     "roommateProfile": "Roommate Profile",
     "personalInfo": "Personal Information",
@@ -35,6 +40,7 @@
     "profession": "Profession",
     "employer": "Employer",
     "monthlyIncome": "Monthly Income",
+    "monthlyRent": "month",
     "emergencyContact": "Emergency Contact",
     "property": "Property",
     "room": "Room",
@@ -100,6 +106,7 @@
     "noRoommates": "No roommates found",
     "noRoommatesDescription": "Start by adding your first roommate",
     "addSuccess": "Roommate added successfully",
+    "addSuccessDescription": "The roommate has been added successfully",
     "addError": "Error adding roommate",
     "updateSuccess": "Roommate updated successfully",
     "updateError": "Error updating roommate",
@@ -112,7 +119,21 @@
     "generateContract": "Generate contract",
     "downloadDocuments": "Download documents",
     "printProfile": "Print profile",
-    "exportData": "Export data"
+    "exportData": "Export data",
+    "detailsTitle": "Roommate Details",
+    "generalInformation": "General Information",
+    "apartment": "Apartment",
+    "moveIn": "Move-in",
+    "metrics": {
+      "active": "active",
+      "activeMultiple": "active",
+      "inactive": "inactive",
+      "inactiveMultiple": "inactive",
+      "searching": "searching",
+      "searchingMultiple": "searching",
+      "total": "total",
+      "totalMultiple": "total"
+    }
   },
   "roommateForm": {
     "title": "Add roommate",
@@ -137,7 +158,8 @@
     "saveChanges": "Save changes",
     "cancel": "Cancel",
     "passwordNote": "Leave blank to keep current password",
-    "newPassword": "New password"
+    "newPassword": "New password",
+    "primaryTenant": "Primary Tenant"
   },
   "forms": {
     "addTenant": "Add tenant"

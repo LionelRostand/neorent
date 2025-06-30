@@ -3,21 +3,26 @@
   "roommates": {
     "title": "Colocataires",
     "subtitle": "Gérez vos colocataires et leurs informations",
+    "management": "Gestion des Colocataires",
+    "description": "Gérez efficacement tous vos colocataires",
     "totalRoommates": "Total Colocataires",
     "totalRoommatesDesc": "colocataires enregistrés",
     "activeRoommates": "Colocataires Actifs",
     "activeRoommatesDesc": "colocataires actifs",
     "inactiveRoommates": "Colocataires Inactifs",
     "newRoommates": "Nouveaux Colocataires",
+    "searchingRoommates": "Colocataires en Recherche",
     "latePayments": "Paiements en Retard",
     "latePaymentsDesc": "paiements en retard",
     "monthlyRevenue": "Revenus Mensuels",
     "monthlyRevenueDesc": "revenus mensuels totaux",
+    "paymentAlerts": "Alertes de Paiement",
     "addRoommate": "Ajouter un Colocataire",
     "newRoommate": "Nouveau Colocataire",
     "editRoommate": "Modifier le Colocataire",
     "deleteRoommate": "Supprimer le Colocataire",
     "roommatesList": "Liste des Colocataires",
+    "roommateList": "Liste des Colocataires",
     "roommateDetails": "Détails du Colocataire",
     "roommateProfile": "Profil du Colocataire",
     "personalInfo": "Informations Personnelles",
@@ -35,6 +40,7 @@
     "profession": "Profession",
     "employer": "Employeur",
     "monthlyIncome": "Revenus Mensuels",
+    "monthlyRent": "mois",
     "emergencyContact": "Contact d'Urgence",
     "property": "Propriété",
     "room": "Chambre",
@@ -100,6 +106,7 @@
     "noRoommates": "Aucun colocataire trouvé",
     "noRoommatesDescription": "Commencez par ajouter votre premier colocataire",
     "addSuccess": "Colocataire ajouté avec succès",
+    "addSuccessDescription": "Le colocataire a été ajouté avec succès",
     "addError": "Erreur lors de l'ajout du colocataire",
     "updateSuccess": "Colocataire mis à jour avec succès",
     "updateError": "Erreur lors de la mise à jour du colocataire",
@@ -116,7 +123,17 @@
     "detailsTitle": "Détails du Colocataire",
     "generalInformation": "Informations Générales",
     "apartment": "Appartement",
-    "moveIn": "Emménagement"
+    "moveIn": "Emménagement",
+    "metrics": {
+      "active": "actif",
+      "activeMultiple": "actifs",
+      "inactive": "inactif",
+      "inactiveMultiple": "inactifs",
+      "searching": "en recherche",
+      "searchingMultiple": "en recherche",
+      "total": "total",
+      "totalMultiple": "au total"
+    }
   },
   "roommateForm": {
     "title": "Ajouter un colocataire",
@@ -141,7 +158,8 @@
     "saveChanges": "Sauvegarder les modifications",
     "cancel": "Annuler",
     "passwordNote": "Laisser vide pour conserver le mot de passe actuel",
-    "newPassword": "Nouveau mot de passe"
+    "newPassword": "Nouveau mot de passe",
+    "primaryTenant": "Locataire Principal"
   },
   "forms": {
     "addTenant": "Ajouter un locataire"

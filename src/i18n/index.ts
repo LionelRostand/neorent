@@ -3,6 +3,10 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+// Import common translations
+import commonEN from './locales/en/common.json';
+import commonFR from './locales/fr/common.json';
+
 // Import navigation translations
 import navigationEN from './locales/en/navigation.json';
 import navigationFR from './locales/fr/navigation.json';
@@ -91,10 +95,6 @@ import settingsFirebaseFR from './locales/fr/settings/firebase.json';
 // Import help translations
 import helpEN from './locales/en/help.json';
 import helpFR from './locales/fr/help.json';
-
-// Import common translations
-import commonEN from './locales/en/common.json';
-import commonFR from './locales/fr/common.json';
 
 // Import website translations
 import websiteEN from './locales/en/website.json';
