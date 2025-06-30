@@ -22,6 +22,18 @@
     "view": "Vue",
     "december2024": "Décembre 2024",
     "property": "Propriété",
-    "thisMonth": "Ce Mois"
+    "thisMonth": "Ce Mois",
+    "noCharges": "Aucune charge",
+    "noChargesDescription": "décembre 2024.",
+    "selectProperty": "Sélectionner une propriété",
+    "month": "Mois",
+    "chargeType": "Type de charge",
+    "electricity": "Électricité (€)",
+    "water": "Eau (€)",
+    "heating": "Chauffage (€)",
+    "maintenance": "Entretien (€)",
+    "insurance": "Assurance (€)",
+    "garbage": "Ordures (€)",
+    "enterAmount": "Saisir le montant"
   }
 }

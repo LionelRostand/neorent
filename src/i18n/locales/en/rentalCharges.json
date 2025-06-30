@@ -13,6 +13,27 @@
     "propertiesWithCharges": "Properties with Charges",
     "highestCharge": "Highest Charge",
     "propertyWithMostCharges": "property with most charges",
-    "chargesForMonth": "Charges for month"
+    "chargesForMonth": "Charges for month",
+    "addCharge": "Add Charge",
+    "newCharge": "New Charge",
+    "editCharge": "Edit Charge",
+    "deleteCharge": "Delete Charge",
+    "totalCharges": "Total Charges",
+    "view": "View",
+    "december2024": "December 2024",
+    "property": "Property",
+    "thisMonth": "This Month",
+    "noCharges": "No charges",
+    "noChargesDescription": "december 2024.",
+    "selectProperty": "Select a property",
+    "month": "Month",
+    "chargeType": "Charge type",
+    "electricity": "Electricity (€)",
+    "water": "Water (€)",
+    "heating": "Heating (€)",
+    "maintenance": "Maintenance (€)",
+    "insurance": "Insurance (€)",
+    "garbage": "Garbage (€)",
+    "enterAmount": "Enter amount"
   }
 }

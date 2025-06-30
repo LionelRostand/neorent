@@ -21,6 +21,8 @@
     "type": "Type",
     "floor": "Étage",
     "surface": "Surface (m²)",
+    "charges": "Charges",
+    "thisMonth": "ce mois",
     "metrics": {
       "totalDescription": "propriétés gérées",
       "occupancyDescription": "taux d'occupation moyen",
@@ -46,6 +48,9 @@
     },
     "locationTypes": {
       "colocation": "Colocation"
-    }
+    },
+    "type": "Type",
+    "floor": "Étage",
+    "surface": "Surface (m²)"
   }
 }
