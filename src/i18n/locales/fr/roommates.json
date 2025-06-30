@@ -10,16 +10,19 @@
     "activeRoommates": "Colocataires Actifs",
     "activeRoommatesDesc": "colocataires actifs",
     "inactiveRoommates": "Colocataires Inactifs",
+    "searchingRoommates": "Colocataires En Recherche",
     "newRoommates": "Nouveaux Colocataires",
     "latePayments": "Paiements en Retard",
     "latePaymentsDesc": "paiements en retard",
     "monthlyRevenue": "Revenus Mensuels",
     "monthlyRevenueDesc": "Revenus mensuels totaux",
+    "paymentAlerts": "Alertes de Paiement",
     "addRoommate": "Ajouter un Colocataire",
     "newRoommate": "Nouveau Colocataire",
     "editRoommate": "Modifier le Colocataire",
     "deleteRoommate": "Supprimer le Colocataire",
     "roommatesList": "Liste des Colocataires",
+    "roommateList": "Liste des Colocataires",
     "roommateDetails": "Détails du Colocataire",
     "roommateProfile": "Profil du Colocataire",
     "personalInfo": "Informations Personnelles",
@@ -43,6 +46,7 @@
     "roomNumber": "Numéro de Chambre",
     "rentAmount": "Montant du Loyer",
     "rent": "Loyer",
+    "monthlyRent": "mois",
     "deposit": "Caution",
     "moveInDate": "Date d'Entrée",
     "moveOutDate": "Date de Sortie",
@@ -102,6 +106,7 @@
     "noRoommates": "Aucun colocataire trouvé",
     "noRoommatesDescription": "Commencez par ajouter votre premier colocataire",
     "addSuccess": "Colocataire ajouté avec succès",
+    "addSuccessDescription": "Le colocataire a été ajouté avec succès",
     "addError": "Erreur lors de l'ajout du colocataire",
     "updateSuccess": "Colocataire mis à jour avec succès",
     "updateError": "Erreur lors de la mise à jour du colocataire",
@@ -115,11 +120,22 @@
     "downloadDocuments": "Télécharger les documents",
     "printProfile": "Imprimer le profil",
     "exportData": "Exporter les données",
+    "incompletePayment": "Paiement incomplet",
+    "expectedAmount": "Montant attendu :",
+    "paidAmount": "Montant payé :",
+    "remainingToPay": "Reste à payer",
+    "overpayment": "Trop-perçu",
+    "overpaid": "Trop payé",
+    "paidInFull": "a payé intégralement",
     "metrics": {
       "activeMultiple": "colocataires actifs",
+      "active": "colocataire actif",
       "searching": "En recherche",
+      "searchingMultiple": "En recherche",
       "inactive": "colocataires inactifs",
-      "totalMultiple": "colocataires au total"
+      "inactiveMultiple": "colocataires inactifs",
+      "totalMultiple": "colocataires au total",
+      "total": "colocataire au total"
     }
   },
   "roommateForm": {
@@ -145,13 +161,17 @@
     "saveChanges": "Sauvegarder les modifications",
     "cancel": "Annuler",
     "passwordNote": "Laisser vide pour conserver le mot de passe actuel",
-    "newPassword": "Nouveau mot de passe"
+    "newPassword": "Nouveau mot de passe",
+    "primaryTenant": "Locataire principal"
   },
   "forms": {
     "addTenant": "Ajouter un locataire"
   },
   "profile": {
     "name": "Nom complet",
-    "email": "Email"
+    "email": "Email",
+    "phone": "Téléphone",
+    "status": "Statut",
+    "leaseStart": "Début du bail"
   }
 }

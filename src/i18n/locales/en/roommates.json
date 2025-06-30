@@ -138,5 +138,12 @@
     "cancel": "Cancel",
     "passwordNote": "Leave blank to keep current password",
     "newPassword": "New password"
+  },
+  "forms": {
+    "addTenant": "Add tenant"
+  },
+  "profile": {
+    "name": "Full name",
+    "email": "Email"
   }
 }

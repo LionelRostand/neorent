@@ -85,6 +85,11 @@
       "inactiveDescription": "locataires inactifs",
       "total": "Total",
       "totalDescription": "total des locataires"
+    },
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "pending": "En attente"
     }
   },
   "tenantForm": {
@@ -99,7 +104,8 @@
     "selectProperty": "Sélectionner une propriété",
     "rentAmount": "Montant du loyer",
     "rentPlaceholder": "Ex: 800",
-    "moveInDate": "Date d'emménagement",
+    "nextPayment": "Prochain paiement",
+    "moveInDate": "Date d'emménagement",  
     "status": "Statut",
     "creating": "Création en cours...",
     "saving": "Sauvegarde en cours...",
@@ -107,6 +113,7 @@
     "saveChanges": "Sauvegarder les modifications",
     "cancel": "Annuler",
     "passwordNote": "Laisser vide pour conserver le mot de passe actuel",
-    "newPassword": "Nouveau mot de passe"
+    "newPassword": "Nouveau mot de passe",
+    "lateStatus": "En retard"
   }
 }
