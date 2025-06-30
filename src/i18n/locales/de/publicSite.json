@@ -1,0 +1,244 @@
+
+{
+  "publicSite": {
+    "home": "Startseite",
+    "properties": "Immobilien",
+    "login": "Anmelden",
+    "hero": {
+      "title": "Vereinfachen Sie Ihre",
+      "subtitle": "Immobilienverwaltung",
+      "description": "Verwalten Sie Ihre Immobilien, Mieter und Mieteinnahmen mit unserer umfassenden Immobilienverwaltungsplattform.",
+      "startFree": "Kostenlose Testversion starten",
+      "contactUs": "Kontaktieren Sie uns"
+    },
+    "features": {
+      "title": "Leistungsstarke Funktionen",
+      "subtitle": "Alles was Sie brauchen, um Ihre Immobilien effizient zu verwalten",
+      "propertyManagement": {
+        "title": "Immobilienverwaltung",
+        "description": "Organisieren und verfolgen Sie alle Ihre Immobilien in einer zentralen Plattform"
+      },
+      "tenantTracking": {
+        "title": "Mieterverwaltung",
+        "description": "Verwalten Sie Mieterinformationen, Mietverträge und Kommunikation mühelos"
+      },
+      "dataSecurity": {
+        "title": "Datensicherheit",
+        "description": "Ihre Daten sind mit Sicherheitsmaßnahmen auf Unternehmensebene geschützt"
+      }
+    },
+    "benefits": {
+      "title": "Warum unsere Plattform wählen?",
+      "description": "Schließen Sie sich Tausenden von Immobilienverwaltern an, die unserer Plattform vertrauen, um ihre Abläufe zu optimieren.",
+      "list": [
+        "Optimierte Immobilienportfolio-Verwaltung",
+        "Automatisierte Mieterhebung und -verfolgung",
+        "Umfassende Mieter-Screening-Tools",
+        "Echtzeit-Finanzberichterstattung und -analysen",
+        "Mobile-freundliche Benutzeroberfläche für unterwegs",
+        "24/7 Kundensupport und Unterstützung"
+      ],
+      "contactTitle": "Kontakt aufnehmen"
+    },
+    "cta": {
+      "title": "Bereit anzufangen?",
+      "description": "Schließen Sie sich Tausenden von Immobilienverwaltern an, die bereits unsere Plattform nutzen, um ihre Abläufe zu optimieren.",
+      "startNow": "Jetzt starten"
+    },
+    "about": {
+      "title": "Über uns",
+      "subtitle": "Innovation in der Immobilienverwaltung",
+      "description": "Entdecken Sie unsere Mission, die Immobilienverwaltung durch innovative Technologie und außergewöhnlichen Service zu revolutionieren.",
+      "story": {
+        "title": "Unsere Geschichte",
+        "paragraph1": "Gegründet mit der Vision, die Immobilienverwaltung zu vereinfachen, ist Neo Rent von einem kleinen Startup zu einer führenden Plattform gewachsen, der Tausende von Immobilienverwaltern weltweit vertrauen.",
+        "paragraph2": "Unser Expertenteam kombiniert jahrelange Immobilienerfahrung mit modernster Technologie, um Lösungen zu schaffen, die wirklich einen Unterschied im täglichen Leben von Immobilienverwaltern machen.",
+        "paragraph3": "Wir glauben, dass Immobilienverwaltung effizient, transparent und stressfrei für Vermieter und Mieter sein sollte."
+      },
+      "values": {
+        "title": "Unsere Werte",
+        "subtitle": "Was uns jeden Tag antreibt",
+        "clientProximity": {
+          "title": "Kundennähe",
+          "description": "Wir bauen dauerhafte Beziehungen zu unseren Kunden durch persönlichen Support und aufmerksamen Service auf."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "Wir entwickeln unsere Plattform kontinuierlich weiter, um den sich ändernden Bedürfnissen der Immobilienverwaltungsbranche gerecht zu werden."
+        },
+        "excellence": {
+          "title": "Exzellenz",
+          "description": "Wir streben nach Exzellenz in allem was wir tun, von der Produktentwicklung bis zum Kundenservice."
+        },
+        "growth": {
+          "title": "Wachstum",
+          "description": "Wir unterstützen das Wachstum der Unternehmen unserer Kunden durch leistungsstarke Tools und Einblicke."
+        }
+      },
+      "stats": {
+        "title": "Unser Einfluss",
+        "managedProperties": "Verwaltete Immobilien",
+        "satisfiedClients": "Zufriedene Kunden",
+        "availability": "Verfügbarkeit",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Unser Team",
+        "subtitle": "Leidenschaftliche Experten, die sich Ihrem Erfolg widmen",
+        "dedication": {
+          "title": "Ihrem Erfolg gewidmet",
+          "description": "Unser vielfältiges Team aus Immobilienverwaltungsexperten, Entwicklern und Kundenbetreuungsspezialisten arbeitet zusammen, um sicherzustellen, dass Sie die bestmögliche Erfahrung mit unserer Plattform haben."
+        }
+      }
+    },
+    "contact": {
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Nehmen Sie Kontakt mit unserem Team auf"
+      },
+      "form": {
+        "title": "Senden Sie uns eine Nachricht",
+        "subtitle": "Wir melden uns so schnell wie möglich bei Ihnen",
+        "firstName": "Vorname",
+        "lastName": "Nachname", 
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "subject": "Betreff",
+        "message": "Nachricht",
+        "send": "Nachricht senden",
+        "sending": "Wird gesendet...",
+        "success": "Vielen Dank für Ihre Nachricht! Wir melden uns bald bei Ihnen."
+      },
+      "info": {
+        "title": "Kontaktinformationen",
+        "email": {
+          "title": "E-Mail",
+          "content": "contact@neorent.com",
+          "description": "Senden Sie uns jederzeit eine E-Mail"
+        },
+        "phone": {
+          "title": "Telefon",
+          "content": "+33 1 23 45 67 89",
+          "description": "Rufen Sie uns während der Geschäftszeiten an"
+        },
+        "address": {
+          "title": "Adresse",
+          "content": "123 Business Street, Paris, Frankreich",
+          "description": "Besuchen Sie unser Büro"
+        },
+        "hours": {
+          "title": "Geschäftszeiten",
+          "content": "Mo-Fr: 9:00 - 18:00 Uhr",
+          "description": "Wir sind da, um zu helfen"
+        }
+      },
+      "map": {
+        "title": "Unser Standort",
+        "description": "Finden Sie uns in Paris für alle Ihre Immobilienverwaltungsbedürfnisse"
+      },
+      "faq": {
+        "title": "Häufig gestellte Fragen",
+        "subtitle": "Finden Sie Antworten auf häufige Fragen zu unserer Plattform",
+        "items": [
+          {
+            "question": "Wie fange ich mit Neo Rent an?",
+            "answer": "Der Einstieg ist einfach! Kontaktieren Sie einfach unser Team, um eine Demo zu vereinbaren, und wir helfen Ihnen bei der Einrichtung Ihres Kontos und dem Import Ihrer Immobiliendaten."
+          },
+          {
+            "question": "Sind meine Daten sicher?",
+            "answer": "Ja, wir verwenden Sicherheitsmaßnahmen auf Unternehmensebene einschließlich Verschlüsselung, sicherer Server und regelmäßiger Backups, um Ihre Daten zu schützen."
+          },
+          {
+            "question": "Kann ich meine vorhandenen Immobiliendaten importieren?",
+            "answer": "Absolut! Unser Team hilft Ihnen beim Import Ihrer vorhandenen Immobilien- und Mieterdaten aus Tabellen oder anderen Immobilienverwaltungssystemen."
+          },
+          {
+            "question": "Bieten Sie Kundensupport an?",
+            "answer": "Ja, wir bieten umfassenden Kundensupport einschließlich Telefon-, E-Mail- und Chat-Support während der Geschäftszeiten sowie umfangreiche Dokumentation und Video-Tutorials."
+          }
+        ]
+      }
+    },
+    "login": {
+      "title": "Mit Ihrem Bereich verbinden",
+      "subtitle": "Verwalten Sie Ihre Immobilien mit Leichtigkeit",
+      "formTitle": "Bei Neo Rent anmelden",
+      "formSubtitle": "Zugang zu Ihrem Immobilienverwaltungsbereich",
+      "email": "E-Mail",
+      "emailPlaceholder": "ihre@email.com",
+      "password": "Passwort",
+      "passwordPlaceholder": "••••••••",
+      "signIn": "Anmelden",
+      "signingIn": "Wird angemeldet...",
+      "forgotPassword": "Passwort vergessen?",
+      "importantInfo": "Wichtige Informationen:",
+      "profileWarning": "Ihr Konto muss von Ihrem Immobilienverwalter vor der ersten Anmeldung konfiguriert werden. Wenn Sie einen \"Zugriff verweigert\"-Fehler erhalten, kontaktieren Sie Ihren Verwalter, um Ihr Konto zu aktivieren."
+    },
+    "ownerRegistration": {
+      "createAccountLink": "Sind Sie ein Eigentümer? Konto erstellen",
+      "dialogTitle": "Anfrage zur Erstellung eines Eigentümerkontos",
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "company": "Unternehmen",
+      "address": "Adresse",
+      "messageOptional": "Nachricht (optional)",
+      "messagePlaceholder": "Zusätzliche Informationen...",
+      "importantInfo": "Wichtige Informationen",
+      "importantInfoText": "Ihre Anfrage wird von einem Administrator überprüft. Sie erhalten eine Bestätigungs-E-Mail, sobald Ihr Konto aktiviert ist.",
+      "sendRequest": "Anfrage senden",
+      "sending": "Wird gesendet...",
+      "requestSent": "Anfrage gesendet",
+      "requestSentDescription": "Ihre Kontoerstellungsanfrage wurde gesendet. Ein Administrator wird sie in Kürze überprüfen.",
+      "submitError": "Beim Senden Ihrer Anfrage ist ein Fehler aufgetreten."
+    },
+    "chat": {
+      "startConversation": "Gespräch beginnen",
+      "fillForm": "Füllen Sie das Formular aus, um mit unserem Team zu chatten",
+      "fullName": "Vollständiger Name",
+      "namePlaceholder": "Ihr Name",
+      "email": "E-Mail",
+      "emailPlaceholder": "ihre@email.com",
+      "startChat": "Chat starten"
+    },
+    "footer": {
+      "description": "Die vollständige Plattform für moderne Immobilienverwaltung. Vereinfachen Sie Ihre Abläufe und lassen Sie Ihr Unternehmen mit Neo Rent wachsen.",
+      "usefulLinks": "Nützliche Links",
+      "contact": "Kontakt",
+      "copyright": "Alle Rechte vorbehalten.",
+      "legalNotice": "Impressum",
+      "privacyPolicy": "Datenschutzerklärung",
+      "termsOfService": "Nutzungsbedingungen",
+      "intellectualProperty": "© 2025 Neo Rent - Immobilienverwaltungsplattform. Alle Rechte vorbehalten. Jede unbefugte Vervielfältigung, Verbreitung oder Nutzung dieses Inhalts ist strengstens untersagt.",
+      "trademarks": "Neo Rent® ist eine eingetragene Marke von Neotech-consulting. Alle anderen erwähnten Marken sind Eigentum ihrer jeweiligen Inhaber."
+    },
+    "propertiesPage": {
+      "title": "Unsere verfügbaren Immobilien",
+      "subtitle": "Entdecken Sie unsere Auswahl an sorgfältig ausgewählten Immobilien, um Ihnen das beste Wohnumfeld zu bieten",
+      "searchPlaceholder": "Nach Standort suchen...",
+      "searchButton": "Suchen",
+      "noProperties": "Keine Immobilien verfügbar",
+      "noPropertiesDescription": "Keine Immobilien entsprechen Ihren Suchkriterien.",
+      "viewDetails": "Details anzeigen",
+      "contactUs": "Kontaktieren Sie uns",
+      "scheduleVisit": "Besichtigungstermin vereinbaren",
+      "propertyDetails": {
+        "surface": "Fläche",
+        "rooms": "Zimmer",
+        "floor": "Etage",
+        "type": "Typ",
+        "rent": "Miete",
+        "charges": "Nebenkosten",
+        "deposit": "Kaution",
+        "availability": "Verfügbarkeit",
+        "available": "Verfügbar",
+        "rented": "Vermietet",
+        "description": "Beschreibung",
+        "equipment": "Ausstattung",
+        "location": "Lage",
+        "contact": "Kontakt",
+        "visitRequest": "Besichtigungsanfrage"
+      }
+    }
+  }
+}

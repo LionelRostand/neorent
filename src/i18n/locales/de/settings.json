@@ -1,0 +1,26 @@
+
+{
+  "settings": {
+    "title": "Einstellungen",
+    "subtitle": "Konfigurieren Sie Ihre Anwendung",
+    "tabs": {
+      "company": "Unternehmen",
+      "employees": "Mitarbeiter",
+      "permissions": "Berechtigungen",
+      "firebase": "Firebase",
+      "database": "Datenbank",
+      "email": "E-Mail",
+      "security": "Sicherheit",
+      "payment": "Zahlung",
+      "adminAccess": "Admin-Zugriff"
+    },
+    "adminAccess": "Admin-Zugriff",
+    "adminAccessDescription": "Verwalten Sie den Administrator-Zugriff auf Mandantenkonten.",
+    "security": {
+      "title": "Sicherheit",
+      "subtitle": "Verwalten Sie Ihre Sicherheitseinstellungen",
+      "loadingSettings": "Einstellungen werden geladen...",
+      "saving": "Wird gespeichert..."
+    }
+  }
+}

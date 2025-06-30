@@ -6,10 +6,12 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // Import common translations
 import commonEN from './locales/en/common.json';
 import commonFR from './locales/fr/common.json';
+import commonDE from './locales/de/common.json';
 
 // Import navigation translations
 import navigationEN from './locales/en/navigation.json';
 import navigationFR from './locales/fr/navigation.json';
+import navigationDE from './locales/de/navigation.json';
 
 // Import quick actions translations
 import quickActionsEN from './locales/en/quickActions.json';
@@ -18,6 +20,7 @@ import quickActionsFR from './locales/fr/quickActions.json';
 // Import public site translations
 import publicSiteEN from './locales/en/publicSite.json';
 import publicSiteFR from './locales/fr/publicSite.json';
+import publicSiteDE from './locales/de/publicSite.json';
 
 // Import properties translations
 import propertiesEN from './locales/en/properties.json';
@@ -30,6 +33,7 @@ import tenantsFR from './locales/fr/tenants.json';
 // Import roommates translations
 import roommatesEN from './locales/en/roommates.json';
 import roommatesFR from './locales/fr/roommates.json';
+import roommatesDE from './locales/de/roommates.json';
 
 // Import contracts translations
 import contractsEN from './locales/en/contracts.json';
@@ -54,6 +58,7 @@ import forecastingFR from './locales/fr/forecasting.json';
 // Import maintenance translations
 import maintenanceEN from './locales/en/maintenanceCommon.json';
 import maintenanceFR from './locales/fr/maintenanceCommon.json';
+import maintenanceDE from './locales/de/maintenanceCommon.json';
 
 // Import maintenance requests translations
 import maintenanceRequestsEN from './locales/en/maintenanceRequests.json';
@@ -86,6 +91,7 @@ import taxesFR from './locales/fr/taxes.json';
 // Import settings translations
 import settingsEN from './locales/en/settings.json';
 import settingsFR from './locales/fr/settings.json';
+import settingsDE from './locales/de/settings.json';
 
 // Import specific settings translations
 import settingsPermissionsFR from './locales/fr/settings/permissions.json';
@@ -103,6 +109,7 @@ import websiteFR from './locales/fr/website.json';
 // Import pages translations
 import pagesEN from './locales/en/pages.json';
 import pagesFR from './locales/fr/pages.json';
+import pagesDE from './locales/de/pages.json';
 
 // Import tenant and roommate space translations
 import tenantSpaceEN from './locales/en/tenantSpace.json';
@@ -113,6 +120,7 @@ import roommateSpaceFR from './locales/fr/roommateSpace.json';
 // Import dashboard translations
 import dashboardEN from './locales/en/dashboard.json';
 import dashboardFR from './locales/fr/dashboard.json';
+import dashboardDE from './locales/de/dashboard.json';
 
 const resources = {
   en: {
@@ -178,6 +186,18 @@ const resources = {
       ...tenantSpaceFR,
       ...roommateSpaceFR,
       ...dashboardFR
+    }
+  },
+  de: {
+    translation: {
+      ...commonDE,
+      ...navigationDE,
+      ...publicSiteDE,
+      ...roommatesDE,
+      ...maintenanceDE,
+      ...settingsDE,
+      ...pagesDE,
+      ...dashboardDE
     }
   }
 };

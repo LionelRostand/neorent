@@ -1,0 +1,22 @@
+
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Überblick über Ihre Immobilienaktivitäten",
+    "welcome": "Willkommen",
+    "totalProperties": "Immobilien gesamt",
+    "totalTenants": "Mieter gesamt",
+    "monthlyRevenue": "Monatlicher Umsatz",
+    "occupancyRate": "Auslastungsgrad",
+    "recentActivity": "Neueste Aktivitäten",
+    "upcomingTasks": "Anstehende Aufgaben",
+    "financialOverview": "Finanzübersicht",
+    "propertiesOverview": "Immobilienübersicht",
+    "quickActions": "Schnellaktionen",
+    "addProperty": "Immobilie hinzufügen",
+    "addTenant": "Mieter hinzufügen",
+    "recordPayment": "Zahlung erfassen",
+    "scheduleInspection": "Inspektion planen",
+    "viewReports": "Berichte anzeigen"
+  }
+}

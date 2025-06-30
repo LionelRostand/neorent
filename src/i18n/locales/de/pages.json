@@ -1,0 +1,180 @@
+
+{
+  "pages": {
+    "website": {
+      "title": "Website",
+      "meta": {
+        "title": "Website-Verwaltung | Immobilienplattform",
+        "description": "Verwalten Sie Ihre Immobilien-Website und Online-Präsenz"
+      }
+    },
+    "properties": {
+      "title": "Immobilien",
+      "meta": {
+        "title": "Unsere Immobilien | Immobilienplattform",
+        "description": "Entdecken Sie unsere Auswahl an verfügbaren Immobilien"
+      }
+    },
+    "about": {
+      "title": "Über uns",
+      "meta": {
+        "title": "Über uns | Immobilienplattform",
+        "description": "Entdecken Sie unser Team und unsere Mission im Immobilienbereich"
+      }
+    },
+    "contact": {
+      "title": "Kontakt",
+      "meta": {
+        "title": "Kontaktieren Sie uns | Immobilienplattform",
+        "description": "Kontaktieren Sie uns für Ihre Immobilienbedürfnisse"
+      }
+    },
+    "login": {
+      "title": "Anmelden",
+      "meta": {
+        "title": "Anmelden | Immobilienplattform",
+        "description": "Melden Sie sich in Ihrem Konto an"
+      }
+    },
+    "legalNotice": {
+      "title": "Impressum",
+      "meta": {
+        "title": "Impressum | Immobilienplattform",
+        "description": "Rechtliche und regulatorische Informationen"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Datenschutzerklärung",
+      "meta": {
+        "title": "Datenschutzerklärung | Immobilienplattform",
+        "description": "Unsere Datenschutzrichtlinie"
+      }
+    },
+    "cookiePolicy": {
+      "title": "Cookie-Richtlinie",
+      "meta": {
+        "title": "Cookie-Richtlinie | Immobilienplattform",
+        "description": "Informationen zur Cookie-Nutzung"
+      }
+    },
+    "tenantSpace": {
+      "title": "Mieterbereich",
+      "meta": {
+        "title": "Mieterbereich | Immobilienplattform",
+        "description": "Zugang zu Ihrem persönlichen Mieterbereich"
+      }
+    },
+    "ownerSpace": {
+      "title": "Eigentümerbereich",
+      "meta": {
+        "title": "Eigentümerbereich | Immobilienplattform",
+        "description": "Verwalten Sie Ihre Immobilien"
+      }
+    },
+    "admin": {
+      "title": "Administration",
+      "meta": {
+        "title": "Administration | Immobilienplattform",
+        "description": "Verwaltungsschnittstelle"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "meta": {
+        "title": "Dashboard | Administration",
+        "description": "Überblick über Ihre Immobilienaktivitäten"
+      }
+    },
+    "tenants": {
+      "title": "Mieter",
+      "meta": {
+        "title": "Mieterverwaltung | Administration",
+        "description": "Verwalten Sie Ihre Mieter und deren Informationen"
+      }
+    },
+    "roommates": {
+      "title": "Mitbewohner",
+      "meta": {
+        "title": "Mitbewohner-Verwaltung | Administration",
+        "description": "Verwalten Sie Wohngemeinschaften und Mitbewohner"
+      }
+    },
+    "contracts": {
+      "title": "Verträge",
+      "meta": {
+        "title": "Vertragsverwaltung | Administration",
+        "description": "Verwalten Sie Mietverträge und Vereinbarungen"
+      }
+    },
+    "leases": {
+      "title": "Mietverträge",
+      "meta": {
+        "title": "Mietvertragsverwaltung | Administration",
+        "description": "Verwalten Sie Mietverträge und Vermietungen"
+      }
+    },
+    "inspections": {
+      "title": "Immobilieninspektionen",
+      "meta": {
+        "title": "Immobilieninspektionen | Administration",
+        "description": "Verwalten Sie Inspektionen und Immobilienzustände"
+      }
+    },
+    "rentManagement": {
+      "title": "Mietverwaltung",
+      "meta": {
+        "title": "Mietverwaltung | Administration",
+        "description": "Verfolgen und verwalten Sie Mietzahlungen"
+      }
+    },
+    "rentalCharges": {
+      "title": "Mietnebenkosten",
+      "meta": {
+        "title": "Mietnebenkosten | Administration",
+        "description": "Verwalten Sie Mietnebenkosten und Ausgaben"
+      }
+    },
+    "forecasting": {
+      "title": "Finanzprognosen",
+      "meta": {
+        "title": "Finanzprognosen | Administration",
+        "description": "Finanzprognosen und Analysen"
+      }
+    },
+    "maintenance": {
+      "title": "Wartung",
+      "meta": {
+        "title": "Wartungsverwaltung | Administration",
+        "description": "Verwalten Sie Wartungsanfragen und Reparaturen"
+      }
+    },
+    "messages": {
+      "title": "Nachrichten",
+      "meta": {
+        "title": "Nachrichtenzentrum | Administration",
+        "description": "Kommunizieren Sie mit Mietern und verwalten Sie Anfragen"
+      }
+    },
+    "taxes": {
+      "title": "Steuerverwaltung",
+      "meta": {
+        "title": "Steuerverwaltung | Administration",
+        "description": "Verwalten Sie Steuererklärungen und Verpflichtungen"
+      }
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "meta": {
+        "title": "Einstellungen | Administration",
+        "description": "Konfigurieren Sie Ihre Immobilienplattform"
+      }
+    },
+    "help": {
+      "title": "Hilfe",
+      "meta": {
+        "title": "Hilfezentrum | Administration",
+        "description": "Dokumentation und Support für die Plattform"
+      }
+    }
+  }
+}
