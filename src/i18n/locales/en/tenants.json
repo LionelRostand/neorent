@@ -81,6 +81,10 @@
     "downloadDocuments": "Download documents",
     "printProfile": "Print profile",
     "exportData": "Export data",
+    "occupants": "occupants",
+    "apartment": "Apartment",
+    "room": "Room",
+    "colocation": "Colocation",
     "metrics": {
       "activeTenants": "Active Tenants",
       "activeDescription": "active tenants",

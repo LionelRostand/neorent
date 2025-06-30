@@ -76,6 +76,10 @@
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce locataire ?",
     "viewDetails": "Voir les détails",
     "contact": "Contacter",
+    "occupants": "occupants",
+    "apartment": "Appartement",
+    "room": "Chambre",
+    "colocation": "Colocation",
     "metrics": {
       "activeTenants": "Locataires Actifs",
       "activeDescription": "locataires actifs",
