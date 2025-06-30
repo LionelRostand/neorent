@@ -51,6 +51,8 @@
     "taxesToPay": "Zu zahlende Steuern",
     "totalTaxes": "Gesamtsteuern",
     "totalObligation": "Gesamtverpflichtung",
-    "paymentToMake": "zu leistende Zahlung"
+    "paymentToMake": "zu leistende Zahlung",
+    "noFiscality": "Keine Steuerangelegenheiten",
+    "noFiscalObligationFound": "Keine Steuerpflichten für das Jahr gefunden"
   }
 }

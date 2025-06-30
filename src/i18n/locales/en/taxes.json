@@ -18,6 +18,8 @@
     "taxesToPay": "Taxes to Pay",
     "totalTaxes": "Total Taxes",
     "totalObligation": "total obligation",
-    "paymentToMake": "payment to make"
+    "paymentToMake": "payment to make",
+    "noFiscality": "No tax matters",
+    "noFiscalObligationFound": "No tax obligations found for the year"
   }
 }
