@@ -1,0 +1,44 @@
+
+{
+  "tenantHistory": {
+    "title": "Zahlungshistorie",
+    "rentHistory": "Miethistorie",
+    "since": "Seit dem",
+    "dueDate": "Fälligkeitsdatum",
+    "paidOn": "Bezahlt am",
+    "amountPaid": "Bezahlter Betrag",
+    "amountToPay": "Zu zahlender Betrag",
+    "rent": "Miete",
+    "charges": "Nebenkosten",
+    "status": {
+      "paid": "Bezahlt",
+      "pending": "Ausstehend",
+      "overdue": "Überfällig",
+      "partial": "Teilweise",
+      "overpaid": "Überbezahlt"
+    },
+    "receiptPdf": "Beleg PDF",
+    "notAvailable": "Nicht verfügbar",
+    "paymentSummary": "Zahlungsübersicht",
+    "totalPaid": "Insgesamt bezahlt",
+    "paymentsCount": "Anzahl Zahlungen",
+    "averagePayment": "Durchschnittszahlung",
+    "contractInfo": "Vertragsinformationen",
+    "contractStart": "Vertragsbeginn",
+    "monthlyRent": "Monatliche Miete",
+    "monthlyCharges": "Monatliche Nebenkosten",
+    "totalMonthly": "Monatlich insgesamt",
+    "paymentInfo": "Zahlungsinformationen",
+    "paymentDetails": "Zahlungsdetails",
+    "acceptedPaymentMethods": "Akzeptierte Zahlungsmethoden",
+    "bankTransferRecommended": "Banküberweisung (empfohlen)",
+    "check": "Scheck",
+    "automaticDebit": "Lastschrift",
+    "firstOfMonth": "1. jeden Monats",
+    "bankDetails": "Bankdaten",
+    "accountHolder": "Kontoinhaber",
+    "iban": "IBAN",
+    "bic": "BIC",
+    "reference": "Zahlungsreferenz"
+  }
+}

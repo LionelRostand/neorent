@@ -2,7 +2,9 @@
 {
   "tenantSpace": {
     "title": "Mieterbereich",
+    "subtitle": "Verwalten Sie Ihre Miete mit Leichtigkeit",
     "welcome": "Willkommen in Ihrem Mieterbereich",
+    "tenant": "Mieter",
     "overview": {
       "title": "Übersicht",
       "currentRent": "Aktuelle Miete",
@@ -45,6 +47,23 @@
       "sent": "Gesendet",
       "compose": "Verfassen",
       "reply": "Antworten"
+    },
+    "tabs": {
+      "overview": "Übersicht",
+      "payment": "Zahlung",
+      "documents": "Dokumente"
+    },
+    "payment": {
+      "payRent": "Miete Zahlen",
+      "monthlyRent": "Monatliche Miete",
+      "charges": "Nebenkosten",
+      "totalToPay": "Insgesamt zu Zahlen",
+      "makePayment": "Zahlung Durchführen",
+      "importantInfo": "Wichtige Informationen",
+      "paymentBefore5th": "• Die Zahlung muss vor dem 5. eines jeden Monats erfolgen",
+      "enterExactAmount": "• Geben Sie den genauen Betrag ein, den Sie zahlen",
+      "receiptFullPayment": "• Ein PDF-Beleg wird nur bei vollständigen Zahlungen generiert",
+      "alertDifferentAmount": "• Bei abweichendem Betrag wird ein Alarm ausgelöst"
     }
   }
 }

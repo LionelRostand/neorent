@@ -4,6 +4,7 @@
     "title": "Espace Locataire",
     "subtitle": "Gérez votre location en toute simplicité",
     "welcome": "Bienvenue dans votre espace locataire",
+    "tenant": "Locataire",
     "dashboard": {
       "title": "Tableau de bord",
       "nextRent": "Prochain loyer",
@@ -45,6 +46,23 @@
       "personalInfo": "Informations personnelles",
       "contactInfo": "Informations de contact",
       "leaseInfo": "Informations du bail"
+    },
+    "tabs": {
+      "overview": "Aperçu",
+      "payment": "Paiement",
+      "documents": "Documents"
+    },
+    "payment": {
+      "payRent": "Payer le Loyer",
+      "monthlyRent": "Loyer Mensuel",
+      "charges": "Charges",
+      "totalToPay": "Total à Payer",
+      "makePayment": "Effectuer le Paiement",
+      "importantInfo": "Informations Importantes",
+      "paymentBefore5th": "• Le paiement doit être effectué avant le 5 de chaque mois",
+      "enterExactAmount": "• Saisissez le montant exact que vous payez",
+      "receiptFullPayment": "• Un reçu PDF sera généré uniquement pour les paiements complets",
+      "alertDifferentAmount": "• En cas de montant différent, une alerte sera levée"
     }
   }
 }

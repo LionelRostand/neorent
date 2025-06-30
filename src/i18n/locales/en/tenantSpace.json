@@ -4,6 +4,7 @@
     "title": "Tenant Space",
     "subtitle": "Manage your rental with ease",
     "welcome": "Welcome to your tenant space",
+    "tenant": "Tenant",
     "dashboard": {
       "title": "Dashboard",
       "nextRent": "Next rent",
@@ -45,6 +46,23 @@
       "personalInfo": "Personal information",
       "contactInfo": "Contact information",
       "leaseInfo": "Lease information"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "payment": "Payment",
+      "documents": "Documents"
+    },
+    "payment": {
+      "payRent": "Pay Rent",
+      "monthlyRent": "Monthly Rent",
+      "charges": "Charges",
+      "totalToPay": "Total to Pay",
+      "makePayment": "Make Payment",
+      "importantInfo": "Important Information",
+      "paymentBefore5th": "• Payment must be made before the 5th of each month",
+      "enterExactAmount": "• Enter the exact amount you are paying",
+      "receiptFullPayment": "• A PDF receipt will be generated only for full payments",
+      "alertDifferentAmount": "• In case of different amount, an alert will be raised"
     }
   }
 }
