@@ -23,6 +23,9 @@
     "occupants": "Bewohner",
     "thisMonth": "Diesen Monat",
     "propertyConfiguration": "Immobilienkonfiguration",
+    "listTitle": "Immobilienliste",
+    "occupantsList": "Bewohnerliste",
+    "roommate": "Mitbewohner",
     "fields": {
       "name": "Name",
       "address": "Adresse",

@@ -23,6 +23,9 @@
     "occupants": "occupants",
     "thisMonth": "This month",
     "propertyConfiguration": "Property configuration",
+    "listTitle": "Properties List",
+    "occupantsList": "Occupants List",
+    "roommate": "Roommate",
     "fields": {
       "name": "Name",
       "address": "Address",
