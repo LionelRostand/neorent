@@ -11,6 +11,18 @@
     "occupiedProperties": "Occupied properties",
     "vacantProperties": "Vacant properties",
     "monthlyRevenue": "Monthly revenue",
+    "occupancyRate": "Occupancy rate",
+    "colocationRooms": "Colocation rooms",
+    "realRevenueReceived": "Real revenue received",
+    "partiallyOccupied": "Partially occupied",
+    "roomsAvailable": "rooms available",
+    "profitability": "Profitability",
+    "revenue": "Revenue",
+    "charges": "Charges",
+    "profit": "Profit",
+    "occupants": "occupants",
+    "thisMonth": "This month",
+    "propertyConfiguration": "Property configuration",
     "fields": {
       "name": "Name",
       "address": "Address",
@@ -31,6 +43,23 @@
       "available": "Available",
       "occupied": "Occupied",
       "maintenance": "Under maintenance"
+    },
+    "metrics": {
+      "totalDescription": "properties registered",
+      "occupancyDescription": "global occupancy rate",
+      "colocationDescription": "rooms occupied out of total",
+      "revenueDescription": "total monthly revenue"
     }
+  },
+  "propertyForm": {
+    "locationTypes": {
+      "colocation": "Colocation"
+    },
+    "propertyTypes": {
+      "appartement": "Apartment"
+    },
+    "type": "Type",
+    "surface": "Surface",
+    "floor": "Floor"
   }
 }

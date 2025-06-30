@@ -11,6 +11,18 @@
     "occupiedProperties": "Belegte Immobilien",
     "vacantProperties": "Leerstehende Immobilien",
     "monthlyRevenue": "Monatlicher Umsatz",
+    "occupancyRate": "Belegungsrate",
+    "colocationRooms": "WG-Zimmer",
+    "realRevenueReceived": "Tatsächlich erhaltene Einnahmen",
+    "partiallyOccupied": "Teilweise belegt",
+    "roomsAvailable": "Zimmer verfügbar",
+    "profitability": "Rentabilität",
+    "revenue": "Einnahmen",
+    "charges": "Kosten",
+    "profit": "Gewinn",
+    "occupants": "Bewohner",
+    "thisMonth": "Diesen Monat",
+    "propertyConfiguration": "Immobilienkonfiguration",
     "fields": {
       "name": "Name",
       "address": "Adresse",
@@ -31,6 +43,23 @@
       "available": "Verfügbar",
       "occupied": "Belegt",
       "maintenance": "In Wartung"
+    },
+    "metrics": {
+      "totalDescription": "registrierte Immobilien",
+      "occupancyDescription": "gesamte Belegungsrate",
+      "colocationDescription": "belegte Zimmer von insgesamt",
+      "revenueDescription": "monatliche Gesamteinnahmen"
     }
+  },
+  "propertyForm": {
+    "locationTypes": {
+      "colocation": "Wohngemeinschaft"
+    },
+    "propertyTypes": {
+      "appartement": "Wohnung"
+    },
+    "type": "Typ",
+    "surface": "Fläche",
+    "floor": "Stockwerk"
   }
 }
