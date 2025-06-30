@@ -26,6 +26,7 @@
     "listTitle": "Liste des propriétés",
     "occupantsList": "Liste des occupants",
     "roommate": "Colocataire",
+    "perMonth": "/mois",
     "fields": {
       "name": "Nom",
       "address": "Adresse",
