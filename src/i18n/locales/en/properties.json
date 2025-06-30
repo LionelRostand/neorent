@@ -3,49 +3,34 @@
   "properties": {
     "title": "Properties",
     "subtitle": "Manage your real estate properties",
-    "addProperty": "Add Property",
-    "totalProperties": "Total Properties",
-    "occupancyRate": "Occupancy Rate",
-    "colocationRooms": "Colocation Rooms",
-    "monthlyRevenue": "Monthly Revenue",
-    "listTitle": "Properties List",
-    "realRevenueReceived": "Real revenue received",
-    "partiallyOccupied": "Partially Occupied",
-    "perMonth": "per month",
-    "roomsAvailable": "rooms available",
-    "profitability": "Profitability",
-    "revenue": "Revenue",
-    "profit": "Profit",
-    "occupants": "occupants",
-    "propertyConfiguration": "Property Configuration",
-    "type": "Type",
-    "floor": "Floor",
-    "surface": "Surface (m²)",
-    "metrics": {
-      "totalDescription": "properties managed",
-      "occupancyDescription": "average occupancy rate",
-      "colocationDescription": "colocation rooms",
-      "revenueDescription": "total monthly revenue"
+    "addProperty": "Add property",
+    "editProperty": "Edit property",
+    "deleteProperty": "Delete property",
+    "propertyDetails": "Property details",
+    "totalProperties": "Total properties",
+    "occupiedProperties": "Occupied properties",
+    "vacantProperties": "Vacant properties",
+    "monthlyRevenue": "Monthly revenue",
+    "fields": {
+      "name": "Name",
+      "address": "Address",
+      "type": "Type",
+      "rooms": "Rooms",
+      "area": "Area",
+      "rent": "Rent",
+      "status": "Status",
+      "description": "Description"
     },
-    "loading": "Loading properties...",
-    "error": "Error loading properties",
-    "addSuccess": "Property added successfully",
-    "addError": "Error adding property",
-    "updateSuccess": "Property updated successfully",
-    "updateError": "Error updating property",
-    "deleteSuccess": "Property deleted successfully",
-    "deleteError": "Error deleting property"
-  },
-  "propertyForm": {
-    "propertyTypes": {
-      "appartement": "Apartment",
+    "types": {
+      "apartment": "Apartment",
+      "house": "House",
       "studio": "Studio",
-      "maison": "House",
-      "loft": "Loft",
-      "duplex": "Duplex"
+      "office": "Office"
     },
-    "locationTypes": {
-      "colocation": "Colocation"
+    "status": {
+      "available": "Available",
+      "occupied": "Occupied",
+      "maintenance": "Under maintenance"
     }
   }
 }

@@ -3,54 +3,34 @@
   "properties": {
     "title": "Propriétés",
     "subtitle": "Gérez vos biens immobiliers",
-    "addProperty": "Ajouter un Bien",
-    "totalProperties": "Total Propriétés",
-    "occupancyRate": "Taux d'Occupation",
-    "colocationRooms": "Chambres Colocation",
-    "monthlyRevenue": "Revenus Mensuels",
-    "listTitle": "Liste des Propriétés",
-    "realRevenueReceived": "Revenus réels perçus",
-    "partiallyOccupied": "Partiellement Occupé",
-    "perMonth": "par mois",
-    "roomsAvailable": "chambres disponibles",
-    "profitability": "Rentabilité",
-    "revenue": "Revenus",
-    "profit": "Bénéfice",
-    "occupants": "occupants",
-    "propertyConfiguration": "Configuration de la Propriété",
-    "type": "Type",
-    "floor": "Étage",
-    "surface": "Surface (m²)",
-    "charges": "Charges",
-    "thisMonth": "ce mois",
-    "metrics": {
-      "totalDescription": "propriétés gérées",
-      "occupancyDescription": "taux d'occupation moyen",
-      "colocationDescription": "chambres en colocation",
-      "revenueDescription": "revenus mensuels totaux"
+    "addProperty": "Ajouter une propriété",
+    "editProperty": "Modifier la propriété",
+    "deleteProperty": "Supprimer la propriété",
+    "propertyDetails": "Détails de la propriété",
+    "totalProperties": "Total des propriétés",
+    "occupiedProperties": "Propriétés occupées",
+    "vacantProperties": "Propriétés vacantes",
+    "monthlyRevenue": "Revenus mensuels",
+    "fields": {
+      "name": "Nom",
+      "address": "Adresse",
+      "type": "Type",
+      "rooms": "Pièces",
+      "area": "Surface",
+      "rent": "Loyer",
+      "status": "Statut",
+      "description": "Description"
     },
-    "loading": "Chargement des propriétés...",
-    "error": "Erreur lors du chargement",
-    "addSuccess": "Propriété ajoutée avec succès",
-    "addError": "Erreur lors de l'ajout de la propriété",
-    "updateSuccess": "Propriété mise à jour avec succès",
-    "updateError": "Erreur lors de la mise à jour de la propriété",
-    "deleteSuccess": "Propriété supprimée avec succès",
-    "deleteError": "Erreur lors de la suppression de la propriété"
-  },
-  "propertyForm": {
-    "propertyTypes": {
-      "appartement": "Appartement",
+    "types": {
+      "apartment": "Appartement",
+      "house": "Maison",
       "studio": "Studio",
-      "maison": "Maison",
-      "loft": "Loft",
-      "duplex": "Duplex"
+      "office": "Bureau"
     },
-    "locationTypes": {
-      "colocation": "Colocation"
-    },
-    "type": "Type",
-    "floor": "Étage",
-    "surface": "Surface (m²)"
+    "status": {
+      "available": "Disponible",
+      "occupied": "Occupé",
+      "maintenance": "En maintenance"
+    }
   }
 }

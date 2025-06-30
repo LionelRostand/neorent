@@ -1,0 +1,36 @@
+
+{
+  "properties": {
+    "title": "Immobilien",
+    "subtitle": "Verwalten Sie Ihre Immobilien",
+    "addProperty": "Immobilie hinzufügen",
+    "editProperty": "Immobilie bearbeiten",
+    "deleteProperty": "Immobilie löschen",
+    "propertyDetails": "Immobiliendetails",
+    "totalProperties": "Immobilien gesamt",
+    "occupiedProperties": "Belegte Immobilien",
+    "vacantProperties": "Leerstehende Immobilien",
+    "monthlyRevenue": "Monatlicher Umsatz",
+    "fields": {
+      "name": "Name",
+      "address": "Adresse",
+      "type": "Typ",
+      "rooms": "Zimmer",
+      "area": "Fläche",
+      "rent": "Miete",
+      "status": "Status",
+      "description": "Beschreibung"
+    },
+    "types": {
+      "apartment": "Wohnung",
+      "house": "Haus",
+      "studio": "Studio",
+      "office": "Büro"
+    },
+    "status": {
+      "available": "Verfügbar",
+      "occupied": "Belegt",
+      "maintenance": "In Wartung"
+    }
+  }
+}

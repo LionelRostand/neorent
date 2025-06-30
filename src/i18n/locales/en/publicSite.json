@@ -1,244 +1,111 @@
 
 {
   "publicSite": {
-    "home": "Home",
-    "properties": "Properties", 
-    "login": "Login",
     "hero": {
-      "title": "Simplify Your",
-      "subtitle": "Property Management",
-      "description": "Manage your properties, tenants, and rental income with our comprehensive real estate management platform.",
-      "startFree": "Start Free Trial",
-      "contactUs": "Contact Us"
+      "title": "Manage your real estate properties with ease",
+      "subtitle": "Complete property management platform for owners, tenants and roommates",
+      "cta": "Get started for free",
+      "learnMore": "Learn more"
     },
     "features": {
-      "title": "Powerful Features",
-      "subtitle": "Everything you need to manage your properties efficiently",
+      "title": "Features",
+      "subtitle": "Everything you need to manage your real estate properties",
       "propertyManagement": {
         "title": "Property Management",
-        "description": "Organize and track all your properties in one centralized platform"
+        "description": "Easily manage your properties and their information"
       },
-      "tenantTracking": {
+      "tenantManagement": {
         "title": "Tenant Management",
-        "description": "Manage tenant information, leases, and communications effortlessly"
+        "description": "Track your tenants and their payments"
       },
-      "dataSecurity": {
-        "title": "Data Security",
-        "description": "Your data is protected with enterprise-grade security measures"
-      }
-    },
-    "benefits": {
-      "title": "Why Choose Our Platform?",
-      "description": "Join thousands of property managers who trust our platform to streamline their operations.",
-      "list": [
-        "Streamlined property portfolio management",
-        "Automated rent collection and tracking",
-        "Comprehensive tenant screening tools",
-        "Real-time financial reporting and analytics",
-        "Mobile-friendly interface for on-the-go management",
-        "24/7 customer support and assistance"
-      ],
-      "contactTitle": "Get in Touch"
-    },
-    "cta": {
-      "title": "Ready to Get Started?",
-      "description": "Join thousands of property managers who are already using our platform to streamline their operations.",
-      "startNow": "Start Now"
-    },
-    "about": {
-      "title": "About Us",
-      "subtitle": "Innovation in Property Management",
-      "description": "Discover our mission to revolutionize property management through innovative technology and exceptional service.",
-      "story": {
-        "title": "Our Story",
-        "paragraph1": "Founded with the vision of simplifying property management, Neo Rent has grown from a small startup to a leading platform trusted by thousands of property managers worldwide.",
-        "paragraph2": "Our team of experts combines years of real estate experience with cutting-edge technology to create solutions that truly make a difference in the daily lives of property managers.",
-        "paragraph3": "We believe that property management should be efficient, transparent, and stress-free for both landlords and tenants."
+      "maintenanceTracking": {
+        "title": "Maintenance Tracking",
+        "description": "Organize maintenance requests and interventions"
       },
-      "values": {
-        "title": "Our Values",
-        "subtitle": "What drives us every day",
-        "clientProximity": {
-          "title": "Client Proximity",
-          "description": "We build lasting relationships with our clients through personalized support and attentive service."
-        },
-        "innovation": {
-          "title": "Innovation",
-          "description": "We continuously evolve our platform to meet the changing needs of the property management industry."
-        },
-        "excellence": {
-          "title": "Excellence",
-          "description": "We strive for excellence in everything we do, from product development to customer service."
-        },
-        "growth": {
-          "title": "Growth",
-          "description": "We support the growth of our clients' businesses through powerful tools and insights."
-        }
-      },
-      "stats": {
-        "title": "Our Impact",
-        "managedProperties": "Managed Properties",
-        "satisfiedClients": "Satisfied Clients",
-        "availability": "Uptime",
-        "support": "Support"
-      },
-      "team": {
-        "title": "Our Team",
-        "subtitle": "Passionate experts dedicated to your success",
-        "dedication": {
-          "title": "Dedicated to Your Success",
-          "description": "Our diverse team of property management experts, developers, and customer success specialists work together to ensure you have the best possible experience with our platform."
-        }
+      "financialReporting": {
+        "title": "Financial Reports",
+        "description": "Analyze your real estate income and expenses"
       }
     },
     "contact": {
-      "hero": {
-        "title": "Contact",
-        "subtitle": "Get in touch with our team"
-      },
+      "title": "Contact Us",
+      "subtitle": "Have a question? We're here to help",
       "form": {
-        "title": "Send us a message",
-        "subtitle": "We'll get back to you as soon as possible",
-        "firstName": "First Name",
-        "lastName": "Last Name",
-        "email": "Email",
-        "phone": "Phone",
+        "name": "Full name",
+        "email": "Email address",
         "subject": "Subject",
         "message": "Message",
-        "send": "Send Message",
-        "sending": "Sending...",
-        "success": "Thank you for your message! We'll get back to you soon."
+        "send": "Send message",
+        "sending": "Sending..."
       },
       "info": {
-        "title": "Contact Information",
-        "email": {
-          "title": "Email",
-          "content": "contact@neorent.com",
-          "description": "Send us an email anytime"
-        },
-        "phone": {
-          "title": "Phone",
-          "content": "+33 1 23 45 67 89",
-          "description": "Call us during business hours"
-        },
-        "address": {
-          "title": "Address",
-          "content": "123 Business Street, Paris, France",
-          "description": "Visit our office"
-        },
-        "hours": {
-          "title": "Business Hours",
-          "content": "Mon-Fri: 9:00 AM - 6:00 PM",
-          "description": "We're here to help"
-        }
+        "address": "123 Peace Street, 75001 Paris",
+        "phone": "+33 1 23 45 67 89",
+        "email": "contact@neorent.fr",
+        "hours": "Mon-Fri: 9am-6pm"
+      }
+    },
+    "about": {
+      "title": "About Us",
+      "subtitle": "Your trusted partner in property management",
+      "story": {
+        "title": "Our Story",
+        "content": "Founded in 2020, our platform revolutionizes property management by offering modern and intuitive tools."
       },
-      "map": {
-        "title": "Our Location",
-        "description": "Find us in Paris for all your property management needs"
+      "mission": {
+        "title": "Our Mission",
+        "content": "Simplify property management for all market players."
       },
-      "faq": {
-        "title": "Frequently Asked Questions",
-        "subtitle": "Find answers to common questions about our platform",
-        "items": [
-          {
-            "question": "How do I get started with Neo Rent?",
-            "answer": "Getting started is easy! Simply contact our team to schedule a demo and we'll help you set up your account and import your property data."
-          },
-          {
-            "question": "Is my data secure?",
-            "answer": "Yes, we use enterprise-grade security measures including encryption, secure servers, and regular backups to protect your data."
-          },
-          {
-            "question": "Can I import my existing property data?",
-            "answer": "Absolutely! Our team will help you import your existing property and tenant data from spreadsheets or other property management systems."
-          },
-          {
-            "question": "Do you offer customer support?",
-            "answer": "Yes, we provide comprehensive customer support including phone, email, and chat support during business hours, plus extensive documentation and video tutorials."
-          }
-        ]
+      "values": {
+        "title": "Our Values",
+        "innovation": "Innovation",
+        "transparency": "Transparency",
+        "service": "Customer Service"
+      }
+    },
+    "properties": {
+      "title": "Our Properties",
+      "subtitle": "Discover our selection of real estate properties",
+      "filters": {
+        "all": "All",
+        "apartment": "Apartments",
+        "house": "Houses",
+        "studio": "Studios"
+      },
+      "details": {
+        "rooms": "rooms",
+        "area": "m²",
+        "price": "€/month",
+        "available": "Available",
+        "contact": "Contact us",
+        "viewDetails": "View details"
       }
     },
     "login": {
-      "title": "Connect to your space",
-      "subtitle": "Manage your real estate properties with ease",
-      "formTitle": "Login to Neo Rent",
-      "formSubtitle": "Access your property management space",
-      "email": "Email",
-      "emailPlaceholder": "your@email.com",
-      "password": "Password",
-      "passwordPlaceholder": "••••••••",
-      "signIn": "Sign in",
-      "signingIn": "Signing in...",
-      "forgotPassword": "Forgot password?",
-      "importantInfo": "Important information:",
-      "profileWarning": "Your account must be configured by your property manager before first login. If you get an \"Access denied\" error, contact your manager to activate your account."
-    },
-    "ownerRegistration": {
-      "createAccountLink": "Are you an owner? Create an account",
-      "dialogTitle": "Owner Account Creation Request",
-      "fullName": "Full Name",
-      "email": "Email",
-      "phone": "Phone",
-      "company": "Company",
-      "address": "Address",
-      "messageOptional": "Message (optional)",
-      "messagePlaceholder": "Additional information...",
-      "importantInfo": "Important information",
-      "importantInfoText": "Your request will be reviewed by an administrator. You will receive a confirmation email once your account is activated.",
-      "sendRequest": "Send Request",
-      "sending": "Sending...",
-      "requestSent": "Request sent",
-      "requestSentDescription": "Your account creation request has been sent. An administrator will review it shortly.",
-      "submitError": "An error occurred while sending your request."
-    },
-    "chat": {
-      "startConversation": "Start a conversation",
-      "fillForm": "Fill out the form to start chatting with our team",
-      "fullName": "Full Name",
-      "namePlaceholder": "Your name",
-      "email": "Email",
-      "emailPlaceholder": "your@email.com",
-      "startChat": "Start chat"
+      "title": "Login",
+      "subtitle": "Access your personal space",
+      "form": {
+        "email": "Email address",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "login": "Sign in",
+        "register": "Create account",
+        "noAccount": "Don't have an account yet?"
+      }
     },
     "footer": {
-      "description": "The complete platform for modern property management. Simplify your operations and grow your business with Neo Rent.",
-      "usefulLinks": "Useful Links",
+      "company": "Company",
+      "about": "About",
       "contact": "Contact",
-      "copyright": "All rights reserved.",
-      "legalNotice": "Legal Notice",
-      "privacyPolicy": "Privacy Policy",
-      "termsOfService": "Terms of Service",
-      "intellectualProperty": "© 2025 Neo Rent - Property Management Platform. All rights reserved. Any unauthorized reproduction, distribution or use of this content is strictly prohibited.",
-      "trademarks": "Neo Rent® is a registered trademark of Neotech-consulting. All other mentioned trademarks are the property of their respective owners."
-    },
-    "propertiesPage": {
-      "title": "Our Available Properties",
-      "subtitle": "Discover our selection of carefully chosen properties to offer you the best living environment",
-      "searchPlaceholder": "Search by location...",
-      "searchButton": "Search",
-      "noProperties": "No properties available",
-      "noPropertiesDescription": "No properties match your search criteria.",
-      "viewDetails": "View details",
-      "contactUs": "Contact us",
-      "scheduleVisit": "Schedule a visit",
-      "propertyDetails": {
-        "surface": "Surface",
-        "rooms": "Rooms",
-        "floor": "Floor",
-        "type": "Type",
-        "rent": "Rent",
-        "charges": "Charges",
-        "deposit": "Security deposit",
-        "availability": "Availability",
-        "available": "Available",
-        "rented": "Rented",
-        "description": "Description",
-        "equipment": "Equipment",
-        "location": "Location",
-        "contact": "Contact",
-        "visitRequest": "Visit request"
-      }
+      "careers": "Careers",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies",
+      "support": "Support",
+      "help": "Help",
+      "faq": "FAQ",
+      "documentation": "Documentation"
     }
   }
 }

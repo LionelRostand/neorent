@@ -1,0 +1,42 @@
+
+{
+  "roommateSpace": {
+    "title": "Mitbewohner-Bereich",
+    "subtitle": "Verwalten Sie Ihr WG-Leben einfach",
+    "welcome": "Willkommen in Ihrem Mitbewohner-Bereich",
+    "dashboard": {
+      "title": "Dashboard",
+      "nextRent": "Nächste Miete",
+      "sharedExpenses": "Geteilte Ausgaben",
+      "roommates": "Mitbewohner",
+      "houseRules": "Hausregeln"
+    },
+    "rent": {
+      "title": "Miete & Nebenkosten",
+      "myShare": "Mein Anteil",
+      "sharedCosts": "Geteilte Kosten",
+      "utilities": "Nebenkosten",
+      "payMyShare": "Meinen Anteil bezahlen"
+    },
+    "roommates": {
+      "title": "Meine Mitbewohner",
+      "contact": "Kontakt",
+      "schedule": "Zeitplan",
+      "sharedAreas": "Gemeinschaftsbereiche"
+    },
+    "expenses": {
+      "title": "Geteilte Ausgaben",
+      "addExpense": "Ausgabe hinzufügen",
+      "myExpenses": "Meine Ausgaben",
+      "splitBill": "Rechnung teilen",
+      "settlements": "Abrechnungen"
+    },
+    "house": {
+      "title": "Haus/Wohnung",
+      "rules": "Regeln",
+      "chores": "Hausarbeiten",
+      "inventory": "Inventar",
+      "issues": "Probleme melden"
+    }
+  }
+}
