@@ -16,6 +16,28 @@
     },
     "adminAccess": "Admin-Zugriff",
     "adminAccessDescription": "Verwalten Sie den Administrator-Zugriff auf Mandantenkonten.",
+    "database": {
+      "title": "Datenbankverwaltung",
+      "subtitle": "Konfigurieren und überwachen Sie Ihre Firebase-Datenbank",
+      "stats": {
+        "title": "Datenbankstatistiken",
+        "collectionsConfigured": "Konfigurierte Sammlungen",
+        "firestoreCollections": "Firestore-Sammlungen",
+        "activeUsers": "Aktive Benutzer",
+        "userAccounts": "Benutzerkonten",
+        "storedDocuments": "Gespeicherte Dokumente",
+        "documentsInCollections": "Dokumente in Sammlungen",
+        "operationsPerDay": "Operationen pro Tag",
+        "dailyOperations": "Tägliche Operationen"
+      },
+      "importantInfo": {
+        "title": "Wichtige Informationen",
+        "realTimeStats": "Echtzeit-Datenbankstatistiken",
+        "monitorQuota": "Überwachen Sie Ihr Firebase-Nutzungskontingent",
+        "optimizeQueries": "Optimieren Sie Ihre Abfragen für bessere Leistung",
+        "configureBilling": "Konfigurieren Sie die Abrechnung, um Dienstunterbrechungen zu vermeiden"
+      }
+    },
     "security": {
       "title": "Sicherheit",
       "subtitle": "Verwalten Sie Ihre Sicherheitseinstellungen",

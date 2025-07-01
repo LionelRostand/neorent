@@ -16,6 +16,28 @@
     },
     "adminAccess": "Admin Access",
     "adminAccessDescription": "Manage administrator access to tenant accounts.",
+    "database": {
+      "title": "Database Management",
+      "subtitle": "Configure and monitor your Firebase database",
+      "stats": {
+        "title": "Database Statistics",
+        "collectionsConfigured": "Collections Configured",
+        "firestoreCollections": "Firestore Collections",
+        "activeUsers": "Active Users",
+        "userAccounts": "User Accounts",
+        "storedDocuments": "Stored Documents",
+        "documentsInCollections": "Documents in Collections",
+        "operationsPerDay": "Operations per Day",
+        "dailyOperations": "Daily Operations"
+      },
+      "importantInfo": {
+        "title": "Important Information",
+        "realTimeStats": "Real-time database statistics",
+        "monitorQuota": "Monitor your Firebase usage quota",
+        "optimizeQueries": "Optimize your queries for better performance",
+        "configureBilling": "Configure billing to avoid service interruptions"
+      }
+    },
     "security": {
       "title": "Security",
       "subtitle": "Manage your security settings",
