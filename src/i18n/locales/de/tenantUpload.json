@@ -75,6 +75,7 @@
     "chooseFile": "Eine Datei auswählen",
     "noFileChosen": "Keine Datei ausgewählt",
     "maxSizeInfo": "Max. Größe: 1,5 MB • Erlaubte Typen: PDF, Bilder, Word-Dokumente",
-    "uploadTheDocument": "Das Dokument hochladen"
+    "uploadTheDocument": "Das Dokument hochladen",
+    "download": "Herunterladen"
   }
 }

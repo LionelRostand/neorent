@@ -75,6 +75,7 @@
     "chooseFile": "Choose a file",
     "noFileChosen": "No file chosen",
     "maxSizeInfo": "Max size: 1.5 MB • Allowed types: PDF, Images, Word Documents",
-    "uploadTheDocument": "Upload the Document"
+    "uploadTheDocument": "Upload the Document",
+    "download": "Download"
   }
 }
