@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -33,13 +32,24 @@ const PagesTab = () => {
     return page.name;
   };
 
+  // Function to get translated status
+  const getPageStatus = (status: string) => {
+    if (status === 'published' || status === 'Publié' || status === 'Veröffentlicht') {
+      return t('common.published');
+    }
+    if (status === 'draft' || status === 'Brouillon' || status === 'Entwurf') {
+      return t('common.draft');
+    }
+    return status;
+  };
+
   const [pages, setPages] = useState<Page[]>([
-    { id: 1, name: 'Accueil', nameKey: 'common.home', url: '/', status: t('common.published'), lastModified: '2024-01-15' },
-    { id: 2, name: 'À Propos', nameKey: 'common.about', url: '/about', status: t('common.published'), lastModified: '2024-01-14' },
-    { id: 3, name: 'Contact', nameKey: 'common.contact', url: '/contact', status: t('common.published'), lastModified: '2024-01-13' },
-    { id: 4, name: 'Propriétés', nameKey: 'common.properties', url: '/properties', status: t('common.published'), lastModified: '2024-01-12' },
-    { id: 5, name: 'Connexion', nameKey: 'common.login', url: '/login', status: t('common.published'), lastModified: '2024-01-11' },
-    { id: 6, name: 'Services', nameKey: 'common.services', url: '/services', status: t('common.draft'), lastModified: '2024-01-10' }
+    { id: 1, name: 'Accueil', nameKey: 'common.home', url: '/', status: 'published', lastModified: '2024-01-15' },
+    { id: 2, name: 'À Propos', nameKey: 'common.about', url: '/about', status: 'published', lastModified: '2024-01-14' },
+    { id: 3, name: 'Contact', nameKey: 'common.contact', url: '/contact', status: 'published', lastModified: '2024-01-13' },
+    { id: 4, name: 'Propriétés', nameKey: 'common.properties', url: '/properties', status: 'published', lastModified: '2024-01-12' },
+    { id: 5, name: 'Connexion', nameKey: 'common.login', url: '/login', status: 'published', lastModified: '2024-01-11' },
+    { id: 6, name: 'Services', nameKey: 'common.services', url: '/services', status: 'draft', lastModified: '2024-01-10' }
   ]);
 
   const [newPage, setNewPage] = useState({
@@ -78,7 +88,7 @@ const PagesTab = () => {
         id: Math.max(...pages.map(p => p.id)) + 1,
         name: newPage.title,
         url: newPage.url,
-        status: t('common.draft'),
+        status: 'draft',
         lastModified: new Date().toISOString().split('T')[0]
       };
       setPages([...pages, page]);
@@ -145,11 +155,11 @@ const PagesTab = () => {
                     <h4 className="font-medium">{getPageName(page)}</h4>
                     <p className="text-sm text-gray-500">{page.url}</p>
                     <span className={`text-xs px-2 py-1 rounded ${
-                      page.status === t('common.published') 
+                      getPageStatus(page.status) === t('common.published')
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
                     }`}>
-                      {page.status}
+                      {getPageStatus(page.status)}
                     </span>
                   </div>
                   <div className="flex gap-2">
