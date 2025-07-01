@@ -18,31 +18,31 @@ const ContractsMetrics = ({ activeCount, expiredCount, totalCount }: ContractsMe
       <MetricCard
         title={t('contracts.activeContracts')}
         value={activeCount}
-        description={`${activeCount} ${t('contracts.activeContractsCount')}`}
+        description={`${activeCount} ${t('contracts.activeContractsDesc')}`}
         icon={CheckCircle}
         iconBgColor="bg-green-500"
         borderColor="border-l-green-500"
       />
       <MetricCard
-        title={t('contracts.toRenew')}
+        title={t('contracts.expiringContracts')}
         value={0}
-        description={`0 ${t('contracts.toRenewCount')}`}
+        description={`0 ${t('contracts.expiringContractsDesc')}`}
         icon={Clock}
         iconBgColor="bg-yellow-500"
         borderColor="border-l-yellow-500"
       />
       <MetricCard
-        title={t('contracts.expired')}
+        title={t('contracts.expiredContracts')}
         value={expiredCount}
-        description={`${expiredCount} ${t('contracts.expiredCount')}`}
+        description={`${expiredCount} ${t('contracts.expiredContractsDesc')}`}
         icon={XCircle}
         iconBgColor="bg-red-500"
         borderColor="border-l-red-500"
       />
       <MetricCard
-        title={t('contracts.total')}
+        title={t('contracts.totalContracts')}
         value={totalCount}
-        description={`${totalCount} ${t('contracts.totalCount')}`}
+        description={`${totalCount} ${t('contracts.totalContractsDesc')}`}
         icon={ScrollText}
         iconBgColor="bg-blue-500"
         borderColor="border-l-blue-500"

@@ -108,7 +108,9 @@
     "toRenewCount": "à renouveler",
     "totalCount": "contrats au total",
     "leaseContract": "Contrat de Bail",
-    "contractList": "Liste des Contrats"
+    "contractList": "Liste des Contrats",
+    "total": "Total",
+    "expired": "Expiré"
   },
   "contractForm": {
     "title": "Ajouter un contrat",
