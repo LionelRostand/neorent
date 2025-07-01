@@ -11,9 +11,15 @@
     "unknownUser": "Utilisateur inconnu",
     "changePassword": "Changer le mot de passe",
     "name": "Nom",
-    "email": "E-mail",
+    "email": "Email",
     "phone": "Téléphone",
     "status": "Statut",
-    "leaseStart": "Début du bail"
+    "leaseStart": "Début du bail",
+    "myProfile": "Mon profil",
+    "role": "Rôle",
+    "permissions": "Permissions",
+    "close": "Fermer",
+    "notDefined": "Non défini",
+    "allPermissions": "Tous"
   }
 }

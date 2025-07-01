@@ -14,6 +14,12 @@
     "email": "E-Mail",
     "phone": "Telefon",
     "status": "Status",
-    "leaseStart": "Mietbeginn"
+    "leaseStart": "Mietbeginn",
+    "myProfile": "Mein Profil",
+    "role": "Rolle",
+    "permissions": "Berechtigungen",
+    "close": "Schließen",
+    "notDefined": "Nicht definiert",
+    "allPermissions": "Alle"
   }
 }

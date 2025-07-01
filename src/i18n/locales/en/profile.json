@@ -14,6 +14,12 @@
     "email": "Email",
     "phone": "Phone",
     "status": "Status",
-    "leaseStart": "Lease Start"
+    "leaseStart": "Lease Start",
+    "myProfile": "My Profile",
+    "role": "Role",
+    "permissions": "Permissions",
+    "close": "Close",
+    "notDefined": "Not defined",
+    "allPermissions": "All"
   }
 }
