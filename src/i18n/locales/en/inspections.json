@@ -154,6 +154,7 @@
     "generateChecklist": "Generate checklist",
     "exportData": "Export data",
     "totalInspections": "Total Inspections",
+    "inspectionsTotal": "total inspections",
     "description": "Description",
     "descriptionPlaceholder": "Describe the inspection purpose...",
     "observations": "Observations",

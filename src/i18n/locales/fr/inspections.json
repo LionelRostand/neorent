@@ -6,8 +6,8 @@
     "totalInspections": "Total Inspections",
     "scheduledInspections": "Inspections Programmées",
     "completedInspections": "Inspections Terminées",
-    "completed": "Terminée",
-    "completedDesc": "Abgeschlossene Inspektionen",
+    "completed": "Terminées",
+    "completedDesc": "inspections terminées",
     "inProgress": "En Cours",
     "inProgressInspections": "inspections en cours",
     "planned": "Programmées",
@@ -92,6 +92,7 @@
     "recentInspections": "Inspections récentes",
     "inspectionHistory": "Historique des inspections",
     "totalInspections": "Total des inspections",
+    "inspectionsTotal": "Inspections gesamt",
     "types": {
       "entryInventory": "État des lieux d'entrée",
       "exitInventory": "État des lieux de sortie",
