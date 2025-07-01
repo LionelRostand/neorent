@@ -2,50 +2,51 @@
 {
   "tenantSpace": {
     "title": "Tenant Space",
-    "subtitle": "Manage your rental with ease",
+    "subtitle": "Manage your tenancy with ease",
     "welcome": "Welcome to your tenant space",
     "tenant": "Tenant",
-    "dashboard": {
-      "title": "Dashboard",
-      "nextRent": "Next rent",
-      "rentStatus": "Rent status",
-      "maintenanceRequests": "Maintenance requests",
-      "messages": "Messages",
-      "documents": "Documents"
+    "overview": {
+      "title": "Overview",
+      "currentRent": "Current Rent",
+      "nextPayment": "Next Payment",
+      "contractStatus": "Contract Status",
+      "maintenanceRequests": "Maintenance Requests"
     },
-    "rent": {
-      "title": "Rent",
-      "payRent": "Pay rent",
-      "rentHistory": "Rent history",
-      "nextPayment": "Next payment",
-      "amount": "Amount",
-      "dueDate": "Due date",
-      "status": "Status",
-      "paid": "Paid",
-      "pending": "Pending",
-      "overdue": "Overdue"
+    "profile": {
+      "title": "Profile",
+      "personalInfo": "Personal Information",
+      "contactInfo": "Contact Information",
+      "emergencyContact": "Emergency Contact",
+      "edit": "Edit",
+      "save": "Save"
     },
-    "maintenance": {
-      "title": "Maintenance",
-      "newRequest": "New request",
-      "myRequests": "My requests",
-      "requestStatus": "Request status",
-      "priority": "Priority",
-      "category": "Category",
-      "description": "Description"
+    "payments": {
+      "title": "Payments",
+      "history": "Payment History",
+      "upcoming": "Upcoming Payments",
+      "makePayment": "Make Payment",
+      "paymentMethod": "Payment Method"
     },
     "documents": {
       "title": "Documents",
-      "lease": "Lease",
+      "contract": "Lease Contract",
       "receipts": "Receipts",
       "notices": "Notices",
-      "other": "Other"
+      "upload": "Upload Document"
     },
-    "profile": {
-      "title": "My Profile",
-      "personalInfo": "Personal information",
-      "contactInfo": "Contact information",
-      "leaseInfo": "Lease information"
+    "maintenance": {
+      "title": "Maintenance",
+      "requests": "Requests",
+      "newRequest": "New Request",
+      "status": "Status",
+      "history": "History"
+    },
+    "messages": {
+      "title": "Messages",
+      "inbox": "Inbox",
+      "sent": "Sent",
+      "compose": "Compose",
+      "reply": "Reply"
     },
     "tabs": {
       "overview": "Overview",
@@ -61,8 +62,8 @@
       "importantInfo": "Important Information",
       "paymentBefore5th": "• Payment must be made before the 5th of each month",
       "enterExactAmount": "• Enter the exact amount you are paying",
-      "receiptFullPayment": "• A PDF receipt will be generated only for full payments",
-      "alertDifferentAmount": "• In case of different amount, an alert will be raised"
+      "receiptFullPayment": "• A PDF receipt will only be generated for full payments",
+      "alertDifferentAmount": "• An alarm will be triggered if the amount is different"
     }
   }
 }
