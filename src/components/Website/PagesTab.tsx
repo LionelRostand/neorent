@@ -27,7 +27,12 @@ const PagesTab = () => {
   // Function to get translated page name
   const getPageName = (page: Page) => {
     if (page.nameKey) {
-      return t(page.nameKey);
+      const translatedName = t(page.nameKey);
+      // If translation returns the key itself, use the original name
+      if (translatedName === page.nameKey) {
+        return page.name;
+      }
+      return translatedName;
     }
     return page.name;
   };
