@@ -1,4 +1,3 @@
-
 {
   "loading": "Loading...",
   "save": "Save",
@@ -468,5 +467,6 @@
   "services": "Services",
   "new": "New",
   "published": "Published",
-  "draft": "Draft"
+  "draft": "Draft",
+  "pleaseRetry": "Please try again"
 }

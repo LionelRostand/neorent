@@ -1,4 +1,3 @@
-
 {
   "loading": "Laden...",
   "save": "Speichern",
@@ -468,5 +467,6 @@
   "services": "Dienstleistungen",
   "new": "Neu",
   "published": "Veröffentlicht",
-  "draft": "Entwurf"
+  "draft": "Entwurf",
+  "pleaseRetry": "Bitte versuchen Sie es erneut"
 }
