@@ -1,3 +1,4 @@
+
 {
   "publicSite": {
     "hero": {
@@ -36,6 +37,19 @@
         "title": "Sécurité des données",
         "description": "Vos données sont protégées par les dernières technologies de sécurité"
       }
+    },
+    "benefits": {
+      "title": "Pourquoi choisir notre plateforme ?",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour optimiser leurs opérations.",
+      "contactTitle": "Nous contacter",
+      "list": [
+        "Gestion centralisée de votre portefeuille immobilier",
+        "Collecte automatisée des loyers et suivi des paiements",
+        "Outils complets de sélection des locataires",
+        "Rapports financiers et analyses en temps réel",
+        "Interface mobile pour une gestion nomade",
+        "Support client 24/7 et assistance personnalisée"
+      ]
     },
     "cta": {
       "title": "Prêt à commencer ?",

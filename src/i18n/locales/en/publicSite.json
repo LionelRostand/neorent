@@ -1,3 +1,4 @@
+
 {
   "publicSite": {
     "hero": {
@@ -36,6 +37,19 @@
         "title": "Data Security",
         "description": "Your data is protected by the latest security technologies"
       }
+    },
+    "benefits": {
+      "title": "Why choose our platform?",
+      "description": "Join thousands of property managers who trust our platform to optimize their operations.",
+      "contactTitle": "Contact us",
+      "list": [
+        "Centralized management of your real estate portfolio",
+        "Automated rent collection and payment tracking",
+        "Complete tenant selection tools",
+        "Real-time financial reports and analytics",
+        "Mobile interface for on-the-go management",
+        "24/7 customer support and personalized assistance"
+      ]
     },
     "cta": {
       "title": "Ready to get started?",

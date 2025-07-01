@@ -42,6 +42,19 @@
         "description": "Ihre Daten sind durch neueste Sicherheitstechnologien geschützt"
       }
     },
+    "benefits": {
+      "title": "Warum unsere Plattform wählen?",
+      "description": "Schließen Sie sich Tausenden von Immobilienverwaltern an, die unserer Plattform vertrauen, um ihre Abläufe zu optimieren.",
+      "contactTitle": "Kontaktieren Sie uns",
+      "list": [
+        "Zentralisierte Verwaltung Ihres Immobilienportfolios",
+        "Automatisierte Mieteinzug und Zahlungsverfolgung",
+        "Vollständige Mieterauswahltools",
+        "Finanzberichte und Analysen in Echtzeit",
+        "Mobile Benutzeroberfläche für unterwegs",
+        "24/7 Kundensupport und persönliche Betreuung"
+      ]
+    },
     "contact": {
       "title": "Kontaktieren Sie uns",
       "subtitle": "Haben Sie eine Frage? Wir sind hier um zu helfen",
