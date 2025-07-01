@@ -37,6 +37,11 @@
         "description": "Your data is protected by the latest security technologies"
       }
     },
+    "cta": {
+      "title": "Ready to get started?",
+      "description": "Join thousands of property owners who trust our platform to manage their real estate assets.",
+      "startNow": "Start now"
+    },
     "contact": {
       "title": "Contact Us",
       "subtitle": "Have a question? We're here to help",

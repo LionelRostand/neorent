@@ -37,6 +37,11 @@
         "description": "Vos données sont protégées par les dernières technologies de sécurité"
       }
     },
+    "cta": {
+      "title": "Prêt à commencer ?",
+      "description": "Rejoignez des milliers de propriétaires qui font confiance à notre plateforme pour gérer leurs biens immobiliers.",
+      "startNow": "Commencer maintenant"
+    },
     "contact": {
       "title": "Contactez-nous",
       "subtitle": "Une question ? Nous sommes là pour vous aider",
