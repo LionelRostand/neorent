@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -24,15 +25,17 @@ const DocumentTypeSelector: React.FC<DocumentTypeSelectorProps> = ({
   onDocumentTypeChange,
   uploading
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="w-full">
       <Label htmlFor="document-type" className="block text-sm font-medium text-gray-700 mb-2">
-        Type de document
+        {t('tenantUpload.documentType')}
       </Label>
       <Select value={selectedDocumentType} onValueChange={onDocumentTypeChange} disabled={uploading}>
         <SelectTrigger className="w-full h-10 text-sm">
           <SelectValue 
-            placeholder="Sélectionner un type de document" 
+            placeholder={t('tenantUpload.selectDocumentType')} 
             className="text-sm placeholder:text-sm"
           />
         </SelectTrigger>

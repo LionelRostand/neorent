@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 
 interface ErrorAlertProps {
   error: string;
@@ -12,7 +12,7 @@ const ErrorAlert: React.FC<ErrorAlertProps> = ({ error }) => {
 
   return (
     <Alert variant="destructive">
-      <AlertCircle className="h-4 w-4" />
+      <AlertTriangle className="h-4 w-4" />
       <AlertDescription>{error}</AlertDescription>
     </Alert>
   );

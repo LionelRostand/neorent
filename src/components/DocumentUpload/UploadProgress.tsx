@@ -1,34 +1,39 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
 interface UploadProgressProps {
   uploadProgress: number;
   onCancelUpload: () => void;
 }
 
-const UploadProgress: React.FC<UploadProgressProps> = ({
-  uploadProgress,
-  onCancelUpload
+const UploadProgress: React.FC<UploadProgressProps> = ({ 
+  uploadProgress, 
+  onCancelUpload 
 }) => {
+  const { t } = useTranslation();
+  
   return (
-    <div className="space-y-3">
-      <Progress value={uploadProgress} className="w-full h-2" />
-      <p className="text-xs text-center text-gray-500">
-        Upload en cours... {uploadProgress}%
-      </p>
-      <div className="flex justify-center">
+    <div className="w-full space-y-2">
+      <div className="flex items-center justify-between">
+        <span className="text-sm text-gray-600">{t('tenantUpload.uploading')}</span>
         <Button
           onClick={onCancelUpload}
           size="sm"
           variant="outline"
-          className="text-red-600 hover:text-red-800 text-xs sm:text-sm px-3 py-1"
+          className="text-xs"
         >
-          <span className="hidden sm:inline">Annuler l'upload</span>
-          <span className="sm:hidden">Annuler</span>
+          <X className="h-3 w-3 mr-1" />
+          {t('common.cancel')}
         </Button>
       </div>
+      <Progress value={uploadProgress} className="w-full" />
+      <p className="text-xs text-center text-gray-500">
+        {uploadProgress}% {t('tenantUpload.progress')}
+      </p>
     </div>
   );
 };
