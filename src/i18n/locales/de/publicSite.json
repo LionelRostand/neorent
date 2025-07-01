@@ -1,3 +1,4 @@
+
 {
   "publicSite": {
     "hero": {
@@ -219,7 +220,9 @@
       "sendRequest": "Anfrage senden",
       "sending": "Wird gesendet...",
       "importantInfo": "Wichtige Information",
-      "importantInfoText": "Ihre Anfrage wird von unserem Team geprüft und Sie erhalten innerhalb von 24h eine Antwort."
+      "importantInfoText": "Ihre Anfrage wird von unserem Team geprüft und Sie erhalten innerhalb von 24h eine Antwort.",
+      "requestSent": "Anfrage gesendet",
+      "requestSentDescription": "Ihre Registrierungsanfrage wurde erfolgreich gesendet. Unser Team wird sie so schnell wie möglich prüfen."
     },
     "footer": {
       "description": "Ihre moderne und intuitive Immobilienverwaltungsplattform",

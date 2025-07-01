@@ -1,3 +1,4 @@
+
 {
   "publicSite": {
     "hero": {
@@ -219,7 +220,9 @@
       "sendRequest": "Send request",
       "sending": "Sending...",
       "importantInfo": "Important information",
-      "importantInfoText": "Your request will be reviewed by our team and you will receive a response within 24h."
+      "importantInfoText": "Your request will be reviewed by our team and you will receive a response within 24h.",
+      "requestSent": "Request sent",
+      "requestSentDescription": "Your registration request has been sent successfully. Our team will review it as soon as possible."
     },
     "footer": {
       "description": "Your modern and intuitive property management platform",
