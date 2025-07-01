@@ -64,6 +64,16 @@
     "backToAdmin": "Zurück zum Admin",
     "errorAccessingTenantSpace": "Fehler beim Zugriff auf den Mieterbereich",
     "month": "Monat",
-    "owner": "Eigentümer"
+    "owner": "Eigentümer",
+    "pages": "Seiten",
+    "page": "Seite",
+    "published": "Veröffentlicht",
+    "draft": "Entwurf",
+    "new": "Neu",
+    "home": "Startseite",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "properties": "Immobilien",
+    "services": "Dienstleistungen"
   }
 }
