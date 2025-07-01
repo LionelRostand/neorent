@@ -72,6 +72,7 @@
     "confirmDelete": "Sind Sie sicher, dass Sie diese Inspektion löschen möchten?",
     "geplant": "Geplant",
     "eingang": "Eingang",
+    "viewInspection": "Zustandsbeurteilung ansehen",
     "fields": {
       "property": "Immobilie",
       "tenant": "Mieter",

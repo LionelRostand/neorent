@@ -167,6 +167,7 @@
     "date": "Date",
     "planned": "Planned",
     "entry": "Entry",
+    "viewInspection": "View Inspection",
     "types": {
       "entryInventory": "Entry inventory",
       "exitInventory": "Exit inventory",

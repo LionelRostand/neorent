@@ -122,7 +122,7 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({
                 <TableHead>{t('inspections.date')}</TableHead>
                 <TableHead>{t('inspections.inspector')}</TableHead>
                 <TableHead>{t('inspections.status')}</TableHead>
-                <TableHead className="text-right">{t('inspections.actions')}</TableHead>
+                <TableHead className="text-right">{t('common.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -149,6 +149,7 @@ const AdminInspectionsTable: React.FC<AdminInspectionsTableProps> = ({
                         variant="ghost" 
                         size="sm"
                         onClick={(e) => handleViewClick(e, inspection)}
+                        title={t('inspections.viewInspection')}
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
