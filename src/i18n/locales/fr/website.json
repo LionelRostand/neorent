@@ -1,4 +1,3 @@
-
 {
   "website": {
     "title": "Gestion du Site Web",
@@ -155,6 +154,15 @@
     "linkedinUrl": "URL LinkedIn",
     "footerConfigurationSaved": "Configuration du pied de page sauvegardée !",
     "footerConfigurationSavedDescription": "Liens, réseaux sociaux et mentions légales mis à jour",
-    "legalNoticesPlaceholder": "Mentions légales, conditions d'utilisation..."
+    "legalNoticesPlaceholder": "Mentions légales, conditions d'utilisation...",
+    "legalPages": "Pages Légales",
+    "legalPagesDescription": "Gérez le contenu de vos pages légales obligatoires",
+    "legalNotice": "Mentions Légales",
+    "privacyPolicy": "Confidentialité",
+    "cookiePolicy": "Cookies",
+    "pageTitle": "Titre de la page",
+    "contentMarkdownSupported": "Contenu (Markdown supporté)",
+    "preview": "Aperçu",
+    "livePage": "Page live"
   }
 }

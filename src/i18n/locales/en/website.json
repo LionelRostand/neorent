@@ -1,4 +1,3 @@
-
 {
   "website": {
     "title": "Website Management",
@@ -155,6 +154,15 @@
     "linkedinUrl": "LinkedIn URL",
     "footerConfigurationSaved": "Footer configuration saved!",
     "footerConfigurationSavedDescription": "Links, social media and legal notices updated",
-    "legalNoticesPlaceholder": "Legal notices, terms of use..."
+    "legalNoticesPlaceholder": "Legal notices, terms of use...",
+    "legalPages": "Legal Pages",
+    "legalPagesDescription": "Manage the content of your mandatory legal pages",
+    "legalNotice": "Legal Notice",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "pageTitle": "Page Title",
+    "contentMarkdownSupported": "Content (Markdown supported)",
+    "preview": "Preview",
+    "livePage": "Live Page"
   }
 }

@@ -1,4 +1,3 @@
-
 {
   "website": {
     "title": "Website-Verwaltung",
@@ -180,6 +179,15 @@
     "linkedinUrl": "LinkedIn-URL",
     "footerConfigurationSaved": "Footer-Konfiguration gespeichert!",
     "footerConfigurationSavedDescription": "Links, soziale Medien und rechtliche Hinweise aktualisiert",
-    "legalNoticesPlaceholder": "Rechtliche Hinweise, Nutzungsbedingungen..."
+    "legalNoticesPlaceholder": "Rechtliche Hinweise, Nutzungsbedingungen...",
+    "legalPages": "Rechtliche Seiten",
+    "legalPagesDescription": "Verwalten Sie den Inhalt Ihrer Pflichtseiten",
+    "legalNotice": "Impressum",
+    "privacyPolicy": "Datenschutz",
+    "cookiePolicy": "Cookies",
+    "pageTitle": "Seitentitel",
+    "contentMarkdownSupported": "Inhalt (Markdown unterstützt)",
+    "preview": "Vorschau",
+    "livePage": "Live-Seite"
   }
 }
