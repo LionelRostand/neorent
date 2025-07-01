@@ -19,8 +19,8 @@
     "security": {
       "title": "Sicherheit",
       "subtitle": "Verwalten Sie Ihre Sicherheitseinstellungen",
-      "loadingSettings": "Einstellungen werden geladen...",
-      "saving": "Wird gespeichert..."
+      "loadingSettings": "Sicherheitseinstellungen können nicht geladen werden",
+      "saving": "Sicherheitseinstellungen wurden aktualisiert"
     }
   }
 }
