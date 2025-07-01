@@ -1,4 +1,3 @@
-
 {
   "settings": {
     "title": "Settings",
@@ -82,7 +81,55 @@
       "title": "Security",
       "subtitle": "Manage your security settings",
       "loadingSettings": "Unable to load security settings",
-      "saving": "Security settings have been updated"
+      "saving": "Security settings have been updated",
+      "passwordPolicy": "Password Policy",
+      "minLength": "Minimum Length",
+      "passwordExpiry": "Password Expiry",
+      "complexityRequirements": "Complexity Requirements",
+      "requireUppercase": "Require Uppercase",
+      "requireLowercase": "Require Lowercase",
+      "requireNumbers": "Require Numbers",
+      "requireSpecialChars": "Require Special Characters",
+      "preventCommonPasswords": "Prevent Common Passwords",
+      "preventCommonPasswordsDescription": "Block weak and commonly used passwords",
+      "expiryOptions": {
+        "30days": "30 days",
+        "60days": "60 days",
+        "90days": "90 days",
+        "120days": "120 days",
+        "never": "Never"
+      },
+      "twoFactor": {
+        "title": "Two-Factor Authentication",
+        "enable": "Enable 2FA",
+        "enableDescription": "Add an extra layer of security to your account"
+      },
+      "sessionSecurity": "Session Security",
+      "sessionTimeout": "Session Timeout",
+      "maxLoginAttempts": "Max Login Attempts",
+      "lockoutDuration": "Lockout Duration",
+      "timeoutOptions": {
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours",
+        "8hours": "8 hours",
+        "never": "Never"
+      },
+      "lockoutOptions": {
+        "5min": "5 minutes",
+        "15min": "15 minutes",
+        "30min": "30 minutes",
+        "1hour": "1 hour",
+        "2hours": "2 hours"
+      },
+      "recommendations": {
+        "title": "Security Recommendations",
+        "sessionTimeout": "Set an appropriate session timeout",
+        "loginAttempts": "Limit login attempts",
+        "twoFactor": "Enable two-factor authentication",
+        "checkLogs": "Regularly check security logs"
+      }
     },
     "firebase": {
       "title": "Firebase Configuration",

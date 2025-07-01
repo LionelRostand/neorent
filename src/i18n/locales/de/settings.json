@@ -1,4 +1,3 @@
-
 {
   "settings": {
     "title": "Einstellungen",
@@ -82,7 +81,55 @@
       "title": "Sicherheit",
       "subtitle": "Verwalten Sie Ihre Sicherheitseinstellungen",
       "loadingSettings": "Sicherheitseinstellungen können nicht geladen werden",
-      "saving": "Sicherheitseinstellungen wurden aktualisiert"
+      "saving": "Sicherheitseinstellungen wurden aktualisiert",
+      "passwordPolicy": "Passwort-Richtlinie",
+      "minLength": "Mindestlänge",
+      "passwordExpiry": "Passwort-Ablauf",
+      "complexityRequirements": "Komplexitätsanforderungen",
+      "requireUppercase": "Großbuchstaben erforderlich",
+      "requireLowercase": "Kleinbuchstaben erforderlich",
+      "requireNumbers": "Zahlen erforderlich",
+      "requireSpecialChars": "Sonderzeichen erforderlich",
+      "preventCommonPasswords": "Häufige Passwörter verhindern",
+      "preventCommonPasswordsDescription": "Schwache und häufig verwendete Passwörter blockieren",
+      "expiryOptions": {
+        "30days": "30 Tage",
+        "60days": "60 Tage",
+        "90days": "90 Tage",
+        "120days": "120 Tage",
+        "never": "Niemals"
+      },
+      "twoFactor": {
+        "title": "Zwei-Faktor-Authentifizierung",
+        "enable": "2FA aktivieren",
+        "enableDescription": "Fügen Sie eine zusätzliche Sicherheitsebene zu Ihrem Konto hinzu"
+      },
+      "sessionSecurity": "Sitzungssicherheit",
+      "sessionTimeout": "Sitzungs-Timeout",
+      "maxLoginAttempts": "Max. Anmeldeversuche",
+      "lockoutDuration": "Sperrdauer",
+      "timeoutOptions": {
+        "15min": "15 Minuten",
+        "30min": "30 Minuten",
+        "1hour": "1 Stunde",
+        "2hours": "2 Stunden",
+        "8hours": "8 Stunden",
+        "never": "Niemals"
+      },
+      "lockoutOptions": {
+        "5min": "5 Minuten",
+        "15min": "15 Minuten",
+        "30min": "30 Minuten",
+        "1hour": "1 Stunde",
+        "2hours": "2 Stunden"
+      },
+      "recommendations": {
+        "title": "Sicherheitsempfehlungen",
+        "sessionTimeout": "Stellen Sie ein angemessenes Sitzungs-Timeout ein",
+        "loginAttempts": "Begrenzen Sie Anmeldeversuche",
+        "twoFactor": "Aktivieren Sie die Zwei-Faktor-Authentifizierung",
+        "checkLogs": "Überprüfen Sie regelmäßig die Sicherheitsprotokolle"
+      }
     },
     "firebase": {
       "title": "Firebase-Konfiguration",
