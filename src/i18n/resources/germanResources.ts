@@ -32,7 +32,6 @@ import tenantProfileDE from '../locales/de/tenantProfile.json';
 import tenantPaymentsDE from '../locales/de/tenantPayments.json';
 import legalDE from '../locales/de/legal.json';
 import tenantUploadDE from '../locales/de/tenantUpload.json';
-import contractFormDE from '../locales/de/contractForm.json';
 
 export const germanResources = {
   translation: {
