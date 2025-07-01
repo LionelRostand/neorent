@@ -12,6 +12,7 @@ import rentManagementDE from '../locales/de/rentManagement.json';
 import rentalChargesDE from '../locales/de/rentalCharges.json';
 import forecastingDE from '../locales/de/forecasting.json';
 import maintenanceDE from '../locales/de/maintenanceCommon.json';
+import maintenanceResponsibilitiesDE from '../locales/de/maintenanceResponsibilities.json';
 import maintenanceCostsDE from '../locales/de/maintenanceCosts.json';
 import messagesDE from '../locales/de/messages.json';
 import taxesDE from '../locales/de/taxes.json';
@@ -41,6 +42,7 @@ export const germanResources = {
     ...rentalChargesDE,
     ...forecastingDE,
     ...maintenanceDE,
+    ...maintenanceResponsibilitiesDE,
     ...maintenanceCostsDE,
     ...messagesDE,
     ...taxesDE,
