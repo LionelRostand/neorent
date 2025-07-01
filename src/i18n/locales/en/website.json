@@ -25,6 +25,27 @@
     "privacyPolicyRequired": "Privacy policy is required by GDPR",
     "cookiePolicyAccessible": "Cookie policy must be easily accessible",
     "pagesRegularlyUpdated": "These pages must be updated regularly",
-    "markdownFormatting": "Markdown format allows advanced formatting"
+    "markdownFormatting": "Markdown format allows advanced formatting",
+    "cookieManagement": "Cookie Management",
+    "cookieManagementDescription": "Configure cookie policies and consent banners",
+    "generalConfiguration": "General Configuration",
+    "enableCookieBanner": "Enable cookie banner",
+    "bannerText": "Banner text",
+    "cookieExpiryDays": "Validity period (days)",
+    "allowedCookieTypes": "Allowed cookie types",
+    "necessaryCookies": "Necessary cookies",
+    "necessaryCookiesDescription": "Essential for functionality",
+    "analyticsCookies": "Analytics cookies",
+    "analyticsCookiesDescription": "Audience measurement",
+    "marketingCookies": "Marketing cookies",
+    "marketingCookiesDescription": "Personalized advertising",
+    "functionalCookies": "Functional cookies",
+    "functionalCookiesDescription": "Advanced features",
+    "bannerPreview": "Banner preview",
+    "weUseCookies": "We use cookies",
+    "bannerDisabled": "Cookie banner is disabled",
+    "cookieSettings": "Settings",
+    "necessaryOnly": "Necessary only",
+    "acceptAll": "Accept all"
   }
 }
