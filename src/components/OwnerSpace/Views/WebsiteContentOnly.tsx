@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -43,13 +42,13 @@ const WebsiteContentOnly: React.FC<WebsiteContentOnlyProps> = ({ currentProfile 
     { id: 'immo', label: 'Immo', icon: Home },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
-    { id: 'theme', label: t('common.theme'), icon: Palette },
-    { id: 'footer', label: t('common.footer'), icon: LinkIcon },
+    { id: 'theme', label: t('theme'), icon: Palette },
+    { id: 'footer', label: t('footer'), icon: LinkIcon },
     { id: 'legal', label: 'Pages légales', icon: Scale },
     { id: 'cookies', label: 'Cookies', icon: Settings },
-    { id: 'carte', label: t('common.map'), icon: MapPin },
-    { id: 'analytics', label: t('common.analytics'), icon: BarChart3 },
-    { id: 'config', label: t('common.config'), icon: Settings }
+    { id: 'carte', label: t('map'), icon: MapPin },
+    { id: 'analytics', label: t('analytics'), icon: BarChart3 },
+    { id: 'config', label: t('configuration'), icon: Settings }
   ];
 
   return (
