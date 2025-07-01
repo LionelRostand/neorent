@@ -30,6 +30,7 @@ import tenantHistoryDE from '../locales/de/tenantHistory.json';
 import tenantProfileDE from '../locales/de/tenantProfile.json';
 import tenantPaymentsDE from '../locales/de/tenantPayments.json';
 import legalDE from '../locales/de/legal.json';
+import tenantUploadDE from '../locales/de/tenantUpload.json';
 
 export const germanResources = {
   translation: {
@@ -62,6 +63,7 @@ export const germanResources = {
     ...tenantHistoryDE,
     ...tenantProfileDE,
     ...tenantPaymentsDE,
-    ...legalDE
+    ...legalDE,
+    ...tenantUploadDE
   }
 };
