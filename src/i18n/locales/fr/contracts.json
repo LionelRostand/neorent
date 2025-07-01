@@ -110,7 +110,15 @@
     "leaseContract": "Contrat de Bail",
     "contractList": "Liste des Contrats",
     "total": "Total",
-    "expired": "Expiré"
+    "expired": "Expiré",
+    "sharedHousing": "Colocation",
+    "rental": "Location",
+    "lease": "Bail",
+    "from": "Du",
+    "to": "au",
+    "month": "mois",
+    "jurisdiction": "Juridiction",
+    "provider": "Fournisseur"
   },
   "contractForm": {
     "title": "Ajouter un contrat",

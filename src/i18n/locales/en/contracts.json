@@ -107,7 +107,16 @@
     "expiredCount": "expired contracts",
     "toRenewCount": "to renew",
     "totalCount": "total contracts",
-    "leaseContract": "Lease Contract"
+    "leaseContract": "Lease Contract",
+    "contractList": "Contracts List",
+    "sharedHousing": "Shared Housing",
+    "rental": "Rental",
+    "lease": "Lease",
+    "from": "From",
+    "to": "to",
+    "month": "month",
+    "jurisdiction": "Jurisdiction",
+    "provider": "Provider"
   },
   "contractForm": {
     "title": "Add contract",
