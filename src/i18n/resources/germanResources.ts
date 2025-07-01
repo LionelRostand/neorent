@@ -14,6 +14,7 @@ import forecastingDE from '../locales/de/forecasting.json';
 import maintenanceDE from '../locales/de/maintenanceCommon.json';
 import maintenanceResponsibilitiesDE from '../locales/de/maintenanceResponsibilities.json';
 import maintenanceInterventionsDE from '../locales/de/maintenanceInterventions.json';
+import maintenanceHistoryDE from '../locales/de/maintenanceHistory.json';
 import maintenanceCostsDE from '../locales/de/maintenanceCosts.json';
 import messagesDE from '../locales/de/messages.json';
 import taxesDE from '../locales/de/taxes.json';
@@ -45,6 +46,7 @@ export const germanResources = {
     ...maintenanceDE,
     ...maintenanceResponsibilitiesDE,
     ...maintenanceInterventionsDE,
+    ...maintenanceHistoryDE,
     ...maintenanceCostsDE,
     ...messagesDE,
     ...taxesDE,
