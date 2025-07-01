@@ -1,36 +1,180 @@
 
 {
   "help": {
-    "title": "Hilfe & Support",
-    "subtitle": "Finden Sie Antworten auf Ihre Fragen",
-    "search": "Suchen Sie nach Hilfe...",
+    "title": "Hilfe-Center",
+    "subtitle": "Dokumentation und Support zur Nutzung der Plattform",
+    "searchHelp": "Hilfe durchsuchen...",
+    "allCategories": "Alle Kategorien",
+    "filterBy": "Filtern nach",
+    "clearFilters": "Filter löschen",
+    "noResults": "Keine Ergebnisse gefunden",
+    "noResultsDescription": "Versuchen Sie, Ihre Suchbegriffe zu ändern oder die Filter zu löschen.",
+    "technicalAspect": "Technischer Aspekt",
+    "functionalUsage": "Funktionale Nutzung",
+    "gettingStarted": "Erste Schritte",
+    "paymentConfig": "Zahlungskonfiguration",
+    "paymentConfigDescription": "Verschiedene Zahlungsmethoden für Ihre Plattform konfigurieren",
+    "configurationSteps": "Konfigurationsschritte",
+    "comingSoonMessage": "Diese Zahlungsmethode wird bald in einem zukünftigen Update verfügbar sein.",
     "categories": {
-      "general": "Allgemein",
+      "gettingStarted": "Erste Schritte",
       "properties": "Immobilien",
       "tenants": "Mieter",
+      "contracts": "Verträge",
       "payments": "Zahlungen",
       "maintenance": "Wartung",
-      "reports": "Berichte"
-    },
-    "popular": {
-      "title": "Beliebte Artikel",
-      "addProperty": "Wie füge ich eine Immobilie hinzu?",
-      "manageTenants": "Mieterverwaltung",
-      "payments": "Zahlungen verwalten",
-      "maintenance": "Wartungsanfragen"
-    },
-    "contact": {
-      "title": "Kontakt zum Support",
-      "email": "E-Mail Support",
-      "phone": "Telefon Support",
-      "chat": "Live Chat"
-    },
-    "resources": {
-      "title": "Ressourcen",
+      "reporting": "Berichte",
+      "settings": "Einstellungen",
+      "overview": "Übersicht",
+      "realEstate": "Immobilien",
+      "rental": "Vermietung",
       "documentation": "Dokumentation",
-      "tutorials": "Tutorials",
-      "faq": "Häufige Fragen",
-      "downloads": "Downloads"
+      "finance": "Finanzen",
+      "payment": "Zahlung",
+      "technical": "Technisch",
+      "communication": "Kommunikation",
+      "administration": "Verwaltung",
+      "marketing": "Marketing",
+      "configuration": "Konfiguration"
+    },
+    "sections": {
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "Überblick über Ihre Immobilienaktivität mit Statistiken und Schlüsselindikatoren",
+        "technical": "React-Interface mit Echtzeit-Metriken-Komponenten und Diagrammen",
+        "functional": "Sehen Sie Ihre Einnahmen, verwalteten Immobilien, aktiven Mieter und wichtigen Warnungen"
+      },
+      "properties": {
+        "title": "Immobilienverwaltung",
+        "description": "Immobilien mit Fotos und Details hinzufügen, bearbeiten und verwalten",
+        "technical": "Vollständiges CRUD mit Bild-Upload und Formularvalidierung",
+        "functional": "Erstellen Sie vollständige Immobilienaufzeichnungen mit Standort, Ausstattung und Status"
+      },
+      "tenants": {
+        "title": "Mieterverwaltung",
+        "description": "Verwalten Sie Ihre Mieter, ihre Verträge und persönlichen Informationen",
+        "technical": "Relationales Datenbanksystem mit Immobilien-Mieter-Verknüpfungen",
+        "functional": "Mieter registrieren, Zahlungen verfolgen und Akten verwalten"
+      },
+      "contracts": {
+        "title": "Mietverträge",
+        "description": "Mietverträge mit vordefinierten Vorlagen erstellen, bearbeiten und verfolgen",
+        "technical": "PDF-Generator mit anpassbaren Vorlagen nach Rechtsprechung",
+        "functional": "Konforme Mietverträge entwerfen, Fristen verfolgen und Verlängerungen verwalten"
+      },
+      "rentManagement": {
+        "title": "Mietverfolgung",
+        "description": "Alle Mietzahlungen mit automatischen Erinnerungen aufzeichnen und verfolgen",
+        "technical": "Zahlungsmanagementsystem mit Zuständen und Benachrichtigungen",
+        "functional": "Erhaltene Zahlungen markieren, Quittungen generieren und überfällige Zahlungen verfolgen"
+      },
+      "maintenance": {
+        "title": "Wartung",
+        "description": "Wartungsanfragen, Interventionen und Kostenverfolgung verwalten",
+        "technical": "Ticket-Management-Workflow mit Status und Zuweisung",
+        "functional": "Anfragen empfangen, Interventionen planen und Ausgaben verfolgen"
+      },
+      "reporting": {
+        "title": "Berichte und Analysen",
+        "description": "Finanzberichte und Leistungsanalysen generieren",
+        "technical": "Berichtsmodul mit Excel/PDF-Export und Diagrammen",
+        "functional": "Analysieren Sie Ihre Einnahmen, Gebühren und Rentabilität nach Zeitraum und Immobilie"
+      },
+      "settings": {
+        "title": "Konfiguration",
+        "description": "Plattform nach Ihren Bedürfnissen und Vorlieben anpassen",
+        "technical": "Konfigurationsoberfläche mit Benutzerpräferenz-Speicherung",
+        "functional": "Benachrichtigungen, Dokumentvorlagen und allgemeine Einstellungen konfigurieren"
+      },
+      "messages": {
+        "title": "Nachrichten",
+        "description": "Effektiv mit Ihren Mietern und Mitbewohnern kommunizieren",
+        "technical": "Echtzeit-Nachrichtensystem mit Push-Benachrichtigungen",
+        "functional": "Nachrichten senden, Gruppengespräche erstellen und Benachrichtigungen erhalten"
+      },
+      "taxes": {
+        "title": "Steuererklärungen",
+        "description": "Ihre Steuerverpflichtungen verwalten und notwendige Erklärungen generieren",
+        "technical": "Automatisierter Steuerrechner mit Regeln nach Land und Region",
+        "functional": "Steuern berechnen, Daten exportieren und Erklärungen vorbereiten"
+      },
+      "inspections": {
+        "title": "Inspektionen",
+        "description": "Immobilieninspektionen mit detaillierten Berichten planen und verwalten",
+        "technical": "Planungssystem mit anpassbaren Formularen und Fotos",
+        "functional": "Besuche planen, Checklisten ausfüllen und Berichte generieren"
+      },
+      "rentalCharges": {
+        "title": "Mietnebenkosten",
+        "description": "Gemeinschaftskosten unter Ihren Mietern verwalten und verteilen",
+        "technical": "Automatisches Berechnungssystem mit proportionaler Verteilung",
+        "functional": "Rechnungen erfassen, Kosten verteilen und Kostenforderungen generieren"
+      },
+      "paymentSetup": {
+        "title": "Zahlungseinrichtung",
+        "description": "Von Ihrer Plattform akzeptierte Zahlungsmethoden konfigurieren",
+        "technical": "Multi-Gateway-Integration mit sicheren APIs",
+        "functional": "Kreditkarten, Banküberweisungen, Mobile Money und andere Zahlungsmethoden aktivieren"
+      }
+    },
+    "paymentMethods": {
+      "creditCard": {
+        "name": "Kreditkarte",
+        "description": "Kreditkartenzahlungen über Stripe akzeptieren",
+        "steps": [
+          "Ein Stripe-Konto bei stripe.com erstellen",
+          "API-Schlüssel vom Stripe-Dashboard abrufen",
+          "Webhook-Endpunkte konfigurieren",
+          "Integration im Sandbox-Modus testen",
+          "Mit echten Zahlungen live gehen"
+        ]
+      },
+      "bankTransfer": {
+        "name": "Banküberweisung",
+        "description": "Direkte Banküberweisungen von Mietern akzeptieren",
+        "steps": [
+          "Bankverbindungsdaten bereitstellen",
+          "IBAN- und BIC-Codes konfigurieren",
+          "Automatische Abstimmung einrichten",
+          "Zahlungsanweisungen für Mieter erstellen",
+          "Eingehende Überweisungen überwachen"
+        ]
+      },
+      "mobile": {
+        "name": "Mobile Zahlung",
+        "description": "Mobile-Money-Zahlungen akzeptieren (Orange Money, MTN, etc.)",
+        "steps": [
+          "Bei mobilen Zahlungsanbietern registrieren",
+          "API-Anmeldedaten für jeden Anbieter erhalten",
+          "Webhook-Benachrichtigungen konfigurieren",
+          "Zuerst mit kleinen Beträgen testen",
+          "Für Mieterzahlungen aktivieren"
+        ]
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Zahlungen über PayPal akzeptieren",
+        "steps": [
+          "PayPal Business-Konto erstellen",
+          "Client-ID und Secret erhalten",
+          "Webhook-URLs konfigurieren",
+          "In Sandbox-Umgebung testen",
+          "In Live-Modus wechseln"
+        ]
+      }
+    },
+    "status": {
+      "available": "Verfügbar",
+      "comingSoon": "Demnächst verfügbar"
+    },
+    "complexity": {
+      "easy": "Einfach",
+      "medium": "Mittel",
+      "hard": "Schwer"
+    },
+    "securityNote": {
+      "title": "Sicherheitshinweis",
+      "description": "Alle Zahlungsmethoden sind mit branchenüblicher Verschlüsselung gesichert und entsprechen den Finanzvorschriften. Ihre sensiblen Daten sind geschützt."
     }
   }
 }

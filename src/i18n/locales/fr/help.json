@@ -5,8 +5,11 @@
     "subtitle": "Centre d'aide et support",
     "search": "Rechercher dans l'aide",
     "searchPlaceholder": "Que cherchez-vous ?",
+    "searchHelp": "Rechercher dans l'aide...",
     "categories": "Catégories",
     "allCategories": "Toutes les catégories",
+    "filterBy": "Filtrer par",
+    "clearFilters": "Effacer les filtres",
     "popular": "Articles populaires",
     "recent": "Articles récents",
     "featured": "Articles mis en avant",
@@ -24,125 +27,172 @@
     "related": "Articles connexes",
     "noResults": "Aucun résultat trouvé",
     "noResultsDescription": "Essayez de modifier votre recherche ou parcourez les catégories",
-    "gettingStarted": {
-      "title": "Pour commencer",
-      "description": "Découvrez les bases de l'application",
-      "firstSteps": "Premiers pas",
-      "setup": "Configuration",
-      "account": "Création de compte",
-      "profile": "Configuration du profil"
+    "technicalAspect": "Aspect technique",
+    "functionalUsage": "Usage fonctionnel",
+    "gettingStarted": "Pour commencer",
+    "paymentConfig": "Configuration des paiements",
+    "paymentConfigDescription": "Configurez différents moyens de paiement pour votre plateforme",
+    "configurationSteps": "Étapes de configuration",
+    "comingSoonMessage": "Ce moyen de paiement sera disponible prochainement dans une future mise à jour.",
+    "categories": {
+      "gettingStarted": "Pour commencer",
+      "properties": "Propriétés",
+      "tenants": "Locataires",
+      "contracts": "Contrats",
+      "payments": "Paiements",
+      "maintenance": "Maintenance",
+      "reporting": "Rapports",
+      "settings": "Paramètres",
+      "overview": "Vue d'ensemble",
+      "realEstate": "Immobilier",
+      "rental": "Location",
+      "documentation": "Documentation",
+      "finance": "Finance",
+      "payment": "Paiement",
+      "technical": "Technique",
+      "communication": "Communication",
+      "administration": "Administration",
+      "marketing": "Marketing",
+      "configuration": "Configuration"
     },
-    "properties": {
-      "title": "Gestion des propriétés",
-      "description": "Gérez vos biens immobiliers",
-      "add": "Ajouter une propriété",
-      "edit": "Modifier une propriété",
-      "delete": "Supprimer une propriété",
-      "photos": "Ajouter des photos"
+    "sections": {
+      "dashboard": {
+        "title": "Tableau de bord",
+        "description": "Vue d'ensemble de votre activité immobilière avec statistiques et indicateurs clés",
+        "technical": "Interface React avec composants de métiques temps réel et graphiques",
+        "functional": "Visualisez vos revenus, propriétés gérées, locataires actifs et alertes importantes"
+      },
+      "properties": {
+        "title": "Gestion des propriétés",
+        "description": "Ajoutez, modifiez et gérez vos biens immobiliers avec photos et détails",
+        "technical": "CRUD complet avec téléchargement d'images et validation de formulaires",
+        "functional": "Créez des fiches complètes de propriétés avec localisation, équipements et statut"
+      },
+      "tenants": {
+        "title": "Gestion des locataires",
+        "description": "Gérez vos locataires, leurs contrats et informations personnelles",
+        "technical": "Système de base de données relationnelle avec liens propriété-locataire",
+        "functional": "Enregistrez les locataires, suivez leurs paiements et gérez leur dossier"
+      },
+      "contracts": {
+        "title": "Contrats de location",
+        "description": "Créez, modifiez et suivez les contrats de location avec modèles prédéfinis",
+        "technical": "Générateur PDF avec modèles personnalisables par juridiction",
+        "functional": "Rédigez des baux conformes, suivez les échéances et gérez les renouvellements"
+      },
+      "rentManagement": {
+        "title": "Suivi des loyers",
+        "description": "Enregistrez et suivez tous les paiements de loyer avec rappels automatiques",
+        "technical": "Système de gestion des paiements avec états et notifications",
+        "functional": "Marquez les paiements reçus, générez des quittances et suivez les impayés"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Gérez les demandes de maintenance, interventions et suivi des coûts",
+        "technical": "Workflow de gestion de tickets avec statuts et affectation",
+        "functional": "Recevez les demandes, planifiez les interventions et suivez les dépenses"
+      },
+      "reporting": {
+        "title": "Rapports et analyses",
+        "description": "Générez des rapports financiers et analyses de performance",
+        "technical": "Module de reporting avec export Excel/PDF et graphiques",
+        "functional": "Analysez vos revenus, charges et rentabilité par période et propriété"
+      },
+      "settings": {
+        "title": "Configuration",
+        "description": "Personnalisez la plateforme selon vos besoins et préférences",
+        "technical": "Interface de configuration avec sauvegarde des préférences utilisateur",
+        "functional": "Configurez les notifications, modèles de documents et paramètres généraux"
+      },
+      "messages": {
+        "title": "Messagerie",
+        "description": "Communiquez efficacement avec vos locataires et colocataires",
+        "technical": "Système de messagerie en temps réel avec notifications push",
+        "functional": "Envoyez des messages, créez des conversations groupées et recevez des notifications"
+      },
+      "taxes": {
+        "title": "Déclarations fiscales",
+        "description": "Gérez vos obligations fiscales et générez les déclarations nécessaires",
+        "technical": "Calculateur fiscal automatisé avec règles par pays et région",
+        "functional": "Calculez vos impôts, exportez les données et préparez vos déclarations"
+      },
+      "inspections": {
+        "title": "Inspections",
+        "description": "Planifiez et gérez les inspections de vos propriétés avec rapports détaillés",
+        "technical": "Système de planification avec formulaires personnalisables et photos",
+        "functional": "Programmez les visites, remplissez les check-lists et générez des rapports"
+      },
+      "rentalCharges": {
+        "title": "Charges locatives",
+        "description": "Gérez et répartissez les charges communes entre vos locataires",
+        "technical": "Système de calcul automatique avec répartition proportionnelle",
+        "functional": "Enregistrez les factures, répartissez les coûts et générez les appels de charges"
+      },
+      "paymentSetup": {
+        "title": "Configuration des paiements",
+        "description": "Configurez les moyens de paiement acceptés sur votre plateforme",
+        "technical": "Intégration multi-passerelles avec API sécurisées",
+        "functional": "Activez cartes bancaires, virements, mobile money et autres moyens de paiement"
+      }
     },
-    "tenants": {
-      "title": "Gestion des locataires",
-      "description": "Gérez vos locataires et colocataires",
-      "add": "Ajouter un locataire",
-      "edit": "Modifier un locataire",
-      "delete": "Supprimer un locataire",
-      "documents": "Documents des locataires"
+    "paymentMethods": {
+      "creditCard": {
+        "name": "Carte bancaire",
+        "description": "Acceptez les paiements par carte via Stripe",
+        "steps": [
+          "Créez un compte Stripe sur stripe.com",
+          "Récupérez vos clés API depuis le tableau de bord Stripe",
+          "Configurez vos endpoints webhook",
+          "Testez l'intégration en mode sandbox",
+          "Passez en production avec de vrais paiements"
+        ]
+      },
+      "bankTransfer": {
+        "name": "Virement bancaire",
+        "description": "Acceptez les virements bancaires directs des locataires",
+        "steps": [
+          "Fournissez vos coordonnées bancaires",
+          "Configurez les codes IBAN et BIC",
+          "Mettez en place la réconciliation automatique",
+          "Créez les instructions de paiement pour les locataires",
+          "Surveillez les virements entrants"
+        ]
+      },
+      "mobile": {
+        "name": "Paiement mobile",
+        "description": "Acceptez les paiements mobile money (Orange Money, MTN, etc.)",
+        "steps": [
+          "Inscrivez-vous auprès des fournisseurs de paiement mobile",
+          "Obtenez les identifiants API pour chaque fournisseur",
+          "Configurez les notifications webhook",
+          "Testez d'abord avec de petits montants",
+          "Activez pour les paiements des locataires"
+        ]
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Acceptez les paiements via PayPal",
+        "steps": [
+          "Créez un compte PayPal Business",
+          "Obtenez votre Client ID et Secret",
+          "Configurez les URL webhook",
+          "Testez en environnement sandbox",
+          "Basculez en mode live"
+        ]
+      }
     },
-    "contracts": {
-      "title": "Contrats de location",
-      "description": "Créez et gérez vos contrats",
-      "create": "Créer un contrat",
-      "sign": "Signer un contrat",
-      "renew": "Renouveler un contrat",
-      "terminate": "Résilier un contrat"
+    "status": {
+      "available": "Disponible",
+      "comingSoon": "Bientôt disponible"
     },
-    "payments": {
-      "title": "Gestion des paiements",
-      "description": "Suivez les paiements de loyer",
-      "record": "Enregistrer un paiement",
-      "receipt": "Générer une quittance",
-      "reminder": "Envoyer un rappel",
-      "late": "Gérer les retards"
+    "complexity": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
     },
-    "maintenance": {
-      "title": "Maintenance",
-      "description": "Gérez les demandes de maintenance",
-      "request": "Créer une demande",
-      "assign": "Assigner une demande",
-      "track": "Suivre les interventions",
-      "costs": "Gérer les coûts"
-    },
-    "inspections": {
-      "title": "Inspections",
-      "description": "Planifiez et gérez les inspections",
-      "schedule": "Programmer une inspection",
-      "checklist": "Liste de vérification",
-      "report": "Générer un rapport",
-      "follow-up": "Suivi des inspections"
-    },
-    "messages": {
-      "title": "Messagerie",
-      "description": "Communiquez avec vos locataires",
-      "send": "Envoyer un message",
-      "templates": "Modèles de messages",
-      "notifications": "Notifications",
-      "archive": "Archiver les messages"
-    },
-    "reports": {
-      "title": "Rapports et analyses",
-      "description": "Générez des rapports financiers",
-      "revenue": "Rapport de revenus",
-      "expenses": "Rapport de dépenses",
-      "occupancy": "Taux d'occupation",
-      "export": "Exporter les données"
-    },
-    "settings": {
-      "title": "Paramètres",
-      "description": "Configurez votre compte",
-      "profile": "Profil utilisateur",
-      "notifications": "Préférences de notification",
-      "security": "Paramètres de sécurité",
-      "billing": "Facturation"
-    },
-    "mobile": {
-      "title": "Application mobile",
-      "description": "Utilisez l'app sur mobile",
-      "download": "Télécharger l'app",
-      "features": "Fonctionnalités mobiles",
-      "sync": "Synchronisation",
-      "offline": "Mode hors ligne"
-    },
-    "api": {
-      "title": "API et intégrations",
-      "description": "Intégrez avec d'autres outils",
-      "documentation": "Documentation API",
-      "authentication": "Authentification",
-      "webhooks": "Webhooks",
-      "examples": "Exemples de code"
-    },
-    "security": {
-      "title": "Sécurité et confidentialité",
-      "description": "Protégez vos données",
-      "privacy": "Politique de confidentialité",
-      "gdpr": "Conformité RGPD",
-      "backup": "Sauvegarde des données",
-      "encryption": "Chiffrement"
-    },
-    "billing": {
-      "title": "Facturation et abonnements",
-      "description": "Gérez votre abonnement",
-      "plans": "Plans tarifaires",
-      "upgrade": "Mettre à niveau",
-      "downgrade": "Rétrograder",
-      "cancel": "Annuler l'abonnement"
-    },
-    "troubleshooting": {
-      "title": "Dépannage",
-      "description": "Résolvez les problèmes courants",
-      "login": "Problèmes de connexion",
-      "performance": "Problèmes de performance",
-      "bugs": "Signaler un bug",
-      "support": "Contacter le support"
+    "securityNote": {
+      "title": "Note de sécurité",
+      "description": "Tous les moyens de paiement sont sécurisés avec un chiffrement standard et conformes aux réglementations financières. Vos données sensibles sont protégées."
     }
   }
 }
