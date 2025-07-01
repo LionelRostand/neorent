@@ -39,6 +39,20 @@
     "accountHolder": "Titulaire du compte",
     "iban": "IBAN",
     "bic": "BIC",
-    "reference": "Référence de paiement"
+    "reference": "Référence de paiement",
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    }
   }
 }
