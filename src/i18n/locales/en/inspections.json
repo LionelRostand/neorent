@@ -10,6 +10,7 @@
     "completedInspections": "Completed Inspections",
     "completedInspectionsDesc": "completed inspections",
     "completed": "Completed",
+    "completedDesc": "completed inspections",
     "inProgress": "In Progress",
     "inProgressInspections": "in progress inspections",
     "planned": "Planned",
