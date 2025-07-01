@@ -131,6 +131,52 @@
         "checkLogs": "Überprüfen Sie regelmäßig die Sicherheitsprotokolle"
       }
     },
+    "payment": {
+      "title": "Zahlungskonfiguration",
+      "subtitle": "Verwalten Sie Zahlungsmethoden und deren Einstellungen",
+      "stripe": {
+        "title": "Stripe-Konfiguration",
+        "description": "Konfigurieren Sie Kreditkartenzahlungen mit Stripe",
+        "enable": "Stripe aktivieren",
+        "publicKey": "Öffentlicher Schlüssel",
+        "secretKey": "Geheimer Schlüssel",
+        "webhookSecret": "Webhook-Geheimnis",
+        "save": "Stripe speichern"
+      },
+      "paypal": {
+        "title": "PayPal-Konfiguration",
+        "description": "Konfigurieren Sie PayPal-Zahlungen für Ihre Mieter",
+        "enable": "PayPal aktivieren",
+        "clientId": "Client-ID",
+        "clientIdPlaceholder": "Ihre PayPal-Client-ID",
+        "clientSecret": "Client-Geheimnis",
+        "clientSecretPlaceholder": "Ihr PayPal-Client-Geheimnis",
+        "save": "PayPal speichern"
+      },
+      "bank": {
+        "title": "Banküberweisung",
+        "description": "Konfigurieren Sie Informationen für Banküberweisungen",
+        "enable": "Banküberweisungen aktivieren",
+        "iban": "IBAN",
+        "ibanPlaceholder": "DE89 3704 0044 0532 0130 00",
+        "bic": "BIC/SWIFT",
+        "bicPlaceholder": "COBADEFFXXX",
+        "bankName": "Bankname",
+        "bankNamePlaceholder": "Deutsche Bank",
+        "accountHolder": "Kontoinhaber",
+        "accountHolderPlaceholder": "Name des Kontoinhabers",
+        "save": "Überweisung speichern"
+      },
+      "mobile": {
+        "title": "Mobile Zahlung",
+        "description": "Konfigurieren Sie mobile Zahlungslösungen",
+        "enable": "Mobile Zahlung aktivieren",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Money",
+        "moovMoney": "Moov Money",
+        "save": "Mobile speichern"
+      }
+    },
     "firebase": {
       "title": "Firebase-Konfiguration",
       "subtitle": "Firebase-Konfiguration und -Regeln verwalten",
