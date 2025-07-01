@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
@@ -24,6 +25,7 @@ import {
 } from 'lucide-react';
 
 const ImmoTab = () => {
+  const { t } = useTranslation();
   const { userProfile } = useAuth();
   const { properties: ownerProperties } = useOwnerData(userProfile);
   const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
@@ -70,12 +72,12 @@ const ImmoTab = () => {
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       
-      toast.success('Paramètres du site web sauvegardés', {
-        description: `${visibleCount} propriété(s) sera(ont) affichée(s) sur votre site web public`
+      toast.success(t('website.settingsSaved'), {
+        description: `${visibleCount} ${t('website.propertiesWillBeDisplayed')}`
       });
     } catch (error) {
-      toast.error('Erreur lors de la sauvegarde', {
-        description: 'Veuillez réessayer'
+      toast.error(t('website.saveError'), {
+        description: t('website.pleaseRetry')
       });
     } finally {
       setIsSaving(false);
@@ -132,7 +134,7 @@ const ImmoTab = () => {
     return (
       <div className="space-y-4 md:space-y-6">
         <div className="text-center py-8">
-          <p>Chargement des propriétés...</p>
+          <p>{t('common.loading')}...</p>
         </div>
       </div>
     );
@@ -146,7 +148,7 @@ const ImmoTab = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Propriétés</p>
+                <p className="text-sm text-gray-600">{t('website.totalProperties')}</p>
                 <p className="text-2xl font-bold">{uniqueProperties?.length || 0}</p>
               </div>
               <Building className="h-8 w-8 text-blue-500" />
@@ -158,7 +160,7 @@ const ImmoTab = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Visibles sur le site</p>
+                <p className="text-sm text-gray-600">{t('website.visibleOnSite')}</p>
                 <p className="text-2xl font-bold text-green-600">{visibleProperties.length}</p>
               </div>
               <Eye className="h-8 w-8 text-green-500" />
@@ -170,7 +172,7 @@ const ImmoTab = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Mises en avant</p>
+                <p className="text-sm text-gray-600">{t('website.featured')}</p>
                 <p className="text-2xl font-bold text-orange-600">{featuredProperties.length}</p>
               </div>
               <CheckCircle className="h-8 w-8 text-orange-500" />
@@ -188,7 +190,7 @@ const ImmoTab = () => {
                   className="w-full"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
+                  {isSaving ? t('website.saving') : t('website.saveSettings')}
                 </Button>
               </div>
             </div>
@@ -204,11 +206,11 @@ const ImmoTab = () => {
               <CardTitle className="text-lg flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Building className="h-5 w-5" />
-                  Gestion des Biens Immobiliers ({uniqueProperties?.length || 0})
+                  {t('website.propertyManagement')} ({uniqueProperties?.length || 0})
                 </div>
                 <Button variant="outline" size="sm" onClick={() => window.open('/properties', '_blank')}>
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  Aperçu site
+                  {t('website.sitePreview')}
                 </Button>
               </CardTitle>
             </CardHeader>
@@ -249,14 +251,14 @@ const ImmoTab = () => {
                             <div className="flex flex-wrap items-center gap-3 text-sm">
                               <span className="flex items-center gap-1 font-medium">
                                 <Euro className="h-3 w-3" />
-                                {property.rent}€/mois
+                                {property.rent}€/{t('common.month')}
                               </span>
                               <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
                                 {property.status}
                               </Badge>
                               {propertySettings[property.id]?.featured && (
                                 <Badge variant="outline" className="text-xs border-orange-300 text-orange-600">
-                                  Mise en avant
+                                  {t('website.featured')}
                                 </Badge>
                               )}
                             </div>
@@ -266,7 +268,7 @@ const ImmoTab = () => {
                           <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-3 border-t border-gray-200">
                             <div className="flex items-center gap-3">
                               <Label className="text-sm font-medium whitespace-nowrap">
-                                Visible sur le site
+                                {t('website.websiteVisibility')}
                               </Label>
                               <Switch
                                 checked={propertySettings[property.id]?.visible || false}
@@ -281,7 +283,7 @@ const ImmoTab = () => {
 
                             <div className="flex items-center gap-3">
                               <Label className="text-sm font-medium whitespace-nowrap">
-                                Mettre en avant
+                                {t('website.setAsFeatured')}
                               </Label>
                               <Switch
                                 checked={propertySettings[property.id]?.featured || false}
@@ -297,7 +299,7 @@ const ImmoTab = () => {
                               className="ml-auto"
                             >
                               <Edit className="h-3 w-3 mr-1" />
-                              Modifier
+                              {t('website.modify')}
                             </Button>
                           </div>
                         </div>
@@ -309,14 +311,14 @@ const ImmoTab = () => {
                 <div className="text-center py-12 bg-gray-50 rounded-lg">
                   <Building className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-gray-700 mb-2">
-                    Aucun bien immobilier trouvé
+                    {t('website.noPropertiesFound')}
                   </h3>
                   <p className="text-gray-500 text-sm mb-4">
-                    Ajoutez des propriétés depuis la section Propriétés pour les afficher sur votre site web.
+                    {t('website.addPropertiesDescription')}
                   </p>
                   <Button onClick={() => window.open('/admin/properties', '_blank')}>
                     <Building className="h-4 w-4 mr-2" />
-                    Aller à la section Propriétés
+                    {t('website.goToProperties')}
                   </Button>
                 </div>
               )}
@@ -329,21 +331,21 @@ const ImmoTab = () => {
           <Card className="sticky top-4">
             <CardHeader>
               <CardTitle className="text-lg">
-                {selectedProperty ? 'Modifier la Propriété' : 'Aperçu Site Web'}
+                {selectedProperty ? t('website.editProperty') : t('website.websitePreviewTitle')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {selectedProperty ? (
                 <>
                   <div>
-                    <Label className="text-sm font-medium">Titre</Label>
+                    <Label className="text-sm font-medium">{t('website.propertyTitle')}</Label>
                     <div className="mt-1 p-3 bg-gray-50 rounded-md text-sm">{selectedProperty.title}</div>
                   </div>
                   
                   <div>
-                    <Label className="text-sm font-medium">Description pour le site web</Label>
+                    <Label className="text-sm font-medium">{t('website.websiteDescriptionForProperty')}</Label>
                     <Textarea
-                      placeholder="Ajoutez une description attractive pour votre site web..."
+                      placeholder={t('website.websiteDescriptionPlaceholder')}
                       rows={4}
                       value={propertySettings[selectedProperty.id]?.description || ''}
                       onChange={(e) => updatePropertyDescription(selectedProperty.id, e.target.value)}
@@ -357,7 +359,7 @@ const ImmoTab = () => {
                       variant="outline" 
                       className="w-full"
                     >
-                      Fermer
+                      {t('website.close')}
                     </Button>
                   </div>
                 </>
@@ -365,16 +367,16 @@ const ImmoTab = () => {
                 <div className="space-y-4">
                   <div className="bg-blue-50 rounded-lg p-4">
                     <h4 className="text-sm font-medium text-blue-900 mb-1">
-                      Aperçu du site web
+                      {t('website.websitePreviewTitle')}
                     </h4>
                     <p className="text-xs text-blue-700">
-                      Les biens marqués comme visibles apparaîtront sur votre site web public
+                      {t('website.websitePreviewDescription')}
                     </p>
                   </div>
 
                   {visibleProperties.length > 0 ? (
                     <div className="space-y-3">
-                      <h4 className="text-sm font-medium">Biens visibles ({visibleProperties.length})</h4>
+                      <h4 className="text-sm font-medium">{t('website.visibleProperties')} ({visibleProperties.length})</h4>
                       {visibleProperties.slice(0, 3).map((property) => (
                         <div key={property.id} className="bg-gray-50 rounded-lg p-3">
                           <div className="flex items-center gap-3">
@@ -391,14 +393,14 @@ const ImmoTab = () => {
                             </div>
                             <div className="flex-1">
                               <h5 className="text-sm font-medium truncate">{property.title}</h5>
-                              <p className="text-xs text-gray-600">{property.rent}€/mois</p>
+                              <p className="text-xs text-gray-600">{property.rent}€/{t('common.month')}</p>
                             </div>
                           </div>
                         </div>
                       ))}
                       {visibleProperties.length > 3 && (
                         <p className="text-xs text-gray-500 text-center">
-                          +{visibleProperties.length - 3} autre(s) bien(s)
+                          +{visibleProperties.length - 3} {t('website.otherProperties')}
                         </p>
                       )}
                     </div>
@@ -406,7 +408,7 @@ const ImmoTab = () => {
                     <div className="text-center py-8">
                       <Building className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                       <p className="text-gray-500 text-sm">
-                        Aucun bien visible sur le site web
+                        {t('website.noVisiblePropertiesDescription')}
                       </p>
                     </div>
                   )}
