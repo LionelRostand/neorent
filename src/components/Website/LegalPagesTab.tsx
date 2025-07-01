@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -357,14 +356,14 @@ Email : cookies@neorent.fr`
       <Card className="bg-blue-50 border-blue-200">
         <CardContent className="pt-4 md:pt-6">
           <h3 className="text-base md:text-lg font-semibold text-blue-900 mb-2">
-            Informations importantes
+            {t('website.importantInformation')}
           </h3>
           <ul className="space-y-1 text-xs md:text-sm text-blue-800">
-            <li>• Les mentions légales sont obligatoires pour tout site web professionnel</li>
-            <li>• La politique de confidentialité est requise par le RGPD</li>
-            <li>• La politique de cookies doit être facilement accessible</li>
-            <li>• Ces pages doivent être mises à jour régulièrement</li>
-            <li>• Le format Markdown permet une mise en forme avancée</li>
+            <li>• {t('website.legalNoticeRequired')}</li>
+            <li>• {t('website.privacyPolicyRequired')}</li>
+            <li>• {t('website.cookiePolicyAccessible')}</li>
+            <li>• {t('website.pagesRegularlyUpdated')}</li>
+            <li>• {t('website.markdownFormatting')}</li>
           </ul>
         </CardContent>
       </Card>

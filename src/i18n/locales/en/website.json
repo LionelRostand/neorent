@@ -19,6 +19,12 @@
     "contentSaved": "Information saved successfully!",
     "contentSavedDescription": "Legal page information has been updated.",
     "contentSaveError": "Error saving information",
-    "contentSaveErrorDescription": "An error occurred while saving."
+    "contentSaveErrorDescription": "An error occurred while saving.",
+    "importantInformation": "Important Information",
+    "legalNoticeRequired": "Legal notices are mandatory for any professional website",
+    "privacyPolicyRequired": "Privacy policy is required by GDPR",
+    "cookiePolicyAccessible": "Cookie policy must be easily accessible",
+    "pagesRegularlyUpdated": "These pages must be updated regularly",
+    "markdownFormatting": "Markdown format allows advanced formatting"
   }
 }

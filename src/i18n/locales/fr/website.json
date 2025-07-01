@@ -185,6 +185,12 @@
     "bannerDisabled": "La bannière de cookies est désactivée",
     "cookieSettings": "Paramètres",
     "necessaryOnly": "Nécessaires uniquement",
-    "acceptAll": "Accepter tout"
+    "acceptAll": "Accepter tout",
+    "importantInformation": "Informations importantes",
+    "legalNoticeRequired": "Les mentions légales sont obligatoires pour tout site web professionnel",
+    "privacyPolicyRequired": "La politique de confidentialité est requise par le RGPD",
+    "cookiePolicyAccessible": "La politique de cookies doit être facilement accessible",
+    "pagesRegularlyUpdated": "Ces pages doivent être mises à jour régulièrement",
+    "markdownFormatting": "Le format Markdown permet une mise en forme avancée"
   }
 }
