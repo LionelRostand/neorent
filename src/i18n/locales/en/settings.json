@@ -49,6 +49,22 @@
       "deleteError": "Error deleting owner",
       "loading": "Loading...",
       "activateAccess": "Activate Access"
+    },
+    "ownerRegistrations": {
+      "title": "Owner Registration Requests",
+      "pendingCount": "pending requests",
+      "noRequests": "No pending registration requests",
+      "noRequestsDescription": "New owner registration requests will appear here for approval",
+      "loading": "Loading registration requests...",
+      "requestCreated": "Request created on",
+      "message": "Message",
+      "approve": "Approve",
+      "reject": "Reject",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      }
     }
   }
 }

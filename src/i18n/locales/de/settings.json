@@ -49,6 +49,22 @@
       "deleteError": "Fehler beim Löschen des Eigentümers",
       "loading": "Laden...",
       "activateAccess": "Zugriff aktivieren"
+    },
+    "ownerRegistrations": {
+      "title": "Eigentümer-Registrierungsanfragen",
+      "pendingCount": "ausstehende Anfragen",
+      "noRequests": "Keine ausstehenden Registrierungsanfragen",
+      "noRequestsDescription": "Neue Eigentümer-Registrierungsanfragen werden hier zur Genehmigung angezeigt",
+      "loading": "Registrierungsanfragen werden geladen...",
+      "requestCreated": "Anfrage erstellt am",
+      "message": "Nachricht",
+      "approve": "Genehmigen",
+      "reject": "Ablehnen",
+      "status": {
+        "pending": "Ausstehend",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      }
     }
   }
 }
