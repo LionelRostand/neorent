@@ -1,4 +1,5 @@
 
+
 {
   "publicSite": {
     "hero": {
@@ -209,7 +210,18 @@
     },
     "ownerRegistration": {
       "createAccountLink": "Create owner account",
-      "dialogTitle": "Owner Registration"
+      "dialogTitle": "Owner Registration",
+      "fullName": "Full name",
+      "email": "Email address",
+      "phone": "Phone",
+      "company": "Company",
+      "address": "Address",
+      "messageOptional": "Message (optional)",
+      "messagePlaceholder": "Describe your situation and needs...",
+      "sendRequest": "Send request",
+      "sending": "Sending...",
+      "importantInfo": "Important information",
+      "importantInfoText": "Your request will be reviewed by our team and you will receive a response within 24h."
     },
     "footer": {
       "description": "Your modern and intuitive property management platform",
@@ -232,3 +244,4 @@
     }
   }
 }
+

@@ -1,3 +1,4 @@
+
 {
   "publicSite": {
     "hero": {
@@ -208,7 +209,18 @@
     },
     "ownerRegistration": {
       "createAccountLink": "Eigentümerkonto erstellen",
-      "dialogTitle": "Eigentümer-Registrierung"
+      "dialogTitle": "Eigentümer-Registrierung",
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefon",
+      "company": "Unternehmen",
+      "address": "Adresse",
+      "messageOptional": "Nachricht (optional)",
+      "messagePlaceholder": "Beschreiben Sie Ihre Situation und Bedürfnisse...",
+      "sendRequest": "Anfrage senden",
+      "sending": "Wird gesendet...",
+      "importantInfo": "Wichtige Information",
+      "importantInfoText": "Ihre Anfrage wird von unserem Team geprüft und Sie erhalten innerhalb von 24h eine Antwort."
     },
     "footer": {
       "description": "Ihre moderne und intuitive Immobilienverwaltungsplattform",
@@ -231,3 +243,4 @@
     }
   }
 }
+

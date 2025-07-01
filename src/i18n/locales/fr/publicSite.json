@@ -1,4 +1,5 @@
 
+
 {
   "publicSite": {
     "hero": {
@@ -209,7 +210,18 @@
     },
     "ownerRegistration": {
       "createAccountLink": "Créer un compte propriétaire",
-      "dialogTitle": "Inscription propriétaire"
+      "dialogTitle": "Inscription propriétaire",
+      "fullName": "Nom complet",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone",
+      "company": "Entreprise",
+      "address": "Adresse",
+      "messageOptional": "Message (optionnel)",
+      "messagePlaceholder": "Décrivez votre situation et vos besoins...",
+      "sendRequest": "Envoyer la demande",
+      "sending": "Envoi en cours...",
+      "importantInfo": "Information importante",
+      "importantInfoText": "Votre demande sera examinée par notre équipe et vous recevrez une réponse sous 24h."
     },
     "footer": {
       "description": "Votre plateforme de gestion immobilière moderne et intuitive",
@@ -232,3 +244,4 @@
     }
   }
 }
+
