@@ -6,6 +6,8 @@
     "unauthorized": "Accès non autorisé",
     "unauthorizedDescription": "Cet espace est réservé aux propriétaires.",
     "backToDashboard": "Retour au tableau de bord",
+    "manageActions": "Gérer les actions",
+    "noQuickActionsConfigured": "Aucune action rapide configurée",
     "status": {
       "active": "Actif",
       "owner": "Propriétaire"
@@ -14,7 +16,7 @@
       "title": "Actions rapides",
       "newProperty": {
         "title": "Nouvelle propriété",
-        "description": "Ajouter un bien",
+        "description": "Ajouter une propriété",
         "preview": "{{count}} propriétés"
       },
       "newContract": {
@@ -28,18 +30,18 @@
         "preview": "{{count}} locataires actifs"
       },
       "propertyInspection": {
-        "title": "État des lieux",
+        "title": "Inspection immobilière",
         "description": "Programmer une visite",
-        "preview": "Inspections des propriétés"
+        "preview": "Inspections immobilières"
       },
       "calculateCharges": {
-        "title": "Calculer charges",
+        "title": "Calculer les charges",
         "description": "Révision annuelle",
         "preview": "0 paiements en attente"
       },
       "maintenance": {
         "title": "Maintenance",
-        "description": "Demande d'intervention",
+        "description": "Demande de service",
         "preview": "1 demande urgente"
       },
       "forecasting": {
@@ -59,21 +61,23 @@
       }
     },
     "dashboard": {
-      "title": "Tableau de bord",
-      "description": "Vue d'ensemble",
-      "preview": "Aperçu du système",
+      "title": "Tableau de Bord",
+      "description": "Voir l'aperçu",
+      "preview": "Vue d'ensemble du système",
+      "subtitle": "Vue d'ensemble de votre portefeuille immobilier",
       "stats": {
-        "propertiesManaged": "Propriétés gérées",
-        "activeTenants": "Locataires actifs",
-        "monthlyRevenue": "Revenus mensuels",
+        "propertiesManaged": "Propriétés",
+        "activeTenants": "Locataires", 
+        "monthlyRevenue": "Revenus Mensuels",
         "occupancyRate": "Taux d'occupation",
-        "thisMonth": "ce mois"
+        "thisMonth": "ce mois",
+        "contracts": "Contrats"
       }
     },
     "propertyOverview": {
       "title": "Aperçu des propriétés",
       "viewAll": "Voir tout",
-      "viewDetails": "Voir détails",
+      "viewDetails": "Voir les détails",
       "occupation": "Occupation",
       "noProperties": "Aucune propriété trouvée",
       "status": {
@@ -92,8 +96,8 @@
         "maintenanceDescription": "Problème de plomberie signalé - Apt {{number}}",
         "newTenant": "Nouveau locataire",
         "newTenantDescription": "{{tenant}} a signé le contrat - Apt {{number}}",
-        "inspectionCompleted": "État des lieux terminé",
-        "inspectionDescription": "Inspection de sortie validée - Apt {{number}}",
+        "inspectionCompleted": "Inspection terminée",
+        "inspectionDescription": "État des lieux de sortie validé - Apt {{number}}",
         "paymentDelay": "Retard de paiement",
         "paymentDelayDescription": "{{tenant}} - Apt {{number}} ({{days}} jours de retard)"
       },

@@ -6,6 +6,8 @@
     "unauthorized": "Unauthorized access",
     "unauthorizedDescription": "This space is reserved for owners.",
     "backToDashboard": "Back to dashboard",
+    "manageActions": "Manage actions",
+    "noQuickActionsConfigured": "No quick actions configured",
     "status": {
       "active": "Active",
       "owner": "Owner"
@@ -62,12 +64,14 @@
       "title": "Dashboard",
       "description": "View overview",
       "preview": "System overview",
+      "subtitle": "Overview of your real estate portfolio",
       "stats": {
-        "propertiesManaged": "Properties managed",
-        "activeTenants": "Active tenants",
-        "monthlyRevenue": "Monthly revenue",
+        "propertiesManaged": "Properties",
+        "activeTenants": "Tenants",
+        "monthlyRevenue": "Monthly Revenue",
         "occupancyRate": "Occupancy rate",
-        "thisMonth": "this month"
+        "thisMonth": "this month",
+        "contracts": "Contracts"
       }
     },
     "propertyOverview": {

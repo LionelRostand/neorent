@@ -1,0 +1,117 @@
+
+{
+  "ownerSpace": {
+    "title": "Eigentümerbereich",
+    "welcome": "Willkommen",
+    "unauthorized": "Unbefugter Zugriff",
+    "unauthorizedDescription": "Dieser Bereich ist für Eigentümer reserviert.",
+    "backToDashboard": "Zurück zum Dashboard",
+    "manageActions": "Aktionen verwalten",
+    "noQuickActionsConfigured": "Keine Schnellaktionen konfiguriert",
+    "status": {
+      "active": "Aktiv",
+      "owner": "Eigentümer"
+    },
+    "quickActions": {
+      "title": "Schnelle Aktionen",
+      "newProperty": {
+        "title": "Neue Immobilie",
+        "description": "Immobilie hinzufügen",
+        "preview": "{{count}} Immobilien"
+      },
+      "newContract": {
+        "title": "Neuer Vertrag",
+        "description": "Mietvertrag erstellen",
+        "preview": "{{count}} laufen ab"
+      },
+      "addTenant": {
+        "title": "Mieter hinzufügen",
+        "description": "Mieter registrieren",
+        "preview": "{{count}} aktive Mieter"
+      },
+      "propertyInspection": {
+        "title": "Immobilieninspektion",
+        "description": "Besichtigung planen",
+        "preview": "Immobilieninspektionen"
+      },
+      "calculateCharges": {
+        "title": "Nebenkosten berechnen",
+        "description": "Jährliche Überprüfung",
+        "preview": "0 ausstehende Zahlungen"
+      },
+      "maintenance": {
+        "title": "Wartung",
+        "description": "Serviceanfrage",
+        "preview": "1 dringende Anfrage"
+      },
+      "forecasting": {
+        "title": "Finanzprognose",
+        "description": "Umsatzprognosen",
+        "preview": "Umsatzprognosen"
+      },
+      "messages": {
+        "title": "Nachrichten",
+        "description": "Chat mit Mietern",
+        "preview": "Kommunikationszentrum"
+      },
+      "taxes": {
+        "title": "Steuerverwaltung",
+        "description": "Steuererklärungen",
+        "preview": "Steuererklärungen"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Übersicht anzeigen",
+      "preview": "Systemübersicht",
+      "subtitle": "Übersicht über Ihr Immobilienportfolio",
+      "stats": {
+        "propertiesManaged": "Immobilien",
+        "activeTenants": "Mieter",
+        "monthlyRevenue": "Monatlicher Umsatz",
+        "occupancyRate": "Belegungsrate",
+        "thisMonth": "diesen Monat",
+        "contracts": "Verträge"
+      }
+    },
+    "propertyOverview": {
+      "title": "Immobilienübersicht",
+      "viewAll": "Alle anzeigen",
+      "viewDetails": "Details anzeigen",
+      "occupation": "Belegung",
+      "noProperties": "Keine Immobilien gefunden",
+      "status": {
+        "active": "Aktiv",
+        "maintenance": "Wartung",
+        "vacant": "Leer",
+        "partiallyOccupied": "Teilweise belegt"
+      }
+    },
+    "recentActivity": {
+      "title": "Neueste Aktivitäten",
+      "activities": {
+        "paymentReceived": "Zahlung erhalten - Wohnung {{number}}",
+        "paymentDescription": "{{tenant}} hat die Miete für {{month}} bezahlt",
+        "maintenanceRequest": "Wartungsanfrage",
+        "maintenanceDescription": "Klempnerproblem gemeldet - Wohnung {{number}}",
+        "newTenant": "Neuer Mieter",
+        "newTenantDescription": "{{tenant}} hat den Vertrag unterschrieben - Wohnung {{number}}",
+        "inspectionCompleted": "Inspektion abgeschlossen",
+        "inspectionDescription": "Auszugsinspektion validiert - Wohnung {{number}}",
+        "paymentDelay": "Zahlungsverzug",
+        "paymentDelayDescription": "{{tenant}} - Wohnung {{number}} ({{days}} Tage verspätet)"
+      },
+      "timeAgo": {
+        "hoursAgo": "vor {{count}} Stunden",
+        "yesterday": "Gestern",
+        "daysAgo": "vor {{count}} Tagen"
+      },
+      "types": {
+        "payment": "Zahlung",
+        "maintenance": "Wartung",
+        "tenant": "Mieter",
+        "inspection": "Inspektion"
+      }
+    }
+  }
+}
