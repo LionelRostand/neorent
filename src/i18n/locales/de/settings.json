@@ -65,6 +65,28 @@
         "approved": "Genehmigt",
         "rejected": "Abgelehnt"
       }
+    },
+    "permissions": {
+      "title": "Eigentümer-Berechtigungen",
+      "subtitle": "Detaillierte Berechtigungen für jeden Eigentümer konfigurieren",
+      "selectOwner": "Eigentümer auswählen",
+      "chooseOwner": "Eigentümer wählen",
+      "selectedOwnerInfo": "Informationen zum ausgewählten Eigentümer",
+      "name": "Name",
+      "email": "E-Mail",
+      "company": "Unternehmen",
+      "noCompany": "Kein Unternehmen",
+      "unknownCompany": "Unbekanntes Unternehmen",
+      "noOwners": "Keine Eigentümer verfügbar",
+      "allowAll": "Alles erlauben",
+      "denyAll": "Alles verweigern",
+      "read": "Lesen",
+      "write": "Schreiben",
+      "view": "Anzeigen",
+      "delete": "Löschen",
+      "loading": "Berechtigungen werden geladen...",
+      "saving": "Speichern...",
+      "save": "Speichern"
     }
   }
 }

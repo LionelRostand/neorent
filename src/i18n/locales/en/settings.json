@@ -65,6 +65,28 @@
         "approved": "Approved",
         "rejected": "Rejected"
       }
+    },
+    "permissions": {
+      "title": "Owner Permissions",
+      "subtitle": "Configure detailed permissions for each owner",
+      "selectOwner": "Select an Owner",
+      "chooseOwner": "Choose an Owner",
+      "selectedOwnerInfo": "Selected Owner Information",
+      "name": "Name",
+      "email": "Email",
+      "company": "Company",
+      "noCompany": "No Company",
+      "unknownCompany": "Unknown Company",
+      "noOwners": "No Owners Available",
+      "allowAll": "Allow All",
+      "denyAll": "Deny All",
+      "read": "Read",
+      "write": "Write",
+      "view": "View",
+      "delete": "Delete",
+      "loading": "Loading Permissions...",
+      "saving": "Saving...",
+      "save": "Save"
     }
   }
 }

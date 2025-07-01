@@ -65,6 +65,28 @@
         "approved": "Approuvée",
         "rejected": "Rejetée"
       }
+    },
+    "permissions": {
+      "title": "Permissions des Propriétaires",
+      "subtitle": "Configurez les permissions détaillées pour chaque propriétaire",
+      "selectOwner": "Sélectionner un Propriétaire",
+      "chooseOwner": "Choisir un Propriétaire",
+      "selectedOwnerInfo": "Informations du Propriétaire Sélectionné",
+      "name": "Nom",
+      "email": "Email",
+      "company": "Entreprise",
+      "noCompany": "Aucune Entreprise",
+      "unknownCompany": "Entreprise Inconnue",
+      "noOwners": "Aucun Propriétaire Disponible",
+      "allowAll": "Tout Autoriser",
+      "denyAll": "Tout Refuser",
+      "read": "Lecture",
+      "write": "Écriture",
+      "view": "Visualisation",
+      "delete": "Suppression",
+      "loading": "Chargement des Permissions...",
+      "saving": "Sauvegarde...",
+      "save": "Sauvegarder"
     }
   }
 }
