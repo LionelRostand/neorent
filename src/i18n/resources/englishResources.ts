@@ -21,9 +21,6 @@ import maintenanceCostsEN from '../locales/en/maintenanceCosts.json';
 import messagesEN from '../locales/en/messages.json';
 import taxesEN from '../locales/en/taxes.json';
 import settingsEN from '../locales/en/settings.json';
-import settingsPermissionsEN from '../locales/en/settings/permissions.json';
-import settingsOwnersEN from '../locales/en/settings/owners.json';
-import settingsFirebaseEN from '../locales/en/settings/firebase.json';
 import helpEN from '../locales/en/help.json';
 import websiteEN from '../locales/en/website.json';
 import pagesEN from '../locales/en/pages.json';
@@ -58,9 +55,6 @@ export const englishResources = {
     ...messagesEN,
     ...taxesEN,
     ...settingsEN,
-    ...settingsPermissionsEN,
-    ...settingsOwnersEN,
-    ...settingsFirebaseEN,
     ...helpEN,
     ...websiteEN,
     ...pagesEN,
