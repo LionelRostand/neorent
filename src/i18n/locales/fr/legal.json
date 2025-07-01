@@ -7,13 +7,13 @@
       "company": "Société",
       "address": "Adresse",
       "phone": "Téléphone",
-      "email": "Email",
+      "email": "E-mail",
       "registration": "Numéro d'enregistrement",
       "vat": "Numéro de TVA",
       "hosting": "Hébergement",
-      "hostingProvider": "Hébergeur",
+      "hostingProvider": "Fournisseur d'hébergement",
       "intellectualProperty": "Propriété intellectuelle",
-      "copyright": "Droits d'auteur",
+      "copyright": "Droit d'auteur",
       "liability": "Responsabilité",
       "personalData": "Données personnelles",
       "cookies": "Cookies",
@@ -22,7 +22,7 @@
     "privacyPolicy": {
       "title": "Politique de Confidentialité",
       "introduction": "Introduction",
-      "dataCollection": "Collecte des données",
+      "dataCollection": "Collecte de données",
       "dataUsage": "Utilisation des données",
       "dataSharing": "Partage des données",
       "dataRetention": "Conservation des données",
@@ -33,7 +33,7 @@
     },
     "cookiePolicy": {
       "title": "Politique des Cookies",
-      "whatAreCookies": "Qu'est-ce que les cookies",
+      "whatAreCookies": "Que sont les cookies",
       "typesOfCookies": "Types de cookies",
       "essential": "Cookies essentiels",
       "analytics": "Cookies d'analyse",
@@ -41,7 +41,7 @@
       "thirdParty": "Cookies tiers",
       "management": "Gestion des cookies",
       "consent": "Consentement",
-      "optOut": "Désactivation"
+      "optOut": "Opt-out"
     }
   }
 }
