@@ -87,6 +87,7 @@
   "footer": "Footer",
   "content": "Content",
   "page": "Page",
+  "pages": "Pages",
   "section": "Section",
   "chapter": "Chapter",
   "article": "Article",
@@ -137,6 +138,7 @@
   "room": "Room",
   "space": "Space",
   "property": "Property",
+  "properties": "Properties",
   "asset": "Asset",
   "resource": "Resource",
   "material": "Material",
@@ -461,5 +463,10 @@
   "who": "Who",
   "whom": "Whom",
   "whose": "Whose",
-  "map": "Map"
+  "map": "Map",
+  "home": "Home",
+  "services": "Services",
+  "new": "New",
+  "published": "Published",
+  "draft": "Draft"
 }
