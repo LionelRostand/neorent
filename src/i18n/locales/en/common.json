@@ -8,6 +8,7 @@
     "contactAdminForHelp": "Please contact your administrator for assistance",
     "backToAdmin": "Back to Admin",
     "errorAccessingTenantSpace": "Error accessing tenant space",
-    "month": "month"
+    "month": "month",
+    "owner": "Owner"
   }
 }
