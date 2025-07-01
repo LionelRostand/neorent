@@ -22,8 +22,11 @@ export const systemRules = `
     
     // 3. Demandes d'inscription propriétaires - Collection: owner_registration_requests
     match /owner_registration_requests/{requestId} {
-      // Permettre la création par des utilisateurs non authentifiés (site public)
-      allow create: if true;
+      // Permettre la création par TOUS les utilisateurs (authentifiés ou non)
+      allow create: if true && 
+        request.resource.data.keys().hasAll(['name', 'email', 'status', 'createdAt', 'type']) &&
+        request.resource.data.type == 'owner_registration' &&
+        request.resource.data.status == 'pending';
       // Seuls les admins et managers peuvent lire, modifier et supprimer
       allow read, write, delete: if isManagerOrAdmin();
     }
