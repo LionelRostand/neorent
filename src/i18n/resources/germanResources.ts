@@ -23,6 +23,7 @@ import tenantSpaceDE from '../locales/de/tenantSpace.json';
 import roommateSpaceDE from '../locales/de/roommateSpace.json';
 import dashboardDE from '../locales/de/dashboard.json';
 import tenantOverviewDE from '../locales/de/tenantOverview.json';
+import tenantHistoryDE from '../locales/de/tenantHistory.json';
 import tenantProfileDE from '../locales/de/tenantProfile.json';
 import tenantPaymentsDE from '../locales/de/tenantPayments.json';
 
@@ -51,6 +52,7 @@ export const germanResources = {
     ...roommateSpaceDE,
     ...dashboardDE,
     ...tenantOverviewDE,
+    ...tenantHistoryDE,
     ...tenantProfileDE,
     ...tenantPaymentsDE
   }
