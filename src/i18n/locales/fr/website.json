@@ -89,6 +89,23 @@
     "contentSaved": "Informations sauvegardées avec succès !",
     "contentSavedDescription": "Les informations de NeoRent ont été mises à jour.",
     "contentSaveError": "Erreur lors de la sauvegarde des informations",
-    "contentSaveErrorDescription": "Une erreur s'est produite lors de la sauvegarde."
+    "contentSaveErrorDescription": "Une erreur s'est produite lors de la sauvegarde.",
+    "mediaLibrary": "Médiathèque",
+    "mediaLibraryDescription": "Organisez et gérez vos images et documents par catégories avec une intégration facile.",
+    "uploadPhotos": "Uploader des photos",
+    "mediaFiles": "Fichiers Média",
+    "view": "Voir",
+    "download": "Télécharger",
+    "delete": "Supprimer",
+    "noMediaFiles": "Aucun fichier média pour le moment",
+    "uploadFirstFile": "Uploader le premier fichier",
+    "uploadApartmentPhotos": "Uploader des photos d'appartement",
+    "choosePhoto": "Choisir une photo",
+    "downloadedSuccessfully": "téléchargé avec succès",
+    "downloadUrlNotAvailable": "URL de téléchargement non disponible",
+    "confirmDeleteFile": "Êtes-vous sûr de vouloir supprimer ce fichier ?",
+    "fileDeletedSuccessfully": "Fichier supprimé avec succès",
+    "fileUploadedSuccessfully": "Fichier uploadé avec succès",
+    "previewNotAvailable": "Aperçu non disponible"
   }
 }

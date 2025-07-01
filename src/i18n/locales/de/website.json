@@ -114,6 +114,23 @@
       "privacy": "Datenschutz",
       "terms": "Nutzungsbedingungen",
       "cookies": "Cookie-Richtlinie"
-    }
+    },
+    "mediaLibrary": "Medienbibliothek",
+    "mediaLibraryDescription": "Organisieren und verwalten Sie Ihre Bilder und Dokumente nach Kategorien mit einfacher Integration.",
+    "uploadPhotos": "Fotos hochladen",
+    "mediaFiles": "Mediendateien",
+    "view": "Ansehen",
+    "download": "Herunterladen",
+    "delete": "Löschen",
+    "noMediaFiles": "Noch keine Mediendateien",
+    "uploadFirstFile": "Erste Datei hochladen",
+    "uploadApartmentPhotos": "Wohnungsfotos hochladen",
+    "choosePhoto": "Foto auswählen",
+    "downloadedSuccessfully": "erfolgreich heruntergeladen",
+    "downloadUrlNotAvailable": "Download-URL nicht verfügbar",
+    "confirmDeleteFile": "Sind Sie sicher, dass Sie diese Datei löschen möchten?",
+    "fileDeletedSuccessfully": "Datei erfolgreich gelöscht",
+    "fileUploadedSuccessfully": "Datei erfolgreich hochgeladen",
+    "previewNotAvailable": "Vorschau nicht verfügbar"
   }
 }

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -17,6 +18,7 @@ interface MediaFile {
 }
 
 const MediasTab = () => {
+  const { t } = useTranslation();
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([
     { 
       id: '1', 
@@ -66,16 +68,16 @@ const MediasTab = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast.success(`${file.name} téléchargé avec succès`);
+      toast.success(`${file.name} ${t('website.downloadedSuccessfully')}`);
     } else {
-      toast.error('URL de téléchargement non disponible');
+      toast.error(t('website.downloadUrlNotAvailable'));
     }
   };
 
   const handleDelete = (fileId: string) => {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?')) {
+    if (confirm(t('website.confirmDeleteFile'))) {
       setMediaFiles(prev => prev.filter(file => file.id !== fileId));
-      toast.success('Fichier supprimé avec succès');
+      toast.success(t('website.fileDeletedSuccessfully'));
     }
   };
 
@@ -91,16 +93,16 @@ const MediasTab = () => {
     
     setMediaFiles(prev => [...prev, newFile]);
     setShowUploadDialog(false);
-    toast.success('Fichier uploadé avec succès');
+    toast.success(t('website.fileUploadedSuccessfully'));
   };
 
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📁 Médiathèque</h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📁 {t('website.mediaLibrary')}</h2>
           <p className="text-gray-600 text-sm md:text-base">
-            Organisez et gérez vos images et documents par catégories avec une intégration facile.
+            {t('website.mediaLibraryDescription')}
           </p>
         </div>
         <Button 
@@ -108,13 +110,13 @@ const MediasTab = () => {
           className="flex items-center gap-2 w-full sm:w-auto"
         >
           <Upload className="h-4 w-4" />
-          Uploader des photos
+          {t('website.uploadPhotos')}
         </Button>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">Fichiers Média ({mediaFiles.length})</CardTitle>
+          <CardTitle className="text-base md:text-lg">{t('website.mediaFiles')} ({mediaFiles.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -141,7 +143,7 @@ const MediasTab = () => {
                     size="sm" 
                     className="flex-1 p-1"
                     onClick={() => handleView(file)}
-                    title="Voir"
+                    title={t('website.view')}
                   >
                     <Eye className="h-3 w-3" />
                   </Button>
@@ -150,7 +152,7 @@ const MediasTab = () => {
                     size="sm" 
                     className="flex-1 p-1"
                     onClick={() => handleDownload(file)}
-                    title="Télécharger"
+                    title={t('website.download')}
                   >
                     <Download className="h-3 w-3" />
                   </Button>
@@ -159,7 +161,7 @@ const MediasTab = () => {
                     size="sm" 
                     className="flex-1 p-1 text-red-600 hover:text-red-700 hover:bg-red-50"
                     onClick={() => handleDelete(file.id)}
-                    title="Supprimer"
+                    title={t('website.delete')}
                   >
                     <Trash2 className="h-3 w-3" />
                   </Button>
@@ -171,10 +173,10 @@ const MediasTab = () => {
           {mediaFiles.length === 0 && (
             <div className="text-center py-12">
               <ImageIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-4">Aucun fichier média pour le moment</p>
+              <p className="text-gray-500 mb-4">{t('website.noMediaFiles')}</p>
               <Button onClick={() => setShowUploadDialog(true)}>
                 <Upload className="h-4 w-4 mr-2" />
-                Uploader le premier fichier
+                {t('website.uploadFirstFile')}
               </Button>
             </div>
           )}
@@ -185,14 +187,14 @@ const MediasTab = () => {
       <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Uploader des photos d'appartement</DialogTitle>
+            <DialogTitle>{t('website.uploadApartmentPhotos')}</DialogTitle>
           </DialogHeader>
           <DocumentUploadComponent
             folder="property-images"
             onUploadSuccess={handleUploadSuccess}
             allowedTypes={['image/*']}
             maxSizeMB={5}
-            label="Choisir une photo"
+            label={t('website.choosePhoto')}
             accept="image/*"
           />
         </DialogContent>
@@ -214,7 +216,7 @@ const MediasTab = () => {
             ) : (
               <div className="flex flex-col items-center justify-center p-8 text-gray-500">
                 <ImageIcon className="h-16 w-16 mb-4" />
-                <p>Aperçu non disponible</p>
+                <p>{t('website.previewNotAvailable')}</p>
               </div>
             )}
           </div>
@@ -224,7 +226,7 @@ const MediasTab = () => {
               onClick={() => selectedImage && handleDownload(selectedImage)}
             >
               <Download className="h-4 w-4 mr-2" />
-              Télécharger
+              {t('website.download')}
             </Button>
             <Button 
               variant="outline"
@@ -237,7 +239,7 @@ const MediasTab = () => {
               className="text-red-600 hover:text-red-700"
             >
               <Trash2 className="h-4 w-4 mr-2" />
-              Supprimer
+              {t('website.delete')}
             </Button>
           </div>
         </DialogContent>

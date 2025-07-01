@@ -89,6 +89,23 @@
     "contentSaved": "Information saved successfully!",
     "contentSavedDescription": "NeoRent information has been updated.",
     "contentSaveError": "Error saving information",
-    "contentSaveErrorDescription": "An error occurred while saving."
+    "contentSaveErrorDescription": "An error occurred while saving.",
+    "mediaLibrary": "Media Library",
+    "mediaLibraryDescription": "Organize and manage your images and documents by categories with easy integration.",
+    "uploadPhotos": "Upload photos",
+    "mediaFiles": "Media Files",
+    "view": "View",
+    "download": "Download",
+    "delete": "Delete",
+    "noMediaFiles": "No media files yet",
+    "uploadFirstFile": "Upload first file",
+    "uploadApartmentPhotos": "Upload apartment photos",
+    "choosePhoto": "Choose a photo",
+    "downloadedSuccessfully": "downloaded successfully",
+    "downloadUrlNotAvailable": "Download URL not available",
+    "confirmDeleteFile": "Are you sure you want to delete this file?",
+    "fileDeletedSuccessfully": "File deleted successfully",
+    "fileUploadedSuccessfully": "File uploaded successfully",
+    "previewNotAvailable": "Preview not available"
   }
 }
