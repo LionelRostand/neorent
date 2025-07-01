@@ -53,6 +53,11 @@
     "oneYear": "1 year",
     "eighteenMonths": "18 months",
     "twoYears": "2 years",
-    "threeYears": "3 years"
+    "threeYears": "3 years",
+    "currentRevenue": "Current Revenue",
+    "monthlyRevenue": "Monthly Revenue",
+    "investmentPlanning": "Investment Planning",
+    "roi": "ROI",
+    "annualRevenue": "Annual Yield"
   }
 }

@@ -53,6 +53,11 @@
     "oneYear": "1 an",
     "eighteenMonths": "18 mois",
     "twoYears": "2 ans",
-    "threeYears": "3 ans"
+    "threeYears": "3 ans",
+    "currentRevenue": "Revenus Actuels",
+    "monthlyRevenue": "Revenus Mensuels",
+    "investmentPlanning": "Planification d'Investissement",
+    "roi": "ROI",
+    "annualRevenue": "Rendement Annuel"
   }
 }
