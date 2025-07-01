@@ -196,7 +196,7 @@ const PagesTab = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>{t('common.page')} {t('common.name')}</Label>
+              <Label>{t('common.name')}</Label>
               <Input 
                 placeholder="ex: Nos Services"
                 value={newPage.title}
