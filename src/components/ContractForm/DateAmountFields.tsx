@@ -16,7 +16,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
   return (
     <>
       <div>
-        <Label htmlFor="startDate">{t('contractForm.startDate')}</Label>
+        <Label htmlFor="startDate">{t('contractForm.startDateLabel')}</Label>
         <Input
           id="startDate"
           type="date"
@@ -26,7 +26,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
       </div>
 
       <div>
-        <Label htmlFor="endDate">{t('contractForm.endDate')}</Label>
+        <Label htmlFor="endDate">{t('contractForm.endDateLabel')}</Label>
         <Input
           id="endDate"
           type="date"
@@ -36,7 +36,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
       </div>
 
       <div>
-        <Label htmlFor="amount">{t('contractForm.amount')}</Label>
+        <Label htmlFor="amount">{t('contractForm.contractAmount')}</Label>
         <Input
           id="amount"
           value={formData.amount}
@@ -46,7 +46,7 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
       </div>
 
       <div className="md:col-span-2">
-        <Label htmlFor="description">{t('contractForm.description')}</Label>
+        <Label htmlFor="description">{t('contractForm.contractDescription')}</Label>
         <Textarea
           id="description"
           value={formData.description}

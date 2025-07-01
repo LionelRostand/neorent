@@ -7,6 +7,7 @@ import propertiesFR from '../locales/fr/properties.json';
 import tenantsFR from '../locales/fr/tenants.json';
 import roommatesFR from '../locales/fr/roommates.json';
 import contractsFR from '../locales/fr/contracts.json';
+import contractFormFR from '../locales/fr/contractForm.json';
 import inspectionsFR from '../locales/fr/inspections.json';
 import rentManagementFR from '../locales/fr/rentManagement.json';
 import rentalChargesFR from '../locales/fr/rentalCharges.json';
@@ -41,6 +42,7 @@ export const frenchResources = {
     ...tenantsFR,
     ...roommatesFR,
     ...contractsFR,
+    ...contractFormFR,
     ...inspectionsFR,
     ...rentManagementFR,
     ...rentalChargesFR,

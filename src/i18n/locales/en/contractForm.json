@@ -41,6 +41,18 @@
     "french": "French",
     "cameroonian": "Cameroonian",
     "requiredFieldsError": "Please fill in all required fields",
-    "createContract": "Create contract"
+    "createContract": "Create contract",
+    "contractToAdd": "Contract to add",
+    "contractType": "Contract type",
+    "selectContractType": "Select a type",
+    "providerName": "Provider",
+    "selectJurisdictionType": "Select a jurisdiction",
+    "selectAProperty": "Select a property",
+    "selectATenant": "Select a tenant",
+    "tenantRoommate": "Tenant/Roommate",
+    "startDateLabel": "Start date",
+    "endDateLabel": "End date",
+    "contractAmount": "Amount",
+    "contractDescription": "Description"
   }
 }

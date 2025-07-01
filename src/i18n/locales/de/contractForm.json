@@ -41,6 +41,18 @@
     "french": "Französisch",
     "cameroonian": "Kamerunisch",
     "requiredFieldsError": "Bitte füllen Sie alle Pflichtfelder aus",
-    "createContract": "Vertrag erstellen"
+    "createContract": "Vertrag erstellen",
+    "contractToAdd": "Vertrag hinzufügen",
+    "contractType": "Vertragstyp",
+    "selectContractType": "Typ auswählen",
+    "providerName": "Anbieter",
+    "selectJurisdictionType": "Gerichtsbarkeit auswählen",
+    "selectAProperty": "Immobilie auswählen",
+    "selectATenant": "Mieter auswählen",
+    "tenantRoommate": "Mieter/Mitbewohner",
+    "startDateLabel": "Startdatum",
+    "endDateLabel": "Enddatum",
+    "contractAmount": "Betrag",
+    "contractDescription": "Beschreibung"
   }
 }

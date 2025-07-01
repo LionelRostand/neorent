@@ -7,6 +7,7 @@ import propertiesDE from '../locales/de/properties.json';
 import tenantsDE from '../locales/de/tenants.json';
 import roommatesDE from '../locales/de/roommates.json';
 import contractsDE from '../locales/de/contracts.json';
+import contractFormDE from '../locales/de/contractForm.json';
 import inspectionsDE from '../locales/de/inspections.json';
 import rentManagementDE from '../locales/de/rentManagement.json';
 import rentalChargesDE from '../locales/de/rentalCharges.json';
@@ -31,6 +32,7 @@ import tenantProfileDE from '../locales/de/tenantProfile.json';
 import tenantPaymentsDE from '../locales/de/tenantPayments.json';
 import legalDE from '../locales/de/legal.json';
 import tenantUploadDE from '../locales/de/tenantUpload.json';
+import contractFormDE from '../locales/de/contractForm.json';
 
 export const germanResources = {
   translation: {
@@ -41,6 +43,7 @@ export const germanResources = {
     ...tenantsDE,
     ...roommatesDE,
     ...contractsDE,
+    ...contractFormDE,
     ...inspectionsDE,
     ...rentManagementDE,
     ...rentalChargesDE,
