@@ -23,7 +23,7 @@
       "saving": "Security settings have been updated"
     },
     "owners": {
-      "management": "Owner Management",
+      "management": "Owners",
       "description": "Manage owners and their permissions",
       "addOwner": "Add Owner",
       "editOwner": "Edit Owner",
@@ -51,7 +51,7 @@
       "activateAccess": "Activate Access"
     },
     "ownerRegistrations": {
-      "title": "Owner Registration Requests",
+      "title": "Requests",
       "pendingCount": "pending requests",
       "noRequests": "No pending registration requests",
       "noRequestsDescription": "New owner registration requests will appear here for approval",

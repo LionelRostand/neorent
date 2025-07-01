@@ -23,7 +23,7 @@
       "saving": "Sicherheitseinstellungen wurden aktualisiert"
     },
     "owners": {
-      "management": "Eigentümer-Verwaltung",
+      "management": "Eigentümer",
       "description": "Verwalten Sie Eigentümer und ihre Berechtigungen",
       "addOwner": "Eigentümer hinzufügen",
       "editOwner": "Eigentümer bearbeiten",
@@ -51,7 +51,7 @@
       "activateAccess": "Zugriff aktivieren"
     },
     "ownerRegistrations": {
-      "title": "Eigentümer-Registrierungsanfragen",
+      "title": "Anfragen",
       "pendingCount": "ausstehende Anfragen",
       "noRequests": "Keine ausstehenden Registrierungsanfragen",
       "noRequestsDescription": "Neue Eigentümer-Registrierungsanfragen werden hier zur Genehmigung angezeigt",

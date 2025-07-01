@@ -36,11 +36,11 @@ const EmployeeManagementTabs: React.FC<EmployeeManagementTabsProps> = ({
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="owners" className="flex items-center gap-2">
           <Plus className="h-4 w-4" />
-          Propriétaires
+          {t('settings.owners.management')}
         </TabsTrigger>
         <TabsTrigger value="requests" className="flex items-center gap-2">
           <UserPlus className="h-4 w-4" />
-          Demandes
+          {t('settings.ownerRegistrations.title')}
         </TabsTrigger>
       </TabsList>
       

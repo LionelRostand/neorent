@@ -23,7 +23,7 @@
       "saving": "Les paramètres de sécurité ont été mis à jour"
     },
     "owners": {
-      "management": "Gestion des Propriétaires",
+      "management": "Propriétaires",
       "description": "Gérez les propriétaires et leurs permissions",
       "addOwner": "Ajouter un Propriétaire",
       "editOwner": "Modifier le Propriétaire",
@@ -51,7 +51,7 @@
       "activateAccess": "Activer l'Accès"
     },
     "ownerRegistrations": {
-      "title": "Demandes d'inscription des propriétaires",
+      "title": "Demandes",
       "pendingCount": "demandes en attente",
       "noRequests": "Aucune demande d'inscription en attente",
       "noRequestsDescription": "Les nouvelles demandes d'inscription de propriétaires apparaîtront ici pour approbation",
