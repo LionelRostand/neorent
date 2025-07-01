@@ -21,6 +21,34 @@
       "subtitle": "Gérez vos paramètres de sécurité",
       "loadingSettings": "Impossible de charger les paramètres de sécurité",
       "saving": "Les paramètres de sécurité ont été mis à jour"
+    },
+    "owners": {
+      "management": "Gestion des Propriétaires",
+      "description": "Gérez les propriétaires et leurs permissions",
+      "addOwner": "Ajouter un Propriétaire",
+      "editOwner": "Modifier le Propriétaire",
+      "fullName": "Nom Complet",
+      "role": "Rôle",
+      "owner": "Propriétaire",
+      "administrator": "Administrateur",
+      "company": "Entreprise",
+      "selectCompany": "Sélectionner une Entreprise",
+      "noCompany": "Aucune Entreprise",
+      "unknownCompany": "Entreprise Inconnue",
+      "creationDate": "Date de Création",
+      "permissions": "Permissions",
+      "noPermissions": "Aucune Permission",
+      "passwordStatus": "État du Mot de Passe",
+      "actions": "Actions",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce propriétaire ?",
+      "addSuccess": "Propriétaire ajouté avec succès",
+      "addError": "Erreur lors de l'ajout du propriétaire",
+      "updateSuccess": "Propriétaire mis à jour avec succès",
+      "updateError": "Erreur lors de la mise à jour du propriétaire",
+      "deleteSuccess": "Propriétaire supprimé avec succès",
+      "deleteError": "Erreur lors de la suppression du propriétaire",
+      "loading": "Chargement...",
+      "activateAccess": "Activer l'Accès"
     }
   }
 }
