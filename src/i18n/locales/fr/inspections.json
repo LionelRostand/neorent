@@ -1,4 +1,3 @@
-
 {
   "inspections": {
     "title": "Inspections",
@@ -16,7 +15,7 @@
     "urgentInspections": "Inspections Urgentes",
     "thisMonth": "Ce Mois",
     "addInspection": "Ajouter une Inspection",
-    "newInspection": "Nouvelle Inspection",
+    "newInspection": "Nouvel État des Lieux",
     "editInspection": "Modifier l'Inspection",
     "deleteInspection": "Supprimer l'Inspection",
     "inspectionsList": "Liste des Inspections",
@@ -103,7 +102,7 @@
     }
   },
   "inspectionForm": {
-    "title": "Nouvelle inspection",
+    "title": "Nouvel État des Lieux",
     "editTitle": "Modifier l'inspection",
     "type": "Type d'inspection",
     "selectType": "Sélectionner un type",

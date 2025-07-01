@@ -1,4 +1,3 @@
-
 {
   "inspections": {
     "title": "Inspections",
@@ -170,7 +169,7 @@
     }
   },
   "inspectionForm": {
-    "title": "New inspection",
+    "title": "New Inspection",
     "editTitle": "Edit inspection",
     "type": "Inspection type",
     "selectType": "Select a type",

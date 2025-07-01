@@ -51,7 +51,7 @@
     "notes": "Notizen",
     "cancel": "Abbrechen",
     "createInspection": "Inspektion erstellen",
-    "newInspection": "Neue Inspektion",
+    "newInspection": "Neue Zustandsbeurteilung",
     "inspectionsList": "Inspektionsliste",
     "listTitle": "Liste der Inspektionen",
     "loading": "Inspektionen werden geladen...",
@@ -87,7 +87,7 @@
     }
   },
   "inspectionForm": {
-    "title": "Neue Inspektion",
+    "title": "Neue Zustandsbeurteilung",
     "editTitle": "Inspektion bearbeiten",
     "type": "Inspektionstyp",
     "selectType": "Typ auswählen",
