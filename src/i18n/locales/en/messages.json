@@ -4,10 +4,11 @@
     "title": "Messages",
     "subtitle": "Communicate with your tenants and partners",
     "totalConversations": "Total Conversations",
-    "onlineClients": "Online Clients", 
+    "onlineClients": "Online Clients",
     "recent1h": "Recent (1h)",
     "unreadMessages": "Unread Messages",
     "contacts": "Contacts",
-    "noContacts": "No contacts"
+    "noContacts": "No Contacts",
+    "selectContact": "Select a contact"
   }
 }

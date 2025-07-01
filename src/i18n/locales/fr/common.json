@@ -5,7 +5,7 @@
     "roommate": "Colocataire", 
     "administrator": "Administrateur",
     "tenantNotFound": "Profil locataire non trouvé",
-    "contactAdminForHelp": "Veuillez contacter votre administrateur pour assistance",
+    "contactAdminForHelp": "Veuillez contacter votre administrateur pour obtenir de l'aide",
     "backToAdmin": "Retour à l'Admin",
     "errorAccessingTenantSpace": "Erreur d'accès à l'espace locataire",
     "month": "mois",

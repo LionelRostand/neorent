@@ -3,11 +3,12 @@
   "messages": {
     "title": "Messages",
     "subtitle": "Communiquez avec vos locataires et partenaires",
-    "totalConversations": "Total des Conversations",
-    "onlineClients": "Clients en Ligne",
+    "totalConversations": "Total conversations",
+    "onlineClients": "Clients en ligne",
     "recent1h": "Récents (1h)",
-    "unreadMessages": "Messages Non Lus",
+    "unreadMessages": "Messages non lus",
     "contacts": "Contacts",
-    "noContacts": "Aucun contact"
+    "noContacts": "Aucun contact",
+    "selectContact": "Sélectionnez un contact"
   }
 }
