@@ -161,6 +161,25 @@
     "themeConfigurationSaved": "Theme-Konfiguration gespeichert!",
     "visualAppearanceUpdated": "Visuelles Erscheinungsbild erfolgreich aktualisiert",
     "errorSavingTheme": "Fehler beim Speichern des Themes",
-    "pleaseRetry": "Bitte versuchen Sie es erneut"
+    "pleaseRetry": "Bitte versuchen Sie es erneut",
+    "footerConfiguration": "Footer-Konfiguration",
+    "footerConfigurationDescription": "Navigationslinks, rechtliche Informationen, soziale Medien und Pflichtangaben für NeoRent.",
+    "navigationLinks": "Navigationslinks",
+    "socialMedia": "Soziale Medien",
+    "legalInformation": "Rechtliche Informationen",
+    "linkName": "Link-Name",
+    "linkUrl": "Link-URL",
+    "addLink": "Link hinzufügen",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn",
+    "facebookUrl": "Facebook-URL",
+    "instagramUrl": "Instagram-URL",
+    "twitterUrl": "Twitter-URL",
+    "linkedinUrl": "LinkedIn-URL",
+    "footerConfigurationSaved": "Footer-Konfiguration gespeichert!",
+    "footerConfigurationSavedDescription": "Links, soziale Medien und rechtliche Hinweise aktualisiert",
+    "legalNoticesPlaceholder": "Rechtliche Hinweise, Nutzungsbedingungen..."
   }
 }

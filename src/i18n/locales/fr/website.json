@@ -136,6 +136,25 @@
     "themeConfigurationSaved": "Configuration du thème sauvegardée !",
     "visualAppearanceUpdated": "Apparence visuelle mise à jour avec succès",
     "errorSavingTheme": "Erreur lors de la sauvegarde du thème",
-    "pleaseRetry": "Veuillez réessayer"
+    "pleaseRetry": "Veuillez réessayer",
+    "footerConfiguration": "Configuration du Pied de Page",
+    "footerConfigurationDescription": "Liens de navigation, informations légales, réseaux sociaux et mentions obligatoires pour NeoRent.",
+    "navigationLinks": "Liens de Navigation",
+    "socialMedia": "Réseaux Sociaux",
+    "legalInformation": "Informations Légales",
+    "linkName": "Nom du lien",
+    "linkUrl": "URL du lien",
+    "addLink": "Ajouter un lien",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn",
+    "facebookUrl": "URL Facebook",
+    "instagramUrl": "URL Instagram",
+    "twitterUrl": "URL Twitter",
+    "linkedinUrl": "URL LinkedIn",
+    "footerConfigurationSaved": "Configuration du pied de page sauvegardée !",
+    "footerConfigurationSavedDescription": "Liens, réseaux sociaux et mentions légales mis à jour",
+    "legalNoticesPlaceholder": "Mentions légales, conditions d'utilisation..."
   }
 }
