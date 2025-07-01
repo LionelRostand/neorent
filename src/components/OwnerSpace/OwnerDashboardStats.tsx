@@ -10,54 +10,8 @@ interface OwnerDashboardStatsProps {
 }
 
 const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile }) => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const ownerData = useOwnerData(ownerProfile);
-
-  // Get texts based on current language
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      propertiesManaged: {
-        fr: 'Propriétés',
-        en: 'Properties'
-      },
-      realEstate: {
-        fr: 'Biens immobiliers',
-        en: 'Real estate properties'
-      },
-      activeTenants: {
-        fr: 'Locataires',
-        en: 'Tenants'
-      },
-      activeTenantsDesc: {
-        fr: 'Locataires actifs',
-        en: 'Active tenants'
-      },
-      contracts: {
-        fr: 'Contrats',
-        en: 'Contracts'
-      },
-      activeContracts: {
-        fr: 'Contrats actifs',
-        en: 'Active contracts'
-      },
-      monthlyRevenue: {
-        fr: 'Revenus Mensuels',
-        en: 'Monthly Revenue'
-      },
-      totalRevenue: {
-        fr: 'Revenus mensuels totaux',
-        en: 'Total monthly revenue'
-      },
-      thisMonth: {
-        fr: 'ce mois',
-        en: 'this month'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
 
   // Calculer les revenus mensuels
   const currentMonth = new Date().getMonth();
@@ -84,40 +38,40 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
 
   const stats = [
     {
-      title: getLocalizedText('propertiesManaged'),
+      title: t('ownerSpace.dashboard.stats.propertiesManaged'),
       value: ownerData.properties.length.toString(),
-      change: `+2 ${getLocalizedText('thisMonth')}`,
+      change: `+2 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: Home,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
-      description: getLocalizedText('realEstate')
+      description: t('ownerSpace.dashboard.stats.propertiesManaged')
     },
     {
-      title: getLocalizedText('activeTenants'),
+      title: t('ownerSpace.dashboard.stats.activeTenants'),
       value: activeTenants.length.toString(),
-      change: `+3 ${getLocalizedText('thisMonth')}`,
+      change: `+3 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: Users,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
-      description: getLocalizedText('activeTenantsDesc')
+      description: t('ownerSpace.dashboard.stats.activeTenants')
     },
     {
-      title: getLocalizedText('contracts'),
+      title: t('ownerSpace.dashboard.stats.contracts'),
       value: ownerData.contracts.length.toString(),
-      change: `+1 ${getLocalizedText('thisMonth')}`,
+      change: `+1 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: Calendar,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
-      description: getLocalizedText('activeContracts')
+      description: t('ownerSpace.dashboard.stats.contracts')
     },
     {
-      title: getLocalizedText('monthlyRevenue'),
+      title: t('ownerSpace.dashboard.stats.monthlyRevenue'),
       value: `${monthlyRevenue.toLocaleString()}€`,
-      change: `+8.2% ${getLocalizedText('thisMonth')}`,
+      change: `+8.2% ${t('ownerSpace.dashboard.stats.thisMonth')}`,
       icon: DollarSign,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
-      description: getLocalizedText('totalRevenue')
+      description: t('ownerSpace.dashboard.stats.monthlyRevenue')
     }
   ];
 

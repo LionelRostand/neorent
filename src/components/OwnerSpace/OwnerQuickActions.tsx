@@ -95,13 +95,13 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
       <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-4 md:p-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
           <h3 className="text-base md:text-lg font-semibold text-white">
-            {t('navigation.quickActions', 'Actions rapides')}
+            {t('ownerSpace.quickActions.title')}
           </h3>
         </div>
         
         {enabledActions.length === 0 ? (
           <p className="text-white/70 text-sm">
-            {i18n.language === 'en' ? 'No quick actions configured' : 'Aucune action rapide configurée'}
+            {t('ownerSpace.noQuickActionsConfigured')}
           </p>
         ) : (
           <DragDropContext onDragEnd={handleDragEnd}>
