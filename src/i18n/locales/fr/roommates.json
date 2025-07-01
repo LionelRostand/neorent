@@ -7,7 +7,11 @@
       "assurance": "Assurance",
       "etatLieuxEntree": "État des lieux d'entrée",
       "revenus": "Revenus",
-      "identite": "Identité"
+      "identite": "Identité",
+      "rib": "RIB",
+      "garant": "Documents du garant",
+      "taxeHabitation": "Taxe d'habitation",
+      "etatLieuxSortie": "État des lieux de sortie"
     },
     "required": "Requis",
     "noDocumentUploaded": "Aucun document téléversé"

@@ -7,7 +7,11 @@
       "assurance": "Insurance",
       "etatLieuxEntree": "Move-in Inspection",
       "revenus": "Income",
-      "identite": "Identity"
+      "identite": "Identity",
+      "rib": "Bank Account Details",
+      "garant": "Guarantor Documents",
+      "taxeHabitation": "Housing Tax",
+      "etatLieuxSortie": "Move-out Inspection"
     },
     "required": "Required",
     "noDocumentUploaded": "No document uploaded"
