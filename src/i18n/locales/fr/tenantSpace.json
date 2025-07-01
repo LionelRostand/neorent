@@ -1,4 +1,3 @@
-
 {
   "tenantSpace": {
     "title": "Espace Locataire",
@@ -81,7 +80,8 @@
       "inbox": "Boîte de réception",
       "sent": "Envoyés",
       "compose": "Composer",
-      "reply": "Répondre"
+      "reply": "Répondre",
+      "description": "Communiquez directement avec votre gestionnaire immobilier pour toutes vos questions et demandes."
     },
     "tabs": {
       "overview": "Aperçu",

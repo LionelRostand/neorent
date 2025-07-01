@@ -1,4 +1,3 @@
-
 {
   "tenantSpace": {
     "title": "Mieterbereich",
@@ -81,7 +80,8 @@
       "inbox": "Posteingang",
       "sent": "Gesendet",
       "compose": "Verfassen",
-      "reply": "Antworten"
+      "reply": "Antworten",
+      "description": "Kommunizieren Sie direkt mit Ihrem Hausverwalter für alle Ihre Fragen und Anfragen."
     },
     "tabs": {
       "overview": "Übersicht",

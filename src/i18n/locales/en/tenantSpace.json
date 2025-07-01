@@ -1,4 +1,3 @@
-
 {
   "tenantSpace": {
     "title": "Tenant Space",
@@ -81,7 +80,8 @@
       "inbox": "Inbox",
       "sent": "Sent",
       "compose": "Compose",
-      "reply": "Reply"
+      "reply": "Reply",
+      "description": "Communicate directly with your property manager for all your questions and requests."
     },
     "tabs": {
       "overview": "Overview",
