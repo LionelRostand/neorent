@@ -1,3 +1,4 @@
+
 {
   "website": {
     "title": "Website-Verwaltung",
@@ -188,6 +189,27 @@
     "pageTitle": "Seitentitel",
     "contentMarkdownSupported": "Inhalt (Markdown unterstützt)",
     "preview": "Vorschau",
-    "livePage": "Live-Seite"
+    "livePage": "Live-Seite",
+    "cookieManagement": "Cookie-Verwaltung",
+    "cookieManagementDescription": "Cookie-Richtlinie und Einverständnisbanner konfigurieren",
+    "generalConfiguration": "Allgemeine Konfiguration",
+    "enableCookieBanner": "Cookie-Banner aktivieren",
+    "bannerText": "Banner-Text",
+    "cookieExpiryDays": "Cookie-Gültigkeit (Tage)",
+    "allowedCookieTypes": "Erlaubte Cookie-Typen",
+    "necessaryCookies": "Notwendige Cookies",
+    "necessaryCookiesDescription": "Für die Funktionalität erforderlich",
+    "analyticsCookies": "Analyse-Cookies",
+    "analyticsCookiesDescription": "Besuchermessung",
+    "marketingCookies": "Marketing-Cookies",
+    "marketingCookiesDescription": "Personalisierte Werbung",
+    "functionalCookies": "Funktionale Cookies",
+    "functionalCookiesDescription": "Erweiterte Funktionen",
+    "bannerPreview": "Banner-Vorschau",
+    "weUseCookies": "Wir verwenden Cookies",
+    "bannerDisabled": "Cookie-Banner ist deaktiviert",
+    "cookieSettings": "Einstellungen",
+    "necessaryOnly": "Nur notwendige",
+    "acceptAll": "Alle akzeptieren"
   }
 }

@@ -1,3 +1,4 @@
+
 {
   "website": {
     "title": "Website Management",
@@ -163,6 +164,27 @@
     "pageTitle": "Page Title",
     "contentMarkdownSupported": "Content (Markdown supported)",
     "preview": "Preview",
-    "livePage": "Live Page"
+    "livePage": "Live Page",
+    "cookieManagement": "Cookie Management",
+    "cookieManagementDescription": "Configure cookie policy and consent banners",
+    "generalConfiguration": "General Configuration",
+    "enableCookieBanner": "Enable cookie banner",
+    "bannerText": "Banner text",
+    "cookieExpiryDays": "Cookie expiry (days)",
+    "allowedCookieTypes": "Allowed cookie types",
+    "necessaryCookies": "Necessary cookies",
+    "necessaryCookiesDescription": "Essential for functionality",
+    "analyticsCookies": "Analytics cookies",
+    "analyticsCookiesDescription": "Audience measurement",
+    "marketingCookies": "Marketing cookies",
+    "marketingCookiesDescription": "Personalized advertising",
+    "functionalCookies": "Functional cookies",
+    "functionalCookiesDescription": "Advanced features",
+    "bannerPreview": "Banner preview",
+    "weUseCookies": "We use cookies",
+    "bannerDisabled": "Cookie banner is disabled",
+    "cookieSettings": "Settings",
+    "necessaryOnly": "Necessary only",
+    "acceptAll": "Accept all"
   }
 }

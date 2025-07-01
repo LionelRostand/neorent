@@ -1,3 +1,4 @@
+
 {
   "website": {
     "title": "Gestion du Site Web",
@@ -163,6 +164,27 @@
     "pageTitle": "Titre de la page",
     "contentMarkdownSupported": "Contenu (Markdown supporté)",
     "preview": "Aperçu",
-    "livePage": "Page live"
+    "livePage": "Page live",
+    "cookieManagement": "Gestion des Cookies",
+    "cookieManagementDescription": "Configurez la politique de cookies et les bannières de consentement",
+    "generalConfiguration": "Configuration générale",
+    "enableCookieBanner": "Activer la bannière de cookies",
+    "bannerText": "Texte de la bannière",
+    "cookieExpiryDays": "Durée de validité (jours)",
+    "allowedCookieTypes": "Types de cookies autorisés",
+    "necessaryCookies": "Cookies nécessaires",
+    "necessaryCookiesDescription": "Indispensables au fonctionnement",
+    "analyticsCookies": "Cookies analytiques",
+    "analyticsCookiesDescription": "Mesure d'audience",
+    "marketingCookies": "Cookies marketing",
+    "marketingCookiesDescription": "Publicités personnalisées",
+    "functionalCookies": "Cookies fonctionnels",
+    "functionalCookiesDescription": "Fonctionnalités avancées",
+    "bannerPreview": "Aperçu de la bannière",
+    "weUseCookies": "Nous utilisons des cookies",
+    "bannerDisabled": "La bannière de cookies est désactivée",
+    "cookieSettings": "Paramètres",
+    "necessaryOnly": "Nécessaires uniquement",
+    "acceptAll": "Accepter tout"
   }
 }
