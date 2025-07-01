@@ -38,6 +38,46 @@
         "configureBilling": "Konfigurieren Sie die Abrechnung, um Dienstunterbrechungen zu vermeiden"
       }
     },
+    "email": {
+      "title": "E-Mail-Konfiguration",
+      "subtitle": "SMTP- und IMAP-Einstellungen für das Senden und Empfangen von E-Mails konfigurieren",
+      "enabled": "E-Mails aktivieren",
+      "testMode": "Testmodus",
+      "loadingSettings": "Einstellungen werden geladen...",
+      "saving": "Speichern...",
+      "testing": "Teste...",
+      "smtp": {
+        "title": "SMTP-Konfiguration",
+        "server": "SMTP-Server",
+        "port": "Port",
+        "username": "Benutzername",
+        "password": "Passwort",
+        "security": "Sicherheit",
+        "fromEmail": "Absender-E-Mail",
+        "fromName": "Absendername",
+        "testConnection": "Verbindung testen"
+      },
+      "imap": {
+        "title": "IMAP-Konfiguration",
+        "server": "IMAP-Server",
+        "port": "Port",
+        "username": "Benutzername",
+        "password": "Passwort",
+        "security": "Sicherheit",
+        "folder": "Ordner",
+        "testConnection": "Verbindung testen"
+      },
+      "securityOptions": {
+        "none": "Keine",
+        "tls": "TLS",
+        "ssl": "SSL"
+      },
+      "recommendedConfig": "Empfohlene Konfiguration",
+      "gmailConfig": "Gmail: smtp.gmail.com:587 (TLS), imap.gmail.com:993 (SSL)",
+      "outlookConfig": "Outlook: smtp-mail.outlook.com:587 (TLS), outlook.office365.com:993 (SSL)",
+      "appPasswordRecommendation": "Verwenden Sie ein App-Passwort für Gmail und Outlook",
+      "testConnectionRecommendation": "Testen Sie immer die Verbindung vor dem Speichern"
+    },
     "security": {
       "title": "Sicherheit",
       "subtitle": "Verwalten Sie Ihre Sicherheitseinstellungen",

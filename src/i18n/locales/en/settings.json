@@ -38,6 +38,46 @@
         "configureBilling": "Configure billing to avoid service interruptions"
       }
     },
+    "email": {
+      "title": "Email Configuration",
+      "subtitle": "Configure SMTP and IMAP settings for sending and receiving emails",
+      "enabled": "Enable emails",
+      "testMode": "Test mode",
+      "loadingSettings": "Loading settings...",
+      "saving": "Saving...",
+      "testing": "Testing...",
+      "smtp": {
+        "title": "SMTP Configuration",
+        "server": "SMTP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "fromEmail": "From Email",
+        "fromName": "From Name",
+        "testConnection": "Test Connection"
+      },
+      "imap": {
+        "title": "IMAP Configuration",
+        "server": "IMAP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "folder": "Folder",
+        "testConnection": "Test Connection"
+      },
+      "securityOptions": {
+        "none": "None",
+        "tls": "TLS",
+        "ssl": "SSL"
+      },
+      "recommendedConfig": "Recommended Configuration",
+      "gmailConfig": "Gmail: smtp.gmail.com:587 (TLS), imap.gmail.com:993 (SSL)",
+      "outlookConfig": "Outlook: smtp-mail.outlook.com:587 (TLS), outlook.office365.com:993 (SSL)",
+      "appPasswordRecommendation": "Use an app password for Gmail and Outlook",
+      "testConnectionRecommendation": "Always test connection before saving"
+    },
     "security": {
       "title": "Security",
       "subtitle": "Manage your security settings",
