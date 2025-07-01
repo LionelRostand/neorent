@@ -1,3 +1,4 @@
+
 {
   "inspections": {
     "title": "Inspections",
@@ -38,6 +39,8 @@
     "scheduleInfo": "Schedule Information",
     "checklistInfo": "Checklist Information",
     "reportInfo": "Report Information",
+    "generalInformation": "General Information",
+    "propertyDetails": "Property Details",
     "type": "Type",
     "status": "Status",
     "property": "Property",
@@ -136,6 +139,9 @@
     "edit": "Edit",
     "view": "View",
     "add": "Add",
+    "close": "Close",
+    "modify": "Modify",
+    "generatePDF": "Generate PDF",
     "createInspection": "Create inspection",
     "loading": "Loading inspections...",
     "noInspections": "No inspections found",
@@ -159,6 +165,8 @@
     "observations": "Observations",
     "observationsPlaceholder": "Enter your observations...",
     "date": "Date",
+    "planned": "Planned",
+    "entry": "Entry",
     "types": {
       "entryInventory": "Entry inventory",
       "exitInventory": "Exit inventory",
