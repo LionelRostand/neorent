@@ -18,18 +18,28 @@ interface Page {
   status: string;
   lastModified: string;
   content?: string;
+  nameKey?: string; // Key for translation
 }
 
 const PagesTab = () => {
   const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
+  
+  // Function to get translated page name
+  const getPageName = (page: Page) => {
+    if (page.nameKey) {
+      return t(page.nameKey);
+    }
+    return page.name;
+  };
+
   const [pages, setPages] = useState<Page[]>([
-    { id: 1, name: 'Accueil', url: '/', status: 'Publié', lastModified: '2024-01-15' },
-    { id: 2, name: 'À Propos', url: '/about', status: 'Publié', lastModified: '2024-01-14' },
-    { id: 3, name: 'Contact', url: '/contact', status: 'Publié', lastModified: '2024-01-13' },
-    { id: 4, name: 'Propriétés', url: '/properties', status: 'Publié', lastModified: '2024-01-12' },
-    { id: 5, name: 'Connexion', url: '/login', status: 'Publié', lastModified: '2024-01-11' },
-    { id: 6, name: 'Services', url: '/services', status: 'Brouillon', lastModified: '2024-01-10' }
+    { id: 1, name: 'Accueil', nameKey: 'common.home', url: '/', status: t('common.published'), lastModified: '2024-01-15' },
+    { id: 2, name: 'À Propos', nameKey: 'common.about', url: '/about', status: t('common.published'), lastModified: '2024-01-14' },
+    { id: 3, name: 'Contact', nameKey: 'common.contact', url: '/contact', status: t('common.published'), lastModified: '2024-01-13' },
+    { id: 4, name: 'Propriétés', nameKey: 'common.properties', url: '/properties', status: t('common.published'), lastModified: '2024-01-12' },
+    { id: 5, name: 'Connexion', nameKey: 'common.login', url: '/login', status: t('common.published'), lastModified: '2024-01-11' },
+    { id: 6, name: 'Services', nameKey: 'common.services', url: '/services', status: t('common.draft'), lastModified: '2024-01-10' }
   ]);
 
   const [newPage, setNewPage] = useState({
@@ -68,7 +78,7 @@ const PagesTab = () => {
         id: Math.max(...pages.map(p => p.id)) + 1,
         name: newPage.title,
         url: newPage.url,
-        status: 'Brouillon',
+        status: t('common.draft'),
         lastModified: new Date().toISOString().split('T')[0]
       };
       setPages([...pages, page]);
@@ -132,10 +142,10 @@ const PagesTab = () => {
               {pages.map((page) => (
                 <div key={page.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <h4 className="font-medium">{page.name}</h4>
+                    <h4 className="font-medium">{getPageName(page)}</h4>
                     <p className="text-sm text-gray-500">{page.url}</p>
                     <span className={`text-xs px-2 py-1 rounded ${
-                      page.status === 'Publié' 
+                      page.status === t('common.published') 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
                     }`}>
