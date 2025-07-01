@@ -23,6 +23,36 @@
     "manageTaxes": "Gérer la fiscalité",
     "manageWebsite": "Gérer le site web",
     "manageSettings": "Gérer les paramètres",
-    "getHelp": "Obtenir de l'aide"
+    "getHelp": "Obtenir de l'aide",
+    "manager": {
+      "title": "Gestionnaire d'actions rapides",
+      "currentActions": "Actions rapides actuelles",
+      "availableMenus": "Menus disponibles du sidebar",
+      "noActionsConfigured": "Aucune action rapide configurée"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Accéder au tableau de bord principal"
+    },
+    "property": {
+      "title": "Propriété", 
+      "description": "Gérer les propriétés"
+    },
+    "contract": {
+      "title": "Contrat",
+      "description": "Gérer les contrats"
+    },
+    "roommate": {
+      "title": "Colocataire",
+      "description": "Gérer les colocataires"
+    },
+    "website": {
+      "title": "Site web",
+      "description": "Gérer le site web"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "description": "Gérer les paramètres"
+    }
   }
 }

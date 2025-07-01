@@ -23,6 +23,36 @@
     "manageTaxes": "Manage Taxes",
     "manageWebsite": "Manage Website",
     "manageSettings": "Manage Settings",
-    "getHelp": "Get Help"
+    "getHelp": "Get Help",
+    "manager": {
+      "title": "Quick Actions Manager",
+      "currentActions": "Current Quick Actions",
+      "availableMenus": "Available Sidebar Menus",
+      "noActionsConfigured": "No quick actions configured"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Access main dashboard"
+    },
+    "property": {
+      "title": "Property",
+      "description": "Manage properties"
+    },
+    "contract": {
+      "title": "Contract",
+      "description": "Manage contracts"
+    },
+    "roommate": {
+      "title": "Roommate",
+      "description": "Manage roommates"
+    },
+    "website": {
+      "title": "Website",
+      "description": "Manage website"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Manage settings"
+    }
   }
 }

@@ -1,0 +1,58 @@
+
+{
+  "quickActions": {
+    "title": "Schnelle Aktionen",
+    "subtitle": "Schneller Zugriff auf Hauptfunktionen",
+    "addProperty": "Immobilie hinzufügen",
+    "addTenant": "Mieter hinzufügen",
+    "addRoommate": "Mitbewohner hinzufügen",
+    "recordPayment": "Zahlung erfassen",
+    "scheduleInspection": "Inspektion planen",
+    "sendMessage": "Nachricht senden",
+    "generateReport": "Bericht erstellen",
+    "viewAll": "Alle anzeigen",
+    "manageProperties": "Immobilien verwalten",
+    "manageTenants": "Mieter verwalten",
+    "manageRoommates": "Mitbewohner verwalten",
+    "manageContracts": "Verträge verwalten",
+    "manageInspections": "Inspektionen verwalten",
+    "manageRent": "Miete verwalten",
+    "manageCharges": "Nebenkosten verwalten",
+    "manageMaintenance": "Wartung verwalten",
+    "manageMessages": "Nachrichten verwalten",
+    "manageTaxes": "Steuern verwalten",
+    "manageWebsite": "Website verwalten",
+    "manageSettings": "Einstellungen verwalten",
+    "getHelp": "Hilfe erhalten",
+    "manager": {
+      "title": "Schnelle Aktionen Manager",
+      "currentActions": "Aktuelle schnelle Aktionen",
+      "availableMenus": "Verfügbare Sidebar-Menüs",
+      "noActionsConfigured": "Keine schnellen Aktionen konfiguriert"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Hauptdashboard aufrufen"
+    },
+    "property": {
+      "title": "Immobilie",
+      "description": "Immobilien verwalten"
+    },
+    "contract": {
+      "title": "Vertrag",
+      "description": "Verträge verwalten"
+    },
+    "roommate": {
+      "title": "Mitbewohner",
+      "description": "Mitbewohner verwalten"
+    },
+    "website": {
+      "title": "Website",
+      "description": "Website verwalten"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "description": "Einstellungen verwalten"
+    }
+  }
+}
