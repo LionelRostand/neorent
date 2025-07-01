@@ -21,12 +21,19 @@ import maintenanceCostsEN from '../locales/en/maintenanceCosts.json';
 import messagesEN from '../locales/en/messages.json';
 import taxesEN from '../locales/en/taxes.json';
 import settingsEN from '../locales/en/settings.json';
+import settingsPermissionsEN from '../locales/en/settings/permissions.json';
+import settingsOwnersEN from '../locales/en/settings/owners.json';
+import settingsFirebaseEN from '../locales/en/settings/firebase.json';
 import helpEN from '../locales/en/help.json';
 import websiteEN from '../locales/en/website.json';
 import pagesEN from '../locales/en/pages.json';
 import tenantSpaceEN from '../locales/en/tenantSpace.json';
 import roommateSpaceEN from '../locales/en/roommateSpace.json';
 import dashboardEN from '../locales/en/dashboard.json';
+import tenantOverviewEN from '../locales/en/tenantOverview.json';
+import tenantHistoryEN from '../locales/en/tenantHistory.json';
+import tenantProfileEN from '../locales/en/tenantProfile.json';
+import tenantPaymentsEN from '../locales/en/tenantPayments.json';
 
 export const englishResources = {
   translation: {
@@ -51,11 +58,18 @@ export const englishResources = {
     ...messagesEN,
     ...taxesEN,
     ...settingsEN,
+    ...settingsPermissionsEN,
+    ...settingsOwnersEN,
+    ...settingsFirebaseEN,
     ...helpEN,
     ...websiteEN,
     ...pagesEN,
     ...tenantSpaceEN,
     ...roommateSpaceEN,
-    ...dashboardEN
+    ...dashboardEN,
+    ...tenantOverviewEN,
+    ...tenantHistoryEN,
+    ...tenantProfileEN,
+    ...tenantPaymentsEN
   }
 };

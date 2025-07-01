@@ -5,47 +5,83 @@
     "subtitle": "Gérez votre location en toute simplicité",
     "welcome": "Bienvenue dans votre espace locataire",
     "tenant": "Locataire",
-    "dashboard": {
-      "title": "Tableau de bord",
-      "nextRent": "Prochain loyer",
-      "rentStatus": "Statut du loyer",
-      "maintenanceRequests": "Demandes de maintenance",
-      "messages": "Messages",
-      "documents": "Documents"
+    "room": "Chambre {number}",
+    "overview": {
+      "title": "Aperçu",
+      "currentRent": "Loyer Actuel",
+      "nextPayment": "Prochain Paiement",
+      "contractStatus": "Statut du Contrat",
+      "maintenanceRequests": "Demandes de Maintenance",
+      "generalInfo": "Informations générales",
+      "financialInfo": "Informations financières",
+      "characteristics": "Caractéristiques du bien",
+      "monthlyRent": "Loyer mensuel",
+      "monthlyCharges": "Charges mensuelles",
+      "securityDeposit": "Dépôt de garantie",
+      "totalMonthly": "Total mensuel (loyer + charges)",
+      "myProperty": "Mon logement",
+      "myRoom": "Ma chambre",
+      "type": "Type",
+      "surface": "Surface",
+      "rooms": "Nombre de pièces",
+      "floor": "Étage",
+      "furnished": "Meublé",
+      "elevator": "Ascenseur",
+      "parking": "Parking",
+      "equipment": "Équipements",
+      "rent": "Loyer",
+      "charges": "Charges",
+      "deposit": "Caution",
+      "room": "chambre",
+      "bedroom": "chambre",
+      "sharedRoom": "Chambre partagée",
+      "apartment": "Appartement",
+      "studio": "Studio",
+      "house": "Maison",
+      "roomInSharedFlat": "Chambre en colocation",
+      "roomNumber": "Numéro de chambre",
+      "ordinalFloor": {
+        "1": "1er étage",
+        "2": "2ème étage",
+        "3": "3ème étage",
+        "ground": "Rez-de-chaussée"
+      }
     },
-    "rent": {
-      "title": "Loyers",
-      "payRent": "Payer le loyer",
-      "rentHistory": "Historique des loyers",
-      "nextPayment": "Prochain paiement",
-      "amount": "Montant",
-      "dueDate": "Date d'échéance",
-      "status": "Statut",
-      "paid": "Payé",
-      "pending": "En attente",
-      "overdue": "En retard"
+    "profile": {
+      "title": "Profil",
+      "personalInfo": "Informations personnelles",
+      "contactInfo": "Informations de contact",
+      "emergencyContact": "Contact d'urgence",
+      "edit": "Modifier",
+      "save": "Sauvegarder"
     },
-    "maintenance": {
-      "title": "Maintenance",
-      "newRequest": "Nouvelle demande",
-      "myRequests": "Mes demandes",
-      "requestStatus": "Statut de la demande",
-      "priority": "Priorité",
-      "category": "Catégorie",
-      "description": "Description"
+    "payments": {
+      "title": "Paiements",
+      "history": "Historique des paiements",
+      "upcoming": "Paiements à venir",
+      "makePayment": "Effectuer un paiement",
+      "paymentMethod": "Méthode de paiement"
     },
     "documents": {
       "title": "Documents",
-      "lease": "Bail",
+      "contract": "Contrat de bail",
       "receipts": "Reçus",
       "notices": "Avis",
-      "other": "Autres"
+      "upload": "Télécharger un document"
     },
-    "profile": {
-      "title": "Mon Profil",
-      "personalInfo": "Informations personnelles",
-      "contactInfo": "Informations de contact",
-      "leaseInfo": "Informations du bail"
+    "maintenance": {
+      "title": "Maintenance",
+      "requests": "Demandes",
+      "newRequest": "Nouvelle demande",
+      "status": "Statut",
+      "history": "Historique"
+    },
+    "messages": {
+      "title": "Messages",
+      "inbox": "Boîte de réception",
+      "sent": "Envoyés",
+      "compose": "Composer",
+      "reply": "Répondre"
     },
     "tabs": {
       "overview": "Aperçu",
@@ -53,16 +89,16 @@
       "documents": "Documents"
     },
     "payment": {
-      "payRent": "Payer le Loyer",
-      "monthlyRent": "Loyer Mensuel",
+      "payRent": "Payer le loyer",
+      "monthlyRent": "Loyer mensuel",
       "charges": "Charges",
-      "totalToPay": "Total à Payer",
-      "makePayment": "Effectuer le Paiement",
-      "importantInfo": "Informations Importantes",
+      "totalToPay": "Total à payer",
+      "makePayment": "Effectuer le paiement",
+      "importantInfo": "Informations importantes",
       "paymentBefore5th": "• Le paiement doit être effectué avant le 5 de chaque mois",
-      "enterExactAmount": "• Saisissez le montant exact que vous payez",
-      "receiptFullPayment": "• Un reçu PDF sera généré uniquement pour les paiements complets",
-      "alertDifferentAmount": "• En cas de montant différent, une alerte sera levée"
+      "enterExactAmount": "• Entrez le montant exact que vous payez",
+      "receiptFullPayment": "• Un reçu PDF ne sera généré que pour les paiements complets",
+      "alertDifferentAmount": "• Une alarme sera déclenchée si le montant est différent"
     }
   }
 }

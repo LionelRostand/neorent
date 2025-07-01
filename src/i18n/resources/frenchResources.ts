@@ -30,6 +30,9 @@ import pagesFR from '../locales/fr/pages.json';
 import tenantSpaceFR from '../locales/fr/tenantSpace.json';
 import roommateSpaceFR from '../locales/fr/roommateSpace.json';
 import dashboardFR from '../locales/fr/dashboard.json';
+import tenantOverviewFR from '../locales/fr/tenantOverview.json';
+import tenantProfileFR from '../locales/fr/tenantProfile.json';
+import tenantPaymentsFR from '../locales/fr/tenantPayments.json';
 
 export const frenchResources = {
   translation: {
@@ -62,6 +65,9 @@ export const frenchResources = {
     ...pagesFR,
     ...tenantSpaceFR,
     ...roommateSpaceFR,
-    ...dashboardFR
+    ...dashboardFR,
+    ...tenantOverviewFR,
+    ...tenantProfileFR,
+    ...tenantPaymentsFR
   }
 };

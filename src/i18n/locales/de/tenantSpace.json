@@ -5,12 +5,47 @@
     "subtitle": "Verwalten Sie Ihre Miete mit Leichtigkeit",
     "welcome": "Willkommen in Ihrem Mieterbereich",
     "tenant": "Mieter",
+    "room": "Zimmer {number}",
     "overview": {
       "title": "Übersicht",
       "currentRent": "Aktuelle Miete",
       "nextPayment": "Nächste Zahlung",
       "contractStatus": "Vertragsstatus",
-      "maintenanceRequests": "Wartungsanfragen"
+      "maintenanceRequests": "Wartungsanfragen",
+      "generalInfo": "Allgemeine Informationen",
+      "financialInfo": "Finanzielle Informationen",
+      "characteristics": "Immobilieneigenschaften",
+      "monthlyRent": "Monatliche Miete",
+      "monthlyCharges": "Monatliche Nebenkosten",
+      "securityDeposit": "Kaution",
+      "totalMonthly": "Monatlich gesamt (Miete + Nebenkosten)",
+      "myProperty": "Meine Immobilie",
+      "myRoom": "Mein Zimmer",
+      "type": "Typ",
+      "surface": "Fläche",
+      "rooms": "Anzahl Zimmer",
+      "floor": "Stockwerk",
+      "furnished": "Möbliert",
+      "elevator": "Aufzug",
+      "parking": "Parkplatz",
+      "equipment": "Ausstattung",
+      "rent": "Miete",
+      "charges": "Nebenkosten",
+      "deposit": "Kaution",
+      "room": "Zimmer",
+      "bedroom": "Schlafzimmer",
+      "sharedRoom": "Geteiltes Zimmer",
+      "apartment": "Wohnung",
+      "studio": "Studio",
+      "house": "Haus",
+      "roomInSharedFlat": "Zimmer in WG",
+      "roomNumber": "Zimmernummer",
+      "ordinalFloor": {
+        "1": "1. Stock",
+        "2": "2. Stock",
+        "3": "3. Stock",
+        "ground": "Erdgeschoss"
+      }
     },
     "profile": {
       "title": "Profil",
@@ -39,7 +74,7 @@
       "requests": "Anfragen",
       "newRequest": "Neue Anfrage",
       "status": "Status",
-      "history": "Verlauf"
+      "history": "Historie"
     },
     "messages": {
       "title": "Nachrichten",
@@ -54,16 +89,16 @@
       "documents": "Dokumente"
     },
     "payment": {
-      "payRent": "Miete Zahlen",
+      "payRent": "Miete zahlen",
       "monthlyRent": "Monatliche Miete",
       "charges": "Nebenkosten",
-      "totalToPay": "Insgesamt zu Zahlen",
-      "makePayment": "Zahlung Durchführen",
+      "totalToPay": "Zu zahlen insgesamt",
+      "makePayment": "Zahlung durchführen",
       "importantInfo": "Wichtige Informationen",
-      "paymentBefore5th": "• Die Zahlung muss vor dem 5. eines jeden Monats erfolgen",
-      "enterExactAmount": "• Geben Sie den genauen Betrag ein, den Sie zahlen",
-      "receiptFullPayment": "• Ein PDF-Beleg wird nur bei vollständigen Zahlungen generiert",
-      "alertDifferentAmount": "• Bei abweichendem Betrag wird ein Alarm ausgelöst"
+      "paymentBefore5th": "• Die Zahlung muss vor dem 5. jedes Monats erfolgen",
+      "enterExactAmount": "• Geben Sie den exakten Betrag ein, den Sie zahlen",
+      "receiptFullPayment": "• Eine PDF-Quittung wird nur für vollständige Zahlungen erstellt",
+      "alertDifferentAmount": "• Ein Alarm wird ausgelöst, wenn der Betrag abweicht"
     }
   }
 }
