@@ -2,7 +2,6 @@
 // Import English translations
 import commonEN from '../locales/en/common.json';
 import navigationEN from '../locales/en/navigation.json';
-import quickActionsEN from '../locales/en/quickActions.json';
 import publicSiteEN from '../locales/en/publicSite.json';
 import propertiesEN from '../locales/en/properties.json';
 import tenantsEN from '../locales/en/tenants.json';
@@ -13,7 +12,6 @@ import rentManagementEN from '../locales/en/rentManagement.json';
 import rentalChargesEN from '../locales/en/rentalCharges.json';
 import forecastingEN from '../locales/en/forecasting.json';
 import maintenanceEN from '../locales/en/maintenanceCommon.json';
-import maintenanceRequestsEN from '../locales/en/maintenanceRequests.json';
 import maintenanceResponsibilitiesEN from '../locales/en/maintenanceResponsibilities.json';
 import maintenanceInterventionsEN from '../locales/en/maintenanceInterventions.json';
 import maintenanceHistoryEN from '../locales/en/maintenanceHistory.json';
@@ -31,12 +29,12 @@ import tenantOverviewEN from '../locales/en/tenantOverview.json';
 import tenantHistoryEN from '../locales/en/tenantHistory.json';
 import tenantProfileEN from '../locales/en/tenantProfile.json';
 import tenantPaymentsEN from '../locales/en/tenantPayments.json';
+import legalEN from '../locales/en/legal.json';
 
 export const englishResources = {
   translation: {
     ...commonEN,
     ...navigationEN,
-    ...quickActionsEN,
     ...publicSiteEN,
     ...propertiesEN,
     ...tenantsEN,
@@ -47,7 +45,6 @@ export const englishResources = {
     ...rentalChargesEN,
     ...forecastingEN,
     ...maintenanceEN,
-    ...maintenanceRequestsEN,
     ...maintenanceResponsibilitiesEN,
     ...maintenanceInterventionsEN,
     ...maintenanceHistoryEN,
@@ -64,6 +61,7 @@ export const englishResources = {
     ...tenantOverviewEN,
     ...tenantHistoryEN,
     ...tenantProfileEN,
-    ...tenantPaymentsEN
+    ...tenantPaymentsEN,
+    ...legalEN
   }
 };

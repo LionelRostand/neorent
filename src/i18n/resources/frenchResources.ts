@@ -2,7 +2,6 @@
 // Import French translations
 import commonFR from '../locales/fr/common.json';
 import navigationFR from '../locales/fr/navigation.json';
-import quickActionsFR from '../locales/fr/quickActions.json';
 import publicSiteFR from '../locales/fr/publicSite.json';
 import propertiesFR from '../locales/fr/properties.json';
 import tenantsFR from '../locales/fr/tenants.json';
@@ -13,7 +12,6 @@ import rentManagementFR from '../locales/fr/rentManagement.json';
 import rentalChargesFR from '../locales/fr/rentalCharges.json';
 import forecastingFR from '../locales/fr/forecasting.json';
 import maintenanceFR from '../locales/fr/maintenanceCommon.json';
-import maintenanceRequestsFR from '../locales/fr/maintenanceRequests.json';
 import maintenanceResponsibilitiesFR from '../locales/fr/maintenanceResponsibilities.json';
 import maintenanceInterventionsFR from '../locales/fr/maintenanceInterventions.json';
 import maintenanceHistoryFR from '../locales/fr/maintenanceHistory.json';
@@ -21,9 +19,6 @@ import maintenanceCostsFR from '../locales/fr/maintenanceCosts.json';
 import messagesFR from '../locales/fr/messages.json';
 import taxesFR from '../locales/fr/taxes.json';
 import settingsFR from '../locales/fr/settings.json';
-import settingsPermissionsFR from '../locales/fr/settings/permissions.json';
-import settingsOwnersFR from '../locales/fr/settings/owners.json';
-import settingsFirebaseFR from '../locales/fr/settings/firebase.json';
 import helpFR from '../locales/fr/help.json';
 import websiteFR from '../locales/fr/website.json';
 import pagesFR from '../locales/fr/pages.json';
@@ -34,12 +29,12 @@ import tenantOverviewFR from '../locales/fr/tenantOverview.json';
 import tenantHistoryFR from '../locales/fr/tenantHistory.json';
 import tenantProfileFR from '../locales/fr/tenantProfile.json';
 import tenantPaymentsFR from '../locales/fr/tenantPayments.json';
+import legalFR from '../locales/fr/legal.json';
 
 export const frenchResources = {
   translation: {
     ...commonFR,
     ...navigationFR,
-    ...quickActionsFR,
     ...publicSiteFR,
     ...propertiesFR,
     ...tenantsFR,
@@ -50,7 +45,6 @@ export const frenchResources = {
     ...rentalChargesFR,
     ...forecastingFR,
     ...maintenanceFR,
-    ...maintenanceRequestsFR,
     ...maintenanceResponsibilitiesFR,
     ...maintenanceInterventionsFR,
     ...maintenanceHistoryFR,
@@ -58,9 +52,6 @@ export const frenchResources = {
     ...messagesFR,
     ...taxesFR,
     ...settingsFR,
-    ...settingsPermissionsFR,
-    ...settingsOwnersFR,
-    ...settingsFirebaseFR,
     ...helpFR,
     ...websiteFR,
     ...pagesFR,
@@ -70,6 +61,7 @@ export const frenchResources = {
     ...tenantOverviewFR,
     ...tenantHistoryFR,
     ...tenantProfileFR,
-    ...tenantPaymentsFR
+    ...tenantPaymentsFR,
+    ...legalFR
   }
 };
