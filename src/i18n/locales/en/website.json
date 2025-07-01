@@ -78,6 +78,17 @@
     "settingsSaved": "Website settings saved",
     "propertiesWillBeDisplayed": "propertie(s) will be displayed on your public website",
     "saveError": "Error saving",
-    "pleaseRetry": "Please try again"
+    "pleaseRetry": "Please try again",
+    "immoTab": "Real Estate",
+    "contentManagement": "Content Management",
+    "contentDescription": "Manage NeoRent's main information with centralized saving.",
+    "companyInformation": "Company Information",
+    "companyName": "Company Name",
+    "openingHours": "Opening Hours",
+    "savingContent": "Saving...",
+    "contentSaved": "Information saved successfully!",
+    "contentSavedDescription": "NeoRent information has been updated.",
+    "contentSaveError": "Error saving information",
+    "contentSaveErrorDescription": "An error occurred while saving."
   }
 }

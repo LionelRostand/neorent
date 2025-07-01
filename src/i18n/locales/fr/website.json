@@ -78,6 +78,17 @@
     "settingsSaved": "Paramètres du site web sauvegardés",
     "propertiesWillBeDisplayed": "propriété(s) sera(ont) affichée(s) sur votre site web public",
     "saveError": "Erreur lors de la sauvegarde",
-    "pleaseRetry": "Veuillez réessayer"
+    "pleaseRetry": "Veuillez réessayer",
+    "immoTab": "Immobilier",
+    "contentManagement": "Gestion de Contenu",
+    "contentDescription": "Gérez les informations principales de NeoRent avec sauvegarde centralisée.",
+    "companyInformation": "Informations de l'Entreprise",
+    "companyName": "Nom de l'Entreprise",
+    "openingHours": "Heures d'Ouverture",
+    "savingContent": "Sauvegarde...",
+    "contentSaved": "Informations sauvegardées avec succès !",
+    "contentSavedDescription": "Les informations de NeoRent ont été mises à jour.",
+    "contentSaveError": "Erreur lors de la sauvegarde des informations",
+    "contentSaveErrorDescription": "Une erreur s'est produite lors de la sauvegarde."
   }
 }
