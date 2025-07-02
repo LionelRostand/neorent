@@ -2,15 +2,15 @@
 {
   "properties": {
     "title": "Propriétés",
-    "subtitle": "Gérez vos biens immobiliers",
-    "addProperty": "Ajouter une propriété",
+    "subtitle": "Gérez vos propriétés et leurs informations",
+    "addProperty": "Nouvelle propriété",
     "editProperty": "Modifier la propriété",
     "deleteProperty": "Supprimer la propriété",
     "propertyDetails": "Détails de la propriété",
-    "totalProperties": "Total des propriétés",
-    "occupiedProperties": "Propriétés occupées",
+    "totalProperties": "Total Propriétés",
+    "occupiedProperties": "Propriétés Occupées",
     "vacantProperties": "Propriétés vacantes",
-    "monthlyRevenue": "Revenus mensuels",
+    "monthlyRevenue": "Revenus Mensuels",
     "occupancyRate": "Taux d'occupation",
     "colocationRooms": "Chambres colocation",
     "realRevenueReceived": "Revenus réels reçus",
@@ -23,7 +23,7 @@
     "occupants": "occupants",
     "thisMonth": "Ce mois-ci",
     "propertyConfiguration": "Configuration de la propriété",
-    "listTitle": "Liste des propriétés",
+    "listTitle": "Liste des Propriétés",
     "occupantsList": "Liste des occupants",
     "roommate": "Colocataire",
     "perMonth": "/mois",
@@ -52,12 +52,13 @@
     "fields": {
       "name": "Nom",
       "address": "Adresse",
-      "type": "Type",
+      "type": "Type", 
       "rooms": "Pièces",
       "area": "Surface",
       "rent": "Loyer",
       "status": "Statut",
-      "description": "Description"
+      "description": "Description",
+      "title": "Titre"
     },
     "types": {
       "apartment": "Appartement",
@@ -75,7 +76,13 @@
       "occupancyDescription": "taux d'occupation global",
       "colocationDescription": "chambres occupées sur le total",
       "revenueDescription": "revenus mensuels totaux"
-    }
+    },
+    "noPropertiesDesc": "Commencez par ajouter votre première propriété",
+    "totalTenants": "Total Locataires",
+    "activeTenants": "locataires actifs",
+    "propertiesRegistered": "propriétés enregistrées",
+    "propertiesWithTenants": "propriétés avec locataires",
+    "actions": "Actions"
   },
   "propertyForm": {
     "locationTypes": {

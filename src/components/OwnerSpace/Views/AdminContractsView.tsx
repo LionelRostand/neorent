@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, FileText, CheckCircle, AlertCircle, DollarSign } from 'lucide-react';
@@ -17,7 +18,7 @@ interface AdminContractsViewProps {
 }
 
 const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { userProfile } = useAuth();
   const profile = currentProfile || userProfile;
   const { handleContractSubmit } = useOwnerQuickActions(profile);
@@ -26,108 +27,6 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
   const [showContractForm, setShowContractForm] = useState(false);
 
   const contractButtonConfig = getButtonConfig('contract');
-
-  // Get texts based on current language
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      title: {
-        fr: 'Contrats de Bail',
-        en: 'Lease Contracts'
-      },
-      subtitle: {
-        fr: 'Gérez vos contrats de bail et leurs informations',
-        en: 'Manage your lease contracts and their information'
-      },
-      newContract: {
-        fr: 'Nouveau contrat',
-        en: 'New Contract'
-      },
-      totalContracts: {
-        fr: 'Total Contrats',
-        en: 'Total Contracts'
-      },
-      totalRegistered: {
-        fr: 'contrats enregistrés',
-        en: 'contracts registered'
-      },
-      activeContracts: {
-        fr: 'Contrats Actifs',
-        en: 'Active Contracts'
-      },
-      activeContractsDesc: {
-        fr: 'contrats actifs',
-        en: 'active contracts'
-      },
-      expiringContracts: {
-        fr: 'Contrats Expirant',
-        en: 'Expiring Contracts'
-      },
-      expiringDesc: {
-        fr: 'expirant dans 3 mois',
-        en: 'expiring in 3 months'
-      },
-      monthlyRevenue: {
-        fr: 'Revenus Mensuels',
-        en: 'Monthly Revenue'
-      },
-      revenueDesc: {
-        fr: 'revenus mensuels totaux',
-        en: 'total monthly revenue'
-      },
-      contractsList: {
-        fr: 'Liste des Contrats',
-        en: 'Contracts List'
-      },
-      title_col: {
-        fr: 'Titre',
-        en: 'Title'
-      },
-      property: {
-        fr: 'Propriété',
-        en: 'Property'
-      },
-      tenant: {
-        fr: 'Locataire',
-        en: 'Tenant'
-      },
-      type: {
-        fr: 'Type',
-        en: 'Type'
-      },
-      amount: {
-        fr: 'Montant',
-        en: 'Amount'
-      },
-      startDate: {
-        fr: 'Date début',
-        en: 'Start Date'
-      },
-      endDate: {
-        fr: 'Date fin',
-        en: 'End Date'
-      },
-      status: {
-        fr: 'Statut',
-        en: 'Status'
-      },
-      noContracts: {
-        fr: 'Aucun contrat',
-        en: 'No contracts'
-      },
-      noContractsDesc: {
-        fr: 'Commencez par créer votre premier contrat',
-        en: 'Start by creating your first contract'
-      },
-      createContract: {
-        fr: 'Créer un contrat',
-        en: 'Create a contract'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
 
   const totalContracts = contracts?.length || 0;
   const activeContracts = contracts?.filter(c => c.status === 'Actif').length || 0;
@@ -160,9 +59,9 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
       <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl p-4 sm:p-6 text-white shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-bold truncate">{getLocalizedText('title')}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold truncate">{t('contracts.title')}</h1>
             <p className="text-purple-100 mt-1 sm:mt-2 text-sm sm:text-base line-clamp-2 sm:line-clamp-1">
-              {getLocalizedText('subtitle')}
+              {t('contracts.subtitle')}
             </p>
           </div>
           <div className="flex-shrink-0">
@@ -171,7 +70,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
               className="bg-white text-purple-600 hover:bg-purple-50 border-0 shadow-md w-full sm:w-auto"
             >
               <Plus className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">{getLocalizedText('newContract')}</span>
+              <span className="hidden sm:inline">{t('contracts.addContract')}</span>
               <span className="sm:hidden">Nouveau</span>
             </Button>
           </div>
@@ -183,7 +82,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
         <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 truncate pr-2">
-              {getLocalizedText('totalContracts')}
+              {t('contracts.totalContracts')}
             </CardTitle>
             <div className="p-1.5 sm:p-2 bg-purple-100 rounded-lg flex-shrink-0">
               <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600" />
@@ -191,14 +90,14 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
           </CardHeader>
           <CardContent className="p-4 sm:p-6 pt-0">
             <div className="text-xl sm:text-2xl font-bold text-gray-900">{totalContracts}</div>
-            <p className="text-xs text-gray-500 mt-1 truncate">{totalContracts} {getLocalizedText('totalRegistered')}</p>
+            <p className="text-xs text-gray-500 mt-1 truncate">{totalContracts} {t('contracts.totalRegistered')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 truncate pr-2">
-              {getLocalizedText('activeContracts')}
+              {t('contracts.activeContracts')}
             </CardTitle>
             <div className="p-1.5 sm:p-2 bg-green-100 rounded-lg flex-shrink-0">
               <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
@@ -206,14 +105,14 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
           </CardHeader>
           <CardContent className="p-4 sm:p-6 pt-0">
             <div className="text-xl sm:text-2xl font-bold text-gray-900">{activeContracts}</div>
-            <p className="text-xs text-gray-500 mt-1 truncate">{activeContracts} {getLocalizedText('activeContractsDesc')}</p>
+            <p className="text-xs text-gray-500 mt-1 truncate">{activeContracts} {t('contracts.activeContractsDesc')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 truncate pr-2">
-              {getLocalizedText('expiringContracts')}
+              {t('contracts.expiringContracts')}
             </CardTitle>
             <div className="p-1.5 sm:p-2 bg-orange-100 rounded-lg flex-shrink-0">
               <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600" />
@@ -221,14 +120,14 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
           </CardHeader>
           <CardContent className="p-4 sm:p-6 pt-0">
             <div className="text-xl sm:text-2xl font-bold text-gray-900">{expiringContracts}</div>
-            <p className="text-xs text-gray-500 mt-1 truncate">{expiringContracts} {getLocalizedText('expiringDesc')}</p>
+            <p className="text-xs text-gray-500 mt-1 truncate">{expiringContracts} {t('contracts.expiringIn3Months')}</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 sm:p-6">
             <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 truncate pr-2">
-              {getLocalizedText('monthlyRevenue')}
+              {t('contracts.monthlyRevenue')}
             </CardTitle>
             <div className="p-1.5 sm:p-2 bg-blue-100 rounded-lg flex-shrink-0">
               <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
@@ -236,7 +135,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
           </CardHeader>
           <CardContent className="p-4 sm:p-6 pt-0">
             <div className="text-xl sm:text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
-            <p className="text-xs text-gray-500 mt-1 truncate">{getLocalizedText('revenueDesc')}</p>
+            <p className="text-xs text-gray-500 mt-1 truncate">{t('contracts.monthlyRevenueDesc')}</p>
           </CardContent>
         </Card>
       </div>
@@ -244,7 +143,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
       {/* Contracts Table responsive */}
       <Card className="shadow-lg border-0">
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b p-4 sm:p-6">
-          <CardTitle className="text-lg sm:text-xl text-gray-800">{getLocalizedText('contractsList')}</CardTitle>
+          <CardTitle className="text-lg sm:text-xl text-gray-800">{t('contracts.contractsList')}</CardTitle>
         </CardHeader>
         <CardContent className="p-3 sm:p-6">
           {contracts && contracts.length > 0 ? (
@@ -252,14 +151,14 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs sm:text-sm">{getLocalizedText('title_col')}</TableHead>
-                    <TableHead className="text-xs sm:text-sm hidden sm:table-cell">{getLocalizedText('property')}</TableHead>
-                    <TableHead className="text-xs sm:text-sm">{getLocalizedText('tenant')}</TableHead>
-                    <TableHead className="text-xs sm:text-sm hidden md:table-cell">{getLocalizedText('type')}</TableHead>
-                    <TableHead className="text-xs sm:text-sm">{getLocalizedText('amount')}</TableHead>
-                    <TableHead className="text-xs sm:text-sm hidden lg:table-cell">{getLocalizedText('startDate')}</TableHead>
-                    <TableHead className="text-xs sm:text-sm hidden lg:table-cell">{getLocalizedText('endDate')}</TableHead>
-                    <TableHead className="text-xs sm:text-sm">{getLocalizedText('status')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t('contracts.title_col')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm hidden sm:table-cell">{t('contracts.property')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t('contracts.tenant')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm hidden md:table-cell">{t('contracts.type')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t('contracts.rentAmount')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm hidden lg:table-cell">{t('contracts.startDate')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm hidden lg:table-cell">{t('contracts.endDate')}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t('contracts.status')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -287,11 +186,11 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
               <div className="p-3 sm:p-4 bg-gray-100 rounded-full w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 flex items-center justify-center">
                 <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
               </div>
-              <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">{getLocalizedText('noContracts')}</h3>
-              <p className="text-sm text-gray-500 mb-4 px-4">{getLocalizedText('noContractsDesc')}</p>
+              <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">{t('contracts.noContracts')}</h3>
+              <p className="text-sm text-gray-500 mb-4 px-4">{t('contracts.noContractsDescription')}</p>
               <Button className="bg-purple-600 hover:bg-purple-700 text-white">
                 <Plus className="h-4 w-4 mr-2" />
-                {getLocalizedText('createContract')}
+                {t('contracts.addContract')}
               </Button>
             </div>
           )}

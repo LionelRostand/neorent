@@ -1,8 +1,8 @@
 
 {
   "contracts": {
-    "title": "Contrats",
-    "subtitle": "Gérez vos contrats de location",
+    "title": "Contrats de Bail",
+    "subtitle": "Gérez vos contrats de bail et leurs informations",
     "totalContracts": "Total Contrats",
     "totalContractsDesc": "contrats enregistrés",
     "activeContracts": "Contrats Actifs",
@@ -15,7 +15,7 @@
     "pendingContractsDesc": "contrats en attente de signature",
     "monthlyRevenue": "Revenus Mensuels",
     "monthlyRevenueDesc": "revenus mensuels totaux",
-    "addContract": "Ajouter un Contrat",
+    "addContract": "Nouveau contrat",
     "newContract": "Nouveau Contrat",
     "editContract": "Modifier le Contrat",
     "deleteContract": "Supprimer le Contrat",
@@ -28,14 +28,14 @@
     "contractNumber": "Numéro de Contrat",
     "type": "Type",
     "status": "Statut",
-    "startDate": "Date de Début",
-    "endDate": "Date de Fin",
+    "startDate": "Date début",
+    "endDate": "Date fin",
     "duration": "Durée",
     "landlord": "Propriétaire",
     "tenant": "Locataire",
     "property": "Propriété",
     "room": "Chambre",
-    "rentAmount": "Montant du Loyer",
+    "rentAmount": "Montant",
     "deposit": "Caution",
     "charges": "Charges",
     "paymentDay": "Jour de Paiement",
@@ -116,7 +116,10 @@
     "to": "au",
     "month": "mois",
     "jurisdiction": "Juridiction",
-    "provider": "Fournisseur"
+    "provider": "Fournisseur",
+    "title_col": "Titre",
+    "expiringIn3Months": "expirant dans 3 mois",
+    "totalRegistered": "contrats enregistrés"
   },
   "contractForm": {
     "title": "Ajouter un contrat",
