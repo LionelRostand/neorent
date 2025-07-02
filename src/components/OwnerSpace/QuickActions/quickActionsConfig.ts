@@ -1,408 +1,153 @@
 
 import { 
-  LayoutDashboard, 
-  Building, 
-  Users, 
-  UserPlus, 
-  FileText, 
-  ClipboardCheck, 
-  DollarSign, 
-  Receipt, 
-  TrendingUp, 
-  Wrench, 
-  MessageSquare, 
-  Calculator, 
-  Globe, 
-  Settings, 
-  HelpCircle,
-  LucideIcon 
+  Building, Plus, Users, FileText, Calendar, 
+  DollarSign, Calculator, Wrench, MessageSquare, 
+  FileBarChart, Globe, Settings, HelpCircle,
+  BarChart3, Home
 } from 'lucide-react';
-
-export interface QuickAction {
-  id: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  color: string;
-  preview: string;
-  action: () => void;
-}
+import { QuickActionConfig } from '@/hooks/useQuickActionsManager';
 
 export const createQuickActionsConfig = (
   navigate: (path: string) => void,
-  setOpenDialog: (dialog: string | null) => void,
+  setOpenDialog: (dialog: string) => void,
   ownerProperties: any[],
   activeTenants: any[],
-  expiringContractsCount: number,
-  pendingPaymentsCount: number,
-  t: (key: string) => string,
-  enabledActions: any[],
-  setActiveView?: (view: string) => void,
+  expiringContracts: number,
+  pendingPayments: number,
+  t: (key: string, fallback?: string) => string,
+  enabledActions: QuickActionConfig[],
+  onViewChange?: (view: string) => void,
   currentLanguage?: string
-): QuickAction[] => {
-  
-  // Helper function to get localized text from translation files
-  const getTranslatedText = (actionId: string, textType: 'title' | 'description' | 'preview') => {
-    const lang = currentLanguage || 'fr';
-    
-    // Use i18n translation keys based on navigation translations
-    const translationKeys: Record<string, string> = {
-      dashboard: 'navigation.dashboard',
-      properties: 'navigation.properties',
-      tenants: 'navigation.tenants',
-      roommates: 'navigation.roommates',
-      contracts: 'navigation.contracts',
-      inspections: 'navigation.inspections',
-      'rent-management': 'navigation.rentManagement',
-      'rental-charges': 'navigation.rentalCharges',
-      forecasting: 'navigation.forecasting',
-      maintenance: 'navigation.maintenance',
-      messages: 'navigation.messages',
-      taxes: 'navigation.taxes',
-      website: 'navigation.website',
-      settings: 'navigation.settings',
-      help: 'navigation.help'
-    };
+) => {
+  // Create a map of enabled actions for quick lookup
+  const enabledActionsMap = enabledActions.reduce((acc, action) => {
+    acc[action.id] = action;
+    return acc;
+  }, {} as Record<string, QuickActionConfig>);
 
-    // For title, use navigation translations
-    if (textType === 'title') {
-      const key = translationKeys[actionId];
-      return key ? t(key) : actionId;
-    }
-
-    // For description and preview, use localized fallbacks
-    const descriptions: Record<string, Record<string, string>> = {
-      dashboard: {
-        fr: 'Vue d\'ensemble',
-        en: 'Overview'
-      },
-      properties: {
-        fr: 'Gestion des biens',
-        en: 'Property management'
-      },
-      tenants: {
-        fr: 'Gestion locataires',
-        en: 'Tenant management'
-      },
-      roommates: {
-        fr: 'Gestion colocataires',
-        en: 'Roommate management'
-      },
-      contracts: {
-        fr: 'Gestion des baux',
-        en: 'Lease management'
-      },
-      inspections: {
-        fr: 'États des lieux',
-        en: 'Property inspections'
-      },
-      'rent-management': {
-        fr: 'Suivi des paiements',
-        en: 'Payment tracking'
-      },
-      'rental-charges': {
-        fr: 'Gestion des charges',
-        en: 'Charges management'
-      },
-      forecasting: {
-        fr: 'Analyse financière',
-        en: 'Financial analysis'
-      },
-      maintenance: {
-        fr: 'Interventions',
-        en: 'Service requests'
-      },
-      messages: {
-        fr: 'Communication',
-        en: 'Communication'
-      },
-      taxes: {
-        fr: 'Gestion fiscale',
-        en: 'Tax management'
-      },
-      website: {
-        fr: 'Gestion site',
-        en: 'Website management'
-      },
-      settings: {
-        fr: 'Configuration',
-        en: 'Configuration'
-      },
-      help: {
-        fr: 'Support',
-        en: 'Support'
-      }
-    };
-
-    const previews: Record<string, Record<string, string>> = {
-      dashboard: {
-        fr: `${ownerProperties.length} biens`,
-        en: `${ownerProperties.length} properties`
-      },
-      properties: {
-        fr: `${ownerProperties.length} propriétés`,
-        en: `${ownerProperties.length} properties`
-      },
-      tenants: {
-        fr: `${activeTenants.length} actifs`,
-        en: `${activeTenants.length} active`
-      },
-      roommates: {
-        fr: 'Gérer les colocataires',
-        en: 'Manage roommates'
-      },
-      contracts: {
-        fr: `${expiringContractsCount} expirent bientôt`,
-        en: `${expiringContractsCount} expiring soon`
-      },
-      inspections: {
-        fr: 'Inspections programmées',
-        en: 'Scheduled inspections'
-      },
-      'rent-management': {
-        fr: `${pendingPaymentsCount} en attente`,
-        en: `${pendingPaymentsCount} pending`
-      },
-      'rental-charges': {
-        fr: 'Charges mensuelles',
-        en: 'Monthly charges'
-      },
-      forecasting: {
-        fr: 'Projections revenus',
-        en: 'Revenue projections'
-      },
-      maintenance: {
-        fr: 'Demandes ouvertes',
-        en: 'Open requests'
-      },
-      messages: {
-        fr: 'Nouveaux messages',
-        en: 'New messages'
-      },
-      taxes: {
-        fr: 'Déclarations',
-        en: 'Tax returns'
-      },
-      website: {
-        fr: 'Configuration',
-        en: 'Configuration'
-      },
-      settings: {
-        fr: 'Système',
-        en: 'System'
-      },
-      help: {
-        fr: 'Documentation',
-        en: 'Documentation'
-      }
-    };
-
-    if (textType === 'description') {
-      return descriptions[actionId]?.[lang] || descriptions[actionId]?.['fr'] || '';
-    }
-
-    if (textType === 'preview') {
-      return previews[actionId]?.[lang] || previews[actionId]?.['fr'] || '';
-    }
-
-    return '';
-  };
-  
-  const baseActions: Record<string, Omit<QuickAction, 'title' | 'description' | 'preview'>> = {
-    dashboard: {
+  // Base configuration with all possible actions
+  const allActions = [
+    {
       id: 'dashboard',
-      icon: LayoutDashboard,
+      icon: BarChart3,
+      title: t('ownerSpace.dashboard.title'),
+      description: t('ownerSpace.dashboard.description'),
+      preview: t('ownerSpace.dashboard.preview'),
       color: 'bg-slate-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-dashboard');
-        } else {
-          navigate('/admin/dashboard');
-        }
-      }
+      action: () => onViewChange ? onViewChange('dashboard') : navigate('/admin/dashboard')
     },
-    properties: {
-      id: 'properties',
+    {
+      id: 'newProperty',
       icon: Building,
+      title: t('ownerSpace.quickActions.newProperty.title'),
+      description: t('ownerSpace.quickActions.newProperty.description'),
+      preview: t('ownerSpace.quickActions.newProperty.preview', { count: ownerProperties.length }),
       color: 'bg-blue-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-properties');
-        } else {
-          navigate('/admin/properties');
-        }
-      }
+      action: () => setOpenDialog('property')
     },
-    tenants: {
-      id: 'tenants',
-      icon: Users,
-      color: 'bg-purple-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-tenants');
-        } else {
-          navigate('/admin/tenants');
-        }
-      }
-    },
-    roommates: {
-      id: 'roommates',
-      icon: UserPlus,
-      color: 'bg-pink-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-roommates');
-        } else {
-          navigate('/admin/roommates');
-        }
-      }
-    },
-    contracts: {
-      id: 'contracts',
+    {
+      id: 'newContract',
       icon: FileText,
+      title: t('ownerSpace.quickActions.newContract.title'),
+      description: t('ownerSpace.quickActions.newContract.description'),
+      preview: t('ownerSpace.quickActions.newContract.preview', { count: expiringContracts }),
       color: 'bg-yellow-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-contracts');
-        } else {
-          navigate('/admin/contracts');
-        }
-      }
+      action: () => setOpenDialog('contract')
     },
-    inspections: {
-      id: 'inspections',
-      icon: ClipboardCheck,
+    {
+      id: 'addTenant',
+      icon: Users,
+      title: t('ownerSpace.quickActions.addTenant.title'),
+      description: t('ownerSpace.quickActions.addTenant.description'),
+      preview: t('ownerSpace.quickActions.addTenant.preview', { count: activeTenants.length }),
+      color: 'bg-purple-500',
+      action: () => setOpenDialog('tenant')
+    },
+    {
+      id: 'propertyInspection',
+      icon: Calendar,
+      title: t('ownerSpace.quickActions.propertyInspection.title'),
+      description: t('ownerSpace.quickActions.propertyInspection.description'),
+      preview: t('ownerSpace.quickActions.propertyInspection.preview'),
       color: 'bg-orange-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-inspections');
-        } else {
-          navigate('/admin/inspections');
-        }
-      }
+      action: () => setOpenDialog('inspection')
     },
-    'rent-management': {
-      id: 'rent-management',
-      icon: DollarSign,
-      color: 'bg-green-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-rent-management');
-        } else {
-          navigate('/admin/rent-management');
-        }
-      }
-    },
-    'rental-charges': {
-      id: 'rental-charges',
-      icon: Receipt,
+    {
+      id: 'calculateCharges',
+      icon: Calculator,
+      title: t('ownerSpace.quickActions.calculateCharges.title'),
+      description: t('ownerSpace.quickActions.calculateCharges.description'),
+      preview: t('ownerSpace.quickActions.calculateCharges.preview'),
       color: 'bg-teal-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-rental-charges');
-        } else {
-          navigate('/admin/rental-charges');
-        }
-      }
+      action: () => onViewChange ? onViewChange('rental-charges') : navigate('/admin/rental-charges')
     },
-    forecasting: {
-      id: 'forecasting',
-      icon: TrendingUp,
-      color: 'bg-emerald-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-forecasting');
-        } else {
-          navigate('/admin/forecasting');
-        }
-      }
-    },
-    maintenance: {
+    {
       id: 'maintenance',
       icon: Wrench,
+      title: t('ownerSpace.quickActions.maintenance.title'),
+      description: t('ownerSpace.quickActions.maintenance.description'),
+      preview: t('ownerSpace.quickActions.maintenance.preview'),
       color: 'bg-red-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-maintenance');
-        } else {
-          navigate('/admin/maintenance');
-        }
-      }
+      action: () => onViewChange ? onViewChange('maintenance') : navigate('/admin/maintenance')
     },
-    messages: {
+    {
+      id: 'forecasting',
+      icon: FileBarChart,
+      title: t('ownerSpace.quickActions.forecasting.title'),
+      description: t('ownerSpace.quickActions.forecasting.description'),
+      preview: t('ownerSpace.quickActions.forecasting.preview'),
+      color: 'bg-emerald-500',
+      action: () => onViewChange ? onViewChange('forecasting') : navigate('/admin/forecasting')
+    },
+    {
       id: 'messages',
       icon: MessageSquare,
+      title: t('ownerSpace.quickActions.messages.title'),
+      description: t('ownerSpace.quickActions.messages.description'),
+      preview: t('ownerSpace.quickActions.messages.preview'),
       color: 'bg-indigo-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-messages');
-        } else {
-          navigate('/admin/messages');
-        }
-      }
+      action: () => onViewChange ? onViewChange('messages') : navigate('/admin/messages')
     },
-    taxes: {
+    {
       id: 'taxes',
-      icon: Calculator,
+      icon: DollarSign,
+      title: t('ownerSpace.quickActions.taxes.title'),
+      description: t('ownerSpace.quickActions.taxes.description'),
+      preview: t('ownerSpace.quickActions.taxes.preview'),
       color: 'bg-cyan-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-taxes');
-        } else {
-          navigate('/admin/taxes');
-        }
-      }
+      action: () => onViewChange ? onViewChange('taxes') : navigate('/admin/taxes')
     },
-    website: {
+    {
       id: 'website',
       icon: Globe,
+      title: t('ownerSpace.quickActions.website.title'),
+      description: t('ownerSpace.quickActions.website.description'),
+      preview: t('ownerSpace.quickActions.website.preview'),
       color: 'bg-violet-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-website');
-        } else {
-          navigate('/admin/website');
-        }
-      }
+      action: () => onViewChange ? onViewChange('website') : navigate('/admin/website')
     },
-    settings: {
+    {
       id: 'settings',
       icon: Settings,
+      title: t('ownerSpace.quickActions.settings.title'),
+      description: t('ownerSpace.quickActions.settings.description'),
+      preview: t('ownerSpace.quickActions.settings.preview'),
       color: 'bg-gray-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-settings');
-        } else {
-          navigate('/admin/settings');
-        }
-      }
-    },
-    help: {
-      id: 'help',
-      icon: HelpCircle,
-      color: 'bg-amber-500',
-      action: () => {
-        if (setActiveView) {
-          setActiveView('admin-help');
-        } else {
-          navigate('/admin/help');
-        }
-      }
+      action: () => onViewChange ? onViewChange('settings') : navigate('/admin/settings')
     }
-  };
+  ];
 
+  // Filter to only return enabled actions in the correct order
   return enabledActions
-    .map(actionConfig => {
-      const baseAction = baseActions[actionConfig.id];
-      if (!baseAction) return null;
-
-      return {
-        ...baseAction,
-        title: getTranslatedText(actionConfig.id, 'title'),
-        description: getTranslatedText(actionConfig.id, 'description'),
-        preview: getTranslatedText(actionConfig.id, 'preview'),
-        color: actionConfig.color || baseAction.color,
-      };
+    .map(enabledAction => {
+      const baseAction = allActions.find(action => action.id === enabledAction.id);
+      if (baseAction) {
+        return {
+          ...baseAction,
+          enabled: enabledAction.enabled
+        };
+      }
+      return null;
     })
-    .filter(Boolean) as QuickAction[];
+    .filter(Boolean) as typeof allActions;
 };
