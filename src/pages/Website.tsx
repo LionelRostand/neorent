@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -34,16 +35,16 @@ const Website = () => {
 
   const tabs = [
     { id: 'pages', label: t('website.managePages'), icon: FileText },
-    { id: 'immo', label: 'Immo', icon: Home },
+    { id: 'immo', label: t('website.immoTab'), icon: Home },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
-    { id: 'theme', label: t('theme'), icon: Palette },
-    { id: 'footer', label: t('footer'), icon: LinkIcon },
-    { id: 'legal', label: 'Pages légales', icon: Scale },
-    { id: 'cookies', label: 'Cookies', icon: Settings },
-    { id: 'carte', label: t('map'), icon: MapPin },
-    { id: 'analytics', label: t('analytics'), icon: BarChart3 },
-    { id: 'config', label: t('configuration'), icon: Settings }
+    { id: 'theme', label: t('website.themeCustomization'), icon: Palette },
+    { id: 'footer', label: t('website.footerConfiguration'), icon: LinkIcon },
+    { id: 'legal', label: t('website.legalPages'), icon: Scale },
+    { id: 'cookies', label: t('website.cookieManagement'), icon: Settings },
+    { id: 'carte', label: t('website.mapConfiguration'), icon: MapPin },
+    { id: 'analytics', label: t('website.websiteStats'), icon: BarChart3 },
+    { id: 'config', label: t('website.generalConfiguration'), icon: Settings }
   ];
 
   return (

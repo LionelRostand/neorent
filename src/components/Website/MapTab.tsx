@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,6 +10,7 @@ import { Save, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
 
 const MapTab = () => {
+  const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [mapConfig, setMapConfig] = useState({
     enabled: true,
@@ -28,12 +30,12 @@ const MapTab = () => {
       
       console.log('Saving map configuration:', mapConfig);
       
-      toast.success('Map configuration saved!', {
-        description: 'Geolocation settings updated'
+      toast.success(t('website.contentSaved'), {
+        description: t('website.contentSavedDescription')
       });
     } catch (error) {
-      toast.error('Error saving configuration', {
-        description: 'Please try again'
+      toast.error(t('website.contentSaveError'), {
+        description: t('website.contentSaveErrorDescription')
       });
     } finally {
       setIsSaving(false);
@@ -43,29 +45,29 @@ const MapTab = () => {
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">🗺️ Map Configuration</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">🗺️ {t('website.mapConfiguration')}</h2>
         <Button 
           onClick={handleSaveMap} 
           disabled={isSaving}
           className="flex items-center gap-2 w-full sm:w-auto"
         >
           <Save className="h-4 w-4" />
-          {isSaving ? 'Saving...' : 'Save'}
+          {isSaving ? t('website.saving') : t('website.save')}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">
-        Configure map display and NeoRent geolocation.
+        {t('website.mapConfigurationDescription')}
       </p>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">Map Settings</CardTitle>
+          <CardTitle className="text-base md:text-lg">{t('website.mapSettings')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <Label className="text-sm font-medium">Show Map</Label>
-              <p className="text-xs text-gray-600">Enable/disable map display</p>
+              <Label className="text-sm font-medium">{t('website.showMap')}</Label>
+              <p className="text-xs text-gray-600">{t('website.enableDisableMap')}</p>
             </div>
             <Switch
               checked={mapConfig.enabled}
@@ -75,26 +77,26 @@ const MapTab = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Address</Label>
+              <Label>{t('common.address')}</Label>
               <Input
                 value={mapConfig.address}
                 onChange={(e) => setMapConfig({...mapConfig, address: e.target.value})}
-                placeholder="Complete address"
+                placeholder={t('website.completeAddress')}
               />
             </div>
             <div className="space-y-2">
-              <Label>Marker Title</Label>
+              <Label>{t('website.markerTitle')}</Label>
               <Input
                 value={mapConfig.markerTitle}
                 onChange={(e) => setMapConfig({...mapConfig, markerTitle: e.target.value})}
-                placeholder="Name displayed on marker"
+                placeholder={t('website.nameDisplayedOnMarker')}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label>Latitude</Label>
+              <Label>{t('website.latitude')}</Label>
               <Input
                 value={mapConfig.latitude}
                 onChange={(e) => setMapConfig({...mapConfig, latitude: e.target.value})}
@@ -102,7 +104,7 @@ const MapTab = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label>Longitude</Label>
+              <Label>{t('website.longitude')}</Label>
               <Input
                 value={mapConfig.longitude}
                 onChange={(e) => setMapConfig({...mapConfig, longitude: e.target.value})}
@@ -110,7 +112,7 @@ const MapTab = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label>Zoom Level</Label>
+              <Label>{t('website.zoomLevel')}</Label>
               <Input
                 value={mapConfig.zoom}
                 onChange={(e) => setMapConfig({...mapConfig, zoom: e.target.value})}
@@ -121,8 +123,8 @@ const MapTab = () => {
 
           <div className="flex items-center justify-between">
             <div>
-              <Label className="text-sm font-medium">Show Marker</Label>
-              <p className="text-xs text-gray-600">Mark position on map</p>
+              <Label className="text-sm font-medium">{t('website.showMarker')}</Label>
+              <p className="text-xs text-gray-600">{t('website.markPositionOnMap')}</p>
             </div>
             <Switch
               checked={mapConfig.showMarker}
@@ -131,15 +133,15 @@ const MapTab = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>Google Maps API Key (optional)</Label>
+            <Label>{t('website.googleMapsApiKey')}</Label>
             <Input
               type="password"
               value={mapConfig.apiKey}
               onChange={(e) => setMapConfig({...mapConfig, apiKey: e.target.value})}
-              placeholder="Your Google Maps API key"
+              placeholder={t('website.yourGoogleMapsApiKey')}
             />
             <p className="text-xs text-gray-500">
-              Leave empty to use default map
+              {t('website.leaveEmptyForDefaultMap')}
             </p>
           </div>
         </CardContent>
@@ -148,13 +150,13 @@ const MapTab = () => {
       {mapConfig.enabled && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">Map Preview</CardTitle>
+            <CardTitle className="text-base md:text-lg">{t('website.preview')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
               <div className="text-center text-gray-500">
                 <MapPin className="h-8 w-8 mx-auto mb-2" />
-                <p>Map Preview</p>
+                <p>{t('website.mapPreview')}</p>
                 <p className="text-sm">{mapConfig.address}</p>
               </div>
             </div>
