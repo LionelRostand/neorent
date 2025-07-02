@@ -1,10 +1,11 @@
+
 {
   "settings": {
     "title": "Paramètres",
     "subtitle": "Configurez votre application",
     "tabs": {
       "company": "Entreprise",
-      "employees": "Employés",
+      "employees": "Propriétaires",
       "permissions": "Permissions",
       "firebase": "Firebase",
       "database": "Base de données",
