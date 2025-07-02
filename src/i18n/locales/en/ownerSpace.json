@@ -3,10 +3,10 @@
   "ownerSpace": {
     "title": "Owner Space",
     "welcome": "Welcome",
-    "unauthorized": "Unauthorized access",
+    "unauthorized": "Unauthorized Access",
     "unauthorizedDescription": "This space is reserved for owners.",
-    "backToDashboard": "Back to dashboard",
-    "manageActions": "Manage actions",
+    "backToDashboard": "Back to Dashboard",
+    "manageActions": "Manage Actions",
     "noQuickActionsConfigured": "No quick actions configured",
     "status": {
       "active": "Active",
@@ -15,27 +15,27 @@
     "quickActions": {
       "title": "Quick Actions",
       "newProperty": {
-        "title": "New property",
-        "description": "Add a property",
+        "title": "New Property",
+        "description": "Add property",
         "preview": "{{count}} properties"
       },
       "newContract": {
-        "title": "New contract",
-        "description": "Create a lease",
+        "title": "New Contract",
+        "description": "Create lease",
         "preview": "{{count}} expiring"
       },
       "addTenant": {
-        "title": "Add tenant",
-        "description": "Register a tenant",
+        "title": "Add Tenant",
+        "description": "Register tenant",
         "preview": "{{count}} active tenants"
       },
       "propertyInspection": {
-        "title": "Property inspection",
-        "description": "Schedule a visit",
+        "title": "Property Inspection",
+        "description": "Schedule visit",
         "preview": "Property inspections"
       },
       "calculateCharges": {
-        "title": "Calculate charges",
+        "title": "Calculate Charges",
         "description": "Annual review",
         "preview": "0 pending payments"
       },
@@ -45,7 +45,7 @@
         "preview": "1 urgent request"
       },
       "forecasting": {
-        "title": "Financial forecasting",
+        "title": "Financial Forecast",
         "description": "Revenue projections",
         "preview": "Revenue projections"
       },
@@ -55,7 +55,7 @@
         "preview": "Communication center"
       },
       "taxes": {
-        "title": "Tax management",
+        "title": "Tax Management",
         "description": "Tax declarations",
         "preview": "Tax declarations"
       },
@@ -79,33 +79,63 @@
         "propertiesManaged": "Properties",
         "activeTenants": "Tenants",
         "monthlyRevenue": "Monthly Revenue",
-        "occupancyRate": "Occupancy rate",
+        "occupancyRate": "Occupancy Rate",
         "thisMonth": "this month",
         "contracts": "Contracts"
       }
     },
+    "properties": {
+      "title": "Properties",
+      "subtitle": "Manage your properties and their information",
+      "newProperty": "New Property",
+      "totalProperties": "Total Properties",
+      "totalPropertiesDesc": "properties in your portfolio",
+      "occupiedProperties": "Occupied Properties",
+      "occupiedPropertiesDesc": "properties with tenants",
+      "totalTenants": "Total Tenants",
+      "monthlyRevenue": "Monthly Revenue",
+      "monthlyRevenueDesc": "Total monthly revenue",
+      "occupancyRate": "Occupancy Rate",
+      "occupancyRateDesc": "of your properties are occupied",
+      "sharedRooms": "Shared Rooms",
+      "sharedRoomsDesc": "rooms occupied",
+      "propertiesList": "Properties List",
+      "noProperties": "No properties found",
+      "noPropertiesDesc": "Start by adding your first property",
+      "addProperty": "Add Property",
+      "surface": "Surface:",
+      "rent": "Rent:",
+      "rooms": "Rooms:",
+      "view": "View",
+      "owner": "Owner:",
+      "tenant": "Tenant",
+      "address": "Address",
+      "type": "Type",
+      "status": "Status",
+      "actions": "Actions"
+    },
     "propertyOverview": {
       "title": "Property Overview",
-      "viewAll": "View all",
-      "viewDetails": "View details",
+      "viewAll": "View All",
+      "viewDetails": "View Details",
       "occupation": "Occupation",
       "noProperties": "No properties found",
       "status": {
         "active": "Active",
         "maintenance": "Maintenance",
         "vacant": "Vacant",
-        "partiallyOccupied": "Partially occupied"
+        "partiallyOccupied": "Partially Occupied"
       }
     },
     "recentActivity": {
       "title": "Recent Activity",
       "activities": {
         "paymentReceived": "Payment received - Apt {{number}}",
-        "paymentDescription": "{{tenant}} paid {{month}} rent",
+        "paymentDescription": "{{tenant}} paid rent for {{month}}",
         "maintenanceRequest": "Maintenance request",
         "maintenanceDescription": "Plumbing issue reported - Apt {{number}}",
         "newTenant": "New tenant",
-        "newTenantDescription": "{{tenant}} signed the contract - Apt {{number}}",
+        "newTenantDescription": "{{tenant}} signed contract - Apt {{number}}",
         "inspectionCompleted": "Inspection completed",
         "inspectionDescription": "Move-out inspection validated - Apt {{number}}",
         "paymentDelay": "Payment delay",
