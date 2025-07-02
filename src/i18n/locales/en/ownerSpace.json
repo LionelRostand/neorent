@@ -58,6 +58,16 @@
         "title": "Tax management",
         "description": "Tax declarations",
         "preview": "Tax declarations"
+      },
+      "website": {
+        "title": "Website",
+        "description": "Manage website",
+        "preview": "Website management"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Configuration",
+        "preview": "System settings"
       }
     },
     "dashboard": {

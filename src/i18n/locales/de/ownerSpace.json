@@ -58,6 +58,16 @@
         "title": "Steuerverwaltung",
         "description": "Steuererklärungen",
         "preview": "Steuererklärungen"
+      },
+      "website": {
+        "title": "Website",
+        "description": "Website verwalten",
+        "preview": "Website-Verwaltung"
+      },
+      "settings": {
+        "title": "Einstellungen",
+        "description": "Konfiguration",
+        "preview": "Systemeinstellungen"
       }
     },
     "dashboard": {

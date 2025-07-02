@@ -58,6 +58,16 @@
         "title": "Gestion fiscale",
         "description": "Déclarations fiscales",
         "preview": "Déclarations fiscales"
+      },
+      "website": {
+        "title": "Site Web",
+        "description": "Gérer le site web",
+        "preview": "Gestion du site"
+      },
+      "settings": {
+        "title": "Paramètres",
+        "description": "Configuration",
+        "preview": "Paramètres système"
       }
     },
     "dashboard": {
