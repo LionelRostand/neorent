@@ -78,7 +78,7 @@ export const UserProfileDropdown = () => {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuContent className="w-56 bg-white border shadow-lg" align="end" forceMount>
           <div className="flex items-center justify-start gap-2 p-2">
             <div className="flex flex-col space-y-1 leading-none">
               <p className="font-medium text-sm">{displayName}</p>
@@ -91,18 +91,18 @@ export const UserProfileDropdown = () => {
             </div>
           </div>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setShowProfile(true)}>
+          <DropdownMenuItem onClick={() => setShowProfile(true)} className="cursor-pointer">
             <User className="mr-2 h-4 w-4" />
             {t('profile.viewProfile')}
           </DropdownMenuItem>
           {canChangePassword && (
-            <DropdownMenuItem onClick={() => setShowPasswordDialog(true)}>
+            <DropdownMenuItem onClick={() => setShowPasswordDialog(true)} className="cursor-pointer">
               <KeyRound className="mr-2 h-4 w-4" />
               {t('profile.changePassword')}
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout}>
+          <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
             <LogOut className="mr-2 h-4 w-4" />
             {t('profile.logout')}
           </DropdownMenuItem>
