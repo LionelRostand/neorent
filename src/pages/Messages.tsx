@@ -13,27 +13,40 @@ const Messages = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  console.log('📨 Messages page: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
-  console.log('📨 Messages page: Conversation sélectionnée:', selectedConversation?.id);
+  console.log('📨 Messages page: Initialisation du composant Messages');
+  console.log('📨 Messages page: Vérification des services...', { messageService: !!messageService });
 
   // Abonnement aux conversations
   useEffect(() => {
     console.log('📨 Messages page: Souscription aux conversations...');
-    const unsubscribe = messageService.subscribeToConversations((newConversations) => {
-      console.log('📨 Messages page: Callback conversations reçu:', newConversations.length, 'conversations');
-      newConversations.forEach((conv, index) => {
-        console.log(`📨 Conversation ${index}:`, {
-          id: conv.id,
-          clientName: conv.clientName,
-          lastMessage: conv.lastMessage,
-          unreadCount: conv.unreadCount
+    
+    try {
+      const unsubscribe = messageService.subscribeToConversations((newConversations) => {
+        console.log('📨 Messages page: Callback conversations reçu:', newConversations.length, 'conversations');
+        newConversations.forEach((conv, index) => {
+          console.log(`📨 Conversation ${index}:`, {
+            id: conv.id,
+            clientName: conv.clientName,
+            lastMessage: conv.lastMessage,
+            unreadCount: conv.unreadCount
+          });
         });
+        setConversations(newConversations);
+        setLoading(false);
       });
-      setConversations(newConversations);
-      setLoading(false);
-    });
 
-    return unsubscribe;
+      return unsubscribe;
+    } catch (error) {
+      console.error('📨 Messages page: Erreur lors de la souscription aux conversations:', error);
+      console.error('📨 Messages page: Type d\'erreur:', typeof error, error);
+      
+      if (error instanceof Error && error.message.includes('502')) {
+        console.error('📨 Messages page: Erreur 502 détectée - problème de serveur');
+      }
+      
+      setLoading(false);
+      return () => {};
+    }
   }, []);
 
   // Auto-sélection de la première conversation
@@ -53,25 +66,28 @@ const Messages = () => {
     }
 
     console.log('📨 Messages page: Souscription aux messages pour conversation:', selectedConversation.id);
-    const unsubscribe = messageService.subscribeToMessages(
-      selectedConversation.id,
-      (newMessages) => {
-        console.log('📨 Messages page: Callback messages reçu pour conversation', selectedConversation.id);
-        console.log('📨 Messages page: Nombre de messages reçus:', newMessages.length);
-        newMessages.forEach((msg, index) => {
-          console.log(`📨 Message ${index}:`, {
-            id: msg.id,
-            sender: msg.sender,
-            senderName: msg.senderName,
-            message: msg.message.substring(0, 50) + '...',
-            timestamp: msg.timestamp
-          });
-        });
-        setMessages(newMessages);
-      }
-    );
+    
+    try {
+      const unsubscribe = messageService.subscribeToMessages(
+        selectedConversation.id,
+        (newMessages) => {
+          console.log('📨 Messages page: Callback messages reçu pour conversation', selectedConversation.id);
+          console.log('📨 Messages page: Nombre de messages reçus:', newMessages.length);
+          setMessages(newMessages);
+        }
+      );
 
-    return unsubscribe;
+      return unsubscribe;
+    } catch (error) {
+      console.error('📨 Messages page: Erreur lors de la souscription aux messages:', error);
+      console.error('📨 Messages page: Type d\'erreur:', typeof error, error);
+      
+      if (error instanceof Error && error.message.includes('502')) {
+        console.error('📨 Messages page: Erreur 502 détectée dans les messages - problème de serveur');
+      }
+      
+      return () => {};
+    }
   }, [selectedConversation]);
 
   // Marquer les messages comme lus quand on sélectionne une conversation
@@ -117,6 +133,18 @@ const Messages = () => {
       console.error('📨 Messages page: Error sending message:', error);
     }
   };
+
+  // Afficher une erreur de connectivité si nécessaire
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">{t('messages.loading', 'Chargement des messages...')}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

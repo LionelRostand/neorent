@@ -15,6 +15,14 @@ export const messageSubscriptions = {
   subscribeToMessages(conversationId: string, callback: (messages: ChatMessage[]) => void) {
     try {
       console.log('🔥 messageSubscriptions: Souscription aux messages pour conversation:', conversationId);
+      console.log('🔥 messageSubscriptions: Vérification de la connectivité Firebase...');
+      
+      // Vérifier la connectivité Firebase avant de continuer
+      if (!db) {
+        console.error('🔥 messageSubscriptions: Base de données Firebase non initialisée');
+        callback([]);
+        return () => {};
+      }
       
       // Requête simplifiée sans orderBy pour éviter les problèmes d'index
       const q = query(
@@ -36,25 +44,6 @@ export const messageSubscriptions = {
           
           if (snapshot.empty) {
             console.log('🔥 messageSubscriptions: Snapshot vide - aucun message trouvé pour la conversation:', conversationId);
-            console.log('🔥 messageSubscriptions: Tentative avec getDocs pour vérifier...');
-            
-            // Test avec getDocs pour voir s'il y a vraiment des données
-            getDocs(q).then(testSnapshot => {
-              console.log('🔥 messageSubscriptions: Test getDocs résultat:', {
-                empty: testSnapshot.empty,
-                size: testSnapshot.size
-              });
-              if (!testSnapshot.empty) {
-                console.log('🔥 messageSubscriptions: getDocs trouve des documents mais onSnapshot ne les voit pas!');
-                testSnapshot.docs.forEach(doc => {
-                  console.log('🔥 messageSubscriptions: Document trouvé par getDocs:', {
-                    id: doc.id,
-                    data: doc.data()
-                  });
-                });
-              }
-            });
-            
             callback([]);
             return;
           }
@@ -92,14 +81,6 @@ export const messageSubscriptions = {
           });
 
           console.log('🔥 messageSubscriptions: Messages finaux pour conversation', conversationId, ':', messages.length);
-          messages.forEach((msg, index) => {
-            console.log(`🔥 Message final ${index}:`, {
-              id: msg.id,
-              message: msg.message.substring(0, 30) + '...',
-              sender: msg.sender
-            });
-          });
-          
           callback(messages);
         }, 
         (error) => {
@@ -110,39 +91,17 @@ export const messageSubscriptions = {
             stack: error.stack
           });
           
-          // Fallback avec getDocs
-          console.log('🔥 messageSubscriptions: Tentative de fallback avec getDocs...');
-          getDocs(q).then(snapshot => {
-            console.log('🔥 messageSubscriptions: getDocs fallback - docs trouvés:', snapshot.docs.length);
-            const messages = snapshot.docs.map(doc => {
-              const data = doc.data();
-              return {
-                id: doc.id,
-                conversationId: data.conversationId,
-                sender: data.sender,
-                senderName: data.senderName,
-                senderEmail: data.senderEmail,
-                message: data.message,
-                timestamp: data.timestamp,
-                read: data.read || false
-              } as ChatMessage;
-            });
-            
-            messages.sort((a, b) => {
-              if (!a.timestamp || !b.timestamp) return 0;
-              return a.timestamp.toMillis() - b.timestamp.toMillis();
-            });
-            
-            console.log('🔥 messageSubscriptions: getDocs fallback - messages récupérés:', messages.length);
-            callback(messages);
-          }).catch(err => {
-            console.error('🔥 messageSubscriptions: Erreur getDocs fallback:', err);
-            callback([]);
-          });
+          // Vérifier si c'est une erreur réseau (502)
+          if (error.message.includes('502') || error.code === 'unavailable') {
+            console.error('🔥 messageSubscriptions: Erreur 502 détectée - problème de connectivité serveur');
+          }
+          
+          callback([]);
         }
       );
     } catch (error) {
       console.error('🔥 messageSubscriptions: Erreur lors de la souscription aux messages pour conversation', conversationId, ':', error);
+      console.error('🔥 messageSubscriptions: Type d\'erreur:', typeof error, error);
       return () => {};
     }
   },
@@ -151,6 +110,14 @@ export const messageSubscriptions = {
   subscribeToConversations(callback: (conversations: Conversation[]) => void) {
     try {
       console.log('🔥 messageSubscriptions: Souscription aux conversations');
+      console.log('🔥 messageSubscriptions: Vérification de la connectivité Firebase...');
+      
+      // Vérifier la connectivité Firebase avant de continuer
+      if (!db) {
+        console.error('🔥 messageSubscriptions: Base de données Firebase non initialisée');
+        callback([]);
+        return () => {};
+      }
       
       const q = query(
         collection(db, 'conversations'),
@@ -193,11 +160,23 @@ export const messageSubscriptions = {
         }, 
         (error) => {
           console.error('🔥 messageSubscriptions: Error listening to conversations:', error);
+          console.error('🔥 messageSubscriptions: Erreur détails:', {
+            code: error.code,
+            message: error.message,
+            stack: error.stack
+          });
+          
+          // Vérifier si c'est une erreur réseau (502)
+          if (error.message.includes('502') || error.code === 'unavailable') {
+            console.error('🔥 messageSubscriptions: Erreur 502 détectée dans conversations - problème de connectivité serveur');
+          }
+          
           callback([]);
         }
       );
     } catch (error) {
       console.error('🔥 messageSubscriptions: Error subscribing to conversations:', error);
+      console.error('🔥 messageSubscriptions: Type d\'erreur:', typeof error, error);
       return () => {};
     }
   }
