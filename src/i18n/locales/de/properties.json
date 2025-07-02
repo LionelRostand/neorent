@@ -2,15 +2,15 @@
 {
   "properties": {
     "title": "Immobilien",
-    "subtitle": "Verwalten Sie Ihre Immobilien",
+    "subtitle": "Verwalten Sie Ihre Immobilien und deren Informationen",
     "addProperty": "Immobilie hinzufügen",
     "editProperty": "Immobilie bearbeiten",
     "deleteProperty": "Immobilie löschen",
     "propertyDetails": "Immobiliendetails",
-    "totalProperties": "Immobilien gesamt",
+    "totalProperties": "Gesamte Immobilien",
     "occupiedProperties": "Belegte Immobilien",
-    "vacantProperties": "Leerstehende Immobilien",
-    "monthlyRevenue": "Monatlicher Umsatz",
+    "vacantProperties": "Leere Immobilien",
+    "monthlyRevenue": "Monatliche Einnahmen",
     "occupancyRate": "Belegungsrate",
     "colocationRooms": "WG-Zimmer",
     "realRevenueReceived": "Tatsächlich erhaltene Einnahmen",
@@ -29,7 +29,7 @@
     "perMonth": "/Monat",
     "rooms": "Zimmer",
     "available": "verfügbar",
-    "income": "Einnahmen",
+    "income": "Einkommen",
     "costs": "Kosten",
     "gain": "Gewinn",
     "occupancyRateShort": "Belegungsrate",
@@ -40,9 +40,9 @@
     "address": "Adresse",
     "surface": "Fläche",
     "rent": "Miete",
-    "totalRooms": "Gesamtzimmer",
+    "totalRooms": "Gesamtzahl der Zimmer",
     "selectType": "Typ auswählen",
-    "loading": "Wird geladen...",
+    "loading": "Laden...",
     "addSuccess": "Immobilie erfolgreich hinzugefügt",
     "addError": "Fehler beim Hinzufügen der Immobilie",
     "updateSuccess": "Immobilie erfolgreich aktualisiert",
@@ -72,10 +72,11 @@
     },
     "metrics": {
       "totalDescription": "registrierte Immobilien",
-      "occupancyDescription": "gesamte Belegungsrate",
+      "occupancyDescription": "globale Belegungsrate",
       "colocationDescription": "belegte Zimmer von insgesamt",
       "revenueDescription": "monatliche Gesamteinnahmen"
-    }
+    },
+    "noPropertiesDesc": "Beginnen Sie mit Ihrer ersten Immobilie"
   },
   "propertyForm": {
     "locationTypes": {
@@ -90,6 +91,6 @@
     },
     "type": "Typ",
     "surface": "Fläche",
-    "floor": "Stockwerk"
+    "floor": "Etage"
   }
 }

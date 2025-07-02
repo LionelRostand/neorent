@@ -2,27 +2,27 @@
 {
   "properties": {
     "title": "Properties",
-    "subtitle": "Manage your real estate properties",
+    "subtitle": "Manage your properties and their information",
     "addProperty": "Add property",
     "editProperty": "Edit property",
     "deleteProperty": "Delete property",
     "propertyDetails": "Property details",
-    "totalProperties": "Total properties",
-    "occupiedProperties": "Occupied properties",
-    "vacantProperties": "Vacant properties",
-    "monthlyRevenue": "Monthly revenue",
-    "occupancyRate": "Occupancy rate",
-    "colocationRooms": "Colocation rooms",
-    "realRevenueReceived": "Real revenue received",
-    "partiallyOccupied": "Partially occupied",
+    "totalProperties": "Total Properties",
+    "occupiedProperties": "Occupied Properties",
+    "vacantProperties": "Vacant Properties",
+    "monthlyRevenue": "Monthly Revenue",
+    "occupancyRate": "Occupancy Rate",
+    "colocationRooms": "Colocation Rooms",
+    "realRevenueReceived": "Real Revenue Received",
+    "partiallyOccupied": "Partially Occupied",
     "roomsAvailable": "rooms available",
     "profitability": "Profitability",
     "revenue": "Revenue",
     "charges": "Charges",
     "profit": "Profit",
     "occupants": "occupants",
-    "thisMonth": "This month",
-    "propertyConfiguration": "Property configuration",
+    "thisMonth": "This Month",
+    "propertyConfiguration": "Property Configuration",
     "listTitle": "Properties List",
     "occupantsList": "Occupants List",
     "roommate": "Roommate",
@@ -75,7 +75,8 @@
       "occupancyDescription": "global occupancy rate",
       "colocationDescription": "rooms occupied out of total",
       "revenueDescription": "total monthly revenue"
-    }
+    },
+    "noPropertiesDesc": "Start by adding your first property"
   },
   "propertyForm": {
     "locationTypes": {

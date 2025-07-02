@@ -11,50 +11,8 @@ interface AdminDashboardViewProps {
 }
 
 const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile }) => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const { properties, tenants, roommates, contracts } = useOwnerData(currentProfile);
-
-  // Get texts based on current language
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      title: {
-        fr: 'Tableau de Bord',
-        en: 'Dashboard'
-      },
-      subtitle: {
-        fr: 'Vue d\'ensemble de votre portefeuille immobilier',
-        en: 'Overview of your real estate portfolio'
-      },
-      properties: {
-        fr: 'Propriétés',
-        en: 'Properties'
-      },
-      tenants: {
-        fr: 'Locataires',
-        en: 'Tenants'
-      },
-      contracts: {
-        fr: 'Contrats',
-        en: 'Contracts'
-      },
-      monthlyRevenue: {
-        fr: 'Revenus Mensuels',
-        en: 'Monthly Revenue'
-      },
-      thisMonth: {
-        fr: 'ce mois',
-        en: 'this month'
-      },
-      chartTitle: {
-        fr: 'Revenus Mensuels - Locataires vs Colocataires',
-        en: 'Monthly Revenue - Tenants vs Roommates'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
 
   const totalProperties = properties.length;
   const totalTenants = tenants.length + roommates.length;
@@ -77,8 +35,8 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">{getLocalizedText('title')}</h1>
-            <p className="text-blue-100 mt-2">{getLocalizedText('subtitle')}</p>
+            <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
+            <p className="text-blue-100 mt-2">{t('dashboard.subtitle')}</p>
           </div>
         </div>
       </div>
@@ -89,10 +47,10 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('properties')}</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">{t('dashboard.properties')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{totalProperties}</p>
                 <p className="text-xs text-green-600 font-medium">
-                  +2 {getLocalizedText('thisMonth')}
+                  +2 {t('dashboard.newThisMonth')}
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-blue-50">
@@ -106,10 +64,10 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('tenants')}</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">{t('dashboard.tenants')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{totalTenants}</p>
                 <p className="text-xs text-green-600 font-medium">
-                  +3 {getLocalizedText('thisMonth')}
+                  +3 {t('dashboard.newThisMonth')}
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-green-50">
@@ -123,10 +81,10 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('contracts')}</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">{t('dashboard.contracts')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{totalContracts}</p>
                 <p className="text-xs text-green-600 font-medium">
-                  +1 {getLocalizedText('thisMonth')}
+                  +1 {t('dashboard.newThisMonth')}
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-orange-50">
@@ -140,10 +98,10 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('monthlyRevenue')}</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">{t('dashboard.monthlyRevenue')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{monthlyRevenue}€</p>
                 <p className="text-xs text-green-600 font-medium">
-                  +8.2% {getLocalizedText('thisMonth')}
+                  +8.2% {t('dashboard.newThisMonth')}
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-purple-50">
@@ -159,7 +117,7 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
         <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
           <CardTitle className="text-xl text-gray-800 flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            {getLocalizedText('chartTitle')}
+            {t('dashboard.rentalRevenue')}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
@@ -193,7 +151,7 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
                   stroke="#3b82f6" 
                   strokeWidth={2}
                   dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                  name="Locataires"
+                  name={t('dashboard.tenants')}
                 />
                 <Line 
                   type="monotone" 
@@ -201,7 +159,7 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
                   stroke="#10b981" 
                   strokeWidth={2}
                   dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-                  name="Colocataires"
+                  name="Roommates"
                 />
               </LineChart>
             </ResponsiveContainer>

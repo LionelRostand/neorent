@@ -38,40 +38,40 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
 
   const stats = [
     {
-      title: t('ownerSpace.dashboard.stats.propertiesManaged'),
+      title: t('dashboard.properties'),
       value: ownerData.properties.length.toString(),
-      change: `+2 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
+      change: `+2 ${t('dashboard.newThisMonth')}`,
       icon: Home,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
-      description: t('ownerSpace.dashboard.stats.propertiesManaged')
+      description: t('dashboard.properties')
     },
     {
-      title: t('ownerSpace.dashboard.stats.activeTenants'),
+      title: t('dashboard.tenants'),
       value: activeTenants.length.toString(),
-      change: `+3 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
+      change: `+3 ${t('dashboard.newThisMonth')}`,
       icon: Users,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
-      description: t('ownerSpace.dashboard.stats.activeTenants')
+      description: t('dashboard.tenants')
     },
     {
-      title: t('ownerSpace.dashboard.stats.contracts'),
+      title: t('dashboard.contracts'),
       value: ownerData.contracts.length.toString(),
-      change: `+1 ${t('ownerSpace.dashboard.stats.thisMonth')}`,
+      change: `+1 ${t('dashboard.newThisMonth')}`,
       icon: Calendar,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
-      description: t('ownerSpace.dashboard.stats.contracts')
+      description: t('dashboard.contracts')
     },
     {
-      title: t('ownerSpace.dashboard.stats.monthlyRevenue'),
+      title: t('dashboard.monthlyRevenue'),
       value: `${monthlyRevenue.toLocaleString()}€`,
-      change: `+8.2% ${t('ownerSpace.dashboard.stats.thisMonth')}`,
+      change: `+8.2% ${t('dashboard.newThisMonth')}`,
       icon: DollarSign,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
-      description: t('ownerSpace.dashboard.stats.monthlyRevenue')
+      description: t('dashboard.monthlyRevenue')
     }
   ];
 

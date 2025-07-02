@@ -2,7 +2,7 @@
 {
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Overview of your real estate activity",
+    "subtitle": "Overview of your real estate portfolio",
     "welcome": "Welcome",
     "quickActions": "Quick Actions",
     "recentActivity": "Recent Activity",
@@ -67,6 +67,9 @@
       "weeks": "weeks ago"
     },
     "latePayment": "Late payment",
-    "rentalRevenue": "Rental Revenue"
+    "rentalRevenue": "Rental Revenue",
+    "properties": "Properties",
+    "tenants": "Tenants",
+    "contracts": "Contracts"
   }
 }
