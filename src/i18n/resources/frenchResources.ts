@@ -33,6 +33,7 @@ import tenantPaymentsFR from '../locales/fr/tenantPayments.json';
 import legalFR from '../locales/fr/legal.json';
 import tenantUploadFR from '../locales/fr/tenantUpload.json';
 import ownerSpaceFR from '../locales/fr/ownerSpace.json';
+import quickActionsFR from '../locales/fr/quickActions.json';
 
 export const frenchResources = {
   translation: {
@@ -68,6 +69,7 @@ export const frenchResources = {
     ...tenantPaymentsFR,
     ...legalFR,
     ...tenantUploadFR,
-    ...ownerSpaceFR
+    ...ownerSpaceFR,
+    ...quickActionsFR
   }
 };
