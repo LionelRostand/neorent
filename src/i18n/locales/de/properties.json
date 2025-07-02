@@ -57,7 +57,8 @@
       "area": "Fläche",
       "rent": "Miete",
       "status": "Status",
-      "description": "Beschreibung"
+      "description": "Beschreibung",
+      "title": "Titel"
     },
     "types": {
       "apartment": "Wohnung",
@@ -76,7 +77,12 @@
       "colocationDescription": "belegte Zimmer von insgesamt",
       "revenueDescription": "monatliche Gesamteinnahmen"
     },
-    "noPropertiesDesc": "Beginnen Sie mit Ihrer ersten Immobilie"
+    "noPropertiesDesc": "Beginnen Sie mit Ihrer ersten Immobilie",
+    "totalTenants": "Gesamte Mieter",
+    "activeTenants": "aktive Mieter",
+    "propertiesRegistered": "registrierte Immobilien",
+    "propertiesWithTenants": "Immobilien mit Mietern",
+    "actions": "Aktionen"
   },
   "propertyForm": {
     "locationTypes": {

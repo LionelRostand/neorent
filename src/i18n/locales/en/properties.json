@@ -57,7 +57,8 @@
       "area": "Area",
       "rent": "Rent",
       "status": "Status",
-      "description": "Description"
+      "description": "Description",
+      "title": "Title"
     },
     "types": {
       "apartment": "Apartment",
@@ -76,7 +77,12 @@
       "colocationDescription": "rooms occupied out of total",
       "revenueDescription": "total monthly revenue"
     },
-    "noPropertiesDesc": "Start by adding your first property"
+    "noPropertiesDesc": "Start by adding your first property",
+    "totalTenants": "Total Tenants",
+    "activeTenants": "active tenants",
+    "propertiesRegistered": "properties registered",
+    "propertiesWithTenants": "properties with tenants",
+    "actions": "Actions"
   },
   "propertyForm": {
     "locationTypes": {
