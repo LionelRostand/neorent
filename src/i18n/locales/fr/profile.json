@@ -20,6 +20,15 @@
     "permissions": "Permissions",
     "close": "Fermer",
     "notDefined": "Non défini",
-    "allPermissions": "Toutes"
+    "allPermissions": "Toutes",
+    "currentPassword": "Mot de passe actuel",
+    "enterCurrentPassword": "Entrez le mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "minimum6Characters": "Minimum 6 caractères",
+    "confirmPassword": "Confirmer le mot de passe",
+    "confirmNewPassword": "Confirmez le nouveau mot de passe",
+    "cancel": "Annuler",
+    "modify": "Modifier",
+    "modifying": "Modification..."
   }
 }

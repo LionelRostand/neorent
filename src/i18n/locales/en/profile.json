@@ -20,6 +20,15 @@
     "permissions": "Permissions",
     "close": "Close",
     "notDefined": "Not defined",
-    "allPermissions": "All"
+    "allPermissions": "All",
+    "currentPassword": "Current Password",
+    "enterCurrentPassword": "Enter current password",
+    "newPassword": "New Password",
+    "minimum6Characters": "Minimum 6 characters",
+    "confirmPassword": "Confirm Password",
+    "confirmNewPassword": "Confirm new password",
+    "cancel": "Cancel",
+    "modify": "Modify",
+    "modifying": "Modifying..."
   }
 }
