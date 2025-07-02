@@ -27,72 +27,22 @@ export const ProfileDialog = ({
   userProfile, 
   userType 
 }: ProfileDialogProps) => {
-  const { t, i18n } = useTranslation();
-
-  // Get texts based on current language
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      myProfile: {
-        fr: 'Mon profil',
-        en: 'My Profile'
-      },
-      name: {
-        fr: 'Nom',
-        en: 'Name'
-      },
-      email: {
-        fr: 'Email',
-        en: 'Email'
-      },
-      role: {
-        fr: 'Rôle',
-        en: 'Role'
-      },
-      permissions: {
-        fr: 'Permissions',
-        en: 'Permissions'
-      },
-      close: {
-        fr: 'Fermer',
-        en: 'Close'
-      },
-      notDefined: {
-        fr: 'Non défini',
-        en: 'Not defined'
-      },
-      administrator: {
-        fr: 'Administrateur',
-        en: 'Administrator'
-      },
-      owner: {
-        fr: 'Propriétaire',
-        en: 'Owner'
-      },
-      allPermissions: {
-        fr: 'Tous',
-        en: 'All'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
+  const { t } = useTranslation();
 
   // Déterminer le nom à afficher - correction pour l'admin
   const isAdmin = user.email === 'admin@neotech-consulting.com';
-  const displayName = isAdmin ? 'Lionel DJOSSA' : (userProfile?.name || getLocalizedText('notDefined'));
+  const displayName = isAdmin ? 'Lionel DJOSSA' : (userProfile?.name || t('profile.notDefined'));
   
   // Déterminer le rôle à afficher
-  const displayRole = isAdmin ? getLocalizedText('administrator') : 
-                     userType === 'owner' ? getLocalizedText('owner') : 
-                     userProfile?.role || getLocalizedText('notDefined');
+  const displayRole = isAdmin ? t('profile.administrator') : 
+                     userType === 'owner' ? t('profile.owner') : 
+                     userProfile?.role || t('profile.notDefined');
 
   // Déterminer les permissions à afficher
   const getDisplayPermissions = () => {
     // Si c'est l'admin, afficher "All" ou "Tous"
     if (isAdmin || userType === 'admin') {
-      return [getLocalizedText('allPermissions')];
+      return [t('profile.allPermissions')];
     }
     
     // Pour les autres utilisateurs, afficher leurs permissions spécifiques
@@ -109,11 +59,11 @@ export const ProfileDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle>{getLocalizedText('myProfile')}</DialogTitle>
+          <DialogTitle>{t('profile.myProfile')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>{getLocalizedText('name')}</Label>
+            <Label>{t('profile.name')}</Label>
             <Input
               value={displayName}
               readOnly
@@ -121,15 +71,15 @@ export const ProfileDialog = ({
             />
           </div>
           <div className="space-y-2">
-            <Label>{getLocalizedText('email')}</Label>
+            <Label>{t('profile.email')}</Label>
             <Input
-              value={user.email || getLocalizedText('notDefined')}
+              value={user.email || t('profile.notDefined')}
               readOnly
               className="bg-gray-50"
             />
           </div>
           <div className="space-y-2">
-            <Label>{getLocalizedText('role')}</Label>
+            <Label>{t('profile.role')}</Label>
             <Input
               value={displayRole}
               readOnly
@@ -138,7 +88,7 @@ export const ProfileDialog = ({
           </div>
           {displayPermissions.length > 0 && (
             <div className="space-y-2">
-              <Label>{getLocalizedText('permissions')}</Label>
+              <Label>{t('profile.permissions')}</Label>
               <div className="bg-gray-50 p-3 rounded-md">
                 <div className="flex flex-wrap gap-1">
                   {displayPermissions.map((permission: string, index: number) => (
@@ -159,7 +109,7 @@ export const ProfileDialog = ({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              {getLocalizedText('close')}
+              {t('profile.close')}
             </Button>
           </div>
         </div>
