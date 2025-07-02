@@ -76,9 +76,9 @@
       "preview": "Systemübersicht",
       "subtitle": "Überblick über Ihr Immobilienportfolio",
       "stats": {
-        "propertiesManaged": "Immobilien",
+        "propertiesManaged": "Eigentum",
         "activeTenants": "Mieter",
-        "monthlyRevenue": "Monatlicher Umsatz",
+        "monthlyRevenue": "Monatliche Einnahmen",
         "occupancyRate": "Belegungsrate",
         "thisMonth": "diesen Monat",
         "contracts": "Verträge"
