@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -139,8 +140,8 @@ const Properties = () => {
           {/* État vide avec menu déroulant d'ajout centré */}
           <div className="flex flex-col items-center justify-center py-16 bg-orange-50 rounded-lg border-2 border-dashed border-orange-200">
             <Building className="h-16 w-16 text-orange-400 mb-4" />
-            <h2 className="text-xl font-semibold text-orange-800 mb-2">Add Real Estate Property</h2>
-            <p className="text-orange-600 mb-6">No Property Selected</p>
+            <h2 className="text-xl font-semibold text-orange-800 mb-2">{t('properties.addProperty')}</h2>
+            <p className="text-orange-600 mb-6">{t('properties.noPropertiesDesc')}</p>
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
