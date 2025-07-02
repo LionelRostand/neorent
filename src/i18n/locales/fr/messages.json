@@ -2,13 +2,17 @@
 {
   "messages": {
     "title": "Messages",
-    "subtitle": "Communiquez avec vos locataires et partenaires",
-    "totalConversations": "Total conversations",
-    "onlineClients": "Clients en ligne",
-    "recent1h": "Récents (1h)",
-    "unreadMessages": "Messages non lus",
-    "contacts": "Contacts",
-    "noContacts": "Aucun contact",
-    "selectContact": "Sélectionnez un contact"
+    "subtitle": "Gérez vos communications avec les locataires",
+    "loading": "Chargement des messages...",
+    "selectContact": "Sélectionnez un contact pour commencer à discuter",
+    "noMessages": "Aucun message pour le moment",
+    "typeMessage": "Tapez votre message...",
+    "send": "Envoyer",
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "unreadMessages": "Messages Non Lus",
+    "totalConversations": "Total Conversations",
+    "activeChats": "Discussions Actives",
+    "responseTime": "Temps de Réponse Moyen"
   }
 }

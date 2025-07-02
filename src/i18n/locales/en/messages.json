@@ -2,13 +2,17 @@
 {
   "messages": {
     "title": "Messages",
-    "subtitle": "Communicate with your tenants and partners",
-    "totalConversations": "Total Conversations",
-    "onlineClients": "Online Clients",
-    "recent1h": "Recent (1h)",
+    "subtitle": "Manage your communications with tenants",
+    "loading": "Loading messages...",
+    "selectContact": "Select a contact to start chatting",
+    "noMessages": "No messages yet",
+    "typeMessage": "Type your message...",
+    "send": "Send",
+    "online": "Online",
+    "offline": "Offline",
     "unreadMessages": "Unread Messages",
-    "contacts": "Contacts",
-    "noContacts": "No Contacts",
-    "selectContact": "Select a contact"
+    "totalConversations": "Total Conversations",
+    "activeChats": "Active Chats",
+    "responseTime": "Avg Response Time"
   }
 }

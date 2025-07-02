@@ -2,13 +2,17 @@
 {
   "messages": {
     "title": "Nachrichten",
-    "subtitle": "Kommunizieren Sie mit Ihren Mietern und Partnern",
-    "totalConversations": "Gespräche gesamt",
-    "onlineClients": "Online-Kunden",
-    "recent1h": "Aktuell (1h)",
+    "subtitle": "Verwalten Sie Ihre Kommunikation mit Mietern",
+    "loading": "Nachrichten werden geladen...",
+    "selectContact": "Wählen Sie einen Kontakt aus, um zu chatten",
+    "noMessages": "Noch keine Nachrichten",
+    "typeMessage": "Ihre Nachricht eingeben...",
+    "send": "Senden",
+    "online": "Online",
+    "offline": "Offline",
     "unreadMessages": "Ungelesene Nachrichten",
-    "contacts": "Kontakte",
-    "noContacts": "Keine Kontakte",
-    "selectContact": "Wählen Sie einen Kontakt aus"
+    "totalConversations": "Gesamte Unterhaltungen",
+    "activeChats": "Aktive Chats",
+    "responseTime": "Durchschnittliche Antwortzeit"
   }
 }
