@@ -31,35 +31,35 @@ const SpecialCases = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <AlertCircle className="h-5 w-5 text-orange-600" />
-          {t('maintenanceResponsibilities.responsibilityGuide.specialCases')}
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+          <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600 flex-shrink-0" />
+          <span className="truncate">{t('maintenanceResponsibilities.responsibilityGuide.specialCases')}</span>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-xs sm:text-sm">
           {t('maintenanceResponsibilities.responsibilityGuide.specialSituationsDescription')}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <CardContent className="p-3 sm:p-6 pt-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {specialCases.map((specialCase, index) => (
             <Card key={index} className="border-l-4 border-l-orange-500">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">
+              <CardHeader className="pb-2 sm:pb-3 p-3 sm:p-4">
+                <CardTitle className="text-sm font-medium leading-tight">
                   {specialCase.title}
                 </CardTitle>
                 <Badge 
                   variant={specialCase.responsibility === t('maintenanceResponsibilities.responsibilityGuide.ownerTag') ? 'default' : 'secondary'}
-                  className="w-fit"
+                  className="w-fit text-xs"
                 >
                   {specialCase.responsibility}
                 </Badge>
               </CardHeader>
-              <CardContent className="pt-0">
-                <p className="text-sm text-muted-foreground mb-2">
+              <CardContent className="pt-0 p-3 sm:p-4">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-2 leading-relaxed">
                   {specialCase.description}
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   {specialCase.details}
                 </p>
               </CardContent>

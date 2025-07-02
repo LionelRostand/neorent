@@ -2,15 +2,26 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Home } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ChevronDown, Home } from 'lucide-react';
+import { useState } from 'react';
 
 const OwnerResponsibilities = () => {
   const { t } = useTranslation();
+  const [openSections, setOpenSections] = useState<string[]>([]);
 
-  const proprietaireResponsibilities = [
+  const toggleSection = (section: string) => {
+    setOpenSections(prev => 
+      prev.includes(section) 
+        ? prev.filter(s => s !== section)
+        : [...prev, section]
+    );
+  };
+
+  const responsibilityCategories = [
     {
-      category: t('maintenanceResponsibilities.responsibilityGuide.majorWork'),
+      key: 'majorWork',
+      title: t('maintenanceResponsibilities.responsibilityGuide.majorWork'),
       items: [
         t('maintenanceResponsibilities.responsibilityGuide.structuralWallRepairs'),
         t('maintenanceResponsibilities.responsibilityGuide.roofWaterproofing'),
@@ -19,7 +30,8 @@ const OwnerResponsibilities = () => {
       ]
     },
     {
-      category: t('maintenanceResponsibilities.responsibilityGuide.mainInstallations'),
+      key: 'mainInstallations',
+      title: t('maintenanceResponsibilities.responsibilityGuide.mainInstallations'),
       items: [
         t('maintenanceResponsibilities.responsibilityGuide.generalPlumbingAndPipes'),
         t('maintenanceResponsibilities.responsibilityGuide.electricalInstallation'),
@@ -29,7 +41,8 @@ const OwnerResponsibilities = () => {
       ]
     },
     {
-      category: t('maintenanceResponsibilities.responsibilityGuide.securityEquipment'),
+      key: 'securityEquipment',
+      title: t('maintenanceResponsibilities.responsibilityGuide.securityEquipment'),
       items: [
         t('maintenanceResponsibilities.responsibilityGuide.smokeDetectorsSupply'),
         t('maintenanceResponsibilities.responsibilityGuide.guardrailsAndRamps'),
@@ -38,7 +51,8 @@ const OwnerResponsibilities = () => {
       ]
     },
     {
-      category: t('maintenanceResponsibilities.responsibilityGuide.exteriorJoinery'),
+      key: 'exteriorJoinery',
+      title: t('maintenanceResponsibilities.responsibilityGuide.exteriorJoinery'),
       items: [
         t('maintenanceResponsibilities.responsibilityGuide.windowsAndShutters'),
         t('maintenanceResponsibilities.responsibilityGuide.apartmentEntranceDoor'),
@@ -49,36 +63,44 @@ const OwnerResponsibilities = () => {
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Home className="h-5 w-5 text-blue-600" />
-          {t('maintenanceResponsibilities.responsibilityGuide.ownerResponsibility')}
+    <Card className="border-green-200 bg-green-50">
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="flex items-center gap-2 text-green-800 text-base sm:text-lg">
+          <Home className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+          <span className="truncate">{t('maintenanceResponsibilities.responsibilityGuide.ownerResponsibility')}</span>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-green-700 text-xs sm:text-sm">
           {t('maintenanceResponsibilities.responsibilityGuide.ownerResponsibilityDescription')}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Accordion type="single" collapsible>
-          {proprietaireResponsibilities.map((section, index) => (
-            <AccordionItem key={index} value={`proprietaire-${index}`}>
-              <AccordionTrigger className="text-sm font-medium">
-                {section.category}
-              </AccordionTrigger>
-              <AccordionContent>
-                <ul className="space-y-2">
-                  {section.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="flex items-start gap-2 text-sm">
-                      <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                      {item}
+      <CardContent className="space-y-2 sm:space-y-3 p-3 sm:p-6 pt-0">
+        {responsibilityCategories.map((category) => (
+          <Collapsible key={category.key}>
+            <CollapsibleTrigger 
+              className="flex items-center justify-between w-full p-2 sm:p-3 bg-white rounded-lg border border-green-200 hover:bg-green-50 transition-colors text-left"
+              onClick={() => toggleSection(category.key)}
+            >
+              <span className="font-medium text-green-800 text-xs sm:text-sm truncate pr-2">
+                {category.title}
+              </span>
+              <ChevronDown className={`h-3 w-3 sm:h-4 sm:w-4 text-green-600 transition-transform flex-shrink-0 ${
+                openSections.includes(category.key) ? 'rotate-180' : ''
+              }`} />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-1 sm:mt-2">
+              <div className="bg-white rounded-lg border border-green-200 p-2 sm:p-3">
+                <ul className="space-y-1 sm:space-y-2">
+                  {category.items.map((item, index) => (
+                    <li key={index} className="flex items-start gap-2 text-xs sm:text-sm text-green-700">
+                      <span className="text-green-500 font-bold mt-0.5 flex-shrink-0">•</span>
+                      <span className="leading-relaxed">{item}</span>
                     </li>
                   ))}
                 </ul>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        ))}
       </CardContent>
     </Card>
   );
