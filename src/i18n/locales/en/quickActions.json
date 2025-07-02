@@ -57,12 +57,12 @@
       "title": "Dashboard",
       "description": "Access main dashboard"
     },
-    "property": {
-      "title": "Property",
+    "properties": {
+      "title": "Properties",
       "description": "Manage properties"
     },
-    "contract": {
-      "title": "Contract",
+    "contracts": {
+      "title": "Contracts",
       "description": "Manage contracts"
     },
     "roommate": {

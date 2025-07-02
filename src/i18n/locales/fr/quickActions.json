@@ -57,12 +57,12 @@
       "title": "Tableau de bord",
       "description": "Accéder au tableau de bord principal"
     },
-    "property": {
-      "title": "Propriété", 
+    "properties": {
+      "title": "Propriétés", 
       "description": "Gérer les propriétés"
     },
-    "contract": {
-      "title": "Contrat",
+    "contracts": {
+      "title": "Contrats",
       "description": "Gérer les contrats"
     },
     "roommate": {

@@ -57,12 +57,12 @@
       "title": "Dashboard",
       "description": "Hauptdashboard aufrufen"
     },
-    "property": {
-      "title": "Immobilie",
+    "properties": {
+      "title": "Immobilien",
       "description": "Immobilien verwalten"
     },
-    "contract": {
-      "title": "Vertrag",
+    "contracts": {
+      "title": "Verträge",
       "description": "Verträge verwalten"
     },
     "roommate": {
