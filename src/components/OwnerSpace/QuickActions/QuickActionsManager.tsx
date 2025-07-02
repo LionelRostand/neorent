@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Settings, Loader2 } from 'lucide-react';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { useToast } from '@/hooks/use-toast';
+import { getIconNameForPath } from '@/utils/menuIconMapping';
 import CurrentActionsSection from './CurrentActionsSection';
 import AvailableMenusSection from './AvailableMenusSection';
 
 const QuickActionsManager: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -24,67 +25,6 @@ const QuickActionsManager: React.FC = () => {
     addCustomAction
   } = useQuickActionsManager();
 
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      manageActions: {
-        fr: 'Gérer les actions',
-        en: 'Manage Actions'
-      },
-      quickActionsManager: {
-        fr: 'Gestionnaire d\'actions rapides',
-        en: 'Quick Actions Manager'
-      },
-      close: {
-        fr: 'Fermer',
-        en: 'Close'
-      },
-      actionToggled: {
-        fr: 'Action basculée',
-        en: 'Action Toggled'
-      },
-      actionEnabledDisabled: {
-        fr: 'L\'action a été activée/désactivée avec succès.',
-        en: 'The action has been enabled/disabled successfully.'
-      },
-      error: {
-        fr: 'Erreur',
-        en: 'Error'
-      },
-      toggleError: {
-        fr: 'Erreur lors du basculement de l\'action.',
-        en: 'Error toggling the action.'
-      },
-      actionRemoved: {
-        fr: 'Action supprimée',
-        en: 'Action Removed'
-      },
-      actionRemovedSuccess: {
-        fr: 'L\'action a été supprimée avec succès.',
-        en: 'The action has been removed successfully.'
-      },
-      removeError: {
-        fr: 'Erreur lors de la suppression de l\'action.',
-        en: 'Error removing the action.'
-      },
-      menuAdded: {
-        fr: 'Menu ajouté',
-        en: 'Menu Added'
-      },
-      menuAddedSuccess: {
-        fr: 'Le menu a été ajouté aux actions rapides avec succès.',
-        en: 'The menu has been added to quick actions successfully.'
-      },
-      addMenuError: {
-        fr: 'Erreur lors de l\'ajout du menu.',
-        en: 'Error adding the menu.'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
-
   const handleToggleAction = async (actionId: string) => {
     setToggleStates(prev => ({ ...prev, [actionId]: true }));
     setSaving(true);
@@ -92,13 +32,13 @@ const QuickActionsManager: React.FC = () => {
     try {
       await toggleAction(actionId);
       toast({
-        title: getLocalizedText('actionToggled'),
-        description: getLocalizedText('actionEnabledDisabled'),
+        title: t('quickActions.manager.actionToggled'),
+        description: t('quickActions.manager.actionEnabledDisabled'),
       });
     } catch (error) {
       toast({
-        title: getLocalizedText('error'),
-        description: getLocalizedText('toggleError'),
+        title: t('quickActions.manager.error'),
+        description: t('quickActions.manager.toggleError'),
         variant: "destructive",
       });
     } finally {
@@ -114,16 +54,16 @@ const QuickActionsManager: React.FC = () => {
       const success = await removeAction(actionId);
       if (success) {
         toast({
-          title: getLocalizedText('actionRemoved'),
-          description: getLocalizedText('actionRemovedSuccess'),
+          title: t('quickActions.manager.actionRemoved'),
+          description: t('quickActions.manager.actionRemovedSuccess'),
         });
         return true;
       }
       return false;
     } catch (error) {
       toast({
-        title: getLocalizedText('error'),
-        description: getLocalizedText('removeError'),
+        title: t('quickActions.manager.error'),
+        description: t('quickActions.manager.removeError'),
         variant: "destructive",
       });
       return false;
@@ -138,11 +78,14 @@ const QuickActionsManager: React.FC = () => {
     setSaving(true);
 
     try {
+      // Extract the menu name from the path for translation key
+      const menuName = menuPath.replace('/admin/', '').replace('-', '');
+      
       const newAction = {
         id: menuPath.replace('/admin/', ''),
-        titleKey: `quickActions.${menuItem.label.toLowerCase()}.title`,
-        descriptionKey: `quickActions.${menuItem.label.toLowerCase()}.description`,
-        icon: menuItem.icon?.name || 'Settings',
+        titleKey: `quickActions.${menuName}.title`,
+        descriptionKey: `quickActions.${menuName}.description`,
+        icon: getIconNameForPath(menuPath), // Use the icon mapping
         color: getColorForMenu(menuPath),
         enabled: true,
         action: 'navigate' as const,
@@ -152,13 +95,13 @@ const QuickActionsManager: React.FC = () => {
       await addCustomAction(newAction);
       
       toast({
-        title: getLocalizedText('menuAdded'),
-        description: getLocalizedText('menuAddedSuccess'),
+        title: t('quickActions.manager.menuAdded'),
+        description: t('quickActions.manager.menuAddedSuccess'),
       });
     } catch (error) {
       toast({
-        title: getLocalizedText('error'),
-        description: getLocalizedText('addMenuError'),
+        title: t('quickActions.manager.error'),
+        description: t('quickActions.manager.addMenuError'),
         variant: "destructive",
       });
     } finally {
@@ -201,14 +144,14 @@ const QuickActionsManager: React.FC = () => {
           className="w-full bg-green-500 hover:bg-green-600 text-white border-green-400 text-xs md:text-sm py-2 px-3"
         >
           <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
-          <span className="truncate">{getLocalizedText('manageActions')}</span>
+          <span className="truncate">{t('quickActions.manager.title')}</span>
         </Button>
       </DialogTrigger>
       
       <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            {getLocalizedText('quickActionsManager')}
+            {t('quickActions.manager.title')}
           </DialogTitle>
         </DialogHeader>
 
@@ -237,7 +180,7 @@ const QuickActionsManager: React.FC = () => {
             disabled={saving}
           >
             {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            {getLocalizedText('close')}
+            {t('quickActions.manager.close')}
           </Button>
         </div>
       </DialogContent>

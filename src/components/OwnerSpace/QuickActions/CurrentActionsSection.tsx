@@ -7,6 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Settings, Trash2, Edit } from 'lucide-react';
 import { QuickActionConfig } from '@/hooks/useQuickActionsManager';
+import { getIconForPath } from '@/utils/menuIconMapping';
 
 interface CurrentActionsSectionProps {
   quickActions: QuickActionConfig[];
@@ -25,52 +26,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
   toggleStates,
   saving
 }) => {
-  const { i18n, t } = useTranslation();
-
-  const getLocalizedText = (key: string) => {
-    const currentLang = i18n.language;
-    
-    const texts: Record<string, Record<string, string>> = {
-      currentActions: {
-        fr: 'Actions rapides actuelles',
-        en: 'Current quick actions'
-      },
-      enabled: {
-        fr: 'Activé',
-        en: 'Enabled'
-      },
-      disabled: {
-        fr: 'Désactivé',
-        en: 'Disabled'
-      },
-      configure: {
-        fr: 'Configurer',
-        en: 'Configure'
-      },
-      remove: {
-        fr: 'Supprimer',
-        en: 'Remove'
-      },
-      noActions: {
-        fr: 'Aucune action rapide configurée',
-        en: 'No quick actions configured'
-      },
-      confirmDelete: {
-        fr: 'Êtes-vous sûr de vouloir supprimer cette action ?',
-        en: 'Are you sure you want to delete this action?'
-      },
-      visibleInSidebar: {
-        fr: 'Visible dans la sidebar',
-        en: 'Visible in sidebar'
-      },
-      hiddenFromSidebar: {
-        fr: 'Masqué de la sidebar',
-        en: 'Hidden from sidebar'
-      }
-    };
-
-    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
-  };
+  const { t } = useTranslation();
 
   const getLocalizedActionText = (action: QuickActionConfig, field: 'title' | 'description'): string => {
     const key = field === 'title' ? action.titleKey : action.descriptionKey;
@@ -83,7 +39,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
   };
 
   const handleRemoveClick = async (actionId: string) => {
-    if (window.confirm(getLocalizedText('confirmDelete'))) {
+    if (window.confirm(t('quickActions.manager.removeError'))) {
       await onRemoveAction(actionId);
     }
   };
@@ -93,12 +49,25 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
     onConfigureAction(actionId);
   };
 
+  const renderActionIcon = (action: QuickActionConfig) => {
+    // Try to get the icon from the path mapping if it's a navigation action
+    if (action.action === 'navigate' && action.actionValue) {
+      const IconComponent = getIconForPath(action.actionValue);
+      if (IconComponent) {
+        return <IconComponent className="h-5 w-5 text-white" />;
+      }
+    }
+    
+    // Fallback to Settings icon
+    return <Settings className="h-5 w-5 text-white" />;
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-lg">
           <Settings className="h-5 w-5" />
-          {getLocalizedText('currentActions')}
+          {t('quickActions.manager.currentActions')}
         </CardTitle>
       </CardHeader>
       
@@ -110,7 +79,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
           >
             {/* Icon */}
             <div className={`p-3 rounded-lg ${action.color} flex-shrink-0`}>
-              <Settings className="h-5 w-5 text-white" />
+              {renderActionIcon(action)}
             </div>
             
             {/* Content */}
@@ -127,7 +96,10 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
                     variant={action.enabled ? "default" : "secondary"} 
                     className="text-xs mt-2"
                   >
-                    {action.enabled ? getLocalizedText('visibleInSidebar') : getLocalizedText('hiddenFromSidebar')}
+                    {action.enabled 
+                      ? t('quickActions.manager.enabled') 
+                      : t('quickActions.manager.disabled')
+                    }
                   </Badge>
                 </div>
                 
@@ -164,7 +136,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
         
         {quickActions.length === 0 && (
           <div className="text-center py-8 text-gray-500">
-            <p className="text-sm">{getLocalizedText('noActions')}</p>
+            <p className="text-sm">{t('quickActions.manager.noActionsConfigured')}</p>
           </div>
         )}
       </CardContent>

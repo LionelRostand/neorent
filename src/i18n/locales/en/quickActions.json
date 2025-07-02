@@ -76,6 +76,42 @@
     "settings": {
       "title": "Settings",
       "description": "Manage settings"
+    },
+    "tenants": {
+      "title": "Tenants",
+      "description": "Manage tenants"
+    },
+    "inspections": {
+      "title": "Inspections",
+      "description": "Manage inspections"
+    },
+    "rentManagement": {
+      "title": "Rent Management",
+      "description": "Manage rent"
+    },
+    "rentalCharges": {
+      "title": "Rental Charges",
+      "description": "Manage charges"
+    },
+    "forecasting": {
+      "title": "Forecasting",
+      "description": "Financial forecasting"
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "description": "Manage maintenance"
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Manage messages"
+    },
+    "taxes": {
+      "title": "Taxes",
+      "description": "Manage taxes"
+    },
+    "help": {
+      "title": "Help",
+      "description": "Get help"
     }
   }
 }

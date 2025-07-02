@@ -76,6 +76,42 @@
     "settings": {
       "title": "Paramètres",
       "description": "Gérer les paramètres"
+    },
+    "tenants": {
+      "title": "Locataires",
+      "description": "Gérer les locataires"
+    },
+    "inspections": {
+      "title": "Inspections",
+      "description": "Gérer les inspections"
+    },
+    "rentManagement": {
+      "title": "Gestion des loyers",
+      "description": "Gérer les loyers"
+    },
+    "rentalCharges": {
+      "title": "Charges locatives",
+      "description": "Gérer les charges"
+    },
+    "forecasting": {
+      "title": "Prévisions",
+      "description": "Prévisions financières"
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "description": "Gérer la maintenance"
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Gérer les messages"
+    },
+    "taxes": {
+      "title": "Fiscalité",
+      "description": "Gérer la fiscalité"
+    },
+    "help": {
+      "title": "Aide",
+      "description": "Obtenir de l'aide"
     }
   }
 }

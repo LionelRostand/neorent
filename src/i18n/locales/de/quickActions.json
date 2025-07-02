@@ -76,6 +76,42 @@
     "settings": {
       "title": "Einstellungen",
       "description": "Einstellungen verwalten"
+    },
+    "tenants": {
+      "title": "Mieter",
+      "description": "Mieter verwalten"
+    },
+    "inspections": {
+      "title": "Inspektionen",
+      "description": "Inspektionen verwalten"
+    },
+    "rentManagement": {
+      "title": "Mietverwaltung",
+      "description": "Miete verwalten"
+    },
+    "rentalCharges": {
+      "title": "Nebenkosten",
+      "description": "Nebenkosten verwalten"
+    },
+    "forecasting": {
+      "title": "Prognosen",
+      "description": "Finanzprognosen"
+    },
+    "maintenance": {
+      "title": "Wartung",
+      "description": "Wartung verwalten"
+    },
+    "messages": {
+      "title": "Nachrichten",
+      "description": "Nachrichten verwalten"
+    },
+    "taxes": {
+      "title": "Steuern",
+      "description": "Steuern verwalten"
+    },
+    "help": {
+      "title": "Hilfe",
+      "description": "Hilfe erhalten"
     }
   }
 }
