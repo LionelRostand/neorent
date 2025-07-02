@@ -34,9 +34,14 @@ const Dashboard = () => {
   return (
     <MainLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">{t('dashboard.title')}</h1>
-          <p className="text-gray-600 mt-2">{t('dashboard.subtitle')}</p>
+        {/* Header section with translations */}
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">{t('dashboard.title')}</h1>
+              <p className="text-blue-100 mt-2">{t('dashboard.subtitle')}</p>
+            </div>
+          </div>
         </div>
 
         {/* Métriques principales */}

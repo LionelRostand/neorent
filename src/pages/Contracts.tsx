@@ -62,6 +62,16 @@ const Contracts = () => {
   return (
     <MainLayout>
       <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
+        {/* Header section with translations */}
+        <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl p-6 text-white shadow-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">{t('contracts.title')}</h1>
+              <p className="text-purple-100 mt-2">{t('contracts.subtitle')}</p>
+            </div>
+          </div>
+        </div>
+
         <ContractsHeader
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}

@@ -130,10 +130,13 @@ const Properties = () => {
     return (
       <MainLayout>
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">{t('properties.title')}</h1>
-              <p className="text-gray-600 mt-2">{t('properties.subtitle')}</p>
+          {/* Header section with translations */}
+          <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-6 text-white shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold">{t('properties.title')}</h1>
+                <p className="text-slate-100 mt-2">{t('properties.subtitle')}</p>
+              </div>
             </div>
           </div>
 
@@ -181,40 +184,43 @@ const Properties = () => {
   return (
     <MainLayout>
       <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">{t('properties.title')}</h1>
-            <p className="text-gray-600 mt-2">{t('properties.subtitle')}</p>
+        {/* Header section with translations */}
+        <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-6 text-white shadow-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">{t('properties.title')}</h1>
+              <p className="text-slate-100 mt-2">{t('properties.subtitle')}</p>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  <Plus className="mr-2 h-4 w-4" />
+                  {t('properties.addProperty')}
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                {propertyTypes.map((type) => (
+                  <DropdownMenuItem
+                    key={type.value}
+                    onClick={() => handlePropertyTypeSelect(type.value)}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <type.icon className="h-4 w-4" />
+                    {type.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <PropertyForm
+                onClose={() => setIsDialogOpen(false)}
+                onSubmit={handleAddProperty}
+                initialType={selectedPropertyType}
+              />
+            </Dialog>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                <Plus className="mr-2 h-4 w-4" />
-                {t('properties.addProperty')}
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              {propertyTypes.map((type) => (
-                <DropdownMenuItem
-                  key={type.value}
-                  onClick={() => handlePropertyTypeSelect(type.value)}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-                  <type.icon className="h-4 w-4" />
-                  {type.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <PropertyForm
-              onClose={() => setIsDialogOpen(false)}
-              onSubmit={handleAddProperty}
-              initialType={selectedPropertyType}
-            />
-          </Dialog>
         </div>
 
         <PropertyMetrics />
