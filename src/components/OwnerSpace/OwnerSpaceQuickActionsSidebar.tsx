@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Building, X } from 'lucide-react';
@@ -22,6 +21,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
 }) => {
   const { i18n } = useTranslation();
   const { userType, user } = useAuth();
+  const currentYear = new Date().getFullYear();
 
   // Vérifier si l'utilisateur est admin
   const isAdmin = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
@@ -94,6 +94,18 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
             />
           </div>
         </ScrollArea>
+      </div>
+
+      {/* Footer */}
+      <div className="p-3 md:p-4 border-t border-green-500/30 flex-shrink-0">
+        <div className="text-center">
+          <div className="text-white text-xs md:text-sm font-medium animate-pulse">
+            NEOTECH-CONSULTING
+          </div>
+          <div className="text-green-200 text-xs mt-1">
+            Version 1.0 • {currentYear}
+          </div>
+        </div>
       </div>
     </div>
   );
