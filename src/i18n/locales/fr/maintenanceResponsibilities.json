@@ -8,142 +8,77 @@
     "sharedResponsibilities": "Responsabilités Partagées",
     "legalFramework": "Cadre Légal",
     "specialCases": "Cas Particuliers",
-    "owner": {
-      "title": "À la Charge du Propriétaire",
-      "description": "Travaux et réparations incombant au propriétaire",
-      "structuralWork": "Travaux Structurels",
-      "majorRepairs": "Réparations Majeures",
-      "safetyCompliance": "Conformité Sécurité",
-      "equipmentReplacement": "Remplacement Équipements",
-      "categories": {
-        "structure": {
-          "title": "Structure et Gros Œuvre",
-          "items": [
-            "Réparation des murs porteurs",
-            "Réfection de la toiture",
-            "Réparation des fondations",
-            "Isolation thermique",
-            "Étanchéité"
-          ]
-        },
-        "installations": {
-          "title": "Installations Principales",
-          "items": [
-            "Chauffage collectif",
-            "Plomberie générale",
-            "Installation électrique",
-            "Ascenseur",
-            "Interphone"
-          ]
-        },
-        "safety": {
-          "title": "Sécurité et Conformité",
-          "items": [
-            "Détecteurs de fumée",
-            "Système de sécurité incendie",
-            "Conformité électrique",
-            "Mise aux normes",
-            "Diagnostic technique"
-          ]
-        }
-      }
-    },
-    "tenant": {
-      "title": "À la Charge du Locataire",
-      "description": "Entretien courant et réparations locatives",
-      "dailyMaintenance": "Entretien Quotidien",
+    "responsibilityGuide": {
+      "title": "Guide des Responsabilités",
+      "subtitle": "Comprendre qui est responsable de quoi",
+      "ownerResponsibility": "Responsabilités du Propriétaire",
+      "ownerResponsibilityDescription": "Réparations et travaux à la charge du propriétaire",
+      "tenantResponsibility": "Responsabilités du Locataire",
+      "tenantResponsibilityDescription": "Entretien courant et petites réparations",
+      "specialCases": "Cas Particuliers",
+      "specialSituationsDescription": "Situations nécessitant une attention particulière",
+      "legalReference": "Références Légales",
+      "maintenanceChargesFramework": "Le cadre juridique français définit clairement la répartition des charges de maintenance :",
+      "law1989": "Loi du 6 juillet 1989 :",
+      "rentalReports": "État des lieux et rapports locatifs",
+      "decree1987": "Décret du 26 août 1987 :",
+      "tenantRepairs": "Liste des réparations locatives",
+      "article1724": "Article 1724 du Code Civil :",
+      "landlordObligations": "Obligations du bailleur",
+      "article1728": "Article 1728 du Code Civil :",
+      "tenantObligations": "Obligations du locataire",
+      "majorWork": "Gros Œuvre",
+      "structuralWallRepairs": "Réparations des murs porteurs",
+      "roofWaterproofing": "Étanchéité de la toiture",
+      "thermalInsulation": "Isolation thermique",
+      "foundationsAndStructure": "Fondations et structure",
+      "mainInstallations": "Installations Principales",
+      "generalPlumbingAndPipes": "Plomberie générale et canalisations",
+      "electricalInstallation": "Installation électrique",
+      "collectiveHeatingSystem": "Système de chauffage collectif",
+      "elevator": "Ascenseur",
+      "intercomAndDigicode": "Interphone et digicode",
+      "securityEquipment": "Équipements de Sécurité",
+      "smokeDetectorsSupply": "Fourniture des détecteurs de fumée",
+      "guardrailsAndRamps": "Garde-corps et rampes",
+      "commonAreasLighting": "Éclairage des parties communes",
+      "fireSecuritySystem": "Système de sécurité incendie",
+      "exteriorJoinery": "Menuiserie Extérieure",
+      "windowsAndShutters": "Fenêtres et volets",
+      "apartmentEntranceDoor": "Porte d'entrée de l'appartement",
+      "entranceDoorLockReplacement": "Remplacement de la serrure d'entrée",
+      "sealingJoints": "Joints d'étanchéité",
+      "currentMaintenance": "Entretien Courant",
+      "regularHouseholdCleaning": "Nettoyage domestique régulier",
+      "siliconeJointsMaintenance": "Entretien des joints silicone",
+      "windowCleaning": "Nettoyage des vitres",
+      "privateGreenSpacesMaintenance": "Entretien des espaces verts privés",
       "minorRepairs": "Petites Réparations",
-      "consumables": "Consommables",
-      "cleaning": "Nettoyage",
-      "categories": {
-        "daily": {
-          "title": "Entretien Courant",
-          "items": [
-            "Nettoyage des locaux",
-            "Entretien des équipements",
-            "Remplacement des ampoules",
-            "Nettoyage des vitres",
-            "Entretien des robinets"
-          ]
-        },
-        "repairs": {
-          "title": "Réparations Locatives",
-          "items": [
-            "Réparation des serrures",
-            "Remplacement des joints",
-            "Débouchage des canalisations",
-            "Réparation de la robinetterie",
-            "Entretien des volets"
-          ]
-        },
-        "consumables": {
-          "title": "Consommables",
-          "items": [
-            "Piles des détecteurs",
-            "Produits d'entretien",
-            "Ampoules et néons",
-            "Filtres VMC",
-            "Cartouches d'eau"
-          ]
-        }
-      }
-    },
-    "legal": {
-      "title": "Références Légales",
-      "description": "Base légale des responsabilités",
-      "civilCode": "Code Civil",
-      "housingCode": "Code de l'Habitation",
-      "decree": "Décret n°87-712",
-      "jurisprudence": "Jurisprudence",
-      "references": [
-        {
-          "title": "Article 1719 du Code Civil",
-          "description": "Obligations du bailleur de délivrer le logement en bon état"
-        },
-        {
-          "title": "Article 1728 du Code Civil",
-          "description": "Obligations du locataire d'user paisiblement du logement"
-        },
-        {
-          "title": "Décret du 26 août 1987",
-          "description": "Liste des réparations locatives"
-        }
-      ]
-    },
-    "special": {
-      "title": "Cas Particuliers",
-      "description": "Situations nécessitant une analyse spécifique",
-      "wearAndTear": "Usure Normale",
-      "negligence": "Négligence",
-      "accidents": "Accidents",
-      "improvements": "Améliorations",
-      "cases": [
-        {
-          "title": "Usure Normale vs Dégradation",
-          "description": "Distinction entre l'usure normale et les dégradations imputables au locataire"
-        },
-        {
-          "title": "Équipements en Copropriété",
-          "description": "Répartition des charges entre propriétaire et locataire"
-        },
-        {
-          "title": "Travaux d'Amélioration",
-          "description": "Responsabilités lors de travaux d'amélioration du logement"
-        }
-      ]
-    },
-    "guidelines": {
-      "title": "Conseils Pratiques",
-      "documentation": "Documentation",
-      "communication": "Communication",
-      "prevention": "Prévention",
-      "tips": [
-        "Documenter tous les travaux et réparations",
-        "Établir un état des lieux détaillé",
-        "Communiquer rapidement sur les problèmes",
-        "Prévoir un entretien préventif régulier",
-        "Conserver les factures et devis"
-      ]
+      "lightBulbReplacement": "Remplacement des ampoules",
+      "drainUnblocking": "Débouchage des canalisations",
+      "leakyFaucetRepair": "Réparation des robinets qui fuient",
+      "plumbingJointsReplacement": "Remplacement des joints de plomberie",
+      "equipmentInstallations": "Installations d'Équipements",
+      "individualBoilerMaintenance": "Entretien de la chaudière individuelle",
+      "chimneySweeping": "Ramonage",
+      "vmcMaintenance": "Entretien VMC",
+      "smokeDetectorBattery": "Batterie du détecteur de fumée",
+      "normalWear": "Usure Normale",
+      "paintAndWallpaper": "Peinture et papier peint",
+      "carpetAndFloorCoverings": "Moquette et revêtements de sol",
+      "doorAndWindowHandles": "Poignées de portes et fenêtres",
+      "switchesAndOutlets": "Interrupteurs et prises",
+      "hiddenDefects": "Vices Cachés",
+      "hiddenDefectsDescription": "Défauts non apparents lors de l'état des lieux",
+      "ownerTag": "Propriétaire",
+      "ownerDefectsDetail": "Le propriétaire doit prendre en charge les réparations liées aux vices cachés découverts après l'installation.",
+      "tenantDegradations": "Dégradations Locatives",
+      "tenantDegradationsDescription": "Dommages causés par négligence ou mauvais usage",
+      "tenantTag": "Locataire",
+      "tenantDegradationsDetail": "Le locataire est responsable des réparations liées aux dégâts qu'il a causés.",
+      "urgencies": "Urgences",
+      "urgenciesDescription": "Situations d'urgence nécessitant une intervention immédiate",
+      "urgenciesDetail": "En cas d'urgence (fuite, panne électrique), le propriétaire doit intervenir rapidement, même en dehors des heures ouvrables."
     }
   }
 }
