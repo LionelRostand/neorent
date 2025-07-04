@@ -1,9 +1,9 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { usePropertySettings } from '@/hooks/usePropertySettings';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -29,8 +29,14 @@ const ImmoTab = () => {
   const { userProfile } = useAuth();
   const { properties: ownerProperties } = useOwnerData(userProfile);
   const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
-  const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  
+  const { 
+    propertySettings, 
+    loading: settingsLoading,
+    updatePropertySetting,
+    saveSettings 
+  } = usePropertySettings();
 
   // Combiner toutes les propriétés disponibles (owner + admin)
   const allAvailableProperties = [
@@ -43,75 +49,48 @@ const ImmoTab = () => {
     index === self.findIndex((p) => p.id === property.id)
   );
 
-  // États pour gérer la visibilité et les descriptions des propriétés sur le site
-  const [propertySettings, setPropertySettings] = useState<{[key: string]: {
-    visible: boolean;
-    description: string;
-    featured: boolean;
-  }}>({});
-
-  // Initialiser les paramètres des propriétés pour toutes les propriétés disponibles
-  useEffect(() => {
-    if (uniqueProperties.length > 0) {
-      const initialSettings: any = {};
-      uniqueProperties.forEach((property) => {
-        initialSettings[property.id] = {
-          visible: false,
-          description: '',
-          featured: false
-        };
-      });
-      setPropertySettings(initialSettings);
-    }
-  }, [uniqueProperties.length]);
-
   const handleSaveWebsiteSettings = async () => {
-    setIsSaving(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
-      
+    const success = await saveSettings(propertySettings);
+    if (success) {
+      const visibleCount = Object.values(propertySettings).filter((s: any) => s.visible).length;
       toast.success(t('website.settingsSaved'), {
         description: `${visibleCount} ${t('website.propertiesWillBeDisplayed')}`
       });
-    } catch (error) {
+    } else {
       toast.error(t('website.saveError'), {
         description: t('website.pleaseRetry')
       });
-    } finally {
-      setIsSaving(false);
     }
   };
 
-  const togglePropertyVisibility = (propertyId: string) => {
-    setPropertySettings(prev => ({
-      ...prev,
-      [propertyId]: {
-        ...prev[propertyId],
-        visible: !prev[propertyId]?.visible
-      }
-    }));
+  const togglePropertyVisibility = async (propertyId: string) => {
+    const currentSettings = propertySettings[propertyId] || { visible: false, description: '', featured: false };
+    const success = await updatePropertySetting(propertyId, {
+      visible: !currentSettings.visible
+    });
+    
+    if (success) {
+      toast.success(currentSettings.visible ? 'Propriété masquée du site web' : 'Propriété visible sur le site web');
+    } else {
+      toast.error('Erreur lors de la mise à jour');
+    }
   };
 
-  const togglePropertyFeatured = (propertyId: string) => {
-    setPropertySettings(prev => ({
-      ...prev,
-      [propertyId]: {
-        ...prev[propertyId],
-        featured: !prev[propertyId]?.featured
-      }
-    }));
+  const togglePropertyFeatured = async (propertyId: string) => {
+    const currentSettings = propertySettings[propertyId] || { visible: false, description: '', featured: false };
+    const success = await updatePropertySetting(propertyId, {
+      featured: !currentSettings.featured
+    });
+    
+    if (success) {
+      toast.success(currentSettings.featured ? 'Propriété retirée de la mise en avant' : 'Propriété mise en avant');
+    } else {
+      toast.error('Erreur lors de la mise à jour');
+    }
   };
 
-  const updatePropertyDescription = (propertyId: string, description: string) => {
-    setPropertySettings(prev => ({
-      ...prev,
-      [propertyId]: {
-        ...prev[propertyId],
-        description
-      }
-    }));
+  const updatePropertyDescription = async (propertyId: string, description: string) => {
+    await updatePropertySetting(propertyId, { description });
   };
 
   const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" | "success" => {
@@ -130,7 +109,7 @@ const ImmoTab = () => {
   const visibleProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.visible) || [];
   const featuredProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.featured) || [];
 
-  if (loadingProperties) {
+  if (loadingProperties || settingsLoading) {
     return (
       <div className="space-y-4 md:space-y-6">
         <div className="text-center py-8">
@@ -186,11 +165,11 @@ const ImmoTab = () => {
               <div>
                 <Button 
                   onClick={handleSaveWebsiteSettings} 
-                  disabled={isSaving}
+                  disabled={false}
                   className="w-full"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  {isSaving ? t('website.saving') : t('website.saveSettings')}
+                  {false ? t('website.saving') : t('website.saveSettings')}
                 </Button>
               </div>
             </div>
@@ -217,95 +196,99 @@ const ImmoTab = () => {
             <CardContent>
               {uniqueProperties && uniqueProperties.length > 0 ? (
                 <div className="space-y-4">
-                  {uniqueProperties.map((property) => (
-                    <div 
-                      key={property.id} 
-                      className={`border rounded-lg p-4 transition-all ${
-                        propertySettings[property.id]?.visible 
-                          ? 'border-green-200 bg-green-50' 
-                          : 'border-gray-200 hover:bg-gray-50'
-                      }`}
-                    >
-                      <div className="flex flex-col lg:flex-row lg:items-start gap-4">
-                        {/* Image de la propriété */}
-                        <div className="w-full lg:w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
-                          {property.image && property.image !== '/placeholder.svg' ? (
-                            <img 
-                              src={property.image} 
-                              alt={property.title}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <ImageIcon className="h-8 w-8 text-gray-400" />
-                          )}
-                        </div>
-
-                        {/* Informations de la propriété */}
-                        <div className="flex-1 space-y-3">
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-1">{property.title}</h4>
-                            <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                              <MapPin className="h-3 w-3" />
-                              {property.address}
-                            </div>
-                            <div className="flex flex-wrap items-center gap-3 text-sm">
-                              <span className="flex items-center gap-1 font-medium">
-                                <Euro className="h-3 w-3" />
-                                {property.rent}€/{t('common.month')}
-                              </span>
-                              <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
-                                {property.status}
-                              </Badge>
-                              {propertySettings[property.id]?.featured && (
-                                <Badge variant="outline" className="text-xs border-orange-300 text-orange-600">
-                                  {t('website.featured')}
-                                </Badge>
-                              )}
-                            </div>
+                  {uniqueProperties.map((property) => {
+                    const settings = propertySettings[property.id] || { visible: false, description: '', featured: false };
+                    
+                    return (
+                      <div 
+                        key={property.id} 
+                        className={`border rounded-lg p-4 transition-all ${
+                          settings.visible 
+                            ? 'border-green-200 bg-green-50' 
+                            : 'border-gray-200 hover:bg-gray-50'
+                        }`}
+                      >
+                        <div className="flex flex-col lg:flex-row lg:items-start gap-4">
+                          {/* Image de la propriété */}
+                          <div className="w-full lg:w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+                            {property.image && property.image !== '/placeholder.svg' ? (
+                              <img 
+                                src={property.image} 
+                                alt={property.title}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <ImageIcon className="h-8 w-8 text-gray-400" />
+                            )}
                           </div>
 
-                          {/* Contrôles de visibilité */}
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-3 border-t border-gray-200">
-                            <div className="flex items-center gap-3">
-                              <Label className="text-sm font-medium whitespace-nowrap">
-                                {t('website.websiteVisibility')}
-                              </Label>
-                              <Switch
-                                checked={propertySettings[property.id]?.visible || false}
-                                onCheckedChange={() => togglePropertyVisibility(property.id)}
-                              />
-                              {propertySettings[property.id]?.visible ? (
-                                <Eye className="h-4 w-4 text-green-600" />
-                              ) : (
-                                <EyeOff className="h-4 w-4 text-gray-400" />
-                              )}
+                          {/* Informations de la propriété */}
+                          <div className="flex-1 space-y-3">
+                            <div>
+                              <h4 className="font-semibold text-gray-900 mb-1">{property.title}</h4>
+                              <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                                <MapPin className="h-3 w-3" />
+                                {property.address}
+                              </div>
+                              <div className="flex flex-wrap items-center gap-3 text-sm">
+                                <span className="flex items-center gap-1 font-medium">
+                                  <Euro className="h-3 w-3" />
+                                  {property.rent}€/{t('common.month')}
+                                </span>
+                                <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
+                                  {property.status}
+                                </Badge>
+                                {settings.featured && (
+                                  <Badge variant="outline" className="text-xs border-orange-300 text-orange-600">
+                                    {t('website.featured')}
+                                  </Badge>
+                                )}
+                              </div>
                             </div>
 
-                            <div className="flex items-center gap-3">
-                              <Label className="text-sm font-medium whitespace-nowrap">
-                                {t('website.setAsFeatured')}
-                              </Label>
-                              <Switch
-                                checked={propertySettings[property.id]?.featured || false}
-                                onCheckedChange={() => togglePropertyFeatured(property.id)}
-                                disabled={!propertySettings[property.id]?.visible}
-                              />
-                            </div>
+                            {/* Contrôles de visibilité */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-3 border-t border-gray-200">
+                              <div className="flex items-center gap-3">
+                                <Label className="text-sm font-medium whitespace-nowrap">
+                                  {t('website.websiteVisibility')}
+                                </Label>
+                                <Switch
+                                  checked={settings.visible}
+                                  onCheckedChange={() => togglePropertyVisibility(property.id)}
+                                />
+                                {settings.visible ? (
+                                  <Eye className="h-4 w-4 text-green-600" />
+                                ) : (
+                                  <EyeOff className="h-4 w-4 text-gray-400" />
+                                )}
+                              </div>
 
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => setSelectedProperty(property)}
-                              className="ml-auto"
-                            >
-                              <Edit className="h-3 w-3 mr-1" />
-                              {t('website.modify')}
-                            </Button>
+                              <div className="flex items-center gap-3">
+                                <Label className="text-sm font-medium whitespace-nowrap">
+                                  {t('website.setAsFeatured')}
+                                </Label>
+                                <Switch
+                                  checked={settings.featured}
+                                  onCheckedChange={() => togglePropertyFeatured(property.id)}
+                                  disabled={!settings.visible}
+                                />
+                              </div>
+
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setSelectedProperty(property)}
+                                className="ml-auto"
+                              >
+                                <Edit className="h-3 w-3 mr-1" />
+                                {t('website.modify')}
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="text-center py-12 bg-gray-50 rounded-lg">

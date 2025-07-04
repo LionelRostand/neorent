@@ -1,17 +1,21 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, Home, Users, AlertCircle, DollarSign, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, Home, Users, AlertCircle, DollarSign, Edit, Trash2, Eye, EyeOff, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import PropertyForm from '@/components/PropertyForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { usePropertySettings } from '@/hooks/usePropertySettings';
+import { toast } from 'sonner';
 
 interface AdminPropertiesViewProps {
   currentProfile?: any;
@@ -25,6 +29,8 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
   const { getButtonConfig } = useFormButtonConfig();
   const { properties, tenants, payments } = useOwnerData(profile);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
+  
+  const { propertySettings, updatePropertySetting } = usePropertySettings();
 
   console.log('AdminPropertiesView - Using profile:', profile);
   console.log('AdminPropertiesView - Filtered properties:', properties);
@@ -46,6 +52,32 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
         return 'destructive';
       default:
         return 'outline';
+    }
+  };
+
+  const handleToggleVisibility = async (propertyId: string) => {
+    const currentSettings = propertySettings[propertyId] || { visible: false, description: '', featured: false };
+    const success = await updatePropertySetting(propertyId, {
+      visible: !currentSettings.visible
+    });
+    
+    if (success) {
+      toast.success(currentSettings.visible ? 'Propriété masquée du site web' : 'Propriété visible sur le site web');
+    } else {
+      toast.error('Erreur lors de la mise à jour');
+    }
+  };
+
+  const handleToggleFeatured = async (propertyId: string) => {
+    const currentSettings = propertySettings[propertyId] || { visible: false, description: '', featured: false };
+    const success = await updatePropertySetting(propertyId, {
+      featured: !currentSettings.featured
+    });
+    
+    if (success) {
+      toast.success(currentSettings.featured ? 'Propriété retirée de la mise en avant' : 'Propriété mise en avant');
+    } else {
+      toast.error('Erreur lors de la mise à jour');
     }
   };
 
@@ -186,52 +218,93 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                     <TableHead className="px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
                       {t('properties.fields.status')}
                     </TableHead>
+                    <TableHead className="px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
+                      Visibilité site web
+                    </TableHead>
                     <TableHead className="text-right min-w-[60px] px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
                       {t('properties.actions')}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {properties.map((property) => (
-                    <TableRow key={property.id}>
-                      <TableCell className="font-medium px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                        <div className="truncate max-w-[80px] sm:max-w-[120px]">{property.title}</div>
-                      </TableCell>
-                      <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                        <div className="truncate max-w-[100px] sm:max-w-[150px]">{property.address}</div>
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                        {property.type}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                        {property.surface}m²
-                      </TableCell>
-                      <TableCell className="font-semibold px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm whitespace-nowrap">
-                        {property.rent}€
-                      </TableCell>
-                      <TableCell className="hidden lg:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                        <div className="truncate max-w-[100px]">{property.tenant || t('common.none')}</div>
-                      </TableCell>
-                      <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
-                        <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs px-1 py-0">
-                          {property.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
-                        <div className="flex justify-end space-x-0.5 sm:space-x-1">
-                          <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
-                            <Eye className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
-                            <Edit className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
-                            <Trash2 className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {properties.map((property) => {
+                    const settings = propertySettings[property.id] || { visible: false, description: '', featured: false };
+                    
+                    return (
+                      <TableRow key={property.id}>
+                        <TableCell className="font-medium px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
+                          <div className="truncate max-w-[80px] sm:max-w-[120px]">{property.title}</div>
+                        </TableCell>
+                        <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
+                          <div className="truncate max-w-[100px] sm:max-w-[150px]">{property.address}</div>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
+                          {property.type}
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
+                          {property.surface}m²
+                        </TableCell>
+                        <TableCell className="font-semibold px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm whitespace-nowrap">
+                          {property.rent}€
+                        </TableCell>
+                        <TableCell className="hidden lg:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
+                          <div className="truncate max-w-[100px]">{property.tenant || t('common.none')}</div>
+                        </TableCell>
+                        <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
+                          <div className="flex flex-col gap-1">
+                            <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs px-1 py-0">
+                              {property.status}
+                            </Badge>
+                            {settings.featured && (
+                              <Badge variant="outline" className="text-xs px-1 py-0 bg-yellow-50 text-yellow-700 border-yellow-200">
+                                <Star className="h-2 w-2 mr-1" />
+                                Mise en avant
+                              </Badge>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                              <Label className="text-xs">Visible</Label>
+                              <Switch
+                                checked={settings.visible}
+                                onCheckedChange={() => handleToggleVisibility(property.id)}
+                                size="sm"
+                              />
+                              {settings.visible ? (
+                                <Eye className="h-3 w-3 text-green-600" />
+                              ) : (
+                                <EyeOff className="h-3 w-3 text-gray-400" />
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Label className="text-xs">Mettre en avant</Label>
+                              <Switch
+                                checked={settings.featured}
+                                onCheckedChange={() => handleToggleFeatured(property.id)}
+                                disabled={!settings.visible}
+                                size="sm"
+                              />
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
+                          <div className="flex justify-end space-x-0.5 sm:space-x-1">
+                            <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
+                              <Eye className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
+                              <Edit className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
+                              <Trash2 className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </div>

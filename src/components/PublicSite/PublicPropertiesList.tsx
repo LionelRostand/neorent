@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,6 +7,8 @@ import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { Property } from '@/types/property';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import { 
   MapPin, 
   Euro, 
@@ -26,6 +29,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [propertySettings, setPropertySettings] = useState<any>({});
   
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
@@ -33,18 +37,29 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   console.log('PublicPropertiesList - allProperties:', allProperties);
   console.log('PublicPropertiesList - loading:', loading);
 
-  // Récupérer les paramètres de visibilité depuis le localStorage
-  const getPropertySettings = () => {
-    try {
-      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
-      return savedSettings ? JSON.parse(savedSettings) : {};
-    } catch (error) {
-      console.error('Error loading property settings:', error);
-      return {};
-    }
-  };
+  // Récupérer les paramètres de visibilité depuis Firebase
+  useEffect(() => {
+    const fetchPropertySettings = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'PropertyWebsiteSettings'));
+        const allSettings: any = {};
+        
+        querySnapshot.docs.forEach(doc => {
+          const data = doc.data();
+          if (data.settings) {
+            Object.assign(allSettings, data.settings);
+          }
+        });
+        
+        setPropertySettings(allSettings);
+        console.log('PublicPropertiesList - Loaded settings:', allSettings);
+      } catch (error) {
+        console.error('Error loading property settings:', error);
+      }
+    };
 
-  const propertySettings = getPropertySettings();
+    fetchPropertySettings();
+  }, []);
 
   // Filtrer les propriétés visibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
