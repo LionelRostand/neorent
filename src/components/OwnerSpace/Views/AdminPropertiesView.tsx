@@ -270,7 +270,6 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                               <Switch
                                 checked={settings.visible}
                                 onCheckedChange={() => handleToggleVisibility(property.id)}
-                                size="sm"
                               />
                               {settings.visible ? (
                                 <Eye className="h-3 w-3 text-green-600" />
@@ -284,7 +283,6 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                                 checked={settings.featured}
                                 onCheckedChange={() => handleToggleFeatured(property.id)}
                                 disabled={!settings.visible}
-                                size="sm"
                               />
                             </div>
                           </div>
