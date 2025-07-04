@@ -34,6 +34,22 @@
     "previous": "Précédent",
     "change": "Modifier",
     "defined": "Défini",
-    "notDefined": "Non défini"
+    "notDefined": "Non défini",
+    "home": "Accueil",
+    "about": "À Propos",
+    "contact": "Contact",
+    "properties": "Propriétés",
+    "login": "Connexion",
+    "services": "Services",
+    "page": "Page",
+    "pages": "Pages",
+    "new": "Nouveau",
+    "add": "Ajouter",
+    "description": "Description",
+    "published": "Publié",
+    "draft": "Brouillon",
+    "tenantNotFound": "Locataire non trouvé",
+    "contactAdminForHelp": "Contactez l'administrateur pour obtenir de l'aide",
+    "backToAdmin": "Retour à l'administration"
   }
 }

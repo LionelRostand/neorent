@@ -7,13 +7,13 @@ import { Globe } from 'lucide-react';
 const LanguageSelector: React.FC = () => {
   const { i18n } = useTranslation();
 
-  // Une seule langue disponible : le français
+  // Application uniquement en français
   const currentLanguage = { code: 'fr', name: 'Français', flag: '🇫🇷' };
 
   // S'assurer que la langue est bien définie sur le français
   useEffect(() => {
     if (i18n.language !== 'fr') {
-      console.log('Setting language to French');
+      console.log('Définition de la langue sur le français');
       i18n.changeLanguage('fr');
       localStorage.setItem('preferredLanguage', 'fr');
     }
