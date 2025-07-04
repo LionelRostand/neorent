@@ -1,14 +1,12 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { usePropertySettings } from '@/hooks/usePropertySettings';
 import { Property } from '@/types/property';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { 
   MapPin, 
   Euro, 
@@ -29,42 +27,22 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const [propertySettings, setPropertySettings] = useState<any>({});
   
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
+  
+  // Utiliser le hook pour récupérer les paramètres de visibilité
+  const { propertySettings, loading: settingsLoading } = usePropertySettings();
 
   console.log('PublicPropertiesList - allProperties:', allProperties);
   console.log('PublicPropertiesList - loading:', loading);
-
-  // Récupérer les paramètres de visibilité depuis Firebase
-  useEffect(() => {
-    const fetchPropertySettings = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'PropertyWebsiteSettings'));
-        const allSettings: any = {};
-        
-        querySnapshot.docs.forEach(doc => {
-          const data = doc.data();
-          if (data.settings) {
-            Object.assign(allSettings, data.settings);
-          }
-        });
-        
-        setPropertySettings(allSettings);
-        console.log('PublicPropertiesList - Loaded settings:', allSettings);
-      } catch (error) {
-        console.error('Error loading property settings:', error);
-      }
-    };
-
-    fetchPropertySettings();
-  }, []);
+  console.log('PublicPropertiesList - propertySettings:', propertySettings);
 
   // Filtrer les propriétés visibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
     // Vérifier si la propriété est visible sur le site web
     const settings = propertySettings[property.id];
+    console.log(`Property ${property.id} settings:`, settings);
     if (!settings?.visible) return false;
     
     if (!searchFilter) return true;
@@ -133,7 +111,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     setSelectedProperty(null);
   };
 
-  if (loading) {
+  if (loading || settingsLoading) {
     return (
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
