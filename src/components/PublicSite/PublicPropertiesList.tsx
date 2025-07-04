@@ -41,9 +41,9 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Filtrer les propriétés visibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
     // Vérifier si la propriété est visible sur le site web
-    const settings = propertySettings[property.id];
+    const settings = propertySettings[property.id] || { visible: false, description: '', featured: false };
     console.log(`Property ${property.id} settings:`, settings);
-    if (!settings?.visible) return false;
+    if (!settings.visible) return false;
     
     if (!searchFilter) return true;
     
@@ -59,11 +59,11 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
 
   // Trier les propriétés pour mettre en avant celles qui sont featured
   const sortedProperties = [...filteredProperties].sort((a, b) => {
-    const aSettings = propertySettings[a.id];
-    const bSettings = propertySettings[b.id];
+    const aSettings = propertySettings[a.id] || { visible: false, description: '', featured: false };
+    const bSettings = propertySettings[b.id] || { visible: false, description: '', featured: false };
     
-    if (aSettings?.featured && !bSettings?.featured) return -1;
-    if (!aSettings?.featured && bSettings?.featured) return 1;
+    if (aSettings.featured && !bSettings.featured) return -1;
+    if (!aSettings.featured && bSettings.featured) return 1;
     return 0;
   });
 
@@ -183,7 +183,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array.isArray(sortedProperties) && sortedProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
-              const settings = propertySettings[property.id] || {};
+              const settings = propertySettings[property.id] || { visible: false, description: '', featured: false };
               const mainImage = getPropertyMainImage(property);
               
               return (
