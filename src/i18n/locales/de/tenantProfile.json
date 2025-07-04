@@ -1,0 +1,17 @@
+
+{
+  "tenantProfile": {
+    "personalInfo": "Persönliche Informationen",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "leaseStart": "Mietbeginn",
+    "leaseEnd": "Mietende",
+    "status": "Status",
+    "furnishedRoom": "Möbliertes Zimmer",
+    "sharedKitchen": "Gemeinsame Küche",
+    "sharedBathroom": "Gemeinsames Badezimmer",
+    "luminous": "Hell",
+    "equipment": "Ausstattung"
+  }
+}

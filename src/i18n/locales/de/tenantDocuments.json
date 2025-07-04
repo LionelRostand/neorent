@@ -1,0 +1,29 @@
+
+{
+  "tenantDocuments": {
+    "title": "Dokumente",
+    "myDocuments": "Meine Dokumente",
+    "uploadDocument": "Dokument hochladen",
+    "noDocuments": "Keine Dokumente verfügbar",
+    "downloadAll": "Alle herunterladen",
+    "documentTypes": {
+      "contract": "Vertrag",
+      "receipt": "Quittung",
+      "inventory": "Inventar",
+      "insurance": "Versicherung",
+      "other": "Andere"
+    },
+    "documentName": "Dokumentname",
+    "documentType": "Dokumenttyp",
+    "uploadDate": "Upload-Datum",
+    "fileSize": "Dateigröße",
+    "actions": "Aktionen",
+    "download": "Herunterladen",
+    "delete": "Löschen",
+    "view": "Anzeigen",
+    "confirmDelete": "Löschung bestätigen",
+    "deleteConfirmation": "Sind Sie sicher, dass Sie dieses Dokument löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteSuccess": "Dokument erfolgreich gelöscht",
+    "deleteError": "Fehler beim Löschen des Dokuments"
+  }
+}

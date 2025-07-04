@@ -1,0 +1,34 @@
+
+{
+  "profile": {
+    "viewProfile": "View Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "administrator": "Administrator",
+    "owner": "Owner",
+    "tenant": "Tenant",
+    "roommate": "Roommate",
+    "unknownUser": "Unknown User",
+    "changePassword": "Change Password",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "status": "Status",
+    "leaseStart": "Lease Start",
+    "myProfile": "My Profile",
+    "role": "Role",
+    "permissions": "Permissions",
+    "close": "Close",
+    "notDefined": "Not defined",
+    "allPermissions": "All",
+    "currentPassword": "Current Password",
+    "enterCurrentPassword": "Enter current password",
+    "newPassword": "New Password",
+    "minimum6Characters": "Minimum 6 characters",
+    "confirmPassword": "Confirm Password",
+    "confirmNewPassword": "Confirm new password",
+    "cancel": "Cancel",
+    "modify": "Modify",
+    "modifying": "Modifying..."
+  }
+}

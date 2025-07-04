@@ -1,0 +1,41 @@
+
+{
+  "roommateSpace": {
+    "title": "Mitbewohner-Bereich",
+    "welcome": "Willkommen in Ihrem Mitbewohner-Bereich",
+    "overview": {
+      "title": "Übersicht",
+      "sharedExpenses": "Gemeinsame Ausgaben",
+      "myShare": "Mein Anteil",
+      "roommates": "Mitbewohner",
+      "commonAreas": "Gemeinschaftsräume"
+    },
+    "expenses": {
+      "title": "Ausgaben",
+      "shared": "Geteilte Ausgaben",
+      "personal": "Persönliche Ausgaben",
+      "settlement": "Abrechnung",
+      "add": "Ausgabe hinzufügen"
+    },
+    "schedule": {
+      "title": "Zeitplan",
+      "cleaning": "Reinigung",
+      "maintenance": "Wartung",
+      "shared": "Gemeinsame Aktivitäten",
+      "myTurn": "Ich bin dran"
+    },
+    "roommates": {
+      "title": "Mitbewohner",
+      "contact": "Kontakt",
+      "responsibilities": "Verantwortlichkeiten",
+      "availability": "Verfügbarkeit"
+    },
+    "house": {
+      "title": "Haus",
+      "rules": "Hausordnung",
+      "facilities": "Einrichtungen",
+      "issues": "Probleme",
+      "improvements": "Verbesserungen"
+    }
+  }
+}

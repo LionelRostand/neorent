@@ -1,0 +1,47 @@
+
+{
+  "legal": {
+    "legalNotice": {
+      "title": "Legal Notice",
+      "editor": "Website Editor",
+      "company": "Company",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "registration": "Registration Number",
+      "vat": "VAT Number",
+      "hosting": "Hosting",
+      "hostingProvider": "Hosting Provider",
+      "intellectualProperty": "Intellectual Property",
+      "copyright": "Copyright",
+      "liability": "Liability",
+      "personalData": "Personal Data",
+      "cookies": "Cookies",
+      "applicableLaw": "Applicable Law"
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "introduction": "Introduction",
+      "dataCollection": "Data Collection",
+      "dataUsage": "Data Usage",
+      "dataSharing": "Data Sharing",
+      "dataRetention": "Data Retention",
+      "userRights": "User Rights",
+      "security": "Security",
+      "contact": "Contact",
+      "updates": "Updates"
+    },
+    "cookiePolicy": {
+      "title": "Cookie Policy",
+      "whatAreCookies": "What are Cookies",
+      "typesOfCookies": "Types of Cookies",
+      "essential": "Essential Cookies",
+      "analytics": "Analytics Cookies",
+      "marketing": "Marketing Cookies",
+      "thirdParty": "Third Party Cookies",
+      "management": "Cookie Management",
+      "consent": "Consent",
+      "optOut": "Opt-out"
+    }
+  }
+}

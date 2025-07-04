@@ -1,0 +1,34 @@
+
+{
+  "profile": {
+    "viewProfile": "Profil anzeigen",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "administrator": "Administrator",
+    "owner": "Eigentümer",
+    "tenant": "Mieter",
+    "roommate": "Mitbewohner",
+    "unknownUser": "Unbekannter Benutzer",
+    "changePassword": "Passwort ändern",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "status": "Status",
+    "leaseStart": "Mietbeginn",
+    "myProfile": "Mein Profil",
+    "role": "Rolle",
+    "permissions": "Berechtigungen",
+    "close": "Schließen",
+    "notDefined": "Nicht definiert",
+    "allPermissions": "Alle",
+    "currentPassword": "Aktuelles Passwort",
+    "enterCurrentPassword": "Aktuelles Passwort eingeben",
+    "newPassword": "Neues Passwort",
+    "minimum6Characters": "Mindestens 6 Zeichen",
+    "confirmPassword": "Passwort bestätigen",
+    "confirmNewPassword": "Neues Passwort bestätigen",
+    "cancel": "Abbrechen",
+    "modify": "Ändern",
+    "modifying": "Wird geändert..."
+  }
+}

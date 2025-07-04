@@ -1,0 +1,67 @@
+
+{
+  "roommates": {
+    "documentsOf": "Documents of {name}",
+    "documentTypes": {
+      "bail": "Lease",
+      "assurance": "Insurance",
+      "etatLieuxEntree": "Move-in Inspection",
+      "revenus": "Income",
+      "identite": "Identity",
+      "rib": "Bank Account Details",
+      "garant": "Guarantor Documents",
+      "taxeHabitation": "Housing Tax",
+      "etatLieuxSortie": "Move-out Inspection"
+    },
+    "required": "Required",
+    "noDocumentUploaded": "No document uploaded",
+    "paymentAlerts": "Payment Alerts",
+    "management": "Roommate Management",
+    "description": "Manage your roommates and their information",
+    "addRoommate": "Add Roommate",
+    "activeRoommates": "Active Roommates",
+    "searchingRoommates": "Searching Roommates",
+    "inactiveRoommates": "Inactive Roommates",
+    "totalRoommates": "Total Roommates",
+    "metrics": {
+      "active": "active",
+      "activeMultiple": "active",
+      "searching": "searching",
+      "searchingMultiple": "searching",
+      "inactive": "inactive",
+      "inactiveMultiple": "inactive",
+      "total": "total",
+      "totalMultiple": "total"
+    },
+    "roommateList": "Roommate List",
+    "noRoommates": "No Roommates",
+    "noRoommatesDescription": "Start by adding your first roommate",
+    "roomNumber": "Room",
+    "monthlyRent": "month",
+    "viewDetails": "View Details",
+    "contact": "Contact",
+    "loading": "Loading...",
+    "paidInFull": "paid rent in full",
+    "incompletePayment": "Incomplete payment",
+    "expectedAmount": "Expected amount",
+    "paidAmount": "Paid amount",
+    "remainingToPay": "Remaining to pay",
+    "overpayment": "Overpayment",
+    "overpaid": "Overpaid",
+    "completePayment": "Complete payment",
+    "detailsTitle": "Roommate Details",
+    "generalInformation": "General Information",
+    "documents": "Documents",
+    "apartment": "Apartment",
+    "moveIn": "Move-in on",
+    "paymentStatus": "Payment Status",
+    "rentAmount": "Rent Amount",
+    "monthlyStatus": "Monthly Status",
+    "nextPayment": "Next payment on",
+    "status": {
+      "late": "Late",
+      "upcoming": "Upcoming"
+    },
+    "upToDate": "Up to date"
+  }
+}

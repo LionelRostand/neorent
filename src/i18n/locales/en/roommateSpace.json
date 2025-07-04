@@ -1,0 +1,42 @@
+
+{
+  "roommateSpace": {
+    "title": "Roommate Space",
+    "subtitle": "Manage your shared living easily",
+    "welcome": "Welcome to your roommate space",
+    "dashboard": {
+      "title": "Dashboard",
+      "nextRent": "Next rent",
+      "sharedExpenses": "Shared expenses",
+      "roommates": "Roommates",
+      "houseRules": "House rules"
+    },
+    "rent": {
+      "title": "Rent & Utilities",
+      "myShare": "My share",
+      "sharedCosts": "Shared costs",
+      "utilities": "Utilities",
+      "payMyShare": "Pay my share"
+    },
+    "roommates": {
+      "title": "My Roommates",
+      "contact": "Contact",
+      "schedule": "Schedule",
+      "sharedAreas": "Shared areas"
+    },
+    "expenses": {
+      "title": "Shared Expenses",
+      "addExpense": "Add expense",
+      "myExpenses": "My expenses",
+      "splitBill": "Split bill",
+      "settlements": "Settlements"
+    },
+    "house": {
+      "title": "House/Apartment",
+      "rules": "Rules",
+      "chores": "Chores",
+      "inventory": "Inventory",
+      "issues": "Issues to report"
+    }
+  }
+}
