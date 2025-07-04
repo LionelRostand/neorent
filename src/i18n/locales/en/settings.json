@@ -2,10 +2,20 @@
   "settings": {
     "title": "Settings",
     "subtitle": "Configure your application",
+    "company": {
+      "title": "Company Management", 
+      "subtitle": "Configure your company information",
+      "name": "Company name",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "website": "Website",
+      "description": "Description"
+    },
     "tabs": {
       "company": "Company",
       "employees": "Employees",
-      "permissions": "Permissions",
+      "permissions": "Permissions", 
       "firebase": "Firebase",
       "database": "Database",
       "email": "Email",

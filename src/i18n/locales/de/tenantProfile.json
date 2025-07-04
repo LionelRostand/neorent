@@ -5,6 +5,7 @@
     "name": "Name",
     "email": "E-Mail",
     "phone": "Telefon",
+    "address": "Adresse",
     "leaseStart": "Mietbeginn",
     "leaseEnd": "Mietende",
     "status": "Status",
@@ -12,6 +13,15 @@
     "sharedKitchen": "Gemeinsame Küche",
     "sharedBathroom": "Gemeinsames Badezimmer",
     "luminous": "Hell",
-    "equipment": "Ausstattung"
+    "equipment": "Ausstattung",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "saving": "Speichere...",
+    "cancel": "Abbrechen",
+    "updateSuccess": "Profil erfolgreich aktualisiert",
+    "emergencyContact": "Notfallkontakt",
+    "emergencyName": "Name des Notfallkontakts",
+    "emergencyPhone": "Telefon des Notfallkontakts",
+    "emergencyRelation": "Beziehung zum Notfallkontakt"
   }
 }

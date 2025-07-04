@@ -1,8 +1,17 @@
-
 {
   "settings": {
     "title": "Paramètres",
     "subtitle": "Configurez votre application",
+    "company": {
+      "title": "Gestion d'Entreprise",
+      "subtitle": "Configurez les informations de votre entreprise",
+      "name": "Nom de l'entreprise",
+      "address": "Adresse", 
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "website": "Site web",
+      "description": "Description"
+    },
     "tabs": {
       "company": "Entreprise",
       "employees": "Propriétaires",
