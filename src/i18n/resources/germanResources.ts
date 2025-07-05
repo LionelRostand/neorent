@@ -1,77 +1,52 @@
 
-// Import German translations
-import commonDE from '../locales/de/common.json';
-import navigationDE from '../locales/de/navigation.json';
-import publicSiteDE from '../locales/de/publicSite.json';
-import propertiesDE from '../locales/de/properties.json';
-import tenantsDE from '../locales/de/tenants.json';
-import roommatesDE from '../locales/de/roommates.json';
-import contractsDE from '../locales/de/contracts.json';
-import contractFormDE from '../locales/de/contractForm.json';
-import inspectionsDE from '../locales/de/inspections.json';
-import rentManagementDE from '../locales/de/rentManagement.json';
-import rentalChargesDE from '../locales/de/rentalCharges.json';
-import forecastingDE from '../locales/de/forecasting.json';
-import maintenanceDE from '../locales/de/maintenanceCommon.json';
-import maintenanceResponsibilitiesDE from '../locales/de/maintenanceResponsibilities.json';
-import maintenanceInterventionsDE from '../locales/de/maintenanceInterventions.json';
-import maintenanceHistoryDE from '../locales/de/maintenanceHistory.json';
-import maintenanceCostsDE from '../locales/de/maintenanceCosts.json';
-import messagesDE from '../locales/de/messages.json';
-import taxesDE from '../locales/de/taxes.json';
-import settingsDE from '../locales/de/settings.json';
-import helpDE from '../locales/de/help.json';
-import websiteDE from '../locales/de/website.json';
-import pagesDE from '../locales/de/pages.json';
-import tenantSpaceDE from '../locales/de/tenantSpace.json';
-import roommateSpaceDE from '../locales/de/roommateSpace.json';
-import dashboardDE from '../locales/de/dashboard.json';
-import tenantOverviewDE from '../locales/de/tenantOverview.json';
-import tenantHistoryDE from '../locales/de/tenantHistory.json';
-import tenantProfileDE from '../locales/de/tenantProfile.json';
-import tenantPaymentsDE from '../locales/de/tenantPayments.json';
-import legalDE from '../locales/de/legal.json';
-import tenantUploadDE from '../locales/de/tenantUpload.json';
-import ownerSpaceDE from '../locales/de/ownerSpace.json';
-import quickActionsDE from '../locales/de/quickActions.json';
-import profileDE from '../locales/de/profile.json';
+import navigation from '../locales/de/navigation.json';
+import common from '../locales/de/common.json';
+import properties from '../locales/de/properties.json';
+import contractForm from '../locales/en/contractForm.json';
 
 export const germanResources = {
   translation: {
-    ...commonDE,
-    ...navigationDE,
-    ...publicSiteDE,
-    ...propertiesDE,
-    ...tenantsDE,
-    ...roommatesDE,
-    ...contractsDE,
-    ...contractFormDE,
-    ...inspectionsDE,
-    ...rentManagementDE,
-    ...rentalChargesDE,
-    ...forecastingDE,
-    ...maintenanceDE,
-    ...maintenanceResponsibilitiesDE,
-    ...maintenanceInterventionsDE,
-    ...maintenanceHistoryDE,
-    ...maintenanceCostsDE,
-    ...messagesDE,
-    ...taxesDE,
-    ...settingsDE,
-    ...helpDE,
-    ...websiteDE,
-    ...pagesDE,
-    ...tenantSpaceDE,
-    ...roommateSpaceDE,
-    ...dashboardDE,
-    ...tenantOverviewDE,
-    ...tenantHistoryDE,
-    ...tenantProfileDE,
-    ...tenantPaymentsDE,
-    ...legalDE,
-    ...tenantUploadDE,
-    ...ownerSpaceDE,
-    ...quickActionsDE,
-    ...profileDE
+    ...navigation,
+    ...common,
+    ...properties,
+    ...contractForm,
+    // Mots spécifiques pour le formulaire de propriété
+    propertyForm: {
+      title: "Titel",
+      addProperty: "Immobilie hinzufügen",
+      editProperty: "Immobilie bearbeiten",
+      immobilien: "Immobilien",
+      hinzufugen: "Hinzufügen", 
+      adresse: "Adresse",
+      flache: "Fläche",
+      miete: "Miete",
+      gesamtzahlDerZimmer: "Gesamtzahl der Zimmer",
+      annuler: "Abbrechen",
+      ajouterPropriete: "Immobilie hinzufügen",
+      propertyTypes: {
+        appartement: "Wohnung",
+        studio: "Studio",
+        maison: "Haus",
+        loft: "Loft", 
+        duplex: "Duplex"
+      },
+      locationTypes: {
+        entier: "Ganz",
+        colocation: "Wohngemeinschaft"
+      },
+      placeholders: {
+        surface: "z.B.: 45 m²",
+        rent: "€",
+        title: "Immobilientitel"
+      }
+    },
+    buttons: {
+      cancel: "Abbrechen",
+      save: "Speichern",
+      add: "Hinzufügen",
+      edit: "Bearbeiten",
+      delete: "Löschen", 
+      close: "Schließen"
+    }
   }
 };

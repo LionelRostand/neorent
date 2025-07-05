@@ -15,18 +15,18 @@ const PropertyDetailsFields = ({ formData, onInputChange }: PropertyDetailsField
   return (
     <>
       <div>
-        <Label htmlFor="rent">{t('properties.rent')}</Label>
+        <Label htmlFor="rent">{t('propertyForm.miete')}</Label>
         <Input
           id="rent"
           type="number"
           value={formData.rent}
           onChange={(e) => onInputChange('rent', e.target.value)}
-          placeholder="€"
+          placeholder={t('propertyForm.placeholders.rent')}
         />
       </div>
       
       <div>
-        <Label htmlFor="totalRooms">{t('properties.totalRooms')}</Label>
+        <Label htmlFor="totalRooms">{t('propertyForm.gesamtzahlDerZimmer')}</Label>
         <Input
           id="totalRooms"
           type="number"

@@ -1,8 +1,10 @@
 
 import { frenchResources } from './resources/frenchResources';
+import { englishResources } from './resources/englishResources';
+import { germanResources } from './resources/germanResources';
 
 export const resources = {
   fr: frenchResources,
-  en: frenchResources, // Fallback to French
-  de: frenchResources  // Fallback to French
+  en: englishResources,
+  de: germanResources
 };

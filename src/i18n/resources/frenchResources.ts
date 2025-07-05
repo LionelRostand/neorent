@@ -1,77 +1,56 @@
 
-// Import French translations
-import commonFR from '../locales/fr/common.json';
-import navigationFR from '../locales/fr/navigation.json';
-import publicSiteFR from '../locales/fr/publicSite.json';
-import propertiesFR from '../locales/fr/properties.json';
-import tenantsFR from '../locales/fr/tenants.json';
-import roommatesFR from '../locales/fr/roommates.json';
-import contractsFR from '../locales/fr/contracts.json';
-import contractFormFR from '../locales/fr/contractForm.json';
-import inspectionsFR from '../locales/fr/inspections.json';
-import rentManagementFR from '../locales/fr/rentManagement.json';
-import rentalChargesFR from '../locales/fr/rentalCharges.json';
-import forecastingFR from '../locales/fr/forecasting.json';
-import maintenanceFR from '../locales/fr/maintenanceCommon.json';
-import maintenanceResponsibilitiesFR from '../locales/fr/maintenanceResponsibilities.json';
-import maintenanceInterventionsFR from '../locales/fr/maintenanceInterventions.json';
-import maintenanceHistoryFR from '../locales/fr/maintenanceHistory.json';
-import maintenanceCostsFR from '../locales/fr/maintenanceCosts.json';
-import messagesFR from '../locales/fr/messages.json';
-import taxesFR from '../locales/fr/taxes.json';
-import settingsFR from '../locales/fr/settings.json';
-import helpFR from '../locales/fr/help.json';
-import websiteFR from '../locales/fr/website.json';
-import pagesFR from '../locales/fr/pages.json';
-import tenantSpaceFR from '../locales/fr/tenantSpace.json';
-import roommateSpaceFR from '../locales/fr/roommateSpace.json';
-import dashboardFR from '../locales/fr/dashboard.json';
-import tenantOverviewFR from '../locales/fr/tenantOverview.json';
-import tenantHistoryFR from '../locales/fr/tenantHistory.json';
-import tenantProfileFR from '../locales/fr/tenantProfile.json';
-import tenantPaymentsFR from '../locales/fr/tenantPayments.json';
-import legalFR from '../locales/fr/legal.json';
-import tenantUploadFR from '../locales/fr/tenantUpload.json';
-import ownerSpaceFR from '../locales/fr/ownerSpace.json';
-import quickActionsFR from '../locales/fr/quickActions.json';
-import profileFR from '../locales/fr/profile.json';
+import navigation from '../locales/fr/navigation.json';
+import common from '../locales/fr/common.json';
+import properties from '../locales/fr/properties.json';
+import contractForm from '../locales/en/contractForm.json';
+import messages from '../locales/fr/messages.json';
+import maintenanceInterventions from '../locales/fr/maintenanceInterventions.json';
 
 export const frenchResources = {
   translation: {
-    ...commonFR,
-    ...navigationFR,
-    ...publicSiteFR,
-    ...propertiesFR,
-    ...tenantsFR,
-    ...roommatesFR,
-    ...contractsFR,
-    ...contractFormFR,
-    ...inspectionsFR,
-    ...rentManagementFR,
-    ...rentalChargesFR,
-    ...forecastingFR,
-    ...maintenanceFR,
-    ...maintenanceResponsibilitiesFR,
-    ...maintenanceInterventionsFR,
-    ...maintenanceHistoryFR,
-    ...maintenanceCostsFR,
-    ...messagesFR,
-    ...taxesFR,
-    ...settingsFR,
-    ...helpFR,
-    ...websiteFR,
-    ...pagesFR,
-    ...tenantSpaceFR,
-    ...roommateSpaceFR,
-    ...dashboardFR,
-    ...tenantOverviewFR,
-    ...tenantHistoryFR,
-    ...tenantProfileFR,
-    ...tenantPaymentsFR,
-    ...legalFR,
-    ...tenantUploadFR,
-    ...ownerSpaceFR,
-    ...quickActionsFR,
-    ...profileFR
+    ...navigation,
+    ...common,
+    ...properties,
+    ...contractForm,
+    ...messages,
+    ...maintenanceInterventions,
+    // Mots spécifiques pour le formulaire de propriété
+    propertyForm: {
+      title: "Titre",
+      addProperty: "Ajouter propriété", 
+      editProperty: "Modifier propriété",
+      immobilien: "Immobilier",
+      hinzufugen: "Ajouter",
+      adresse: "Adresse",
+      flache: "Surface",
+      miete: "Loyer",
+      gesamtzahlDerZimmer: "Nombre total de chambres",
+      annuler: "Annuler",
+      ajouterPropriete: "Ajouter propriété",
+      propertyTypes: {
+        appartement: "Appartement",
+        studio: "Studio", 
+        maison: "Maison",
+        loft: "Loft",
+        duplex: "Duplex"
+      },
+      locationTypes: {
+        entier: "Entier",
+        colocation: "Colocation"
+      },
+      placeholders: {
+        surface: "ex: 45 m²",
+        rent: "€",
+        title: "Titre de la propriété"
+      }
+    },
+    buttons: {
+      cancel: "Annuler",
+      save: "Enregistrer",
+      add: "Ajouter",
+      edit: "Modifier",
+      delete: "Supprimer",
+      close: "Fermer"
+    }
   }
 };

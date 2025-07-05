@@ -13,14 +13,14 @@ const PropertyFormHeader = ({ isInDialog = true }: PropertyFormHeaderProps) => {
   if (isInDialog) {
     return (
       <DialogHeader>
-        <DialogTitle>{t('properties.addProperty')}</DialogTitle>
+        <DialogTitle>{t('propertyForm.addProperty')}</DialogTitle>
       </DialogHeader>
     );
   }
 
   return (
     <div className="mb-6">
-      <h2 className="text-xl font-semibold">{t('properties.addProperty')}</h2>
+      <h2 className="text-xl font-semibold">{t('propertyForm.addProperty')}</h2>
     </div>
   );
 };
