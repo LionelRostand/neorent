@@ -13,6 +13,7 @@ export const frenchResources = {
     ...properties,
     ...contractForm,
     ...messages,
+    ...dashbord,
     ...maintenanceInterventions,
     // Traductions générales
     common: {
