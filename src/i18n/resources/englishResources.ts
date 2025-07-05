@@ -2,9 +2,7 @@ import navigation from '../locales/en/navigation.json';
 import common from '../locales/en/common.json';
 import properties from '../locales/en/properties.json';
 import contractForm from '../locales/en/contractForm.json';
-import contracts from '../locales/en/contracts.json',
-import  dashboard  from '../locales/en/dashboard.json'
-import contracts from '../locales/en/contracts.json',
+import contracts from '../locales/en/contracts.json';
 import  dashboard  from '../locales/en/dashboard.json';
 import forecasting from '../locales/en/forecasting.json';
 import  help from '../locatles/en/help.json';
