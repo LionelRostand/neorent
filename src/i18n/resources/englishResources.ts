@@ -34,15 +34,13 @@ import tenantSpace  from '../locales/en/tenantSpace.json';
 import tenantUpload from '../locales/en/tenantUpload.json';
 import tenants from '../locales/en/tenants.json';
 import website from '../locales/en/website.json';
-
-
 export const englishResources = {
   translation: {
-    ...navigation,
-    ...common,
-    ...properties,
-    ...contractForm,
-    ...contracts,
+...navigation,
+...common,
+...properties,
+...contractForm,
+...contracts,
 ...dashboard, 
 ...forecasting, 
 ...help, 
@@ -72,8 +70,10 @@ export const englishResources = {
 ...tenantProfile,
 ...tenantSpace,
 ...tenantUpload, 
-...tenants',
+...tenants',    
 ...website',
+
+
     // General translations
     common: {
       loading: "Loading...",
@@ -348,6 +348,106 @@ export const englishResources = {
         other: "Other"
       }
     },
+    //properties
+    properties : {
+    "title": "Properties",
+    "subtitle": "Manage your properties and their information",
+    "addProperty": "Add property",
+    "editProperty": "Edit property",
+    "deleteProperty": "Delete property",
+    "propertyDetails": "Property details",
+    "totalProperties": "Total Properties",
+    "occupiedProperties": "Occupied Properties",
+    "vacantProperties": "Vacant Properties",
+    "monthlyRevenue": "Monthly Revenue",
+    "occupancyRate": "Occupancy Rate",
+    "colocationRooms": "Colocation Rooms",
+    "realRevenueReceived": "Real Revenue Received",
+    "partiallyOccupied": "Partially Occupied",
+    "roomsAvailable": "rooms available",
+    "profitability": "Profitability",
+    "revenue": "Revenue",
+    "charges": "Charges",
+    "profit": "Profit",
+    "occupants": "occupants",
+    "thisMonth": "This Month",
+    "propertyConfiguration": "Property Configuration",
+    "listTitle": "Properties List",
+    "occupantsList": "Occupants List",
+    "roommate": "Roommate",
+    "perMonth": "/month",
+    "rooms": "rooms",
+    "available": "available",
+    "income": "Income",
+    "costs": "Costs",
+    "gain": "Gain",
+    "occupancyRateShort": "Occupancy rate",
+    "apartment": "Apartment",
+    "residentsCount": "Residents",
+    "residentsList": "Residents list",
+    "roommates": "Roommates",
+    "address": "Address",
+    "surface": "Surface",
+    "rent": "Rent",
+    "totalRooms": "Total rooms",
+    "selectType": "Select type",
+    "loading": "Loading...",
+    "addSuccess": "Property added successfully",
+    "addError": "Error adding property",
+    "updateSuccess": "Property updated successfully",
+    "updateError": "Error updating property",
+    "deleteSuccess": "Property deleted successfully",
+    "deleteError": "Error deleting property",
+    "fields": {
+      "name": "Name",
+      "address": "Address",
+      "type": "Type",
+      "rooms": "Rooms",
+      "area": "Area",
+      "rent": "Rent",
+      "status": "Status",
+      "description": "Description",
+      "title": "Title"
+    },
+    "types": {
+      "apartment": "Apartment",
+      "house": "House",
+      "studio": "Studio",
+      "office": "Office"
+    },
+    "status": {
+      "available": "Available",
+      "occupied": "Occupied",
+      "maintenance": "Under maintenance"
+    },
+    "metrics": {
+      "totalDescription": "properties registered",
+      "occupancyDescription": "global occupancy rate",
+      "colocationDescription": "rooms occupied out of total",
+      "revenueDescription": "total monthly revenue"
+    },
+    "noPropertiesDesc": "Start by adding your first property",
+    "totalTenants": "Total Tenants",
+    "activeTenants": "active tenants",
+    "propertiesRegistered": "properties registered",
+    "propertiesWithTenants": "properties with tenants",
+    "actions": "Actions"
+  },
+  propertyForm: {
+    "locationTypes": {
+      "colocation": "Colocation"
+    },
+    propertyTypes: {
+      "appartement": "Apartment",
+      "studio": "Studio",
+      "maison": "House",
+      "loft": "Loft",
+      "duplex": "Duplex"
+    },
+    "type": "Type",
+    "surface": "Surface",
+    "floor": "Floor"
+  },
     // Messages
     messages: {
       title: "Messages",
