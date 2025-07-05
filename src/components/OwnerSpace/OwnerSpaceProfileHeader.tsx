@@ -100,7 +100,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
           <p className="text-xs sm:text-sm text-blue-800 font-medium mb-1">
             {i18n.language === 'fr' ? 'Espace propriétaire :' : 'Owner space:'}
           </p>
-          <p className="text-xs sm:text-sm text-blue-700 font-medium">
+          <p className="text-xs sm:text-sm text-blue-700 font-medium break-words">
             {currentProfile.name}
           </p>
           <p className="text-xs text-blue-600 break-all">
@@ -118,60 +118,65 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   };
 
   return (
-    <div className="bg-white px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex-shrink-0 border-b">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-        {/* Profile Information */}
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-col xs:flex-row xs:items-start xs:justify-between xs:gap-2">
-            <div className="min-w-0 flex-1">
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 break-words">
-                {displayName}
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-500 break-all mt-1">
-                {displayEmail}
-              </p>
-            </div>
-            <div className="flex-shrink-0 mt-2 xs:mt-0">
-              <p className="text-xs sm:text-sm text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded-md">
+    <div className="bg-white px-2 sm:px-4 lg:px-6 py-2 sm:py-4 flex-shrink-0 border-b">
+      <div className="flex flex-col gap-2 sm:gap-3">
+        {/* Profile Information - Stack on mobile, side by side on larger screens */}
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+          {/* Main profile info */}
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-gray-900 break-words leading-tight">
+              {displayName}
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-500 break-all mt-0.5 sm:mt-1">
+              {displayEmail}
+            </p>
+            {/* Role badge - mobile friendly */}
+            <div className="mt-1 sm:mt-2">
+              <span className="inline-block text-xs sm:text-sm text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded-md">
                 {displayRole}
-              </p>
+              </span>
+            </div>
+            {getAdminBadge()}
+          </div>
+          
+          {/* Action Buttons - Stack on mobile */}
+          <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2 sm:gap-3 w-full xs:w-auto">
+            {/* Language Selector - full width on mobile */}
+            <div className="w-full xs:w-auto">
+              <LanguageSelector />
+            </div>
+
+            {/* Buttons row */}
+            <div className="flex gap-2 w-full xs:w-auto">
+              {/* Bouton de retour pour les admins */}
+              {(userType === 'admin' || isAuthorizedAdmin) && (
+                <Button
+                  variant="outline"
+                  onClick={handleBackToAdmin}
+                  className="flex-1 xs:flex-none text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 min-w-0"
+                >
+                  <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">Admin</span>
+                  <span className="sm:hidden truncate">Admin</span>
+                </Button>
+              )}
+
+              {/* Bouton de déconnexion */}
+              <Button
+                variant="outline"
+                onClick={handleLogout}
+                className="flex-1 xs:flex-none text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 border-red-200 text-red-600 hover:bg-red-50 min-w-0"
+              >
+                <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                <span className="hidden sm:inline">{t('profile.logout')}</span>
+                <span className="sm:hidden truncate">{i18n.language === 'fr' ? 'Sortir' : 'Out'}</span>
+              </Button>
             </div>
           </div>
-          {getAdminBadge()}
-          {getOwnerInfo()}
         </div>
         
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-end">
-          {/* Sélecteur de langue */}
-          <div className="order-1">
-            <LanguageSelector />
-          </div>
-
-          {/* Bouton de retour pour les admins */}
-          {(userType === 'admin' || isAuthorizedAdmin) && (
-            <Button
-              variant="outline"
-              onClick={handleBackToAdmin}
-              className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 order-2"
-            >
-              <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">{t('settings.backToAdmin')}</span>
-              <span className="xs:hidden">Admin</span>
-            </Button>
-          )}
-
-          {/* Bouton de déconnexion */}
-          <Button
-            variant="outline"
-            onClick={handleLogout}
-            className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 border-red-200 text-red-600 hover:bg-red-50 order-3"
-          >
-            <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-            <span className="hidden xs:inline">{t('profile.logout')}</span>
-            <span className="xs:hidden">{i18n.language === 'fr' ? 'Sortir' : 'Out'}</span>
-          </Button>
-        </div>
+        {/* Owner info section */}
+        {getOwnerInfo()}
       </div>
     </div>
   );
