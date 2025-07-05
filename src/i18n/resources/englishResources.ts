@@ -159,6 +159,52 @@ export const englishResources = {
         pending: "Pending"
       }
     },
+
+   //Legal
+    legal:  {
+   legalNotice: " {
+     title: "Legal Notice",
+     editor: "Website Editor",
+     company: "Company",
+     address: "Address",
+     phone: "Phone",
+     email: "Email",
+     registration: "Registration Number",
+     vat: "VAT Number",
+     hosting: "Hosting",
+     hostingProvider: "Hosting Provider",
+     intellectualProperty: "Intellectual Property",
+     copyright: "Copyright",
+     liability: "Liability",
+     personalData: "Personal Data",
+     cookies: "Cookies",
+     applicableLaw: "Applicable Law
+    },
+   privacyPolicy:  {
+     title: "Privacy Policy",
+     introduction: "Introduction",
+     dataCollection: "Data Collection",
+     dataUsage: "Data Usage",
+     dataSharing: "Data Sharing",
+     dataRetention: "Data Retention",
+     userRights: "User Rights",
+     security: "Security",
+     contact: "Contact",
+     updates: "Updates
+    }",
+   cookiePolicy: {
+     title: "Cookie Policy",
+     whatAreCookies: " "What are Cookies",
+     typesOfCookies: "Types of Cookies",
+     essential: "Essential Cookies",
+     analytics: "Analytics Cookies",
+     marketing: "Marketing Cookies",
+     thirdParty: "Third Party Cookies",
+     management: "Cookie Management",
+     consent: "Consent",
+     optOut: "Opt-out
+    }
+  },
     // Roommates
     roommates: {
       title: "Roommates",
@@ -421,6 +467,62 @@ export const englishResources = {
         other: "Other"
       }
     },
+  //MaintenanceCosts
+  maintenanceCosts: {
+    title: "Cost Management",
+    subtitle: "Manage maintenance costs and invoices",
+    totalCosts: "Total Maintenance Costs",
+    ownerCosts: "Owner Costs",
+    tenantCosts: "Tenant Costs",
+    pendingCosts: "Pending",
+    overview: "Overview",
+    invoices: "Invoices",
+    payments: "Payments",
+    reports: "Reports",
+    newInvoice: "New invoice",
+    createNewInvoice: "Create new invoice",
+    recordNewInvoice: "Record a new maintenance invoice",
+    invoiceNumber: "Invoice number",
+    date: "Date",
+    property: "Property",
+    selectProperty: "Select a property",
+    description: "Description",
+    descriptionPlaceholder: "Maintenance description",
+    technicianName: "Technician name",
+    technicianPlaceholder: "Technician name",
+    amount: "Amount (€)",
+    amountPlaceholder: "0.00",
+    responsibility: "Responsibility",
+    responsibilityPlaceholder: "Who pays this bill?",
+    owner: "Owner",
+    tenant: "Tenant",
+    whoPaysThisBill: "Who pays this bill?",
+    cancel: "Cancel",
+    createInvoice: "Create new invoice",
+    invoiceNumberColumn: "Invoice No.",
+    dateColumn: "Date",
+    propertyColumn: "Property",
+    descriptionColumn: "Description",
+    amountColumn: "Amount",
+    responsibilityColumn: "Responsibility",
+    statusColumn: "Status",
+    actionsColumn: "Actions",
+    paid: "Paid",
+    pending: "Pending",
+    overdue: "Overdue",
+    editInvoice: "Edit invoice",
+    deleteInvoice: "Delete invoice",
+    markAsPaid: "Mark as paid",
+    downloadInvoice: "Download invoice",
+    sendReminder: "Send reminder",
+    invoiceSummary: "Invoice summary",
+    paymentTracking: "Payment tracking",
+    costAnalysis: "Cost analysis",
+    monthlyReport: "Monthly report",
+    yearlyReport: "Yearly report",
+    exportInvoices: "Export invoices",
+    invoiceSettings: "Invoice settings"
+  }
 //properties
 properties: {
   title: "Properties",
