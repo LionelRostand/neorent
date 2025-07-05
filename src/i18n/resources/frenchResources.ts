@@ -3,7 +3,7 @@ import common from '../locales/fr/common.json';
 import properties from '../locales/fr/properties.json';
 import contractForm from '../locales/en/contractForm.json';
 import messages from '../locales/fr/messages.json';
-import dasbord from '../locales/fr/dashord.json';
+import dashbord from '../locales/fr/dashbord.json';
 import maintenanceInterventions from '../locales/fr/maintenanceInterventions.json';
 
 export const frenchResources = {
