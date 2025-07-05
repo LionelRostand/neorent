@@ -109,7 +109,7 @@ const Properties = () => {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">{t('properties.loading')}</div>
+          <div className="text-lg">{t('common.loading')}</div>
         </div>
       </MainLayout>
     );

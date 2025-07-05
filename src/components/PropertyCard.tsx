@@ -71,13 +71,13 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
       if (availableRooms > 0) {
         return t('properties.partiallyOccupied');
       } else if (occupiedRooms > 0) {
-        return t('properties.fullyOccupied');
+        return t('properties.status.occupied');
       } else {
-        return t('properties.vacant');
+        return t('properties.status.available');
       }
     } else {
       // Location classique
-      return activeRoommates.length > 0 ? t('properties.occupied') : t('properties.vacant');
+      return activeRoommates.length > 0 ? t('properties.status.occupied') : t('properties.status.available');
     }
   };
 
@@ -98,9 +98,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
   const realAvailableRooms = getRealAvailableRooms();
 
   const getStatusBadgeColor = (status: string) => {
-    if (status === t('properties.vacant')) {
+    if (status === t('properties.status.available')) {
       return 'bg-gray-100 text-gray-800';
-    } else if (status === t('properties.occupied') || status === t('properties.fullyOccupied')) {
+    } else if (status === t('properties.status.occupied')) {
       return 'bg-green-100 text-green-800';
     } else if (status === t('properties.partiallyOccupied')) {
       return 'bg-yellow-100 text-yellow-800';
@@ -185,7 +185,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
           )}
           {property.tenant && (
             <div className="text-sm text-green-600">
-              {t('properties.mainTenant')}: {property.tenant}
+              {t('tenants.tenant')}: {property.tenant}
             </div>
           )}
         </div>

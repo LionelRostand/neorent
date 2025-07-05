@@ -62,9 +62,9 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
     });
     
     if (success) {
-      toast.success(currentSettings.visible ? 'Propriété masquée du site web' : 'Propriété visible sur le site web');
+      toast.success(currentSettings.visible ? t('website.propertyHidden') : t('website.propertyVisible'));
     } else {
-      toast.error('Erreur lors de la mise à jour');
+      toast.error(t('common.error'));
     }
   };
 
@@ -75,9 +75,9 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
     });
     
     if (success) {
-      toast.success(currentSettings.featured ? 'Propriété retirée de la mise en avant' : 'Propriété mise en avant');
+      toast.success(currentSettings.featured ? t('website.propertyUnfeatured') : t('website.propertyFeatured'));
     } else {
-      toast.error('Erreur lors de la mise à jour');
+      toast.error(t('common.error'));
     }
   };
 
@@ -219,7 +219,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                       {t('properties.fields.status')}
                     </TableHead>
                     <TableHead className="px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      Visibilité site web
+                      {t('website.websiteVisibility')}
                     </TableHead>
                     <TableHead className="text-right min-w-[60px] px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
                       {t('properties.actions')}
@@ -258,7 +258,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                             {settings.featured && (
                               <Badge variant="outline" className="text-xs px-1 py-0 bg-yellow-50 text-yellow-700 border-yellow-200">
                                 <Star className="h-2 w-2 mr-1" />
-                                Mise en avant
+                                {t('website.featured')}
                               </Badge>
                             )}
                           </div>
@@ -266,7 +266,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                         <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
                           <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2">
-                              <Label className="text-xs">Visible</Label>
+                              <Label className="text-xs">{t('website.visible')}</Label>
                               <Switch
                                 checked={settings.visible}
                                 onCheckedChange={() => handleToggleVisibility(property.id)}
@@ -278,7 +278,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                               )}
                             </div>
                             <div className="flex items-center gap-2">
-                              <Label className="text-xs">Mettre en avant</Label>
+                              <Label className="text-xs">{t('website.feature')}</Label>
                               <Switch
                                 checked={settings.featured}
                                 onCheckedChange={() => handleToggleFeatured(property.id)}
