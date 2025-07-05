@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -119,14 +118,13 @@ const SidebarQuickActionsManager: React.FC = () => {
     try {
       console.log('Adding menu to quick actions:', menuItem);
       
-      // Extract the menu name from the path for translation key
       const menuName = menuPath.replace('/admin/', '').replace('-', '');
       
       const newAction = {
         id: menuPath.replace('/admin/', ''),
         titleKey: `quickActions.${menuName}.title`,
         descriptionKey: `quickActions.${menuName}.description`,
-        icon: getIconNameForPath(menuPath), // Use the icon mapping
+        icon: getIconNameForPath(menuPath),
         color: getColorForMenu(menuPath),
         enabled: true,
         action: 'navigate' as const,
@@ -179,7 +177,6 @@ const SidebarQuickActionsManager: React.FC = () => {
 
   const handleConfigureAction = (actionId: string) => {
     console.log('Configure action:', actionId);
-    // TODO: Implement configuration logic
   };
 
   // Don't render if not admin
@@ -193,43 +190,46 @@ const SidebarQuickActionsManager: React.FC = () => {
         <Button
           variant="outline"
           size="sm"
-          className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30 text-sm py-2 px-3 font-medium"
+          className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30 text-xs sm:text-sm py-2 px-2 sm:px-3 font-medium"
         >
-          <Settings className="h-4 w-4 mr-2" />
-          <span className="truncate">{t('quickActions.manager.title')}</span>
+          <Settings className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+          <span className="truncate text-xs sm:text-sm">{t('quickActions.manager.title')}</span>
         </Button>
       </DialogTrigger>
       
-      <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold">
+      <DialogContent className="w-[95vw] max-w-7xl h-[95vh] max-h-[90vh] overflow-hidden flex flex-col p-0">
+        <DialogHeader className="px-4 sm:px-6 py-4 border-b flex-shrink-0">
+          <DialogTitle className="text-lg sm:text-xl font-bold">
             {t('quickActions.manager.title')}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 mt-4">
-          <CurrentActionsSection
-            quickActions={quickActions}
-            onToggleAction={handleToggleAction}
-            onRemoveAction={handleRemoveAction}
-            onConfigureAction={handleConfigureAction}
-            toggleStates={toggleStates}
-            saving={saving}
-          />
-          
-          <AvailableMenusSection
-            quickActions={quickActions}
-            onAddMenuToQuickActions={handleAddMenuToQuickActions}
-            addingMenus={addingMenus}
-            saving={saving}
-          />
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4">
+          <div className="space-y-4 sm:space-y-6">
+            <CurrentActionsSection
+              quickActions={quickActions}
+              onToggleAction={handleToggleAction}
+              onRemoveAction={handleRemoveAction}
+              onConfigureAction={handleConfigureAction}
+              toggleStates={toggleStates}
+              saving={saving}
+            />
+            
+            <AvailableMenusSection
+              quickActions={quickActions}
+              onAddMenuToQuickActions={handleAddMenuToQuickActions}
+              addingMenus={addingMenus}
+              saving={saving}
+            />
+          </div>
         </div>
 
-        <div className="flex justify-end mt-6">
+        <div className="flex justify-end px-4 sm:px-6 py-4 border-t flex-shrink-0 bg-gray-50">
           <Button
             variant="outline"
             onClick={() => setIsOpen(false)}
             disabled={saving}
+            className="text-sm"
           >
             {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {t('quickActions.manager.close')}

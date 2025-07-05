@@ -1,17 +1,15 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { Settings, Trash2, Edit } from 'lucide-react';
+import { Settings, Trash2, Loader2 } from 'lucide-react';
 import { QuickActionConfig } from '@/hooks/useQuickActionsManager';
-import { getIconForPath } from '@/utils/menuIconMapping';
+import * as Icons from 'lucide-react';
 
 interface CurrentActionsSectionProps {
   quickActions: QuickActionConfig[];
-  onToggleAction: (actionId: string) => Promise<void>;
+  onToggleAction: (actionId: string) => void;
   onRemoveAction: (actionId: string) => Promise<boolean>;
   onConfigureAction: (actionId: string) => void;
   toggleStates: Record<string, boolean>;
@@ -28,119 +26,94 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const getLocalizedActionText = (action: QuickActionConfig, field: 'title' | 'description'): string => {
-    const key = field === 'title' ? action.titleKey : action.descriptionKey;
-    return t(key, key);
-  };
-
-  const handleToggleAction = async (actionId: string) => {
-    console.log('Toggling action:', actionId);
-    await onToggleAction(actionId);
-  };
-
-  const handleRemoveClick = async (actionId: string) => {
-    if (window.confirm(t('quickActions.manager.removeError'))) {
-      await onRemoveAction(actionId);
-    }
-  };
-
-  const handleConfigureClick = (actionId: string) => {
-    console.log('Configure action:', actionId);
-    onConfigureAction(actionId);
-  };
-
-  const renderActionIcon = (action: QuickActionConfig) => {
-    // Try to get the icon from the path mapping if it's a navigation action
-    if (action.action === 'navigate' && action.actionValue) {
-      const IconComponent = getIconForPath(action.actionValue);
-      if (IconComponent) {
-        return <IconComponent className="h-5 w-5 text-white" />;
-      }
-    }
-    
-    // Fallback to Settings icon
-    return <Settings className="h-5 w-5 text-white" />;
+  const getIconComponent = (iconName: string) => {
+    const IconComponent = (Icons as any)[iconName];
+    return IconComponent || Icons.Settings;
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Settings className="h-5 w-5" />
-          {t('quickActions.manager.currentActions')}
-        </CardTitle>
-      </CardHeader>
+    <div className="space-y-3 sm:space-y-4">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+        {t('quickActions.manager.currentActions')}
+      </h3>
       
-      <CardContent className="space-y-3">
-        {quickActions.map((action) => (
-          <div 
-            key={action.id} 
-            className="flex items-center gap-4 p-4 border rounded-lg hover:shadow-sm transition-shadow bg-white"
-          >
-            {/* Icon */}
-            <div className={`p-3 rounded-lg ${action.color} flex-shrink-0`}>
-              {renderActionIcon(action)}
-            </div>
-            
-            {/* Content */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 truncate text-base">
-                    {getLocalizedActionText(action, 'title')}
-                  </h3>
-                  <p className="text-sm text-gray-600 truncate mt-1">
-                    {getLocalizedActionText(action, 'description')}
-                  </p>
-                  <Badge 
-                    variant={action.enabled ? "default" : "secondary"} 
-                    className="text-xs mt-2"
-                  >
-                    {action.enabled 
-                      ? t('quickActions.manager.enabled') 
-                      : t('quickActions.manager.disabled')
-                    }
-                  </Badge>
-                </div>
-                
-                {/* Controls */}
-                <div className="flex items-center gap-3 flex-shrink-0">
+      {quickActions.length === 0 ? (
+        <div className="text-center py-8 sm:py-12">
+          <Settings className="mx-auto h-8 w-8 sm:h-12 sm:w-12 text-gray-400" />
+          <p className="mt-2 sm:mt-4 text-sm sm:text-base text-gray-500">
+            {t('quickActions.manager.noActionsConfigured')}
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+          {quickActions.map((action) => {
+            const IconComponent = getIconComponent(action.icon);
+            return (
+              <div
+                key={action.id}
+                className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-start justify-between mb-2 sm:mb-3">
+                  <div className={`p-2 rounded-lg ${action.color} flex-shrink-0`}>
+                    <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  </div>
                   <Switch
                     checked={action.enabled}
-                    onCheckedChange={() => handleToggleAction(action.id)}
+                    onCheckedChange={() => onToggleAction(action.id)}
                     disabled={toggleStates[action.id] || saving}
+                    className="ml-2"
                   />
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleConfigureClick(action.id)}
-                    disabled={saving}
-                    className="h-9 w-9 p-0 hover:bg-blue-50 hover:border-blue-300"
-                  >
-                    <Edit className="h-4 w-4 text-blue-600" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleRemoveClick(action.id)}
-                    disabled={saving}
-                    className="h-9 w-9 p-0 hover:bg-red-50 hover:border-red-300"
-                  >
-                    <Trash2 className="h-4 w-4 text-red-600" />
-                  </Button>
+                </div>
+                
+                <div className="mb-2 sm:mb-3">
+                  <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">
+                    {t(action.titleKey)}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">
+                    {t(action.descriptionKey)}
+                  </p>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                    action.enabled 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {action.enabled ? t('quickActions.manager.enabled') : t('quickActions.manager.disabled')}
+                  </span>
+                  
+                  <div className="flex items-center space-x-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onConfigureAction(action.id)}
+                      disabled={saving}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onRemoveAction(action.id)}
+                      disabled={saving}
+                      className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      {toggleStates[action.id] ? (
+                        <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+                      ) : (
+                        <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                      )}
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
-        
-        {quickActions.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            <p className="text-sm">{t('quickActions.manager.noActionsConfigured')}</p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 };
 
