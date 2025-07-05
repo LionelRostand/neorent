@@ -468,7 +468,7 @@ contractForm:  {
    depositPlaceholder: "Ex:  1600",
    paymentDay: "Payment day",
    paymentDayPlaceholder: "Ex:  5",
-   terms: "Special terms,
+   terms: "Special terms",
    termsPlaceholder: "Specific contract terms...",
    notes: "Notes",
    notesPlaceholder: "Internal notes...",
@@ -477,7 +477,7 @@ contractForm:  {
    addContract: "Add contract",
    saveChanges: "Save changes",
    cancel: "Cancel",
-   type: "Contract type,
+   type: "Contract type",
    selectType: "Select a type",
    provider: "Provider",
    providerPlaceholder: "Provider name",
@@ -504,7 +504,7 @@ contractForm:  {
    endDateLabel: "End date",
    contractAmount: "Amount",
    contractDescription: "Description",
-  },
+},
     // Messages
     messages: {
       title: "Messages",
