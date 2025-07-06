@@ -1,6 +1,28 @@
 
 {
   "publicSite": {
+    "home": "Accueil",
+    "properties": "Propriétés",
+    "about": {
+      "title": "À Propos"
+    },
+    "contact": {
+      "hero": {
+        "title": "Contact"
+      }
+    },
+    "login": {
+      "title": "Connexion"
+    },
+    "footer": {
+      "description": "Plateforme complète de gestion immobilière pour propriétaires, locataires et colocataires.",
+      "usefulLinks": "Liens Utiles",
+      "contact": "Contact",
+      "legalNotice": "Mentions Légales",
+      "privacyPolicy": "Politique de Confidentialité",
+      "cookiePolicy": "Politique de Cookies",
+      "copyright": "Tous droits réservés."
+    },
     "hero": {
       "title": "Gérez vos biens immobiliers avec facilité",
       "subtitle": "Plateforme complète de gestion immobilière pour propriétaires, locataires et colocataires",

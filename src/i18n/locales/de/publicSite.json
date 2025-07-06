@@ -1,6 +1,28 @@
 
 {
   "publicSite": {
+    "home": "Startseite",
+    "properties": "Immobilien",
+    "about": {
+      "title": "Über Uns"
+    },
+    "contact": {
+      "hero": {
+        "title": "Kontakt"
+      }
+    },
+    "login": {
+      "title": "Anmeldung"
+    },
+    "footer": {
+      "description": "Komplette Immobilienverwaltungsplattform für Eigentümer, Mieter und Mitbewohner.",
+      "usefulLinks": "Nützliche Links",
+      "contact": "Kontakt",
+      "legalNotice": "Impressum",
+      "privacyPolicy": "Datenschutzerklärung",
+      "cookiePolicy": "Cookie-Richtlinie",
+      "copyright": "Alle Rechte vorbehalten."
+    },
     "hero": {
       "title": "Verwalten Sie Ihre Immobilien mit Leichtigkeit",
       "subtitle": "Komplette Immobilienverwaltungsplattform für Eigentümer, Mieter und Mitbewohner",

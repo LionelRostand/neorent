@@ -1,6 +1,28 @@
 
 {
   "publicSite": {
+    "home": "Home",
+    "properties": "Properties",
+    "about": {
+      "title": "About Us"
+    },
+    "contact": {
+      "hero": {
+        "title": "Contact"
+      }
+    },
+    "login": {
+      "title": "Login"
+    },
+    "footer": {
+      "description": "Complete property management platform for owners, tenants and roommates.",
+      "usefulLinks": "Useful Links",
+      "contact": "Contact",
+      "legalNotice": "Legal Notice",
+      "privacyPolicy": "Privacy Policy",
+      "cookiePolicy": "Cookie Policy",
+      "copyright": "All rights reserved."
+    },
     "hero": {
       "title": "Manage your real estate properties with ease",
       "subtitle": "Complete property management platform for owners, tenants and roommates",

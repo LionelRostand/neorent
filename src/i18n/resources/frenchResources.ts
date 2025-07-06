@@ -1,7 +1,9 @@
+
 import navigation from '../locales/fr/navigation.json';
 import common from '../locales/fr/common.json';
 import dashboard from '../locales/fr/dashboard.json';
 import publicSite from '../locales/fr/publicSite.json';
+import public from '../locales/fr/public.json';
 import website from '../locales/fr/website.json';
 import properties from '../locales/fr/properties.json';
 import contractForm from '../locales/fr/contractForm.json';
@@ -41,6 +43,7 @@ export const frenchResources = {
     ...common,
     ...dashboard,
     ...publicSite,
+    ...public,
     ...website,
     ...properties,
     ...contractForm,

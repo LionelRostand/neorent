@@ -1,7 +1,9 @@
+
 import navigation from '../locales/en/navigation.json';
 import common from '../locales/en/common.json';
 import dashboard from '../locales/en/dashboard.json';
 import publicSite from '../locales/en/publicSite.json';
+import public from '../locales/en/public.json';
 import website from '../locales/en/website.json';
 import properties from '../locales/en/properties.json';
 import contractForm from '../locales/en/contractForm.json';
@@ -41,6 +43,7 @@ export const englishResources = {
     ...common,
     ...dashboard,
     ...publicSite,
+    ...public,
     ...website,
     ...properties,
     ...contractForm,
