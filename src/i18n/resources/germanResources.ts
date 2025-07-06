@@ -18,7 +18,7 @@ import messages from '../locales/de/messages.json';
 import ownerSpace from '../locales/de/ownerSpace.json';
 import pages from '../locales/de/pages.json';
 import profile from '../locales/de/profile.json';
-import publicSite from '../locales/de/publicSite.json';
+import publicSite from '../locales/de/public.json';
 import quickActions from '../locales/de/quickActions.json';
 import rentManagement from '../locales/de/rentManagement.json';
 import rentalCharges from '../locales/de/rentalCharges.json';

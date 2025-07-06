@@ -29,13 +29,13 @@ const LoginFormFields: React.FC<LoginFormFieldsProps> = ({
   return (
     <>
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-gray-700">{t('publicSite.login.form.email')}</Label>
+        <Label htmlFor="email" className="text-gray-700">{t('public.login.form.email')}</Label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             id="email"
             type="email"
-            placeholder={t('publicSite.login.form.emailPlaceholder')}
+            placeholder={t('public.login.form.emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
@@ -46,13 +46,13 @@ const LoginFormFields: React.FC<LoginFormFieldsProps> = ({
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-gray-700">{t('publicSite.login.form.password')}</Label>
+        <Label htmlFor="password" className="text-gray-700">{t('public.login.form.password')}</Label>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder={t('publicSite.login.form.passwordPlaceholder')}
+            placeholder={t('public.login.form.passwordPlaceholder')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="pl-10 pr-10 border-gray-300 focus:border-green-500 focus:ring-green-500"

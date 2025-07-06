@@ -25,10 +25,10 @@ const LoginForm = () => {
     <Card className="w-full max-w-md mx-auto bg-white shadow-xl">
       <CardHeader className="text-center bg-green-500 text-white rounded-t-lg">
         <CardTitle className="text-2xl font-bold">
-          {t('publicSite.login.title')}
+          {t('public.login.title')}
         </CardTitle>
         <p className="text-green-100">
-          {t('publicSite.login.subtitle')}
+          {t('public.login.subtitle')}
         </p>
       </CardHeader>
       <CardContent className="p-6">
