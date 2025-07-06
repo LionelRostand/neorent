@@ -1,104 +1,24 @@
+
 {
   "tenantSpace": {
     "title": "Espace Locataire",
-    "subtitle": "Gérez votre location en toute simplicité",
+    "subtitle": "Votre portail personnel de locataire",
     "welcome": "Bienvenue dans votre espace locataire",
-    "tenant": "Locataire",
-    "room": "Chambre {number}",
-    "overview": {
-      "title": "Aperçu",
-      "currentRent": "Loyer Actuel",
-      "nextPayment": "Prochain Paiement",
-      "contractStatus": "Statut du Contrat",
-      "maintenanceRequests": "Demandes de Maintenance",
-      "generalInfo": "Informations générales",
-      "financialInfo": "Informations financières",
-      "characteristics": "Caractéristiques du bien",
-      "monthlyRent": "Loyer mensuel",
-      "monthlyCharges": "Charges mensuelles",
-      "securityDeposit": "Dépôt de garantie",
-      "totalMonthly": "Total mensuel (loyer + charges)",
-      "myProperty": "Mon logement",
-      "myRoom": "Ma chambre",
-      "type": "Type",
-      "surface": "Surface",
-      "rooms": "Nombre de pièces",
-      "floor": "Étage",
-      "furnished": "Meublé",
-      "elevator": "Ascenseur",
-      "parking": "Parking",
-      "equipment": "Équipements",
-      "rent": "Loyer",
-      "charges": "Charges",
-      "deposit": "Caution",
-      "room": "chambre",
-      "bedroom": "chambre",
-      "sharedRoom": "Chambre partagée",
-      "apartment": "Appartement",
-      "studio": "Studio",
-      "house": "Maison",
-      "roomInSharedFlat": "Chambre en colocation",
-      "roomNumber": "Numéro de chambre",
-      "ordinalFloor": {
-        "1": "1er étage",
-        "2": "2ème étage",
-        "3": "3ème étage",
-        "ground": "Rez-de-chaussée"
-      }
-    },
-    "profile": {
-      "title": "Profil",
-      "personalInfo": "Informations personnelles",
-      "contactInfo": "Informations de contact",
-      "emergencyContact": "Contact d'urgence",
-      "edit": "Modifier",
-      "save": "Sauvegarder"
-    },
-    "payments": {
-      "title": "Paiements",
-      "history": "Historique des paiements",
-      "upcoming": "Paiements à venir",
-      "makePayment": "Effectuer un paiement",
-      "paymentMethod": "Méthode de paiement"
-    },
-    "documents": {
-      "title": "Documents",
-      "contract": "Contrat de bail",
-      "receipts": "Reçus",
-      "notices": "Avis",
-      "upload": "Télécharger un document"
-    },
-    "maintenance": {
-      "title": "Maintenance",
-      "requests": "Demandes",
-      "newRequest": "Nouvelle demande",
-      "status": "Statut",
-      "history": "Historique"
-    },
-    "messages": {
-      "title": "Messages",
-      "inbox": "Boîte de réception",
-      "sent": "Envoyés",
-      "compose": "Composer",
-      "reply": "Répondre",
-      "description": "Communiquez directement avec votre gestionnaire immobilier pour toutes vos questions et demandes."
-    },
-    "tabs": {
-      "overview": "Aperçu",
-      "payment": "Paiement",
-      "documents": "Documents"
-    },
-    "payment": {
-      "payRent": "Payer le loyer",
-      "monthlyRent": "Loyer mensuel",
-      "charges": "Charges",
-      "totalToPay": "Total à payer",
-      "makePayment": "Effectuer le paiement",
-      "importantInfo": "Informations importantes",
-      "paymentBefore5th": "• Le paiement doit être effectué avant le 5 de chaque mois",
-      "enterExactAmount": "• Entrez le montant exact que vous payez",
-      "receiptFullPayment": "• Un reçu PDF ne sera généré que pour les paiements complets",
-      "alertDifferentAmount": "• Une alarme sera déclenchée si le montant est différent"
-    }
+    "dashboard": "Tableau de bord",
+    "myRent": "Mon Loyer",
+    "payments": "Paiements",
+    "documents": "Documents",
+    "maintenance": "Demandes de Maintenance",
+    "messages": "Messages",
+    "profile": "Mon Profil",
+    "contract": "Mon Contrat",
+    "receipts": "Reçus",
+    "announcements": "Annonces",
+    "calendar": "Calendrier",
+    "notifications": "Notifications",
+    "support": "Support",
+    "faq": "FAQ",
+    "emergency": "Contact d'Urgence",
+    "moveOut": "Processus de Déménagement"
   }
 }

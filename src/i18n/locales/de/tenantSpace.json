@@ -1,104 +1,24 @@
+
 {
   "tenantSpace": {
-    "title": "Mieterbereich",
-    "subtitle": "Verwalten Sie Ihre Miete mit Leichtigkeit",
-    "welcome": "Willkommen in Ihrem Mieterbereich",
-    "tenant": "Mieter",
-    "room": "Zimmer {number}",
-    "overview": {
-      "title": "Übersicht",
-      "currentRent": "Aktuelle Miete",
-      "nextPayment": "Nächste Zahlung",
-      "contractStatus": "Vertragsstatus",
-      "maintenanceRequests": "Wartungsanfragen",
-      "generalInfo": "Allgemeine Informationen",
-      "financialInfo": "Finanzielle Informationen",
-      "characteristics": "Immobilieneigenschaften",
-      "monthlyRent": "Monatliche Miete",
-      "monthlyCharges": "Monatliche Nebenkosten",
-      "securityDeposit": "Kaution",
-      "totalMonthly": "Monatlich gesamt (Miete + Nebenkosten)",
-      "myProperty": "Meine Immobilie",
-      "myRoom": "Mein Zimmer",
-      "type": "Typ",
-      "surface": "Fläche",
-      "rooms": "Anzahl Zimmer",
-      "floor": "Stockwerk",
-      "furnished": "Möbliert",
-      "elevator": "Aufzug",
-      "parking": "Parkplatz",
-      "equipment": "Ausstattung",
-      "rent": "Miete",
-      "charges": "Nebenkosten",
-      "deposit": "Kaution",
-      "room": "Zimmer",
-      "bedroom": "Schlafzimmer",
-      "sharedRoom": "Geteiltes Zimmer",
-      "apartment": "Wohnung",
-      "studio": "Studio",
-      "house": "Haus",
-      "roomInSharedFlat": "Zimmer in WG",
-      "roomNumber": "Zimmernummer",
-      "ordinalFloor": {
-        "1": "1. Stock",
-        "2": "2. Stock",
-        "3": "3. Stock",
-        "ground": "Erdgeschoss"
-      }
-    },
-    "profile": {
-      "title": "Profil",
-      "personalInfo": "Persönliche Informationen",
-      "contactInfo": "Kontaktinformationen",
-      "emergencyContact": "Notfallkontakt",
-      "edit": "Bearbeiten",
-      "save": "Speichern"
-    },
-    "payments": {
-      "title": "Zahlungen",
-      "history": "Zahlungshistorie",
-      "upcoming": "Anstehende Zahlungen",
-      "makePayment": "Zahlung leisten",
-      "paymentMethod": "Zahlungsmethode"
-    },
-    "documents": {
-      "title": "Dokumente",
-      "contract": "Mietvertrag",
-      "receipts": "Quittungen",
-      "notices": "Mitteilungen",
-      "upload": "Dokument hochladen"
-    },
-    "maintenance": {
-      "title": "Wartung",
-      "requests": "Anfragen",
-      "newRequest": "Neue Anfrage",
-      "status": "Status",
-      "history": "Historie"
-    },
-    "messages": {
-      "title": "Nachrichten",
-      "inbox": "Posteingang",
-      "sent": "Gesendet",
-      "compose": "Verfassen",
-      "reply": "Antworten",
-      "description": "Kommunizieren Sie direkt mit Ihrem Hausverwalter für alle Ihre Fragen und Anfragen."
-    },
-    "tabs": {
-      "overview": "Übersicht",
-      "payment": "Zahlung",
-      "documents": "Dokumente"
-    },
-    "payment": {
-      "payRent": "Miete zahlen",
-      "monthlyRent": "Monatliche Miete",
-      "charges": "Nebenkosten",
-      "totalToPay": "Zu zahlen insgesamt",
-      "makePayment": "Zahlung durchführen",
-      "importantInfo": "Wichtige Informationen",
-      "paymentBefore5th": "• Die Zahlung muss vor dem 5. jedes Monats erfolgen",
-      "enterExactAmount": "• Geben Sie den exakten Betrag ein, den Sie zahlen",
-      "receiptFullPayment": "• Eine PDF-Quittung wird nur für vollständige Zahlungen erstellt",
-      "alertDifferentAmount": "• Ein Alarm wird ausgelöst, wenn der Betrag abweicht"
-    }
+    "title": "Mieter-Bereich",
+    "subtitle": "Ihr persönliches Mieterportal",
+    "welcome": "Willkommen in Ihrem Mieter-Bereich",
+    "dashboard": "Dashboard",
+    "myRent": "Meine Miete",
+    "payments": "Zahlungen",
+    "documents": "Dokumente",
+    "maintenance": "Wartungsanfragen",
+    "messages": "Nachrichten",
+    "profile": "Mein Profil",
+    "contract": "Mein Vertrag",
+    "receipts": "Quittungen",
+    "announcements": "Ankündigungen",
+    "calendar": "Kalender",
+    "notifications": "Benachrichtigungen",
+    "support": "Support",
+    "faq": "FAQ",
+    "emergency": "Notfallkontakt",
+    "moveOut": "Auszugsprozess"
   }
 }

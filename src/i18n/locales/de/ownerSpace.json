@@ -1,157 +1,24 @@
 
 {
   "ownerSpace": {
-    "title": "Eigentümerbereich",
-    "welcome": "Willkommen",
-    "unauthorized": "Unbefugter Zugriff",
-    "unauthorizedDescription": "Dieser Bereich ist für Eigentümer reserviert.",
-    "backToDashboard": "Zurück zum Dashboard",
-    "manageActions": "Aktionen verwalten",
-    "noQuickActionsConfigured": "Keine Schnellaktionen konfiguriert",
-    "status": {
-      "active": "Aktiv",
-      "owner": "Eigentümer"
-    },
-    "quickActions": {
-      "title": "Schnelle Aktionen",
-      "newProperty": {
-        "title": "Neue Immobilie",
-        "description": "Immobilie hinzufügen",
-        "preview": "{{count}} Immobilien"
-      },
-      "newContract": {
-        "title": "Neuer Vertrag",
-        "description": "Mietvertrag erstellen",
-        "preview": "{{count}} laufen ab"
-      },
-      "addTenant": {
-        "title": "Mieter hinzufügen",
-        "description": "Mieter registrieren",
-        "preview": "{{count}} aktive Mieter"
-      },
-      "propertyInspection": {
-        "title": "Immobilieninspektion",
-        "description": "Besichtigung planen",
-        "preview": "Immobilieninspektionen"
-      },
-      "calculateCharges": {
-        "title": "Nebenkosten berechnen",
-        "description": "Jährliche Überprüfung",
-        "preview": "0 ausstehende Zahlungen"
-      },
-      "maintenance": {
-        "title": "Wartung",
-        "description": "Serviceanfrage",
-        "preview": "1 dringende Anfrage"
-      },
-      "forecasting": {
-        "title": "Finanzprognose",
-        "description": "Umsatzprognosen",
-        "preview": "Umsatzprognosen"
-      },
-      "messages": {
-        "title": "Nachrichten",
-        "description": "Chat mit Mietern",
-        "preview": "Kommunikationszentrum"
-      },
-      "taxes": {
-        "title": "Steuerverwaltung",
-        "description": "Steuererklärungen",
-        "preview": "Steuererklärungen"
-      },
-      "website": {
-        "title": "Website",
-        "description": "Website verwalten",
-        "preview": "Website-Verwaltung"
-      },
-      "settings": {
-        "title": "Einstellungen",
-        "description": "Konfiguration",
-        "preview": "Systemeinstellungen"
-      }
-    },
-    "dashboard": {
-      "title": "Armaturenbrett",
-      "description": "Übersicht anzeigen",
-      "preview": "Systemübersicht",
-      "subtitle": "Überblick über Ihr Immobilienportfolio",
-      "stats": {
-        "propertiesManaged": "Eigentum",
-        "activeTenants": "Mieter",
-        "monthlyRevenue": "Monatliche Einnahmen",
-        "occupancyRate": "Belegungsrate",
-        "thisMonth": "diesen Monat",
-        "contracts": "Verträge"
-      }
-    },
-    "properties": {
-      "title": "Immobilien",
-      "subtitle": "Verwalten Sie Ihre Immobilien und deren Informationen",
-      "newProperty": "Neue Immobilie",
-      "totalProperties": "Immobilien Gesamt",
-      "totalPropertiesDesc": "Immobilien in Ihrem Portfolio",
-      "occupiedProperties": "Belegte Immobilien",
-      "occupiedPropertiesDesc": "Immobilien mit Mietern",
-      "totalTenants": "Mieter Gesamt",
-      "monthlyRevenue": "Monatliche Einnahmen",
-      "monthlyRevenueDesc": "Gesamte monatliche Einnahmen",
-      "occupancyRate": "Belegungsrate",
-      "occupancyRateDesc": "Ihrer Immobilien sind belegt",
-      "sharedRooms": "WG-Zimmer",
-      "sharedRoomsDesc": "belegte Zimmer",
-      "propertiesList": "Immobilienliste",
-      "noProperties": "Keine Immobilien gefunden",
-      "noPropertiesDesc": "Beginnen Sie mit dem Hinzufügen Ihrer ersten Immobilie",
-      "addProperty": "Immobilie hinzufügen",
-      "surface": "Fläche:",
-      "rent": "Miete:",
-      "rooms": "Zimmer:",
-      "view": "Ansehen",
-      "owner": "Eigentümer:",
-      "tenant": "Mieter",
-      "address": "Adresse",
-      "type": "Typ",
-      "status": "Status",
-      "actions": "Aktionen"
-    },
-    "propertyOverview": {
-      "title": "Immobilienübersicht",
-      "viewAll": "Alle anzeigen",
-      "viewDetails": "Details anzeigen",
-      "occupation": "Belegung",
-      "noProperties": "Keine Immobilien gefunden",
-      "status": {
-        "active": "Aktiv",
-        "maintenance": "Wartung",
-        "vacant": "Leer",
-        "partiallyOccupied": "Teilweise belegt"
-      }
-    },
-    "recentActivity": {
-      "title": "Neueste Aktivitäten",
-      "activities": {
-        "paymentReceived": "Zahlung erhalten - Wohnung {{number}}",
-        "paymentDescription": "{{tenant}} hat die Miete für {{month}} bezahlt",
-        "maintenanceRequest": "Wartungsanfrage",
-        "maintenanceDescription": "Klempnerproblem gemeldet - Wohnung {{number}}",
-        "newTenant": "Neuer Mieter",
-        "newTenantDescription": "{{tenant}} hat den Vertrag unterschrieben - Wohnung {{number}}",
-        "inspectionCompleted": "Inspektion abgeschlossen",
-        "inspectionDescription": "Auszugsinspektion validiert - Wohnung {{number}}",
-        "paymentDelay": "Zahlungsverzug",
-        "paymentDelayDescription": "{{tenant}} - Wohnung {{number}} ({{days}} Tage verspätet)"
-      },
-      "timeAgo": {
-        "hoursAgo": "vor {{count}} Stunden",
-        "yesterday": "Gestern",
-        "daysAgo": "vor {{count}} Tagen"
-      },
-      "types": {
-        "payment": "Zahlung",
-        "maintenance": "Wartung",
-        "tenant": "Mieter",
-        "inspection": "Inspektion"
-      }
-    }
+    "title": "Eigentümer-Bereich",
+    "subtitle": "Verwalten Sie Ihr Immobilienportfolio",
+    "welcome": "Willkommen in Ihrem Eigentümer-Bereich",
+    "dashboard": "Dashboard",
+    "properties": "Meine Immobilien",
+    "tenants": "Meine Mieter",
+    "revenue": "Meine Einnahmen",
+    "maintenance": "Wartung",
+    "documents": "Dokumente",
+    "analytics": "Analysen",
+    "reports": "Berichte",
+    "settings": "Einstellungen",
+    "notifications": "Benachrichtigungen",
+    "calendar": "Kalender",
+    "tasks": "Aufgaben",
+    "overview": "Übersicht",
+    "statistics": "Statistiken",
+    "performance": "Leistung",
+    "financials": "Finanzen"
   }
 }

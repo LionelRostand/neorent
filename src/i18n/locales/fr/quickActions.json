@@ -1,117 +1,21 @@
 
 {
   "quickActions": {
-    "title": "Actions rapides",
-    "subtitle": "Accès rapide aux fonctionnalités principales",
-    "addProperty": "Ajouter une propriété",
-    "addTenant": "Ajouter un locataire",
-    "addRoommate": "Ajouter un colocataire",
-    "recordPayment": "Enregistrer un paiement",
-    "scheduleInspection": "Programmer une inspection",
-    "sendMessage": "Envoyer un message",
-    "generateReport": "Générer un rapport",
-    "viewAll": "Voir tout",
-    "manageProperties": "Gérer les propriétés",
-    "manageTenants": "Gérer les locataires",
-    "manageRoommates": "Gérer les colocataires",
-    "manageContracts": "Gérer les contrats",
-    "manageInspections": "Gérer les inspections",
-    "manageRent": "Gérer les loyers",
-    "manageCharges": "Gérer les charges",
-    "manageMaintenance": "Gérer la maintenance",
-    "manageMessages": "Gérer les messages",
-    "manageTaxes": "Gérer la fiscalité",
-    "manageWebsite": "Gérer le site web",
-    "manageSettings": "Gérer les paramètres",
-    "getHelp": "Obtenir de l'aide",
-    "manager": {
-      "title": "Gestionnaire d'actions rapides",
-      "currentActions": "Actions rapides actuelles",
-      "availableMenus": "Menus disponibles du sidebar",
-      "noActionsConfigured": "Aucune action rapide configurée",
-      "enabled": "Activé",
-      "disabled": "Désactivé",
-      "remove": "Supprimer",
-      "configure": "Configurer",
-      "addToQuickActions": "Ajouter aux actions rapides",
-      "alreadyAdded": "Déjà ajouté",
-      "enableDisable": "Activer/Désactiver",
-      "delete": "Supprimer",
-      "close": "Fermer",
-      "save": "Sauvegarder",
-      "cancel": "Annuler",
-      "actionToggled": "Action basculée",
-      "actionEnabledDisabled": "L'action a été activée/désactivée avec succès.",
-      "actionRemoved": "Action supprimée",
-      "actionRemovedSuccess": "L'action a été supprimée avec succès.",
-      "menuAdded": "Menu ajouté",
-      "menuAddedSuccess": "Le menu a été ajouté aux actions rapides avec succès.",
-      "error": "Erreur",
-      "toggleError": "Erreur lors du basculement de l'action.",
-      "removeError": "Erreur lors de la suppression de l'action.",
-      "addMenuError": "Erreur lors de l'ajout du menu.",
-      "notAuthorized": "Non autorisé",
-      "adminRequired": "Seuls les administrateurs peuvent gérer les actions rapides."
-    },
-    "dashboard": {
-      "title": "Tableau de bord",
-      "description": "Accéder au tableau de bord principal"
-    },
-    "properties": {
-      "title": "Propriétés", 
-      "description": "Gérer les propriétés"
-    },
-    "contracts": {
-      "title": "Contrats",
-      "description": "Gérer les contrats"
-    },
-    "roommate": {
-      "title": "Colocataire",
-      "description": "Gérer les colocataires"
-    },
-    "website": {
-      "title": "Site web",
-      "description": "Gérer le site web"
-    },
-    "settings": {
-      "title": "Paramètres",
-      "description": "Gérer les paramètres"
-    },
-    "tenants": {
-      "title": "Locataires",
-      "description": "Gérer les locataires"
-    },
-    "inspections": {
-      "title": "Inspections",
-      "description": "Gérer les inspections"
-    },
-    "rentManagement": {
-      "title": "Gestion des loyers",
-      "description": "Gérer les loyers"
-    },
-    "rentalCharges": {
-      "title": "Charges locatives",
-      "description": "Gérer les charges"
-    },
-    "forecasting": {
-      "title": "Prévisions",
-      "description": "Prévisions financières"
-    },
-    "maintenance": {
-      "title": "Maintenance",
-      "description": "Gérer la maintenance"
-    },
-    "messages": {
-      "title": "Messages",
-      "description": "Gérer les messages"
-    },
-    "taxes": {
-      "title": "Fiscalité",
-      "description": "Gérer la fiscalité"
-    },
-    "help": {
-      "title": "Aide",
-      "description": "Obtenir de l'aide"
-    }
+    "title": "Actions Rapides",
+    "addProperty": "Ajouter une Propriété",
+    "addTenant": "Ajouter un Locataire",
+    "addRoommate": "Ajouter un Colocataire",
+    "recordPayment": "Enregistrer un Paiement",
+    "scheduleInspection": "Planifier une Inspection",
+    "sendMessage": "Envoyer un Message",
+    "generateReport": "Générer un Rapport",
+    "viewReports": "Voir les Rapports",
+    "manageContracts": "Gérer les Contrats",
+    "maintenanceRequest": "Demande de Maintenance",
+    "renewContract": "Renouveler le Contrat",
+    "updateProfile": "Mettre à jour le Profil",
+    "backupData": "Sauvegarder les Données",
+    "exportData": "Exporter les Données",
+    "importData": "Importer les Données"
   }
 }

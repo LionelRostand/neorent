@@ -2,156 +2,23 @@
 {
   "ownerSpace": {
     "title": "Owner Space",
-    "welcome": "Welcome",
-    "unauthorized": "Unauthorized Access",
-    "unauthorizedDescription": "This space is reserved for owners.",
-    "backToDashboard": "Back to Dashboard",
-    "manageActions": "Manage Actions",
-    "noQuickActionsConfigured": "No quick actions configured",
-    "status": {
-      "active": "Active",
-      "owner": "Owner"
-    },
-    "quickActions": {
-      "title": "Quick Actions",
-      "newProperty": {
-        "title": "New Property",
-        "description": "Add property",
-        "preview": "{{count}} properties"
-      },
-      "newContract": {
-        "title": "New Contract",
-        "description": "Create lease",
-        "preview": "{{count}} expiring"
-      },
-      "addTenant": {
-        "title": "Add Tenant",
-        "description": "Register tenant",
-        "preview": "{{count}} active tenants"
-      },
-      "propertyInspection": {
-        "title": "Property Inspection",
-        "description": "Schedule visit",
-        "preview": "Property inspections"
-      },
-      "calculateCharges": {
-        "title": "Calculate Charges",
-        "description": "Annual review",
-        "preview": "0 pending payments"
-      },
-      "maintenance": {
-        "title": "Maintenance",
-        "description": "Service request",
-        "preview": "1 urgent request"
-      },
-      "forecasting": {
-        "title": "Financial Forecast",
-        "description": "Revenue projections",
-        "preview": "Revenue projections"
-      },
-      "messages": {
-        "title": "Messages",
-        "description": "Chat with tenants",
-        "preview": "Communication center"
-      },
-      "taxes": {
-        "title": "Tax Management",
-        "description": "Tax declarations",
-        "preview": "Tax declarations"
-      },
-      "website": {
-        "title": "Website",
-        "description": "Manage website",
-        "preview": "Website management"
-      },
-      "settings": {
-        "title": "Settings",
-        "description": "Configuration",
-        "preview": "System settings"
-      }
-    },
-    "dashboard": {
-      "title": "Dashboard",
-      "description": "View overview",
-      "preview": "System overview",
-      "subtitle": "Overview of your real estate portfolio",
-      "stats": {
-        "propertiesManaged": "Properties",
-        "activeTenants": "Tenants",
-        "monthlyRevenue": "Monthly Revenue",
-        "occupancyRate": "Occupancy Rate",
-        "thisMonth": "this month",
-        "contracts": "Contracts"
-      }
-    },
-    "properties": {
-      "title": "Properties",
-      "subtitle": "Manage your properties and their information",
-      "newProperty": "New Property",
-      "totalProperties": "Total Properties",
-      "totalPropertiesDesc": "properties in your portfolio",
-      "occupiedProperties": "Occupied Properties",
-      "occupiedPropertiesDesc": "properties with tenants",
-      "totalTenants": "Total Tenants",
-      "monthlyRevenue": "Monthly Revenue",
-      "monthlyRevenueDesc": "Total monthly revenue",
-      "occupancyRate": "Occupancy Rate",
-      "occupancyRateDesc": "of your properties are occupied",
-      "sharedRooms": "Shared Rooms",
-      "sharedRoomsDesc": "rooms occupied",
-      "propertiesList": "Properties List",
-      "noProperties": "No properties found",
-      "noPropertiesDesc": "Start by adding your first property",
-      "addProperty": "Add Property",
-      "surface": "Surface:",
-      "rent": "Rent:",
-      "rooms": "Rooms:",
-      "view": "View",
-      "owner": "Owner:",
-      "tenant": "Tenant",
-      "address": "Address",
-      "type": "Type",
-      "status": "Status",
-      "actions": "Actions"
-    },
-    "propertyOverview": {
-      "title": "Property Overview",
-      "viewAll": "View All",
-      "viewDetails": "View Details",
-      "occupation": "Occupation",
-      "noProperties": "No properties found",
-      "status": {
-        "active": "Active",
-        "maintenance": "Maintenance",
-        "vacant": "Vacant",
-        "partiallyOccupied": "Partially Occupied"
-      }
-    },
-    "recentActivity": {
-      "title": "Recent Activity",
-      "activities": {
-        "paymentReceived": "Payment received - Apt {{number}}",
-        "paymentDescription": "{{tenant}} paid rent for {{month}}",
-        "maintenanceRequest": "Maintenance request",
-        "maintenanceDescription": "Plumbing issue reported - Apt {{number}}",
-        "newTenant": "New tenant",
-        "newTenantDescription": "{{tenant}} signed contract - Apt {{number}}",
-        "inspectionCompleted": "Inspection completed",
-        "inspectionDescription": "Move-out inspection validated - Apt {{number}}",
-        "paymentDelay": "Payment delay",
-        "paymentDelayDescription": "{{tenant}} - Apt {{number}} ({{days}} days late)"
-      },
-      "timeAgo": {
-        "hoursAgo": "{{count}} hours ago",
-        "yesterday": "Yesterday",
-        "daysAgo": "{{count}} days ago"
-      },
-      "types": {
-        "payment": "payment",
-        "maintenance": "maintenance",
-        "tenant": "tenant",
-        "inspection": "inspection"
-      }
-    }
+    "subtitle": "Manage your real estate portfolio",
+    "welcome": "Welcome to your owner space",
+    "dashboard": "Dashboard",
+    "properties": "My Properties",
+    "tenants": "My Tenants",
+    "revenue": "My Revenue",
+    "maintenance": "Maintenance",
+    "documents": "Documents",
+    "analytics": "Analytics",
+    "reports": "Reports",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "calendar": "Calendar",
+    "tasks": "Tasks",
+    "overview": "Overview",
+    "statistics": "Statistics",
+    "performance": "Performance",
+    "financials": "Financials"
   }
 }

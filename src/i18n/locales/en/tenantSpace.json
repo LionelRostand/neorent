@@ -1,104 +1,24 @@
+
 {
   "tenantSpace": {
     "title": "Tenant Space",
-    "subtitle": "Manage your tenancy with ease",
+    "subtitle": "Your personal tenant portal",
     "welcome": "Welcome to your tenant space",
-    "tenant": "Tenant",
-    "room": "Room {number}",
-    "overview": {
-      "title": "Overview",
-      "currentRent": "Current Rent",
-      "nextPayment": "Next Payment",
-      "contractStatus": "Contract Status",
-      "maintenanceRequests": "Maintenance Requests",
-      "generalInfo": "General Information",
-      "financialInfo": "Financial Information",
-      "characteristics": "Property Characteristics",
-      "monthlyRent": "Monthly Rent",
-      "monthlyCharges": "Monthly Charges",
-      "securityDeposit": "Security Deposit",
-      "totalMonthly": "Total Monthly (rent + charges)",
-      "myProperty": "My Property",
-      "myRoom": "My Room",
-      "type": "Type",
-      "surface": "Surface",
-      "rooms": "Number of Rooms",
-      "floor": "Floor",
-      "furnished": "Furnished",
-      "elevator": "Elevator",
-      "parking": "Parking",
-      "equipment": "Equipment",
-      "rent": "Rent",
-      "charges": "Charges",
-      "deposit": "Deposit",
-      "room": "room",
-      "bedroom": "bedroom",
-      "sharedRoom": "Shared Room",
-      "apartment": "Apartment",
-      "studio": "Studio",
-      "house": "House",
-      "roomInSharedFlat": "Room in Shared Flat",
-      "roomNumber": "Room Number",
-      "ordinalFloor": {
-        "1": "1st floor",
-        "2": "2nd floor",
-        "3": "3rd floor",
-        "ground": "Ground floor"
-      }
-    },
-    "profile": {
-      "title": "Profile",
-      "personalInfo": "Personal Information",
-      "contactInfo": "Contact Information",
-      "emergencyContact": "Emergency Contact",
-      "edit": "Edit",
-      "save": "Save"
-    },
-    "payments": {
-      "title": "Payments",
-      "history": "Payment History",
-      "upcoming": "Upcoming Payments",
-      "makePayment": "Make Payment",
-      "paymentMethod": "Payment Method"
-    },
-    "documents": {
-      "title": "Documents",
-      "contract": "Lease Contract",
-      "receipts": "Receipts",
-      "notices": "Notices",
-      "upload": "Upload Document"
-    },
-    "maintenance": {
-      "title": "Maintenance",
-      "requests": "Requests",
-      "newRequest": "New Request",
-      "status": "Status",
-      "history": "History"
-    },
-    "messages": {
-      "title": "Messages",
-      "inbox": "Inbox",
-      "sent": "Sent",
-      "compose": "Compose",
-      "reply": "Reply",
-      "description": "Communicate directly with your property manager for all your questions and requests."
-    },
-    "tabs": {
-      "overview": "Overview",
-      "payment": "Payment",
-      "documents": "Documents"
-    },
-    "payment": {
-      "payRent": "Pay Rent",
-      "monthlyRent": "Monthly Rent",
-      "charges": "Charges",
-      "totalToPay": "Total to Pay",
-      "makePayment": "Make Payment",
-      "importantInfo": "Important Information",
-      "paymentBefore5th": "• Payment must be made before the 5th of each month",
-      "enterExactAmount": "• Enter the exact amount you are paying",
-      "receiptFullPayment": "• A PDF receipt will only be generated for full payments",
-      "alertDifferentAmount": "• An alarm will be triggered if the amount is different"
-    }
+    "dashboard": "Dashboard",
+    "myRent": "My Rent",
+    "payments": "Payments",
+    "documents": "Documents",
+    "maintenance": "Maintenance Requests",
+    "messages": "Messages",
+    "profile": "My Profile",
+    "contract": "My Contract",
+    "receipts": "Receipts",
+    "announcements": "Announcements",
+    "calendar": "Calendar",
+    "notifications": "Notifications",
+    "support": "Support",
+    "faq": "FAQ",
+    "emergency": "Emergency Contact",
+    "moveOut": "Move Out Process"
   }
 }

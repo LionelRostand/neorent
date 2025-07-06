@@ -1,8 +1,7 @@
 
 {
   "quickActions": {
-    "title": "Schnelle Aktionen",
-    "subtitle": "Schneller Zugriff auf Hauptfunktionen",
+    "title": "Schnellaktionen",
     "addProperty": "Immobilie hinzufügen",
     "addTenant": "Mieter hinzufügen",
     "addRoommate": "Mitbewohner hinzufügen",
@@ -10,108 +9,13 @@
     "scheduleInspection": "Inspektion planen",
     "sendMessage": "Nachricht senden",
     "generateReport": "Bericht erstellen",
-    "viewAll": "Alle anzeigen",
-    "manageProperties": "Immobilien verwalten",
-    "manageTenants": "Mieter verwalten",
-    "manageRoommates": "Mitbewohner verwalten",
+    "viewReports": "Berichte anzeigen",
     "manageContracts": "Verträge verwalten",
-    "manageInspections": "Inspektionen verwalten",
-    "manageRent": "Miete verwalten",
-    "manageCharges": "Nebenkosten verwalten",
-    "manageMaintenance": "Wartung verwalten",
-    "manageMessages": "Nachrichten verwalten",
-    "manageTaxes": "Steuern verwalten",
-    "manageWebsite": "Website verwalten",
-    "manageSettings": "Einstellungen verwalten",
-    "getHelp": "Hilfe erhalten",
-    "manager": {
-      "title": "Schnelle Aktionen Manager",
-      "currentActions": "Aktuelle schnelle Aktionen",
-      "availableMenus": "Verfügbare Sidebar-Menüs",
-      "noActionsConfigured": "Keine schnellen Aktionen konfiguriert",
-      "enabled": "Aktiviert",
-      "disabled": "Deaktiviert",
-      "remove": "Entfernen",
-      "configure": "Konfigurieren",
-      "addToQuickActions": "Zu schnellen Aktionen hinzufügen",
-      "alreadyAdded": "Bereits hinzugefügt",
-      "enableDisable": "Aktivieren/Deaktivieren",
-      "delete": "Löschen",
-      "close": "Schließen",
-      "save": "Speichern",
-      "cancel": "Abbrechen",
-      "actionToggled": "Aktion umgeschaltet",
-      "actionEnabledDisabled": "Die Aktion wurde erfolgreich aktiviert/deaktiviert.",
-      "actionRemoved": "Aktion entfernt",
-      "actionRemovedSuccess": "Die Aktion wurde erfolgreich entfernt.",
-      "menuAdded": "Menü hinzugefügt",
-      "menuAddedSuccess": "Das Menü wurde erfolgreich zu den schnellen Aktionen hinzugefügt.",
-      "error": "Fehler",
-      "toggleError": "Fehler beim Umschalten der Aktion.",
-      "removeError": "Fehler beim Entfernen der Aktion.",
-      "addMenuError": "Fehler beim Hinzufügen des Menüs.",
-      "notAuthorized": "Nicht autorisiert",
-      "adminRequired": "Nur Administratoren können schnelle Aktionen verwalten."
-    },
-    "dashboard": {
-      "title": "Dashboard",
-      "description": "Hauptdashboard aufrufen"
-    },
-    "properties": {
-      "title": "Immobilien",
-      "description": "Immobilien verwalten"
-    },
-    "contracts": {
-      "title": "Verträge",
-      "description": "Verträge verwalten"
-    },
-    "roommate": {
-      "title": "Mitbewohner",
-      "description": "Mitbewohner verwalten"
-    },
-    "website": {
-      "title": "Website",
-      "description": "Website verwalten"
-    },
-    "settings": {
-      "title": "Einstellungen",
-      "description": "Einstellungen verwalten"
-    },
-    "tenants": {
-      "title": "Mieter",
-      "description": "Mieter verwalten"
-    },
-    "inspections": {
-      "title": "Inspektionen",
-      "description": "Inspektionen verwalten"
-    },
-    "rentManagement": {
-      "title": "Mietverwaltung",
-      "description": "Miete verwalten"
-    },
-    "rentalCharges": {
-      "title": "Nebenkosten",
-      "description": "Nebenkosten verwalten"
-    },
-    "forecasting": {
-      "title": "Prognosen",
-      "description": "Finanzprognosen"
-    },
-    "maintenance": {
-      "title": "Wartung",
-      "description": "Wartung verwalten"
-    },
-    "messages": {
-      "title": "Nachrichten",
-      "description": "Nachrichten verwalten"
-    },
-    "taxes": {
-      "title": "Steuern",
-      "description": "Steuern verwalten"
-    },
-    "help": {
-      "title": "Hilfe",
-      "description": "Hilfe erhalten"
-    }
+    "maintenanceRequest": "Wartungsanfrage",
+    "renewContract": "Vertrag verlängern",
+    "updateProfile": "Profil aktualisieren",
+    "backupData": "Daten sichern",
+    "exportData": "Daten exportieren",
+    "importData": "Daten importieren"
   }
 }
