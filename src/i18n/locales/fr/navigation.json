@@ -2,21 +2,22 @@
 {
   "navigation": {
     "dashboard": "Tableau de bord",
-    "properties": "Propriétés",
+    "properties": "Propriétés", 
     "tenants": "Locataires",
     "contracts": "Contrats",
-    "payments": "Paiements",
+    "inspections": "Inspections",
+    "rentManagement": "Gestion des loyers",
+    "rentalCharges": "Charges locatives",
+    "forecasting": "Prévisions",
     "maintenance": "Maintenance",
     "messages": "Messages",
-    "reports": "Rapports",
+    "taxes": "Taxes",
+    "website": "Site web",
     "settings": "Paramètres",
-    "profile": "Profil",
-    "logout": "Déconnexion",
-    "home": "Accueil",
-    "about": "À propos",
-    "contact": "Contact",
-    "services": "Services",
-    "login": "Connexion",
-    "register": "S'inscrire"
+    "help": "Aide",
+    "ownerSpace": "Espace Propriétaire",
+    "tenantSpace": "Espace Locataire",
+    "roommateSpace": "Espace Colocataire",
+    "adminPanel": "Panneau d'administration"
   }
 }

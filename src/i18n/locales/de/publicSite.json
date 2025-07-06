@@ -4,16 +4,9 @@
     "hero": {
       "title": "Verwalten Sie Ihre Immobilien mit Leichtigkeit",
       "subtitle": "Komplette Immobilienverwaltungsplattform für Eigentümer, Mieter und Mitbewohner",
-      "description": "All-in-One-Lösung zur Vereinfachung.",
-      "cta": "Kostenlos starten",
+      "description": "All-in-One-Lösung zur Vereinfachung der Immobilienverwaltung und Optimierung Ihrer Investitionen.",
       "startFree": "Kostenlos starten",
-      "learnMore": "Mehr erfahren",
       "contactUs": "Kontaktieren Sie uns"
-    },
-    "cta": {
-      "title": "Bereit anzufangen?",
-      "description": "Schließen Sie sich Tausenden von Immobilieneigentümern an, die unserer Plattform für die Verwaltung ihrer Immobilien vertrauen.",
-      "startNow": "Jetzt starten"
     },
     "features": {
       "title": "Funktionen",
@@ -24,10 +17,6 @@
       },
       "tenantManagement": {
         "title": "Mieterverwaltung",
-        "description": "Verfolgen Sie Ihre Mieter und deren Zahlungen"
-      },
-      "tenantTracking": {
-        "title": "Mieter-Tracking",
         "description": "Verfolgen Sie Ihre Mieter und deren Zahlungen"
       },
       "maintenanceTracking": {
@@ -46,202 +35,19 @@
     "benefits": {
       "title": "Warum unsere Plattform wählen?",
       "description": "Schließen Sie sich Tausenden von Immobilienverwaltern an, die unserer Plattform vertrauen, um ihre Abläufe zu optimieren.",
-      "contactTitle": "Kontaktieren Sie uns",
       "list": [
         "Zentralisierte Verwaltung Ihres Immobilienportfolios",
         "Automatisierte Mieteinzug und Zahlungsverfolgung",
         "Vollständige Mieterauswahltools",
-        "Finanzberichte und Analysen in Echtzeit",
+        "Finanzberichte und Analysen in Echtzeit", 
         "Mobile Benutzeroberfläche für unterwegs",
         "24/7 Kundensupport und persönliche Betreuung"
       ]
     },
-    "contact": {
-      "title": "Kontaktieren Sie uns",
-      "subtitle": "Haben Sie eine Frage? Wir sind hier um zu helfen",
-      "hero": {
-        "title": "Kontaktieren Sie uns",
-        "subtitle": "Haben Sie eine Frage? Wir sind hier um zu helfen"
-      },
-      "form": {
-        "title": "Senden Sie uns eine Nachricht",
-        "subtitle": "Wir melden uns so schnell wie möglich bei Ihnen",
-        "name": "Vollständiger Name",
-        "firstName": "Vorname",
-        "lastName": "Nachname",
-        "email": "E-Mail-Adresse",
-        "subject": "Betreff",
-        "message": "Nachricht",
-        "send": "Nachricht senden",
-        "sending": "Wird gesendet..."
-      },
-      "info": {
-        "title": "Kontaktinformationen",
-        "address": {
-          "title": "Adresse",
-          "content": "123 Friedensstraße, 75001 Paris",
-          "description": "Besuchen Sie uns in unserem Büro"
-        },
-        "phone": {
-          "title": "Telefon",
-          "content": "+33 1 23 45 67 89",
-          "description": "Montag bis Freitag, 9-18 Uhr"
-        },
-        "email": {
-          "title": "E-Mail",
-          "content": "contact@neorent.fr",
-          "description": "Wir antworten innerhalb von 24h"
-        },
-        "hours": {
-          "title": "Öffnungszeiten",
-          "content": "Mo-Fr: 9-18 Uhr",
-          "description": "Kundensupport verfügbar"
-        }
-      },
-      "map": {
-        "title": "Unser Standort",
-        "description": "Besuchen Sie uns in unserem Pariser Büro"
-      },
-      "faq": {
-        "title": "Häufig gestellte Fragen",
-        "subtitle": "Finden Sie schnell Antworten auf Ihre Fragen",
-        "items": [
-          {
-            "question": "Wie kann ich ein Eigentümerkonto erstellen?",
-            "answer": "Sie können ein Eigentümerkonto erstellen, indem Sie auf der Anmeldeseite auf 'Eigentümerkonto erstellen' klicken und das Registrierungsformular ausfüllen."
-          },
-          {
-            "question": "Was sind die Preispläne der Plattform?",
-            "answer": "Wir bieten verschiedene Pläne, die auf Ihre Bedürfnisse zugeschnitten sind. Kontaktieren Sie uns für ein personalisiertes Angebot basierend auf der Anzahl der Immobilien, die Sie verwalten."
-          },
-          {
-            "question": "Wie kann ich meine Immobilien hinzufügen?",
-            "answer": "Sobald Sie in Ihrem Eigentümerbereich angemeldet sind, gehen Sie zum Bereich 'Immobilien' und klicken Sie auf 'Immobilie hinzufügen', um Ihre Immobilieninformationen einzugeben."
-          },
-          {
-            "question": "Ist die Plattform sicher?",
-            "answer": "Ja, wir verwenden die neuesten Sicherheitstechnologien zum Schutz Ihrer Daten. Alle Informationen werden verschlüsselt und sicher gespeichert."
-          }
-        ]
-      }
-    },
-    "about": {
-      "title": "Über uns",
-      "subtitle": "Ihr vertrauensvoller Partner in der Immobilienverwaltung",
-      "description": "Ihre moderne und intuitive Immobilienverwaltungsplattform",
-      "story": {
-        "title": "Unsere Geschichte",
-        "content": "2020 gegründet, revolutioniert unsere Plattform die Immobilienverwaltung durch moderne und intuitive Tools.",
-        "paragraph1": "Aus der Leidenschaft für Innovation im Immobiliensektor entstanden, wurde unser Unternehmen geschaffen, um moderne Herausforderungen der Mietverwaltung zu bewältigen.",
-        "paragraph2": "Heute unterstützen wir Hunderte von Immobilieneigentümern bei der effizienten Verwaltung ihrer Immobilienanlagen."
-      },
-      "mission": {
-        "title": "Unsere Mission",
-        "content": "Immobilienverwaltung für alle Marktteilnehmer vereinfachen."
-      },
-      "values": {
-        "title": "Unsere Werte",
-        "subtitle": "Die Prinzipien, die uns täglich leiten",
-        "innovation": {
-          "title": "Innovation",
-          "description": "Wir erweitern ständig die Grenzen der Technologie"
-        },
-        "transparency": {
-          "title": "Transparenz",
-          "description": "Wir priorisieren Klarheit in all unseren Beziehungen"
-        },
-        "service": {
-          "title": "Kundenservice",
-          "description": "Ihre Zufriedenheit ist unsere absolute Priorität"
-        },
-        "clientProximity": {
-          "title": "Kundennähe",
-          "description": "Wir hören immer auf Ihre Bedürfnisse"
-        },
-        "excellence": {
-          "title": "Exzellenz",
-          "description": "Wir streben nach Exzellenz in allem was wir tun"
-        },
-        "growth": {
-          "title": "Wachstum",
-          "description": "Wir unterstützen Ihre Entwicklung"
-        }
-      },
-      "stats": {
-        "title": "Unsere Zahlen",
-        "managedProperties": "Verwaltete Immobilien",
-        "satisfiedClients": "Zufriedene Kunden",
-        "availability": "Verfügbarkeit",
-        "support": "Support"
-      },
-      "team": {
-        "title": "Unser Team",
-        "subtitle": "Leidenschaftliche Experten zu Ihren Diensten",
-        "dedication": {
-          "title": "Engagement",
-          "description": "Unser Team ist Ihrem Erfolg gewidmet"
-        }
-      }
-    },
-    "properties": "Immobilien",
-    "propertiesPage": {
-      "title": "Unsere Immobilien",
-      "subtitle": "Entdecken Sie unsere Auswahl an verfügbaren Immobilien",
-      "searchPlaceholder": "Suchen nach Stadt, Stadtteil...",
-      "searchButton": "Suchen"
-    },
-    "home": "Startseite",
-    "login": {
-      "title": "Anmeldung",
-      "subtitle": "Zugang zu Ihrem persönlichen Bereich",
-      "form": {
-        "email": "E-Mail-Adresse",
-        "emailPlaceholder": "ihre@email.com",
-        "password": "Passwort",
-        "passwordPlaceholder": "Ihr Passwort",
-        "forgotPassword": "Passwort vergessen?",
-        "login": "Anmelden",
-        "signIn": "Anmelden",
-        "signingIn": "Anmeldung...",
-        "register": "Konto erstellen",
-        "noAccount": "Noch kein Konto?"
-      }
-    },
-    "ownerRegistration": {
-      "createAccountLink": "Eigentümerkonto erstellen",
-      "dialogTitle": "Eigentümer-Registrierung",
-      "fullName": "Vollständiger Name",
-      "email": "E-Mail-Adresse",
-      "phone": "Telefon",
-      "company": "Unternehmen",
-      "address": "Adresse",
-      "messageOptional": "Nachricht (optional)",
-      "messagePlaceholder": "Beschreiben Sie Ihre Situation und Bedürfnisse...",
-      "sendRequest": "Anfrage senden",
-      "sending": "Wird gesendet...",
-      "importantInfo": "Wichtige Information",
-      "importantInfoText": "Ihre Anfrage wird von unserem Team geprüft und Sie erhalten innerhalb von 24h eine Antwort.",
-      "requestSent": "Anfrage gesendet",
-      "requestSentDescription": "Ihre Registrierungsanfrage wurde erfolgreich gesendet. Unser Team wird sie so schnell wie möglich prüfen."
-    },
-    "footer": {
-      "description": "Ihre moderne und intuitive Immobilienverwaltungsplattform",
-      "usefulLinks": "Nützliche Links",
-      "contact": "Kontakt",
-      "legalNotice": "Impressum",
-      "privacyPolicy": "Datenschutzrichtlinie",
-      "copyright": "Alle Rechte vorbehalten.",
-      "company": "Unternehmen",
-      "about": "Über uns",
-      "careers": "Karriere",
-      "legal": "Rechtliches",
-      "privacy": "Datenschutz",
-      "terms": "Bedingungen",
-      "cookies": "Cookies",
-      "support": "Support",
-      "help": "Hilfe",
-      "faq": "FAQ",
-      "documentation": "Dokumentation"
+    "cta": {
+      "title": "Bereit anzufangen?",
+      "description": "Schließen Sie sich Tausenden von Immobilieneigentümern an, die unserer Plattform für die Verwaltung ihrer Immobilien vertrauen.",
+      "startNow": "Jetzt starten"
     }
   }
 }

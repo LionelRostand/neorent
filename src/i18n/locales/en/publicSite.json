@@ -4,10 +4,8 @@
     "hero": {
       "title": "Manage your real estate properties with ease",
       "subtitle": "Complete property management platform for owners, tenants and roommates",
-      "description": "All-in-one solution to simplify management.",
-      "cta": "Get started for free",
+      "description": "All-in-one solution to simplify property management and optimize your real estate investments.",
       "startFree": "Get started for free",
-      "learnMore": "Learn more",
       "contactUs": "Contact us"
     },
     "features": {
@@ -18,11 +16,7 @@
         "description": "Easily manage your properties and their information"
       },
       "tenantManagement": {
-        "title": "Tenant Management",
-        "description": "Track your tenants and their payments"
-      },
-      "tenantTracking": {
-        "title": "Tenant Tracking",
+        "title": "Tenant Management", 
         "description": "Track your tenants and their payments"
       },
       "maintenanceTracking": {
@@ -41,10 +35,9 @@
     "benefits": {
       "title": "Why choose our platform?",
       "description": "Join thousands of property managers who trust our platform to optimize their operations.",
-      "contactTitle": "Contact us",
       "list": [
         "Centralized management of your real estate portfolio",
-        "Automated rent collection and payment tracking",
+        "Automated rent collection and payment tracking", 
         "Complete tenant selection tools",
         "Real-time financial reports and analytics",
         "Mobile interface for on-the-go management",
@@ -55,193 +48,6 @@
       "title": "Ready to get started?",
       "description": "Join thousands of property owners who trust our platform to manage their real estate assets.",
       "startNow": "Start now"
-    },
-    "contact": {
-      "title": "Contact Us",
-      "subtitle": "Have a question? We're here to help",
-      "hero": {
-        "title": "Contact Us",
-        "subtitle": "Have a question? We're here to help"
-      },
-      "form": {
-        "title": "Send us a message",
-        "subtitle": "We'll get back to you as soon as possible",
-        "name": "Full name",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "email": "Email address",
-        "subject": "Subject",
-        "message": "Message",
-        "send": "Send message",
-        "sending": "Sending..."
-      },
-      "info": {
-        "title": "Contact Information",
-        "address": {
-          "title": "Address",
-          "content": "123 Peace Street, 75001 Paris",
-          "description": "Visit us at our office"
-        },
-        "phone": {
-          "title": "Phone",
-          "content": "+33 1 23 45 67 89",
-          "description": "Monday to Friday, 9am-6pm"
-        },
-        "email": {
-          "title": "Email",
-          "content": "contact@neorent.fr",
-          "description": "We respond within 24h"
-        },
-        "hours": {
-          "title": "Hours",
-          "content": "Mon-Fri: 9am-6pm",
-          "description": "Customer support available"
-        }
-      },
-      "map": {
-        "title": "Our Location",
-        "description": "Visit us at our Parisian office"
-      },
-      "faq": {
-        "title": "Frequently Asked Questions",
-        "subtitle": "Find quick answers to your questions",
-        "items": [
-          {
-            "question": "How can I create an owner account?",
-            "answer": "You can create an owner account by clicking the 'Create owner account' button on the login page and filling out the registration form."
-          },
-          {
-            "question": "What are the platform pricing plans?",
-            "answer": "We offer several plans tailored to your needs. Contact us for a personalized quote based on the number of properties you manage."
-          },
-          {
-            "question": "How can I add my properties?",
-            "answer": "Once logged into your owner space, go to the 'Properties' section and click 'Add property' to enter your property information."
-          },
-          {
-            "question": "Is the platform secure?",
-            "answer": "Yes, we use the latest security technologies to protect your data. All information is encrypted and stored securely."
-          }
-        ]
-      }
-    },
-    "about": {
-      "title": "About Us",
-      "subtitle": "Your trusted partner in property management",
-      "description": "Your modern and intuitive property management platform",
-      "story": {
-        "title": "Our Story",
-        "content": "Founded in 2020, our platform revolutionizes property management by offering modern and intuitive tools.",
-        "paragraph1": "Born from a passion for innovation in the real estate sector, our company was created to address modern rental management challenges.",
-        "paragraph2": "Today, we support hundreds of property owners in efficiently managing their real estate assets."
-      },
-      "mission": {
-        "title": "Our Mission",
-        "content": "Simplify property management for all market players."
-      },
-      "values": {
-        "title": "Our Values",
-        "subtitle": "The principles that guide us daily",
-        "innovation": {
-          "title": "Innovation",
-          "description": "We constantly push the boundaries of technology"
-        },
-        "transparency": {
-          "title": "Transparency",
-          "description": "We prioritize clarity in all our relationships"
-        },
-        "service": {
-          "title": "Customer Service",
-          "description": "Your satisfaction is our absolute priority"
-        },
-        "clientProximity": {
-          "title": "Client Proximity",
-          "description": "We are always listening to your needs"
-        },
-        "excellence": {
-          "title": "Excellence",
-          "description": "We strive for excellence in everything we do"
-        },
-        "growth": {
-          "title": "Growth",
-          "description": "We support your development"
-        }
-      },
-      "stats": {
-        "title": "Our Numbers",
-        "managedProperties": "Managed Properties",
-        "satisfiedClients": "Satisfied Clients",
-        "availability": "Availability",
-        "support": "Support"
-      },
-      "team": {
-        "title": "Our Team",
-        "subtitle": "Passionate experts at your service",
-        "dedication": {
-          "title": "Dedication",
-          "description": "Our team is dedicated to your success"
-        }
-      }
-    },
-    "properties": "Properties",
-    "propertiesPage": {
-      "title": "Our Properties",
-      "subtitle": "Discover our selection of available real estate properties",
-      "searchPlaceholder": "Search by city, neighborhood...",
-      "searchButton": "Search"
-    },
-    "home": "Home",
-    "login": {
-      "title": "Login",
-      "subtitle": "Access your personal space",
-      "form": {
-        "email": "Email address",
-        "emailPlaceholder": "your@email.com",
-        "password": "Password",
-        "passwordPlaceholder": "Your password",
-        "forgotPassword": "Forgot password?",
-        "login": "Sign in",
-        "signIn": "Sign in",
-        "signingIn": "Signing in...",
-        "register": "Create account",
-        "noAccount": "Don't have an account yet?"
-      }
-    },
-    "ownerRegistration": {
-      "createAccountLink": "Create owner account",
-      "dialogTitle": "Owner Registration",
-      "fullName": "Full name",
-      "email": "Email address",
-      "phone": "Phone",
-      "company": "Company",
-      "address": "Address",
-      "messageOptional": "Message (optional)",
-      "messagePlaceholder": "Describe your situation and needs...",
-      "sendRequest": "Send request",
-      "sending": "Sending...",
-      "importantInfo": "Important information",
-      "importantInfoText": "Your request will be reviewed by our team and you will receive a response within 24h.",
-      "requestSent": "Request sent",
-      "requestSentDescription": "Your registration request has been sent successfully. Our team will review it as soon as possible."
-    },
-    "footer": {
-      "description": "Your modern and intuitive property management platform",
-      "usefulLinks": "Useful Links",
-      "contact": "Contact",
-      "legalNotice": "Legal Notice",
-      "privacyPolicy": "Privacy Policy",
-      "copyright": "All rights reserved.",
-      "company": "Company",
-      "about": "About",
-      "careers": "Careers",
-      "legal": "Legal",
-      "privacy": "Privacy",
-      "terms": "Terms",
-      "cookies": "Cookies",
-      "support": "Support",
-      "help": "Help",
-      "faq": "FAQ",
-      "documentation": "Documentation"
     }
   }
 }

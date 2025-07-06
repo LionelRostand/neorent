@@ -1,10 +1,11 @@
-
 import navigation from '../locales/de/navigation.json';
 import common from '../locales/de/common.json';
+import dashboard from '../locales/de/dashboard.json';
+import publicSite from '../locales/de/publicSite.json';
+import website from '../locales/de/website.json';
 import properties from '../locales/de/properties.json';
 import contractForm from '../locales/de/contractForm.json';
 import contracts from '../locales/de/contracts.json';
-import dashboard from '../locales/de/dashboard.json';
 import forecasting from '../locales/de/forecasting.json';
 import help from '../locales/de/help.json';
 import inspections from '../locales/de/inspections.json';
@@ -18,7 +19,6 @@ import messages from '../locales/de/messages.json';
 import ownerSpace from '../locales/de/ownerSpace.json';
 import pages from '../locales/de/pages.json';
 import profile from '../locales/de/profile.json';
-import publicSite from '../locales/de/public.json';
 import quickActions from '../locales/de/quickActions.json';
 import rentManagement from '../locales/de/rentManagement.json';
 import rentalCharges from '../locales/de/rentalCharges.json';
@@ -34,16 +34,17 @@ import tenantProfile from '../locales/de/tenantProfile.json';
 import tenantSpace from '../locales/de/tenantSpace.json';
 import tenantUpload from '../locales/de/tenantUpload.json';
 import tenants from '../locales/de/tenants.json';
-import website from '../locales/de/website.json';
 
 export const germanResources = {
   translation: {
     ...navigation,
     ...common,
+    ...dashboard,
+    ...publicSite,
+    ...website,
     ...properties,
     ...contractForm,
     ...contracts,
-    ...dashboard,
     ...forecasting,
     ...help,
     ...inspections,
@@ -57,7 +58,6 @@ export const germanResources = {
     ...ownerSpace,
     ...pages,
     ...profile,
-    ...publicSite,
     ...quickActions,
     ...rentManagement,
     ...rentalCharges,
@@ -72,7 +72,6 @@ export const germanResources = {
     ...tenantProfile,
     ...tenantSpace,
     ...tenantUpload,
-    ...tenants,
-    ...website
+    ...tenants
   }
 };

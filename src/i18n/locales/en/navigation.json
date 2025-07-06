@@ -2,21 +2,22 @@
 {
   "navigation": {
     "dashboard": "Dashboard",
-    "properties": "Properties",
+    "properties": "Properties", 
     "tenants": "Tenants",
     "contracts": "Contracts",
-    "payments": "Payments",
+    "inspections": "Inspections",
+    "rentManagement": "Rent Management",
+    "rentalCharges": "Rental Charges",
+    "forecasting": "Forecasting",
     "maintenance": "Maintenance",
     "messages": "Messages",
-    "reports": "Reports",
+    "taxes": "Taxes",
+    "website": "Website",
     "settings": "Settings",
-    "profile": "Profile",
-    "logout": "Logout",
-    "home": "Home",
-    "about": "About",
-    "contact": "Contact",
-    "services": "Services",
-    "login": "Login",
-    "register": "Register"
+    "help": "Help",
+    "ownerSpace": "Owner Space",
+    "tenantSpace": "Tenant Space",
+    "roommateSpace": "Roommate Space",
+    "adminPanel": "Admin Panel"
   }
 }

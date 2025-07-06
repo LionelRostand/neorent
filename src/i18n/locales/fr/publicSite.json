@@ -4,10 +4,8 @@
     "hero": {
       "title": "Gérez vos biens immobiliers avec facilité",
       "subtitle": "Plateforme complète de gestion immobilière pour propriétaires, locataires et colocataires",
-      "description": "Solution tout-en-un pour simplifier la gestion.",
-      "cta": "Commencer gratuitement",
+      "description": "Solution tout-en-un pour simplifier la gestion immobilière et optimiser vos investissements.",
       "startFree": "Commencer gratuitement",
-      "learnMore": "En savoir plus",
       "contactUs": "Nous contacter"
     },
     "features": {
@@ -19,10 +17,6 @@
       },
       "tenantManagement": {
         "title": "Gestion des locataires",
-        "description": "Suivez vos locataires et leurs paiements"
-      },
-      "tenantTracking": {
-        "title": "Suivi des locataires",
         "description": "Suivez vos locataires et leurs paiements"
       },
       "maintenanceTracking": {
@@ -41,11 +35,10 @@
     "benefits": {
       "title": "Pourquoi choisir notre plateforme ?",
       "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour optimiser leurs opérations.",
-      "contactTitle": "Nous contacter",
       "list": [
         "Gestion centralisée de votre portefeuille immobilier",
         "Collecte automatisée des loyers et suivi des paiements",
-        "Outils complets de sélection des locataires",
+        "Outils complets de sélection des locataires", 
         "Rapports financiers et analyses en temps réel",
         "Interface mobile pour une gestion nomade",
         "Support client 24/7 et assistance personnalisée"
@@ -55,193 +48,6 @@
       "title": "Prêt à commencer ?",
       "description": "Rejoignez des milliers de propriétaires qui font confiance à notre plateforme pour gérer leurs biens immobiliers.",
       "startNow": "Commencer maintenant"
-    },
-    "contact": {
-      "title": "Contactez-nous",
-      "subtitle": "Une question ? Nous sommes là pour vous aider",
-      "hero": {
-        "title": "Contactez-nous",
-        "subtitle": "Une question ? Nous sommes là pour vous aider"
-      },
-      "form": {
-        "title": "Envoyez-nous un message",
-        "subtitle": "Nous vous répondrons dans les plus brefs délais",
-        "name": "Nom complet",
-        "firstName": "Prénom",
-        "lastName": "Nom",
-        "email": "Adresse e-mail",
-        "subject": "Sujet",
-        "message": "Message",
-        "send": "Envoyer le message",
-        "sending": "Envoi en cours..."
-      },
-      "info": {
-        "title": "Informations de contact",
-        "address": {
-          "title": "Adresse",
-          "content": "123 Rue de la Paix, 75001 Paris",
-          "description": "Venez nous rendre visite à notre bureau"
-        },
-        "phone": {
-          "title": "Téléphone",
-          "content": "+33 1 23 45 67 89",
-          "description": "Du lundi au vendredi, 9h-18h"
-        },
-        "email": {
-          "title": "Email",
-          "content": "contact@neorent.fr",
-          "description": "Nous répondons sous 24h"
-        },
-        "hours": {
-          "title": "Horaires",
-          "content": "Lun-Ven : 9h-18h",
-          "description": "Support client disponible"
-        }
-      },
-      "map": {
-        "title": "Notre Localisation",
-        "description": "Venez nous rendre visite à notre bureau parisien"
-      },
-      "faq": {
-        "title": "Questions Fréquentes",
-        "subtitle": "Trouvez rapidement les réponses à vos questions",
-        "items": [
-          {
-            "question": "Comment puis-je créer un compte propriétaire ?",
-            "answer": "Vous pouvez créer un compte propriétaire en cliquant sur le bouton 'Créer un compte propriétaire' sur la page de connexion et en remplissant le formulaire d'inscription."
-          },
-          {
-            "question": "Quels sont les tarifs de la plateforme ?",
-            "answer": "Nous proposons plusieurs formules adaptées à vos besoins. Contactez-nous pour obtenir un devis personnalisé selon le nombre de propriétés que vous gérez."
-          },
-          {
-            "question": "Comment puis-je ajouter mes propriétés ?",
-            "answer": "Une fois connecté à votre espace propriétaire, rendez-vous dans la section 'Propriétés' et cliquez sur 'Ajouter une propriété' pour saisir les informations de votre bien."
-          },
-          {
-            "question": "La plateforme est-elle sécurisée ?",
-            "answer": "Oui, nous utilisons les dernières technologies de sécurité pour protéger vos données. Toutes les informations sont cryptées et stockées de manière sécurisée."
-          }
-        ]
-      }
-    },
-    "about": {
-      "title": "À propos",
-      "subtitle": "Votre partenaire de confiance en gestion immobilière",
-      "description": "Votre plateforme de gestion immobilière moderne et intuitive",
-      "story": {
-        "title": "Notre histoire",
-        "content": "Fondée en 2020, notre plateforme révolutionne la gestion immobilière en offrant des outils modernes et intuitifs.",
-        "paragraph1": "Née de la passion pour l'innovation dans le secteur immobilier, notre entreprise a été créée pour répondre aux défis modernes de la gestion locative.",
-        "paragraph2": "Aujourd'hui, nous accompagnons des centaines de propriétaires dans la gestion efficace de leurs biens immobiliers."
-      },
-      "mission": {
-        "title": "Notre mission",
-        "content": "Simplifier la gestion immobilière pour tous les acteurs du marché."
-      },
-      "values": {
-        "title": "Nos valeurs",
-        "subtitle": "Les principes qui nous guident au quotidien",
-        "innovation": {
-          "title": "Innovation",
-          "description": "Nous repoussons constamment les limites de la technologie"
-        },
-        "transparency": {
-          "title": "Transparence",
-          "description": "Nous privilégions la clarté dans toutes nos relations"
-        },
-        "service": {
-          "title": "Service client",
-          "description": "Votre satisfaction est notre priorité absolue"
-        },
-        "clientProximity": {
-          "title": "Proximité client",
-          "description": "Nous sommes toujours à l'écoute de vos besoins"
-        },
-        "excellence": {
-          "title": "Excellence",
-          "description": "Nous visons l'excellence dans tout ce que nous faisons"
-        },
-        "growth": {
-          "title": "Croissance",
-          "description": "Nous accompagnons votre développement"
-        }
-      },
-      "stats": {
-        "title": "Nos chiffres",
-        "managedProperties": "Propriétés gérées",
-        "satisfiedClients": "Clients satisfaits",
-        "availability": "Disponibilité",
-        "support": "Support"
-      },
-      "team": {
-        "title": "Notre équipe",
-        "subtitle": "Des experts passionnés à votre service",
-        "dedication": {
-          "title": "Dévouement",
-          "description": "Notre équipe est dédiée à votre succès"
-        }
-      }
-    },
-    "properties": "Propriétés",
-    "propertiesPage": {
-      "title": "Nos Propriétés",
-      "subtitle": "Découvrez notre sélection de biens immobiliers disponibles",
-      "searchPlaceholder": "Rechercher par ville, quartier...",
-      "searchButton": "Rechercher"
-    },
-    "home": "Accueil",
-    "login": {
-      "title": "Connexion",
-      "subtitle": "Accédez à votre espace personnel",
-      "form": {
-        "email": "Adresse e-mail",
-        "emailPlaceholder": "votre@email.com",
-        "password": "Mot de passe",
-        "passwordPlaceholder": "Votre mot de passe",
-        "forgotPassword": "Mot de passe oublié ?",
-        "login": "Se connecter",
-        "signIn": "Se connecter",
-        "signingIn": "Connexion...",
-        "register": "Créer un compte",
-        "noAccount": "Pas encore de compte ?"
-      }
-    },
-    "ownerRegistration": {
-      "createAccountLink": "Créer un compte propriétaire",
-      "dialogTitle": "Inscription propriétaire",
-      "fullName": "Nom complet",
-      "email": "Adresse e-mail",
-      "phone": "Téléphone",
-      "company": "Entreprise",
-      "address": "Adresse",
-      "messageOptional": "Message (optionnel)",
-      "messagePlaceholder": "Décrivez votre situation et vos besoins...",
-      "sendRequest": "Envoyer la demande",
-      "sending": "Envoi en cours...",
-      "importantInfo": "Information importante",
-      "importantInfoText": "Votre demande sera examinée par notre équipe et vous recevrez une réponse sous 24h.",
-      "requestSent": "Demande envoyée",
-      "requestSentDescription": "Votre demande d'inscription a été envoyée avec succès. Notre équipe l'examinera dans les plus brefs délais."
-    },
-    "footer": {
-      "description": "Votre plateforme de gestion immobilière moderne et intuitive",
-      "usefulLinks": "Liens utiles",
-      "contact": "Contact",
-      "legalNotice": "Mentions légales",
-      "privacyPolicy": "Politique de confidentialité",
-      "copyright": "Tous droits réservés.",
-      "company": "Entreprise",
-      "about": "À propos",
-      "careers": "Carrières",
-      "legal": "Légal",
-      "privacy": "Confidentialité",
-      "terms": "Conditions",
-      "cookies": "Cookies",
-      "support": "Support",
-      "help": "Aide",
-      "faq": "FAQ",
-      "documentation": "Documentation"
     }
   }
 }

@@ -2,21 +2,22 @@
 {
   "navigation": {
     "dashboard": "Dashboard",
-    "properties": "Immobilien",
+    "properties": "Immobilien", 
     "tenants": "Mieter",
     "contracts": "Verträge",
-    "payments": "Zahlungen",
+    "inspections": "Inspektionen",
+    "rentManagement": "Mietverwaltung",
+    "rentalCharges": "Nebenkosten",
+    "forecasting": "Prognosen",
     "maintenance": "Wartung",
     "messages": "Nachrichten",
-    "reports": "Berichte",
+    "taxes": "Steuern",
+    "website": "Website",
     "settings": "Einstellungen",
-    "profile": "Profil",
-    "logout": "Abmelden",
-    "home": "Startseite",
-    "about": "Über uns",
-    "contact": "Kontakt",
-    "services": "Dienstleistungen",
-    "login": "Anmelden",
-    "register": "Registrieren"
+    "help": "Hilfe",
+    "ownerSpace": "Eigentümer-Bereich",
+    "tenantSpace": "Mieter-Bereich",
+    "roommateSpace": "Mitbewohner-Bereich",
+    "adminPanel": "Admin-Panel"
   }
 }
