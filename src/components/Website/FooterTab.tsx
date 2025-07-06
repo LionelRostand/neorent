@@ -14,10 +14,10 @@ const FooterTab = () => {
   const [isSaving, setIsSaving] = useState(false);
   
   const [footerLinks, setFooterLinks] = useState([
-    { name: t('home'), url: '/' },
-    { name: t('about'), url: '/about' },
-    { name: t('contact'), url: '/contact' },
-    { name: t('login'), url: '/login' }
+    { name: t('common.home'), url: '/' },
+    { name: t('common.about'), url: '/about' },
+    { name: t('common.contact'), url: '/contact' },
+    { name: t('common.login'), url: '/login' }
   ]);
 
   const [socialMedia, setSocialMedia] = useState({
@@ -83,7 +83,7 @@ const FooterTab = () => {
           className="flex items-center gap-2 w-full sm:w-auto"
         >
           <Save className="h-4 w-4" />
-          {isSaving ? t('website.saving') : t('save')}
+          {isSaving ? t('website.saving') : t('website.save')}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -17,18 +18,16 @@ interface Page {
   status: string;
   lastModified: string;
   content?: string;
-  nameKey?: string; // Key for translation
+  nameKey?: string;
 }
 
 const PagesTab = () => {
   const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   
-  // Function to get translated page name
   const getPageName = (page: Page) => {
     if (page.nameKey) {
       const translatedName = t(page.nameKey);
-      // If translation returns the key itself, use the original name
       if (translatedName === page.nameKey) {
         return page.name;
       }
@@ -37,7 +36,6 @@ const PagesTab = () => {
     return page.name;
   };
 
-  // Function to get translated status
   const getPageStatus = (status: string) => {
     if (status === 'published' || status === 'Publié' || status === 'Veröffentlicht') {
       return t('common.published');
@@ -76,7 +74,7 @@ const PagesTab = () => {
       console.log('Saving pages:', { pages, newPage });
       
       toast.success(t('website.updateSuccess'), {
-        description: t('website.updateSuccess')
+        description: t('website.contentSavedDescription')
       });
     } catch (error) {
       toast.error(t('website.updateError'), {
@@ -98,7 +96,7 @@ const PagesTab = () => {
       };
       setPages([...pages, page]);
       setNewPage({ title: '', url: '', content: '', metaDescription: '' });
-      toast.success('Page ajoutée avec succès !');
+      toast.success(t('website.contentSaved'));
     }
   };
 
@@ -119,14 +117,14 @@ const PagesTab = () => {
           ? { ...p, ...pageData, lastModified: new Date().toISOString().split('T')[0] }
           : p
       ));
-      toast.success('Page modifiée avec succès !');
+      toast.success(t('website.contentSaved'));
     }
   };
 
   const handleConfirmDelete = () => {
     if (selectedPage) {
       setPages(pages.filter(p => p.id !== selectedPage.id));
-      toast.success('Page supprimée avec succès !');
+      toast.success(t('website.contentSaved'));
     }
   };
 
@@ -150,7 +148,7 @@ const PagesTab = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">{t('common.pages')}</CardTitle>
+            <CardTitle className="text-base md:text-lg">{t('website.pages')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -198,7 +196,7 @@ const PagesTab = () => {
             <div className="space-y-2">
               <Label>{t('common.name')}</Label>
               <Input 
-                placeholder="ex: Nos Services"
+                placeholder={t('common.services')}
                 value={newPage.title}
                 onChange={(e) => setNewPage({...newPage, title: e.target.value})}
               />
@@ -206,7 +204,7 @@ const PagesTab = () => {
             <div className="space-y-2">
               <Label>URL</Label>
               <Input 
-                placeholder="ex: /services"
+                placeholder="/services"
                 value={newPage.url}
                 onChange={(e) => setNewPage({...newPage, url: e.target.value})}
               />
@@ -214,7 +212,7 @@ const PagesTab = () => {
             <div className="space-y-2">
               <Label>META {t('common.description')}</Label>
               <Textarea 
-                placeholder="Description pour le SEO..."
+                placeholder={t('website.seoSettingsDescription')}
                 rows={2}
                 value={newPage.metaDescription}
                 onChange={(e) => setNewPage({...newPage, metaDescription: e.target.value})}
