@@ -3,7 +3,7 @@ import navigation from '../locales/de/navigation.json';
 import common from '../locales/de/common.json';
 import dashboard from '../locales/de/dashboard.json';
 import publicSite from '../locales/de/publicSite.json';
-import public from '../locales/de/public.json';
+import publicTranslations from '../locales/de/public.json';
 import website from '../locales/de/website.json';
 import properties from '../locales/de/properties.json';
 import contractForm from '../locales/de/contractForm.json';
@@ -43,7 +43,7 @@ export const germanResources = {
     ...common,
     ...dashboard,
     ...publicSite,
-    ...public,
+    ...publicTranslations,
     ...website,
     ...properties,
     ...contractForm,
