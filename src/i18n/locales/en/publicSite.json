@@ -4,12 +4,83 @@
     "home": "Home",
     "properties": "Properties",
     "about": {
-      "title": "About Us"
+      "title": "About Us",
+      "subtitle": "Your trusted partner in property management",
+      "description": "We are a passionate team dedicated to simplifying property management for owners, tenants and roommates."
     },
     "contact": {
       "hero": {
-        "title": "Contact"
+        "title": "Contact",
+        "subtitle": "We're here to help you"
+      },
+      "info": {
+        "title": "Our contact information",
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.fr",
+          "description": "Write to us, we'll respond quickly"
+        },
+        "phone": {
+          "title": "Phone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Monday to Friday from 9am to 6pm"
+        },
+        "address": {
+          "title": "Address",
+          "content": "123 Avenue des Champs-Élysées, 75008 Paris",
+          "description": "Come visit us"
+        },
+        "hours": {
+          "title": "Hours",
+          "content": "Mon-Fri: 9am-6pm",
+          "description": "Saturday by appointment"
+        }
+      },
+      "form": {
+        "title": "Send us a message",
+        "subtitle": "Fill out the form below and we'll get back to you as soon as possible.",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "subject": "Subject",
+        "message": "Message",
+        "send": "Send",
+        "sending": "Sending...",
+        "success": "Message sent successfully!"
+      },
+      "map": {
+        "title": "Our location",
+        "description": "Find us in Paris in the 8th arrondissement"
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Quickly find answers to your questions",
+        "items": [
+          {
+            "question": "How can I create an account?",
+            "answer": "Click on the 'Login' button then 'Create account'. Follow the steps to register."
+          },
+          {
+            "question": "What are your rates?",
+            "answer": "Our rates depend on your needs. Contact us for a personalized quote."
+          },
+          {
+            "question": "How does the platform work?",
+            "answer": "Our platform centralizes the management of your real estate properties in one place."
+          },
+          {
+            "question": "Do you offer customer support?",
+            "answer": "Yes, our support team is available Monday to Friday from 9am to 6pm."
+          }
+        ]
       }
+    },
+    "propertiesPage": {
+      "title": "Available Properties",
+      "subtitle": "Discover our selection of carefully chosen real estate properties to meet all your needs.",
+      "searchPlaceholder": "Search by city, neighborhood...",
+      "searchButton": "Search"
     },
     "login": {
       "title": "Login"

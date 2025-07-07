@@ -4,12 +4,83 @@
     "home": "Accueil",
     "properties": "Propriétés",
     "about": {
-      "title": "À Propos"
+      "title": "À Propos",
+      "subtitle": "Votre partenaire de confiance en gestion immobilière",
+      "description": "Nous sommes une équipe passionnée dédiée à simplifier la gestion immobilière pour les propriétaires, locataires et colocataires."
     },
     "contact": {
       "hero": {
-        "title": "Contact"
+        "title": "Contact",
+        "subtitle": "Nous sommes là pour vous aider"
+      },
+      "info": {
+        "title": "Nos coordonnées",
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.fr",
+          "description": "Écrivez-nous, nous vous répondrons rapidement"
+        },
+        "phone": {
+          "title": "Téléphone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Du lundi au vendredi de 9h à 18h"
+        },
+        "address": {
+          "title": "Adresse",
+          "content": "123 Avenue des Champs-Élysées, 75008 Paris",
+          "description": "Venez nous rendre visite"
+        },
+        "hours": {
+          "title": "Horaires",
+          "content": "Lun-Ven: 9h-18h",
+          "description": "Samedi sur rendez-vous"
+        }
+      },
+      "form": {
+        "title": "Envoyez-nous un message",
+        "subtitle": "Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Email",
+        "phone": "Téléphone",
+        "subject": "Sujet",
+        "message": "Message",
+        "send": "Envoyer",
+        "sending": "Envoi en cours...",
+        "success": "Message envoyé avec succès !"
+      },
+      "map": {
+        "title": "Notre localisation",
+        "description": "Retrouvez-nous à Paris dans le 8ème arrondissement"
+      },
+      "faq": {
+        "title": "Questions fréquentes",
+        "subtitle": "Trouvez rapidement les réponses à vos questions",
+        "items": [
+          {
+            "question": "Comment puis-je créer un compte ?",
+            "answer": "Cliquez sur le bouton 'Connexion' puis 'Créer un compte'. Suivez les étapes pour vous inscrire."
+          },
+          {
+            "question": "Quels sont vos tarifs ?",
+            "answer": "Nos tarifs dépendent de vos besoins. Contactez-nous pour un devis personnalisé."
+          },
+          {
+            "question": "Comment fonctionne la plateforme ?",
+            "answer": "Notre plateforme centralise la gestion de vos biens immobiliers en un seul endroit."
+          },
+          {
+            "question": "Proposez-vous un support client ?",
+            "answer": "Oui, notre équipe support est disponible du lundi au vendredi de 9h à 18h."
+          }
+        ]
       }
+    },
+    "propertiesPage": {
+      "title": "Propriétés Disponibles",
+      "subtitle": "Découvrez notre sélection de biens immobiliers soigneusement choisis pour répondre à tous vos besoins.",
+      "searchPlaceholder": "Rechercher par ville, quartier...",
+      "searchButton": "Rechercher"
     },
     "login": {
       "title": "Connexion"

@@ -4,12 +4,83 @@
     "home": "Startseite",
     "properties": "Immobilien",
     "about": {
-      "title": "Über Uns"
+      "title": "Über Uns",
+      "subtitle": "Ihr vertrauensvoller Partner in der Immobilienverwaltung",
+      "description": "Wir sind ein leidenschaftliches Team, das sich der Vereinfachung der Immobilienverwaltung für Eigentümer, Mieter und Mitbewohner widmet."
     },
     "contact": {
       "hero": {
-        "title": "Kontakt"
+        "title": "Kontakt",
+        "subtitle": "Wir sind hier, um Ihnen zu helfen"
+      },
+      "info": {
+        "title": "Unsere Kontaktinformationen",
+        "email": {
+          "title": "E-Mail",
+          "content": "contact@neorent.fr",
+          "description": "Schreiben Sie uns, wir antworten schnell"
+        },
+        "phone": {
+          "title": "Telefon",
+          "content": "+33 1 23 45 67 89",
+          "description": "Montag bis Freitag von 9 bis 18 Uhr"
+        },
+        "address": {
+          "title": "Adresse",
+          "content": "123 Avenue des Champs-Élysées, 75008 Paris",
+          "description": "Besuchen Sie uns"
+        },
+        "hours": {
+          "title": "Öffnungszeiten",
+          "content": "Mo-Fr: 9-18 Uhr",
+          "description": "Samstag nach Vereinbarung"
+        }
+      },
+      "form": {
+        "title": "Senden Sie uns eine Nachricht",
+        "subtitle": "Füllen Sie das untenstehende Formular aus und wir melden uns so schnell wie möglich bei Ihnen.",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "subject": "Betreff",
+        "message": "Nachricht",
+        "send": "Senden",
+        "sending": "Wird gesendet...",
+        "success": "Nachricht erfolgreich gesendet!"
+      },
+      "map": {
+        "title": "Unser Standort",
+        "description": "Finden Sie uns in Paris im 8. Arrondissement"
+      },
+      "faq": {
+        "title": "Häufig gestellte Fragen",
+        "subtitle": "Finden Sie schnell Antworten auf Ihre Fragen",
+        "items": [
+          {
+            "question": "Wie kann ich ein Konto erstellen?",
+            "answer": "Klicken Sie auf die Schaltfläche 'Anmelden' und dann auf 'Konto erstellen'. Folgen Sie den Schritten zur Registrierung."
+          },
+          {
+            "question": "Wie sind Ihre Preise?",
+            "answer": "Unsere Preise hängen von Ihren Bedürfnissen ab. Kontaktieren Sie uns für ein personalisiertes Angebot."
+          },
+          {
+            "question": "Wie funktioniert die Plattform?",
+            "answer": "Unsere Plattform zentralisiert die Verwaltung Ihrer Immobilien an einem Ort."
+          },
+          {
+            "question": "Bieten Sie Kundensupport an?",
+            "answer": "Ja, unser Support-Team ist Montag bis Freitag von 9 bis 18 Uhr verfügbar."
+          }
+        ]
       }
+    },
+    "propertiesPage": {
+      "title": "Verfügbare Immobilien",
+      "subtitle": "Entdecken Sie unsere Auswahl an sorgfältig ausgewählten Immobilien, die alle Ihre Bedürfnisse erfüllen.",
+      "searchPlaceholder": "Suche nach Stadt, Stadtteil...",
+      "searchButton": "Suchen"
     },
     "login": {
       "title": "Anmeldung"
