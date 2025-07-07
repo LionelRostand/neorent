@@ -183,5 +183,79 @@
       "description": "Schließen Sie sich Tausenden von Immobilieneigentümern an, die unserer Plattform für die Verwaltung ihrer Immobilien vertrauen.",
       "startNow": "Jetzt starten"
     }
+  },
+  "roommateForm": {
+    "property": "Immobilie",
+    "selectProperty": "Immobilie auswählen",
+    "roomNumber": "Zimmernummer"
+  },
+  "contractForm": {
+    "contractToAdd": "Vertrag hinzufügen",
+    "contractType": "Vertragstyp",
+    "selectContractType": "Typ auswählen",
+    "providerName": "Anbietername",
+    "selectJurisdictionType": "Gerichtsbarkeit auswählen",
+    "selectAProperty": "Immobilie auswählen",
+    "selectATenant": "Mieter auswählen",
+    "tenantRoommate": "Mieter/Mitbewohner",
+    "startDateLabel": "Startdatum",
+    "endDateLabel": "Enddatum",
+    "contractAmount": "Betrag",
+    "contractDescription": "Beschreibung"
+  },
+  "inspections": {
+    "modifyInspection": "Inspektion ändern"
+  },
+  "rentManagement": {
+    "savePayment": "Zahlung speichern"
+  },
+  "rentalCharges": {
+    "internetTV": "Internet/TV"
+  },
+  "website": {
+    "predefinedThemes": "Vordefinierte Themes",
+    "modern": "Modern",
+    "selected": "Ausgewählt",
+    "classic": "Klassisch",
+    "legalPagesDescription": "Verwalten Sie Ihre rechtlichen Seiten und Hinweise",
+    "legalNotice": "Rechtliche Hinweise",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "cookiePolicy": "Cookie-Richtlinie",
+    "livePage": "Live-Seite",
+    "visitorsToday": "Besucher heute",
+    "pagesViewed": "Seiten angesehen",
+    "contactRequests": "Kontaktanfragen",
+    "weeklyEvolution": "Wöchentliche Entwicklung"
+  },
+  "settings": {
+    "tabs": {
+      "company": "Unternehmen",
+      "employees": "Mitarbeiter",
+      "permissions": "Berechtigungen",
+      "firebase": "Firebase",
+      "database": "Datenbank",
+      "email": "E-Mail",
+      "security": "Sicherheit",
+      "payment": "Zahlung",
+      "adminAccess": "Admin-Zugang"
+    },
+    "company": {
+      "title": "Unternehmenstitel"
+    },
+    "adminAccess": "Admin-Zugang",
+    "adminAccessDescription": "Konfigurieren Sie Admin-Zugang für Mieter"
+  },
+  "ownerSpace": {
+    "quickActions": {
+      "title": "Schnellaktionen",
+      "manager": "Schnellaktionen-Manager"
+    }
+  },
+  "profile": {
+    "name": "Profilname",
+    "email": "Profil-E-Mail"
+  },
+  "common": {
+    "optional": "Optional"
   }
 }

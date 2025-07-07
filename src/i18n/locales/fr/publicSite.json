@@ -183,5 +183,79 @@
       "description": "Rejoignez des milliers de propriétaires qui font confiance à notre plateforme pour gérer leurs biens immobiliers.",
       "startNow": "Commencer maintenant"
     }
+  },
+  "roommateForm": {
+    "property": "Propriété",
+    "selectProperty": "Sélectionner une propriété",
+    "roomNumber": "Numéro de chambre"
+  },
+  "contractForm": {
+    "contractToAdd": "Contrat à ajouter",
+    "contractType": "Type de contrat",
+    "selectContractType": "Sélectionner un type",
+    "providerName": "Nom du fournisseur",
+    "selectJurisdictionType": "Sélectionner une juridiction",
+    "selectAProperty": "Sélectionner une propriété",
+    "selectATenant": "Sélectionner un locataire",
+    "tenantRoommate": "Locataire/Colocataire",
+    "startDateLabel": "Date de début",
+    "endDateLabel": "Date de fin",
+    "contractAmount": "Montant",
+    "contractDescription": "Description"
+  },
+  "inspections": {
+    "modifyInspection": "Modifier l'inspection"
+  },
+  "rentManagement": {
+    "savePayment": "Enregistrer le paiement"
+  },
+  "rentalCharges": {
+    "internetTV": "Internet/TV"
+  },
+  "website": {
+    "predefinedThemes": "Thèmes prédéfinis",
+    "modern": "Moderne",
+    "selected": "Sélectionné",
+    "classic": "Classique",
+    "legalPagesDescription": "Gérez vos pages légales et mentions",
+    "legalNotice": "Mentions légales",
+    "privacyPolicy": "Politique de confidentialité",
+    "cookiePolicy": "Politique des cookies",
+    "livePage": "Page en direct",
+    "visitorsToday": "Visiteurs aujourd'hui",
+    "pagesViewed": "Pages vues",
+    "contactRequests": "Demandes de contact",
+    "weeklyEvolution": "Évolution hebdomadaire"
+  },
+  "settings": {
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Employés",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Admin"
+    },
+    "company": {
+      "title": "Titre de l'entreprise"
+    },
+    "adminAccess": "Accès administrateur",
+    "adminAccessDescription": "Configurez les accès administrateur pour les locataires"
+  },
+  "ownerSpace": {
+    "quickActions": {
+      "title": "Actions rapides",
+      "manager": "Gestionnaire d'actions rapides"
+    }
+  },
+  "profile": {
+    "name": "Nom du profil",
+    "email": "Email du profil"
+  },
+  "common": {
+    "optional": "Optionnel"
   }
 }
