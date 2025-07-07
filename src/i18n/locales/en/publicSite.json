@@ -1,4 +1,3 @@
-
 {
   "publicSite": {
     "home": "Home",
@@ -183,6 +182,29 @@
       "description": "Join thousands of property owners who trust our platform to manage their real estate assets.",
       "startNow": "Start now"
     }
+  },
+  "admin": {
+    "title": "Administration",
+    "dashboard": "Dashboard",
+    "properties": "Properties",
+    "tenants": "Tenants",
+    "roommates": "Roommates",
+    "contracts": "Contracts",
+    "inspections": "Inspections",
+    "rentManagement": "Rent Management",
+    "rentalCharges": "Rental Charges",
+    "forecasting": "Forecasting",
+    "maintenance": "Maintenance",
+    "messages": "Messages",
+    "taxes": "Taxes",
+    "website": "Website",
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "spaces": {
+    "ownerSpace": "Owner Space",
+    "tenantSpace": "Tenant Space",
+    "roommateSpace": "Roommate Space"
   },
   "roommateForm": {
     "property": "Property",

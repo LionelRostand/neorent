@@ -1,4 +1,3 @@
-
 {
   "publicSite": {
     "home": "Startseite",
@@ -183,6 +182,29 @@
       "description": "Schließen Sie sich Tausenden von Immobilieneigentümern an, die unserer Plattform für die Verwaltung ihrer Immobilien vertrauen.",
       "startNow": "Jetzt starten"
     }
+  },
+  "admin": {
+    "title": "Verwaltung",
+    "dashboard": "Dashboard",
+    "properties": "Immobilien",
+    "tenants": "Mieter",
+    "roommates": "Mitbewohner",
+    "contracts": "Verträge",
+    "inspections": "Inspektionen",
+    "rentManagement": "Mietverwaltung",
+    "rentalCharges": "Nebenkosten",
+    "forecasting": "Prognosen",
+    "maintenance": "Wartung",
+    "messages": "Nachrichten",
+    "taxes": "Steuern",
+    "website": "Website",
+    "settings": "Einstellungen",
+    "help": "Hilfe"
+  },
+  "spaces": {
+    "ownerSpace": "Eigentümer-Bereich",
+    "tenantSpace": "Mieter-Bereich",
+    "roommateSpace": "Mitbewohner-Bereich"
   },
   "roommateForm": {
     "property": "Immobilie",

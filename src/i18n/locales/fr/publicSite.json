@@ -1,4 +1,3 @@
-
 {
   "publicSite": {
     "home": "Accueil",
@@ -183,6 +182,29 @@
       "description": "Rejoignez des milliers de propriétaires qui font confiance à notre plateforme pour gérer leurs biens immobiliers.",
       "startNow": "Commencer maintenant"
     }
+  },
+  "admin": {
+    "title": "Administration",
+    "dashboard": "Tableau de bord",
+    "properties": "Propriétés",
+    "tenants": "Locataires",
+    "roommates": "Colocataires",
+    "contracts": "Contrats",
+    "inspections": "Inspections",
+    "rentManagement": "Gestion des loyers",
+    "rentalCharges": "Charges locatives",
+    "forecasting": "Prévisions",
+    "maintenance": "Maintenance",
+    "messages": "Messages",
+    "taxes": "Taxes",
+    "website": "Site web",
+    "settings": "Paramètres",
+    "help": "Aide"
+  },
+  "spaces": {
+    "ownerSpace": "Espace Propriétaire",
+    "tenantSpace": "Espace Locataire",
+    "roommateSpace": "Espace Colocataire"
   },
   "roommateForm": {
     "property": "Propriété",
