@@ -6,7 +6,48 @@
     "about": {
       "title": "About Us",
       "subtitle": "Your trusted partner in property management",
-      "description": "We are a passionate team dedicated to simplifying property management for owners, tenants and roommates."
+      "description": "We are a passionate team dedicated to simplifying property management for owners, tenants and roommates.",
+      "story": {
+        "title": "Our Story",
+        "paragraph1": "Founded in 2020, our platform was born from a simple vision: to revolutionize property management by making it accessible, efficient, and transparent for everyone.",
+        "paragraph2": "We started by identifying the daily challenges faced by property owners, tenants, and property managers. From rent collection to property maintenance, through communication between parties, we have developed innovative solutions.",
+        "paragraph3": "Today, we are proud to support thousands of users in managing their real estate assets, offering them modern and intuitive tools."
+      },
+      "values": {
+        "title": "Our Values",
+        "subtitle": "The principles that guide our mission",
+        "clientProximity": {
+          "title": "Client Proximity",
+          "description": "We place our clients at the heart of our concerns with personalized and responsive support."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "We constantly develop new features to improve the user experience."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "We strive for excellence in every aspect of our platform and service."
+        },
+        "growth": {
+          "title": "Growth",
+          "description": "We support the growth of your assets with scalable and high-performance tools."
+        }
+      },
+      "stats": {
+        "title": "Our Numbers",
+        "managedProperties": "Managed Properties",
+        "satisfiedClients": "Satisfied Clients",
+        "availability": "Availability",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Our Team",
+        "subtitle": "A passionate team at your service",
+        "dedication": {
+          "title": "Commitment and Expertise",
+          "description": "Our multidisciplinary team combines technical expertise and real estate market knowledge to offer you the best possible experience."
+        }
+      }
     },
     "contact": {
       "hero": {

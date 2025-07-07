@@ -6,7 +6,48 @@
     "about": {
       "title": "À Propos",
       "subtitle": "Votre partenaire de confiance en gestion immobilière",
-      "description": "Nous sommes une équipe passionnée dédiée à simplifier la gestion immobilière pour les propriétaires, locataires et colocataires."
+      "description": "Nous sommes une équipe passionnée dédiée à simplifier la gestion immobilière pour les propriétaires, locataires et colocataires.",
+      "story": {
+        "title": "Notre Histoire",
+        "paragraph1": "Fondée en 2020, notre plateforme est née d'une vision simple : révolutionner la gestion immobilière en la rendant accessible, efficace et transparente pour tous.",
+        "paragraph2": "Nous avons commencé par identifier les défis quotidiens auxquels font face les propriétaires, locataires et gestionnaires immobiliers. De la collecte des loyers à la maintenance des propriétés, en passant par la communication entre les parties, nous avons développé des solutions innovantes.",
+        "paragraph3": "Aujourd'hui, nous sommes fiers d'accompagner des milliers d'utilisateurs dans la gestion de leur patrimoine immobilier, en leur offrant des outils modernes et intuitifs."
+      },
+      "values": {
+        "title": "Nos Valeurs",
+        "subtitle": "Les principes qui guident notre mission",
+        "clientProximity": {
+          "title": "Proximité Client",
+          "description": "Nous plaçons nos clients au cœur de nos préoccupations avec un support personnalisé et réactif."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "Nous développons constamment de nouvelles fonctionnalités pour améliorer l'expérience utilisateur."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "Nous visons l'excellence dans chaque aspect de notre plateforme et de notre service."
+        },
+        "growth": {
+          "title": "Croissance",
+          "description": "Nous accompagnons la croissance de votre patrimoine avec des outils évolutifs et performants."
+        }
+      },
+      "stats": {
+        "title": "Nos Chiffres",
+        "managedProperties": "Propriétés gérées",
+        "satisfiedClients": "Clients satisfaits",
+        "availability": "Disponibilité",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Notre Équipe",
+        "subtitle": "Une équipe passionnée à votre service",
+        "dedication": {
+          "title": "Engagement et Expertise",
+          "description": "Notre équipe multidisciplinaire combine expertise technique et connaissance du marché immobilier pour vous offrir la meilleure expérience possible."
+        }
+      }
     },
     "contact": {
       "hero": {

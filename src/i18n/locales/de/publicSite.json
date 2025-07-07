@@ -6,7 +6,48 @@
     "about": {
       "title": "Über Uns",
       "subtitle": "Ihr vertrauensvoller Partner in der Immobilienverwaltung",
-      "description": "Wir sind ein leidenschaftliches Team, das sich der Vereinfachung der Immobilienverwaltung für Eigentümer, Mieter und Mitbewohner widmet."
+      "description": "Wir sind ein leidenschaftliches Team, das sich der Vereinfachung der Immobilienverwaltung für Eigentümer, Mieter und Mitbewohner widmet.",
+      "story": {
+        "title": "Unsere Geschichte",
+        "paragraph1": "Gegründet im Jahr 2020, entstand unsere Plattform aus einer einfachen Vision: die Immobilienverwaltung zu revolutionieren, indem wir sie für alle zugänglich, effizient und transparent machen.",
+        "paragraph2": "Wir begannen damit, die täglichen Herausforderungen zu identifizieren, denen sich Immobilieneigentümer, Mieter und Verwalter gegenübersehen. Von der Mieteinzahlung bis zur Immobilienwartung, über die Kommunikation zwischen den Parteien, haben wir innovative Lösungen entwickelt.",
+        "paragraph3": "Heute sind wir stolz darauf, Tausende von Nutzern bei der Verwaltung ihrer Immobilienvermögen zu unterstützen und ihnen moderne und intuitive Tools zu bieten."
+      },
+      "values": {
+        "title": "Unsere Werte",
+        "subtitle": "Die Prinzipien, die unsere Mission leiten",
+        "clientProximity": {
+          "title": "Kundennähe",
+          "description": "Wir stellen unsere Kunden in den Mittelpunkt unserer Bemühungen mit persönlichem und reaktionsschnellem Support."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "Wir entwickeln kontinuierlich neue Funktionen, um die Benutzererfahrung zu verbessern."
+        },
+        "excellence": {
+          "title": "Exzellenz",
+          "description": "Wir streben nach Exzellenz in jedem Aspekt unserer Plattform und unseres Services."
+        },
+        "growth": {
+          "title": "Wachstum",
+          "description": "Wir unterstützen das Wachstum Ihrer Vermögenswerte mit skalierbaren und leistungsstarken Tools."
+        }
+      },
+      "stats": {
+        "title": "Unsere Zahlen",
+        "managedProperties": "Verwaltete Immobilien",
+        "satisfiedClients": "Zufriedene Kunden",
+        "availability": "Verfügbarkeit",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Unser Team",
+        "subtitle": "Ein leidenschaftliches Team zu Ihren Diensten",
+        "dedication": {
+          "title": "Engagement und Expertise",
+          "description": "Unser multidisziplinäres Team kombiniert technische Expertise und Immobilienmarktkenntnisse, um Ihnen die bestmögliche Erfahrung zu bieten."
+        }
+      }
     },
     "contact": {
       "hero": {
