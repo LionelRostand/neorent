@@ -1,0 +1,64 @@
+{
+  "adminPages": {
+    "dashboard": {
+      "title": "Administrator Dashboard",
+      "subtitle": "Administrative overview"
+    },
+    "properties": {
+      "title": "Property Management",
+      "subtitle": "Administer all properties"
+    },
+    "tenants": {
+      "title": "Tenant Management",
+      "subtitle": "Administer all tenants"
+    },
+    "roommates": {
+      "title": "Roommate Management",
+      "subtitle": "Administer all roommates"
+    },
+    "contracts": {
+      "title": "Contract Management",
+      "subtitle": "Administer all contracts"
+    },
+    "inspections": {
+      "title": "Inspection Management",
+      "subtitle": "Administer all inspections"
+    },
+    "rentManagement": {
+      "title": "Rent Management",
+      "subtitle": "Administer all rent payments"
+    },
+    "rentalCharges": {
+      "title": "Rental Charges",
+      "subtitle": "Administer all charges"
+    },
+    "forecasting": {
+      "title": "Forecasting",
+      "subtitle": "Financial analysis and projections"
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "subtitle": "Administer all maintenance"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Administer all messages"
+    },
+    "taxes": {
+      "title": "Taxes",
+      "subtitle": "Administer all tax declarations"
+    },
+    "website": {
+      "title": "Website",
+      "subtitle": "Administer public website"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "System configuration"
+    },
+    "help": {
+      "title": "Help",
+      "subtitle": "Documentation and support"
+    }
+  }
+}

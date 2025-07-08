@@ -1,0 +1,19 @@
+{
+  "userSpaces": {
+    "ownerSpace": {
+      "title": "Eigentümer-Bereich",
+      "subtitle": "Verwalten Sie Ihre Immobilien",
+      "description": "Schnittstelle für Eigentümer"
+    },
+    "tenantSpace": {
+      "title": "Mieter-Bereich",
+      "subtitle": "Ihr persönlicher Bereich",
+      "description": "Schnittstelle für Mieter"
+    },
+    "roommateSpace": {
+      "title": "Mitbewohner-Bereich",
+      "subtitle": "Ihr Wohngemeinschaftsbereich",
+      "description": "Schnittstelle für Mitbewohner"
+    }
+  }
+}

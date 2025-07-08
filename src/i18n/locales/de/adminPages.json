@@ -1,0 +1,64 @@
+{
+  "adminPages": {
+    "dashboard": {
+      "title": "Administrator Dashboard",
+      "subtitle": "Verwaltungsübersicht"
+    },
+    "properties": {
+      "title": "Immobilienverwaltung",
+      "subtitle": "Alle Immobilien verwalten"
+    },
+    "tenants": {
+      "title": "Mieterverwaltung",
+      "subtitle": "Alle Mieter verwalten"
+    },
+    "roommates": {
+      "title": "Mitbewohnerverwaltung",
+      "subtitle": "Alle Mitbewohner verwalten"
+    },
+    "contracts": {
+      "title": "Vertragsverwaltung",
+      "subtitle": "Alle Verträge verwalten"
+    },
+    "inspections": {
+      "title": "Inspektionsverwaltung",
+      "subtitle": "Alle Inspektionen verwalten"
+    },
+    "rentManagement": {
+      "title": "Mietverwaltung",
+      "subtitle": "Alle Mietzahlungen verwalten"
+    },
+    "rentalCharges": {
+      "title": "Nebenkosten",
+      "subtitle": "Alle Nebenkosten verwalten"
+    },
+    "forecasting": {
+      "title": "Prognosen",
+      "subtitle": "Finanzanalysen und Projektionen"
+    },
+    "maintenance": {
+      "title": "Wartung",
+      "subtitle": "Alle Wartungen verwalten"
+    },
+    "messages": {
+      "title": "Nachrichten",
+      "subtitle": "Alle Nachrichten verwalten"
+    },
+    "taxes": {
+      "title": "Steuern",
+      "subtitle": "Alle Steuererklärungen verwalten"
+    },
+    "website": {
+      "title": "Website",
+      "subtitle": "Öffentliche Website verwalten"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "subtitle": "Systemkonfiguration"
+    },
+    "help": {
+      "title": "Hilfe",
+      "subtitle": "Dokumentation und Support"
+    }
+  }
+}

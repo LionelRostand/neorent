@@ -1,0 +1,19 @@
+{
+  "userSpaces": {
+    "ownerSpace": {
+      "title": "Owner Space",
+      "subtitle": "Manage your real estate properties",
+      "description": "Interface dedicated to owners"
+    },
+    "tenantSpace": {
+      "title": "Tenant Space",
+      "subtitle": "Your personal space",
+      "description": "Interface dedicated to tenants"
+    },
+    "roommateSpace": {
+      "title": "Roommate Space",
+      "subtitle": "Your shared living space",
+      "description": "Interface dedicated to roommates"
+    }
+  }
+}

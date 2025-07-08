@@ -1,0 +1,19 @@
+{
+  "userSpaces": {
+    "ownerSpace": {
+      "title": "Espace Propriétaire",
+      "subtitle": "Gérez vos biens immobiliers",
+      "description": "Interface dédiée aux propriétaires"
+    },
+    "tenantSpace": {
+      "title": "Espace Locataire",
+      "subtitle": "Votre espace personnel",
+      "description": "Interface dédiée aux locataires"
+    },
+    "roommateSpace": {
+      "title": "Espace Colocataire",
+      "subtitle": "Votre espace de colocation",
+      "description": "Interface dédiée aux colocataires"
+    }
+  }
+}

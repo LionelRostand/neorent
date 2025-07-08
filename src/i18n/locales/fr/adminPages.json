@@ -1,0 +1,64 @@
+{
+  "adminPages": {
+    "dashboard": {
+      "title": "Tableau de bord administrateur",
+      "subtitle": "Vue d'ensemble de l'administration"
+    },
+    "properties": {
+      "title": "Gestion des propriétés",
+      "subtitle": "Administrez toutes les propriétés"
+    },
+    "tenants": {
+      "title": "Gestion des locataires",
+      "subtitle": "Administrez tous les locataires"
+    },
+    "roommates": {
+      "title": "Gestion des colocataires",
+      "subtitle": "Administrez tous les colocataires"
+    },
+    "contracts": {
+      "title": "Gestion des contrats",
+      "subtitle": "Administrez tous les contrats"
+    },
+    "inspections": {
+      "title": "Gestion des inspections",
+      "subtitle": "Administrez toutes les inspections"
+    },
+    "rentManagement": {
+      "title": "Gestion des loyers",
+      "subtitle": "Administrez tous les paiements de loyers"
+    },
+    "rentalCharges": {
+      "title": "Charges locatives",
+      "subtitle": "Administrez toutes les charges"
+    },
+    "forecasting": {
+      "title": "Prévisions",
+      "subtitle": "Analyses et projections financières"
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "subtitle": "Administrez toutes les maintenances"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Administrez tous les messages"
+    },
+    "taxes": {
+      "title": "Taxes",
+      "subtitle": "Administrez toutes les déclarations fiscales"
+    },
+    "website": {
+      "title": "Site web",
+      "subtitle": "Administrez le site web public"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Configuration du système"
+    },
+    "help": {
+      "title": "Aide",
+      "subtitle": "Documentation et support"
+    }
+  }
+}
