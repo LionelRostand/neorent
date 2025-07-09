@@ -1,7 +1,7 @@
 {
   "adminPages": {
     "dashboard": {
-      "title": "Tableau de bord administrateur",
+      "title": "Tableau de Bord Administrateur",
       "subtitle": "Vue d'ensemble de l'administration"
     },
     "properties": {

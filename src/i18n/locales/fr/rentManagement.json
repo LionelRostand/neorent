@@ -118,6 +118,6 @@
     "contractualRent": "Loyer Contractuel",
     "accordingContract": "selon le contrat",
     "paidAmount": "Montant Payé",
-    "expectedPayment": "espèces"
+    "expectedPayment": "paiement attendu"
   }
 }
