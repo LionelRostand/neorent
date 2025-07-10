@@ -1,33 +1,37 @@
 
 {
   "dashboard": {
-    "title": "Tableau de Bord",
-    "subtitle": "Vue d'ensemble de votre activité locative",
-    "welcome": "Bienvenue",
-    "overview": "Vue d'ensemble",
-    "quickActions": "Actions Rapides",
+    "title": "Tableau de bord",
+    "subtitle": "Vue d'ensemble de votre gestion immobilière",
+    "welcome": "Bienvenue sur votre tableau de bord",
+    "totalProperties": "Total des Propriétés",
+    "activeContracts": "Contrats Actifs",
+    "monthlyRevenue": "Revenus Mensuels",
+    "pendingMaintenance": "Maintenance en Attente",
     "recentActivity": "Activité Récente",
-    "noRecentActivity": "Aucune activité récente",
-    "stats": {
-      "totalProperties": "Total des Propriétés",
-      "activeTenants": "Locataires Actifs",
-      "monthlyRevenue": "Revenus Mensuels",
-      "pendingPayments": "Paiements en Attente"
-    },
-    "rentReceived": "Loyer reçu",
-    "timeAgo": {
-      "days": "il y a {{count}} jour",
-      "days_plural": "il y a {{count}} jours",
-      "weeks": "il y a {{count}} semaine",
-      "weeks_plural": "il y a {{count}} semaines",
-      "months": "il y a {{count}} mois",
-      "hours": "il y a {{count}} heure",
-      "hours_plural": "il y a {{count}} heures"
-    },
-    "entries": {
-      "moveIn": "Entrée - {{property}}",
-      "rentPayment": "Paiement de loyer - {{amount}}€",
-      "maintenance": "Maintenance - {{property}}"
-    }
+    "quickActions": "Actions Rapides",
+    "addProperty": "Ajouter une Propriété",
+    "addTenant": "Ajouter un Locataire",
+    "createContract": "Créer un Contrat",
+    "viewReports": "Voir les Rapports",
+    "properties": "Propriétés",
+    "tenants": "Locataires",
+    "contracts": "Contrats",
+    "managedProperties": "Propriétés gérées",
+    "activeTenants": "Locataires actifs",
+    "averageYield": "Rendement moyen",
+    "vsLastMonth": "vs mois dernier",
+    "newThisMonth": "nouveau ce mois",
+    "occupancyRate": "taux d'occupation",
+    "vsQuarter": "vs trimestre",
+    "importantAlerts": "Alertes importantes",
+    "lateRent": "Loyer en retard",
+    "late": "En retard",
+    "expiringLease": "Bail expirant",
+    "days": "jours",
+    "urgentInspection": "Inspection urgente",
+    "urgent": "Urgent",
+    "rentalRevenue": "Revenus locatifs",
+    "noRecentActivity": "Aucune activité récente"
   }
 }

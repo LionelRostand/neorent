@@ -22,21 +22,6 @@
     "progress": "Progression du Téléchargement",
     "complete": "Téléchargement Terminé",
     "failed": "Échec du Téléchargement",
-    "retry": "Réessayer",
-    "documentType": "Type de Document",
-    "selectDocumentType": "Sélectionner le type de document",
-    "chooseFile": "Choisir un fichier",
-    "noFileChosen": "Aucun fichier choisi",
-    "maxSizeInfo": "Taille maximale : 10 MB",
-    "uploadTheDocument": "Télécharger le Document",
-    "documentsOf": "Documents de {name}",
-    "documentTypes": {
-      "lease": "Bail",
-      "insurance": "Assurance",
-      "identity": "Pièce d'identité",
-      "income": "Justificatif de revenus",
-      "guarantee": "Garantie",
-      "other": "Autre"
-    }
+    "retry": "Réessayer"
   }
 }
