@@ -1,4 +1,3 @@
-
 {
   "adminPages": {
     "dashboard": {
@@ -7,31 +6,31 @@
     },
     "properties": {
       "title": "Property Management",
-      "subtitle": "Manage all properties"
+      "subtitle": "Administer all properties"
     },
     "tenants": {
       "title": "Tenant Management",
-      "subtitle": "Manage all tenants"
+      "subtitle": "Administer all tenants"
     },
     "roommates": {
       "title": "Roommate Management",
-      "subtitle": "Manage all roommates"
+      "subtitle": "Administer all roommates"
     },
     "contracts": {
       "title": "Contract Management",
-      "subtitle": "Manage all contracts"
+      "subtitle": "Administer all contracts"
     },
     "inspections": {
       "title": "Inspection Management",
-      "subtitle": "Manage all inspections"
+      "subtitle": "Administer all inspections"
     },
     "rentManagement": {
       "title": "Rent Management",
-      "subtitle": "Manage all rent payments"
+      "subtitle": "Administer all rent payments"
     },
     "rentalCharges": {
       "title": "Rental Charges",
-      "subtitle": "Manage all rental charges"
+      "subtitle": "Administer all charges"
     },
     "forecasting": {
       "title": "Forecasting",
@@ -39,19 +38,19 @@
     },
     "maintenance": {
       "title": "Maintenance",
-      "subtitle": "Manage all maintenance"
+      "subtitle": "Administer all maintenance"
     },
     "messages": {
       "title": "Messages",
-      "subtitle": "Manage all messages"
+      "subtitle": "Administer all messages"
     },
     "taxes": {
       "title": "Taxes",
-      "subtitle": "Manage all tax declarations"
+      "subtitle": "Administer all tax declarations"
     },
     "website": {
       "title": "Website",
-      "subtitle": "Manage public website"
+      "subtitle": "Administer public website"
     },
     "settings": {
       "title": "Settings",

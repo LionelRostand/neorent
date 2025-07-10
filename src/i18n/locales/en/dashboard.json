@@ -2,7 +2,7 @@
 {
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Overview of your property management",
+    "subtitle": "Overview of your real estate management",
     "welcome": "Welcome to your dashboard",
     "totalProperties": "Total Properties",
     "activeContracts": "Active Contracts",
@@ -22,7 +22,7 @@
     "averageYield": "Average Yield",
     "vsLastMonth": "vs last month",
     "newThisMonth": "new this month",
-    "occupancyRate": "Occupancy Rate",
+    "occupancyRate": "occupancy rate",
     "vsQuarter": "vs quarter",
     "importantAlerts": "Important Alerts",
     "lateRent": "Late Rent",
@@ -32,21 +32,6 @@
     "urgentInspection": "Urgent Inspection",
     "urgent": "Urgent",
     "rentalRevenue": "Rental Revenue",
-    "noRecentActivity": "No recent activity",
-    "rentReceived": "Rent received",
-    "timeAgo": {
-      "days": "{{count}} day ago",
-      "days_plural": "{{count}} days ago",
-      "weeks": "{{count}} week ago",
-      "weeks_plural": "{{count}} weeks ago",
-      "months": "{{count}} month ago",
-      "hours": "{{count}} hour ago",
-      "hours_plural": "{{count}} hours ago"
-    },
-    "entries": {
-      "moveIn": "Move-in - {{property}}",
-      "rentPayment": "Rent payment - €{{amount}}",
-      "maintenance": "Maintenance - {{property}}"
-    }
+    "noRecentActivity": "No recent activity"
   }
 }

@@ -1,18 +1,6 @@
 
 {
   "tenantPayments": {
-    "property": "Immobilie",
-    "title": "Zahlungen",
-    "subtitle": "Verwalten Sie Ihre Mietzahlungen",
-    "amount": "Betrag",
-    "date": "Datum",
-    "status": "Status",
-    "method": "Zahlungsmethode",
-    "reference": "Referenz",
-    "receipt": "Quittung",
-    "nextPayment": "Nächste Zahlung",
-    "paymentHistory": "Zahlungshistorie",
-    "makePayment": "Zahlung tätigen",
-    "downloadReceipt": "Quittung herunterladen"
+    "property": "Immobilie"
   }
 }

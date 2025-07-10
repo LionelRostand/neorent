@@ -1,58 +1,209 @@
-
 {
   "publicSite": {
+    "home": "Accueil",
+    "properties": "Propriétés",
+    "about": {
+      "title": "À Propos",
+      "subtitle": "Votre partenaire de confiance en gestion immobilière",
+      "description": "Nous sommes une équipe passionnée dédiée à simplifier la gestion immobilière pour les propriétaires, locataires et colocataires.",
+      "story": {
+        "title": "Notre Histoire",
+        "paragraph1": "Fondée en 2020, notre plateforme est née d'une vision simple : révolutionner la gestion immobilière en la rendant accessible, efficace et transparente pour tous.",
+        "paragraph2": "Nous avons commencé par identifier les défis quotidiens auxquels font face les propriétaires, locataires et gestionnaires immobiliers. De la collecte des loyers à la maintenance des propriétés, en passant par la communication entre les parties, nous avons développé des solutions innovantes.",
+        "paragraph3": "Aujourd'hui, nous sommes fiers d'accompagner des milliers d'utilisateurs dans la gestion de leur patrimoine immobilier, en leur offrant des outils modernes et intuitifs."
+      },
+      "values": {
+        "title": "Nos Valeurs",
+        "subtitle": "Les principes qui guident notre mission",
+        "clientProximity": {
+          "title": "Proximité Client",
+          "description": "Nous plaçons nos clients au cœur de nos préoccupations avec un support personnalisé et réactif."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "Nous développons constamment de nouvelles fonctionnalités pour améliorer l'expérience utilisateur."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "Nous visons l'excellence dans chaque aspect de notre plateforme et de notre service."
+        },
+        "growth": {
+          "title": "Croissance",
+          "description": "Nous accompagnons la croissance de votre patrimoine avec des outils évolutifs et performants."
+        }
+      },
+      "stats": {
+        "title": "Nos Chiffres",
+        "managedProperties": "Propriétés gérées",
+        "satisfiedClients": "Clients satisfaits",
+        "availability": "Disponibilité",
+        "support": "Support"
+      },
+      "team": {
+        "title": "Notre Équipe",
+        "subtitle": "Une équipe passionnée à votre service",
+        "dedication": {
+          "title": "Engagement et Expertise",
+          "description": "Notre équipe multidisciplinaire combine expertise technique et connaissance du marché immobilier pour vous offrir la meilleure expérience possible."
+        }
+      }
+    },
+    "contact": {
+      "hero": {
+        "title": "Contact",
+        "subtitle": "Nous sommes là pour vous aider"
+      },
+      "info": {
+        "title": "Nos coordonnées",
+        "email": {
+          "title": "Email",
+          "content": "contact@neorent.fr",
+          "description": "Écrivez-nous, nous vous répondrons rapidement"
+        },
+        "phone": {
+          "title": "Téléphone",
+          "content": "+33 1 23 45 67 89",
+          "description": "Du lundi au vendredi de 9h à 18h"
+        },
+        "address": {
+          "title": "Adresse",
+          "content": "123 Avenue des Champs-Élysées, 75008 Paris",
+          "description": "Venez nous rendre visite"
+        },
+        "hours": {
+          "title": "Horaires",
+          "content": "Lun-Ven: 9h-18h",
+          "description": "Samedi sur rendez-vous"
+        }
+      },
+      "form": {
+        "title": "Envoyez-nous un message",
+        "subtitle": "Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Email",
+        "phone": "Téléphone",
+        "subject": "Sujet",
+        "message": "Message",
+        "send": "Envoyer",
+        "sending": "Envoi en cours...",
+        "success": "Message envoyé avec succès !"
+      },
+      "map": {
+        "title": "Notre localisation",
+        "description": "Retrouvez-nous à Paris dans le 8ème arrondissement"
+      },
+      "faq": {
+        "title": "Questions fréquentes",
+        "subtitle": "Trouvez rapidement les réponses à vos questions",
+        "items": [
+          {
+            "question": "Comment puis-je créer un compte ?",
+            "answer": "Cliquez sur le bouton 'Connexion' puis 'Créer un compte'. Suivez les étapes pour vous inscrire."
+          },
+          {
+            "question": "Quels sont vos tarifs ?",
+            "answer": "Nos tarifs dépendent de vos besoins. Contactez-nous pour un devis personnalisé."
+          },
+          {
+            "question": "Comment fonctionne la plateforme ?",
+            "answer": "Notre plateforme centralise la gestion de vos biens immobiliers en un seul endroit."
+          },
+          {
+            "question": "Proposez-vous un support client ?",
+            "answer": "Oui, notre équipe support est disponible du lundi au vendredi de 9h à 18h."
+          }
+        ]
+      }
+    },
+    "propertiesPage": {
+      "title": "Propriétés Disponibles",
+      "subtitle": "Découvrez notre sélection de biens immobiliers soigneusement choisis pour répondre à tous vos besoins.",
+      "searchPlaceholder": "Rechercher par ville, quartier...",
+      "searchButton": "Rechercher"
+    },
+    "login": {
+      "title": "Connexion"
+    },
+    "footer": {
+      "description": "Plateforme complète de gestion immobilière pour propriétaires, locataires et colocataires.",
+      "usefulLinks": "Liens Utiles",
+      "contact": "Contact",
+      "legalNotice": "Mentions Légales",
+      "privacyPolicy": "Politique de Confidentialité",
+      "cookiePolicy": "Politique de Cookies",
+      "copyright": "Tous droits réservés."
+    },
     "hero": {
-      "title": "Gestion Immobilière Moderne",
-      "subtitle": "Simplifiez la gestion de vos propriétés avec notre plateforme tout-en-un",
-      "getStarted": "Commencer",
-      "learnMore": "En savoir plus"
+      "title": "Gérez vos biens immobiliers avec facilité",
+      "subtitle": "Plateforme complète de gestion immobilière pour propriétaires, locataires et colocataires",
+      "description": "Solution tout-en-un pour simplifier la gestion immobilière et optimiser vos investissements.",
+      "startFree": "Commencer gratuitement",
+      "contactUs": "Nous contacter"
     },
     "features": {
       "title": "Fonctionnalités",
-      "subtitle": "Tout ce dont vous avez besoin pour gérer efficacement vos propriétés",
+      "subtitle": "Tout ce dont vous avez besoin pour gérer vos biens immobiliers",
       "propertyManagement": {
-        "title": "Gestion des Propriétés",
-        "description": "Gérez facilement toutes vos propriétés en un seul endroit"
+        "title": "Gestion des propriétés",
+        "description": "Gérez facilement vos propriétés et leurs informations"
       },
       "tenantManagement": {
-        "title": "Gestion des Locataires",
-        "description": "Suivez les informations des locataires et les paiements"
+        "title": "Gestion des locataires",
+        "description": "Suivez vos locataires et leurs paiements"
       },
-      "maintenance": {
-        "title": "Maintenance",
-        "description": "Planifiez et suivez les demandes de maintenance"
+      "maintenanceTracking": {
+        "title": "Suivi de la maintenance",
+        "description": "Organisez les demandes de maintenance et les interventions"
       },
-      "financials": {
-        "title": "Finances",
-        "description": "Analysez vos revenus et dépenses"
+      "financialReporting": {
+        "title": "Rapports financiers",
+        "description": "Analysez vos revenus et dépenses immobilières"
+      },
+      "dataSecurity": {
+        "title": "Sécurité des données",
+        "description": "Vos données sont protégées par les dernières technologies de sécurité"
       }
+    },
+    "benefits": {
+      "title": "Pourquoi choisir notre plateforme ?",
+      "description": "Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour optimiser leurs opérations.",
+      "list": [
+        "Gestion centralisée de votre portefeuille immobilier",
+        "Collecte automatisée des loyers et suivi des paiements",
+        "Outils complets de sélection des locataires", 
+        "Rapports financiers et analyses en temps réel",
+        "Interface mobile pour une gestion nomade",
+        "Support client 24/7 et assistance personnalisée"
+      ]
     },
     "cta": {
       "title": "Prêt à commencer ?",
-      "subtitle": "Rejoignez des milliers de propriétaires qui font confiance à notre plateforme",
-      "getStarted": "Commencer maintenant"
-    },
-    "footer": {
-      "company": "Entreprise",
-      "about": "À propos",
-      "contact": "Contact",
-      "privacy": "Politique de confidentialité",
-      "terms": "Conditions d'utilisation",
-      "product": "Produit",
-      "features": "Fonctionnalités",
-      "pricing": "Tarifs",
-      "support": "Support",
-      "resources": "Ressources",
-      "documentation": "Documentation",
-      "blog": "Blog",
-      "community": "Communauté"
-    },
-    "auth": {
-      "signIn": "Se connecter",
-      "signUp": "S'inscrire",
-      "ownerSpace": "Espace Propriétaire",
-      "tenantSpace": "Espace Locataire",
-      "roommateSpace": "Espace Colocataire"
+      "description": "Rejoignez des milliers de propriétaires qui font confiance à notre plateforme pour gérer leurs biens immobiliers.",
+      "startNow": "Commencer maintenant"
     }
+  },
+  "admin": {
+    "title": "Administration",
+    "dashboard": "Tableau de bord",
+    "properties": "Propriétés",
+    "tenants": "Locataires",
+    "roommates": "Colocataires",
+    "contracts": "Contrats",
+    "inspections": "Inspections",
+    "rentManagement": "Gestion des loyers",
+    "rentalCharges": "Charges locatives",
+    "forecasting": "Prévisions",
+    "maintenance": "Maintenance",
+    "messages": "Messages",
+    "taxes": "Taxes",
+    "website": "Site web",
+    "settings": "Paramètres",
+    "help": "Aide"
+  },
+  "spaces": {
+    "ownerSpace": "Espace Propriétaire",
+    "tenantSpace": "Espace Locataire",
+    "roommateSpace": "Espace Colocataire"
   }
 }

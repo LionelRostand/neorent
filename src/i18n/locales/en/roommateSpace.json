@@ -2,7 +2,7 @@
 {
   "roommateSpace": {
     "title": "Roommate Space",
-    "subtitle": "Manage your shared living space easily",
+    "subtitle": "Manage your shared living easily",
     "welcome": "Welcome to your roommate space",
     "dashboard": {
       "title": "Dashboard",
@@ -12,7 +12,7 @@
       "houseRules": "House rules"
     },
     "rent": {
-      "title": "Rent and Charges",
+      "title": "Rent & Utilities",
       "myShare": "My share",
       "sharedCosts": "Shared costs",
       "utilities": "Utilities",
@@ -36,7 +36,7 @@
       "rules": "Rules",
       "chores": "Chores",
       "inventory": "Inventory",
-      "issues": "Report issues"
+      "issues": "Issues to report"
     }
   }
 }

@@ -1,18 +1,6 @@
 
 {
   "tenantPayments": {
-    "property": "Property",
-    "title": "Payments",
-    "subtitle": "Manage your rent payments",
-    "amount": "Amount",
-    "date": "Date",
-    "status": "Status",
-    "method": "Payment Method",
-    "reference": "Reference",
-    "receipt": "Receipt",
-    "nextPayment": "Next Payment",
-    "paymentHistory": "Payment History",
-    "makePayment": "Make Payment",
-    "downloadReceipt": "Download Receipt"
+    "property": "Property"
   }
 }
