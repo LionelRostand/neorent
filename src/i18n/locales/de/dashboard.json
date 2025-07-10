@@ -32,6 +32,14 @@
     "urgentInspection": "Dringende Inspektion",
     "urgent": "Dringend",
     "rentalRevenue": "Mieteinnahmen",
-    "noRecentActivity": "Keine kürzliche Aktivität"
+    "noRecentActivity": "Keine kürzliche Aktivität",
+     // ... autres clés existantes
+    "rentReceived": "Miete erhalten",
+    "newTenant": "Neuer Mieter", 
+    "latePayment": "Verspätete Zahlung",
+    "timeAgo": {
+      "hours": "vor {{hours}}h",
+      "days": "vor {{days}}T",
+      "weeks": "vor {{weeks}} Wochen"
   }
 }
