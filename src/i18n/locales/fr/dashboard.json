@@ -1,4 +1,3 @@
-
 {
   "dashboard": {
     "title": "Tableau de bord",
@@ -20,10 +19,10 @@
     "managedProperties": "Propriétés gérées",
     "activeTenants": "Locataires actifs",
     "averageYield": "Rendement moyen",
-    "vsLastMonth": "vs mois dernier",
-    "newThisMonth": "nouveau ce mois",
-    "occupancyRate": "taux d'occupation",
-    "vsQuarter": "vs trimestre",
+    "vsLastMonth": "Par rapport au mois dernier",
+    "newThisMonth": "Nouveau ce mois",
+    "occupancyRate": "Taux d'occupation",
+    "vsQuarter": "Par rapport au trimestre précédent",
     "importantAlerts": "Alertes importantes",
     "lateRent": "Loyer en retard",
     "late": "En retard",
@@ -32,6 +31,14 @@
     "urgentInspection": "Inspection urgente",
     "urgent": "Urgent",
     "rentalRevenue": "Revenus locatifs",
-    "noRecentActivity": "Aucune activité récente"
+    "noRecentActivity": "Aucune activité récente",
+    "rentReceived": "Loyer reçu",
+    "newTenant": "Nouveau locataire",
+    "latePayment": "Paiement en retard",
+    "timeAgo": {
+      "hours": "Il y a {{hours}}h",
+      "days": "Il y a {{days}}j", 
+      "weeks": "Il y a {{weeks}} semaines"
+    }
   }
 }
