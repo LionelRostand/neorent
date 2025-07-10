@@ -1,16 +1,16 @@
 
 {
   "maintenanceInterventions": {
-    "title": "Intervention Tracking",
-    "subtitle": "Track and manage current interventions",
+    "title": "Intervention Tracking", 
+    "subtitle": "Track and manage ongoing interventions",
     "plannedInterventions": "Planned Interventions",
-    "inProgressInterventions": "In Progress Interventions",
+    "inProgressInterventions": "In Progress Interventions", 
     "completedInterventions": "Completed Interventions",
     "totalCost": "Total Cost",
     "ongoingInterventions": "Ongoing Interventions",
-    "ongoingSubtitle": "Track and manage current interventions",
+    "ongoingSubtitle": "Track and manage ongoing interventions",
     "property": "Property",
-    "description": "Description",
+    "description": "Description", 
     "technician": "Technician",
     "scheduledDate": "Scheduled Date",
     "cost": "Cost",
@@ -23,13 +23,13 @@
     "estimatedCost": "Estimated Cost",
     "actualCost": "Actual Cost",
     "completionNotes": "Completion Notes",
-    "completionNotesPlaceholder": "Notes about the intervention completion...",
+    "completionNotesPlaceholder": "Notes on intervention completion...",
     "scheduledTime": "Scheduled Time",
     "noAssigned": "Not assigned",
     "interventionUpdated": "The intervention has been marked as",
-    "createInvoice": "Create invoice",
-    "invoiceCreated": "Invoice created",
+    "createInvoice": "Create Invoice",
+    "invoiceCreated": "Invoice created", 
     "invoiceDescription": "The new invoice has been recorded.",
-    "totalInterventions": "Total Interventions"
+    "totalInterventions": "Total interventions"
   }
 }

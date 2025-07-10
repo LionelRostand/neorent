@@ -1,0 +1,18 @@
+
+{
+  "propertyForm": {
+    "locationTypes": {
+      "colocation": "Shared Housing"
+    },
+    "propertyTypes": {
+      "appartement": "Apartment",
+      "studio": "Studio",
+      "maison": "House",
+      "loft": "Loft",
+      "duplex": "Duplex"
+    },
+    "type": "Type",
+    "surface": "Surface",
+    "floor": "Floor"
+  }
+}

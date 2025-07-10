@@ -2,8 +2,9 @@
 {
   "navigation": {
     "dashboard": "Dashboard",
-    "properties": "Properties", 
+    "properties": "Properties",
     "tenants": "Tenants",
+    "roommates": "Roommates",
     "contracts": "Contracts",
     "inspections": "Inspections",
     "rentManagement": "Rent Management",
