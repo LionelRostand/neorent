@@ -33,7 +33,6 @@
     "urgent": "Dringend",
     "rentalRevenue": "Mieteinnahmen",
     "noRecentActivity": "Keine kürzliche Aktivität",
-     // ... autres clés existantes
     "rentReceived": "Miete erhalten",
     "newTenant": "Neuer Mieter", 
     "latePayment": "Verspätete Zahlung",
