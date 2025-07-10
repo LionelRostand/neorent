@@ -1,19 +1,52 @@
+
 {
   "userSpaces": {
     "ownerSpace": {
       "title": "Espace Propriétaire",
       "subtitle": "Gérez vos biens immobiliers",
-      "description": "Interface dédiée aux propriétaires"
+      "description": "Interface dédiée aux propriétaires",
+      "welcome": "Bienvenue dans votre espace propriétaire",
+      "dashboard": "Tableau de bord",
+      "properties": "Mes Propriétés",
+      "tenants": "Mes Locataires",
+      "revenue": "Mes Revenus",
+      "maintenance": "Maintenance",
+      "documents": "Documents",
+      "analytics": "Analyses",
+      "reports": "Rapports",
+      "settings": "Paramètres",
+      "notifications": "Notifications",
+      "calendar": "Calendrier",
+      "tasks": "Tâches"
     },
     "tenantSpace": {
       "title": "Espace Locataire",
       "subtitle": "Votre espace personnel",
-      "description": "Interface dédiée aux locataires"
+      "description": "Interface dédiée aux locataires",
+      "welcome": "Bienvenue dans votre espace locataire",
+      "dashboard": "Tableau de bord",
+      "myRent": "Mon Loyer",
+      "payments": "Paiements",
+      "documents": "Documents",
+      "maintenance": "Demandes de Maintenance",
+      "messages": "Messages",
+      "profile": "Mon Profil",
+      "contract": "Mon Contrat",
+      "receipts": "Reçus"
     },
     "roommateSpace": {
       "title": "Espace Colocataire",
       "subtitle": "Votre espace de colocation",
-      "description": "Interface dédiée aux colocataires"
+      "description": "Interface dédiée aux colocataires",
+      "welcome": "Bienvenue dans votre espace colocataire",
+      "dashboard": "Tableau de bord",
+      "sharedSpaces": "Espaces Partagés",
+      "roommates": "Colocataires",
+      "expenses": "Dépenses Partagées",
+      "schedule": "Planning",
+      "rules": "Règles de Vie",
+      "maintenance": "Maintenance",
+      "messages": "Messages"
     }
   }
 }

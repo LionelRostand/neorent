@@ -32,6 +32,7 @@ import frTenantUpload from './locales/fr/tenantUpload.json';
 import frTenantPayments from './locales/fr/tenantPayments.json';
 import frRoommates from './locales/fr/roommates.json';
 import frPublic from './locales/fr/public.json';
+import frPublicSite from './locales/fr/publicSite.json';
 import frLegal from './locales/fr/legal.json';
 import frPages from './locales/fr/pages.json';
 import frAdminPages from './locales/fr/adminPages.json';
@@ -71,6 +72,7 @@ import enTenantUpload from './locales/en/tenantUpload.json';
 import enTenantPayments from './locales/en/tenantPayments.json';
 import enRoommates from './locales/en/roommates.json';
 import enPublic from './locales/en/public.json';
+import enPublicSite from './locales/en/publicSite.json';
 import enLegal from './locales/en/legal.json';
 import enPages from './locales/en/pages.json';
 import enAdminPages from './locales/en/adminPages.json';
@@ -106,10 +108,11 @@ import deTenantProfile from './locales/de/tenantProfile.json';
 import deTenantDocuments from './locales/de/tenantDocuments.json';
 import deTenantHistory from './locales/de/tenantHistory.json';
 import deTenantOverview from './locales/de/tenantOverview.json';
-import deTenantUpload from './locales/de/tenantUpload.json';
+import deTenantUpload from './locales/de/tenantUpload.json';  
 import deTenantPayments from './locales/de/tenantPayments.json';
 import deRoommates from './locales/de/roommates.json';
 import dePublic from './locales/de/public.json';
+import dePublicSite from './locales/de/publicSite.json';
 import deLegal from './locales/de/legal.json';
 import dePages from './locales/de/pages.json';
 import deAdminPages from './locales/de/adminPages.json';
@@ -150,6 +153,7 @@ export const resources = {
     tenantPayments: frTenantPayments,
     roommates: frRoommates,
     public: frPublic,
+    publicSite: frPublicSite,
     legal: frLegal,
     pages: frPages,
     adminPages: frAdminPages,
@@ -189,6 +193,7 @@ export const resources = {
     tenantPayments: enTenantPayments,
     roommates: enRoommates,
     public: enPublic,
+    publicSite: enPublicSite,
     legal: enLegal,
     pages: enPages,
     adminPages: enAdminPages,
@@ -228,6 +233,7 @@ export const resources = {
     tenantPayments: deTenantPayments,
     roommates: deRoommates,
     public: dePublic,
+    publicSite: dePublicSite,
     legal: deLegal,
     pages: dePages,
     adminPages: deAdminPages,

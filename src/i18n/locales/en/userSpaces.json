@@ -1,19 +1,52 @@
+
 {
   "userSpaces": {
     "ownerSpace": {
       "title": "Owner Space",
       "subtitle": "Manage your real estate properties",
-      "description": "Interface dedicated to owners"
+      "description": "Interface dedicated to owners",
+      "welcome": "Welcome to your owner space",
+      "dashboard": "Dashboard",
+      "properties": "My Properties",
+      "tenants": "My Tenants",
+      "revenue": "My Revenue",
+      "maintenance": "Maintenance",
+      "documents": "Documents",
+      "analytics": "Analytics",
+      "reports": "Reports",
+      "settings": "Settings",
+      "notifications": "Notifications",
+      "calendar": "Calendar",
+      "tasks": "Tasks"
     },
     "tenantSpace": {
       "title": "Tenant Space",
       "subtitle": "Your personal space",
-      "description": "Interface dedicated to tenants"
+      "description": "Interface dedicated to tenants",
+      "welcome": "Welcome to your tenant space",
+      "dashboard": "Dashboard",
+      "myRent": "My Rent",
+      "payments": "Payments",
+      "documents": "Documents",
+      "maintenance": "Maintenance Requests",
+      "messages": "Messages",
+      "profile": "My Profile",
+      "contract": "My Contract",
+      "receipts": "Receipts"
     },
     "roommateSpace": {
       "title": "Roommate Space",
       "subtitle": "Your shared living space",
-      "description": "Interface dedicated to roommates"
+      "description": "Interface dedicated to roommates",
+      "welcome": "Welcome to your roommate space",
+      "dashboard": "Dashboard",
+      "sharedSpaces": "Shared Spaces",
+      "roommates": "Roommates",
+      "expenses": "Shared Expenses",
+      "schedule": "Schedule",
+      "rules": "House Rules",
+      "maintenance": "Maintenance",
+      "messages": "Messages"
     }
   }
 }
