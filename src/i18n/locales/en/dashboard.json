@@ -32,6 +32,16 @@
     "urgentInspection": "Urgent Inspection",
     "urgent": "Urgent",
     "rentalRevenue": "Rental Revenue",
-    "noRecentActivity": "No recent activity"
+    "noRecentActivity": "No recent activity",
+    "dashboard": {
+    // ... autres clés existantes
+    "rentReceived": "Rent received",
+    "newTenant": "New tenant",
+    "latePayment": "Late payment",
+    "timeAgo": {
+      "hours": "{{hours}}h ago",
+      "days": "{{days}}d ago",
+      "weeks": "{{weeks}} weeks ago"
+    }
   }
 }
