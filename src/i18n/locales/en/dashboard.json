@@ -34,7 +34,6 @@
     "rentalRevenue": "Rental Revenue",
     "noRecentActivity": "No recent activity",
     "dashboard": {
-    // ... autres clés existantes
     "rentReceived": "Rent received",
     "newTenant": "New tenant",
     "latePayment": "Late payment",
