@@ -1,0 +1,33 @@
+
+{
+  "propertyForm": {
+    "addProperty": "Ajouter une Propriété",
+    "editProperty": "Modifier la Propriété",
+    "title": "Titre",
+    "placeholders": {
+      "title": "Nom de la propriété",
+      "address": "Adresse complète",
+      "surface": "Surface en m²",
+      "rent": "Montant du loyer"
+    },
+    "address": "Adresse",
+    "surface": "Surface",
+    "rent": "Loyer",
+    "totalRooms": "Nombre Total de Chambres",
+    "availableRooms": "Chambres Disponibles",
+    "type": "Type",
+    "locationType": "Type de Location",
+    "charges": "Charges",
+    "creditImmobilier": "Crédit Immobilier",
+    "image": "Image",
+    "creating": "Création en cours...",
+    "saving": "Sauvegarde en cours...",
+    "addPropertyButton": "Ajouter la Propriété",
+    "saveChanges": "Sauvegarder les Modifications",
+    "cancel": "Annuler"
+  },
+  "buttons": {
+    "cancel": "Annuler",
+    "addProperty": "Ajouter la Propriété"
+  }
+}
