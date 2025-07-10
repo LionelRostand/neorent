@@ -29,77 +29,77 @@ export const useSidebarMenuItems = (): SidebarMenuItem[] => {
 
   return [
     {
-      label: t('navigation.dashboard', 'Tableau de bord'),
+      label: t('navigation.dashboard'),
       path: '/admin/dashboard',
       icon: LayoutDashboard
     },
     {
-      label: t('navigation.properties', 'Propriétés'),
+      label: t('navigation.properties'),
       path: '/admin/properties',
       icon: Building2
     },
     {
-      label: t('navigation.tenants', 'Locataires'),
+      label: t('navigation.tenants'),
       path: '/admin/tenants',
       icon: Users
     },
     {
-      label: t('navigation.roommates', 'Colocataires'),
+      label: t('navigation.roommates'),
       path: '/admin/roommates',
       icon: UserPlus
     },
     {
-      label: t('navigation.contracts', 'Contrats'),
+      label: t('navigation.contracts'),
       path: '/admin/contracts',
       icon: FileText
     },
     {
-      label: t('navigation.inspections', 'Inspections'),
+      label: t('navigation.inspections'),
       path: '/admin/inspections',
       icon: ClipboardCheck
     },
     {
-      label: t('navigation.rentManagement', 'Gestion des loyers'),
+      label: t('navigation.rentManagement'),
       path: '/admin/rent-management',
       icon: DollarSign
     },
     {
-      label: t('navigation.rentalCharges', 'Charges locatives'),
+      label: t('navigation.rentalCharges'),
       path: '/admin/rental-charges',
       icon: Receipt
     },
     {
-      label: t('navigation.forecasting', 'Prévisions'),
+      label: t('navigation.forecasting'),
       path: '/admin/forecasting',
       icon: TrendingUp
     },
     {
-      label: t('navigation.maintenance', 'Maintenance'),
+      label: t('navigation.maintenance'),
       path: '/admin/maintenance',
       icon: Wrench
     },
     {
-      label: t('navigation.messages', 'Messages'),
+      label: t('navigation.messages'),
       path: '/admin/messages',
       icon: MessageSquare
     },
     {
-      label: t('navigation.taxes', 'Fiscalité'),
+      label: t('navigation.taxes'),
       path: '/admin/taxes',
       icon: Calculator
     },
     {
-      label: t('navigation.website', 'Site web'),
+      label: t('navigation.website'),
       path: '/admin/website',
       icon: Globe
     },
     {
-      label: t('navigation.settings', 'Paramètres'),
+      label: t('navigation.settings'),
       path: '/admin/settings',
       icon: Settings
     },
     {
-      label: t('navigation.help', 'Aide'),
+      label: t('navigation.help'),
       path: '/admin/help',
       icon: HelpCircle
     }
