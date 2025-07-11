@@ -3,6 +3,8 @@
   "inspections": {
     "title": "Inspections",
     "subtitle": "Gérez vos inspections et états des lieux",
+    "modifyInspection": "Modifier l'inspection",
+    "roomsCondition": "État des pièces",
     "totalInspections": "Total Inspections",
     "scheduledInspections": "Inspections Programmées",
     "completedInspections": "Inspections Terminées",
@@ -121,30 +123,5 @@
       "emergencyInspection": "Inspection d'urgence",
       "routineInspection": "Inspection de routine"
     }
-  },
-  "inspectionForm": {
-    "title": "Nouvel État des Lieux",
-    "editTitle": "Modifier l'inspection",
-    "type": "Type d'inspection",
-    "selectType": "Sélectionner un type",
-    "property": "Propriété",
-    "selectProperty": "Sélectionner une propriété",
-    "tenant": "Locataire",
-    "selectTenant": "Sélectionner un locataire",
-    "inspector": "Inspecteur",
-    "inspectorPlaceholder": "Nom de l'inspecteur",
-    "date": "Date",
-    "time": "Heure",
-    "priority": "Priorité",
-    "selectPriority": "Sélectionner une priorité",
-    "description": "Description",
-    "descriptionPlaceholder": "Décrivez l'objet de l'inspection...",
-    "notes": "Notes",
-    "notesPlaceholder": "Notes supplémentaires...",
-    "creating": "Création en cours...",
-    "saving": "Sauvegarde en cours...",
-    "scheduleInspection": "Programmer l'inspection",
-    "saveChanges": "Sauvegarder les modifications",
-    "cancel": "Annuler"
   }
 }

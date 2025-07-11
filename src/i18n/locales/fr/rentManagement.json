@@ -3,6 +3,7 @@
   "rentManagement": {
     "title": "Gestion des Loyers",
     "subtitle": "Suivez vos paiements de loyer",
+    "savePayment": "Enregistrer le paiement",
     "totalRevenue": "Revenus Totaux",
     "paidRents": "Loyers Payés",
     "pendingRents": "Loyers En Attente",

@@ -1,0 +1,34 @@
+
+{
+  "propertyForm": {
+    "addProperty": "Ajouter une propriété",
+    "title": "Titre",
+    "placeholders": {
+      "title": "Titre de la propriété"
+    },
+    "adresse": "Adresse",
+    "flache": "Surface",
+    "placeholders": {
+      "surface": "Surface en m²"
+    },
+    "miete": "Loyer",
+    "placeholders": {
+      "rent": "Montant du loyer"
+    },
+    "gesamtzahlDerZimmer": "Nombre de chambres",
+    "ajouterPropriete": "Ajouter la propriété",
+    "locationTypes": {
+      "colocation": "Colocation"
+    },
+    "propertyTypes": {
+      "appartement": "Appartement",
+      "studio": "Studio",
+      "maison": "Maison",
+      "loft": "Loft",
+      "duplex": "Duplex"
+    },
+    "type": "Type",
+    "surface": "Surface",
+    "floor": "Étage"
+  }
+}

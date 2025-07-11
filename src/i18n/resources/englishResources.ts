@@ -6,6 +6,7 @@ import publicSite from '../locales/en/publicSite.json';
 import publicTranslations from '../locales/en/public.json';
 import website from '../locales/en/website.json';
 import properties from '../locales/en/properties.json';
+import propertyForm from '../locales/en/propertyForm.json';
 import contractForm from '../locales/en/contractForm.json';
 import contracts from '../locales/en/contracts.json';
 import forecasting from '../locales/en/forecasting.json';
@@ -26,6 +27,7 @@ import rentManagement from '../locales/en/rentManagement.json';
 import rentalCharges from '../locales/en/rentalCharges.json';
 import roommateSpace from '../locales/en/roommateSpace.json';
 import roommates from '../locales/en/roommates.json';
+import roommateForm from '../locales/en/roommateForm.json';
 import settings from '../locales/en/settings.json';
 import taxes from '../locales/en/taxes.json';
 import tenantDocuments from '../locales/en/tenantDocuments.json';
@@ -39,6 +41,7 @@ import tenants from '../locales/en/tenants.json';
 import adminPages from '../locales/en/adminPages.json';
 import userSpaces from '../locales/en/userSpaces.json';
 import forms from '../locales/en/forms.json';
+import buttons from '../locales/en/buttons.json';
 
 export const englishResources = {
   translation: {
@@ -49,6 +52,7 @@ export const englishResources = {
     ...publicTranslations,
     ...website,
     ...properties,
+    ...propertyForm,
     ...contractForm,
     ...contracts,
     ...forecasting,
@@ -69,6 +73,7 @@ export const englishResources = {
     ...rentalCharges,
     ...roommateSpace,
     ...roommates,
+    ...roommateForm,
     ...settings,
     ...taxes,
     ...tenantDocuments,
@@ -81,6 +86,7 @@ export const englishResources = {
     ...tenants,
     ...adminPages,
     ...userSpaces,
-    ...forms
+    ...forms,
+    ...buttons
   }
 };

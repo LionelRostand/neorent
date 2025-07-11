@@ -3,6 +3,7 @@
   "rentalCharges": {
     "title": "Charges Locatives",
     "subtitle": "Gérez les charges et provisions",
+    "internetTV": "Internet/TV",
     "monthlyView": "Vue Mensuelle",
     "annualView": "Vue Annuelle", 
     "filterByMonth": "Filtrer par Mois",

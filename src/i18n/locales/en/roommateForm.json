@@ -1,0 +1,9 @@
+
+{
+  "roommateForm": {
+    "property": "Property",
+    "selectProperty": "Select a property",
+    "roomNumber": "Room number",
+    "moveInDate": "Move-in date"
+  }
+}
