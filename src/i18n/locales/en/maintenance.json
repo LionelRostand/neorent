@@ -1,0 +1,36 @@
+
+{
+  "maintenance": {
+    "title": "Maintenance",
+    "subtitle": "Manage maintenance requests and interventions",
+    "newRequest": "New Request",
+    "requests": "Requests",
+    "interventions": "Interventions",
+    "pending": "Pending",
+    "inProgress": "In Progress",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "urgent": "Urgent",
+    "normal": "Normal",
+    "low": "Low",
+    "categories": {
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "heating": "Heating",
+      "cleaning": "Cleaning",
+      "painting": "Painting",
+      "appliances": "Appliances",
+      "technician": "Technician",
+      "other": "Other"
+    },
+    "requestTitle": "Request Title",
+    "description": "Description",
+    "priority": "Priority",
+    "category": "Category",
+    "assignedTo": "Assigned To",
+    "dueDate": "Due Date",
+    "status": "Status",
+    "cost": "Cost",
+    "notes": "Notes"
+  }
+}

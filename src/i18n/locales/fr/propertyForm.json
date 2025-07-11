@@ -4,17 +4,13 @@
     "addProperty": "Ajouter une propriété",
     "title": "Titre",
     "placeholders": {
-      "title": "Titre de la propriété"
+      "title": "Titre de la propriété",
+      "surface": "Surface en m²",
+      "rent": "Montant du loyer"
     },
     "adresse": "Adresse",
     "flache": "Surface",
-    "placeholders": {
-      "surface": "Surface en m²"
-    },
     "miete": "Loyer",
-    "placeholders": {
-      "rent": "Montant du loyer"
-    },
     "gesamtzahlDerZimmer": "Nombre de chambres",
     "ajouterPropriete": "Ajouter la propriété",
     "locationTypes": {

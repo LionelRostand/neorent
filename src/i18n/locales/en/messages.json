@@ -13,6 +13,8 @@
     "unreadMessages": "Unread Messages",
     "totalConversations": "Total Conversations",
     "activeChats": "Active Chats",
-    "responseTime": "Avg Response Time"
+    "responseTime": "Avg Response Time",
+    "onlineClients": "Online Clients",
+    "recent1h": "Recent 1h"
   }
 }

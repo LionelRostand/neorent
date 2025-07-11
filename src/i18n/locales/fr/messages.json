@@ -2,7 +2,7 @@
 {
   "messages": {
     "title": "Messages",
-    "subtitle": "Gérez vos communications avec les locataires",
+    "subtitle": "Gérer vos communications avec les locataires",
     "loading": "Chargement des messages...",
     "selectContact": "Sélectionnez un contact pour commencer à discuter",
     "noMessages": "Aucun message pour le moment",
@@ -11,8 +11,10 @@
     "online": "En ligne",
     "offline": "Hors ligne",
     "unreadMessages": "Messages Non Lus",
-    "totalConversations": "Total Conversations",
-    "activeChats": "Discussions Actives",
-    "responseTime": "Temps de Réponse Moyen"
+    "totalConversations": "Total des Conversations",
+    "activeChats": "Chats Actifs",
+    "responseTime": "Temps de Réponse Moyen",
+    "onlineClients": "Clients en Ligne",
+    "recent1h": "Récent 1h"
   }
 }

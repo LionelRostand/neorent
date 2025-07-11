@@ -4,17 +4,13 @@
     "addProperty": "Immobilie hinzufügen",
     "title": "Titel",
     "placeholders": {
-      "title": "Immobilientitel"
+      "title": "Immobilientitel",
+      "surface": "Fläche in m²",
+      "rent": "Mietbetrag"
     },
     "adresse": "Adresse",
     "flache": "Fläche",
-    "placeholders": {
-      "surface": "Fläche in m²"
-    },
     "miete": "Miete",
-    "placeholders": {
-      "rent": "Mietbetrag"
-    },
     "gesamtzahlDerZimmer": "Anzahl der Zimmer",
     "ajouterPropriete": "Immobilie hinzufügen",
     "locationTypes": {

@@ -2,13 +2,13 @@
 {
   "rentManagement": {
     "title": "Gestion des Loyers",
-    "subtitle": "Suivez les paiements et les retards",
+    "subtitle": "Suivi des paiements et loyers en retard",
     "thisMonth": "Ce Mois",
     "overview": "Aperçu",
     "totalReceived": "Total Reçu",
     "totalExpected": "Total Attendu",
-    "pendingPayments": "Paiements En Attente",
-    "latePayments": "Paiements En Retard",
+    "pendingPayments": "Paiements en Attente",
+    "latePayments": "Paiements en Retard",
     "collectionRate": "Taux de Recouvrement",
     "recentPayments": "Paiements Récents",
     "paymentHistory": "Historique des Paiements",
@@ -24,7 +24,7 @@
     "paid": "Payé",
     "pending": "En Attente",
     "late": "En Retard",
-    "overdue": "En Souffrance",
+    "overdue": "Échu",
     "cash": "Espèces",
     "check": "Chèque",
     "transfer": "Virement",
@@ -35,7 +35,7 @@
     "enterAmount": "Saisir le montant",
     "selectDate": "Sélectionner une date",
     "addNotes": "Ajouter des notes...",
-    "savePayment": "Enregistrer le paiement",
+    "savePayment": "Sauvegarder le paiement",
     "cancel": "Annuler",
     "edit": "Modifier",
     "delete": "Supprimer",
@@ -58,6 +58,15 @@
     "total": "Total",
     "balance": "Solde",
     "arrears": "Arriérés",
-    "advance": "Avance"
+    "advance": "Avance",
+    "paymentDate": "Date de Paiement",
+    "paymentMethod": "Méthode de Paiement",
+    "bankTransfer": "Virement Bancaire",
+    "notesPlaceholder": "Ajouter des notes...",
+    "monthlyPayments": "Paiements Mensuels",
+    "basedOnContracts": "Basé sur les Contrats",
+    "contractRent": "Loyer Contractuel",
+    "accordingToContract": "Selon le Contrat",
+    "amountPaid": "Montant Payé"
   }
 }

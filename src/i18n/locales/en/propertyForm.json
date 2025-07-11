@@ -4,17 +4,13 @@
     "addProperty": "Add Property",
     "title": "Title",
     "placeholders": {
-      "title": "Property title"
+      "title": "Property title",
+      "surface": "Surface in m²",
+      "rent": "Rent amount"
     },
     "adresse": "Address",
     "flache": "Surface",
-    "placeholders": {
-      "surface": "Surface in m²"
-    },
     "miete": "Rent",
-    "placeholders": {
-      "rent": "Rent amount"
-    },
     "gesamtzahlDerZimmer": "Number of rooms",
     "ajouterPropriete": "Add Property",
     "locationTypes": {

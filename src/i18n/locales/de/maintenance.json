@@ -1,0 +1,36 @@
+
+{
+  "maintenance": {
+    "title": "Wartung", 
+    "subtitle": "Verwaltung von Wartungsanfragen und -eingriffen",
+    "newRequest": "Neue Anfrage",
+    "requests": "Anfragen",
+    "interventions": "Eingriffe", 
+    "pending": "Ausstehend",
+    "inProgress": "In Bearbeitung",
+    "completed": "Abgeschlossen",
+    "cancelled": "Storniert",
+    "urgent": "Dringend",
+    "normal": "Normal",
+    "low": "Niedrig",
+    "categories": {
+      "plumbing": "Sanitär",
+      "electrical": "Elektrik",
+      "heating": "Heizung",
+      "cleaning": "Reinigung",
+      "painting": "Malerei",
+      "appliances": "Haushaltsgeräte",
+      "technician": "Techniker",
+      "other": "Sonstiges"
+    },
+    "requestTitle": "Anfrage Titel",
+    "description": "Beschreibung",
+    "priority": "Priorität",
+    "category": "Kategorie", 
+    "assignedTo": "Zugewiesen an",
+    "dueDate": "Fälligkeitsdatum",
+    "status": "Status",
+    "cost": "Kosten",
+    "notes": "Notizen"
+  }
+}

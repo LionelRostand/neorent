@@ -23,6 +23,271 @@
     "save": "Sauvegarder les Modifications",
     "cancel": "Annuler",
     "apply": "Appliquer",
-    "restore": "Restaurer par Défaut"
+    "restore": "Restaurer par Défaut",
+    "tabs": {
+      "company": "Entreprise",
+      "employees": "Propriétaires",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Base de données",
+      "email": "Email",
+      "security": "Sécurité",
+      "payment": "Paiement",
+      "adminAccess": "Accès Admin"
+    },
+    "company": {
+      "title": "Gestion des Entreprises",
+      "subtitle": "Gérez les informations de votre entreprise",
+      "addCompany": "Ajouter une Entreprise",
+      "editCompany": "Modifier l'Entreprise",
+      "companyName": "Nom de l'Entreprise",
+      "companyAddress": "Adresse de l'Entreprise",
+      "companyPhone": "Téléphone de l'Entreprise",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette entreprise ?"
+    },
+    "adminAccess": "Accès Administrateur",
+    "adminAccessDescription": "Gérer l'accès administrateur aux espaces locataires",
+    "selectTenantRoommate": "Sélectionner Locataire/Colocataire",
+    "chooseProfileToView": "Choisir un profil à consulter",
+    "accessTenantSpace": "Accéder à l'Espace Locataire",
+    "featureReservedForAdmin": "Cette fonctionnalité est réservée aux administrateurs",
+    "payment": {
+      "title": "Configuration des Paiements",
+      "subtitle": "Gérez les méthodes de paiement et leurs paramètres",
+      "stripe": {
+        "title": "Configuration Stripe",
+        "description": "Configurez les paiements par carte de crédit avec Stripe",
+        "enable": "Activer Stripe",
+        "publicKey": "Clé publique",
+        "secretKey": "Clé secrète",
+        "webhookSecret": "Secret webhook",
+        "save": "Sauvegarder Stripe"
+      },
+      "paypal": {
+        "title": "Configuration PayPal",
+        "description": "Configurez les paiements PayPal pour vos locataires",
+        "enable": "Activer PayPal",
+        "clientId": "ID Client",
+        "clientSecret": "Client Secret",
+        "clientSecretPlaceholder": "Votre secret client PayPal",
+        "save": "Sauvegarder PayPal"
+      },
+      "bank": {
+        "title": "Virement Bancaire",
+        "description": "Configurez les informations pour les virements bancaires",
+        "enable": "Activer les virements bancaires",
+        "iban": "IBAN",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 7890 123",
+        "bic": "BIC/SWIFT",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankName": "Nom de la banque",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolder": "Titulaire du compte",
+        "accountHolderPlaceholder": "Nom du titulaire",
+        "save": "Sauvegarder Virement"
+      },
+      "mobile": {
+        "title": "Paiement Mobile",
+        "description": "Configurez les solutions de paiement mobile",
+        "enable": "Activer le paiement mobile",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Money",
+        "moovMoney": "Moov Money",
+        "save": "Sauvegarder Mobile"
+      }
+    },
+    "security": {
+      "title": "Sécurité",
+      "subtitle": "Configurez les paramètres de sécurité et les politiques de mot de passe",
+      "passwordPolicy": "Politique des mots de passe",
+      "minLength": "Longueur minimale",
+      "passwordExpiry": "Expiration du mot de passe",
+      "complexityRequirements": "Exigences de complexité",
+      "requireUppercase": "Majuscules requises",
+      "requireLowercase": "Minuscules requises",
+      "requireNumbers": "Chiffres requis",
+      "requireSpecialChars": "Caractères spéciaux requis",
+      "preventCommonPasswords": "Empêcher les mots de passe courants",
+      "preventCommonPasswordsDescription": "Bloquer les mots de passe faibles et couramment utilisés",
+      "expiryOptions": {
+        "90days": "90 jours"
+      },
+      "twoFactor": {
+        "title": "Authentification à deux facteurs",
+        "enable": "Activer la 2FA",
+        "enableDescription": "Ajoutez une couche de sécurité supplémentaire à votre compte"
+      },
+      "sessionSecurity": "Sécurité des sessions",
+      "sessionTimeout": "Délai d'inactivité de session",
+      "timeoutOptions": {
+        "30min": "30 minutes"
+      },
+      "maxLoginAttempts": "Tentatives de connexion maximales",
+      "lockoutDuration": "Durée de verrouillage",
+      "lockoutOptions": {
+        "15min": "15 minutes"
+      },
+      "recommendations": {
+        "title": "Recommandations de sécurité",
+        "sessionTimeout": "Configurez un délai d'inactivité approprié",
+        "loginAttempts": "Limitez les tentatives de connexion",
+        "twoFactor": "Activez l'authentification à deux facteurs",
+        "checkLogs": "Vérifiez régulièrement les journaux de sécurité"
+      }
+    },
+    "email": {
+      "title": "Configuration Email",
+      "subtitle": "Configurez les paramètres SMTP et IMAP pour l'envoi et la réception d'emails",
+      "enabled": "Activer les emails",
+      "testMode": "Mode test",
+      "smtp": {
+        "title": "Configuration SMTP",
+        "server": "Serveur SMTP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "fromEmail": "Email expéditeur",
+        "fromName": "Nom expéditeur",
+        "testConnection": "Tester la connexion"
+      },
+      "imap": {
+        "title": "Configuration IMAP",
+        "server": "Serveur IMAP",
+        "port": "Port",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "security": "Sécurité",
+        "folder": "Dossier",
+        "testConnection": "Tester la connexion"
+      },
+      "securityOptions": {
+        "tls": "TLS",
+        "ssl": "SSL"
+      },
+      "recommendedConfig": "Configuration recommandée",
+      "gmailConfig": "Gmail : smtp.gmail.com:587 (TLS), imap.gmail.com:993 (SSL)",
+      "outlookConfig": "Outlook : smtp-mail.outlook.com:587 (TLS), outlook.office365.com:993 (SSL)",
+      "appPasswordRecommendation": "Utilisez un mot de passe d'application pour Gmail et Outlook",
+      "testConnectionRecommendation": "Testez toujours la connexion avant de sauvegarder"
+    },
+    "database": {
+      "title": "Gestion de la base de données",
+      "subtitle": "Configurez et surveillez votre base de données Firebase",
+      "stats": {
+        "title": "Statistiques de la base de données",
+        "collectionsConfigured": "Collections configurées",
+        "firestoreCollections": "Collections Firestore",
+        "activeUsers": "Utilisateurs actifs",
+        "userAccounts": "Comptes utilisateur",
+        "storedDocuments": "Documents stockés",
+        "documentsInCollections": "Documents dans les collections",
+        "operationsPerDay": "Opérations par jour",
+        "dailyOperations": "Opérations quotidiennes"
+      },
+      "importantInfo": {
+        "title": "Informations importantes",
+        "realTimeStats": "Statistiques en temps réel de la base de données",
+        "monitorQuota": "Surveillez votre quota d'utilisation Firebase",
+        "optimizeQueries": "Optimisez vos requêtes pour de meilleures performances",
+        "configureBilling": "Configurez la facturation pour éviter les interruptions"
+      }
+    },
+    "firebase": {
+      "title": "Configuration Firebase",
+      "subtitle": "Gérez la configuration et les règles Firebase",
+      "config": {
+        "title": "Configuration Firebase",
+        "copy": "Copié dans le Presse-papiers",
+        "console": "Console Firebase",
+        "connectionStatus": {
+          "title": "État de la Connexion",
+          "connected": "Connecté",
+          "configured": "Configuré",
+          "available": "Disponible",
+          "firestore": "Firestore",
+          "authentication": "Authentification",
+          "storage": "Storage",
+          "region": "Région",
+          "europe": "Europe",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Sécurité",
+          "apiKeyPublic": "La clé API est publique mais sécurisée",
+          "rulesProtection": "Les règles Firebase protègent vos données",
+          "checkRules": "Vérifiez régulièrement vos règles de sécurité",
+          "monitorUsage": "Surveillez l'utilisation de votre projet"
+        }
+      },
+      "collections": {
+        "title": "Collections Firebase",
+        "lastUpdate": "Dernière Mise à Jour",
+        "refresh": "Actualiser",
+        "properties": "Propriétés Immobilières",
+        "tenants": "Locataires",
+        "roommates": "Colocataires",
+        "payments": "Paiements",
+        "contracts": "Contrats",
+        "inspections": "Inspections",
+        "maintenances": "Maintenances",
+        "companies": "Entreprises",
+        "documents": "Documents",
+        "modified": "Modifié le",
+        "active": "Actif",
+        "docs": "docs",
+        "importantInfo": {
+          "title": "Informations Importantes",
+          "autoCreated": "Les collections sont créées automatiquement lors de l'ajout de données",
+          "rulesApply": "Les règles de sécurité Firebase s'appliquent à toutes les collections",
+          "realTimeSync": "Synchronisation en temps réel avec l'application",
+          "refreshStats": "Actualisez pour obtenir les dernières statistiques"
+        }
+      },
+      "firestoreRules": "Règles Firestore",
+      "copy": "Copier",
+      "applyAuto": "Appliquer Automatiquement",
+      "manualUpdate": "Mise à Jour Manuelle",
+      "copyInstructions": "Copiez ces règles dans la console Firebase",
+      "updateOptions": "Options de Mise à Jour",
+      "automatic": "Automatique",
+      "automaticDescription": "Applique les règles directement via l'API",
+      "manual": "Manuel",
+      "manualDescription": "Ouvre la console Firebase avec les instructions",
+      "copyDescription": "Copie les règles dans le presse-papiers",
+      "important": "Important",
+      "automaticRequirements": "La mise à jour automatique nécessite des permissions administrateur Firebase",
+      "openConsole": "Ouvrir la Console",
+      "newFeatures": "Nouvelles Fonctionnalités",
+      "utilityFunctions": "Fonctions Utilitaires",
+      "utilityFunctionsDesc": "Fonctions d'aide pour la validation et les permissions",
+      "documentManagement": "Gestion des Documents",
+      "documentManagementDesc": "Règles avancées pour la gestion sécurisée des documents",
+      "maintenance": "Maintenance",
+      "maintenanceDesc": "Système complet de gestion des demandes de maintenance",
+      "employeePermissions": "Permissions Employés",
+      "employeePermissionsDesc": "Contrôle granulaire des accès selon les rôles",
+      "enhancedSecurity": "Sécurité Renforcée",
+      "dataValidation": "Validation des Données",
+      "dataValidationDesc": "Validation stricte des champs et formats de données",
+      "contextualAccess": "Accès Contextuel",
+      "contextualAccessDesc": "Permissions basées sur le contexte et l'appartenance",
+      "auditTrail": "Piste d'Audit",
+      "auditTrailDesc": "Traçabilité complète des actions et modifications",
+      "roleIsolation": "Isolation des Rôles",
+      "roleIsolationDesc": "Séparation stricte des données selon les rôles utilisateur",
+      "importantConfiguration": "Configuration Importante",
+      "enableFirebaseAuth": "Activez l'authentification Firebase dans la console",
+      "createUserRolesCollection": "Créez la collection 'user_roles' dans Firestore",
+      "addDocumentWithUID": "Ajoutez un document avec l'UID de chaque utilisateur",
+      "testRulesInTestMode": "Testez les règles en mode test avant la production",
+      "verifyAllUsersHaveRole": "Vérifiez que tous les utilisateurs ont un rôle défini",
+      "deploymentInstructions": "Instructions de Déploiement",
+      "copyRulesAbove": "Copiez les règles ci-dessus",
+      "goToFirebaseConsole": "Accédez à la console Firebase de votre projet",
+      "clickRulesTab": "Cliquez sur l'onglet 'Règles' dans Firestore",
+      "replaceContentWithNewRules": "Remplacez le contenu par les nouvelles règles",
+      "clickPublishToApply": "Cliquez sur 'Publier' pour appliquer les changements"
+    }
   }
 }

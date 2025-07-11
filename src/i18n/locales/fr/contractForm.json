@@ -1,8 +1,8 @@
 
 {
   "contractForm": {
-    "title": "Ajouter un contrat",
-    "editTitle": "Modifier le contrat",
+    "title": "Ajouter un Contrat",
+    "editTitle": "Modifier le Contrat",
     "newContract": "Nouveau contrat",
     "contractToAdd": "Contrat à ajouter",
     "contractType": "Type de contrat",
@@ -34,8 +34,8 @@
     "termsPlaceholder": "Conditions spécifiques au contrat...",
     "notes": "Notes",
     "notesPlaceholder": "Notes internes...",
-    "creating": "Création en cours...",
-    "saving": "Sauvegarde en cours...",
+    "creating": "Création...",
+    "saving": "Sauvegarde...",
     "addContract": "Ajouter le contrat",
     "saveChanges": "Sauvegarder les modifications",
     "cancel": "Annuler",
@@ -50,8 +50,8 @@
     "description": "Description",
     "descriptionPlaceholder": "Description du contrat",
     "titlePlaceholder": "Titre du contrat",
-    "french": "Française",
-    "cameroonian": "Camerounaise",
+    "french": "Français",
+    "cameroonian": "Camerounais",
     "requiredFieldsError": "Veuillez remplir tous les champs obligatoires",
     "createContract": "Créer le contrat"
   }

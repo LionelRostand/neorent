@@ -1,4 +1,3 @@
-
 import navigation from '../locales/de/navigation.json';
 import common from '../locales/de/common.json';
 import dashboard from '../locales/de/dashboard.json';
@@ -18,6 +17,7 @@ import maintenanceCosts from '../locales/de/maintenanceCosts.json';
 import maintenanceHistory from '../locales/de/maintenanceHistory.json';
 import maintenanceInterventions from '../locales/de/maintenanceInterventions.json';
 import maintenanceResponsibilities from '../locales/de/maintenanceResponsibilities.json';
+import maintenance from '../locales/de/maintenance.json';
 import messages from '../locales/de/messages.json';
 import ownerSpace from '../locales/de/ownerSpace.json';
 import pages from '../locales/de/pages.json';
@@ -64,6 +64,7 @@ export const germanResources = {
     ...maintenanceHistory,
     ...maintenanceInterventions,
     ...maintenanceResponsibilities,
+    ...maintenance,
     ...messages,
     ...ownerSpace,
     ...pages,

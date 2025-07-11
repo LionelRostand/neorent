@@ -1,0 +1,36 @@
+
+{
+  "maintenance": {
+    "title": "Maintenance",
+    "subtitle": "Gestion des demandes et interventions de maintenance",
+    "newRequest": "Nouvelle Demande",
+    "requests": "Demandes",
+    "interventions": "Interventions",
+    "pending": "En Attente",
+    "inProgress": "En Cours",
+    "completed": "Terminé",
+    "cancelled": "Annulé",
+    "urgent": "Urgent",
+    "normal": "Normal",
+    "low": "Faible",
+    "categories": {
+      "plumbing": "Plomberie",
+      "electrical": "Électricité",
+      "heating": "Chauffage",
+      "cleaning": "Nettoyage",
+      "painting": "Peinture",
+      "appliances": "Électroménager",
+      "technician": "Technicien",
+      "other": "Autre"
+    },
+    "requestTitle": "Titre de la Demande",
+    "description": "Description",
+    "priority": "Priorité", 
+    "category": "Catégorie",
+    "assignedTo": "Assigné à",
+    "dueDate": "Date d'Échéance",
+    "status": "Statut",
+    "cost": "Coût",
+    "notes": "Notes"
+  }
+}

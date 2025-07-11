@@ -23,6 +23,271 @@
     "save": "Save Changes",
     "cancel": "Cancel",
     "apply": "Apply",
-    "restore": "Restore Defaults"
+    "restore": "Restore Defaults",
+    "tabs": {
+      "company": "Company",
+      "employees": "Owners",
+      "permissions": "Permissions",
+      "firebase": "Firebase",
+      "database": "Database",
+      "email": "Email",
+      "security": "Security",
+      "payment": "Payment",
+      "adminAccess": "Admin Access"
+    },
+    "company": {
+      "title": "Company Management",
+      "subtitle": "Manage your company information",
+      "addCompany": "Add Company",
+      "editCompany": "Edit Company",
+      "companyName": "Company Name",
+      "companyAddress": "Company Address",
+      "companyPhone": "Company Phone",
+      "confirmDelete": "Are you sure you want to delete this company?"
+    },
+    "adminAccess": "Administrator Access",
+    "adminAccessDescription": "Manage administrator access to tenant spaces",
+    "selectTenantRoommate": "Select Tenant/Roommate",
+    "chooseProfileToView": "Choose a profile to view",
+    "accessTenantSpace": "Access Tenant Space",
+    "featureReservedForAdmin": "This feature is reserved for administrators",
+    "payment": {
+      "title": "Payment Configuration",
+      "subtitle": "Manage payment methods and their settings",
+      "stripe": {
+        "title": "Stripe Configuration",
+        "description": "Configure credit card payments with Stripe",
+        "enable": "Enable Stripe",
+        "publicKey": "Public Key",
+        "secretKey": "Secret Key",
+        "webhookSecret": "Webhook Secret",
+        "save": "Save Stripe"
+      },
+      "paypal": {
+        "title": "PayPal Configuration",
+        "description": "Configure PayPal payments for your tenants",
+        "enable": "Enable PayPal",
+        "clientId": "Client ID",
+        "clientSecret": "Client Secret",
+        "clientSecretPlaceholder": "Your PayPal client secret",
+        "save": "Save PayPal"
+      },
+      "bank": {
+        "title": "Bank Transfer",
+        "description": "Configure information for bank transfers",
+        "enable": "Enable bank transfers",
+        "iban": "IBAN",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 7890 123",
+        "bic": "BIC/SWIFT",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankName": "Bank Name",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolder": "Account Holder",
+        "accountHolderPlaceholder": "Account holder name",
+        "save": "Save Transfer"
+      },
+      "mobile": {
+        "title": "Mobile Payment",
+        "description": "Configure mobile payment solutions",
+        "enable": "Enable mobile payment",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Money",
+        "moovMoney": "Moov Money",
+        "save": "Save Mobile"
+      }
+    },
+    "security": {
+      "title": "Security",
+      "subtitle": "Configure security settings and password policies",
+      "passwordPolicy": "Password Policy",
+      "minLength": "Minimum Length",
+      "passwordExpiry": "Password Expiry",
+      "complexityRequirements": "Complexity Requirements",
+      "requireUppercase": "Require Uppercase",
+      "requireLowercase": "Require Lowercase",
+      "requireNumbers": "Require Numbers",
+      "requireSpecialChars": "Require Special Characters",
+      "preventCommonPasswords": "Prevent Common Passwords",
+      "preventCommonPasswordsDescription": "Block weak and commonly used passwords",
+      "expiryOptions": {
+        "90days": "90 days"
+      },
+      "twoFactor": {
+        "title": "Two-Factor Authentication",
+        "enable": "Enable 2FA",
+        "enableDescription": "Add an additional layer of security to your account"
+      },
+      "sessionSecurity": "Session Security",
+      "sessionTimeout": "Session Timeout",
+      "timeoutOptions": {
+        "30min": "30 minutes"
+      },
+      "maxLoginAttempts": "Max Login Attempts",
+      "lockoutDuration": "Lockout Duration",
+      "lockoutOptions": {
+        "15min": "15 minutes"
+      },
+      "recommendations": {
+        "title": "Security Recommendations",
+        "sessionTimeout": "Configure appropriate session timeout",
+        "loginAttempts": "Limit login attempts",
+        "twoFactor": "Enable two-factor authentication",
+        "checkLogs": "Regularly check security logs"
+      }
+    },
+    "email": {
+      "title": "Email Configuration",
+      "subtitle": "Configure SMTP and IMAP settings for sending and receiving emails",
+      "enabled": "Enable emails",
+      "testMode": "Test mode",
+      "smtp": {
+        "title": "SMTP Configuration",
+        "server": "SMTP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "fromEmail": "From Email",
+        "fromName": "From Name",
+        "testConnection": "Test Connection"
+      },
+      "imap": {
+        "title": "IMAP Configuration",
+        "server": "IMAP Server",
+        "port": "Port",
+        "username": "Username",
+        "password": "Password",
+        "security": "Security",
+        "folder": "Folder",
+        "testConnection": "Test Connection"
+      },
+      "securityOptions": {
+        "tls": "TLS",
+        "ssl": "SSL"
+      },
+      "recommendedConfig": "Recommended Configuration",
+      "gmailConfig": "Gmail: smtp.gmail.com:587 (TLS), imap.gmail.com:993 (SSL)",
+      "outlookConfig": "Outlook: smtp-mail.outlook.com:587 (TLS), outlook.office365.com:993 (SSL)",
+      "appPasswordRecommendation": "Use app password for Gmail and Outlook",
+      "testConnectionRecommendation": "Always test connection before saving"
+    },
+    "database": {
+      "title": "Database Management",
+      "subtitle": "Configure and monitor your Firebase database",
+      "stats": {
+        "title": "Database Statistics",
+        "collectionsConfigured": "Collections Configured",
+        "firestoreCollections": "Firestore Collections",
+        "activeUsers": "Active Users",
+        "userAccounts": "User Accounts",
+        "storedDocuments": "Stored Documents",
+        "documentsInCollections": "Documents in Collections",
+        "operationsPerDay": "Operations per Day",
+        "dailyOperations": "Daily Operations"
+      },
+      "importantInfo": {
+        "title": "Important Information",
+        "realTimeStats": "Real-time database statistics",
+        "monitorQuota": "Monitor your Firebase usage quota",
+        "optimizeQueries": "Optimize your queries for better performance",
+        "configureBilling": "Configure billing to avoid interruptions"
+      }
+    },
+    "firebase": {
+      "title": "Firebase Configuration",
+      "subtitle": "Manage Firebase configuration and rules",
+      "config": {
+        "title": "Firebase Configuration",
+        "copy": "Copied to Clipboard",
+        "console": "Firebase Console",
+        "connectionStatus": {
+          "title": "Connection Status",
+          "connected": "Connected",
+          "configured": "Configured",
+          "available": "Available",
+          "firestore": "Firestore",
+          "authentication": "Authentication",
+          "storage": "Storage",
+          "region": "Region",
+          "europe": "Europe",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Security",
+          "apiKeyPublic": "API key is public but secure",
+          "rulesProtection": "Firebase rules protect your data",
+          "checkRules": "Regularly check your security rules",
+          "monitorUsage": "Monitor your project usage"
+        }
+      },
+      "collections": {
+        "title": "Firebase Collections",
+        "lastUpdate": "Last Update",
+        "refresh": "Refresh",
+        "properties": "Real Estate Properties",
+        "tenants": "Tenants",
+        "roommates": "Roommates",
+        "payments": "Payments",
+        "contracts": "Contracts",
+        "inspections": "Inspections",
+        "maintenances": "Maintenances",
+        "companies": "Companies",
+        "documents": "Documents",
+        "modified": "Modified on",
+        "active": "Active",
+        "docs": "docs",
+        "importantInfo": {
+          "title": "Important Information",
+          "autoCreated": "Collections are automatically created when adding data",
+          "rulesApply": "Firebase security rules apply to all collections",
+          "realTimeSync": "Real-time synchronization with the application",
+          "refreshStats": "Refresh to get the latest statistics"
+        }
+      },
+      "firestoreRules": "Firestore Rules",
+      "copy": "Copy",
+      "applyAuto": "Apply Automatically",
+      "manualUpdate": "Manual Update",
+      "copyInstructions": "Copy these rules to the Firebase console",
+      "updateOptions": "Update Options",
+      "automatic": "Automatic",
+      "automaticDescription": "Apply rules directly via API",
+      "manual": "Manual",
+      "manualDescription": "Open Firebase console with instructions",
+      "copyDescription": "Copy rules to clipboard",
+      "important": "Important",
+      "automaticRequirements": "Automatic update requires Firebase admin permissions",
+      "openConsole": "Open Console",
+      "newFeatures": "New Features",
+      "utilityFunctions": "Utility Functions",
+      "utilityFunctionsDesc": "Helper functions for validation and permissions",
+      "documentManagement": "Document Management",
+      "documentManagementDesc": "Advanced rules for secure document management",
+      "maintenance": "Maintenance",
+      "maintenanceDesc": "Complete maintenance request management system",
+      "employeePermissions": "Employee Permissions",
+      "employeePermissionsDesc": "Granular access control based on roles",
+      "enhancedSecurity": "Enhanced Security",
+      "dataValidation": "Data Validation",
+      "dataValidationDesc": "Strict validation of fields and data formats",
+      "contextualAccess": "Contextual Access",
+      "contextualAccessDesc": "Permissions based on context and membership",
+      "auditTrail": "Audit Trail",
+      "auditTrailDesc": "Complete traceability of actions and modifications",
+      "roleIsolation": "Role Isolation",
+      "roleIsolationDesc": "Strict data separation according to user roles",
+      "importantConfiguration": "Important Configuration",
+      "enableFirebaseAuth": "Enable Firebase authentication in the console",
+      "createUserRolesCollection": "Create the 'user_roles' collection in Firestore",
+      "addDocumentWithUID": "Add a document with each user's UID",
+      "testRulesInTestMode": "Test rules in test mode before production",
+      "verifyAllUsersHaveRole": "Verify that all users have a defined role",
+      "deploymentInstructions": "Deployment Instructions",
+      "copyRulesAbove": "Copy the rules above",
+      "goToFirebaseConsole": "Go to your project's Firebase console",
+      "clickRulesTab": "Click on the 'Rules' tab in Firestore",
+      "replaceContentWithNewRules": "Replace content with new rules",
+      "clickPublishToApply": "Click 'Publish' to apply changes"
+    }
   }
 }

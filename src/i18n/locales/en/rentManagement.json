@@ -58,6 +58,15 @@
     "total": "Total",
     "balance": "Balance",
     "arrears": "Arrears",
-    "advance": "Advance"
+    "advance": "Advance",
+    "paymentDate": "Payment Date",
+    "paymentMethod": "Payment Method",
+    "bankTransfer": "Bank Transfer",
+    "notesPlaceholder": "Add notes...",
+    "monthlyPayments": "Monthly Payments",
+    "basedOnContracts": "Based on Contracts",
+    "contractRent": "Contract Rent",
+    "accordingToContract": "According to Contract",
+    "amountPaid": "Amount Paid"
   }
 }

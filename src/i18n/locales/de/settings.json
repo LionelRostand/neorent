@@ -23,6 +23,271 @@
     "save": "Änderungen speichern",
     "cancel": "Abbrechen",
     "apply": "Anwenden",
-    "restore": "Standard wiederherstellen"
+    "restore": "Standard wiederherstellen",
+    "tabs": {
+      "company": "Unternehmen",
+      "employees": "Eigentümer",
+      "permissions": "Berechtigungen",
+      "firebase": "Firebase",
+      "database": "Datenbank",
+      "email": "E-Mail",
+      "security": "Sicherheit",
+      "payment": "Zahlung",
+      "adminAccess": "Admin-Zugang"
+    },
+    "company": {
+      "title": "Unternehmensverwaltung",
+      "subtitle": "Verwalten Sie Ihre Unternehmensinformationen",
+      "addCompany": "Unternehmen hinzufügen",
+      "editCompany": "Unternehmen bearbeiten",
+      "companyName": "Firmenname",
+      "companyAddress": "Firmenadresse",
+      "companyPhone": "Firmentelefon",
+      "confirmDelete": "Sind Sie sicher, dass Sie dieses Unternehmen löschen möchten?"
+    },
+    "adminAccess": "Administrator-Zugang",
+    "adminAccessDescription": "Administrator-Zugang zu Mieterräumen verwalten",
+    "selectTenantRoommate": "Mieter/Mitbewohner auswählen",
+    "chooseProfileToView": "Profil zum Anzeigen auswählen",
+    "accessTenantSpace": "Mieterbereich zugreifen",
+    "featureReservedForAdmin": "Diese Funktion ist Administratoren vorbehalten",
+    "payment": {
+      "title": "Zahlungskonfiguration",
+      "subtitle": "Zahlungsmethoden und deren Einstellungen verwalten",
+      "stripe": {
+        "title": "Stripe-Konfiguration",
+        "description": "Kreditkartenzahlungen mit Stripe konfigurieren",
+        "enable": "Stripe aktivieren",
+        "publicKey": "Öffentlicher Schlüssel",
+        "secretKey": "Geheimer Schlüssel",
+        "webhookSecret": "Webhook-Geheimnis",
+        "save": "Stripe speichern"
+      },
+      "paypal": {
+        "title": "PayPal-Konfiguration",
+        "description": "PayPal-Zahlungen für Ihre Mieter konfigurieren",
+        "enable": "PayPal aktivieren",
+        "clientId": "Client-ID",
+        "clientSecret": "Client-Geheimnis",
+        "clientSecretPlaceholder": "Ihr PayPal Client-Geheimnis",
+        "save": "PayPal speichern"
+      },
+      "bank": {
+        "title": "Banküberweisung",
+        "description": "Informationen für Banküberweisungen konfigurieren",
+        "enable": "Banküberweisungen aktivieren",
+        "iban": "IBAN",
+        "ibanPlaceholder": "DE89 3704 0044 0532 0130 00",
+        "bic": "BIC/SWIFT",
+        "bicPlaceholder": "COBADEFFXXX",
+        "bankName": "Bankname",
+        "bankNamePlaceholder": "Commerzbank",
+        "accountHolder": "Kontoinhaber",
+        "accountHolderPlaceholder": "Name des Kontoinhabers",
+        "save": "Überweisung speichern"
+      },
+      "mobile": {
+        "title": "Mobile Zahlung",
+        "description": "Mobile Zahlungslösungen konfigurieren",
+        "enable": "Mobile Zahlung aktivieren",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Money",
+        "moovMoney": "Moov Money",
+        "save": "Mobile speichern"
+      }
+    },
+    "security": {
+      "title": "Sicherheit",
+      "subtitle": "Sicherheitseinstellungen und Passwort-Richtlinien konfigurieren",
+      "passwordPolicy": "Passwort-Richtlinie",
+      "minLength": "Mindestlänge",
+      "passwordExpiry": "Passwort-Ablauf",
+      "complexityRequirements": "Komplexitätsanforderungen",
+      "requireUppercase": "Großbuchstaben erforderlich",
+      "requireLowercase": "Kleinbuchstaben erforderlich",
+      "requireNumbers": "Zahlen erforderlich",
+      "requireSpecialChars": "Sonderzeichen erforderlich",
+      "preventCommonPasswords": "Häufige Passwörter verhindern",
+      "preventCommonPasswordsDescription": "Schwache und häufig verwendete Passwörter blockieren",
+      "expiryOptions": {
+        "90days": "90 Tage"
+      },
+      "twoFactor": {
+        "title": "Zwei-Faktor-Authentifizierung",
+        "enable": "2FA aktivieren",
+        "enableDescription": "Zusätzliche Sicherheitsebene für Ihr Konto hinzufügen"
+      },
+      "sessionSecurity": "Sitzungssicherheit",
+      "sessionTimeout": "Sitzungs-Timeout",
+      "timeoutOptions": {
+        "30min": "30 Minuten"
+      },
+      "maxLoginAttempts": "Max. Anmeldeversuche",
+      "lockoutDuration": "Sperrzeit",
+      "lockoutOptions": {
+        "15min": "15 Minuten"
+      },
+      "recommendations": {
+        "title": "Sicherheitsempfehlungen",
+        "sessionTimeout": "Angemessenes Sitzungs-Timeout konfigurieren",
+        "loginAttempts": "Anmeldeversuche begrenzen",
+        "twoFactor": "Zwei-Faktor-Authentifizierung aktivieren",
+        "checkLogs": "Sicherheitsprotokolle regelmäßig überprüfen"
+      }
+    },
+    "email": {
+      "title": "E-Mail-Konfiguration",
+      "subtitle": "SMTP- und IMAP-Einstellungen für das Senden und Empfangen von E-Mails konfigurieren",
+      "enabled": "E-Mails aktivieren",
+      "testMode": "Testmodus",
+      "smtp": {
+        "title": "SMTP-Konfiguration",
+        "server": "SMTP-Server",
+        "port": "Port",
+        "username": "Benutzername",
+        "password": "Passwort",
+        "security": "Sicherheit",
+        "fromEmail": "Absender-E-Mail",
+        "fromName": "Absendername",
+        "testConnection": "Verbindung testen"
+      },
+      "imap": {
+        "title": "IMAP-Konfiguration",
+        "server": "IMAP-Server",
+        "port": "Port",
+        "username": "Benutzername",
+        "password": "Passwort",
+        "security": "Sicherheit",
+        "folder": "Ordner",
+        "testConnection": "Verbindung testen"
+      },
+      "securityOptions": {
+        "tls": "TLS",
+        "ssl": "SSL"
+      },
+      "recommendedConfig": "Empfohlene Konfiguration",
+      "gmailConfig": "Gmail: smtp.gmail.com:587 (TLS), imap.gmail.com:993 (SSL)",
+      "outlookConfig": "Outlook: smtp-mail.outlook.com:587 (TLS), outlook.office365.com:993 (SSL)",
+      "appPasswordRecommendation": "App-Passwort für Gmail und Outlook verwenden",
+      "testConnectionRecommendation": "Verbindung vor dem Speichern immer testen"
+    },
+    "database": {
+      "title": "Datenbankmanagement",
+      "subtitle": "Firebase-Datenbank konfigurieren und überwachen",
+      "stats": {
+        "title": "Datenbankstatistiken",
+        "collectionsConfigured": "Konfigurierte Sammlungen",
+        "firestoreCollections": "Firestore-Sammlungen",
+        "activeUsers": "Aktive Benutzer",
+        "userAccounts": "Benutzerkonten",
+        "storedDocuments": "Gespeicherte Dokumente",
+        "documentsInCollections": "Dokumente in Sammlungen",
+        "operationsPerDay": "Operationen pro Tag",
+        "dailyOperations": "Tägliche Operationen"
+      },
+      "importantInfo": {
+        "title": "Wichtige Informationen",
+        "realTimeStats": "Echtzeit-Datenbankstatistiken",
+        "monitorQuota": "Firebase-Nutzungsquote überwachen",
+        "optimizeQueries": "Abfragen für bessere Leistung optimieren",
+        "configureBilling": "Abrechnung konfigurieren, um Unterbrechungen zu vermeiden"
+      }
+    },
+    "firebase": {
+      "title": "Firebase-Konfiguration",
+      "subtitle": "Firebase-Konfiguration und -Regeln verwalten",
+      "config": {
+        "title": "Firebase-Konfiguration",
+        "copy": "In Zwischenablage kopiert",
+        "console": "Firebase-Konsole",
+        "connectionStatus": {
+          "title": "Verbindungsstatus",
+          "connected": "Verbunden",
+          "configured": "Konfiguriert",
+          "available": "Verfügbar",
+          "firestore": "Firestore",
+          "authentication": "Authentifizierung",
+          "storage": "Storage",
+          "region": "Region",
+          "europe": "Europa",
+          "uscentral": "US Central"
+        },
+        "security": {
+          "title": "Sicherheit",
+          "apiKeyPublic": "API-Schlüssel ist öffentlich aber sicher",
+          "rulesProtection": "Firebase-Regeln schützen Ihre Daten",
+          "checkRules": "Sicherheitsregeln regelmäßig überprüfen",
+          "monitorUsage": "Projektnutzung überwachen"
+        }
+      },
+      "collections": {
+        "title": "Firebase-Sammlungen",
+        "lastUpdate": "Letzte Aktualisierung",
+        "refresh": "Aktualisieren",
+        "properties": "Immobilien",
+        "tenants": "Mieter",
+        "roommates": "Mitbewohner",
+        "payments": "Zahlungen",
+        "contracts": "Verträge",
+        "inspections": "Inspektionen",
+        "maintenances": "Wartungen",
+        "companies": "Unternehmen",
+        "documents": "Dokumente",
+        "modified": "Geändert am",
+        "active": "Aktiv",
+        "docs": "Docs",
+        "importantInfo": {
+          "title": "Wichtige Informationen",
+          "autoCreated": "Sammlungen werden automatisch beim Hinzufügen von Daten erstellt",
+          "rulesApply": "Firebase-Sicherheitsregeln gelten für alle Sammlungen",
+          "realTimeSync": "Echtzeit-Synchronisation mit der Anwendung",
+          "refreshStats": "Aktualisieren für neueste Statistiken"
+        }
+      },
+      "firestoreRules": "Firestore-Regeln",
+      "copy": "Kopieren",
+      "applyAuto": "Automatisch Anwenden",
+      "manualUpdate": "Manuelle Aktualisierung",
+      "copyInstructions": "Diese Regeln in die Firebase-Konsole kopieren",
+      "updateOptions": "Aktualisierungsoptionen",
+      "automatic": "Automatisch",
+      "automaticDescription": "Regeln direkt über API anwenden",
+      "manual": "Manuell",
+      "manualDescription": "Firebase-Konsole mit Anweisungen öffnen",
+      "copyDescription": "Regeln in Zwischenablage kopieren",
+      "important": "Wichtig",
+      "automaticRequirements": "Automatische Aktualisierung erfordert Firebase-Admin-Berechtigungen",
+      "openConsole": "Konsole Öffnen",
+      "newFeatures": "Neue Funktionen",
+      "utilityFunctions": "Hilfsfunktionen",
+      "utilityFunctionsDesc": "Hilfsfunktionen für Validierung und Berechtigungen",
+      "documentManagement": "Dokumentenverwaltung",
+      "documentManagementDesc": "Erweiterte Regeln für sichere Dokumentenverwaltung",
+      "maintenance": "Wartung",
+      "maintenanceDesc": "Vollständiges Wartungsanfragen-Managementsystem",
+      "employeePermissions": "Mitarbeiterberechtigungen",
+      "employeePermissionsDesc": "Granulare Zugriffskontrolle basierend auf Rollen",
+      "enhancedSecurity": "Erweiterte Sicherheit",
+      "dataValidation": "Datenvalidierung",
+      "dataValidationDesc": "Strenge Validierung von Feldern und Datenformaten",
+      "contextualAccess": "Kontextueller Zugriff",
+      "contextualAccessDesc": "Berechtigungen basierend auf Kontext und Mitgliedschaft",
+      "auditTrail": "Audit-Trail",
+      "auditTrailDesc": "Vollständige Nachverfolgbarkeit von Aktionen und Änderungen",
+      "roleIsolation": "Rollentrennung",
+      "roleIsolationDesc": "Strikte Datentrennung nach Benutzerrollen",
+      "importantConfiguration": "Wichtige Konfiguration",
+      "enableFirebaseAuth": "Firebase-Authentifizierung in der Konsole aktivieren",
+      "createUserRolesCollection": "Die 'user_roles' Sammlung in Firestore erstellen",
+      "addDocumentWithUID": "Dokument mit der UID jedes Benutzers hinzufügen",
+      "testRulesInTestMode": "Regeln im Testmodus vor Produktion testen",
+      "verifyAllUsersHaveRole": "Überprüfen, dass alle Benutzer eine definierte Rolle haben",
+      "deploymentInstructions": "Bereitstellungsanweisungen",
+      "copyRulesAbove": "Die obigen Regeln kopieren",
+      "goToFirebaseConsole": "Zur Firebase-Konsole Ihres Projekts gehen",
+      "clickRulesTab": "Auf den 'Regeln'-Tab in Firestore klicken",
+      "replaceContentWithNewRules": "Inhalt durch neue Regeln ersetzen",
+      "clickPublishToApply": "Auf 'Veröffentlichen' klicken, um Änderungen zu übernehmen"
+    }
   }
 }

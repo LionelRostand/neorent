@@ -1,4 +1,3 @@
-
 import navigation from '../locales/en/navigation.json';
 import common from '../locales/en/common.json';
 import dashboard from '../locales/en/dashboard.json';
@@ -42,6 +41,7 @@ import adminPages from '../locales/en/adminPages.json';
 import userSpaces from '../locales/en/userSpaces.json';
 import forms from '../locales/en/forms.json';
 import buttons from '../locales/en/buttons.json';
+import maintenance from '../locales/en/maintenance.json';
 
 export const englishResources = {
   translation: {
@@ -64,6 +64,7 @@ export const englishResources = {
     ...maintenanceHistory,
     ...maintenanceInterventions,
     ...maintenanceResponsibilities,
+    ...maintenance,
     ...messages,
     ...ownerSpace,
     ...pages,
