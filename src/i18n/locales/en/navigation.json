@@ -2,8 +2,9 @@
 {
   "navigation": {
     "dashboard": "Dashboard",
-    "properties": "Properties", 
+    "properties": "Properties",
     "tenants": "Tenants",
+    "roommates": "Roommates",
     "contracts": "Contracts",
     "inspections": "Inspections",
     "rentManagement": "Rent Management",
@@ -15,9 +16,12 @@
     "website": "Website",
     "settings": "Settings",
     "help": "Help",
-    "ownerSpace": "Owner Space",
-    "tenantSpace": "Tenant Space",
-    "roommateSpace": "Roommate Space",
-    "adminPanel": "Admin Panel"
+    "profile": "Profile",
+    "logout": "Logout",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register"
   }
 }

@@ -38,6 +38,7 @@ import tenantUpload from '../locales/fr/tenantUpload.json';
 import tenants from '../locales/fr/tenants.json';
 import adminPages from '../locales/fr/adminPages.json';
 import userSpaces from '../locales/fr/userSpaces.json';
+import forms from '../locales/fr/forms.json';
 
 export const frenchResources = {
   translation: {
@@ -79,6 +80,7 @@ export const frenchResources = {
     ...tenantUpload,
     ...tenants,
     ...adminPages,
-    ...userSpaces
+    ...userSpaces,
+    ...forms
   }
 };

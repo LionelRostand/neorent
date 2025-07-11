@@ -38,6 +38,7 @@ import tenantUpload from '../locales/de/tenantUpload.json';
 import tenants from '../locales/de/tenants.json';
 import adminPages from '../locales/de/adminPages.json';
 import userSpaces from '../locales/de/userSpaces.json';
+import forms from '../locales/de/forms.json';
 
 export const germanResources = {
   translation: {
@@ -79,6 +80,7 @@ export const germanResources = {
     ...tenantUpload,
     ...tenants,
     ...adminPages,
-    ...userSpaces
+    ...userSpaces,
+    ...forms
   }
 };

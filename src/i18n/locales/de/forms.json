@@ -1,0 +1,27 @@
+
+{
+  "forms": {
+    "addTenant": "Mieter hinzufügen",
+    "editTenant": "Mieter bearbeiten",
+    "addRoommate": "Mitbewohner hinzufügen",
+    "editRoommate": "Mitbewohner bearbeiten",
+    "addProperty": "Immobilie hinzufügen",
+    "editProperty": "Immobilie bearbeiten",
+    "addContract": "Vertrag hinzufügen",
+    "editContract": "Vertrag bearbeiten",
+    "required": "Erforderlich",
+    "optional": "Optional",
+    "pleaseSelect": "Bitte auswählen",
+    "selectOption": "Option auswählen",
+    "chooseFile": "Datei auswählen",
+    "uploadImage": "Bild hochladen",
+    "validation": {
+      "required": "Dieses Feld ist erforderlich",
+      "email": "Ungültige E-Mail-Adresse",
+      "minLength": "Mindestens {{min}} Zeichen",
+      "maxLength": "Maximal {{max}} Zeichen",
+      "phoneNumber": "Ungültige Telefonnummer",
+      "positiveNumber": "Muss eine positive Zahl sein"
+    }
+  }
+}

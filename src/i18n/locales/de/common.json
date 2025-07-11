@@ -17,11 +17,11 @@
     "new": "Neu",
     "create": "Erstellen",
     "update": "Aktualisieren",
-    "view": "Ansehen",
+    "view": "Anzeigen",
     "search": "Suchen",
     "filter": "Filtern",
     "sort": "Sortieren",
-    "loading": "Wird geladen",
+    "loading": "Laden",
     "error": "Fehler",
     "success": "Erfolg",
     "warning": "Warnung",
@@ -33,7 +33,7 @@
     "city": "Stadt",
     "country": "Land",
     "date": "Datum",
-    "time": "Zeit",
+    "time": "Uhrzeit",
     "status": "Status",
     "active": "Aktiv",
     "inactive": "Inaktiv",
@@ -78,7 +78,7 @@
     "expired": "Abgelaufen",
     "available": "Verfügbar",
     "unavailable": "Nicht verfügbar",
-    "occupied": "Besetzt",
+    "occupied": "Belegt",
     "vacant": "Frei",
     "maintenance": "Wartung",
     "month": "Monat",
@@ -91,6 +91,8 @@
     "thursday": "Donnerstag",
     "friday": "Freitag",
     "saturday": "Samstag",
-    "sunday": "Sonntag"
+    "sunday": "Sonntag",
+    "defined": "Definiert",
+    "notDefined": "Nicht definiert"
   }
 }

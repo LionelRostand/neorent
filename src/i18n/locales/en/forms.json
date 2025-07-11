@@ -1,0 +1,27 @@
+
+{
+  "forms": {
+    "addTenant": "Add Tenant",
+    "editTenant": "Edit Tenant",
+    "addRoommate": "Add Roommate",
+    "editRoommate": "Edit Roommate",
+    "addProperty": "Add Property",
+    "editProperty": "Edit Property",
+    "addContract": "Add Contract",
+    "editContract": "Edit Contract",
+    "required": "Required",
+    "optional": "Optional",
+    "pleaseSelect": "Please select",
+    "selectOption": "Select an option",
+    "chooseFile": "Choose file",
+    "uploadImage": "Upload image",
+    "validation": {
+      "required": "This field is required",
+      "email": "Invalid email address",
+      "minLength": "Minimum {{min}} characters",
+      "maxLength": "Maximum {{max}} characters",
+      "phoneNumber": "Invalid phone number",
+      "positiveNumber": "Must be a positive number"
+    }
+  }
+}

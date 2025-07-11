@@ -2,7 +2,7 @@
 {
   "navigation": {
     "dashboard": "Tableau de bord",
-    "properties": "Propriétés", 
+    "properties": "Propriétés",
     "tenants": "Locataires",
     "roommates": "Colocataires",
     "contracts": "Contrats",
@@ -16,9 +16,12 @@
     "website": "Site web",
     "settings": "Paramètres",
     "help": "Aide",
-    "ownerSpace": "Espace Propriétaire",
-    "tenantSpace": "Espace Locataire",
-    "roommateSpace": "Espace Colocataire",
-    "adminPanel": "Panneau d'administration"
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "home": "Accueil",
+    "about": "À propos",
+    "contact": "Contact",
+    "login": "Connexion",
+    "register": "S'inscrire"
   }
 }

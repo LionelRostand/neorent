@@ -8,8 +8,8 @@
     "properties": "Propriétés",
     "login": "Connexion",
     "logout": "Déconnexion",
-    "register": "Inscription",
-    "save": "Enregistrer",
+    "register": "S'inscrire",
+    "save": "Sauvegarder",
     "cancel": "Annuler",
     "delete": "Supprimer",
     "edit": "Modifier",
@@ -79,7 +79,7 @@
     "available": "Disponible",
     "unavailable": "Indisponible",
     "occupied": "Occupé",
-    "vacant": "Libre",
+    "vacant": "Vacant",
     "maintenance": "Maintenance",
     "month": "Mois",
     "year": "Année",
@@ -91,6 +91,8 @@
     "thursday": "Jeudi",
     "friday": "Vendredi",
     "saturday": "Samedi",
-    "sunday": "Dimanche"
+    "sunday": "Dimanche",
+    "defined": "Défini",
+    "notDefined": "Non défini"
   }
 }
