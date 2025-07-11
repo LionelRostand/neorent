@@ -1,27 +1,24 @@
 
 {
   "profile": {
-    "title": "Profile",
-    "personalInfo": "Personal information",
-    "contactInfo": "Contact information",
+    "title": "My Profile",
+    "personalInfo": "Personal Information",
     "name": "Name",
-    "firstName": "First name",
-    "lastName": "Last name",
     "email": "Email",
     "phone": "Phone",
     "address": "Address",
-    "birthDate": "Birth date",
-    "nationality": "Nationality",
-    "profession": "Profession",
-    "employer": "Employer",
-    "monthlyIncome": "Monthly income",
-    "emergencyContact": "Emergency contact",
-    "leaseStart": "Lease start",
-    "status": "Status",
-    "avatar": "Avatar",
-    "changeAvatar": "Change avatar",
-    "updateProfile": "Update profile",
-    "profileUpdated": "Profile updated successfully",
-    "profileUpdateError": "Error updating profile"
+    "settings": "Settings",
+    "language": "Language",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "security": "Security",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "changePassword": "Change Password",
+    "deleteAccount": "Delete Account",
+    "avatar": "Profile Picture",
+    "updateSuccess": "Profile updated successfully",
+    "updateError": "Error updating profile"
   }
 }

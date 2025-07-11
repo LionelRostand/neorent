@@ -1,27 +1,24 @@
 
 {
   "profile": {
-    "title": "Profil",
-    "personalInfo": "Informations personnelles",
-    "contactInfo": "Informations de contact",
+    "title": "Mon Profil",
+    "personalInfo": "Informations Personnelles",
     "name": "Nom",
-    "firstName": "Prénom",
-    "lastName": "Nom de famille",
     "email": "Email",
     "phone": "Téléphone",
     "address": "Adresse",
-    "birthDate": "Date de naissance",
-    "nationality": "Nationalité",
-    "profession": "Profession",
-    "employer": "Employeur",
-    "monthlyIncome": "Revenus mensuels",
-    "emergencyContact": "Contact d'urgence",
-    "leaseStart": "Début du bail",
-    "status": "Statut",
-    "avatar": "Avatar",
-    "changeAvatar": "Changer l'avatar",
-    "updateProfile": "Mettre à jour le profil",
-    "profileUpdated": "Profil mis à jour avec succès",
-    "profileUpdateError": "Erreur lors de la mise à jour du profil"
+    "settings": "Paramètres",
+    "language": "Langue",
+    "notifications": "Notifications",
+    "privacy": "Confidentialité",
+    "security": "Sécurité",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "changePassword": "Changer le mot de passe",
+    "deleteAccount": "Supprimer le compte",
+    "avatar": "Photo de profil",
+    "updateSuccess": "Profil mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du profil"
   }
 }
