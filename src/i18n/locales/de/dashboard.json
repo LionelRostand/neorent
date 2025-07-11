@@ -40,5 +40,6 @@
       "hours": "vor {{hours}}h",
       "days": "vor {{days}}T",
       "weeks": "vor {{weeks}} Wochen"
+    }
   }
 }

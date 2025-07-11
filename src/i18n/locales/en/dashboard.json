@@ -33,7 +33,6 @@
     "urgent": "Urgent",
     "rentalRevenue": "Rental Revenue",
     "noRecentActivity": "No recent activity",
-    "dashboard": {
     "rentReceived": "Rent received",
     "newTenant": "New tenant",
     "latePayment": "Late payment",
