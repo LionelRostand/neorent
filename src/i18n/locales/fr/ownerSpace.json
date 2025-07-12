@@ -2,23 +2,12 @@
 {
   "ownerSpace": {
     "title": "Espace Propriétaire",
-    "subtitle": "Gérez votre portefeuille immobilier",
+    "subtitle": "Gérez vos propriétés et locataires",
     "welcome": "Bienvenue dans votre espace propriétaire",
-    "dashboard": "Tableau de bord",
-    "properties": "Mes Propriétés",
-    "tenants": "Mes Locataires",
-    "revenue": "Mes Revenus",
-    "maintenance": "Maintenance",
-    "documents": "Documents",
-    "analytics": "Analyses",
-    "reports": "Rapports",
-    "settings": "Paramètres",
-    "notifications": "Notifications",
-    "calendar": "Calendrier",
-    "tasks": "Tâches",
-    "overview": "Aperçu",
-    "statistics": "Statistiques",
-    "performance": "Performance",
-    "financials": "Finances"
+    "quickActions": {
+      "title": "Actions Rapides",
+      "manageTenants": "Gérer les Locataires",
+      "description": "Description"
+    }
   }
 }

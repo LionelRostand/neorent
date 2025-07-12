@@ -2,23 +2,12 @@
 {
   "ownerSpace": {
     "title": "Eigentümer-Bereich",
-    "subtitle": "Verwalten Sie Ihr Immobilienportfolio",
+    "subtitle": "Verwalten Sie Ihre Immobilien und Mieter",
     "welcome": "Willkommen in Ihrem Eigentümer-Bereich",
-    "dashboard": "Dashboard",
-    "properties": "Meine Immobilien",
-    "tenants": "Meine Mieter",
-    "revenue": "Meine Einnahmen",
-    "maintenance": "Wartung",
-    "documents": "Dokumente",
-    "analytics": "Analysen",
-    "reports": "Berichte",
-    "settings": "Einstellungen",
-    "notifications": "Benachrichtigungen",
-    "calendar": "Kalender",
-    "tasks": "Aufgaben",
-    "overview": "Übersicht",
-    "statistics": "Statistiken",
-    "performance": "Leistung",
-    "financials": "Finanzen"
+    "quickActions": {
+      "title": "Schnelle Aktionen",
+      "manageTenants": "Mieter Verwalten",
+      "description": "Beschreibung"
+    }
   }
 }

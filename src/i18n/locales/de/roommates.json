@@ -41,6 +41,30 @@
     },
     "required": "Erforderlich",
     "optional": "Optional",
-    "noDocumentUploaded": "Kein Dokument hochgeladen"
+    "noDocumentUploaded": "Kein Dokument hochgeladen",
+    "paymentAlerts": "Zahlungsalarme",
+    "incompletePayment": "Unvollständige Zahlung",
+    "expectedAmount": "Erwarteter Betrag",
+    "paidAmount": "Gezahlter Betrag",
+    "remainingToPay": "Noch zu zahlen",
+    "overpayment": "Überzahlung",
+    "overpaid": "Überzahlt",
+    "paidInFull": "vollständig bezahlt",
+    "management": "Mitbewohner-Verwaltung",
+    "description": "Verwalten Sie Ihre Mitbewohner und verfolgen Sie deren Zahlungen",
+    "detailsTitle": "Mitbewohner-Details",
+    "generalInformation": "Allgemeine Informationen",
+    "roommateList": "Mitbewohner-Liste",
+    "apartment": "Wohnung",
+    "primaryTenant": "Hauptmieter",
+    "moveIn": "Einzugsdatum",
+    "viewDetails": "Details Anzeigen",
+    "contact": "Kontakt",
+    "metrics": {
+      "active": "Aktiv",
+      "search": "Suchend",
+      "inactive": "Inaktiv",
+      "totalRoommates": "Gesamt Mitbewohner"
+    }
   }
 }

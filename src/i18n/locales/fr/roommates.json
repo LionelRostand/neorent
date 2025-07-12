@@ -41,6 +41,31 @@
     },
     "required": "Requis",
     "optional": "Optionnel",
-    "noDocumentUploaded": "Aucun document téléchargé"
+    "noDocumentUploaded": "Aucun document téléchargé",
+    "paymentAlerts": "Alertes de Paiement",
+    "incompletePayment": "Paiement Incomplet",
+    "expectedAmount": "Montant Attendu",
+    "paidAmount": "Montant Payé",
+    "remainingToPay": "Reste à Payer",
+    "overpayment": "Trop-perçu",
+    "overpaid": "Trop-payé",
+    "paidInFull": "a payé intégralement",
+    "management": "Gestion des Colocataires",
+    "description": "Gérez vos colocataires et suivez leurs paiements",
+    "detailsTitle": "Détails du Colocataire",
+    "generalInformation": "Informations Générales",
+    "roommateList": "Liste des Colocataires",
+    "apartment": "Appartement",
+    "room": "Chambre",
+    "primaryTenant": "Locataire Principal",
+    "moveIn": "Date d'Emménagement",
+    "viewDetails": "Voir les Détails",
+    "contact": "Contacter",
+    "metrics": {
+      "active": "Actifs",
+      "search": "En Recherche",
+      "inactive": "Inactifs",
+      "totalRoommates": "Total Colocataires"
+    }
   }
 }

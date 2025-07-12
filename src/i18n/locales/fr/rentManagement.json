@@ -2,9 +2,9 @@
 {
   "rentManagement": {
     "title": "Gestion des Loyers",
-    "subtitle": "Suivi des paiements et loyers en retard",
+    "subtitle": "Suivez les paiements et les loyers impayés",
     "thisMonth": "Ce Mois",
-    "overview": "Aperçu",
+    "overview": "Vue d'ensemble",
     "totalReceived": "Total Reçu",
     "totalExpected": "Total Attendu",
     "pendingPayments": "Paiements en Attente",
@@ -35,7 +35,7 @@
     "enterAmount": "Saisir le montant",
     "selectDate": "Sélectionner une date",
     "addNotes": "Ajouter des notes...",
-    "savePayment": "Sauvegarder le paiement",
+    "savePayment": "Enregistrer le paiement",
     "cancel": "Annuler",
     "edit": "Modifier",
     "delete": "Supprimer",
@@ -53,7 +53,7 @@
     "reference": "Référence",
     "description": "Description",
     "monthlyRent": "Loyer Mensuel",
-    "deposit": "Caution",
+    "deposit": "Dépôt de Garantie",
     "charges": "Charges",
     "total": "Total",
     "balance": "Solde",
@@ -67,6 +67,10 @@
     "basedOnContracts": "Basé sur les Contrats",
     "contractRent": "Loyer Contractuel",
     "accordingToContract": "Selon le Contrat",
-    "amountPaid": "Montant Payé"
+    "amountPaid": "Montant Payé",
+    "received": "Reçu",
+    "expected": "Attendu",
+    "missing": "Manquant",
+    "totalAmount": "Montant Total"
   }
 }

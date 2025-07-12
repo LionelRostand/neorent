@@ -41,6 +41,30 @@
     },
     "required": "Required",
     "optional": "Optional",
-    "noDocumentUploaded": "No document uploaded"
+    "noDocumentUploaded": "No document uploaded",
+    "paymentAlerts": "Payment Alerts",
+    "incompletePayment": "Incomplete Payment",
+    "expectedAmount": "Expected Amount",
+    "paidAmount": "Paid Amount",
+    "remainingToPay": "Remaining to Pay",
+    "overpayment": "Overpayment",
+    "overpaid": "Overpaid",
+    "paidInFull": "paid in full",
+    "management": "Roommate Management",
+    "description": "Manage your roommates and track their payments",
+    "detailsTitle": "Roommate Details",
+    "generalInformation": "General Information",
+    "roommateList": "Roommate List",
+    "apartment": "Apartment",
+    "primaryTenant": "Primary Tenant",
+    "moveIn": "Move-in Date",
+    "viewDetails": "View Details",
+    "contact": "Contact",
+    "metrics": {
+      "active": "Active",
+      "search": "Searching",
+      "inactive": "Inactive",
+      "totalRoommates": "Total Roommates"
+    }
   }
 }

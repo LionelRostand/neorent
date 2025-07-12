@@ -2,23 +2,12 @@
 {
   "ownerSpace": {
     "title": "Owner Space",
-    "subtitle": "Manage your real estate portfolio",
+    "subtitle": "Manage your properties and tenants",
     "welcome": "Welcome to your owner space",
-    "dashboard": "Dashboard",
-    "properties": "My Properties",
-    "tenants": "My Tenants",
-    "revenue": "My Revenue",
-    "maintenance": "Maintenance",
-    "documents": "Documents",
-    "analytics": "Analytics",
-    "reports": "Reports",
-    "settings": "Settings",
-    "notifications": "Notifications",
-    "calendar": "Calendar",
-    "tasks": "Tasks",
-    "overview": "Overview",
-    "statistics": "Statistics",
-    "performance": "Performance",
-    "financials": "Financials"
+    "quickActions": {
+      "title": "Quick Actions",
+      "manageTenants": "Manage Tenants",
+      "description": "Description"
+    }
   }
 }

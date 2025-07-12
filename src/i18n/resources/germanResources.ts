@@ -1,3 +1,4 @@
+
 import navigation from '../locales/de/navigation.json';
 import common from '../locales/de/common.json';
 import dashboard from '../locales/de/dashboard.json';
