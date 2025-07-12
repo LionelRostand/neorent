@@ -19,6 +19,24 @@
     "support": "Support",
     "faq": "FAQ",
     "emergency": "Emergency Contact",
-    "moveOut": "Move Out Process"
+    "moveOut": "Move Out Process",
+    "roommate": "Roommate",
+    "tabs": {
+      "overview": "Overview",
+      "payment": "Payment",
+      "documents": "Documents"
+    },
+    "payment": {
+      "payRent": "Pay Rent",
+      "monthlyRent": "Monthly Rent",
+      "charges": "Charges",
+      "totalToPay": "Total to Pay",
+      "makePayment": "Make Payment",
+      "importantInfo": "Important Information",
+      "paymentBefore5th": "Payment before 5th",
+      "enterExactAmount": "Enter exact amount",
+      "receiptFullPayment": "Receipt for full payment",
+      "alertDifferentAmount": "Alert different amount"
+    }
   }
 }

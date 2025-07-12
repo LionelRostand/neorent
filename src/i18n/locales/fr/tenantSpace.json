@@ -19,6 +19,24 @@
     "support": "Support",
     "faq": "FAQ",
     "emergency": "Contact d'Urgence",
-    "moveOut": "Processus de Déménagement"
+    "moveOut": "Processus de Déménagement",
+    "roommate": "Colocataire",
+    "tabs": {
+      "overview": "Vue d'ensemble",
+      "payment": "Paiement", 
+      "documents": "Documents"
+    },
+    "payment": {
+      "payRent": "Payer le Loyer",
+      "monthlyRent": "Loyer Mensuel",
+      "charges": "Charges",
+      "totalToPay": "Total à Payer",
+      "makePayment": "Effectuer le Paiement",
+      "importantInfo": "Informations Importantes",
+      "paymentBefore5th": "Paiement avant le 5",
+      "enterExactAmount": "Saisir le montant exact",
+      "receiptFullPayment": "Reçu pour paiement complet",
+      "alertDifferentAmount": "Alerte montant différent"
+    }
   }
 }

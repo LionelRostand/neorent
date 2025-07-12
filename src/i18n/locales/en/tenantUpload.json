@@ -22,6 +22,11 @@
     "progress": "Upload Progress",
     "complete": "Upload Complete",
     "failed": "Upload Failed",
-    "retry": "Retry"
+    "retry": "Retry",
+    "documentType": "Document Type",
+    "selectDocumentType": "Select document type",
+    "chooseFile": "Choose file",
+    "maxSizeInfo": "Maximum size: 10MB",
+    "uploadTheDocument": "Upload the Document"
   }
 }

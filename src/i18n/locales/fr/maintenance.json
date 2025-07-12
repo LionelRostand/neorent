@@ -76,6 +76,9 @@
     "ownerCosts": "Coûts Propriétaire",
     "tenantCosts": "Coûts Locataire",
     "pendingCosts": "Coûts en Attente",
-    "newInvoice": "Nouvelle Facture"
+    "newInvoice": "Nouvelle Facture",
+    "responsibilities": "Responsabilités",
+    "history": "Historique",
+    "costs": "Coûts"
   }
 }

@@ -22,6 +22,11 @@
     "progress": "Upload-Fortschritt",
     "complete": "Upload abgeschlossen",
     "failed": "Upload fehlgeschlagen",
-    "retry": "Wiederholen"
+    "retry": "Wiederholen",
+    "documentType": "Dokumenttyp",
+    "selectDocumentType": "Dokumenttyp auswählen",
+    "chooseFile": "Datei auswählen",
+    "maxSizeInfo": "Maximale Größe: 10MB",
+    "uploadTheDocument": "Dokument Hochladen"
   }
 }

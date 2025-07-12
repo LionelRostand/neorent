@@ -22,6 +22,11 @@
     "progress": "Progression du Téléchargement",
     "complete": "Téléchargement Terminé",
     "failed": "Échec du Téléchargement",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "documentType": "Type de Document",
+    "selectDocumentType": "Sélectionner un type de document",
+    "chooseFile": "Choisir un fichier",
+    "maxSizeInfo": "Taille maximale : 10MB",
+    "uploadTheDocument": "Télécharger le Document"
   }
 }

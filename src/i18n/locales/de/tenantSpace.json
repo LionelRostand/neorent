@@ -19,6 +19,24 @@
     "support": "Support",
     "faq": "FAQ",
     "emergency": "Notfallkontakt",
-    "moveOut": "Auszugsprozess"
+    "moveOut": "Auszugsprozess",
+    "roommate": "Mitbewohner",
+    "tabs": {
+      "overview": "Übersicht",
+      "payment": "Zahlung",
+      "documents": "Dokumente"
+    },
+    "payment": {
+      "payRent": "Miete Zahlen",
+      "monthlyRent": "Monatsmiete",
+      "charges": "Nebenkosten",
+      "totalToPay": "Gesamtbetrag",
+      "makePayment": "Zahlung Tätigen",
+      "importantInfo": "Wichtige Informationen",
+      "paymentBefore5th": "Zahlung vor dem 5.",
+      "enterExactAmount": "Genauen Betrag eingeben",
+      "receiptFullPayment": "Quittung für Vollzahlung",
+      "alertDifferentAmount": "Warnung anderer Betrag"
+    }
   }
 }
