@@ -40,6 +40,22 @@
     "delete": "Delete",
     "edit": "Edit",
     "view": "View",
-    "internetTV": "Internet/TV"
+    "internetTV": "Internet/TV",
+    "monthlyView": "Monthly View",
+    "annualView": "Annual View",
+    "filterByMonth": "Filter by Month",
+    "december2024": "December 2024",
+    "forProperty": "for property",
+    "averageMonthly": "Average Monthly",
+    "properties": "properties",
+    "thisMonth": "this month",
+    "propertyWithHighest": "property with highest charges",
+    "chargesForMonth": "Charges for",
+    "noCharges": "No charges",
+    "noChargesDescription": "No charges recorded for December 2024.",
+    "enterAmount": "Enter amount",
+    "recordCharges": "Record charges",
+    "totalChargesAmount": "TOTAL CHARGES",
+    "month": "Month"
   }
 }

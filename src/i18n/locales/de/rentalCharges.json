@@ -40,6 +40,22 @@
     "delete": "Löschen",
     "edit": "Bearbeiten",
     "view": "Anzeigen",
-    "internetTV": "Internet/TV"
+    "internetTV": "Internet/TV",
+    "monthlyView": "Monatsansicht",
+    "annualView": "Jahresansicht",
+    "filterByMonth": "Nach Monat filtern",
+    "december2024": "Dezember 2024",
+    "forProperty": "für Immobilie",
+    "averageMonthly": "Monatlicher Durchschnitt",
+    "properties": "Immobilien",
+    "thisMonth": "diesen Monat",
+    "propertyWithHighest": "Immobilie mit höchsten Kosten",
+    "chargesForMonth": "Kosten für",
+    "noCharges": "Keine Kosten",
+    "noChargesDescription": "Keine Kosten für Dezember 2024 erfasst.",
+    "enterAmount": "Betrag eingeben",
+    "recordCharges": "Kosten erfassen",
+    "totalChargesAmount": "GESAMTKOSTEN",
+    "month": "Monat"
   }
 }

@@ -40,6 +40,22 @@
     "delete": "Supprimer",
     "edit": "Modifier",
     "view": "Voir",
-    "internetTV": "Internet/TV"
+    "internetTV": "Internet/TV",
+    "monthlyView": "Vue Mensuelle",
+    "annualView": "Vue Annuelle",
+    "filterByMonth": "Filtrer par Mois",
+    "december2024": "Décembre 2024",
+    "forProperty": "pour la propriété",
+    "averageMonthly": "Moyenne Mensuelle",
+    "properties": "propriétés",
+    "thisMonth": "ce mois",
+    "propertyWithHighest": "propriété avec les charges les plus élevées",
+    "chargesForMonth": "Charges pour le mois de",
+    "noCharges": "Aucune charge",
+    "noChargesDescription": "Aucune charge enregistrée pour décembre 2024.",
+    "enterAmount": "Saisissez le montant",
+    "recordCharges": "Enregistrer les charges",
+    "totalChargesAmount": "TOTAL DES CHARGES",
+    "month": "Mois"
   }
 }
