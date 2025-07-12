@@ -1,0 +1,51 @@
+
+{
+  "settings": {
+    "payment": {
+      "title": "Payment Configuration",
+      "subtitle": "Manage payment methods and their settings",
+      "stripe": {
+        "title": "Stripe Configuration",
+        "description": "Configure credit card payments with Stripe",
+        "enable": "Enable Stripe",
+        "publicKey": "Public Key",
+        "secretKey": "Secret Key",
+        "webhookSecret": "Webhook Secret",
+        "save": "Save Stripe"
+      },
+      "paypal": {
+        "title": "PayPal Configuration",
+        "description": "Configure PayPal payments for your tenants",
+        "enable": "Enable PayPal",
+        "clientId": "Client ID",
+        "clientIdPlaceholder": "Your PayPal client ID",
+        "clientSecret": "Client Secret",
+        "clientSecretPlaceholder": "Your PayPal client secret",
+        "save": "Save PayPal"
+      },
+      "bank": {
+        "title": "Bank Transfer",
+        "description": "Configure information for bank transfers",
+        "enable": "Enable bank transfers",
+        "iban": "IBAN",
+        "ibanPlaceholder": "FR76 1234 5678 9012 3456 7890 123",
+        "bic": "BIC/SWIFT",
+        "bicPlaceholder": "BNPAFRPP",
+        "bankName": "Bank Name",
+        "bankNamePlaceholder": "BNP Paribas",
+        "accountHolder": "Account Holder",
+        "accountHolderPlaceholder": "Account holder name",
+        "save": "Save Transfer"
+      },
+      "mobile": {
+        "title": "Mobile Payment",
+        "description": "Configure mobile payment solutions",
+        "enable": "Enable mobile payment",
+        "orangeMoney": "Orange Money",
+        "mtnMoney": "MTN Money",
+        "moovMoney": "Moov Money",
+        "save": "Save Mobile"
+      }
+    }
+  }
+}

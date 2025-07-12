@@ -9,6 +9,8 @@
     "tenantEmail": "Email",
     "tenantAddress": "Adresse",
     "returnButton": "Retour",
+    "adminModeTitle": "Mode Admin - Consultation",
+    "viewTenantSpace": "Voir l'Espace Locataire",
     "owners": {
       "management": "Gestion des Propriétaires",
       "description": "Gérez les propriétaires et leurs permissions",
@@ -36,6 +38,9 @@
       "deleteError": "Erreur lors de la suppression du propriétaire",
       "loading": "Chargement...",
       "activateAccess": "Activer l'Accès"
+    },
+    "ownerRegistrations": {
+      "title": "Demandes d'Inscription"
     }
   }
 }

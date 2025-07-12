@@ -1,0 +1,46 @@
+
+{
+  "settings": {
+    "backToAdmin": "Back to Admin",
+    "backToBackend": "Back to Backend", 
+    "adminModeConsultation": "Admin Mode - Viewing {name}",
+    "viewingAsAdmin": "You are viewing this space as an administrator",
+    "tenantType": "Type",
+    "tenantEmail": "Email",
+    "tenantAddress": "Address",
+    "returnButton": "Return",
+    "adminModeTitle": "Admin Mode - Consultation",
+    "viewTenantSpace": "View Tenant Space",
+    "owners": {
+      "management": "Owner Management",
+      "description": "Manage owners and their permissions",
+      "addOwner": "Add Owner",
+      "editOwner": "Edit Owner",
+      "fullName": "Full Name",
+      "role": "Role",
+      "owner": "Owner",
+      "administrator": "Administrator",
+      "company": "Company",
+      "selectCompany": "Select Company",
+      "noCompany": "No Company",
+      "unknownCompany": "Unknown Company",
+      "creationDate": "Creation Date",
+      "permissions": "Permissions",
+      "noPermissions": "No Permissions",
+      "passwordStatus": "Password Status",
+      "actions": "Actions",
+      "confirmDelete": "Are you sure you want to delete this owner?",
+      "addSuccess": "Owner added successfully",
+      "addError": "Error adding owner",
+      "updateSuccess": "Owner updated successfully",
+      "updateError": "Error updating owner",
+      "deleteSuccess": "Owner deleted successfully",
+      "deleteError": "Error deleting owner",
+      "loading": "Loading...",
+      "activateAccess": "Activate Access"
+    },
+    "ownerRegistrations": {
+      "title": "Registration Requests"
+    }
+  }
+}

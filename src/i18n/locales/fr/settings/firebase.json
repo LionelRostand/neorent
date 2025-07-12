@@ -78,6 +78,7 @@
         "inspections": "Inspections",
         "maintenances": "Maintenances",
         "companies": "Entreprises",
+        "documents": "Documents",
         "importantInfo": {
           "title": "Informations Importantes",
           "autoCreated": "Les collections sont créées automatiquement lors de l'ajout de données",
