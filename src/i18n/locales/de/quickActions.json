@@ -16,6 +16,102 @@
     "updateProfile": "Profil aktualisieren",
     "backupData": "Daten sichern",
     "exportData": "Daten exportieren",
-    "importData": "Daten importieren"
+    "importData": "Daten importieren",
+    "manager": {
+      "title": "Schnellaktionen-Manager",
+      "currentActions": "Aktuelle Aktionen",
+      "noActionsConfigured": "Keine Aktionen konfiguriert",
+      "availableMenus": "Verfügbare Menüs",
+      "addToQuickActions": "Zu Schnellaktionen hinzufügen",
+      "alreadyAdded": "Bereits hinzugefügt",
+      "enabled": "Aktiviert",
+      "disabled": "Deaktiviert",
+      "close": "Schließen",
+      "actionToggled": "Aktion umgeschaltet",
+      "actionEnabledDisabled": "Aktion wurde aktiviert/deaktiviert",
+      "actionRemoved": "Aktion entfernt",
+      "actionRemovedSuccess": "Aktion wurde erfolgreich entfernt",
+      "menuAdded": "Menü hinzugefügt",
+      "menuAddedSuccess": "Menü wurde zu Schnellaktionen hinzugefügt",
+      "error": "Fehler",
+      "toggleError": "Fehler beim Umschalten der Aktion",
+      "removeError": "Fehler beim Entfernen der Aktion",
+      "addMenuError": "Fehler beim Hinzufügen des Menüs",
+      "notAuthorized": "Nicht autorisiert",
+      "adminRequired": "Administratorrechte erforderlich",
+      "delete": "Löschen"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Auf das Haupt-Dashboard zugreifen"
+    },
+    "properties": {
+      "title": "Immobilien",
+      "description": "Ihre Immobilien verwalten"
+    },
+    "tenants": {
+      "title": "Mieter",
+      "description": "Ihre Mieter verwalten"
+    },
+    "roommates": {
+      "title": "Mitbewohner",
+      "description": "Mitbewohner verwalten"
+    },
+    "contracts": {
+      "title": "Verträge",
+      "description": "Mietverträge verwalten"
+    },
+    "inspections": {
+      "title": "Inspektionen",
+      "description": "Inspektionen planen und verwalten"
+    },
+    "rentmanagement": {
+      "title": "Mietverwaltung",
+      "description": "Mietzahlungen verwalten"
+    },
+    "rentalcharges": {
+      "title": "Mietnebenkosten",
+      "description": "Mietnebenkosten verwalten"
+    },
+    "forecasting": {
+      "title": "Prognosen",
+      "description": "Finanzprognosen analysieren"
+    },
+    "maintenance": {
+      "title": "Wartung",
+      "description": "Wartungsanfragen verwalten"
+    },
+    "messages": {
+      "title": "Nachrichten",
+      "description": "Mit Mietern kommunizieren"
+    },
+    "taxes": {
+      "title": "Steuern",
+      "description": "Steuererklärungen verwalten"
+    },
+    "website": {
+      "title": "Website",
+      "description": "Ihre Website verwalten"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "description": "Systemeinstellungen konfigurieren"
+    },
+    "help": {
+      "title": "Hilfe",
+      "description": "Hilfe und Support zugreifen"
+    },
+    "property": {
+      "title": "Immobilie",
+      "description": "Neue Immobilie hinzufügen"
+    },
+    "roommate": {
+      "title": "Mitbewohner",
+      "description": "Neuen Mitbewohner hinzufügen"
+    },
+    "contract": {
+      "title": "Vertrag",
+      "description": "Neuen Vertrag erstellen"
+    }
   }
 }

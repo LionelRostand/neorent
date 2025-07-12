@@ -16,6 +16,102 @@
     "updateProfile": "Mettre à jour le Profil",
     "backupData": "Sauvegarder les Données",
     "exportData": "Exporter les Données",
-    "importData": "Importer les Données"
+    "importData": "Importer les Données",
+    "manager": {
+      "title": "Gestionnaire d'Actions Rapides",
+      "currentActions": "Actions Actuelles",
+      "noActionsConfigured": "Aucune action configurée",
+      "availableMenus": "Menus Disponibles",
+      "addToQuickActions": "Ajouter aux Actions Rapides",
+      "alreadyAdded": "Déjà ajouté",
+      "enabled": "Activé",
+      "disabled": "Désactivé",
+      "close": "Fermer",
+      "actionToggled": "Action basculée",
+      "actionEnabledDisabled": "L'action a été activée/désactivée",
+      "actionRemoved": "Action supprimée",
+      "actionRemovedSuccess": "L'action a été supprimée avec succès",
+      "menuAdded": "Menu ajouté",
+      "menuAddedSuccess": "Le menu a été ajouté aux actions rapides",
+      "error": "Erreur",
+      "toggleError": "Erreur lors du basculement de l'action",
+      "removeError": "Erreur lors de la suppression de l'action",
+      "addMenuError": "Erreur lors de l'ajout du menu",
+      "notAuthorized": "Non autorisé",
+      "adminRequired": "Droits administrateur requis",
+      "delete": "Supprimer"
+    },
+    "dashboard": {
+      "title": "Tableau de Bord",
+      "description": "Accéder au tableau de bord principal"
+    },
+    "properties": {
+      "title": "Propriétés",
+      "description": "Gérer vos propriétés immobilières"
+    },
+    "tenants": {
+      "title": "Locataires",
+      "description": "Gérer vos locataires"
+    },
+    "roommates": {
+      "title": "Colocataires",
+      "description": "Gérer les colocataires"
+    },
+    "contracts": {
+      "title": "Contrats",
+      "description": "Gérer les contrats de location"
+    },
+    "inspections": {
+      "title": "Inspections",
+      "description": "Planifier et gérer les inspections"
+    },
+    "rentmanagement": {
+      "title": "Gestion des Loyers",
+      "description": "Gérer les paiements de loyer"
+    },
+    "rentalcharges": {
+      "title": "Charges Locatives",
+      "description": "Gérer les charges locatives"
+    },
+    "forecasting": {
+      "title": "Prévisions",
+      "description": "Analyser les prévisions financières"
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "description": "Gérer les demandes de maintenance"
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Communiquer avec les locataires"
+    },
+    "taxes": {
+      "title": "Taxes",
+      "description": "Gérer les déclarations fiscales"
+    },
+    "website": {
+      "title": "Site Web",
+      "description": "Gérer votre site web"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "description": "Configurer les paramètres système"
+    },
+    "help": {
+      "title": "Aide",
+      "description": "Accéder à l'aide et support"
+    },
+    "property": {
+      "title": "Propriété",
+      "description": "Ajouter une nouvelle propriété"
+    },
+    "roommate": {
+      "title": "Colocataire",
+      "description": "Ajouter un nouveau colocataire"
+    },
+    "contract": {
+      "title": "Contrat",
+      "description": "Créer un nouveau contrat"
+    }
   }
 }
