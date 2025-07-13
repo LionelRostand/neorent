@@ -16,14 +16,14 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
 
   return (
     <div className="p-4 lg:p-6 space-y-6">
-      {/* Welcome Section */}
-      <div className="mb-6">
-        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-          {t('ownerSpace.welcome')}
-        </h1>
-        <p className="text-gray-600">
-          {t('ownerSpace.subtitle')}
-        </p>
+      {/* Header Section - Tableau de bord */}
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold">Tableau de bord</h1>
+            <p className="text-blue-100 mt-2">Vue d'ensemble de votre activité immobilière</p>
+          </div>
+        </div>
       </div>
 
       {/* Dashboard Stats */}

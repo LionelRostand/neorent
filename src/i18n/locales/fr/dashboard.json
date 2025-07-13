@@ -2,44 +2,11 @@
 {
   "dashboard": {
     "title": "Tableau de bord",
-    "subtitle": "Vue d'ensemble de votre gestion immobilière",
-    "welcome": "Bienvenue sur votre tableau de bord",
-    "totalProperties": "Total des Propriétés",
-    "activeContracts": "Contrats Actifs",
-    "monthlyRevenue": "Revenus Mensuels",
-    "pendingMaintenance": "Maintenance en Attente",
-    "recentActivity": "Activité Récente",
-    "quickActions": "Actions Rapides",
-    "addProperty": "Ajouter une Propriété",
-    "addTenant": "Ajouter un Locataire",
-    "createContract": "Créer un Contrat",
-    "viewReports": "Voir les Rapports",
-    "properties": "Propriétés",
+    "subtitle": "Vue d'ensemble de votre activité immobilière",
+    "properties": "Propriétés", 
     "tenants": "Locataires",
     "contracts": "Contrats",
-    "managedProperties": "Propriétés gérées",
-    "activeTenants": "Locataires actifs",
-    "averageYield": "Rendement moyen",
-    "vsLastMonth": "Par rapport au mois dernier",
-    "newThisMonth": "Nouveau ce mois",
-    "occupancyRate": "Taux d'occupation",
-    "vsQuarter": "Par rapport au trimestre précédent",
-    "importantAlerts": "Alertes importantes",
-    "lateRent": "Loyer en retard",
-    "late": "En retard",
-    "expiringLease": "Bail expirant",
-    "days": "jours",
-    "urgentInspection": "Inspection urgente",
-    "urgent": "Urgent",
-    "rentalRevenue": "Revenus locatifs",
-    "noRecentActivity": "Aucune activité récente",
-    "rentReceived": "Loyer reçu",
-    "newTenant": "Nouveau locataire",
-    "latePayment": "Paiement en retard",
-    "timeAgo": {
-      "hours": "Il y a {{hours}}h",
-      "days": "Il y a {{days}}j", 
-      "weeks": "Il y a {{weeks}} semaines"
-    }
+    "monthlyRevenue": "Revenus Mensuels",
+    "newThisMonth": "nouveaux ce mois"
   }
 }

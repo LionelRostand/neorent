@@ -2,44 +2,11 @@
 {
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Overview of your real estate management",
-    "welcome": "Welcome to your dashboard",
-    "totalProperties": "Total Properties",
-    "activeContracts": "Active Contracts",
-    "monthlyRevenue": "Monthly Revenue",
-    "pendingMaintenance": "Pending Maintenance",
-    "recentActivity": "Recent Activity",
-    "quickActions": "Quick Actions",
-    "addProperty": "Add Property",
-    "addTenant": "Add Tenant",
-    "createContract": "Create Contract",
-    "viewReports": "View Reports",
+    "subtitle": "Overview of your real estate activity",
     "properties": "Properties",
-    "tenants": "Tenants",
+    "tenants": "Tenants", 
     "contracts": "Contracts",
-    "managedProperties": "Managed Properties",
-    "activeTenants": "Active Tenants",
-    "averageYield": "Average Yield",
-    "vsLastMonth": "vs last month",
-    "newThisMonth": "new this month",
-    "occupancyRate": "occupancy rate",
-    "vsQuarter": "vs quarter",
-    "importantAlerts": "Important Alerts",
-    "lateRent": "Late Rent",
-    "late": "Late",
-    "expiringLease": "Expiring Lease",
-    "days": "days",
-    "urgentInspection": "Urgent Inspection",
-    "urgent": "Urgent",
-    "rentalRevenue": "Rental Revenue",
-    "noRecentActivity": "No recent activity",
-    "rentReceived": "Rent received",
-    "newTenant": "New tenant",
-    "latePayment": "Late payment",
-    "timeAgo": {
-      "hours": "{{hours}}h ago",
-      "days": "{{days}}d ago",
-      "weeks": "{{weeks}} weeks ago"
-    }
+    "monthlyRevenue": "Monthly Revenue",
+    "newThisMonth": "new this month"
   }
 }

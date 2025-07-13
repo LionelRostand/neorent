@@ -38,40 +38,40 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
 
   const stats = [
     {
-      title: t('dashboard.properties'),
+      title: "dashboard.properties",
       value: ownerData.properties.length.toString(),
-      change: `+2 ${t('dashboard.newThisMonth')}`,
+      change: "+2 nouveaux ce mois",
       icon: Home,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
-      description: t('dashboard.properties')
+      description: "Propriétés"
     },
     {
-      title: t('dashboard.tenants'),
+      title: "dashboard.tenants", 
       value: activeTenants.length.toString(),
-      change: `+3 ${t('dashboard.newThisMonth')}`,
+      change: "+3 nouveaux ce mois",
       icon: Users,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
-      description: t('dashboard.tenants')
+      description: "Locataires"
     },
     {
-      title: t('dashboard.contracts'),
+      title: "dashboard.contracts",
       value: ownerData.contracts.length.toString(),
-      change: `+1 ${t('dashboard.newThisMonth')}`,
+      change: "+1 nouveaux ce mois",
       icon: Calendar,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
-      description: t('dashboard.contracts')
+      description: "Contrats"
     },
     {
-      title: t('dashboard.monthlyRevenue'),
+      title: "Revenus Mensuels",
       value: `${monthlyRevenue.toLocaleString()}€`,
-      change: `+8.2% ${t('dashboard.newThisMonth')}`,
-      icon: DollarSign,
+      change: "+8.2% nouveaux ce mois",
+      icon: TrendingUp,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
-      description: t('dashboard.monthlyRevenue')
+      description: "Revenus"
     }
   ];
 
@@ -84,7 +84,7 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
             <CardContent className="p-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
+                  <p className="text-sm font-medium text-gray-600 mb-1">{stat.description}</p>
                   <p className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</p>
                   <p className="text-xs text-green-600 font-medium">
                     {stat.change}
