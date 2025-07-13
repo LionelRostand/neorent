@@ -77,7 +77,7 @@ const OwnerSpace = () => {
   }
 
   return (
-    <div className="h-screen flex w-full bg-gray-50 relative">
+    <div className="min-h-screen flex w-full bg-gray-50 relative">
       {/* Mobile sidebar overlay */}
       {isMobileSidebarOpen && (
         <div 

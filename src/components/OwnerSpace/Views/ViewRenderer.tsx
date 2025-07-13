@@ -22,6 +22,7 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
   onViewChange
 }) => {
   console.log('ViewRenderer - activeView:', activeView);
+  console.log('ViewRenderer - currentProfile:', currentProfile);
 
   // Check if this is an admin view (either starting with 'admin-' or matching admin paths)
   if (activeView.startsWith('admin-') || activeView.startsWith('/admin/')) {
@@ -58,7 +59,11 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
   };
 
   // Return the view directly without any wrapper or layout
-  return renderView();
+  return (
+    <div className="w-full h-full">
+      {renderView()}
+    </div>
+  );
 };
 
 export default ViewRenderer;
