@@ -4,10 +4,15 @@
     "title": "Eigentümer-Bereich",
     "subtitle": "Verwalten Sie Ihre Immobilien und Mieter",
     "welcome": "Willkommen in Ihrem Eigentümer-Bereich",
+    "noQuickActionsConfigured": "Keine Schnellaktionen konfiguriert",
     "quickActions": {
       "title": "Schnelle Aktionen",
       "manageTenants": "Mieter Verwalten",
       "description": "Beschreibung"
+    },
+    "recentActivity": {
+      "title": "Letzte Aktivität",
+      "noActivity": "Keine kürzliche Aktivität"
     }
   }
 }

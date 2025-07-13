@@ -4,10 +4,15 @@
     "title": "Owner Space",
     "subtitle": "Manage your properties and tenants",
     "welcome": "Welcome to your owner space",
+    "noQuickActionsConfigured": "No quick actions configured",
     "quickActions": {
       "title": "Quick Actions",
       "manageTenants": "Manage Tenants",
       "description": "Description"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "noActivity": "No recent activity"
     }
   }
 }

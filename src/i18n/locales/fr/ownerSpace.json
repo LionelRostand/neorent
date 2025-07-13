@@ -4,10 +4,15 @@
     "title": "Espace Propriétaire",
     "subtitle": "Gérez vos propriétés et locataires",
     "welcome": "Bienvenue dans votre espace propriétaire",
+    "noQuickActionsConfigured": "Aucune action rapide configurée",
     "quickActions": {
       "title": "Actions Rapides",
       "manageTenants": "Gérer les Locataires",
       "description": "Description"
+    },
+    "recentActivity": {
+      "title": "Activité Récente",
+      "noActivity": "Aucune activité récente"
     }
   }
 }
