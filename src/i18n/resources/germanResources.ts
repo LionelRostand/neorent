@@ -30,6 +30,8 @@ import roommateSpace from '../locales/de/roommateSpace.json';
 import roommates from '../locales/de/roommates.json';
 import roommateForm from '../locales/de/roommateForm.json';
 import settings from '../locales/de/settings.json';
+import ownerSettings from '../locales/de/settings/owners.json';
+import ownerRegistrations from '../locales/de/settings/ownerRegistrations.json';
 import taxes from '../locales/de/taxes.json';
 import tenantDocuments from '../locales/de/tenantDocuments.json';
 import tenantHistory from '../locales/de/tenantHistory.json';
@@ -77,6 +79,8 @@ export const germanResources = {
     ...roommates,
     ...roommateForm,
     ...settings,
+    ...ownerSettings,
+    ...ownerRegistrations,
     ...taxes,
     ...tenantDocuments,
     ...tenantHistory,

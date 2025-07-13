@@ -29,6 +29,8 @@ import roommateSpace from '../locales/en/roommateSpace.json';
 import roommates from '../locales/en/roommates.json';
 import roommateForm from '../locales/en/roommateForm.json';
 import settings from '../locales/en/settings.json';
+import ownerSettings from '../locales/en/settings/owners.json';
+import ownerRegistrations from '../locales/en/settings/ownerRegistrations.json';
 import taxes from '../locales/en/taxes.json';
 import tenantDocuments from '../locales/en/tenantDocuments.json';
 import tenantHistory from '../locales/en/tenantHistory.json';
@@ -77,6 +79,8 @@ export const englishResources = {
     ...roommates,
     ...roommateForm,
     ...settings,
+    ...ownerSettings,
+    ...ownerRegistrations,
     ...taxes,
     ...tenantDocuments,
     ...tenantHistory,

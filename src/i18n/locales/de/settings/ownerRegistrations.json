@@ -1,0 +1,21 @@
+
+{
+  "settings": {
+    "ownerRegistrations": {
+      "title": "Registrierungsanfragen der Eigentümer",
+      "pendingCount": "ausstehende Anfragen",
+      "noRequests": "Keine ausstehenden Registrierungsanfragen",
+      "noRequestsDescription": "Neue Registrierungsanfragen von Eigentümern werden hier zur Genehmigung angezeigt",
+      "loading": "Lade Registrierungsanfragen...",
+      "requestCreated": "Anfrage erstellt am",
+      "message": "Nachricht",
+      "approve": "Genehmigen",
+      "reject": "Ablehnen",
+      "status": {
+        "pending": "Ausstehend",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      }
+    }
+  }
+}
