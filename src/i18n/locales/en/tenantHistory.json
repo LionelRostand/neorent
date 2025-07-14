@@ -39,20 +39,6 @@
     "accountHolder": "Account Holder",
     "iban": "IBAN",
     "bic": "BIC",
-    "reference": "Payment Reference",
-    "months": {
-      "january": "January",
-      "february": "February",
-      "march": "March",
-      "april": "April",
-      "may": "May",
-      "june": "June",
-      "july": "July",
-      "august": "August",
-      "september": "September",
-      "october": "October",
-      "november": "November",
-      "december": "December"
-    }
+    "reference": "Payment Reference"
   }
 }

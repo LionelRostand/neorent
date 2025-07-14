@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { File, X } from 'lucide-react';
 
@@ -15,8 +14,6 @@ const SelectedFileDisplay: React.FC<SelectedFileDisplayProps> = ({
   onClearFile,
   uploading
 }) => {
-  const { t } = useTranslation();
-  
   const formatFileSize = (bytes: number) => {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
@@ -42,7 +39,7 @@ const SelectedFileDisplay: React.FC<SelectedFileDisplayProps> = ({
         className="flex-shrink-0 w-full sm:w-auto"
       >
         <X className="h-4 w-4" />
-        <span className="ml-1 sm:hidden">{t('common.delete')}</span>
+        <span className="ml-1 sm:hidden">Supprimer</span>
       </Button>
     </div>
   );

@@ -1,13 +1,11 @@
 
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { SecuritySettings, defaultSecuritySettings } from '@/components/Settings/types/security';
 
 export const useSecuritySettings = () => {
-  const { t } = useTranslation();
   const [settings, setSettings] = useState<SecuritySettings>(defaultSecuritySettings);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -23,10 +21,10 @@ export const useSecuritySettings = () => {
         setSettings({ ...defaultSecuritySettings, ...docSnap.data() } as SecuritySettings);
       }
     } catch (error) {
-      console.error('Error loading security settings:', error);
+      console.error('Erreur lors du chargement des paramètres de sécurité:', error);
       toast({
-        title: t('common.error'),
-        description: t('settings.security.loadingSettings'),
+        title: "Erreur",
+        description: "Impossible de charger les paramètres de sécurité",
         variant: "destructive",
       });
     } finally {
@@ -42,14 +40,14 @@ export const useSecuritySettings = () => {
       
       setSettings(newSettings);
       toast({
-        title: t('common.success'),
-        description: t('settings.security.saving'),
+        title: "Paramètres sauvegardés",
+        description: "Les paramètres de sécurité ont été mis à jour",
       });
     } catch (error) {
-      console.error('Error saving settings:', error);
+      console.error('Erreur lors de la sauvegarde:', error);
       toast({
-        title: t('common.error'),
-        description: t('common.pleaseRetry'),
+        title: "Erreur",
+        description: "Impossible de sauvegarder les paramètres",
         variant: "destructive",
       });
     } finally {

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import MainLayout from '@/components/Layout/MainLayout';
 import HelpSearch from '@/components/Help/HelpSearch';
 import CategoryFilters from '@/components/Help/CategoryFilters';
 import HelpCard from '@/components/Help/HelpCard';
@@ -9,7 +10,6 @@ import NoResults from '@/components/Help/NoResults';
 import PaymentConfigurationTab from '@/components/Help/PaymentConfigurationTab';
 import { helpSectionsData } from '@/components/Help/helpData';
 import { CreditCard, HelpCircle } from 'lucide-react';
-import MainLayout from '@/components/Layout/MainLayout';
 
 const Help = () => {
   const { t } = useTranslation();

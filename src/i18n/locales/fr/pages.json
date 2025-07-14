@@ -1,24 +1,180 @@
 
 {
   "pages": {
-    "home": "Accueil",
-    "about": "À propos",
-    "contact": "Contact",
-    "services": "Services",
-    "pricing": "Tarifs",
-    "features": "Fonctionnalités",
-    "testimonials": "Témoignages",
-    "blog": "Blog",
-    "faq": "FAQ",
-    "privacy": "Politique de confidentialité",
-    "terms": "Conditions d'utilisation",
-    "support": "Support",
-    "documentation": "Documentation",
-    "api": "API",
-    "downloads": "Téléchargements",
-    "partners": "Partenaires",
-    "careers": "Carrières",
-    "news": "Actualités",
-    "events": "Événements"
+    "website": {
+      "title": "Site Web",
+      "meta": {
+        "title": "Gestion du Site Web | Plateforme Immobilière",
+        "description": "Gérez votre site web immobilier et votre présence en ligne"
+      }
+    },
+    "properties": {
+      "title": "Propriétés",
+      "meta": {
+        "title": "Nos Propriétés | Plateforme Immobilière",
+        "description": "Découvrez notre sélection de propriétés disponibles"
+      }
+    },
+    "about": {
+      "title": "À Propos",
+      "meta": {
+        "title": "À Propos de Nous | Plateforme Immobilière",
+        "description": "Découvrez notre équipe et notre mission dans l'immobilier"
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "meta": {
+        "title": "Nous Contacter | Plateforme Immobilière",
+        "description": "Contactez-nous pour vos besoins immobiliers"
+      }
+    },
+    "login": {
+      "title": "Connexion",
+      "meta": {
+        "title": "Connexion | Plateforme Immobilière",
+        "description": "Connectez-vous à votre compte"
+      }
+    },
+    "legalNotice": {
+      "title": "Mentions Légales",
+      "meta": {
+        "title": "Mentions Légales | Plateforme Immobilière",
+        "description": "Informations légales et réglementaires"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Politique de Confidentialité",
+      "meta": {
+        "title": "Politique de Confidentialité | Plateforme Immobilière",
+        "description": "Notre politique de protection des données personnelles"
+      }
+    },
+    "cookiePolicy": {
+      "title": "Politique des Cookies",
+      "meta": {
+        "title": "Politique des Cookies | Plateforme Immobilière",
+        "description": "Informations sur l'utilisation des cookies"
+      }
+    },
+    "tenantSpace": {
+      "title": "Espace Locataire",
+      "meta": {
+        "title": "Espace Locataire | Plateforme Immobilière",
+        "description": "Accédez à votre espace personnel locataire"
+      }
+    },
+    "ownerSpace": {
+      "title": "Espace Propriétaire",
+      "meta": {
+        "title": "Espace Propriétaire | Plateforme Immobilière",
+        "description": "Gérez vos biens immobiliers"
+      }
+    },
+    "admin": {
+      "title": "Administration",
+      "meta": {
+        "title": "Administration | Plateforme Immobilière",
+        "description": "Interface d'administration"
+      }
+    },
+    "dashboard": {
+      "title": "Tableau de Bord",
+      "meta": {
+        "title": "Tableau de Bord | Administration",
+        "description": "Vue d'ensemble de votre activité immobilière"
+      }
+    },
+    "tenants": {
+      "title": "Locataires",
+      "meta": {
+        "title": "Gestion des Locataires | Administration",
+        "description": "Gérez vos locataires et leurs informations"
+      }
+    },
+    "roommates": {
+      "title": "Colocataires",
+      "meta": {
+        "title": "Gestion des Colocataires | Administration",
+        "description": "Gérez les colocations et colocataires"
+      }
+    },
+    "contracts": {
+      "title": "Contrats",
+      "meta": {
+        "title": "Gestion des Contrats | Administration",
+        "description": "Gérez les contrats de bail et accords"
+      }
+    },
+    "leases": {
+      "title": "Baux",
+      "meta": {
+        "title": "Gestion des Baux | Administration",
+        "description": "Gérez les baux et locations"
+      }
+    },
+    "inspections": {
+      "title": "États des Lieux",
+      "meta": {
+        "title": "États des Lieux | Administration",
+        "description": "Gérez les inspections et états des lieux"
+      }
+    },
+    "rentManagement": {
+      "title": "Gestion des Loyers",
+      "meta": {
+        "title": "Gestion des Loyers | Administration",
+        "description": "Suivez et gérez les paiements de loyers"
+      }
+    },
+    "rentalCharges": {
+      "title": "Charges Locatives",
+      "meta": {
+        "title": "Charges Locatives | Administration",
+        "description": "Gérez les charges locatives et dépenses"
+      }
+    },
+    "forecasting": {
+      "title": "Prévisions Financières",
+      "meta": {
+        "title": "Prévisions Financières | Administration",
+        "description": "Projections et analyses financières"
+      }
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "meta": {
+        "title": "Gestion de la Maintenance | Administration",
+        "description": "Gérez les demandes de maintenance et réparations"
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "meta": {
+        "title": "Centre de Messages | Administration",
+        "description": "Communiquez avec les locataires et gérez les demandes"
+      }
+    },
+    "taxes": {
+      "title": "Gestion Fiscale",
+      "meta": {
+        "title": "Gestion Fiscale | Administration",
+        "description": "Gérez les déclarations fiscales et obligations"
+      }
+    },
+    "settings": {
+      "title": "Paramètres",
+      "meta": {
+        "title": "Paramètres | Administration",
+        "description": "Configurez votre plateforme immobilière"
+      }
+    },
+    "help": {
+      "title": "Aide",
+      "meta": {
+        "title": "Centre d'Aide | Administration",
+        "description": "Documentation et support pour la plateforme"
+      }
+    }
   }
 }

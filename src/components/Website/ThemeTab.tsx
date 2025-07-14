@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,7 +9,6 @@ import { Save, Eye, Monitor, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ThemeTab = () => {
-  const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState('modern');
   const [customColors, setCustomColors] = useState({
@@ -25,12 +23,12 @@ const ThemeTab = () => {
   const [previewMode, setPreviewMode] = useState('desktop');
 
   const themes = [
-    { id: 'modern', name: t('website.modern'), color: '#3b82f6' },
-    { id: 'classic', name: t('website.classic'), color: '#374151' },
-    { id: 'nature', name: t('website.nature'), color: '#10b981' },
-    { id: 'sunset', name: t('website.sunset'), color: '#f97316' },
-    { id: 'ocean', name: t('website.ocean'), color: '#0ea5e9' },
-    { id: 'minimalist', name: t('website.minimalist'), color: '#6b7280' }
+    { id: 'modern', name: 'Modern', color: '#3b82f6' },
+    { id: 'classic', name: 'Classic', color: '#374151' },
+    { id: 'nature', name: 'Nature', color: '#10b981' },
+    { id: 'sunset', name: 'Sunset', color: '#f97316' },
+    { id: 'ocean', name: 'Ocean', color: '#0ea5e9' },
+    { id: 'minimalist', name: 'Minimalist', color: '#6b7280' }
   ];
 
   const handleSaveTheme = async () => {
@@ -44,12 +42,12 @@ const ThemeTab = () => {
         typography
       });
       
-      toast.success(t('website.themeConfigurationSaved'), {
-        description: t('website.visualAppearanceUpdated')
+      toast.success('Theme configuration saved!', {
+        description: 'Visual appearance updated successfully'
       });
     } catch (error) {
-      toast.error(t('website.errorSavingTheme'), {
-        description: t('website.pleaseRetry')
+      toast.error('Error saving theme', {
+        description: 'Please try again'
       });
     } finally {
       setIsSaving(false);
@@ -60,15 +58,15 @@ const ThemeTab = () => {
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-semibold text-gray-900">🎨 {t('website.themeCustomization')}</h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-900">🎨 Theme Customization</h2>
           <p className="text-gray-600 text-sm md:text-base">
-            {t('website.themeCustomizationDescription')}
+            Customize your website appearance according to your brand identity.
           </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" className="flex items-center gap-2">
             <Eye className="h-4 w-4" />
-            {t('website.preview')}
+            Preview
           </Button>
           <Button 
             onClick={handleSaveTheme}
@@ -76,14 +74,14 @@ const ThemeTab = () => {
             className="flex items-center gap-2"
           >
             <Save className="h-4 w-4" />
-            {isSaving ? t('website.saving') : t('website.save')}
+            {isSaving ? 'Saving...' : 'Save'}
           </Button>
         </div>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">🎯 {t('website.predefinedThemes')}</CardTitle>
+          <CardTitle className="text-base md:text-lg">🎯 Predefined Themes</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -102,7 +100,7 @@ const ThemeTab = () => {
                 <div className="bg-white rounded-b-lg p-3">
                   <h4 className="font-medium text-center">{theme.name}</h4>
                   {selectedTheme === theme.id && (
-                    <p className="text-xs text-blue-600 text-center mt-1">{t('website.selected')}</p>
+                    <p className="text-xs text-blue-600 text-center mt-1">Selected</p>
                   )}
                 </div>
               </div>
@@ -113,12 +111,12 @@ const ThemeTab = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">{t('website.customColors')}</CardTitle>
+          <CardTitle className="text-base md:text-lg">Custom Colors</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>{t('website.primaryColor')}</Label>
+              <Label>Primary Color</Label>
               <div className="flex gap-2">
                 <div 
                   className="w-10 h-10 rounded border"
@@ -132,7 +130,7 @@ const ThemeTab = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>{t('website.secondaryColor')}</Label>
+              <Label>Secondary Color</Label>
               <div className="flex gap-2">
                 <div 
                   className="w-10 h-10 rounded border"
@@ -147,7 +145,7 @@ const ThemeTab = () => {
             </div>
           </div>
           <div className="space-y-2">
-            <Label>{t('website.accentColor')}</Label>
+            <Label>Accent Color</Label>
             <div className="flex gap-2">
               <div 
                 className="w-10 h-10 rounded border"
@@ -165,12 +163,12 @@ const ThemeTab = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">{t('website.typography')}</CardTitle>
+          <CardTitle className="text-base md:text-lg">Typography</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>{t('website.fontFamily')}</Label>
+              <Label>Font Family</Label>
               <Select value={typography.fontFamily} onValueChange={(value) => setTypography({...typography, fontFamily: value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select font" />
@@ -184,7 +182,7 @@ const ThemeTab = () => {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>{t('website.fontSize')}</Label>
+              <Label>Font Size (px)</Label>
               <Select value={typography.fontSize} onValueChange={(value) => setTypography({...typography, fontSize: value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select size" />
@@ -203,7 +201,7 @@ const ThemeTab = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">{t('website.realTimePreview')}</CardTitle>
+          <CardTitle className="text-base md:text-lg">Real-time Preview</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -214,7 +212,7 @@ const ThemeTab = () => {
                 onClick={() => setPreviewMode('desktop')}
               >
                 <Monitor className="h-4 w-4 mr-2" />
-                {t('website.desktop')}
+                Desktop
               </Button>
               <Button 
                 variant={previewMode === 'mobile' ? 'default' : 'outline'}
@@ -222,18 +220,18 @@ const ThemeTab = () => {
                 onClick={() => setPreviewMode('mobile')}
               >
                 <Smartphone className="h-4 w-4 mr-2" />
-                {t('website.mobile')}
+                Mobile
               </Button>
             </div>
             
             <div className="border-2 border-dashed border-blue-300 rounded-lg p-8 text-center bg-gray-50">
-              <h3 className="text-xl font-semibold text-blue-600 mb-2">{t('website.themePreview')}</h3>
-              <p className="text-gray-600">{t('website.themePreviewDescription')}</p>
+              <h3 className="text-xl font-semibold text-blue-600 mb-2">Theme Preview</h3>
+              <p className="text-gray-600">Here's how your site will look with this theme</p>
               <Button 
                 className="mt-4" 
                 style={{ backgroundColor: customColors.accent }}
               >
-                {t('website.sampleButton')}
+                Sample Button
               </Button>
             </div>
           </div>

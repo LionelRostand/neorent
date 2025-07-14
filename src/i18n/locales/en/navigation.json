@@ -5,23 +5,16 @@
     "properties": "Properties",
     "tenants": "Tenants",
     "roommates": "Roommates",
-    "contracts": "Contracts",
-    "inspections": "Inspections",
+    "contracts": "Lease Contracts",
+    "inspections": "Property Inspections",
     "rentManagement": "Rent Management",
     "rentalCharges": "Rental Charges",
-    "forecasting": "Forecasting",
+    "forecasting": "Financial Forecasting",
     "maintenance": "Maintenance",
     "messages": "Messages",
-    "taxes": "Taxes",
+    "taxes": "Tax Management",
     "website": "Website",
     "settings": "Settings",
-    "help": "Help",
-    "profile": "Profile",
-    "logout": "Logout",
-    "home": "Home",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Login",
-    "register": "Register"
+    "help": "Help"
   }
 }

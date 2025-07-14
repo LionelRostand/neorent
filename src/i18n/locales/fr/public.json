@@ -42,20 +42,7 @@
       "register": "S'inscrire",
       "tenant": "Espace Locataire",
       "owner": "Espace Propriétaire",
-      "admin": "Administration",
-      "form": {
-        "email": "Adresse email",
-        "emailPlaceholder": "Entrez votre adresse email",
-        "password": "Mot de passe",
-        "passwordPlaceholder": "Entrez votre mot de passe",
-        "signIn": "Se connecter",
-        "signingIn": "Connexion en cours...",
-        "forgotPassword": "Mot de passe oublié ?"
-      }
-    },
-    "ownerRegistration": {
-      "createAccountLink": "Créer un compte propriétaire",
-      "dialogTitle": "Inscription Propriétaire"
+      "admin": "Administration"
     }
   }
 }

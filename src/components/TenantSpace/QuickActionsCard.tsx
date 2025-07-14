@@ -22,33 +22,27 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
     const texts: Record<string, Record<string, string>> = {
       quickActionsTitle: {
         fr: 'Actions rapides',
-        en: 'Quick Actions',
-        de: 'Schnelle Aktionen'
+        en: 'Quick Actions'
       },
       payments: {
         fr: 'Paiements',
-        en: 'Payments',
-        de: 'Zahlungen'
+        en: 'Payments'
       },
       maintenance: {
         fr: 'Maintenance',
-        en: 'Maintenance',
-        de: 'Wartung'
+        en: 'Maintenance'
       },
       messages: {
         fr: 'Messages',
-        en: 'Messages',
-        de: 'Nachrichten'
+        en: 'Messages'
       },
       profile: {
         fr: 'Profil',
-        en: 'Profile',
-        de: 'Profil'
+        en: 'Profile'
       },
       newRequest: {
         fr: 'Nouvelle demande',
-        en: 'New Request',
-        de: 'Neue Anfrage'
+        en: 'New Request'
       }
     };
 

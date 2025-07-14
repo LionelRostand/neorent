@@ -15,7 +15,7 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
   return (
     <>
       <div>
-        <Label htmlFor="address">{t('propertyForm.adresse')} *</Label>
+        <Label htmlFor="address">{t('properties.address')} *</Label>
         <Input
           id="address"
           value={formData.address}
@@ -25,12 +25,12 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
       </div>
       
       <div>
-        <Label htmlFor="surface">{t('propertyForm.flache')}</Label>
+        <Label htmlFor="surface">{t('properties.surface')}</Label>
         <Input
           id="surface"
           value={formData.surface}
           onChange={(e) => onInputChange('surface', e.target.value)}
-          placeholder={t('propertyForm.placeholders.surface')}
+          placeholder="ex: 45 m²"
         />
       </div>
     </>

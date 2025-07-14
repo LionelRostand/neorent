@@ -2,17 +2,112 @@
 {
   "ownerSpace": {
     "title": "Owner Space",
-    "subtitle": "Manage your properties and tenants",
-    "welcome": "Welcome to your owner space",
-    "noQuickActionsConfigured": "No quick actions configured",
+    "welcome": "Welcome",
+    "unauthorized": "Unauthorized access",
+    "unauthorizedDescription": "This space is reserved for owners.",
+    "backToDashboard": "Back to dashboard",
+    "status": {
+      "active": "Active",
+      "owner": "Owner"
+    },
     "quickActions": {
       "title": "Quick Actions",
-      "manageTenants": "Manage Tenants",
-      "description": "Description"
+      "newProperty": {
+        "title": "New property",
+        "description": "Add a property",
+        "preview": "{{count}} properties"
+      },
+      "newContract": {
+        "title": "New contract",
+        "description": "Create a lease",
+        "preview": "{{count}} expiring"
+      },
+      "addTenant": {
+        "title": "Add tenant",
+        "description": "Register a tenant",
+        "preview": "{{count}} active tenants"
+      },
+      "propertyInspection": {
+        "title": "Property inspection",
+        "description": "Schedule a visit",
+        "preview": "Property inspections"
+      },
+      "calculateCharges": {
+        "title": "Calculate charges",
+        "description": "Annual review",
+        "preview": "0 pending payments"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Service request",
+        "preview": "1 urgent request"
+      },
+      "forecasting": {
+        "title": "Financial forecasting",
+        "description": "Revenue projections",
+        "preview": "Revenue projections"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Chat with tenants",
+        "preview": "Communication center"
+      },
+      "taxes": {
+        "title": "Tax management",
+        "description": "Tax declarations",
+        "preview": "Tax declarations"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "View overview",
+      "preview": "System overview",
+      "stats": {
+        "propertiesManaged": "Properties managed",
+        "activeTenants": "Active tenants",
+        "monthlyRevenue": "Monthly revenue",
+        "occupancyRate": "Occupancy rate",
+        "thisMonth": "this month"
+      }
+    },
+    "propertyOverview": {
+      "title": "Property Overview",
+      "viewAll": "View all",
+      "viewDetails": "View details",
+      "occupation": "Occupation",
+      "noProperties": "No properties found",
+      "status": {
+        "active": "Active",
+        "maintenance": "Maintenance",
+        "vacant": "Vacant",
+        "partiallyOccupied": "Partially occupied"
+      }
     },
     "recentActivity": {
       "title": "Recent Activity",
-      "noActivity": "No recent activity"
+      "activities": {
+        "paymentReceived": "Payment received - Apt {{number}}",
+        "paymentDescription": "{{tenant}} paid {{month}} rent",
+        "maintenanceRequest": "Maintenance request",
+        "maintenanceDescription": "Plumbing issue reported - Apt {{number}}",
+        "newTenant": "New tenant",
+        "newTenantDescription": "{{tenant}} signed the contract - Apt {{number}}",
+        "inspectionCompleted": "Inspection completed",
+        "inspectionDescription": "Move-out inspection validated - Apt {{number}}",
+        "paymentDelay": "Payment delay",
+        "paymentDelayDescription": "{{tenant}} - Apt {{number}} ({{days}} days late)"
+      },
+      "timeAgo": {
+        "hoursAgo": "{{count}} hours ago",
+        "yesterday": "Yesterday",
+        "daysAgo": "{{count}} days ago"
+      },
+      "types": {
+        "payment": "payment",
+        "maintenance": "maintenance",
+        "tenant": "tenant",
+        "inspection": "inspection"
+      }
     }
   }
 }

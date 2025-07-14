@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -242,7 +241,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 </li>
                 <li>
                   <Link to="/cookie-policy" className="text-gray-400 hover:text-white transition-colors">
-                    {t('publicSite.footer.cookiePolicy')}
+                    Politique de cookies
                   </Link>
                 </li>
               </ul>

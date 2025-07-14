@@ -19,7 +19,7 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
   showControls = false 
 }) => {
   const { t, i18n } = useTranslation();
-  const { getEnabledActions, refreshKey, isAdmin, reorderActions, toggleAction, removeAction } = useQuickActionsManager();
+  const { getEnabledActions, refreshKey, isAdmin, reorderActions } = useQuickActionsManager();
   
   const {
     openDialog,
@@ -46,6 +46,21 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
     currentLanguage: i18n.language,
     ownerProfile: ownerProfile
   });
+
+  const getLocalizedActionText = (action: any, field: 'title' | 'description'): string => {
+    const currentLang = i18n.language as 'fr' | 'en';
+    const fieldValue = action[field];
+    
+    if (fieldValue && typeof fieldValue === 'object' && 'fr' in fieldValue && 'en' in fieldValue) {
+      return fieldValue[currentLang] || fieldValue['fr'] || '';
+    }
+    
+    if (typeof fieldValue === 'string') {
+      return fieldValue;
+    }
+    
+    return '';
+  };
 
   const handleActionClick = (action: any) => {
     console.log('Quick action clicked:', action);
@@ -95,13 +110,13 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
       <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-4 md:p-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
           <h3 className="text-base md:text-lg font-semibold text-white">
-            {t('ownerSpace.quickActions.title')}
+            {t('navigation.quickActions', 'Actions rapides')}
           </h3>
         </div>
         
         {enabledActions.length === 0 ? (
           <p className="text-white/70 text-sm">
-            {t('ownerSpace.noQuickActionsConfigured')}
+            {i18n.language === 'en' ? 'No quick actions configured' : 'Aucune action rapide configurée'}
           </p>
         ) : (
           <DragDropContext onDragEnd={handleDragEnd}>
@@ -129,10 +144,12 @@ const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({
                           }`}
                         >
                           <ConfigurableQuickActionItem
-                            action={action}
-                            onToggle={toggleAction}
-                            onRemove={removeAction}
-                            onClick={handleActionClick}
+                            title={getLocalizedActionText(action, 'title')}
+                            description={getLocalizedActionText(action, 'description')}
+                            icon={action.icon}
+                            color={action.color}
+                            onClick={() => handleActionClick(action)}
+                            actionId={action.id}
                             showControls={showControls}
                             isDragging={snapshot.isDragging}
                           />

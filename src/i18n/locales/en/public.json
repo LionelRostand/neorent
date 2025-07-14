@@ -42,20 +42,7 @@
       "register": "Sign up",
       "tenant": "Tenant Space",
       "owner": "Owner Space",
-      "admin": "Administration",
-      "form": {
-        "email": "Email address",
-        "emailPlaceholder": "Enter your email address",
-        "password": "Password",
-        "passwordPlaceholder": "Enter your password",
-        "signIn": "Sign in",
-        "signingIn": "Signing in...",
-        "forgotPassword": "Forgot password?"
-      }
-    },
-    "ownerRegistration": {
-      "createAccountLink": "Create owner account",
-      "dialogTitle": "Owner Registration"
+      "admin": "Administration"
     }
   }
 }

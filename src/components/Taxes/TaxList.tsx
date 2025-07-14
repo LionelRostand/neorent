@@ -30,9 +30,9 @@ const TaxList = ({
     return (
       <div className="text-center py-8 sm:py-12">
         <Receipt className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400" />
-        <h3 className="mt-3 sm:mt-4 text-base sm:text-lg font-medium text-gray-900">{t('taxes.noFiscality')}</h3>
+        <h3 className="mt-3 sm:mt-4 text-base sm:text-lg font-medium text-gray-900">Aucune fiscalité</h3>
         <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-500 px-4">
-          {t('taxes.noFiscalObligationFound')} {selectedYear}.
+          Aucune obligation fiscale trouvée pour l'année {selectedYear}.
         </p>
       </div>
     );

@@ -3,8 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Calendar, User, Building2, ClipboardList, Eye } from 'lucide-react';
+import { Calendar, User, Building2, ClipboardList } from 'lucide-react';
 
 interface Inspection {
   id: string;
@@ -99,17 +98,6 @@ const InspectionsList = ({
                     <ClipboardList className="mr-2 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                     <span className="truncate">{t('inspections.inspector')}: {inspection.inspector}</span>
                   </div>
-                </div>
-
-                <div className="pt-2 border-t">
-                  <Button 
-                    onClick={() => onViewDetails(inspection)}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                    size="sm"
-                  >
-                    <Eye className="mr-2 h-4 w-4" />
-                    {t('inspections.viewInspection')}
-                  </Button>
                 </div>
               </div>
             </CardContent>

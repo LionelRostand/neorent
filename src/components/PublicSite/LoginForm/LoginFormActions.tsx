@@ -21,23 +21,23 @@ const LoginFormActions: React.FC<LoginFormActionsProps> = ({
   return (
     <>
       <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={isLoading}>
-        {isLoading ? t('public.login.form.signingIn') : t('public.login.form.signIn')}
+        {isLoading ? t('publicSite.login.signingIn') : t('publicSite.login.signIn')}
       </Button>
       
       <div className="text-center space-y-2">
         <a href="#" className="text-sm text-green-600 hover:underline block">
-          {t('public.login.form.forgotPassword')}
+          {t('publicSite.login.forgotPassword')}
         </a>
         
         <Dialog open={showRegistration} onOpenChange={setShowRegistration}>
           <DialogTrigger asChild>
             <button type="button" className="text-sm text-blue-600 hover:underline">
-              {t('public.ownerRegistration.createAccountLink')}
+              {t('publicSite.ownerRegistration.createAccountLink')}
             </button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>{t('public.ownerRegistration.dialogTitle')}</DialogTitle>
+              <DialogTitle>{t('publicSite.ownerRegistration.dialogTitle')}</DialogTitle>
             </DialogHeader>
             <OwnerRegistrationForm onSuccess={() => setShowRegistration(false)} />
           </DialogContent>

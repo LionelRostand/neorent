@@ -19,6 +19,32 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
 
   console.log('SidebarQuickActions render, refreshKey:', refreshKey);
 
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      quickActionsTitle: {
+        fr: 'Actions rapides',
+        en: 'Quick Actions'
+      },
+      delete: {
+        fr: 'Supprimer',
+        en: 'Delete'
+      },
+      manage: {
+        fr: 'Gérer',
+        en: 'Manage'
+      },
+      configure: {
+        fr: 'Configurer',
+        en: 'Configure'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
+
   const {
     setOpenDialog,
     navigate,
@@ -84,7 +110,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
     <div className="px-3 py-4 border-t border-green-400/30" key={`sidebar-quick-actions-${refreshKey}`}>
       <div className="flex items-center px-3 py-2 text-white/70 text-xs font-semibold uppercase tracking-wider">
         <Plus className="mr-2 h-4 w-4" />
-        {t('ownerSpace.quickActions.title')}
+        {getLocalizedText('quickActionsTitle')}
       </div>
       
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -146,7 +172,7 @@ const SidebarQuickActions: React.FC<SidebarQuickActionsProps> = ({ onMobileClose
                           <button
                             onClick={(e) => handleDelete(e, action.id)}
                             className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 shadow-lg border border-white/10"
-                            title={t('quickActions.manager.delete', 'Supprimer')}
+                            title={getLocalizedText('delete')}
                           >
                             <X className="h-3 w-3" />
                           </button>

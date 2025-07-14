@@ -5,23 +5,16 @@
     "properties": "Propriétés",
     "tenants": "Locataires",
     "roommates": "Colocataires",
-    "contracts": "Contrats",
-    "inspections": "Inspections",
+    "contracts": "Contrats de bail",
+    "inspections": "États des lieux",
     "rentManagement": "Gestion des loyers",
     "rentalCharges": "Charges locatives",
-    "forecasting": "Prévisions",
+    "forecasting": "Prévisions financières",
     "maintenance": "Maintenance",
     "messages": "Messages",
-    "taxes": "Taxes",
+    "taxes": "Gestion fiscale",
     "website": "Site web",
     "settings": "Paramètres",
-    "help": "Aide",
-    "profile": "Profil",
-    "logout": "Déconnexion",
-    "home": "Accueil",
-    "about": "À propos",
-    "contact": "Contact",
-    "login": "Connexion",
-    "register": "S'inscrire"
+    "help": "Aide"
   }
 }

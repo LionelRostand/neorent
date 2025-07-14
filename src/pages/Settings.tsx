@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -45,9 +44,6 @@ const Settings = () => {
     ...(isAdmin ? [{ id: 'admin-access', label: t('settings.tabs.adminAccess'), icon: UserCog }] : [])
   ];
 
-  // Calcul dynamique du nombre de colonnes pour la grille
-  const gridCols = `grid-cols-${tabs.length}`;
-
   return (
     <MainLayout>
       <div className="space-y-4 md:space-y-6">
@@ -65,7 +61,7 @@ const Settings = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto">
-            <TabsList className={`grid w-full min-w-[800px] ${gridCols} mb-4 md:mb-6 mx-1`}>
+            <TabsList className="grid w-full min-w-[800px] grid-cols-9 mb-4 md:mb-6 mx-1">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 

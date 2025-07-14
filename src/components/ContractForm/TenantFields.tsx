@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -23,20 +22,18 @@ const TenantFields = ({
   tenants,
   roommates
 }: TenantFieldsProps) => {
-  const { t } = useTranslation();
-
   return (
     <>
       {isBailContract && (
         <div>
           <Label htmlFor="tenant">
-            {formData.type === 'Bail locatif' ? t('contractForm.tenant') : t('contractForm.tenantRoommate')} *
+            {formData.type === 'Bail locatif' ? 'Tenant *' : 'Roommate *'}
           </Label>
           <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
             <SelectTrigger>
               <SelectValue placeholder={
-                isDataLoading ? t('common.loading') : 
-                `${t('contractForm.selectATenant')}`
+                isDataLoading ? "Loading..." : 
+                `Select a ${formData.type === 'Bail locatif' ? 'tenant' : 'roommate'}`
               } />
             </SelectTrigger>
             <SelectContent>
@@ -52,10 +49,10 @@ const TenantFields = ({
 
       {!isBailContract && (
         <div>
-          <Label htmlFor="tenant">{t('contractForm.tenantRoommate')} *</Label>
+          <Label htmlFor="tenant">Tenant/Roommate *</Label>
           <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
             <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? t('common.loading') : t('contractForm.selectATenant')} />
+              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a tenant"} />
             </SelectTrigger>
             <SelectContent>
               {[...tenants.map(t => ({ id: t.id, name: t.name, type: 'Tenant' })), 

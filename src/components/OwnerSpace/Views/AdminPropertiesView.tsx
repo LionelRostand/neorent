@@ -1,21 +1,16 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, Home, Users, AlertCircle, DollarSign, Edit, Trash2, Eye, EyeOff, Star } from 'lucide-react';
+import { Plus, Home, Users, AlertCircle, DollarSign, Edit, Trash2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import PropertyForm from '@/components/PropertyForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useOwnerData } from '@/hooks/useOwnerData';
-import { usePropertySettings } from '@/hooks/usePropertySettings';
-import { toast } from 'sonner';
 
 interface AdminPropertiesViewProps {
   currentProfile?: any;
@@ -29,8 +24,6 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
   const { getButtonConfig } = useFormButtonConfig();
   const { properties, tenants, payments } = useOwnerData(profile);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
-  
-  const { propertySettings, updatePropertySetting } = usePropertySettings();
 
   console.log('AdminPropertiesView - Using profile:', profile);
   console.log('AdminPropertiesView - Filtered properties:', properties);
@@ -55,274 +48,150 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
     }
   };
 
-  const handleToggleVisibility = async (propertyId: string) => {
-    const currentSettings = propertySettings[propertyId] || { visible: false, description: '', featured: false };
-    const success = await updatePropertySetting(propertyId, {
-      visible: !currentSettings.visible
-    });
-    
-    if (success) {
-      toast.success(currentSettings.visible ? t('website.propertyHidden') : t('website.propertyVisible'));
-    } else {
-      toast.error(t('common.error'));
-    }
-  };
-
-  const handleToggleFeatured = async (propertyId: string) => {
-    const currentSettings = propertySettings[propertyId] || { visible: false, description: '', featured: false };
-    const success = await updatePropertySetting(propertyId, {
-      featured: !currentSettings.featured
-    });
-    
-    if (success) {
-      toast.success(currentSettings.featured ? t('website.propertyUnfeatured') : t('website.propertyFeatured'));
-    } else {
-      toast.error(t('common.error'));
-    }
-  };
-
   return (
-    <div className="p-2 sm:p-4 lg:p-6 space-y-3 sm:space-y-4 lg:space-y-6">
-      {/* Header responsive avec amélioration mobile */}
-      <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-lg sm:rounded-xl p-3 sm:p-4 lg:p-6 text-white shadow-lg">
-        <div className="flex flex-col space-y-3 sm:space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
-            <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold leading-tight break-words">
-                {t('properties.title')}
-              </h1>
-              <p className="text-slate-100 mt-1 sm:mt-2 text-xs sm:text-sm lg:text-base leading-relaxed">
-                {t('properties.subtitle')}
+    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
+      {/* Header responsive */}
+      <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-4 sm:p-6 text-white shadow-lg">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold">Propriétés</h1>
+            <p className="text-slate-100 mt-1 sm:mt-2 text-sm sm:text-base">
+              Gérez vos propriétés et leurs informations
+            </p>
+            {profile && (
+              <p className="text-slate-200 text-sm mt-1">
+                Propriétaire: {profile.name || profile.email}
               </p>
-              {profile && (
-                <p className="text-slate-200 text-xs sm:text-sm mt-1 truncate">
-                  {t('ownerSpace.owner')}: {profile.name || profile.email}
-                </p>
-              )}
-            </div>
-            <div className="flex-shrink-0 w-full sm:w-auto max-w-xs sm:max-w-none">
-              <Button 
-                onClick={() => setShowPropertyForm(true)}
-                className="bg-white text-slate-600 hover:bg-slate-50 border-0 shadow-md w-full sm:w-auto text-xs sm:text-sm lg:text-base px-3 sm:px-4 lg:px-6 py-2 h-auto min-h-[36px] sm:min-h-[40px]"
-              >
-                <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
-                <span className="truncate text-xs sm:text-sm">{t('properties.addProperty')}</span>
-              </Button>
-            </div>
+            )}
           </div>
+          <Button 
+            onClick={() => setShowPropertyForm(true)}
+            className="bg-white text-slate-600 hover:bg-slate-50 border-0 shadow-md w-full sm:w-auto"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Nouvelle propriété
+          </Button>
         </div>
       </div>
 
-      {/* Metrics Grid responsive amélioré */}
-      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 xl:gap-6">
+      {/* Metrics Grid responsive */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="border-l-4 border-l-slate-500 hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-2 sm:px-4 lg:px-6 pt-2 sm:pt-4 lg:pt-6">
-            <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 leading-tight truncate pr-1">
-              {t('properties.totalProperties')}
-            </CardTitle>
-            <div className="p-1 sm:p-1.5 lg:p-2 bg-slate-100 rounded-lg flex-shrink-0">
-              <Home className="h-3 w-3 sm:h-4 sm:w-4 text-slate-600" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Total Propriétés</CardTitle>
+            <div className="p-2 bg-slate-100 rounded-lg">
+              <Home className="h-4 w-4 text-slate-600" />
             </div>
           </CardHeader>
-          <CardContent className="px-2 sm:px-4 lg:px-6 pb-2 sm:pb-4 lg:pb-6">
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{totalProperties}</div>
-            <p className="text-xs text-gray-500 mt-1 leading-tight truncate">
-              {totalProperties} {t('properties.propertiesRegistered')}
-            </p>
+          <CardContent>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{totalProperties}</div>
+            <p className="text-xs text-gray-500 mt-1">{totalProperties} propriétés enregistrées</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-2 sm:px-4 lg:px-6 pt-2 sm:pt-4 lg:pt-6">
-            <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 leading-tight truncate pr-1">
-              {t('properties.occupiedProperties')}
-            </CardTitle>
-            <div className="p-1 sm:p-1.5 lg:p-2 bg-green-100 rounded-lg flex-shrink-0">
-              <Users className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Propriétés Occupées</CardTitle>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <Users className="h-4 w-4 text-green-600" />
             </div>
           </CardHeader>
-          <CardContent className="px-2 sm:px-4 lg:px-6 pb-2 sm:pb-4 lg:pb-6">
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{occupiedProperties}</div>
-            <p className="text-xs text-gray-500 mt-1 leading-tight truncate">
-              {occupiedProperties} {t('properties.propertiesWithTenants')}
-            </p>
+          <CardContent>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{occupiedProperties}</div>
+            <p className="text-xs text-gray-500 mt-1">{occupiedProperties} propriétés avec locataires</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-2 sm:px-4 lg:px-6 pt-2 sm:pt-4 lg:pt-6">
-            <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 leading-tight truncate pr-1">
-              {t('properties.totalTenants')}
-            </CardTitle>
-            <div className="p-1 sm:p-1.5 lg:p-2 bg-blue-100 rounded-lg flex-shrink-0">
-              <Users className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Total Locataires</CardTitle>
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Users className="h-4 w-4 text-blue-600" />
             </div>
           </CardHeader>
-          <CardContent className="px-2 sm:px-4 lg:px-6 pb-2 sm:pb-4 lg:pb-6">
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{totalTenants}</div>
-            <p className="text-xs text-gray-500 mt-1 leading-tight truncate">
-              {totalTenants} {t('properties.activeTenants')}
-            </p>
+          <CardContent>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{totalTenants}</div>
+            <p className="text-xs text-gray-500 mt-1">{totalTenants} locataires actifs</p>
           </CardContent>
         </Card>
 
         <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-2 sm:px-4 lg:px-6 pt-2 sm:pt-4 lg:pt-6">
-            <CardTitle className="text-xs sm:text-sm font-medium text-gray-600 leading-tight truncate pr-1">
-              {t('properties.monthlyRevenue')}
-            </CardTitle>
-            <div className="p-1 sm:p-1.5 lg:p-2 bg-purple-100 rounded-lg flex-shrink-0">
-              <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Revenus Mensuels</CardTitle>
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <DollarSign className="h-4 w-4 text-purple-600" />
             </div>
           </CardHeader>
-          <CardContent className="px-2 sm:px-4 lg:px-6 pb-2 sm:pb-4 lg:pb-6">
-            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
-            <p className="text-xs text-gray-500 mt-1 leading-tight truncate">
-              {t('properties.metrics.revenueDescription')}
-            </p>
+          <CardContent>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
+            <p className="text-xs text-gray-500 mt-1">Revenus mensuels totaux</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Properties Table responsive amélioré */}
+      {/* Properties Table responsive */}
       <Card className="shadow-lg border-0">
-        <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4">
-          <CardTitle className="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-800 truncate">
-            {t('properties.listTitle')}
-          </CardTitle>
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-white border-b">
+          <CardTitle className="text-lg sm:text-xl text-gray-800">Liste des Propriétés</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-3 sm:p-6">
           {properties && properties.length > 0 ? (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[80px] px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('properties.fields.title')}
-                    </TableHead>
-                    <TableHead className="min-w-[100px] px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('properties.address')}
-                    </TableHead>
-                    <TableHead className="hidden sm:table-cell px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('properties.fields.type')}
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('properties.surface')}
-                    </TableHead>
-                    <TableHead className="px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('properties.rent')}
-                    </TableHead>
-                    <TableHead className="hidden lg:table-cell px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('tenants.tenant')}
-                    </TableHead>
-                    <TableHead className="px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('properties.fields.status')}
-                    </TableHead>
-                    <TableHead className="px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('website.websiteVisibility')}
-                    </TableHead>
-                    <TableHead className="text-right min-w-[60px] px-1 sm:px-2 lg:px-4 text-xs sm:text-sm whitespace-nowrap">
-                      {t('properties.actions')}
-                    </TableHead>
+                    <TableHead className="min-w-[120px]">Titre</TableHead>
+                    <TableHead className="min-w-[150px]">Adresse</TableHead>
+                    <TableHead className="hidden sm:table-cell">Type</TableHead>
+                    <TableHead className="hidden md:table-cell">Surface</TableHead>
+                    <TableHead>Loyer</TableHead>
+                    <TableHead className="hidden lg:table-cell">Locataire</TableHead>
+                    <TableHead>Statut</TableHead>
+                    <TableHead className="text-right min-w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {properties.map((property) => {
-                    const settings = propertySettings[property.id] || { visible: false, description: '', featured: false };
-                    
-                    return (
-                      <TableRow key={property.id}>
-                        <TableCell className="font-medium px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                          <div className="truncate max-w-[80px] sm:max-w-[120px]">{property.title}</div>
-                        </TableCell>
-                        <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                          <div className="truncate max-w-[100px] sm:max-w-[150px]">{property.address}</div>
-                        </TableCell>
-                        <TableCell className="hidden sm:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                          {property.type}
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                          {property.surface}m²
-                        </TableCell>
-                        <TableCell className="font-semibold px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm whitespace-nowrap">
-                          {property.rent}€
-                        </TableCell>
-                        <TableCell className="hidden lg:table-cell px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3 text-xs sm:text-sm">
-                          <div className="truncate max-w-[100px]">{property.tenant || t('common.none')}</div>
-                        </TableCell>
-                        <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
-                          <div className="flex flex-col gap-1">
-                            <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs px-1 py-0">
-                              {property.status}
-                            </Badge>
-                            {settings.featured && (
-                              <Badge variant="outline" className="text-xs px-1 py-0 bg-yellow-50 text-yellow-700 border-yellow-200">
-                                <Star className="h-2 w-2 mr-1" />
-                                {t('website.featured')}
-                              </Badge>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell className="px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
-                          <div className="flex flex-col gap-2">
-                            <div className="flex items-center gap-2">
-                              <Label className="text-xs">{t('website.visible')}</Label>
-                              <Switch
-                                checked={settings.visible}
-                                onCheckedChange={() => handleToggleVisibility(property.id)}
-                              />
-                              {settings.visible ? (
-                                <Eye className="h-3 w-3 text-green-600" />
-                              ) : (
-                                <EyeOff className="h-3 w-3 text-gray-400" />
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Label className="text-xs">{t('website.feature')}</Label>
-                              <Switch
-                                checked={settings.featured}
-                                onCheckedChange={() => handleToggleFeatured(property.id)}
-                                disabled={!settings.visible}
-                              />
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right px-1 sm:px-2 lg:px-4 py-1 sm:py-2 lg:py-3">
-                          <div className="flex justify-end space-x-0.5 sm:space-x-1">
-                            <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
-                              <Eye className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
-                              <Edit className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 p-0">
-                              <Trash2 className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  {properties.map((property) => (
+                    <TableRow key={property.id}>
+                      <TableCell className="font-medium">{property.title}</TableCell>
+                      <TableCell className="text-sm">{property.address}</TableCell>
+                      <TableCell className="hidden sm:table-cell">{property.type}</TableCell>
+                      <TableCell className="hidden md:table-cell">{property.surface}m²</TableCell>
+                      <TableCell className="font-semibold">{property.rent}€</TableCell>
+                      <TableCell className="hidden lg:table-cell">{property.tenant || 'Aucun'}</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
+                          {property.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end space-x-1">
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Eye className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Edit className="h-3 w-3" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </div>
           ) : (
-            <div className="text-center py-6 sm:py-8 lg:py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200 mx-2 sm:mx-4 lg:mx-0">
-              <div className="p-2 sm:p-3 lg:p-4 bg-gray-100 rounded-full w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                <Home className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-gray-400" />
+            <div className="text-center py-8 sm:py-12 bg-gradient-to-br from-gray-50 to-white rounded-lg border-2 border-dashed border-gray-200">
+              <div className="p-3 sm:p-4 bg-gray-100 rounded-full w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 flex items-center justify-center">
+                <Home className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
               </div>
-              <h3 className="text-sm sm:text-base lg:text-lg font-medium text-gray-700 mb-2 px-4">
-                {t('properties.noProperties')}
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-500 mb-4 px-4">
-                {t('properties.noPropertiesDesc')}
-              </p>
-              <Button 
-                onClick={() => setShowPropertyForm(true)}
-                className="bg-slate-600 hover:bg-slate-700 text-white text-xs sm:text-sm px-3 sm:px-4 py-2"
-              >
-                <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                {t('properties.addProperty')}
+              <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">Aucune propriété</h3>
+              <p className="text-sm text-gray-500 mb-4">Commencez par ajouter votre première propriété</p>
+              <Button className="bg-slate-600 hover:bg-slate-700 text-white">
+                <Plus className="h-4 w-4 mr-2" />
+                Ajouter une propriété
               </Button>
             </div>
           )}

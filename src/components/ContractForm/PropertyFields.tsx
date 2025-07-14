@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -23,16 +22,14 @@ const PropertyFields = ({
   isColocatifContract,
   isDataLoading
 }: PropertyFieldsProps) => {
-  const { t } = useTranslation();
-
   return (
     <>
       {isBailContract && (
         <div>
-          <Label htmlFor="property">{t('contractForm.property')}</Label>
+          <Label htmlFor="property">Property</Label>
           <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
             <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? t('common.loading') : t('contractForm.selectAProperty')} />
+              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a property"} />
             </SelectTrigger>
             <SelectContent>
               {getAvailableProperties().map((property) => (
@@ -47,10 +44,10 @@ const PropertyFields = ({
 
       {!isBailContract && (
         <div>
-          <Label htmlFor="property">{t('contractForm.property')}</Label>
+          <Label htmlFor="property">Property</Label>
           <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
             <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? t('common.loading') : t('contractForm.selectAProperty')} />
+              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a property"} />
             </SelectTrigger>
             <SelectContent>
               {getAvailableProperties().map((property) => (
@@ -65,10 +62,10 @@ const PropertyFields = ({
 
       {isColocatifContract && formData.property && (
         <div>
-          <Label htmlFor="roomNumber">{t('common.room')}</Label>
+          <Label htmlFor="roomNumber">Room</Label>
           <Select value={formData.roomNumber} onValueChange={(value) => handleInputChange('roomNumber', value)}>
             <SelectTrigger>
-              <SelectValue placeholder={t('common.selectRoom')} />
+              <SelectValue placeholder="Select a room" />
             </SelectTrigger>
             <SelectContent>
               {getAvailableRooms().map((room) => (

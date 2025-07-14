@@ -2,11 +2,38 @@
 {
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Overview of your real estate activity",
-    "properties": "Properties",
-    "tenants": "Tenants", 
-    "contracts": "Contracts",
+    "subtitle": "Overview of your real estate portfolio",
+    "management": "Dashboard Overview",
+    "description": "Monitor your real estate activity",
     "monthlyRevenue": "Monthly Revenue",
-    "newThisMonth": "new this month"
+    "rentalRevenue": "Rental Revenue",
+    "managedProperties": "Managed Properties",
+    "activeTenants": "Active Tenants",
+    "averageYield": "Average Yield",
+    "vsLastMonth": "vs last month",
+    "newThisMonth": "new this month",
+    "occupancyRate": "occupancy rate",
+    "vsQuarter": "vs quarter",
+    "importantAlerts": "Important Alerts",
+    "lateRent": "Late Rent Payment",
+    "late": "Late",
+    "expiringLease": "Expiring Lease",
+    "days": "days",
+    "urgentInspection": "Urgent Inspection",
+    "urgent": "Urgent",
+    "recentActivity": "Recent Activity",
+    "noRecentActivity": "No recent activity",
+    "rentReceived": "Rent payment received",
+    "newTenant": "New tenant registered",
+    "latePayment": "Late rent payment",
+    "inspection": "Property inspection",
+    "viewAll": "View All",
+    "viewDetails": "View Details",
+    "revenue": "Revenue",
+    "timeAgo": {
+      "hours": "{{hours}}h ago",
+      "days": "{{days}}d ago",
+      "weeks": "{{weeks}}w ago"
+    }
   }
 }

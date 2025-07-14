@@ -10,7 +10,25 @@ interface DashboardViewProps {
 }
 
 const DashboardView: React.FC<DashboardViewProps> = ({ currentProfile }) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      title: {
+        fr: 'Tableau de Bord',
+        en: 'Dashboard'
+      },
+      subtitle: {
+        fr: 'Vue d\'ensemble de votre portefeuille immobilier',
+        en: 'Overview of your real estate portfolio'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -18,8 +36,8 @@ const DashboardView: React.FC<DashboardViewProps> = ({ currentProfile }) => {
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
-            <p className="text-blue-100 mt-2">{t('dashboard.subtitle')}</p>
+            <h1 className="text-3xl font-bold">{getLocalizedText('title')}</h1>
+            <p className="text-blue-100 mt-2">{getLocalizedText('subtitle')}</p>
           </div>
         </div>
       </div>

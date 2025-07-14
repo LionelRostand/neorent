@@ -18,41 +18,18 @@ interface Page {
   status: string;
   lastModified: string;
   content?: string;
-  nameKey?: string;
 }
 
 const PagesTab = () => {
   const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
-  
-  const getPageName = (page: Page) => {
-    if (page.nameKey) {
-      const translatedName = t(page.nameKey);
-      if (translatedName === page.nameKey) {
-        return page.name;
-      }
-      return translatedName;
-    }
-    return page.name;
-  };
-
-  const getPageStatus = (status: string) => {
-    if (status === 'published' || status === 'Publié' || status === 'Veröffentlicht') {
-      return t('common.published');
-    }
-    if (status === 'draft' || status === 'Brouillon' || status === 'Entwurf') {
-      return t('common.draft');
-    }
-    return status;
-  };
-
   const [pages, setPages] = useState<Page[]>([
-    { id: 1, name: 'Accueil', nameKey: 'common.home', url: '/', status: 'published', lastModified: '2024-01-15' },
-    { id: 2, name: 'À Propos', nameKey: 'common.about', url: '/about', status: 'published', lastModified: '2024-01-14' },
-    { id: 3, name: 'Contact', nameKey: 'common.contact', url: '/contact', status: 'published', lastModified: '2024-01-13' },
-    { id: 4, name: 'Propriétés', nameKey: 'common.properties', url: '/properties', status: 'published', lastModified: '2024-01-12' },
-    { id: 5, name: 'Connexion', nameKey: 'common.login', url: '/login', status: 'published', lastModified: '2024-01-11' },
-    { id: 6, name: 'Services', nameKey: 'common.services', url: '/services', status: 'draft', lastModified: '2024-01-10' }
+    { id: 1, name: 'Accueil', url: '/', status: 'Publié', lastModified: '2024-01-15' },
+    { id: 2, name: 'À Propos', url: '/about', status: 'Publié', lastModified: '2024-01-14' },
+    { id: 3, name: 'Contact', url: '/contact', status: 'Publié', lastModified: '2024-01-13' },
+    { id: 4, name: 'Propriétés', url: '/properties', status: 'Publié', lastModified: '2024-01-12' },
+    { id: 5, name: 'Connexion', url: '/login', status: 'Publié', lastModified: '2024-01-11' },
+    { id: 6, name: 'Services', url: '/services', status: 'Brouillon', lastModified: '2024-01-10' }
   ]);
 
   const [newPage, setNewPage] = useState({
@@ -74,7 +51,7 @@ const PagesTab = () => {
       console.log('Saving pages:', { pages, newPage });
       
       toast.success(t('website.updateSuccess'), {
-        description: t('website.contentSavedDescription')
+        description: t('website.updateSuccess')
       });
     } catch (error) {
       toast.error(t('website.updateError'), {
@@ -91,12 +68,12 @@ const PagesTab = () => {
         id: Math.max(...pages.map(p => p.id)) + 1,
         name: newPage.title,
         url: newPage.url,
-        status: 'draft',
+        status: 'Brouillon',
         lastModified: new Date().toISOString().split('T')[0]
       };
       setPages([...pages, page]);
       setNewPage({ title: '', url: '', content: '', metaDescription: '' });
-      toast.success(t('website.contentSaved'));
+      toast.success('Page ajoutée avec succès !');
     }
   };
 
@@ -117,14 +94,14 @@ const PagesTab = () => {
           ? { ...p, ...pageData, lastModified: new Date().toISOString().split('T')[0] }
           : p
       ));
-      toast.success(t('website.contentSaved'));
+      toast.success('Page modifiée avec succès !');
     }
   };
 
   const handleConfirmDelete = () => {
     if (selectedPage) {
       setPages(pages.filter(p => p.id !== selectedPage.id));
-      toast.success(t('website.contentSaved'));
+      toast.success('Page supprimée avec succès !');
     }
   };
 
@@ -148,21 +125,21 @@ const PagesTab = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">{t('website.pages')}</CardTitle>
+            <CardTitle className="text-base md:text-lg">{t('common.pages')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {pages.map((page) => (
                 <div key={page.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <h4 className="font-medium">{getPageName(page)}</h4>
+                    <h4 className="font-medium">{page.name}</h4>
                     <p className="text-sm text-gray-500">{page.url}</p>
                     <span className={`text-xs px-2 py-1 rounded ${
-                      getPageStatus(page.status) === t('common.published')
+                      page.status === 'Publié' 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
                     }`}>
-                      {getPageStatus(page.status)}
+                      {page.status}
                     </span>
                   </div>
                   <div className="flex gap-2">
@@ -194,9 +171,9 @@ const PagesTab = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>{t('common.name')}</Label>
+              <Label>{t('common.page')} {t('common.name')}</Label>
               <Input 
-                placeholder={t('common.services')}
+                placeholder="ex: Nos Services"
                 value={newPage.title}
                 onChange={(e) => setNewPage({...newPage, title: e.target.value})}
               />
@@ -204,7 +181,7 @@ const PagesTab = () => {
             <div className="space-y-2">
               <Label>URL</Label>
               <Input 
-                placeholder="/services"
+                placeholder="ex: /services"
                 value={newPage.url}
                 onChange={(e) => setNewPage({...newPage, url: e.target.value})}
               />
@@ -212,7 +189,7 @@ const PagesTab = () => {
             <div className="space-y-2">
               <Label>META {t('common.description')}</Label>
               <Textarea 
-                placeholder={t('website.seoSettingsDescription')}
+                placeholder="Description pour le SEO..."
                 rows={2}
                 value={newPage.metaDescription}
                 onChange={(e) => setNewPage({...newPage, metaDescription: e.target.value})}

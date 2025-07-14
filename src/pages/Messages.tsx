@@ -1,6 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import MainLayout from '@/components/Layout/MainLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
@@ -10,49 +10,32 @@ import type { Conversation, ChatMessage } from '@/types/chat';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const location = useLocation();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Vérifier si on est dans l'espace propriétaire
-  const isOwnerSpace = location.pathname.includes('/owner-space');
-
-  console.log('📨 Messages page: Initialisation du composant Messages');
-  console.log('📨 Messages page: Vérification des services...', { messageService: !!messageService });
+  console.log('📨 Messages page: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
+  console.log('📨 Messages page: Conversation sélectionnée:', selectedConversation?.id);
 
   // Abonnement aux conversations
   useEffect(() => {
     console.log('📨 Messages page: Souscription aux conversations...');
-    
-    try {
-      const unsubscribe = messageService.subscribeToConversations((newConversations) => {
-        console.log('📨 Messages page: Callback conversations reçu:', newConversations.length, 'conversations');
-        newConversations.forEach((conv, index) => {
-          console.log(`📨 Conversation ${index}:`, {
-            id: conv.id,
-            clientName: conv.clientName,
-            lastMessage: conv.lastMessage,
-            unreadCount: conv.unreadCount
-          });
+    const unsubscribe = messageService.subscribeToConversations((newConversations) => {
+      console.log('📨 Messages page: Callback conversations reçu:', newConversations.length, 'conversations');
+      newConversations.forEach((conv, index) => {
+        console.log(`📨 Conversation ${index}:`, {
+          id: conv.id,
+          clientName: conv.clientName,
+          lastMessage: conv.lastMessage,
+          unreadCount: conv.unreadCount
         });
-        setConversations(newConversations);
-        setLoading(false);
       });
-
-      return unsubscribe;
-    } catch (error) {
-      console.error('📨 Messages page: Erreur lors de la souscription aux conversations:', error);
-      console.error('📨 Messages page: Type d\'erreur:', typeof error, error);
-      
-      if (error instanceof Error && error.message.includes('502')) {
-        console.error('📨 Messages page: Erreur 502 détectée - problème de serveur');
-      }
-      
+      setConversations(newConversations);
       setLoading(false);
-      return () => {};
-    }
+    });
+
+    return unsubscribe;
   }, []);
 
   // Auto-sélection de la première conversation
@@ -72,28 +55,25 @@ const Messages = () => {
     }
 
     console.log('📨 Messages page: Souscription aux messages pour conversation:', selectedConversation.id);
-    
-    try {
-      const unsubscribe = messageService.subscribeToMessages(
-        selectedConversation.id,
-        (newMessages) => {
-          console.log('📨 Messages page: Callback messages reçu pour conversation', selectedConversation.id);
-          console.log('📨 Messages page: Nombre de messages reçus:', newMessages.length);
-          setMessages(newMessages);
-        }
-      );
-
-      return unsubscribe;
-    } catch (error) {
-      console.error('📨 Messages page: Erreur lors de la souscription aux messages:', error);
-      console.error('📨 Messages page: Type d\'erreur:', typeof error, error);
-      
-      if (error instanceof Error && error.message.includes('502')) {
-        console.error('📨 Messages page: Erreur 502 détectée dans les messages - problème de serveur');
+    const unsubscribe = messageService.subscribeToMessages(
+      selectedConversation.id,
+      (newMessages) => {
+        console.log('📨 Messages page: Callback messages reçu pour conversation', selectedConversation.id);
+        console.log('📨 Messages page: Nombre de messages reçus:', newMessages.length);
+        newMessages.forEach((msg, index) => {
+          console.log(`📨 Message ${index}:`, {
+            id: msg.id,
+            sender: msg.sender,
+            senderName: msg.senderName,
+            message: msg.message.substring(0, 50) + '...',
+            timestamp: msg.timestamp
+          });
+        });
+        setMessages(newMessages);
       }
-      
-      return () => {};
-    }
+    );
+
+    return unsubscribe;
   }, [selectedConversation]);
 
   // Marquer les messages comme lus quand on sélectionne une conversation
@@ -140,71 +120,46 @@ const Messages = () => {
     }
   };
 
-  const renderContent = () => (
-    <div className="space-y-6">
-      {/* Header section with translations */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 text-white shadow-lg">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold">{t('messages.title')}</h1>
-            <p className="text-green-100 mt-2">{t('messages.subtitle')}</p>
+  return (
+    <MainLayout>
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">{t('messages.title')}</h1>
+          <p className="text-gray-600">{t('messages.subtitle')}</p>
+        </div>
+
+        <MessageStats conversations={conversations} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
+          <div className="lg:col-span-1">
+            <ContactList
+              conversations={conversations}
+              selectedConversation={selectedConversation}
+              onConversationSelect={handleConversationSelect}
+              onConversationDelete={handleConversationDelete}
+              loading={loading}
+            />
+          </div>
+          
+          <div className="lg:col-span-2">
+            {selectedConversation ? (
+              <ChatWindow
+                conversation={selectedConversation}
+                messages={messages}
+                onSendMessage={handleSendMessage}
+              />
+            ) : (
+              <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                <div className="text-center">
+                  <p className="text-gray-500">{t('messages.selectContact')}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      <MessageStats conversations={conversations} />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-400px)]">
-        <div className="lg:col-span-1">
-          <ContactList
-            conversations={conversations}
-            selectedConversation={selectedConversation}
-            onConversationSelect={handleConversationSelect}
-            onConversationDelete={handleConversationDelete}
-            loading={loading}
-          />
-        </div>
-        
-        <div className="lg:col-span-2">
-          {selectedConversation ? (
-            <ChatWindow
-              conversation={selectedConversation}
-              messages={messages}
-              onSendMessage={handleSendMessage}
-            />
-          ) : (
-            <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-              <div className="text-center">
-                <p className="text-gray-500">{t('messages.selectContact')}</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    </MainLayout>
   );
-
-  // Afficher une erreur de connectivité si nécessaire
-  if (loading) {
-    const loadingContent = (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">{t('messages.loading', 'Chargement des messages...')}</p>
-        </div>
-      </div>
-    );
-
-    return isOwnerSpace ? loadingContent : <MainLayout>{loadingContent}</MainLayout>;
-  }
-
-  // Si on est dans l'espace propriétaire, retourner le contenu sans MainLayout
-  if (isOwnerSpace) {
-    return <div className="p-6">{renderContent()}</div>;
-  }
-
-  // Sinon, utiliser MainLayout comme avant
-  return <MainLayout>{renderContent()}</MainLayout>;
 };
 
 export default Messages;

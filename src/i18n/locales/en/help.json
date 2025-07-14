@@ -62,7 +62,7 @@
         "technical": "PDF generator with customizable templates by jurisdiction",
         "functional": "Draft compliant leases, track deadlines and manage renewals"
       },
-      "rentManagement": {
+      "rentPayments": {
         "title": "Rent tracking",
         "description": "Record and track all rent payments with automatic reminders",
         "technical": "Payment management system with states and notifications",
@@ -85,36 +85,6 @@
         "description": "Customize the platform according to your needs and preferences",
         "technical": "Configuration interface with user preference saving",
         "functional": "Configure notifications, document templates and general settings"
-      },
-      "messages": {
-        "title": "Messaging",
-        "description": "Communicate effectively with your tenants and roommates",
-        "technical": "Real-time messaging system with push notifications",
-        "functional": "Send messages, create group conversations and receive notifications"
-      },
-      "taxes": {
-        "title": "Tax declarations",
-        "description": "Manage your tax obligations and generate necessary declarations",
-        "technical": "Automated tax calculator with rules by country and region",
-        "functional": "Calculate your taxes, export data and prepare your declarations"
-      },
-      "inspections": {
-        "title": "Inspections",
-        "description": "Schedule and manage property inspections with detailed reports",
-        "technical": "Scheduling system with customizable forms and photos",
-        "functional": "Schedule visits, fill checklists and generate reports"
-      },
-      "rentalCharges": {
-        "title": "Rental charges",
-        "description": "Manage and distribute common charges among your tenants",
-        "technical": "Automatic calculation system with proportional distribution",
-        "functional": "Record invoices, distribute costs and generate charge calls"
-      },
-      "paymentSetup": {
-        "title": "Payment setup",
-        "description": "Configure payment methods accepted on your platform",
-        "technical": "Multi-gateway integration with secure APIs",
-        "functional": "Enable credit cards, bank transfers, mobile money and other payment methods"
       }
     },
     "paymentMethods": {

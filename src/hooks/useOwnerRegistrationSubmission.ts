@@ -17,14 +17,10 @@ export const useOwnerRegistrationSubmission = () => {
     try {
       console.log('Tentative d\'envoi de la demande:', formData);
       
-      const requestId = `owner_request_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const requestId = `owner_request_${Date.now()}`;
       const registrationRequest = {
-        name: formData.name.trim(),
+        ...formData,
         email: formData.email.trim(),
-        phone: formData.phone?.trim() || '',
-        company: formData.company?.trim() || '',
-        address: formData.address?.trim() || '',
-        message: formData.message?.trim() || '',
         status: 'pending',
         createdAt: new Date().toISOString(),
         type: 'owner_registration'
@@ -32,10 +28,9 @@ export const useOwnerRegistrationSubmission = () => {
 
       console.log('Données à envoyer:', registrationRequest);
 
-      // Utiliser un ID unique pour éviter les conflits
       await setDoc(doc(db, 'owner_registration_requests', requestId), registrationRequest);
       
-      console.log('Demande envoyée avec succès avec l\'ID:', requestId);
+      console.log('Demande envoyée avec succès');
       
       toast({
         title: t('publicSite.ownerRegistration.requestSent'),
@@ -50,22 +45,17 @@ export const useOwnerRegistrationSubmission = () => {
       let errorMessage = 'Une erreur est survenue lors de l\'envoi de votre demande.';
       
       if (error instanceof Error) {
-        console.log('Type d\'erreur:', error.name, 'Message:', error.message);
-        
-        // Messages d'erreur plus spécifiques
-        if (error.message.includes('permission-denied') || error.message.includes('permission')) {
-          errorMessage = 'Erreur de permission. Les règles de sécurité sont en cours de mise à jour. Veuillez réessayer dans quelques instants.';
-        } else if (error.message.includes('network') || error.message.includes('fetch')) {
-          errorMessage = 'Erreur de connexion. Vérifiez votre connexion internet et réessayez.';
-        } else if (error.message.includes('quota') || error.message.includes('quota-exceeded')) {
+        if (error.message.includes('permission')) {
+          errorMessage = 'Erreur de permission. Veuillez contacter l\'administrateur.';
+        } else if (error.message.includes('network')) {
+          errorMessage = 'Erreur de connexion. Vérifiez votre connexion internet.';
+        } else if (error.message.includes('quota')) {
           errorMessage = 'Service temporairement indisponible. Réessayez plus tard.';
-        } else if (error.message.includes('invalid-argument')) {
-          errorMessage = 'Données invalides. Vérifiez les informations saisies.';
         }
       }
       
       toast({
-        title: 'Erreur lors de l\'envoi',
+        title: 'Erreur',
         description: errorMessage,
         variant: "destructive",
       });

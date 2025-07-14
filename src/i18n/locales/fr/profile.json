@@ -1,24 +1,19 @@
 
 {
   "profile": {
-    "title": "Mon Profil",
-    "personalInfo": "Informations Personnelles",
+    "viewProfile": "Voir le profil",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "administrator": "Administrateur",
+    "owner": "Propriétaire",
+    "tenant": "Locataire",
+    "roommate": "Colocataire",
+    "unknownUser": "Utilisateur inconnu",
+    "changePassword": "Changer le mot de passe",
     "name": "Nom",
     "email": "Email",
     "phone": "Téléphone",
-    "address": "Adresse",
-    "settings": "Paramètres",
-    "language": "Langue",
-    "notifications": "Notifications",
-    "privacy": "Confidentialité",
-    "security": "Sécurité",
-    "save": "Sauvegarder",
-    "cancel": "Annuler",
-    "edit": "Modifier",
-    "changePassword": "Changer le mot de passe",
-    "deleteAccount": "Supprimer le compte",
-    "avatar": "Photo de profil",
-    "updateSuccess": "Profil mis à jour avec succès",
-    "updateError": "Erreur lors de la mise à jour du profil"
+    "status": "Statut",
+    "leaseStart": "Début du bail"
   }
 }

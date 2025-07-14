@@ -1,23 +1,20 @@
-
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Save, Plus, Trash2 } from 'lucide-react';
+import { Save, Plus, Trash2, Link } from 'lucide-react';
 import { toast } from 'sonner';
 
 const FooterTab = () => {
-  const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
   
   const [footerLinks, setFooterLinks] = useState([
-    { name: t('common.home'), url: '/' },
-    { name: t('common.about'), url: '/about' },
-    { name: t('common.contact'), url: '/contact' },
-    { name: t('common.login'), url: '/login' }
+    { name: 'Home', url: '/' },
+    { name: 'About', url: '/about' },
+    { name: 'Contact', url: '/contact' },
+    { name: 'Login', url: '/login' }
   ]);
 
   const [socialMedia, setSocialMedia] = useState({
@@ -47,12 +44,12 @@ const FooterTab = () => {
         legalInfo
       });
       
-      toast.success(t('website.footerConfigurationSaved'), {
-        description: t('website.footerConfigurationSavedDescription')
+      toast.success('Footer configuration saved!', {
+        description: 'Links, social media and legal notices updated'
       });
     } catch (error) {
-      toast.error(t('website.contentSaveError'), {
-        description: t('website.pleaseRetry')
+      toast.error('Error saving configuration', {
+        description: 'Please try again'
       });
     } finally {
       setIsSaving(false);
@@ -76,36 +73,36 @@ const FooterTab = () => {
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">🔗 {t('website.footerConfiguration')}</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">🔗 Footer Configuration</h2>
         <Button 
           onClick={handleSaveFooter} 
           disabled={isSaving}
           className="flex items-center gap-2 w-full sm:w-auto"
         >
           <Save className="h-4 w-4" />
-          {isSaving ? t('website.saving') : t('website.save')}
+          {isSaving ? 'Saving...' : 'Save'}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">
-        {t('website.footerConfigurationDescription')}
+        Navigation links, legal information, social media and mandatory notices for NeoRent.
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">{t('website.navigationLinks')}</CardTitle>
+            <CardTitle className="text-base md:text-lg">Navigation Links</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {footerLinks.map((link, index) => (
               <div key={index} className="space-y-2">
                 <div className="flex gap-2">
                   <Input 
-                    placeholder={t('website.linkName')} 
+                    placeholder="Link name" 
                     value={link.name}
                     onChange={(e) => updateFooterLink(index, 'name', e.target.value)}
                   />
                   <Input 
-                    placeholder={t('website.linkUrl')} 
+                    placeholder="Link URL" 
                     value={link.url}
                     onChange={(e) => updateFooterLink(index, 'url', e.target.value)}
                   />
@@ -121,44 +118,44 @@ const FooterTab = () => {
             ))}
             <Button size="sm" onClick={addFooterLink} className="w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
-              {t('website.addLink')}
+              Add link
             </Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base md:text-lg">{t('website.socialMedia')}</CardTitle>
+            <CardTitle className="text-base md:text-lg">Social Media</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>{t('website.facebook')}</Label>
+              <Label>Facebook</Label>
               <Input 
-                placeholder={t('website.facebookUrl')} 
+                placeholder="Facebook URL" 
                 value={socialMedia.facebook}
                 onChange={(e) => setSocialMedia({...socialMedia, facebook: e.target.value})}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('website.instagram')}</Label>
+              <Label>Instagram</Label>
               <Input 
-                placeholder={t('website.instagramUrl')} 
+                placeholder="Instagram URL" 
                 value={socialMedia.instagram}
                 onChange={(e) => setSocialMedia({...socialMedia, instagram: e.target.value})}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('website.twitter')}</Label>
+              <Label>Twitter</Label>
               <Input 
-                placeholder={t('website.twitterUrl')} 
+                placeholder="Twitter URL" 
                 value={socialMedia.twitter}
                 onChange={(e) => setSocialMedia({...socialMedia, twitter: e.target.value})}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('website.linkedin')}</Label>
+              <Label>LinkedIn</Label>
               <Input 
-                placeholder={t('website.linkedinUrl')} 
+                placeholder="LinkedIn URL" 
                 value={socialMedia.linkedin}
                 onChange={(e) => setSocialMedia({...socialMedia, linkedin: e.target.value})}
               />
@@ -169,11 +166,11 @@ const FooterTab = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">{t('website.legalInformation')}</CardTitle>
+          <CardTitle className="text-base md:text-lg">Legal Information</CardTitle>
         </CardHeader>
         <CardContent>
           <Textarea 
-            placeholder={t('website.legalNoticesPlaceholder')}
+            placeholder="Legal notices, terms of use..."
             rows={8}
             className="resize-none"
             value={legalInfo}

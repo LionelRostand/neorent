@@ -3,26 +3,25 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { useTranslation } from 'react-i18next';
 
 export interface QuickActionConfig {
   id: string;
-  titleKey: string; // Changed to use translation keys
-  descriptionKey: string; // Changed to use translation keys
+  title: { fr: string; en: string };
+  description: { fr: string; en: string };
   icon: string;
   color: string;
   enabled: boolean;
   order: number;
-  action: string;
-  actionValue: string;
-  hiddenFromSidebar?: boolean;
+  action: string; // action type like 'navigate' or 'dialog'
+  actionValue: string; // route or dialog name
+  hiddenFromSidebar?: boolean; // Optional property to hide from sidebar
 }
 
 export const defaultQuickActions: QuickActionConfig[] = [
   {
     id: 'dashboard',
-    titleKey: 'quickActions.dashboard.title',
-    descriptionKey: 'quickActions.dashboard.description',
+    title: { fr: 'Tableau de bord', en: 'Dashboard' },
+    description: { fr: 'Vue d\'ensemble', en: 'Overview' },
     icon: 'LayoutDashboard',
     color: 'bg-slate-500',
     enabled: true,
@@ -32,9 +31,9 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'property',
-    titleKey: 'quickActions.property.title',
-    descriptionKey: 'quickActions.property.description',
-    icon: 'Building',
+    title: { fr: 'Nouvelle propriété', en: 'New Property' },
+    description: { fr: 'Ajouter un bien', en: 'Add a property' },
+    icon: 'Plus',
     color: 'bg-blue-500',
     enabled: true,
     order: 2,
@@ -43,9 +42,9 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'contract',
-    titleKey: 'quickActions.contract.title',
-    descriptionKey: 'quickActions.contract.description',
-    icon: 'FileCheck',
+    title: { fr: 'Nouveau contrat', en: 'New Contract' },
+    description: { fr: 'Créer un bail', en: 'Create a lease' },
+    icon: 'FileText',
     color: 'bg-yellow-500',
     enabled: true,
     order: 3,
@@ -54,8 +53,8 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'roommate',
-    titleKey: 'quickActions.roommate.title',
-    descriptionKey: 'quickActions.roommate.description',
+    title: { fr: 'Ajouter locataire', en: 'Add Tenant' },
+    description: { fr: 'Enregistrer un locataire', en: 'Register a tenant' },
     icon: 'Users',
     color: 'bg-purple-500',
     enabled: true,
@@ -65,8 +64,8 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'website',
-    titleKey: 'quickActions.website.title',
-    descriptionKey: 'quickActions.website.description',
+    title: { fr: 'Site web', en: 'Website' },
+    description: { fr: 'Accéder à Site web', en: 'Access Website' },
     icon: 'Globe',
     color: 'bg-violet-500',
     enabled: true,
@@ -76,8 +75,8 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'settings',
-    titleKey: 'quickActions.settings.title',
-    descriptionKey: 'quickActions.settings.description',
+    title: { fr: 'Paramètres', en: 'Settings' },
+    description: { fr: 'Accéder à Paramètres', en: 'Access Settings' },
     icon: 'Settings',
     color: 'bg-gray-500',
     enabled: true,
@@ -90,7 +89,6 @@ export const defaultQuickActions: QuickActionConfig[] = [
 export const useQuickActionsManager = () => {
   const { userType, user } = useAuth();
   const { toast } = useToast();
-  const { t } = useTranslation();
   const [quickActions, setQuickActions] = useState<QuickActionConfig[]>(defaultQuickActions);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -250,24 +248,12 @@ export const useQuickActionsManager = () => {
     return success;
   };
 
-  const getLocalizedAction = (action: QuickActionConfig) => {
-    const title = t(action.titleKey);
-    const description = t(action.descriptionKey);
-    
-    return {
-      ...action,
-      title: title !== action.titleKey ? title : action.titleKey.split('.').pop() || 'Action',
-      description: description !== action.descriptionKey ? description : action.descriptionKey.split('.').pop() || 'Description'
-    };
-  };
-
   const getEnabledActions = () => {
     const enabledActions = quickActions
       .filter(action => action.enabled === true)
-      .sort((a, b) => a.order - b.order)
-      .map(action => getLocalizedAction(action));
+      .sort((a, b) => a.order - b.order);
     
-    console.log('Getting enabled actions with translations:', enabledActions);
+    console.log('Getting enabled actions:', enabledActions);
     return enabledActions;
   };
 
@@ -294,7 +280,6 @@ export const useQuickActionsManager = () => {
     addCustomAction,
     removeAction,
     getEnabledActions,
-    refreshKey,
-    getLocalizedAction
+    refreshKey
   };
 };

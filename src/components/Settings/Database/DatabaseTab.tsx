@@ -2,11 +2,9 @@
 import React from 'react';
 import { FirebaseConfig } from './FirebaseConfig';
 import { DatabaseStats } from './DatabaseStats';
-import MongoDBConfig from './MongoDBConfig';
 import FirebaseCollectionsList from '../Firebase/FirebaseCollectionsList';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 
 const DatabaseTab: React.FC = () => {
   const { t } = useTranslation();
@@ -33,11 +31,6 @@ const DatabaseTab: React.FC = () => {
       
       <FirebaseConfig onCopy={copyToClipboard} />
       <DatabaseStats />
-      
-      <Separator className="my-6" />
-      
-      <MongoDBConfig />
-      
       <FirebaseCollectionsList />
     </div>
   );

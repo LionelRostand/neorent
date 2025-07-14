@@ -2,17 +2,112 @@
 {
   "ownerSpace": {
     "title": "Espace Propriétaire",
-    "subtitle": "Gérez vos propriétés et locataires",
-    "welcome": "Bienvenue dans votre espace propriétaire",
-    "noQuickActionsConfigured": "Aucune action rapide configurée",
+    "welcome": "Bienvenue",
+    "unauthorized": "Accès non autorisé",
+    "unauthorizedDescription": "Cet espace est réservé aux propriétaires.",
+    "backToDashboard": "Retour au tableau de bord",
+    "status": {
+      "active": "Actif",
+      "owner": "Propriétaire"
+    },
     "quickActions": {
-      "title": "Actions Rapides",
-      "manageTenants": "Gérer les Locataires",
-      "description": "Description"
+      "title": "Actions rapides",
+      "newProperty": {
+        "title": "Nouvelle propriété",
+        "description": "Ajouter un bien",
+        "preview": "{{count}} propriétés"
+      },
+      "newContract": {
+        "title": "Nouveau contrat",
+        "description": "Créer un bail",
+        "preview": "{{count}} expirent"
+      },
+      "addTenant": {
+        "title": "Ajouter locataire",
+        "description": "Enregistrer un locataire",
+        "preview": "{{count}} locataires actifs"
+      },
+      "propertyInspection": {
+        "title": "État des lieux",
+        "description": "Programmer une visite",
+        "preview": "Inspections des propriétés"
+      },
+      "calculateCharges": {
+        "title": "Calculer charges",
+        "description": "Révision annuelle",
+        "preview": "0 paiements en attente"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Demande d'intervention",
+        "preview": "1 demande urgente"
+      },
+      "forecasting": {
+        "title": "Prévisions financières",
+        "description": "Projections de revenus",
+        "preview": "Projections de revenus"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Discuter avec les locataires",
+        "preview": "Centre de communication"
+      },
+      "taxes": {
+        "title": "Gestion fiscale",
+        "description": "Déclarations fiscales",
+        "preview": "Déclarations fiscales"
+      }
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Vue d'ensemble",
+      "preview": "Aperçu du système",
+      "stats": {
+        "propertiesManaged": "Propriétés gérées",
+        "activeTenants": "Locataires actifs",
+        "monthlyRevenue": "Revenus mensuels",
+        "occupancyRate": "Taux d'occupation",
+        "thisMonth": "ce mois"
+      }
+    },
+    "propertyOverview": {
+      "title": "Aperçu des propriétés",
+      "viewAll": "Voir tout",
+      "viewDetails": "Voir détails",
+      "occupation": "Occupation",
+      "noProperties": "Aucune propriété trouvée",
+      "status": {
+        "active": "Actif",
+        "maintenance": "Maintenance",
+        "vacant": "Vacant",
+        "partiallyOccupied": "Partiellement occupé"
+      }
     },
     "recentActivity": {
-      "title": "Activité Récente",
-      "noActivity": "Aucune activité récente"
+      "title": "Activité récente",
+      "activities": {
+        "paymentReceived": "Paiement reçu - Apt {{number}}",
+        "paymentDescription": "{{tenant}} a payé le loyer de {{month}}",
+        "maintenanceRequest": "Demande de maintenance",
+        "maintenanceDescription": "Problème de plomberie signalé - Apt {{number}}",
+        "newTenant": "Nouveau locataire",
+        "newTenantDescription": "{{tenant}} a signé le contrat - Apt {{number}}",
+        "inspectionCompleted": "État des lieux terminé",
+        "inspectionDescription": "Inspection de sortie validée - Apt {{number}}",
+        "paymentDelay": "Retard de paiement",
+        "paymentDelayDescription": "{{tenant}} - Apt {{number}} ({{days}} jours de retard)"
+      },
+      "timeAgo": {
+        "hoursAgo": "Il y a {{count}} heures",
+        "yesterday": "Hier",
+        "daysAgo": "Il y a {{count}} jours"
+      },
+      "types": {
+        "payment": "paiement",
+        "maintenance": "maintenance",
+        "tenant": "locataire",
+        "inspection": "inspection"
+      }
     }
   }
 }

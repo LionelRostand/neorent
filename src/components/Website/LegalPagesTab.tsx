@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,10 +23,10 @@ const LegalPagesTab = () => {
   
   // États pour chaque page légale
   const [legalNotice, setLegalNotice] = useState({
-    title: t('legal.legalNotice.title'),
-    content: `**${t('legal.legalNotice.title').toUpperCase()}**
+    title: 'Mentions Légales',
+    content: `**MENTIONS LÉGALES**
 
-**${t('legal.legalNotice.editor')} :**
+**Éditeur du site :**
 Neo Rent
 Société par actions simplifiée au capital de 10 000 €
 RCS Paris : 123 456 789
@@ -34,7 +35,7 @@ Siège social : 123 Rue de l'Immobilier, 75001 Paris
 **Directeur de la publication :**
 [Nom du directeur]
 
-**${t('legal.legalNotice.hosting')} :**
+**Hébergement :**
 OVH SAS
 2 rue Kellermann - 59100 Roubaix - France
 
@@ -44,57 +45,57 @@ Téléphone : +33 1 23 45 67 89`
   });
 
   const [privacyPolicy, setPrivacyPolicy] = useState({
-    title: t('legal.privacyPolicy.title'),
-    content: `**${t('legal.privacyPolicy.title').toUpperCase()}**
+    title: 'Politique de Confidentialité',
+    content: `**POLITIQUE DE CONFIDENTIALITÉ**
 
-**1. ${t('legal.privacyPolicy.dataCollection')}**
+**1. Collecte des données**
 Nous collectons les données personnelles que vous nous fournissez lors de :
 - Votre inscription sur notre plateforme
 - Vos demandes de renseignements
 - L'utilisation de nos services
 
-**2. ${t('legal.privacyPolicy.dataUsage')}**
+**2. Utilisation des données**
 Vos données sont utilisées pour :
 - Gérer votre compte utilisateur
 - Vous contacter concernant nos services
 - Améliorer nos prestations
 
-**3. ${t('legal.privacyPolicy.dataRetention')}**
+**3. Conservation des données**
 Vos données sont conservées pendant la durée nécessaire aux finalités pour lesquelles elles ont été collectées.
 
-**4. ${t('legal.privacyPolicy.userRights')}**
+**4. Vos droits**
 Conformément au RGPD, vous disposez des droits suivants :
 - Droit d'accès à vos données
 - Droit de rectification
 - Droit à l'effacement
 - Droit d'opposition
 
-**${t('legal.privacyPolicy.contact')} :**
+**Contact :**
 Email : privacy@neorent.fr`
   });
 
   const [cookiePolicy, setCookiePolicy] = useState({
-    title: t('legal.cookiePolicy.title'),
-    content: `**${t('legal.cookiePolicy.title').toUpperCase()}**
+    title: 'Politique de Cookies',
+    content: `**POLITIQUE DE COOKIES**
 
-**${t('legal.cookiePolicy.whatAreCookies')} ?**
+**Qu'est-ce qu'un cookie ?**
 Un cookie est un petit fichier texte stocké sur votre ordinateur lors de la visite d'un site web.
 
-**${t('legal.cookiePolicy.typesOfCookies')} :**
+**Types de cookies utilisés :**
 
-**1. ${t('legal.cookiePolicy.essential')}**
+**1. Cookies nécessaires**
 Ces cookies sont indispensables au fonctionnement du site.
 
-**2. ${t('legal.cookiePolicy.analytics')}**
+**2. Cookies analytiques**
 Ils nous permettent d'analyser l'utilisation du site pour l'améliorer.
 
 **3. Cookies de préférences**
 Ils mémorisent vos choix et préférences.
 
-**${t('legal.cookiePolicy.management')} :**
+**Gestion des cookies :**
 Vous pouvez gérer vos préférences de cookies via le bandeau qui s'affiche lors de votre première visite.
 
-**${t('legal.cookiePolicy.contact')} :**
+**Contact :**
 Email : cookies@neorent.fr`
   });
 
@@ -103,9 +104,9 @@ Email : cookies@neorent.fr`
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log(`Sauvegarde de la page ${pageType}`);
-      toast.success(t('website.contentSaved'));
+      toast.success(`Page ${pageType} sauvegardée avec succès`);
     } catch (error) {
-      toast.error(t('website.contentSaveError'));
+      toast.error('Erreur lors de la sauvegarde');
     } finally {
       setIsSaving(false);
     }
@@ -119,9 +120,9 @@ Email : cookies@neorent.fr`
     <div className="space-y-4 md:space-y-6 p-2 md:p-4">
       {/* En-tête responsive */}
       <div className="text-center md:text-left">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900">{t('website.legalPages')}</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900">Pages Légales</h2>
         <p className="text-gray-600 mt-1 text-sm md:text-base">
-          {t('website.legalPagesDescription')}
+          Gérez le contenu de vos pages légales obligatoires
         </p>
       </div>
 
@@ -134,21 +135,21 @@ Email : cookies@neorent.fr`
               className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 p-2 sm:p-3 text-xs sm:text-sm"
             >
               <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-center">{t('website.legalNotice')}</span>
+              <span className="text-center">Mentions Légales</span>
             </TabsTrigger>
             <TabsTrigger 
               value="privacy-policy" 
               className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 p-2 sm:p-3 text-xs sm:text-sm"
             >
               <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-center">{t('website.privacyPolicy')}</span>
+              <span className="text-center">Confidentialité</span>
             </TabsTrigger>
             <TabsTrigger 
               value="cookie-policy" 
               className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 p-2 sm:p-3 text-xs sm:text-sm"
             >
               <Cookie className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-center">{t('website.cookiePolicy')}</span>
+              <span className="text-center">Cookies</span>
             </TabsTrigger>
           </TabsList>
         </div>
@@ -160,7 +161,7 @@ Email : cookies@neorent.fr`
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                   <FileText className="h-4 w-4 md:h-5 md:w-5" />
-                  {t('website.legalNotice')}
+                  Mentions Légales
                 </CardTitle>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button 
@@ -170,7 +171,7 @@ Email : cookies@neorent.fr`
                     className="w-full sm:w-auto text-xs sm:text-sm"
                   >
                     <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                    {t('website.preview')}
+                    Aperçu
                   </Button>
                   <Button 
                     variant="outline" 
@@ -179,14 +180,14 @@ Email : cookies@neorent.fr`
                     className="w-full sm:w-auto text-xs sm:text-sm"
                   >
                     <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                    {t('website.livePage')}
+                    Page live
                   </Button>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-3 md:space-y-4">
               <div>
-                <Label htmlFor="legal-title" className="text-sm font-medium">{t('website.pageTitle')}</Label>
+                <Label htmlFor="legal-title" className="text-sm font-medium">Titre de la page</Label>
                 <Input
                   id="legal-title"
                   value={legalNotice.title}
@@ -196,7 +197,7 @@ Email : cookies@neorent.fr`
               </div>
               
               <div>
-                <Label htmlFor="legal-content" className="text-sm font-medium">{t('website.contentMarkdownSupported')}</Label>
+                <Label htmlFor="legal-content" className="text-sm font-medium">Contenu (Markdown supporté)</Label>
                 <Textarea
                   id="legal-content"
                   rows={8}
@@ -213,7 +214,7 @@ Email : cookies@neorent.fr`
                 className="w-full text-sm"
               >
                 <Save className="h-4 w-4 mr-2" />
-                {isSaving ? t('website.saving') : `${t('website.save')} ${t('website.legalNotice').toLowerCase()}`}
+                {isSaving ? 'Sauvegarde...' : 'Sauvegarder les mentions légales'}
               </Button>
             </CardContent>
           </Card>
@@ -226,7 +227,7 @@ Email : cookies@neorent.fr`
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                   <Shield className="h-4 w-4 md:h-5 md:w-5" />
-                  {t('website.privacyPolicy')}
+                  Politique de Confidentialité
                 </CardTitle>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button 
@@ -236,7 +237,7 @@ Email : cookies@neorent.fr`
                     className="w-full sm:w-auto text-xs sm:text-sm"
                   >
                     <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                    {t('website.preview')}
+                    Aperçu
                   </Button>
                   <Button 
                     variant="outline" 
@@ -245,14 +246,14 @@ Email : cookies@neorent.fr`
                     className="w-full sm:w-auto text-xs sm:text-sm"
                   >
                     <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                    {t('website.livePage')}
+                    Page live
                   </Button>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-3 md:space-y-4">
               <div>
-                <Label htmlFor="privacy-title" className="text-sm font-medium">{t('website.pageTitle')}</Label>
+                <Label htmlFor="privacy-title" className="text-sm font-medium">Titre de la page</Label>
                 <Input
                   id="privacy-title"
                   value={privacyPolicy.title}
@@ -262,7 +263,7 @@ Email : cookies@neorent.fr`
               </div>
               
               <div>
-                <Label htmlFor="privacy-content" className="text-sm font-medium">{t('website.contentMarkdownSupported')}</Label>
+                <Label htmlFor="privacy-content" className="text-sm font-medium">Contenu (Markdown supporté)</Label>
                 <Textarea
                   id="privacy-content"
                   rows={8}
@@ -279,7 +280,7 @@ Email : cookies@neorent.fr`
                 className="w-full text-sm"
               >
                 <Save className="h-4 w-4 mr-2" />
-                {isSaving ? t('website.saving') : `${t('website.save')} ${t('website.privacyPolicy').toLowerCase()}`}
+                {isSaving ? 'Sauvegarde...' : 'Sauvegarder la politique de confidentialité'}
               </Button>
             </CardContent>
           </Card>
@@ -292,7 +293,7 @@ Email : cookies@neorent.fr`
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                   <Cookie className="h-4 w-4 md:h-5 md:w-5" />
-                  {t('website.cookiePolicy')}
+                  Politique de Cookies
                 </CardTitle>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button 
@@ -302,7 +303,7 @@ Email : cookies@neorent.fr`
                     className="w-full sm:w-auto text-xs sm:text-sm"
                   >
                     <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                    {t('website.preview')}
+                    Aperçu
                   </Button>
                   <Button 
                     variant="outline" 
@@ -311,14 +312,14 @@ Email : cookies@neorent.fr`
                     className="w-full sm:w-auto text-xs sm:text-sm"
                   >
                     <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                    {t('website.livePage')}
+                    Page live
                   </Button>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-3 md:space-y-4">
               <div>
-                <Label htmlFor="cookie-title" className="text-sm font-medium">{t('website.pageTitle')}</Label>
+                <Label htmlFor="cookie-title" className="text-sm font-medium">Titre de la page</Label>
                 <Input
                   id="cookie-title"
                   value={cookiePolicy.title}
@@ -328,7 +329,7 @@ Email : cookies@neorent.fr`
               </div>
               
               <div>
-                <Label htmlFor="cookie-content" className="text-sm font-medium">{t('website.contentMarkdownSupported')}</Label>
+                <Label htmlFor="cookie-content" className="text-sm font-medium">Contenu (Markdown supporté)</Label>
                 <Textarea
                   id="cookie-content"
                   rows={8}
@@ -345,7 +346,7 @@ Email : cookies@neorent.fr`
                 className="w-full text-sm"
               >
                 <Save className="h-4 w-4 mr-2" />
-                {isSaving ? t('website.saving') : `${t('website.save')} ${t('website.cookiePolicy').toLowerCase()}`}
+                {isSaving ? 'Sauvegarde...' : 'Sauvegarder la politique de cookies'}
               </Button>
             </CardContent>
           </Card>
@@ -356,14 +357,14 @@ Email : cookies@neorent.fr`
       <Card className="bg-blue-50 border-blue-200">
         <CardContent className="pt-4 md:pt-6">
           <h3 className="text-base md:text-lg font-semibold text-blue-900 mb-2">
-            {t('website.importantInformation')}
+            Informations importantes
           </h3>
           <ul className="space-y-1 text-xs md:text-sm text-blue-800">
-            <li>• {t('website.legalNoticeRequired')}</li>
-            <li>• {t('website.privacyPolicyRequired')}</li>
-            <li>• {t('website.cookiePolicyAccessible')}</li>
-            <li>• {t('website.pagesRegularlyUpdated')}</li>
-            <li>• {t('website.markdownFormatting')}</li>
+            <li>• Les mentions légales sont obligatoires pour tout site web professionnel</li>
+            <li>• La politique de confidentialité est requise par le RGPD</li>
+            <li>• La politique de cookies doit être facilement accessible</li>
+            <li>• Ces pages doivent être mises à jour régulièrement</li>
+            <li>• Le format Markdown permet une mise en forme avancée</li>
           </ul>
         </CardContent>
       </Card>

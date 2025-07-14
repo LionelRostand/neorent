@@ -1,24 +1,19 @@
 
 {
   "profile": {
-    "title": "My Profile",
-    "personalInfo": "Personal Information",
+    "viewProfile": "View Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "administrator": "Administrator",
+    "owner": "Owner",
+    "tenant": "Tenant",
+    "roommate": "Roommate",
+    "unknownUser": "Unknown User",
+    "changePassword": "Change Password",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",
-    "address": "Address",
-    "settings": "Settings",
-    "language": "Language",
-    "notifications": "Notifications",
-    "privacy": "Privacy",
-    "security": "Security",
-    "save": "Save",
-    "cancel": "Cancel",
-    "edit": "Edit",
-    "changePassword": "Change Password",
-    "deleteAccount": "Delete Account",
-    "avatar": "Profile Picture",
-    "updateSuccess": "Profile updated successfully",
-    "updateError": "Error updating profile"
+    "status": "Status",
+    "leaseStart": "Lease Start"
   }
 }

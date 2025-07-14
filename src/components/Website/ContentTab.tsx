@@ -36,12 +36,12 @@ const ContentTab = () => {
       
       console.log('Saving NeoRent information:', { companyInfo, schedules });
       
-      toast.success(t('website.contentSaved'), {
-        description: t('website.contentSavedDescription')
+      toast.success('Information saved successfully!', {
+        description: 'NeoRent information has been updated.'
       });
     } catch (error) {
-      toast.error(t('website.contentSaveError'), {
-        description: t('website.contentSaveErrorDescription')
+      toast.error('Error saving information', {
+        description: 'An error occurred while saving.'
       });
     } finally {
       setIsLoading(false);
@@ -59,39 +59,39 @@ const ContentTab = () => {
   };
 
   const dayTranslations = {
-    monday: t('common.monday'),
-    tuesday: t('common.tuesday'), 
-    wednesday: t('common.wednesday'),
-    thursday: t('common.thursday'),
-    friday: t('common.friday'),
-    saturday: t('common.saturday')
+    monday: 'Monday',
+    tuesday: 'Tuesday', 
+    wednesday: 'Wednesday',
+    thursday: 'Thursday',
+    friday: 'Friday',
+    saturday: 'Saturday'
   };
 
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📝 {t('website.contentManagement')}</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">📝 Content Management</h2>
         <Button 
           onClick={handleSaveInfo} 
           className="flex items-center gap-2 w-full sm:w-auto"
           disabled={isLoading}
         >
           <Save className="h-4 w-4" />
-          {isLoading ? t('website.savingContent') : t('common.save')}
+          {isLoading ? 'Saving...' : 'Save'}
         </Button>
       </div>
       <p className="text-gray-600 text-sm md:text-base">
-        {t('website.contentDescription')}
+        Manage NeoRent's main information with centralized saving.
       </p>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base md:text-lg">{t('website.companyInformation')}</CardTitle>
+          <CardTitle className="text-base md:text-lg">Company Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="company-name">{t('website.companyName')}</Label>
+              <Label htmlFor="company-name">Company Name</Label>
               <Input
                 id="company-name"
                 value={companyInfo.name}
@@ -99,7 +99,7 @@ const ContentTab = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="company-email">{t('common.email')}</Label>
+              <Label htmlFor="company-email">Email</Label>
               <Input
                 id="company-email"
                 type="email"
@@ -110,7 +110,7 @@ const ContentTab = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="company-description">{t('common.description')}</Label>
+            <Label htmlFor="company-description">Description</Label>
             <Textarea
               id="company-description"
               value={companyInfo.description}
@@ -121,7 +121,7 @@ const ContentTab = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="company-address">{t('common.address')}</Label>
+              <Label htmlFor="company-address">Address</Label>
               <Input
                 id="company-address"
                 value={companyInfo.address}
@@ -129,7 +129,7 @@ const ContentTab = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="company-phone">{t('common.phone')}</Label>
+              <Label htmlFor="company-phone">Phone</Label>
               <Input
                 id="company-phone"
                 value={companyInfo.phone}
@@ -139,7 +139,7 @@ const ContentTab = () => {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">{t('website.openingHours')}</h3>
+            <h3 className="text-lg font-semibold">Opening Hours</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {Object.entries(schedules).map(([day, schedule]) => (
                 <div key={day} className="flex items-center gap-2">

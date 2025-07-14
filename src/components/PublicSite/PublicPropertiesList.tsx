@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
-import { usePropertySettings } from '@/hooks/usePropertySettings';
 import { Property } from '@/types/property';
 import { 
   MapPin, 
@@ -30,20 +30,25 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
-  
-  // Utiliser le hook pour récupérer les paramètres de visibilité
-  const { propertySettings, loading: settingsLoading } = usePropertySettings();
 
-  console.log('PublicPropertiesList - allProperties:', allProperties);
-  console.log('PublicPropertiesList - loading:', loading);
-  console.log('PublicPropertiesList - propertySettings:', propertySettings);
+  // Récupérer les paramètres de visibilité depuis le localStorage
+  const getPropertySettings = () => {
+    try {
+      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
+      return savedSettings ? JSON.parse(savedSettings) : {};
+    } catch (error) {
+      console.error('Error loading property settings:', error);
+      return {};
+    }
+  };
+
+  const propertySettings = getPropertySettings();
 
   // Filtrer les propriétés visibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
     // Vérifier si la propriété est visible sur le site web
-    const settings = propertySettings[property.id] || { visible: false, description: '', featured: false };
-    console.log(`Property ${property.id} settings:`, settings);
-    if (!settings.visible) return false;
+    const settings = propertySettings[property.id];
+    if (!settings?.visible) return false;
     
     if (!searchFilter) return true;
     
@@ -55,19 +60,15 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     );
   }) || [];
 
-  console.log('PublicPropertiesList - filteredProperties:', filteredProperties);
-
   // Trier les propriétés pour mettre en avant celles qui sont featured
   const sortedProperties = [...filteredProperties].sort((a, b) => {
-    const aSettings = propertySettings[a.id] || { visible: false, description: '', featured: false };
-    const bSettings = propertySettings[b.id] || { visible: false, description: '', featured: false };
+    const aSettings = propertySettings[a.id];
+    const bSettings = propertySettings[b.id];
     
-    if (aSettings.featured && !bSettings.featured) return -1;
-    if (!aSettings.featured && bSettings.featured) return 1;
+    if (aSettings?.featured && !bSettings?.featured) return -1;
+    if (!aSettings?.featured && bSettings?.featured) return 1;
     return 0;
   });
-
-  console.log('PublicPropertiesList - sortedProperties:', sortedProperties);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -111,7 +112,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     setSelectedProperty(null);
   };
 
-  if (loading || settingsLoading) {
+  if (loading) {
     return (
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -181,9 +182,9 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.isArray(sortedProperties) && sortedProperties.map((property) => {
+            {sortedProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
-              const settings = propertySettings[property.id] || { visible: false, description: '', featured: false };
+              const settings = propertySettings[property.id] || {};
               const mainImage = getPropertyMainImage(property);
               
               return (

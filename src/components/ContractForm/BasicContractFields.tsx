@@ -17,7 +17,7 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
   return (
     <>
       <div>
-        <Label htmlFor="title">{t('contractForm.contractToAdd')} *</Label>
+        <Label htmlFor="title">{t('contractForm.title')} *</Label>
         <Input
           id="title"
           value={formData.title}
@@ -28,10 +28,10 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
       </div>
 
       <div>
-        <Label htmlFor="type">{t('contractForm.contractType')} *</Label>
+        <Label htmlFor="type">{t('contractForm.type')} *</Label>
         <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
           <SelectTrigger>
-            <SelectValue placeholder={t('contractForm.selectContractType')} />
+            <SelectValue placeholder={t('contractForm.selectType')} />
           </SelectTrigger>
           <SelectContent>
             {contractTypes.map((type) => (
@@ -44,7 +44,7 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
       </div>
 
       <div>
-        <Label htmlFor="provider">{t('contractForm.providerName')}</Label>
+        <Label htmlFor="provider">{t('contractForm.provider')}</Label>
         <Input
           id="provider"
           value={formData.provider}
@@ -57,7 +57,7 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
         <Label htmlFor="jurisdiction">{t('contractForm.jurisdiction')} *</Label>
         <Select value={formData.jurisdiction} onValueChange={(value) => handleInputChange('jurisdiction', value)}>
           <SelectTrigger>
-            <SelectValue placeholder={t('contractForm.selectJurisdictionType')} />
+            <SelectValue placeholder={t('contractForm.selectJurisdiction')} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="francaise">{t('contractForm.french')}</SelectItem>

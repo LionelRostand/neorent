@@ -15,13 +15,27 @@ interface QuickActionsSidebarProps {
 }
 
 const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClose }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
   const { userProfile, userType, user } = useAuth();
   const { getEnabledActions, refreshKey } = useQuickActionsManager();
 
   // Vérifier si l'utilisateur est admin
   const isAdmin = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
+
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      quickActionsTitle: {
+        fr: 'Actions rapides',
+        en: 'Quick Actions'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
 
   const {
     openDialog,
@@ -43,7 +57,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     activeTenants,
     expiringContracts,
     pendingPayments,
-    t,
+    () => '',
     enabledActions,
     undefined,
     i18n.language
@@ -84,7 +98,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
           <div className="flex items-center justify-between p-4 border-b border-green-500/30">
             <div className="flex items-center min-w-0">
               <Building className="h-6 w-6 text-white mr-2 flex-shrink-0" />
-              <h1 className="text-lg font-bold text-white truncate">{t('ownerSpace.quickActions.title')}</h1>
+              <h1 className="text-lg font-bold text-white truncate">{getLocalizedText('quickActionsTitle')}</h1>
             </div>
             <button
               onClick={onClose}
@@ -132,7 +146,7 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
                 })}
                 {quickActions.length === 0 && (
                   <div className="p-4 text-center text-white/70 text-sm">
-                    {t('ownerSpace.noQuickActionsConfigured')}
+                    Aucune action rapide configurée
                   </div>
                 )}
               </nav>

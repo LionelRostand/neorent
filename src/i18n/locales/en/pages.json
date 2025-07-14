@@ -1,24 +1,180 @@
 
 {
   "pages": {
-    "home": "Home",
-    "about": "About",
-    "contact": "Contact",
-    "services": "Services",
-    "pricing": "Pricing",
-    "features": "Features",
-    "testimonials": "Testimonials",
-    "blog": "Blog",
-    "faq": "FAQ",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "support": "Support",
-    "documentation": "Documentation",
-    "api": "API",
-    "downloads": "Downloads",
-    "partners": "Partners",
-    "careers": "Careers",
-    "news": "News",
-    "events": "Events"
+    "website": {
+      "title": "Website",
+      "meta": {
+        "title": "Website Management | Real Estate Platform",
+        "description": "Manage your real estate website and online presence"
+      }
+    },
+    "properties": {
+      "title": "Properties",
+      "meta": {
+        "title": "Our Properties | Real Estate Platform",
+        "description": "Discover our selection of available properties"
+      }
+    },
+    "about": {
+      "title": "About",
+      "meta": {
+        "title": "About Us | Real Estate Platform",
+        "description": "Discover our team and mission in real estate"
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "meta": {
+        "title": "Contact Us | Real Estate Platform",
+        "description": "Contact us for your real estate needs"
+      }
+    },
+    "login": {
+      "title": "Login",
+      "meta": {
+        "title": "Login | Real Estate Platform",
+        "description": "Log in to your account"
+      }
+    },
+    "legalNotice": {
+      "title": "Legal Notice",
+      "meta": {
+        "title": "Legal Notice | Real Estate Platform",
+        "description": "Legal and regulatory information"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "meta": {
+        "title": "Privacy Policy | Real Estate Platform",
+        "description": "Our personal data protection policy"
+      }
+    },
+    "cookiePolicy": {
+      "title": "Cookie Policy",
+      "meta": {
+        "title": "Cookie Policy | Real Estate Platform",
+        "description": "Information about cookie usage"
+      }
+    },
+    "tenantSpace": {
+      "title": "Tenant Space",
+      "meta": {
+        "title": "Tenant Space | Real Estate Platform",
+        "description": "Access your personal tenant space"
+      }
+    },
+    "ownerSpace": {
+      "title": "Owner Space",
+      "meta": {
+        "title": "Owner Space | Real Estate Platform",
+        "description": "Manage your real estate properties"
+      }
+    },
+    "admin": {
+      "title": "Administration",
+      "meta": {
+        "title": "Administration | Real Estate Platform",
+        "description": "Administration interface"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "meta": {
+        "title": "Dashboard | Administration",
+        "description": "Overview of your real estate activity"
+      }
+    },
+    "tenants": {
+      "title": "Tenants",
+      "meta": {
+        "title": "Tenant Management | Administration",
+        "description": "Manage your tenants and their information"
+      }
+    },
+    "roommates": {
+      "title": "Roommates",
+      "meta": {
+        "title": "Roommate Management | Administration",
+        "description": "Manage shared accommodations and roommates"
+      }
+    },
+    "contracts": {
+      "title": "Contracts",
+      "meta": {
+        "title": "Contract Management | Administration",
+        "description": "Manage lease contracts and agreements"
+      }
+    },
+    "leases": {
+      "title": "Leases",
+      "meta": {
+        "title": "Lease Management | Administration",
+        "description": "Manage leases and rentals"
+      }
+    },
+    "inspections": {
+      "title": "Property Inspections",
+      "meta": {
+        "title": "Property Inspections | Administration",
+        "description": "Manage inspections and property conditions"
+      }
+    },
+    "rentManagement": {
+      "title": "Rent Management",
+      "meta": {
+        "title": "Rent Management | Administration",
+        "description": "Track and manage rent payments"
+      }
+    },
+    "rentalCharges": {
+      "title": "Rental Charges",
+      "meta": {
+        "title": "Rental Charges | Administration",
+        "description": "Manage rental charges and expenses"
+      }
+    },
+    "forecasting": {
+      "title": "Financial Forecasting",
+      "meta": {
+        "title": "Financial Forecasting | Administration",
+        "description": "Financial projections and analysis"
+      }
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "meta": {
+        "title": "Maintenance Management | Administration",
+        "description": "Manage maintenance requests and repairs"
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "meta": {
+        "title": "Message Center | Administration",
+        "description": "Communicate with tenants and manage requests"
+      }
+    },
+    "taxes": {
+      "title": "Tax Management",
+      "meta": {
+        "title": "Tax Management | Administration",
+        "description": "Manage tax declarations and obligations"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "meta": {
+        "title": "Settings | Administration",
+        "description": "Configure your real estate platform"
+      }
+    },
+    "help": {
+      "title": "Help",
+      "meta": {
+        "title": "Help Center | Administration",
+        "description": "Documentation and support for the platform"
+      }
+    }
   }
 }
