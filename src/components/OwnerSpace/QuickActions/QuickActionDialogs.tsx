@@ -10,31 +10,21 @@ import ContractForm from '@/components/ContractForm';
 interface QuickActionDialogsProps {
   openDialog: string | null;
   setOpenDialog: (dialogId: string | null) => void;
+  properties: any[];
   onPropertySubmit: (data: any) => Promise<void>;
   onRoommateSubmit: (data: any) => Promise<void>;
-  onTenantSubmit: (data: any) => Promise<void>;
-  onContractSubmit: (data: any) => Promise<void>;
-  onInspectionSubmit: (data: any) => Promise<void>;
-  onPaymentSubmit: (data: any) => Promise<void>;
-  ownerProperties: any[];
-  activeTenants: any[];
-  expiringContracts: number;
-  pendingPayments: number;
+  onInspectionSubmit: (data: any) => void;
+  onContractSubmit?: (data: any) => Promise<void>;
 }
 
 const QuickActionDialogs: React.FC<QuickActionDialogsProps> = ({
   openDialog,
   setOpenDialog,
+  properties,
   onPropertySubmit,
   onRoommateSubmit,
-  onTenantSubmit,
-  onContractSubmit,
   onInspectionSubmit,
-  onPaymentSubmit,
-  ownerProperties,
-  activeTenants,
-  expiringContracts,
-  pendingPayments
+  onContractSubmit
 }) => {
   return (
     <>
@@ -66,7 +56,7 @@ const QuickActionDialogs: React.FC<QuickActionDialogsProps> = ({
       <Dialog open={openDialog === 'contract'} onOpenChange={() => setOpenDialog(null)}>
         <ContractForm 
           onClose={() => setOpenDialog(null)}
-          onSubmit={onContractSubmit}
+          onSubmit={onContractSubmit || (() => Promise.resolve())}
         />
       </Dialog>
     </>

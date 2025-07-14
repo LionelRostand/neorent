@@ -1,91 +1,112 @@
 
-import React from 'react';
-import { X, GripVertical } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { X, Settings } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
-import * as Icons from 'lucide-react';
+import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
+import { QuickAction } from './quickActionsConfig';
+import FormButtonConfig from './FormButtonConfig';
 
 interface ConfigurableQuickActionItemProps {
-  title: string;
-  description: string;
-  icon: string;
-  color: string;
-  onClick: () => void;
-  actionId: string;
-  showControls?: boolean;
-  isDragging?: boolean;
+  action: QuickAction;
 }
 
-const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = ({
-  title,
-  description,
-  icon,
-  color,
-  onClick,
-  actionId,
-  showControls = false,
-  isDragging = false
-}) => {
-  const { removeAction, isAdmin } = useQuickActionsManager();
-  
-  // Import dynamically based on icon name using ES6 imports
-  const IconComponent = React.useMemo(() => {
-    try {
-      // Safely get the icon from the Icons object
-      if (icon && Icons[icon as keyof typeof Icons]) {
-        return Icons[icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>;
-      }
-      return Icons.Settings;
-    } catch {
-      return Icons.Settings;
-    }
-  }, [icon]);
+const ConfigurableQuickActionItem: React.FC<ConfigurableQuickActionItemProps> = ({ action }) => {
+  const { i18n } = useTranslation();
+  const { isAdmin, removeAction } = useQuickActionsManager();
+  const { getButtonConfig, saveButtonConfig } = useFormButtonConfig();
+  const [showConfig, setShowConfig] = useState(false);
+  const [currentConfig, setCurrentConfig] = useState(getButtonConfig(action.id));
 
-  const handleDelete = async (e: React.MouseEvent) => {
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      delete: {
+        fr: 'Supprimer',
+        en: 'Delete'
+      },
+      configure: {
+        fr: 'Configurer',
+        en: 'Configure'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette action rapide ?')) {
-      await removeAction(actionId);
+    removeAction(action.id);
+  };
+
+  const handleConfigSave = async (newConfig: any) => {
+    const success = await saveButtonConfig(action.id, newConfig);
+    if (success) {
+      setCurrentConfig(newConfig);
     }
   };
 
+  const IconComponent = action.icon;
+
   return (
-    <div 
-      className={`relative group flex items-center p-3 md:p-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg transition-all duration-200 cursor-pointer border border-white/20 ${
-        isDragging ? 'shadow-lg scale-105 bg-white/20' : ''
-      }`}
-      onClick={onClick}
-    >
-      {/* Drag Handle for admins */}
-      {(isAdmin || showControls) && (
-        <div className="flex items-center mr-3 opacity-0 group-hover:opacity-100 transition-opacity">
-          <GripVertical className="h-4 w-4 text-white/60 cursor-grab" />
+    <div className="relative group">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          action.action();
+        }}
+        className="w-full flex items-center gap-3 p-3 text-left hover:bg-white/10 rounded-lg transition-colors"
+      >
+        <div className={`p-2 rounded-lg ${action.color}`}>
+          <IconComponent className="h-4 w-4 text-white" />
         </div>
-      )}
-      
-      {/* Icon */}
-      <div className={`p-2 md:p-3 rounded-lg ${color} mr-3 md:mr-4 flex-shrink-0`}>
-        <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-white" />
-      </div>
-      
-      {/* Content - Affichage du nom complet */}
-      <div className="flex-1 min-w-0">
-        <h4 className="font-semibold text-white text-sm md:text-base truncate mb-1">{title}</h4>
-        <p className="text-white/80 text-xs md:text-sm leading-relaxed">{description}</p>
-      </div>
-      
-      {/* Delete button for admins */}
-      {showControls && isAdmin && (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="absolute top-2 right-2 h-6 w-6 p-0 bg-red-500/80 hover:bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-          onClick={handleDelete}
-        >
-          <X className="h-3 w-3" />
-        </Button>
-      )}
+        <div className="flex-1">
+          <div className="text-sm font-medium text-white">{action.title}</div>
+          <div className="text-xs text-white/70">{action.description}</div>
+          <div className="text-xs text-white/50 mt-1">{action.preview}</div>
+        </div>
+        
+        {/* Boutons d'administration - visibles au hover */}
+        {isAdmin && (
+          <div className="flex-shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <Popover open={showConfig} onOpenChange={setShowConfig}>
+              <PopoverTrigger asChild>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    setShowConfig(true);
+                  }}
+                  className="p-1.5 bg-blue-500/90 hover:bg-blue-600 text-white rounded-full shadow-lg border border-white/20"
+                  title={getLocalizedText('configure')}
+                >
+                  <Settings className="h-3 w-3" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent side="right" className="p-0">
+                <FormButtonConfig
+                  actionId={action.id}
+                  currentConfig={currentConfig}
+                  onConfigChange={setCurrentConfig}
+                  onClose={() => setShowConfig(false)}
+                />
+              </PopoverContent>
+            </Popover>
+            
+            <button
+              onClick={handleDelete}
+              className="p-1.5 bg-red-500/90 hover:bg-red-600 text-white rounded-full shadow-lg border border-white/20"
+              title={getLocalizedText('delete')}
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </div>
+        )}
+      </button>
     </div>
   );
 };

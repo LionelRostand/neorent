@@ -58,14 +58,6 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       confirmDelete: {
         fr: 'Êtes-vous sûr de vouloir supprimer cette action ?',
         en: 'Are you sure you want to delete this action?'
-      },
-      visibleInSidebar: {
-        fr: 'Visible dans la sidebar',
-        en: 'Visible in sidebar'
-      },
-      hiddenFromSidebar: {
-        fr: 'Masqué de la sidebar',
-        en: 'Hidden from sidebar'
       }
     };
 
@@ -90,11 +82,6 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
     return '';
   };
 
-  const handleToggleAction = async (actionId: string) => {
-    console.log('Toggling action:', actionId);
-    await onToggleAction(actionId);
-  };
-
   const handleRemoveClick = async (actionId: string) => {
     if (window.confirm(getLocalizedText('confirmDelete'))) {
       await onRemoveAction(actionId);
@@ -102,6 +89,7 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
   };
 
   const handleConfigureClick = (actionId: string) => {
+    // For now, just log the action - this could open a configuration modal
     console.log('Configure action:', actionId);
     onConfigureAction(actionId);
   };
@@ -130,13 +118,13 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
                   {getLocalizedActionText(action, 'description')}
                 </div>
                 <Badge variant={action.enabled ? "default" : "secondary"} className="text-xs mt-1">
-                  {action.enabled ? getLocalizedText('visibleInSidebar') : getLocalizedText('hiddenFromSidebar')}
+                  {action.enabled ? getLocalizedText('enabled') : getLocalizedText('disabled')}
                 </Badge>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <Switch
                   checked={action.enabled}
-                  onCheckedChange={() => handleToggleAction(action.id)}
+                  onCheckedChange={() => onToggleAction(action.id)}
                   disabled={toggleStates[action.id] || saving}
                 />
                 <Button

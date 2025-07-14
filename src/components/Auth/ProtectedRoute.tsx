@@ -12,11 +12,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children, 
   requiredUserTypes 
 }) => {
-  const { user, loading, userType, userProfile } = useAuth();
+  const { user, loading, userType } = useAuth();
   const location = useLocation();
 
   console.log('🔐 ProtectedRoute - user:', user?.email, 'userType:', userType, 'loading:', loading);
-  console.log('🔐 ProtectedRoute - location:', location.pathname);
 
   // Afficher un loader pendant la vérification de l'authentification
   if (loading) {
@@ -36,108 +35,58 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Vérification stricte pour les routes admin - SEUL l'admin peut y accéder
+  // Cas spécial pour l'admin - toujours autoriser l'accès
+  if (user?.email === 'admin@neotech-consulting.com') {
+    console.log('🔐 Admin connecté, accès autorisé');
+    return <>{children}</>;
+  }
+
+  // Vérification spécifique pour les pages admin - seuls admin et owner sont autorisés
   if (location.pathname.startsWith('/admin')) {
-    const isStrictAdmin = user?.email === 'admin@neotech-consulting.com';
-    
-    if (!isStrictAdmin) {
-      console.log('🔐 Accès admin STRICTEMENT refusé pour:', user?.email);
+    if (userType !== 'admin' && userType !== 'owner') {
+      console.log('🔐 Accès admin refusé pour:', userType, 'redirection vers espace approprié');
       
-      // Rediriger les propriétaires vers leur espace personnel
-      if (userType === 'owner' || !userType) {
-        return <Navigate to="/owner-space-lionel-rostand" replace />;
-      }
-      
-      // Rediriger les locataires vers leur espace
+      // Rediriger les colocataires et locataires vers leur espace
       if (userType === 'colocataire' || userType === 'locataire') {
         return <Navigate to="/tenant-space" replace />;
       }
       
-      // Pour les autres, retour au login
+      // Pour les autres types non autorisés
       return <Navigate to="/login" replace />;
     }
   }
 
-  // Vérification pour les espaces propriétaires personnalisés
+  // Vérification spécifique pour l'espace propriétaires - admins et owners autorisés
   if (location.pathname.startsWith('/owner-space')) {
-    const isAdmin = user?.email === 'admin@neotech-consulting.com';
-    
-    // L'admin peut toujours accéder
-    if (isAdmin) {
-      console.log('🔐 Accès admin autorisé à l\'espace propriétaire');
-      return <>{children}</>;
+    if (userType !== 'admin' && userType !== 'owner') {
+      console.log('🔐 Accès espace propriétaires refusé pour:', userType);
+      
+      // Rediriger les colocataires et locataires vers leur espace
+      if (userType === 'colocataire' || userType === 'locataire') {
+        return <Navigate to="/tenant-space" replace />;
+      }
+      
+      // Pour les autres types non autorisés
+      return <Navigate to="/login" replace />;
     }
-    
-    // Pour les propriétaires : permettre l'accès si c'est leur compte ou s'ils ne sont pas encore typés
-    const isOwnerAccount = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
-    const isPotentialOwner = !userType || userType === 'owner'; // Si pas encore typé, considérer comme propriétaire potentiel
-    
-    console.log('🔐 Vérification accès owner-space:', {
-      isOwnerAccount,
-      isPotentialOwner,
-      userType,
-      userEmail: user?.email,
-      pathname: location.pathname
-    });
-    
-    if (isOwnerAccount || isPotentialOwner) {
-      console.log('🔐 Accès autorisé à l\'espace propriétaire pour:', user?.email);
-      return <>{children}</>;
-    }
-    
-    console.log('🔐 Accès espace propriétaire refusé pour:', userType);
-    
-    if (userType === 'colocataire' || userType === 'locataire') {
-      return <Navigate to="/tenant-space" replace />;
-    }
-    
-    return <Navigate to="/login" replace />;
   }
 
-  // Vérification des types d'utilisateur requis
+  // Si des types d'utilisateur sont requis, vérifier les permissions
   if (requiredUserTypes && requiredUserTypes.length > 0) {
+    // Attendre que userType soit chargé avant de vérifier les permissions
     if (!loading && !userType) {
-      console.log('🔐 Pas de type d\'utilisateur défini, considérer comme propriétaire potentiel');
-      // Si pas de type défini, permettre l'accès pour owner
-      if (requiredUserTypes.includes('owner')) {
-        console.log('🔐 Accès owner autorisé pour utilisateur non typé');
-        return <>{children}</>;
-      }
+      console.log('🔐 Pas de type d\'utilisateur défini après chargement');
       return <Navigate to="/login" replace />;
     }
     
-    // Vérification stricte pour admin
-    if (requiredUserTypes.includes('admin')) {
-      const isStrictAdmin = user?.email === 'admin@neotech-consulting.com';
-      if (!isStrictAdmin) {
-        console.log('🔐 Accès admin strictement refusé');
-        return <Navigate to="/login" replace />;
-      }
-    }
-    
-    // Vérification pour propriétaire - permettre à l'admin et aux propriétaires
-    else if (requiredUserTypes.includes('owner')) {
-      const isOwner = userType === 'owner' || userProfile?.isOwner || userProfile?.role === 'owner';
-      const isAdmin = user?.email === 'admin@neotech-consulting.com';
-      const isPotentialOwner = !userType; // Si pas de type, considérer comme propriétaire potentiel
-      
-      if (!isOwner && !isAdmin && !isPotentialOwner) {
-        console.log('🔐 Accès propriétaire refusé:', userType);
-        if (userType === 'locataire' || userType === 'colocataire') {
-          return <Navigate to="/tenant-space" replace />;
-        }
-        return <Navigate to="/login" replace />;
-      }
-    }
-    
-    // Autres vérifications de type
-    else if (userType && !requiredUserTypes.includes(userType)) {
+    // Si userType est chargé mais ne correspond pas aux permissions requises
+    if (userType && !requiredUserTypes.includes(userType)) {
       console.log('🔐 Type d\'utilisateur non autorisé:', userType, 'requis:', requiredUserTypes);
-      
+      // Rediriger selon le type d'utilisateur
       if (userType === 'admin') {
         return <Navigate to="/admin" replace />;
       } else if (userType === 'owner') {
-        return <Navigate to="/owner-space-lionel-rostand" replace />;
+        return <Navigate to="/owner-space" replace />;
       } else if (userType === 'locataire' || userType === 'colocataire') {
         return <Navigate to="/tenant-space" replace />;
       } else {
@@ -148,7 +97,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Rendre les enfants seulement si tout est OK et que le loading est terminé
   if (!loading && user) {
-    console.log('🔐 Accès autorisé pour:', user.email, 'sur:', location.pathname);
+    console.log('🔐 Accès autorisé pour:', user.email);
     return <>{children}</>;
   }
 

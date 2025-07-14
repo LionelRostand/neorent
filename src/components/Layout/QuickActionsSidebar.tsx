@@ -7,7 +7,6 @@ import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
 import { createQuickActionsConfig } from '@/components/OwnerSpace/QuickActions/quickActionsConfig';
 import { useAuth } from '@/hooks/useAuth';
-import SidebarQuickActionsManager from '@/components/OwnerSpace/QuickActions/SidebarQuickActionsManager';
 
 interface QuickActionsSidebarProps {
   isOpen: boolean;
@@ -17,11 +16,8 @@ interface QuickActionsSidebarProps {
 const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClose }) => {
   const { i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
-  const { userProfile, userType, user } = useAuth();
+  const { userProfile } = useAuth();
   const { getEnabledActions, refreshKey } = useQuickActionsManager();
-
-  // Vérifier si l'utilisateur est admin
-  const isAdmin = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -55,31 +51,13 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
     setOpenDialog,
     ownerProperties,
     activeTenants,
-    expiringContracts,
-    pendingPayments,
-    () => '',
-    enabledActions,
-    undefined,
-    i18n.language
+    expiringContracts, // Already a number from the hook
+    pendingPayments, // Already a number from the hook
+    () => '', // dummy t function since we're using getLocalizedText
+    enabledActions, // Pass only enabled actions
+    undefined, // setActiveView not needed here
+    i18n.language // Pass current language
   ) : [];
-
-  const handleActionClick = (action: any) => {
-    console.log('Quick action clicked:', action);
-    
-    if (action.action === 'navigate' && action.actionValue) {
-      // Pour les actions de navigation, utiliser navigate
-      navigate(action.actionValue);
-    } else if (action.action === 'dialog' && action.actionValue) {
-      // Pour les actions de dialogue, ouvrir le dialogue
-      setOpenDialog(action.actionValue);
-    } else {
-      // Fallback - exécuter l'action par défaut
-      if (typeof action.action === 'function') {
-        action.action();
-      }
-    }
-    onClose();
-  };
 
   if (!isOpen) return null;
 
@@ -92,28 +70,21 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
       />
       
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-green-600 to-green-700 shadow-lg lg:static lg:shadow-none">
+      <div className="fixed left-0 top-0 h-full w-64 bg-blue-600 shadow-lg lg:static lg:shadow-none">
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-green-500/30">
-            <div className="flex items-center min-w-0">
-              <Building className="h-6 w-6 text-white mr-2 flex-shrink-0" />
-              <h1 className="text-lg font-bold text-white truncate">{getLocalizedText('quickActionsTitle')}</h1>
+          <div className="flex items-center justify-between p-6">
+            <div className="flex items-center">
+              <Building className="h-6 w-6 text-white mr-2" />
+              <h1 className="text-xl font-bold text-white">{getLocalizedText('quickActionsTitle')}</h1>
             </div>
             <button
               onClick={onClose}
-              className="text-white hover:text-white/80 lg:hidden flex-shrink-0"
+              className="text-white hover:text-white/80 lg:hidden"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
-
-          {/* Bouton de gestion pour les admins */}
-          {isAdmin && (
-            <div className="p-4 border-b border-green-500/30">
-              <SidebarQuickActionsManager />
-            </div>
-          )}
           
           {/* Content */}
           <div className="flex-1 overflow-hidden">
@@ -127,39 +98,33 @@ const QuickActionsSidebar: React.FC<QuickActionsSidebarProps> = ({ isOpen, onClo
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleActionClick(action);
+                        action.action();
+                        onClose();
                       }}
-                      className="w-full flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors text-white/90 hover:text-white hover:bg-green-500/20"
+                      className="w-full flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors text-white/90 hover:text-white hover:bg-blue-500"
                     >
                       <div className={`p-2 rounded ${action.color} mr-3 flex-shrink-0`}>
                         <Icon className="h-4 w-4 text-white" />
                       </div>
                       <div className="flex-1 min-w-0 text-left">
                         <div className="font-medium truncate">{action.title}</div>
-                        <div className="text-xs text-white/70 truncate">{action.description}</div>
-                        {action.preview && (
-                          <div className="text-xs text-green-200 font-medium mt-1 truncate">{action.preview}</div>
-                        )}
+                        <div className="text-xs text-white/60 truncate">{action.description}</div>
+                        <div className="text-xs text-blue-200 font-medium mt-1">{action.preview}</div>
                       </div>
                     </button>
                   );
                 })}
-                {quickActions.length === 0 && (
-                  <div className="p-4 text-center text-white/70 text-sm">
-                    Aucune action rapide configurée
-                  </div>
-                )}
               </nav>
             </ScrollArea>
           </div>
 
           {/* Footer */}
-          <div className="p-4 border-t border-green-500/30 flex-shrink-0">
+          <div className="p-4 border-t border-blue-500 flex-shrink-0">
             <div className="text-center">
               <div className="text-white text-sm font-medium animate-pulse">
                 NEOTECH-CONSULTING
               </div>
-              <div className="text-green-200 text-xs mt-1">
+              <div className="text-white/80 text-xs mt-1">
                 Version 1.0 • {currentYear}
               </div>
             </div>

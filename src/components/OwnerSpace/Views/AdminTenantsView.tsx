@@ -13,19 +13,16 @@ import { useAuth } from '@/hooks/useAuth';
 import TenantForm from '@/components/TenantForm';
 
 interface AdminTenantsViewProps {
-  currentProfile?: any;
+  currentProfile: any;
 }
 
 const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) => {
   const { i18n } = useTranslation();
+  const { tenants, payments, properties } = useOwnerData(currentProfile);
   const { userProfile } = useAuth();
   const profile = currentProfile || userProfile;
-  const { tenants, payments, properties } = useOwnerData(profile);
   const { handleTenantSubmit } = useOwnerQuickActions(profile);
   const [showTenantForm, setShowTenantForm] = useState(false);
-
-  console.log('AdminTenantsView - Using profile:', profile);
-  console.log('AdminTenantsView - Filtered tenants:', tenants);
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -145,11 +142,6 @@ const AdminTenantsView: React.FC<AdminTenantsViewProps> = ({ currentProfile }) =
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">{getLocalizedText('title')}</h1>
             <p className="text-teal-100 mt-1 sm:mt-2 text-sm sm:text-base">{getLocalizedText('subtitle')}</p>
-            {profile && (
-              <p className="text-teal-200 text-sm mt-1">
-                Propriétaire: {profile.name || profile.email}
-              </p>
-            )}
           </div>
           <Button 
             className="bg-white text-teal-600 hover:bg-teal-50 border-0 shadow-md w-full sm:w-auto"

@@ -1,183 +1,122 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Plus, Settings } from 'lucide-react';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
-import ConfigurableQuickActionItem from './QuickActions/ConfigurableQuickActionItem';
+import { useQuickActionsManager } from '@/hooks/useQuickActionsManager';
+import { createQuickActionsConfig } from './QuickActions/quickActionsConfig';
+import QuickActionItem from './QuickActions/QuickActionItem';
 import QuickActionDialogs from './QuickActions/QuickActionDialogs';
+import QuickActionsManager from './QuickActions/QuickActionsManager';
+import PermissionDeniedView from './QuickActions/PermissionDeniedView';
+import { useOwnerPermissions } from '@/hooks/useOwnerPermissions';
 
 interface OwnerQuickActionsProps {
   ownerProfile: any;
   setActiveView?: (view: string) => void;
-  showControls?: boolean;
 }
 
-const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ 
-  ownerProfile, 
-  setActiveView,
-  showControls = false 
-}) => {
-  const { t, i18n } = useTranslation();
-  const { getEnabledActions, refreshKey, isAdmin, reorderActions } = useQuickActionsManager();
+const OwnerQuickActions: React.FC<OwnerQuickActionsProps> = ({ ownerProfile, setActiveView }) => {
+  const { i18n } = useTranslation();
+  const { canAccessOwnerSpace, isAdmin, isOwner } = useOwnerPermissions();
+  const { getEnabledActions, refreshKey } = useQuickActionsManager();
+  
+  // Vérifier si l'utilisateur peut accéder à l'espace propriétaire
+  const hasAccess = canAccessOwnerSpace();
+  
+  // Get texts based on current language
+  const getLocalizedText = (key: string) => {
+    const currentLang = i18n.language;
+    
+    const texts: Record<string, Record<string, string>> = {
+      quickActionsTitle: {
+        fr: 'Actions rapides',
+        en: 'Quick Actions'
+      },
+      manageActions: {
+        fr: 'Gérer les actions',
+        en: 'Manage Actions'
+      }
+    };
+
+    return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
+  };
   
   const {
     openDialog,
     setOpenDialog,
+    properties,
     navigate,
     handlePropertySubmit,
     handleRoommateSubmit,
-    handleTenantSubmit,
-    handleContractSubmit,
     handleInspectionSubmit,
-    handlePaymentSubmit,
     ownerProperties,
     activeTenants,
     expiringContracts,
     pendingPayments
   } = useOwnerQuickActions(ownerProfile);
 
+  // Si l'utilisateur n'a pas accès, afficher la vue de permission refusée
+  if (!hasAccess) {
+    return <PermissionDeniedView />;
+  }
+
   const enabledActions = getEnabledActions();
-
-  console.log('OwnerQuickActions debug:', { 
-    showControls, 
-    isAdmin, 
-    enabledActionsCount: enabledActions.length,
-    currentLanguage: i18n.language,
-    ownerProfile: ownerProfile
-  });
-
-  const getLocalizedActionText = (action: any, field: 'title' | 'description'): string => {
-    const currentLang = i18n.language as 'fr' | 'en';
-    const fieldValue = action[field];
-    
-    if (fieldValue && typeof fieldValue === 'object' && 'fr' in fieldValue && 'en' in fieldValue) {
-      return fieldValue[currentLang] || fieldValue['fr'] || '';
-    }
-    
-    if (typeof fieldValue === 'string') {
-      return fieldValue;
-    }
-    
-    return '';
-  };
-
-  const handleActionClick = (action: any) => {
-    console.log('Quick action clicked:', action);
-    console.log('setActiveView function available:', !!setActiveView);
-    
-    if (action.action === 'navigate' && action.actionValue) {
-      // Check if it's an admin path and we have setActiveView
-      if (action.actionValue.startsWith('/admin/') && setActiveView) {
-        // Convert admin path to activeView format
-        const viewName = action.actionValue.replace('/admin/', 'admin-');
-        console.log('Setting active view to:', viewName);
-        setActiveView(viewName);
-      } else if (setActiveView) {
-        // For non-admin paths within owner space
-        setActiveView(action.actionValue);
-      } else {
-        // Fallback to navigation
-        navigate(action.actionValue);
-      }
-    } else if (action.action === 'dialog' && action.actionValue) {
-      setOpenDialog(action.actionValue);
-    }
-  };
-
-  const handleDragEnd = async (result: any) => {
-    if (!result.destination || !isAdmin) {
-      return;
-    }
-
-    const { source, destination } = result;
-    
-    if (source.index === destination.index) {
-      return;
-    }
-
-    console.log('Reordering actions:', { source: source.index, destination: destination.index });
-    
-    try {
-      await reorderActions(source.index, destination.index);
-    } catch (error) {
-      console.error('Error reordering actions:', error);
-    }
-  };
+  const quickActions = createQuickActionsConfig(
+    navigate,
+    setOpenDialog,
+    ownerProperties,
+    activeTenants,
+    expiringContracts,
+    pendingPayments,
+    () => '',
+    enabledActions,
+    setActiveView,
+    i18n.language // Pass current language
+  );
 
   return (
     <>
-      <div key={refreshKey} className="bg-green-600 rounded-lg shadow-md p-4 md:p-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
-          <h3 className="text-base md:text-lg font-semibold text-white">
-            {t('navigation.quickActions', 'Actions rapides')}
-          </h3>
-        </div>
-        
-        {enabledActions.length === 0 ? (
-          <p className="text-white/70 text-sm">
-            {i18n.language === 'en' ? 'No quick actions configured' : 'Aucune action rapide configurée'}
-          </p>
-        ) : (
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="quick-actions">
-              {(provided) => (
-                <div 
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="space-y-2 md:space-y-3"
+      <Card className="h-fit w-full bg-gradient-to-b from-green-600 to-green-700 border-green-500/30 shadow-lg" key={`quick-actions-${refreshKey}`}>
+        <CardHeader className="pb-3 px-4 sm:px-6">
+          <CardTitle className="flex items-center justify-between text-base sm:text-lg font-semibold">
+            <div className="flex items-center gap-2">
+              <Plus className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              <span className="text-white truncate">{getLocalizedText('quickActionsTitle')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {/* Bouton pour gérer les actions - visible seulement pour les admins */}
+              {isAdmin && (
+                <button
+                  onClick={() => {/* Le gestionnaire d'actions s'ouvre via le composant QuickActionsManager */}}
+                  className="p-1.5 sm:p-2 hover:bg-green-500/30 rounded-full transition-colors flex-shrink-0"
+                  title={getLocalizedText('manageActions')}
                 >
-                  {enabledActions.map((action, index) => (
-                    <Draggable 
-                      key={action.id} 
-                      draggableId={action.id} 
-                      index={index}
-                      isDragDisabled={!isAdmin && !showControls}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className={`${
-                            snapshot.isDragging ? 'opacity-75 transform rotate-2' : ''
-                          }`}
-                        >
-                          <ConfigurableQuickActionItem
-                            title={getLocalizedActionText(action, 'title')}
-                            description={getLocalizedActionText(action, 'description')}
-                            icon={action.icon}
-                            color={action.color}
-                            onClick={() => handleActionClick(action)}
-                            actionId={action.id}
-                            showControls={showControls}
-                            isDragging={snapshot.isDragging}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
+                  <Settings className="h-3 w-3 sm:h-4 sm:w-4 text-white/80" />
+                </button>
               )}
-            </Droppable>
-          </DragDropContext>
-        )}
-      </div>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 sm:space-y-3 p-3 sm:p-4 pt-0">
+          {quickActions.map((action) => (
+            <QuickActionItem key={`${action.id}-${refreshKey}`} action={action} />
+          ))}
+        </CardContent>
+      </Card>
 
+      {/* Gestionnaire d'actions rapides pour les admins seulement */}
+      {isAdmin && <QuickActionsManager />}
+
+      {/* Dialogues des actions rapides */}
       <QuickActionDialogs
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
+        properties={properties}
         onPropertySubmit={handlePropertySubmit}
         onRoommateSubmit={handleRoommateSubmit}
-        onTenantSubmit={handleTenantSubmit}
-        onContractSubmit={handleContractSubmit}
         onInspectionSubmit={handleInspectionSubmit}
-        onPaymentSubmit={handlePaymentSubmit}
-        ownerProperties={ownerProperties}
-        activeTenants={activeTenants}
-        expiringContracts={expiringContracts}
-        pendingPayments={pendingPayments}
       />
     </>
   );
