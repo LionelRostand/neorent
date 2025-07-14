@@ -31,7 +31,9 @@ export const PropertyCard = ({
   onEdit,
   getStatusBadgeVariant
 }: PropertyCardProps) => {
-  const settings = propertySettings[property.id] || { visible: false, featured: false };
+  // Utiliser _id pour MongoDB au lieu de id
+  const propertyId = property._id || property.id;
+  const settings = propertySettings[propertyId] || { visible: false, featured: false };
 
   return (
     <Card className={`transition-all ${settings.visible ? 'ring-2 ring-green-200 bg-green-50' : ''}`}>
@@ -81,7 +83,7 @@ export const PropertyCard = ({
             </div>
             <Switch
               checked={settings.visible}
-              onCheckedChange={() => onToggleVisibility(property.id)}
+              onCheckedChange={() => onToggleVisibility(propertyId)}
             />
           </div>
 
@@ -94,7 +96,7 @@ export const PropertyCard = ({
             </div>
             <Switch
               checked={settings.featured}
-              onCheckedChange={() => onToggleFeatured(property.id)}
+              onCheckedChange={() => onToggleFeatured(propertyId)}
               disabled={!settings.visible}
             />
           </div>

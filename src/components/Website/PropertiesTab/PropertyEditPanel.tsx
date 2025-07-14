@@ -56,16 +56,16 @@ export const PropertyEditPanel = ({
       const updatedImages = [...localImages, newImageUrl.trim()];
       setLocalImages(updatedImages);
       setNewImageUrl('');
-      // You would typically save this to your backend here
-      console.log('Updated images for property:', selectedProperty?.id, updatedImages);
+      // You would typically save this to your MongoDB here
+      console.log('Updated images for property:', selectedProperty?._id || selectedProperty?.id, updatedImages);
     }
   };
 
   const removeImage = (index: number) => {
     const updatedImages = localImages.filter((_, i) => i !== index);
     setLocalImages(updatedImages);
-    // You would typically save this to your backend here
-    console.log('Updated images for property:', selectedProperty?.id, updatedImages);
+    // You would typically save this to your MongoDB here
+    console.log('Updated images for property:', selectedProperty?._id || selectedProperty?.id, updatedImages);
   };
 
   if (!selectedProperty) {
@@ -82,7 +82,9 @@ export const PropertyEditPanel = ({
     );
   }
 
-  const settings = propertySettings[selectedProperty.id] || { visible: false, description: '', featured: false };
+  // Utiliser _id pour MongoDB au lieu de id
+  const propertyId = selectedProperty._id || selectedProperty.id;
+  const settings = propertySettings[propertyId] || { visible: false, description: '', featured: false };
 
   return (
     <Card>
@@ -195,7 +197,7 @@ export const PropertyEditPanel = ({
             id="description"
             placeholder="Ajoutez une description personnalisée pour cette propriété sur votre site web..."
             value={settings.description}
-            onChange={(e) => onUpdateDescription(selectedProperty.id, e.target.value)}
+            onChange={(e) => onUpdateDescription(propertyId, e.target.value)}
             rows={4}
           />
           <p className="text-xs text-gray-500">
