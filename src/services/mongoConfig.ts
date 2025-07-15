@@ -1,4 +1,3 @@
-
 // Configuration MongoDB
 export interface MongoConfig {
   host: string;
@@ -24,7 +23,7 @@ export interface MongoConnectionTest {
 
 class MongoConfigService {
   private config: MongoConfig | null = null;
-  private baseUrl: string = 'https://161.97.108.157:30433';
+  private baseUrl: string = 'http://161.97.108.157:30433';
 
   // Sauvegarder la configuration MongoDB
   saveConfig(config: MongoConfig): void {
@@ -79,10 +78,11 @@ class MongoConfigService {
   // Tester la connexion MongoDB
   async testConnection(config: MongoConfig): Promise<MongoConnectionTest> {
     try {
-      console.log('Testing MongoDB connection with config:', config);
+      console.log('🔍 Testing MongoDB connection with config:', config);
       
       const connectionUrl = this.buildConnectionUrl(config);
-      console.log('Generated connection URL:', connectionUrl);
+      console.log('🔗 Generated connection URL:', connectionUrl);
+      console.log('🌐 API endpoint:', `${this.baseUrl}/api/test-connection`);
       
       const response = await fetch(`${this.baseUrl}/api/test-connection`, {
         method: 'POST',
@@ -95,7 +95,10 @@ class MongoConfigService {
         }),
       });
 
+      console.log('📡 Response status:', response.status, response.statusText);
+
       const result = await response.json();
+      console.log('📊 Response data:', result);
       
       if (response.ok) {
         return {
@@ -115,7 +118,7 @@ class MongoConfigService {
         };
       }
     } catch (error) {
-      console.error('MongoDB connection test failed:', error);
+      console.error('❌ MongoDB connection test failed:', error);
       return {
         success: false,
         message: `Erreur de connexion: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
