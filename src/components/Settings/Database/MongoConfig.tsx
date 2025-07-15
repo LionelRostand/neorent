@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, CheckCircle, XCircle, Database } from 'lucide-react';
+import { Loader2, CheckCircle, XCircle, Database, Info } from 'lucide-react';
 import { useMongoConfig } from '@/hooks/useMongoConfig';
 import { MongoConfig } from '@/services/mongoConfig';
 
@@ -17,7 +17,7 @@ const MongoConfigComponent: React.FC = () => {
   
   const [formData, setFormData] = useState<MongoConfig>({
     host: config?.host || '161.97.108.157',
-    port: config?.port || 30433,
+    port: config?.port || 27017,
     database: config?.database || 'immobilier',
     username: config?.username || '',
     password: config?.password || '',
@@ -40,7 +40,31 @@ const MongoConfigComponent: React.FC = () => {
   };
 
   const handleTest = () => {
+    console.log('Testing connection with:', formData);
     testConnection(formData);
+  };
+
+  // Générer l'URL de prévisualisation
+  const generatePreviewUrl = () => {
+    if (useConnectionString && formData.connectionString) {
+      return formData.connectionString;
+    }
+    
+    let url = `mongodb://`;
+    if (formData.username && formData.password) {
+      url += `${formData.username}:***@`;
+    }
+    url += `${formData.host}:${formData.port}`;
+    if (formData.database) {
+      url += `/${formData.database}`;
+    }
+    const params = [];
+    if (formData.authSource) params.push(`authSource=${formData.authSource}`);
+    if (formData.ssl) params.push('ssl=true');
+    if (params.length > 0) {
+      url += `?${params.join('&')}`;
+    }
+    return url;
   };
 
   return (
@@ -91,7 +115,7 @@ const MongoConfigComponent: React.FC = () => {
                 id="port"
                 type="number"
                 value={formData.port}
-                onChange={(e) => handleInputChange('port', parseInt(e.target.value))}
+                onChange={(e) => handleInputChange('port', parseInt(e.target.value) || 27017)}
               />
             </div>
             <div className="space-y-2">
@@ -141,6 +165,18 @@ const MongoConfigComponent: React.FC = () => {
           />
           <Label htmlFor="ssl">Activer SSL</Label>
         </div>
+
+        {/* Prévisualisation de l'URL */}
+        <Alert>
+          <Info className="h-4 w-4" />
+          <AlertDescription>
+            <strong>URL de connexion générée:</strong>
+            <br />
+            <code className="text-sm bg-gray-100 p-1 rounded break-all">
+              {generatePreviewUrl()}
+            </code>
+          </AlertDescription>
+        </Alert>
 
         <div className="flex gap-2">
           <Button onClick={handleSave} variant="outline">

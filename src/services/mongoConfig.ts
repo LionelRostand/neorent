@@ -50,11 +50,21 @@ class MongoConfigService {
     }
 
     let url = `mongodb://`;
-    if (config.username && config.password) {
-      url += `${config.username}:${config.password}@`;
-    }
-    url += `${config.host}:${config.port}/${config.database}`;
     
+    // Ajouter les credentials si fournis
+    if (config.username && config.password) {
+      url += `${encodeURIComponent(config.username)}:${encodeURIComponent(config.password)}@`;
+    }
+    
+    // Ajouter host et port
+    url += `${config.host}:${config.port}`;
+    
+    // Ajouter la base de données
+    if (config.database) {
+      url += `/${config.database}`;
+    }
+    
+    // Ajouter les paramètres
     const params = [];
     if (config.authSource) params.push(`authSource=${config.authSource}`);
     if (config.ssl) params.push('ssl=true');
@@ -71,13 +81,16 @@ class MongoConfigService {
     try {
       console.log('Testing MongoDB connection with config:', config);
       
+      const connectionUrl = this.buildConnectionUrl(config);
+      console.log('Generated connection URL:', connectionUrl);
+      
       const response = await fetch(`${this.baseUrl}/api/test-connection`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          connectionUrl: this.buildConnectionUrl(config),
+          connectionUrl: connectionUrl,
           database: config.database,
         }),
       });
