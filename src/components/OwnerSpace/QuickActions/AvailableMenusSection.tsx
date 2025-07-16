@@ -145,8 +145,14 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
   };
 
   const handleAddMenu = async (menuItem: any) => {
-    console.log('Adding menu to quick actions:', menuItem);
-    await onAddMenuToQuickActions(menuItem);
+    console.log('AvailableMenusSection - Adding menu to quick actions:', menuItem);
+    
+    try {
+      await onAddMenuToQuickActions(menuItem);
+      console.log('AvailableMenusSection - Menu added successfully');
+    } catch (error) {
+      console.error('AvailableMenusSection - Error adding menu:', error);
+    }
   };
 
   return (
@@ -181,7 +187,7 @@ const AvailableMenusSection: React.FC<AvailableMenusSectionProps> = ({
                   size="sm"
                   onClick={() => handleAddMenu(menuItem)}
                   disabled={isAdding || saving || isAlreadyAdded}
-                  className={`w-full ${isAlreadyAdded ? 'bg-green-100 text-green-700 border-green-200' : ''}`}
+                  className={`w-full ${isAlreadyAdded ? 'bg-green-100 text-green-700 border-green-200 hover:bg-green-100' : ''}`}
                   variant={isAlreadyAdded ? "outline" : "default"}
                 >
                   {isAdding && <Loader2 className="h-3 w-3 mr-1 animate-spin" />}

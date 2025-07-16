@@ -149,12 +149,10 @@ export const useQuickActionsManager = () => {
       }, { merge: true });
 
       setQuickActions(actions);
-      setRefreshKey(Date.now());
+      setRefreshKey(prev => prev + 1);
       
-      toast({
-        title: "Succès",
-        description: "Configuration des actions rapides mise à jour",
-      });
+      console.log('Actions saved successfully, new refreshKey:', refreshKey + 1);
+      
       return true;
     } catch (error) {
       console.error('Error saving quick actions:', error);
@@ -255,11 +253,29 @@ export const useQuickActionsManager = () => {
 
     console.log('Adding custom action:', newAction);
     
+    // Vérifier si l'action existe déjà
+    const existingAction = quickActions.find(action => 
+      action.id === newAction.id || action.actionValue === newAction.actionValue
+    );
+    
+    if (existingAction) {
+      toast({
+        title: "Information",
+        description: "Cette action existe déjà dans la liste",
+        variant: "default",
+      });
+      return false;
+    }
+    
     const actionWithOrder = {
       ...newAction,
       order: quickActions.length + 1
     };
+    
+    console.log('Action with order:', actionWithOrder);
+    
     const updatedActions = [...quickActions, actionWithOrder];
+    console.log('Updated actions list:', updatedActions);
     
     const success = await saveQuickActions(updatedActions);
     if (success) {
