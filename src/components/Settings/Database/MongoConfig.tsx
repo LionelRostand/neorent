@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, CheckCircle, XCircle, Database, Info } from 'lucide-react';
+import { Loader2, CheckCircle, XCircle, Database, Info, AlertTriangle } from 'lucide-react';
 import { useMongoConfig } from '@/hooks/useMongoConfig';
 import { MongoConfig } from '@/services/mongoConfig';
 
@@ -76,6 +75,24 @@ const MongoConfigComponent: React.FC = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Avertissement SSL */}
+        <Alert className="border-amber-500 bg-amber-50">
+          <AlertTriangle className="h-4 w-4 text-amber-500" />
+          <AlertDescription>
+            <strong>Important :</strong> Votre serveur MongoDB utilise HTTPS avec un certificat qui pourrait ne pas être reconnu. 
+            Si le test de connexion échoue, vous devrez peut-être accepter manuellement le certificat en visitant{' '}
+            <a 
+              href="https://161.97.108.157:30433" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="underline text-amber-700 hover:text-amber-800"
+            >
+              https://161.97.108.157:30433
+            </a>
+            {' '}dans votre navigateur.
+          </AlertDescription>
+        </Alert>
+
         <div className="flex items-center space-x-2">
           <Switch
             id="use-connection-string"
@@ -218,6 +235,21 @@ const MongoConfigComponent: React.FC = () => {
                 )}
               </div>
             )}
+          </Alert>
+        )}
+
+        {/* Instructions supplémentaires en cas d'erreur SSL */}
+        {connectionTest && !connectionTest.success && connectionTest.message.includes('SSL') && (
+          <Alert className="border-blue-500 bg-blue-50">
+            <Info className="h-4 w-4 text-blue-500" />
+            <AlertDescription>
+              <strong>Solutions pour résoudre l'erreur SSL :</strong>
+              <ol className="list-decimal list-inside mt-2 space-y-1">
+                <li>Visitez <a href="https://161.97.108.157:30433" target="_blank" rel="noopener noreferrer" className="underline">https://161.97.108.157:30433</a> et acceptez le certificat</li>
+                <li>Configurez un certificat SSL valide sur votre serveur MongoDB</li>
+                <li>Utilisez un proxy HTTPS ou un service tunnel comme ngrok</li>
+              </ol>
+            </AlertDescription>
           </Alert>
         )}
       </CardContent>

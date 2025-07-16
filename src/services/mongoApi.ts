@@ -1,5 +1,5 @@
 // Configuration de l'API MongoDB
-const MONGODB_API_BASE_URL = 'http://161.97.108.157:30433';
+const MONGODB_API_BASE_URL = 'https://161.97.108.157:30433';
 
 // Types pour les propriétés MongoDB
 export interface MongoProperty {

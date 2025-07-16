@@ -23,7 +23,7 @@ export interface MongoConnectionTest {
 
 class MongoConfigService {
   private config: MongoConfig | null = null;
-  private baseUrl: string = 'http://161.97.108.157:30433';
+  private baseUrl: string = 'https://161.97.108.157:30433';
 
   // Sauvegarder la configuration MongoDB
   saveConfig(config: MongoConfig): void {
@@ -75,7 +75,7 @@ class MongoConfigService {
     return url;
   }
 
-  // Tester la connexion MongoDB
+  // Tester la connexion MongoDB avec gestion des certificats SSL
   async testConnection(config: MongoConfig): Promise<MongoConnectionTest> {
     try {
       console.log('🔍 Testing MongoDB connection with config:', config);
@@ -84,16 +84,28 @@ class MongoConfigService {
       console.log('🔗 Generated connection URL:', connectionUrl);
       console.log('🌐 API endpoint:', `${this.baseUrl}/api/test-connection`);
       
-      const response = await fetch(`${this.baseUrl}/api/test-connection`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          connectionUrl: connectionUrl,
-          database: config.database,
-        }),
-      });
+      // Première tentative avec HTTPS
+      let response;
+      try {
+        response = await fetch(`${this.baseUrl}/api/test-connection`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            connectionUrl: connectionUrl,
+            database: config.database,
+          }),
+        });
+      } catch (httpsError) {
+        console.warn('⚠️ HTTPS request failed, this might be due to SSL certificate issues:', httpsError);
+        
+        // Si HTTPS échoue, informer l'utilisateur du problème
+        return {
+          success: false,
+          message: 'Erreur SSL: Le serveur utilise un certificat invalide. Pour résoudre ce problème, vous devez soit : 1) Configurer un certificat SSL valide sur le serveur, 2) Accéder manuellement à https://161.97.108.157:30433 dans votre navigateur et accepter le certificat, 3) Utiliser un proxy HTTPS.',
+        };
+      }
 
       console.log('📡 Response status:', response.status, response.statusText);
 
