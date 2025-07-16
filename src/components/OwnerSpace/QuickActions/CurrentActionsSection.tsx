@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Settings, Trash2, Edit } from 'lucide-react';
+import { Settings, Trash2, Edit, Loader2 } from 'lucide-react';
 import { QuickActionConfig } from '@/hooks/useQuickActionsManager';
 
 interface CurrentActionsSectionProps {
@@ -58,6 +58,10 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       confirmDelete: {
         fr: 'Êtes-vous sûr de vouloir supprimer cette action ?',
         en: 'Are you sure you want to delete this action?'
+      },
+      deleting: {
+        fr: 'Suppression...',
+        en: 'Deleting...'
       }
     };
 
@@ -84,12 +88,12 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
 
   const handleRemoveClick = async (actionId: string) => {
     if (window.confirm(getLocalizedText('confirmDelete'))) {
+      console.log('Removing action:', actionId);
       await onRemoveAction(actionId);
     }
   };
 
   const handleConfigureClick = (actionId: string) => {
-    // For now, just log the action - this could open a configuration modal
     console.log('Configure action:', actionId);
     onConfigureAction(actionId);
   };
@@ -105,51 +109,64 @@ const CurrentActionsSection: React.FC<CurrentActionsSectionProps> = ({
       
       <CardContent className="p-3 sm:p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {quickActions.map((action) => (
-            <div key={action.id} className="flex items-center gap-3 p-3 border rounded-lg hover:shadow-md transition-shadow">
-              <div className={`p-2 rounded ${action.color} flex-shrink-0`}>
-                <Settings className="h-4 w-4 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm truncate">
-                  {getLocalizedActionText(action, 'title')}
+          {quickActions.map((action) => {
+            const isToggling = toggleStates[action.id];
+            
+            return (
+              <div key={action.id} className="flex flex-col gap-3 p-4 border rounded-lg hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded ${action.color} flex-shrink-0`}>
+                    <Settings className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-sm truncate">
+                      {getLocalizedActionText(action, 'title')}
+                    </div>
+                    <div className="text-xs text-gray-500 truncate">
+                      {getLocalizedActionText(action, 'description')}
+                    </div>
+                    <Badge variant={action.enabled ? "default" : "secondary"} className="text-xs mt-1">
+                      {action.enabled ? getLocalizedText('enabled') : getLocalizedText('disabled')}
+                    </Badge>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-500 truncate">
-                  {getLocalizedActionText(action, 'description')}
+                
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Switch
+                      checked={action.enabled}
+                      onCheckedChange={() => onToggleAction(action.id)}
+                      disabled={isToggling || saving}
+                    />
+                    {isToggling && <Loader2 className="h-3 w-3 animate-spin text-gray-400" />}
+                  </div>
+                  
+                  <div className="flex items-center gap-1">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleConfigureClick(action.id)}
+                      disabled={saving}
+                      title={getLocalizedText('configure')}
+                      className="h-8 w-8 p-0 hover:bg-blue-50 hover:border-blue-300"
+                    >
+                      <Edit className="h-3 w-3 text-blue-600" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleRemoveClick(action.id)}
+                      disabled={saving}
+                      title={getLocalizedText('remove')}
+                      className="h-8 w-8 p-0 hover:bg-red-50 hover:border-red-300"
+                    >
+                      <Trash2 className="h-3 w-3 text-red-600" />
+                    </Button>
+                  </div>
                 </div>
-                <Badge variant={action.enabled ? "default" : "secondary"} className="text-xs mt-1">
-                  {action.enabled ? getLocalizedText('enabled') : getLocalizedText('disabled')}
-                </Badge>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <Switch
-                  checked={action.enabled}
-                  onCheckedChange={() => onToggleAction(action.id)}
-                  disabled={toggleStates[action.id] || saving}
-                />
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleConfigureClick(action.id)}
-                  disabled={saving}
-                  title={getLocalizedText('configure')}
-                  className="h-8 w-8 p-0 hover:bg-blue-50 hover:border-blue-300"
-                >
-                  <Edit className="h-3 w-3 text-blue-600" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleRemoveClick(action.id)}
-                  disabled={saving}
-                  title={getLocalizedText('remove')}
-                  className="h-8 w-8 p-0 hover:bg-red-50 hover:border-red-300"
-                >
-                  <Trash2 className="h-3 w-3 text-red-600" />
-                </Button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
           {quickActions.length === 0 && (
             <div className="col-span-full text-center py-8 text-gray-500">
               <p className="text-sm">{getLocalizedText('noActions')}</p>
