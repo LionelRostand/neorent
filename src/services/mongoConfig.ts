@@ -1,3 +1,4 @@
+
 // Configuration MongoDB
 export interface MongoConfig {
   host: string;
@@ -7,6 +8,7 @@ export interface MongoConfig {
   password?: string;
   authSource?: string;
   ssl?: boolean;
+  allowInvalidCertificates?: boolean;
   connectionString?: string;
 }
 
@@ -19,6 +21,12 @@ export interface MongoConnectionTest {
     collections?: string[];
     latency?: number;
   };
+}
+
+export interface MongoCollection {
+  name: string;
+  count: number;
+  documents?: any[];
 }
 
 class MongoConfigService {
@@ -67,12 +75,34 @@ class MongoConfigService {
     const params = [];
     if (config.authSource) params.push(`authSource=${config.authSource}`);
     if (config.ssl) params.push('ssl=true');
+    if (config.allowInvalidCertificates) params.push('tlsAllowInvalidCertificates=true');
     
     if (params.length > 0) {
       url += `?${params.join('&')}`;
     }
     
     return url;
+  }
+
+  // Effectuer une requête HTTP avec gestion SSL
+  private async makeRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
+    const requestOptions = {
+      ...options,
+      // Ignorer les erreurs de certificat SSL pour les requêtes HTTP
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    };
+
+    try {
+      console.log(`🌐 Making request to: ${this.baseUrl}${endpoint}`);
+      const response = await fetch(`${this.baseUrl}${endpoint}`, requestOptions);
+      return response;
+    } catch (error) {
+      console.error('❌ Request failed:', error);
+      throw error;
+    }
   }
 
   // Tester la connexion MongoDB avec gestion des certificats SSL
@@ -82,30 +112,15 @@ class MongoConfigService {
       
       const connectionUrl = this.buildConnectionUrl(config);
       console.log('🔗 Generated connection URL:', connectionUrl);
-      console.log('🌐 API endpoint:', `${this.baseUrl}/api/test-connection`);
       
-      // Première tentative avec HTTPS
-      let response;
-      try {
-        response = await fetch(`${this.baseUrl}/api/test-connection`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            connectionUrl: connectionUrl,
-            database: config.database,
-          }),
-        });
-      } catch (httpsError) {
-        console.warn('⚠️ HTTPS request failed, this might be due to SSL certificate issues:', httpsError);
-        
-        // Si HTTPS échoue, informer l'utilisateur du problème
-        return {
-          success: false,
-          message: 'Erreur SSL: Le serveur utilise un certificat invalide. Pour résoudre ce problème, vous devez soit : 1) Configurer un certificat SSL valide sur le serveur, 2) Accéder manuellement à https://161.97.108.157:30433 dans votre navigateur et accepter le certificat, 3) Utiliser un proxy HTTPS.',
-        };
-      }
+      const response = await this.makeRequest('/api/test-connection', {
+        method: 'POST',
+        body: JSON.stringify({
+          connectionUrl: connectionUrl,
+          database: config.database,
+          allowInvalidCertificates: config.allowInvalidCertificates || false,
+        }),
+      });
 
       console.log('📡 Response status:', response.status, response.statusText);
 
@@ -133,15 +148,64 @@ class MongoConfigService {
       console.error('❌ MongoDB connection test failed:', error);
       return {
         success: false,
-        message: `Erreur de connexion: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
+        message: `Erreur de connexion: ${error instanceof Error ? error.message : 'Erreur inconnue'}. Essayez d'activer "Autoriser les certificats invalides" dans la configuration.`,
       };
+    }
+  }
+
+  // Récupérer toutes les collections avec leurs documents
+  async getCollectionsWithData(): Promise<MongoCollection[]> {
+    try {
+      const config = this.getConfig();
+      if (!config) {
+        throw new Error('Configuration MongoDB non trouvée');
+      }
+
+      const connectionUrl = this.buildConnectionUrl(config);
+      
+      const response = await this.makeRequest('/api/collections-data', {
+        method: 'POST',
+        body: JSON.stringify({
+          connectionUrl: connectionUrl,
+          database: config.database,
+          allowInvalidCertificates: config.allowInvalidCertificates || false,
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return result.collections || [];
+      } else {
+        const error = await response.json();
+        throw new Error(error.message || 'Erreur lors de la récupération des collections');
+      }
+    } catch (error) {
+      console.error('Failed to get collections data:', error);
+      throw error;
+    }
+  }
+
+  // Exporter les collections au format JSON
+  async exportCollectionsAsJSON(): Promise<string> {
+    try {
+      const collections = await this.getCollectionsWithData();
+      const exportData = {
+        exportDate: new Date().toISOString(),
+        database: this.config?.database || 'unknown',
+        collections: collections,
+      };
+      
+      return JSON.stringify(exportData, null, 2);
+    } catch (error) {
+      console.error('Failed to export collections:', error);
+      throw error;
     }
   }
 
   // Récupérer les statistiques de la base de données
   async getDatabaseStats(): Promise<any> {
     try {
-      const response = await fetch(`${this.baseUrl}/api/database-stats`);
+      const response = await this.makeRequest('/api/database-stats');
       if (response.ok) {
         return await response.json();
       }

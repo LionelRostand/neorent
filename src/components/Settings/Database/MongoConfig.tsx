@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, CheckCircle, XCircle, Database, Info } from 'lucide-react';
+import { Loader2, CheckCircle, XCircle, Database, Info, Shield } from 'lucide-react';
 import { useMongoConfig } from '@/hooks/useMongoConfig';
 import { MongoConfig } from '@/services/mongoConfig';
 import CertificateHelper from './CertificateHelper';
@@ -23,6 +24,7 @@ const MongoConfigComponent: React.FC = () => {
     password: config?.password || '',
     authSource: config?.authSource || 'admin',
     ssl: config?.ssl || false,
+    allowInvalidCertificates: config?.allowInvalidCertificates || false,
     connectionString: config?.connectionString || '',
   });
 
@@ -61,6 +63,7 @@ const MongoConfigComponent: React.FC = () => {
     const params = [];
     if (formData.authSource) params.push(`authSource=${formData.authSource}`);
     if (formData.ssl) params.push('ssl=true');
+    if (formData.allowInvalidCertificates) params.push('tlsAllowInvalidCertificates=true');
     if (params.length > 0) {
       url += `?${params.join('&')}`;
     }
@@ -173,13 +176,27 @@ const MongoConfigComponent: React.FC = () => {
           </div>
         )}
 
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="ssl"
-            checked={formData.ssl}
-            onCheckedChange={(checked) => handleInputChange('ssl', checked)}
-          />
-          <Label htmlFor="ssl">Activer SSL</Label>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="ssl"
+              checked={formData.ssl}
+              onCheckedChange={(checked) => handleInputChange('ssl', checked)}
+            />
+            <Label htmlFor="ssl">Activer SSL</Label>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="allowInvalidCertificates"
+              checked={formData.allowInvalidCertificates}
+              onCheckedChange={(checked) => handleInputChange('allowInvalidCertificates', checked)}
+            />
+            <Label htmlFor="allowInvalidCertificates" className="flex items-center gap-2">
+              <Shield className="h-4 w-4 text-amber-600" />
+              Autoriser les certificats invalides (certificats auto-signés)
+            </Label>
+          </div>
         </div>
 
         <Alert>

@@ -1,60 +1,52 @@
 
 import React from 'react';
-import { FirebaseConfig } from './FirebaseConfig';
-import { DatabaseStats } from './DatabaseStats';
-import FirebaseCollectionsList from '../Firebase/FirebaseCollectionsList';
-import MongoConfigComponent from './MongoConfig';
-import ApiDocumentation from './ApiDocumentation';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Database, FileText, Globe } from 'lucide-react';
+import MongoConfigComponent from './MongoConfig';
+import MongoExport from './MongoExport';
+import ApiDocumentation from './ApiDocumentation';
 
-const DatabaseTab: React.FC = () => {
+const DatabaseTab = () => {
   const { t } = useTranslation();
-  
-  const copyToClipboard = (text: string, type: string) => {
-    navigator.clipboard.writeText(text);
-    console.log(`${type} ${t('settings.firebase.copy')}`);
-  };
 
   return (
     <div className="space-y-4 md:space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl md:text-2xl font-semibold text-gray-900">
-            🗄️ {t('settings.database.title')}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-gray-600 mb-6">
-            {t('settings.database.subtitle')}
-          </p>
-        </CardContent>
-      </Card>
-      
-      <Tabs defaultValue="mongodb" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="mongodb">MongoDB</TabsTrigger>
-          <TabsTrigger value="api">API REST</TabsTrigger>
-          <TabsTrigger value="firebase">Firebase</TabsTrigger>
-          <TabsTrigger value="stats">Statistiques</TabsTrigger>
+      <div>
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
+          {t('settings.database.title')}
+        </h2>
+        <p className="text-gray-600 text-sm md:text-base">
+          {t('settings.database.subtitle')}
+        </p>
+      </div>
+
+      <Tabs defaultValue="config" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="config" className="flex items-center gap-2">
+            <Database className="h-4 w-4" />
+            Configuration
+          </TabsTrigger>
+          <TabsTrigger value="export" className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            Export JSON
+          </TabsTrigger>
+          <TabsTrigger value="api" className="flex items-center gap-2">
+            <Globe className="h-4 w-4" />
+            API REST
+          </TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="mongodb" className="space-y-4">
+
+        <TabsContent value="config" className="space-y-6">
           <MongoConfigComponent />
         </TabsContent>
-        
-        <TabsContent value="api" className="space-y-4">
+
+        <TabsContent value="export" className="space-y-6">
+          <MongoExport />
+        </TabsContent>
+
+        <TabsContent value="api" className="space-y-6">
           <ApiDocumentation />
-        </TabsContent>
-        
-        <TabsContent value="firebase" className="space-y-4">
-          <FirebaseConfig onCopy={copyToClipboard} />
-          <FirebaseCollectionsList />
-        </TabsContent>
-        
-        <TabsContent value="stats" className="space-y-4">
-          <DatabaseStats />
         </TabsContent>
       </Tabs>
     </div>
