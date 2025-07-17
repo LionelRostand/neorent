@@ -52,10 +52,10 @@ const OwnerSpace = () => {
   const fullWidthPages = ['messages', 'website', 'help'];
   const isFullWidthPage = fullWidthPages.includes(activeView);
 
-  // If it's a full-width page, render only the view content
+  // If it's a full-width page, render only the view content in full screen
   if (isFullWidthPage) {
     return (
-      <div className="min-h-screen w-full">
+      <div className="min-h-screen w-full bg-white">
         <ViewRenderer 
           activeView={activeView}
           currentProfile={currentProfile}

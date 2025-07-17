@@ -50,11 +50,21 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
         return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'messages':
         return (
-          <div className="min-h-screen bg-gray-50">
+          <div className="min-h-screen bg-gray-50 w-full">
             <div className="p-6">
               <div className="max-w-7xl mx-auto">
-                <h1 className="text-2xl font-bold mb-4">Centre de Messages</h1>
-                <p className="text-gray-600 mb-6">Communiquez avec les locataires et gérez les demandes</p>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h1 className="text-3xl font-bold text-gray-900">Centre de Messages</h1>
+                    <p className="text-gray-600 mt-2">Communiquez avec les locataires et gérez les demandes</p>
+                  </div>
+                  <button 
+                    onClick={() => onViewChange('dashboard')}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    Retour au tableau de bord
+                  </button>
+                </div>
                 
                 {/* Message Statistics */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -117,11 +127,21 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
         );
       case 'website':
         return (
-          <div className="min-h-screen bg-gray-50">
+          <div className="min-h-screen bg-gray-50 w-full">
             <div className="p-6">
               <div className="max-w-7xl mx-auto">
-                <h1 className="text-2xl font-bold mb-4">Gestion du Site Web</h1>
-                <p className="text-gray-600 mb-6">Gérez votre site web immobilier et votre présence en ligne</p>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h1 className="text-3xl font-bold text-gray-900">Gestion du Site Web</h1>
+                    <p className="text-gray-600 mt-2">Gérez votre site web immobilier et votre présence en ligne</p>
+                  </div>
+                  <button 
+                    onClick={() => onViewChange('dashboard')}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    Retour au tableau de bord
+                  </button>
+                </div>
                 
                 {/* Website Management Options */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -208,11 +228,21 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
         );
       case 'help':
         return (
-          <div className="min-h-screen bg-gray-50">
+          <div className="min-h-screen bg-gray-50 w-full">
             <div className="p-6">
               <div className="max-w-7xl mx-auto">
-                <h1 className="text-2xl font-bold mb-4">Centre d'Aide</h1>
-                <p className="text-gray-600 mb-6">Documentation et support pour utiliser la plateforme</p>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h1 className="text-3xl font-bold text-gray-900">Centre d'Aide</h1>
+                    <p className="text-gray-600 mt-2">Documentation et support pour utiliser la plateforme</p>
+                  </div>
+                  <button 
+                    onClick={() => onViewChange('dashboard')}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    Retour au tableau de bord
+                  </button>
+                </div>
                 
                 {/* Help Navigation */}
                 <div className="flex items-center justify-between mb-6">
