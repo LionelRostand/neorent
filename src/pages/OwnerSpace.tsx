@@ -48,6 +48,10 @@ const OwnerSpace = () => {
     );
   }
 
+  // Pages that should use full-width layout without NeoRent sidebar
+  const fullWidthPages = ['messages', 'website', 'help'];
+  const shouldHideSidebar = fullWidthPages.includes(activeView);
+
   return (
     <div className="h-screen flex w-full bg-gray-50 relative">
       {/* Mobile sidebar overlay */}
@@ -59,39 +63,43 @@ const OwnerSpace = () => {
       )}
 
       {/* Quick actions sidebar - responsive with same height as main content */}
-      <div className={`
-        ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-        md:translate-x-0 transition-transform duration-300 ease-in-out
-        fixed md:static inset-y-0 left-0 z-50 md:z-auto
-        md:block flex-shrink-0 h-full
-      `}>
-        <OwnerSpaceQuickActionsSidebar 
-          ownerProfile={currentProfile} 
-          activeView={activeView}
-          setActiveView={setActiveView}
-          onMobileClose={() => setIsMobileSidebarOpen(false)}
-        />
-      </div>
-      
-      {/* Main content area - full height, no additional headers */}
-      <div className="flex-1 flex flex-col min-w-0 h-full">
-        {/* Mobile menu button - only for mobile */}
-        <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="p-2"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
+      {!shouldHideSidebar && (
+        <div className={`
+          ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+          md:translate-x-0 transition-transform duration-300 ease-in-out
+          fixed md:static inset-y-0 left-0 z-50 md:z-auto
+          md:block flex-shrink-0 h-full
+        `}>
+          <OwnerSpaceQuickActionsSidebar 
+            ownerProfile={currentProfile} 
+            activeView={activeView}
+            setActiveView={setActiveView}
+            onMobileClose={() => setIsMobileSidebarOpen(false)}
+          />
         </div>
+      )}
+      
+      {/* Main content area - full height, conditional layout */}
+      <div className="flex-1 flex flex-col min-w-0 h-full">
+        {/* Mobile menu button - only for mobile and when sidebar is shown */}
+        {!shouldHideSidebar && (
+          <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="p-2"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
         
-        {/* Owner space header - this is the ONLY header we want */}
-        <OwnerSpaceProfileHeader currentProfile={currentProfile} />
+        {/* Owner space header - conditional display */}
+        {!shouldHideSidebar && <OwnerSpaceProfileHeader currentProfile={currentProfile} />}
 
         {/* Main content - each view renders without any additional layout */}
-        <main className="flex-1 overflow-auto bg-gray-50">
+        <main className={`flex-1 overflow-auto ${shouldHideSidebar ? 'bg-gray-50' : 'bg-gray-50'}`}>
           <ViewRenderer 
             activeView={activeView}
             currentProfile={currentProfile}
