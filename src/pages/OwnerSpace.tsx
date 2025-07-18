@@ -48,24 +48,22 @@ const OwnerSpace = () => {
     );
   }
 
-  // Pages that should use full-width layout without any sidebar or header
-  const fullWidthPages = ['messages', 'website', 'help'];
-  const isFullWidthPage = fullWidthPages.includes(activeView);
+  // Pages that should be completely full-screen without any sidebar, header, or NeoRent branding
+  const fullScreenPages = ['messages', 'website', 'help'];
+  const isFullScreenPage = fullScreenPages.includes(activeView);
 
-  // If it's a full-width page, render only the view content in full screen
-  if (isFullWidthPage) {
+  // If it's a full-screen page, render only the view content with no interface elements
+  if (isFullScreenPage) {
     return (
-      <div className="min-h-screen w-full bg-white">
-        <ViewRenderer 
-          activeView={activeView}
-          currentProfile={currentProfile}
-          onViewChange={setActiveView}
-        />
-      </div>
+      <ViewRenderer 
+        activeView={activeView}
+        currentProfile={currentProfile}
+        onViewChange={setActiveView}
+      />
     );
   }
 
-  // Regular layout for other pages
+  // Regular layout for other pages (dashboard, properties, etc.)
   return (
     <div className="h-screen flex w-full bg-gray-50 relative">
       {/* Mobile sidebar overlay */}
