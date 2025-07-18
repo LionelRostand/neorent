@@ -23,18 +23,37 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
   const profile = currentProfile || userProfile;
   const { handleInspectionSubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
+  
+  // Utiliser les données filtrées par propriétaire
   const { inspections } = useOwnerData(profile);
+  
   const { deleteInspection } = useFirebaseInspections();
   const [showInspectionForm, setShowInspectionForm] = useState(false);
   const [selectedInspection, setSelectedInspection] = useState(null);
   const [showInspectionDetails, setShowInspectionDetails] = useState(false);
 
+  console.log('AdminInspectionsView - Using profile:', profile);
+  console.log('AdminInspectionsView - Filtered inspections:', inspections);
+
   const inspectionButtonConfig = getButtonConfig('inspection');
 
+  // Calculer les métriques basées sur les inspections filtrées
   const totalInspections = inspections?.length || 0;
-  const completedInspections = inspections?.filter(i => i.status === t('inspections.completed')).length || 0;
-  const plannedInspections = inspections?.filter(i => i.status === t('inspections.planned')).length || 0;
-  const inProgressInspections = inspections?.filter(i => i.status === t('inspections.inProgress')).length || 0;
+  const completedInspections = inspections?.filter(i => 
+    i.status === t('inspections.completed') || 
+    i.status === 'Terminé' || 
+    i.status === 'Completed'
+  ).length || 0;
+  const plannedInspections = inspections?.filter(i => 
+    i.status === t('inspections.planned') || 
+    i.status === 'Planifié' || 
+    i.status === 'Planned'
+  ).length || 0;
+  const inProgressInspections = inspections?.filter(i => 
+    i.status === t('inspections.inProgress') || 
+    i.status === 'En cours' || 
+    i.status === 'In Progress'
+  ).length || 0;
 
   const handleViewInspection = (inspection: any) => {
     setSelectedInspection(inspection);
@@ -63,7 +82,7 @@ const AdminInspectionsView: React.FC<AdminInspectionsViewProps> = ({ currentProf
       />
 
       <AdminInspectionsTable 
-        inspections={inspections} 
+        inspections={inspections || []} 
         onViewInspection={handleViewInspection}
         onDeleteInspection={handleDeleteInspection}
       />

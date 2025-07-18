@@ -24,6 +24,8 @@ import AdminForecastingView from './AdminForecastingView';
 import AdminMaintenanceView from './AdminMaintenanceView';
 import AdminTaxManagementView from './AdminTaxManagementView';
 import AdminSettingsView from './AdminSettingsView';
+import WebsiteContentOnly from './WebsiteContentOnly';
+import SettingsContentOnly from './SettingsContentOnly';
 
 interface AdminViewRendererProps {
   activeView: string;
@@ -35,8 +37,14 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
   currentProfile 
 }) => {
   console.log('AdminViewRenderer - activeView:', activeView);
+  console.log('AdminViewRenderer - currentProfile:', currentProfile);
   
-  // Render owner-specific admin views
+  // For views that need to be rendered without their main layout wrapper
+  const renderWithoutLayout = (Component: React.ComponentType<any>, props: any = {}) => {
+    return <Component {...props} currentProfile={currentProfile} />;
+  };
+  
+  // Render owner-specific admin views - all views now receive currentProfile
   switch (activeView) {
     case 'admin-dashboard':
       return <AdminDashboardView currentProfile={currentProfile} />;
@@ -59,15 +67,15 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
     case 'admin-maintenance':
       return <AdminMaintenanceView currentProfile={currentProfile} />;
     case 'admin-messages':
-      return <Messages />;
+      return renderWithoutLayout(Messages);
     case 'admin-taxes':
       return <AdminTaxManagementView currentProfile={currentProfile} />;
     case 'admin-website':
-      return <Website />;
+      return <WebsiteContentOnly currentProfile={currentProfile} />;
     case 'admin-settings':
-      return <AdminSettingsView currentProfile={currentProfile} />;
+      return <SettingsContentOnly currentProfile={currentProfile} />;
     case 'admin-help':
-      return <Help />;
+      return renderWithoutLayout(Help);
     default:
       console.log('AdminViewRenderer - No matching view for:', activeView);
       return (

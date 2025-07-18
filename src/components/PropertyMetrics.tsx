@@ -62,40 +62,6 @@ const PropertyMetrics: React.FC = () => {
     }
   };
 
-  // Calculer le taux d'occupation dynamique basé sur les chambres
-  const calculateDynamicOccupancyRate = () => {
-    let totalUnits = 0;
-    let occupiedUnits = 0;
-
-    properties.forEach(property => {
-      const activeRoommates = roommates.filter(roommate => 
-        roommate.property === property.title && roommate.status === 'Actif'
-      );
-      
-      const activeTenants = tenants.filter(tenant =>
-        tenant.property === property.title && tenant.status === 'Actif'
-      );
-
-      if (property.locationType === 'Colocation') {
-        // Pour les colocations, compter les chambres
-        const totalRooms = property.totalRooms || 0;
-        const occupiedRooms = activeRoommates.length;
-        
-        totalUnits += totalRooms;
-        occupiedUnits += occupiedRooms;
-      } else {
-        // Pour les locations classiques, compter les propriétés
-        totalUnits += 1;
-        const totalOccupants = activeTenants.length + activeRoommates.length;
-        if (totalOccupants > 0) {
-          occupiedUnits += 1;
-        }
-      }
-    });
-
-    return totalUnits > 0 ? Math.round((occupiedUnits / totalUnits) * 100) : 0;
-  };
-
   // Calculer les propriétés occupées avec le statut réel
   const occupiedProperties = properties.filter(p => {
     const realStatus = getPropertyStatus(p);
@@ -144,8 +110,8 @@ const PropertyMetrics: React.FC = () => {
   
   const availableColocationRooms = totalColocationRooms - occupiedColocationRooms;
 
-  // Utiliser le taux d'occupation dynamique
-  const occupancyRate = calculateDynamicOccupancyRate();
+  // Calculer le taux d'occupation global
+  const occupancyRate = totalProperties > 0 ? Math.round((occupiedProperties / totalProperties) * 100) : 0;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -170,7 +136,7 @@ const PropertyMetrics: React.FC = () => {
         <CardContent>
           <div className="text-2xl font-bold">{occupancyRate}%</div>
           <p className="text-xs text-muted-foreground">
-            Taux d'occupation des chambres et propriétés
+            {t('properties.metrics.occupancyDescription', { rate: occupancyRate })}
           </p>
         </CardContent>
       </Card>

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { User, Building2, Calendar, FileText, Eye, Trash2 } from 'lucide-react';
+import { User, Building2, Calendar, FileText } from 'lucide-react';
 
 interface Contract {
   id: string;
@@ -74,12 +74,6 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
   const englishType = getTypeInEnglish(contract.type);
   const translatedTitle = getTranslatedTitle(contract.title);
 
-  const handleDelete = () => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce contrat ?')) {
-      onDelete(contract.id);
-    }
-  };
-
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardContent className="p-6">
@@ -128,27 +122,6 @@ const ContractCard = ({ contract, onEdit, onDelete, onViewDetails, onSign }: Con
                 Jurisdiction {contract.jurisdiction}
               </span>
             </div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-2 pt-4 border-t">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onViewDetails(contract)}
-              className="flex-1"
-            >
-              <Eye className="h-4 w-4 mr-2" />
-              Voir détails
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDelete}
-              className="text-red-600 hover:text-red-700 hover:bg-red-50"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
           </div>
         </div>
       </CardContent>

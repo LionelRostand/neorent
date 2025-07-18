@@ -41,89 +41,171 @@ export const createQuickActionsConfig = (
   currentLanguage?: string
 ): QuickAction[] => {
   
-  // Helper function to get localized text
-  const getText = (actionId: string, textType: 'title' | 'description' | 'preview') => {
+  // Helper function to get localized text from translation files
+  const getTranslatedText = (actionId: string, textType: 'title' | 'description' | 'preview') => {
     const lang = currentLanguage || 'fr';
     
-    const translations: Record<string, Record<string, Record<string, string>>> = {
+    // Use i18n translation keys based on navigation translations
+    const translationKeys: Record<string, string> = {
+      dashboard: 'navigation.dashboard',
+      properties: 'navigation.properties',
+      tenants: 'navigation.tenants',
+      roommates: 'navigation.roommates',
+      contracts: 'navigation.contracts',
+      inspections: 'navigation.inspections',
+      'rent-management': 'navigation.rentManagement',
+      'rental-charges': 'navigation.rentalCharges',
+      forecasting: 'navigation.forecasting',
+      maintenance: 'navigation.maintenance',
+      messages: 'navigation.messages',
+      taxes: 'navigation.taxes',
+      website: 'navigation.website',
+      settings: 'navigation.settings',
+      help: 'navigation.help'
+    };
+
+    // For title, use navigation translations
+    if (textType === 'title') {
+      const key = translationKeys[actionId];
+      return key ? t(key) : actionId;
+    }
+
+    // For description and preview, use localized fallbacks
+    const descriptions: Record<string, Record<string, string>> = {
       dashboard: {
-        title: { fr: 'Tableau de bord', en: 'Dashboard' },
-        description: { fr: 'Vue d\'ensemble', en: 'Overview' },
-        preview: { fr: `${ownerProperties.length} biens`, en: `${ownerProperties.length} properties` }
+        fr: 'Vue d\'ensemble',
+        en: 'Overview'
       },
       properties: {
-        title: { fr: 'Propriétés', en: 'Properties' },
-        description: { fr: 'Gestion des biens', en: 'Property management' },
-        preview: { fr: `${ownerProperties.length} propriétés`, en: `${ownerProperties.length} properties` }
+        fr: 'Gestion des biens',
+        en: 'Property management'
       },
       tenants: {
-        title: { fr: 'Locataires', en: 'Tenants' },
-        description: { fr: 'Gestion locataires', en: 'Tenant management' },
-        preview: { fr: `${activeTenants.length} actifs`, en: `${activeTenants.length} active` }
+        fr: 'Gestion locataires',
+        en: 'Tenant management'
       },
       roommates: {
-        title: { fr: 'Colocataires', en: 'Roommates' },
-        description: { fr: 'Gestion colocataires', en: 'Roommate management' },
-        preview: { fr: 'Gérer les colocataires', en: 'Manage roommates' }
+        fr: 'Gestion colocataires',
+        en: 'Roommate management'
       },
       contracts: {
-        title: { fr: 'Contrats', en: 'Contracts' },
-        description: { fr: 'Gestion des baux', en: 'Lease management' },
-        preview: { fr: `${expiringContractsCount} expirent bientôt`, en: `${expiringContractsCount} expiring soon` }
+        fr: 'Gestion des baux',
+        en: 'Lease management'
       },
       inspections: {
-        title: { fr: 'Inspections', en: 'Inspections' },
-        description: { fr: 'États des lieux', en: 'Property inspections' },
-        preview: { fr: 'Inspections programmées', en: 'Scheduled inspections' }
+        fr: 'États des lieux',
+        en: 'Property inspections'
       },
       'rent-management': {
-        title: { fr: 'Gestion des loyers', en: 'Rent Management' },
-        description: { fr: 'Suivi des paiements', en: 'Payment tracking' },
-        preview: { fr: `${pendingPaymentsCount} en attente`, en: `${pendingPaymentsCount} pending` }
+        fr: 'Suivi des paiements',
+        en: 'Payment tracking'
       },
       'rental-charges': {
-        title: { fr: 'Charges locatives', en: 'Rental Charges' },
-        description: { fr: 'Gestion des charges', en: 'Charges management' },
-        preview: { fr: 'Charges mensuelles', en: 'Monthly charges' }
+        fr: 'Gestion des charges',
+        en: 'Charges management'
       },
       forecasting: {
-        title: { fr: 'Prévisions', en: 'Forecasting' },
-        description: { fr: 'Analyse financière', en: 'Financial analysis' },
-        preview: { fr: 'Projections revenus', en: 'Revenue projections' }
+        fr: 'Analyse financière',
+        en: 'Financial analysis'
       },
       maintenance: {
-        title: { fr: 'Maintenance', en: 'Maintenance' },
-        description: { fr: 'Interventions', en: 'Service requests' },
-        preview: { fr: 'Demandes ouvertes', en: 'Open requests' }
+        fr: 'Interventions',
+        en: 'Service requests'
       },
       messages: {
-        title: { fr: 'Messages', en: 'Messages' },
-        description: { fr: 'Communication', en: 'Communication' },
-        preview: { fr: 'Nouveaux messages', en: 'New messages' }
+        fr: 'Communication',
+        en: 'Communication'
       },
       taxes: {
-        title: { fr: 'Fiscalité', en: 'Tax Management' },
-        description: { fr: 'Gestion fiscale', en: 'Tax management' },
-        preview: { fr: 'Déclarations', en: 'Tax returns' }
+        fr: 'Gestion fiscale',
+        en: 'Tax management'
       },
       website: {
-        title: { fr: 'Site web', en: 'Website' },
-        description: { fr: 'Gestion site', en: 'Website management' },
-        preview: { fr: 'Configuration', en: 'Configuration' }
+        fr: 'Gestion site',
+        en: 'Website management'
       },
       settings: {
-        title: { fr: 'Paramètres', en: 'Settings' },
-        description: { fr: 'Configuration', en: 'Configuration' },
-        preview: { fr: 'Système', en: 'System' }
+        fr: 'Configuration',
+        en: 'Configuration'
       },
       help: {
-        title: { fr: 'Aide', en: 'Help' },
-        description: { fr: 'Support', en: 'Support' },
-        preview: { fr: 'Documentation', en: 'Documentation' }
+        fr: 'Support',
+        en: 'Support'
       }
     };
 
-    return translations[actionId]?.[textType]?.[lang] || translations[actionId]?.[textType]?.['fr'] || '';
+    const previews: Record<string, Record<string, string>> = {
+      dashboard: {
+        fr: `${ownerProperties.length} biens`,
+        en: `${ownerProperties.length} properties`
+      },
+      properties: {
+        fr: `${ownerProperties.length} propriétés`,
+        en: `${ownerProperties.length} properties`
+      },
+      tenants: {
+        fr: `${activeTenants.length} actifs`,
+        en: `${activeTenants.length} active`
+      },
+      roommates: {
+        fr: 'Gérer les colocataires',
+        en: 'Manage roommates'
+      },
+      contracts: {
+        fr: `${expiringContractsCount} expirent bientôt`,
+        en: `${expiringContractsCount} expiring soon`
+      },
+      inspections: {
+        fr: 'Inspections programmées',
+        en: 'Scheduled inspections'
+      },
+      'rent-management': {
+        fr: `${pendingPaymentsCount} en attente`,
+        en: `${pendingPaymentsCount} pending`
+      },
+      'rental-charges': {
+        fr: 'Charges mensuelles',
+        en: 'Monthly charges'
+      },
+      forecasting: {
+        fr: 'Projections revenus',
+        en: 'Revenue projections'
+      },
+      maintenance: {
+        fr: 'Demandes ouvertes',
+        en: 'Open requests'
+      },
+      messages: {
+        fr: 'Nouveaux messages',
+        en: 'New messages'
+      },
+      taxes: {
+        fr: 'Déclarations',
+        en: 'Tax returns'
+      },
+      website: {
+        fr: 'Configuration',
+        en: 'Configuration'
+      },
+      settings: {
+        fr: 'Système',
+        en: 'System'
+      },
+      help: {
+        fr: 'Documentation',
+        en: 'Documentation'
+      }
+    };
+
+    if (textType === 'description') {
+      return descriptions[actionId]?.[lang] || descriptions[actionId]?.['fr'] || '';
+    }
+
+    if (textType === 'preview') {
+      return previews[actionId]?.[lang] || previews[actionId]?.['fr'] || '';
+    }
+
+    return '';
   };
   
   const baseActions: Record<string, Omit<QuickAction, 'title' | 'description' | 'preview'>> = {
@@ -316,9 +398,9 @@ export const createQuickActionsConfig = (
 
       return {
         ...baseAction,
-        title: getText(actionConfig.id, 'title'),
-        description: getText(actionConfig.id, 'description'),
-        preview: getText(actionConfig.id, 'preview'),
+        title: getTranslatedText(actionConfig.id, 'title'),
+        description: getTranslatedText(actionConfig.id, 'description'),
+        preview: getTranslatedText(actionConfig.id, 'preview'),
         color: actionConfig.color || baseAction.color,
       };
     })

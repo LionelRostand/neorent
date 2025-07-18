@@ -1,0 +1,28 @@
+
+{
+  "quickActions": {
+    "title": "Actions rapides",
+    "subtitle": "Accédez rapidement aux fonctionnalités principales",
+    "addProperty": "Ajouter une propriété",
+    "addTenant": "Ajouter un locataire",
+    "addRoommate": "Ajouter un colocataire",
+    "recordPayment": "Enregistrer un paiement",
+    "scheduleInspection": "Programmer une inspection",
+    "sendMessage": "Envoyer un message",
+    "generateReport": "Générer un rapport",
+    "viewAll": "Voir tout",
+    "manageProperties": "Gérer les propriétés",
+    "manageTenants": "Gérer les locataires",
+    "manageRoommates": "Gérer les colocataires",
+    "manageContracts": "Gérer les contrats",
+    "manageInspections": "Gérer les inspections",
+    "manageRent": "Gérer les loyers",
+    "manageCharges": "Gérer les charges",
+    "manageMaintenance": "Gérer la maintenance",
+    "manageMessages": "Gérer les messages",
+    "manageTaxes": "Gérer la fiscalité",
+    "manageWebsite": "Gérer le site web",
+    "manageSettings": "Gérer les paramètres",
+    "getHelp": "Obtenir de l'aide"
+  }
+}

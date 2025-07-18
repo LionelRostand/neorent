@@ -40,7 +40,7 @@ const QuickActionConfigModal: React.FC<QuickActionConfigModalProps> = ({
   action,
   onSave
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [formData, setFormData] = useState<QuickActionConfig | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -58,21 +58,13 @@ const QuickActionConfigModal: React.FC<QuickActionConfigModalProps> = ({
         fr: 'Configurer l\'action rapide',
         en: 'Configure Quick Action'
       },
-      titleFr: {
-        fr: 'Titre (Français)',
-        en: 'Title (French)'
+      titleKey: {
+        fr: 'Clé de titre',
+        en: 'Title Key'
       },
-      titleEn: {
-        fr: 'Titre (Anglais)',
-        en: 'Title (English)'
-      },
-      descriptionFr: {
-        fr: 'Description (Français)',
-        en: 'Description (French)'
-      },
-      descriptionEn: {
-        fr: 'Description (Anglais)',
-        en: 'Description (English)'
+      descriptionKey: {
+        fr: 'Clé de description',
+        en: 'Description Key'
       },
       color: {
         fr: 'Couleur',
@@ -116,53 +108,35 @@ const QuickActionConfigModal: React.FC<QuickActionConfigModalProps> = ({
 
         <div className="space-y-4">
           <div>
-            <Label htmlFor="title-fr">{getLocalizedText('titleFr')}</Label>
+            <Label htmlFor="title-key">{getLocalizedText('titleKey')}</Label>
             <Input
-              id="title-fr"
-              value={formData.title.fr}
+              id="title-key"
+              value={formData.titleKey}
               onChange={(e) => setFormData({
                 ...formData,
-                title: { ...formData.title, fr: e.target.value }
+                titleKey: e.target.value
               })}
+              placeholder="quickActions.dashboard.title"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Clé de traduction pour le titre (ex: quickActions.dashboard.title)
+            </p>
           </div>
 
           <div>
-            <Label htmlFor="title-en">{getLocalizedText('titleEn')}</Label>
+            <Label htmlFor="description-key">{getLocalizedText('descriptionKey')}</Label>
             <Input
-              id="title-en"
-              value={formData.title.en}
+              id="description-key"
+              value={formData.descriptionKey}
               onChange={(e) => setFormData({
                 ...formData,
-                title: { ...formData.title, en: e.target.value }
+                descriptionKey: e.target.value
               })}
+              placeholder="quickActions.dashboard.description"
             />
-          </div>
-
-          <div>
-            <Label htmlFor="desc-fr">{getLocalizedText('descriptionFr')}</Label>
-            <Textarea
-              id="desc-fr"
-              value={formData.description.fr}
-              onChange={(e) => setFormData({
-                ...formData,
-                description: { ...formData.description, fr: e.target.value }
-              })}
-              rows={2}
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="desc-en">{getLocalizedText('descriptionEn')}</Label>
-            <Textarea
-              id="desc-en"
-              value={formData.description.en}
-              onChange={(e) => setFormData({
-                ...formData,
-                description: { ...formData.description, en: e.target.value }
-              })}
-              rows={2}
-            />
+            <p className="text-xs text-gray-500 mt-1">
+              Clé de traduction pour la description (ex: quickActions.dashboard.description)
+            </p>
           </div>
 
           <div>

@@ -140,14 +140,8 @@ const QuickActionsManager: React.FC = () => {
     try {
       const newAction = {
         id: menuPath.replace('/admin/', ''),
-        title: {
-          fr: menuItem.label,
-          en: menuItem.labelEn || menuItem.label
-        },
-        description: {
-          fr: `Accéder à ${menuItem.label}`,
-          en: `Access ${menuItem.labelEn || menuItem.label}`
-        },
+        titleKey: `quickActions.${menuItem.label.toLowerCase()}.title`,
+        descriptionKey: `quickActions.${menuItem.label.toLowerCase()}.description`,
         icon: menuItem.icon?.name || 'Settings',
         color: getColorForMenu(menuPath),
         enabled: true,
@@ -204,10 +198,10 @@ const QuickActionsManager: React.FC = () => {
         <Button
           variant="outline"
           size="sm"
-          className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white border-green-400"
+          className="w-full bg-green-500 hover:bg-green-600 text-white border-green-400 text-xs md:text-sm py-2 px-3"
         >
-          <Settings className="h-4 w-4 mr-2" />
-          {getLocalizedText('manageActions')}
+          <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+          <span className="truncate">{getLocalizedText('manageActions')}</span>
         </Button>
       </DialogTrigger>
       

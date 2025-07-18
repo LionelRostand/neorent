@@ -9,7 +9,7 @@
       }
     },
     "properties": {
-      "title": "Propriétés",
+      "title": "Propriétés", 
       "meta": {
         "title": "Nos Propriétés | Plateforme Immobilière",
         "description": "Découvrez notre sélection de propriétés disponibles"
@@ -18,7 +18,7 @@
     "about": {
       "title": "À Propos",
       "meta": {
-        "title": "À Propos de Nous | Plateforme Immobilière",
+        "title": "À Propos de Nous | Plateforme Immobilière", 
         "description": "Découvrez notre équipe et notre mission dans l'immobilier"
       }
     },
@@ -37,7 +37,7 @@
       }
     },
     "legalNotice": {
-      "title": "Mentions Légales",
+      "title": "Mentions Légales", 
       "meta": {
         "title": "Mentions Légales | Plateforme Immobilière",
         "description": "Informations légales et réglementaires"
@@ -46,7 +46,7 @@
     "privacyPolicy": {
       "title": "Politique de Confidentialité",
       "meta": {
-        "title": "Politique de Confidentialité | Plateforme Immobilière",
+        "title": "Politique de Confidentialité | Plateforme Immobilière", 
         "description": "Notre politique de protection des données personnelles"
       }
     },
@@ -67,7 +67,7 @@
     "ownerSpace": {
       "title": "Espace Propriétaire",
       "meta": {
-        "title": "Espace Propriétaire | Plateforme Immobilière",
+        "title": "Espace Propriétaire | Plateforme Immobilière", 
         "description": "Gérez vos biens immobiliers"
       }
     },
@@ -88,7 +88,7 @@
     "tenants": {
       "title": "Locataires",
       "meta": {
-        "title": "Gestion des Locataires | Administration",
+        "title": "Gestion des Locataires | Administration", 
         "description": "Gérez vos locataires et leurs informations"
       }
     },
@@ -96,7 +96,7 @@
       "title": "Colocataires",
       "meta": {
         "title": "Gestion des Colocataires | Administration",
-        "description": "Gérez les colocations et colocataires"
+        "description": "Gérez les logements partagés et colocataires"
       }
     },
     "contracts": {
@@ -109,14 +109,14 @@
     "leases": {
       "title": "Baux",
       "meta": {
-        "title": "Gestion des Baux | Administration",
+        "title": "Gestion des Baux | Administration", 
         "description": "Gérez les baux et locations"
       }
     },
     "inspections": {
-      "title": "États des Lieux",
+      "title": "Inspections des Propriétés",
       "meta": {
-        "title": "États des Lieux | Administration",
+        "title": "Inspections des Propriétés | Administration",
         "description": "Gérez les inspections et états des lieux"
       }
     },
@@ -124,7 +124,7 @@
       "title": "Gestion des Loyers",
       "meta": {
         "title": "Gestion des Loyers | Administration",
-        "description": "Suivez et gérez les paiements de loyers"
+        "description": "Suivez et gérez les paiements de loyer"
       }
     },
     "rentalCharges": {

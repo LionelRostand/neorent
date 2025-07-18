@@ -2,7 +2,7 @@
 {
   "publicSite": {
     "home": "Home",
-    "properties": "Properties",
+    "properties": "Properties", 
     "login": "Login",
     "hero": {
       "title": "Simplify Your",

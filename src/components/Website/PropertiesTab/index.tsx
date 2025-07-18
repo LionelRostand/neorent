@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { useMongoProperties, useMongoOwnerProperties, useWebsiteSettings, useSaveWebsiteSettings } from '@/hooks/useMongoProperties';
+import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { toast } from 'sonner';
 import { PropertiesList } from './PropertiesList';
 import { PropertyStatsCards } from './PropertyStatsCards';
@@ -9,22 +10,20 @@ import { PropertyEditPanel } from './PropertyEditPanel';
 
 const PropertiesTab = () => {
   const { userProfile } = useAuth();
-  const { data: ownerProperties = [], isLoading: loadingOwnerProperties } = useMongoOwnerProperties(userProfile?.id);
-  const { data: allProperties = [], isLoading: loadingAllProperties } = useMongoProperties();
-  const { data: websiteSettings = [], isLoading: loadingSettings } = useWebsiteSettings();
-  const saveWebsiteSettingsMutation = useSaveWebsiteSettings();
-  
+  const { properties: ownerProperties } = useOwnerData(userProfile);
+  const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
+  const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
   // Combiner toutes les propriétés disponibles (owner + admin)
   const allAvailableProperties = [
-    ...ownerProperties,
-    ...allProperties
+    ...(ownerProperties || []),
+    ...(allAdminProperties || [])
   ];
 
-  // Supprimer les doublons basés sur l'ID MongoDB (_id)
+  // Supprimer les doublons basés sur l'ID
   const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
-    index === self.findIndex((p) => p._id === property._id)
+    index === self.findIndex((p) => p.id === property.id)
   );
 
   // États pour gérer la visibilité et les descriptions des propriétés sur le site
@@ -34,20 +33,18 @@ const PropertiesTab = () => {
     featured: boolean;
   }}>({});
 
-  // Charger les paramètres depuis l'API MongoDB
+  // Charger les paramètres sauvegardés depuis le localStorage
   useEffect(() => {
-    if (websiteSettings.length > 0) {
-      const settingsMap: any = {};
-      websiteSettings.forEach((setting) => {
-        settingsMap[setting.propertyId] = {
-          visible: setting.visible,
-          description: setting.description,
-          featured: setting.featured
-        };
-      });
-      setPropertySettings(settingsMap);
+    try {
+      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
+      if (savedSettings) {
+        const parsedSettings = JSON.parse(savedSettings);
+        setPropertySettings(parsedSettings);
+      }
+    } catch (error) {
+      console.error('Error loading saved settings:', error);
     }
-  }, [websiteSettings]);
+  }, []);
 
   // Initialiser les paramètres des propriétés avec visibilité activée par défaut
   useEffect(() => {
@@ -57,10 +54,10 @@ const PropertiesTab = () => {
         let hasNewProperties = false;
         
         uniqueProperties.forEach((property) => {
-          // Utiliser _id au lieu de id pour MongoDB
-          if (!newSettings[property._id]) {
-            newSettings[property._id] = {
-              visible: true,
+          // Initialiser seulement si la propriété n'existe pas déjà
+          if (!newSettings[property.id]) {
+            newSettings[property.id] = {
+              visible: true, // Toujours activer la visibilité par défaut
               description: '',
               featured: false
             };
@@ -78,16 +75,12 @@ const PropertiesTab = () => {
   }, [uniqueProperties.length]);
 
   const handleSaveWebsiteSettings = async () => {
+    setIsSaving(true);
     try {
-      // Convertir les paramètres en format pour l'API
-      const settingsArray = Object.entries(propertySettings).map(([propertyId, settings]) => ({
-        propertyId,
-        visible: settings.visible,
-        description: settings.description,
-        featured: settings.featured
-      }));
-
-      await saveWebsiteSettingsMutation.mutateAsync(settingsArray);
+      // Sauvegarder dans le localStorage
+      localStorage.setItem('propertyWebsiteSettings', JSON.stringify(propertySettings));
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       
@@ -95,12 +88,14 @@ const PropertiesTab = () => {
         description: `${visibleCount} propriété(s) sera(ont) affichée(s) sur votre site web public`
       });
       
-      console.log('Settings saved to MongoDB:', propertySettings);
+      console.log('Settings saved to localStorage:', propertySettings);
     } catch (error) {
       console.error('Error saving settings:', error);
       toast.error('Erreur lors de la sauvegarde', {
         description: 'Veuillez réessayer'
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -151,17 +146,15 @@ const PropertiesTab = () => {
   };
 
   // Filtrer les propriétés visibles pour les statistiques
-  const visibleProperties = uniqueProperties?.filter(p => propertySettings[p._id]?.visible) || [];
-  const featuredProperties = uniqueProperties?.filter(p => propertySettings[p._id]?.featured) || [];
+  const visibleProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.visible) || [];
+  const featuredProperties = uniqueProperties?.filter(p => propertySettings[p.id]?.featured) || [];
 
   // Afficher un état de chargement si nécessaire
-  const isLoading = loadingOwnerProperties || loadingAllProperties || loadingSettings;
-  
-  if (isLoading) {
+  if (loadingProperties) {
     return (
       <div className="space-y-4 md:space-y-6">
         <div className="text-center py-8">
-          <p>Chargement des propriétés depuis MongoDB...</p>
+          <p>Chargement des propriétés...</p>
         </div>
       </div>
     );
@@ -172,11 +165,11 @@ const PropertiesTab = () => {
       {/* En-tête avec statistiques */}
       <PropertyStatsCards
         uniqueProperties={uniqueProperties}
-        ownerProperties={ownerProperties}
-        allAdminProperties={allProperties}
+        ownerProperties={ownerProperties || []}
+        allAdminProperties={allAdminProperties || []}
         visibleProperties={visibleProperties}
         featuredProperties={featuredProperties}
-        isSaving={saveWebsiteSettingsMutation.isPending}
+        isSaving={isSaving}
         onSave={handleSaveWebsiteSettings}
       />
 

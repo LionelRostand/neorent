@@ -1,0 +1,28 @@
+
+{
+  "quickActions": {
+    "title": "Quick Actions",
+    "subtitle": "Quick access to main features",
+    "addProperty": "Add Property",
+    "addTenant": "Add Tenant",
+    "addRoommate": "Add Roommate",
+    "recordPayment": "Record Payment",
+    "scheduleInspection": "Schedule Inspection",
+    "sendMessage": "Send Message",
+    "generateReport": "Generate Report",
+    "viewAll": "View All",
+    "manageProperties": "Manage Properties",
+    "manageTenants": "Manage Tenants",
+    "manageRoommates": "Manage Roommates",
+    "manageContracts": "Manage Contracts",
+    "manageInspections": "Manage Inspections",
+    "manageRent": "Manage Rent",
+    "manageCharges": "Manage Charges",
+    "manageMaintenance": "Manage Maintenance",
+    "manageMessages": "Manage Messages",
+    "manageTaxes": "Manage Taxes",
+    "manageWebsite": "Manage Website",
+    "manageSettings": "Manage Settings",
+    "getHelp": "Get Help"
+  }
+}
