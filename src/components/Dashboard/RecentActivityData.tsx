@@ -12,26 +12,8 @@ export const useRecentActivityData = () => {
   const { tenants } = useFirebaseTenants();
   const { inspections } = useFirebaseInspections();
 
-  console.log('RecentActivityData - payments:', payments);
-  console.log('RecentActivityData - tenants:', tenants);
-  console.log('RecentActivityData - inspections:', inspections);
-
   const activities = useMemo(() => {
     const activityList = [];
-
-    // Check if data is arrays before processing
-    if (!Array.isArray(payments)) {
-      console.error('RecentActivityData - payments is not an array:', payments);
-      return [];
-    }
-    if (!Array.isArray(tenants)) {
-      console.error('RecentActivityData - tenants is not an array:', tenants);
-      return [];
-    }
-    if (!Array.isArray(inspections)) {
-      console.error('RecentActivityData - inspections is not an array:', inspections);
-      return [];
-    }
 
     // Paiements récents
     const recentPayments = payments
@@ -101,8 +83,6 @@ export const useRecentActivityData = () => {
         iconColor: 'bg-red-500'
       });
     });
-
-    console.log('RecentActivityData - activityList:', activityList);
 
     return activityList
       .sort((a, b) => getTimeValue(b.time) - getTimeValue(a.time))

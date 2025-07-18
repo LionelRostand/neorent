@@ -10,22 +10,22 @@
     "tenantAddress": "Adresse",
     "returnButton": "Retour",
     "owners": {
-      "management": "Gestion des Propriétaires",
+      "management": "Gestion des propriétaires",
       "description": "Gérez les propriétaires et leurs permissions",
-      "addOwner": "Ajouter un Propriétaire",
-      "editOwner": "Modifier le Propriétaire",
-      "fullName": "Nom Complet",
+      "addOwner": "Ajouter un propriétaire",
+      "editOwner": "Modifier le propriétaire",
+      "fullName": "Nom complet",
       "role": "Rôle",
       "owner": "Propriétaire",
       "administrator": "Administrateur",
       "company": "Entreprise",
-      "selectCompany": "Sélectionner une Entreprise",
-      "noCompany": "Aucune Entreprise",
-      "unknownCompany": "Entreprise Inconnue",
-      "creationDate": "Date de Création",
+      "selectCompany": "Sélectionner une entreprise",
+      "noCompany": "Aucune entreprise",
+      "unknownCompany": "Entreprise inconnue",
+      "creationDate": "Date de création",
       "permissions": "Permissions",
-      "noPermissions": "Aucune Permission",
-      "passwordStatus": "État du Mot de Passe",
+      "noPermissions": "Aucune permission",
+      "passwordStatus": "État du mot de passe",
       "actions": "Actions",
       "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce propriétaire ?",
       "addSuccess": "Propriétaire ajouté avec succès",
@@ -35,7 +35,7 @@
       "deleteSuccess": "Propriétaire supprimé avec succès",
       "deleteError": "Erreur lors de la suppression du propriétaire",
       "loading": "Chargement...",
-      "activateAccess": "Activer l'Accès"
+      "activateAccess": "Activer l'accès"
     }
   }
 }

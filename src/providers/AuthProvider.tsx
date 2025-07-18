@@ -6,7 +6,6 @@ import {
   signOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
 import { auth } from '@/lib/firebase';
 import { AuthContext } from '@/contexts/AuthContext';
 import { useUserProfileManager } from '@/hooks/useUserProfileManager';

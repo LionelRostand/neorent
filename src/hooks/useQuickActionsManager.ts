@@ -1,28 +1,27 @@
+
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { useTranslation } from 'react-i18next';
 
 export interface QuickActionConfig {
   id: string;
-  titleKey: string; // Changed to use translation keys
-  descriptionKey: string; // Changed to use translation keys
+  title: { fr: string; en: string };
+  description: { fr: string; en: string };
   icon: string;
   color: string;
   enabled: boolean;
   order: number;
-  action: string;
-  actionValue: string;
-  hiddenFromSidebar?: boolean;
+  action: string; // action type like 'navigate' or 'dialog'
+  actionValue: string; // route or dialog name
 }
 
 export const defaultQuickActions: QuickActionConfig[] = [
   {
     id: 'dashboard',
-    titleKey: 'quickActions.dashboard.title',
-    descriptionKey: 'quickActions.dashboard.description',
+    title: { fr: 'Tableau de bord', en: 'Dashboard' },
+    description: { fr: 'Vue d\'ensemble', en: 'Overview' },
     icon: 'LayoutDashboard',
     color: 'bg-slate-500',
     enabled: true,
@@ -32,9 +31,9 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'property',
-    titleKey: 'quickActions.property.title',
-    descriptionKey: 'quickActions.property.description',
-    icon: 'Building',
+    title: { fr: 'Nouvelle propriété', en: 'New Property' },
+    description: { fr: 'Ajouter un bien', en: 'Add a property' },
+    icon: 'Plus',
     color: 'bg-blue-500',
     enabled: true,
     order: 2,
@@ -43,9 +42,9 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'contract',
-    titleKey: 'quickActions.contract.title',
-    descriptionKey: 'quickActions.contract.description',
-    icon: 'FileCheck',
+    title: { fr: 'Nouveau contrat', en: 'New Contract' },
+    description: { fr: 'Créer un bail', en: 'Create a lease' },
+    icon: 'FileText',
     color: 'bg-yellow-500',
     enabled: true,
     order: 3,
@@ -54,49 +53,26 @@ export const defaultQuickActions: QuickActionConfig[] = [
   },
   {
     id: 'roommate',
-    titleKey: 'quickActions.roommate.title',
-    descriptionKey: 'quickActions.roommate.description',
+    title: { fr: 'Ajouter locataire', en: 'Add Tenant' },
+    description: { fr: 'Enregistrer un locataire', en: 'Register a tenant' },
     icon: 'Users',
     color: 'bg-purple-500',
     enabled: true,
     order: 4,
     action: 'dialog',
     actionValue: 'roommate'
-  },
-  {
-    id: 'website',
-    titleKey: 'quickActions.website.title',
-    descriptionKey: 'quickActions.website.description',
-    icon: 'Globe',
-    color: 'bg-violet-500',
-    enabled: true,
-    order: 5,
-    action: 'navigate',
-    actionValue: '/admin/website'
-  },
-  {
-    id: 'settings',
-    titleKey: 'quickActions.settings.title',
-    descriptionKey: 'quickActions.settings.description',
-    icon: 'Settings',
-    color: 'bg-gray-500',
-    enabled: true,
-    order: 6,
-    action: 'navigate',
-    actionValue: '/admin/settings'
   }
 ];
 
 export const useQuickActionsManager = () => {
   const { userType, user } = useAuth();
   const { toast } = useToast();
-  const { t } = useTranslation();
   const [quickActions, setQuickActions] = useState<QuickActionConfig[]>(defaultQuickActions);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const isAdmin = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
+  const isAdmin = userType === 'admin';
 
   useEffect(() => {
     loadQuickActions();
@@ -133,6 +109,11 @@ export const useQuickActionsManager = () => {
     } catch (error) {
       console.error('Error loading quick actions:', error);
       setQuickActions(defaultQuickActions);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors du chargement des actions rapides, utilisation des actions par défaut",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -140,12 +121,20 @@ export const useQuickActionsManager = () => {
 
   const saveQuickActions = async (actions: QuickActionConfig[]) => {
     if (!isAdmin) {
-      console.error('User is not admin, cannot save quick actions');
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent modifier cette configuration",
+        variant: "destructive",
+      });
       return false;
     }
 
     if (!user) {
-      console.error('No user found');
+      toast({
+        title: "Erreur",
+        description: "Utilisateur non authentifié",
+        variant: "destructive",
+      });
       return false;
     }
 
@@ -160,12 +149,18 @@ export const useQuickActionsManager = () => {
       }, { merge: true });
 
       setQuickActions(actions);
-      setRefreshKey(Date.now());
+      setRefreshKey(prev => prev + 1);
       
-      console.log('Quick actions saved successfully');
+      console.log('Actions saved successfully, new refreshKey:', refreshKey + 1);
+      
       return true;
     } catch (error) {
       console.error('Error saving quick actions:', error);
+      toast({
+        title: "Erreur de permissions",
+        description: "Vérifiez les règles Firestore et vos permissions administrateur",
+        variant: "destructive",
+      });
       return false;
     } finally {
       setSaving(false);
@@ -174,7 +169,11 @@ export const useQuickActionsManager = () => {
 
   const toggleAction = async (actionId: string) => {
     if (!isAdmin) {
-      console.error('User is not admin, cannot toggle action');
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent modifier les actions",
+        variant: "destructive",
+      });
       return false;
     }
 
@@ -190,7 +189,11 @@ export const useQuickActionsManager = () => {
 
   const removeAction = async (actionId: string) => {
     if (!isAdmin) {
-      console.error('User is not admin, cannot remove action');
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent supprimer des actions",
+        variant: "destructive",
+      });
       return false;
     }
 
@@ -203,12 +206,22 @@ export const useQuickActionsManager = () => {
     }));
     
     const success = await saveQuickActions(reorderedActions);
+    if (success) {
+      toast({
+        title: "Succès",
+        description: "Action rapide supprimée",
+      });
+    }
     return success;
   };
 
   const updateAction = async (updatedAction: QuickActionConfig) => {
     if (!isAdmin) {
-      console.error('User is not admin, cannot update action');
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent modifier les actions",
+        variant: "destructive",
+      });
       return false;
     }
 
@@ -219,24 +232,38 @@ export const useQuickActionsManager = () => {
     );
     
     const success = await saveQuickActions(updatedActions);
+    if (success) {
+      toast({
+        title: "Succès",
+        description: "Action rapide mise à jour",
+      });
+    }
     return success;
   };
 
   const addCustomAction = async (newAction: Omit<QuickActionConfig, 'order'>) => {
     if (!isAdmin) {
-      console.error('User is not admin, cannot add action');
+      toast({
+        title: "Erreur",
+        description: "Seuls les administrateurs peuvent ajouter des actions",
+        variant: "destructive",
+      });
       return false;
     }
 
     console.log('Adding custom action:', newAction);
     
-    // Check if action already exists
+    // Vérifier si l'action existe déjà
     const existingAction = quickActions.find(action => 
       action.id === newAction.id || action.actionValue === newAction.actionValue
     );
     
     if (existingAction) {
-      console.log('Action already exists, not adding');
+      toast({
+        title: "Information",
+        description: "Cette action existe déjà dans la liste",
+        variant: "default",
+      });
       return false;
     }
     
@@ -244,30 +271,30 @@ export const useQuickActionsManager = () => {
       ...newAction,
       order: quickActions.length + 1
     };
+    
+    console.log('Action with order:', actionWithOrder);
+    
     const updatedActions = [...quickActions, actionWithOrder];
+    console.log('Updated actions list:', updatedActions);
     
     const success = await saveQuickActions(updatedActions);
+    if (success) {
+      toast({
+        title: "Succès",
+        description: "Action rapide ajoutée avec succès",
+      });
+    }
     return success;
-  };
-
-  const getLocalizedAction = (action: QuickActionConfig) => {
-    const title = t(action.titleKey);
-    const description = t(action.descriptionKey);
-    
-    return {
-      ...action,
-      title: title !== action.titleKey ? title : action.titleKey.split('.').pop() || 'Action',
-      description: description !== action.descriptionKey ? description : action.descriptionKey.split('.').pop() || 'Description'
-    };
   };
 
   const getEnabledActions = () => {
     const enabledActions = quickActions
       .filter(action => action.enabled === true)
-      .sort((a, b) => a.order - b.order)
-      .map(action => getLocalizedAction(action));
+      .sort((a, b) => a.order - b.order);
     
-    console.log('Getting enabled actions with translations:', enabledActions);
+    console.log('Getting enabled actions:', enabledActions);
+    console.log('All actions:', quickActions);
+    console.log('Current refresh key:', refreshKey);
     return enabledActions;
   };
 
@@ -294,7 +321,6 @@ export const useQuickActionsManager = () => {
     addCustomAction,
     removeAction,
     getEnabledActions,
-    refreshKey,
-    getLocalizedAction
+    refreshKey
   };
 };

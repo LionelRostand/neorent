@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
 import { AnalyticsHeader } from './AnalyticsHeader';
-import { AnalyticsPermissionAlert } from './AnalyticsPermissionAlert';
 import { TrackingStatus } from './TrackingStatus';
 import { StatsCards } from './StatsCards';
 import { WeeklyChart } from './WeeklyChart';
@@ -13,7 +12,6 @@ const AnalyticsTab = () => {
     isLoading, 
     hasRealData, 
     autoRefresh,
-    permissionError,
     fetchAnalyticsData,
     toggleAutoRefresh
   } = useAnalyticsTracking();
@@ -26,8 +24,6 @@ const AnalyticsTab = () => {
         autoRefresh={autoRefresh}
         onToggleAutoRefresh={toggleAutoRefresh}
       />
-      
-      <AnalyticsPermissionAlert hasPermissionError={permissionError} />
       
       <TrackingStatus hasRealData={hasRealData} />
 

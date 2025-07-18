@@ -22,7 +22,7 @@ const PaymentConfigurationTab = () => {
       icon: CreditCard,
       name: t('help.paymentMethods.creditCard.name'),
       description: t('help.paymentMethods.creditCard.description'),
-      steps: t('help.paymentMethods.creditCard.steps', { returnObjects: true }),
+      steps: t('help.paymentMethods.creditCard.steps', { returnObjects: true }) as string[],
       status: 'available',
       complexity: 'easy'
     },
@@ -30,7 +30,7 @@ const PaymentConfigurationTab = () => {
       icon: Building2,
       name: t('help.paymentMethods.bankTransfer.name'),
       description: t('help.paymentMethods.bankTransfer.description'),
-      steps: t('help.paymentMethods.bankTransfer.steps', { returnObjects: true }),
+      steps: t('help.paymentMethods.bankTransfer.steps', { returnObjects: true }) as string[],
       status: 'available',
       complexity: 'medium'
     },
@@ -38,7 +38,7 @@ const PaymentConfigurationTab = () => {
       icon: Smartphone,
       name: t('help.paymentMethods.mobile.name'),
       description: t('help.paymentMethods.mobile.description'),
-      steps: t('help.paymentMethods.mobile.steps', { returnObjects: true }),
+      steps: t('help.paymentMethods.mobile.steps', { returnObjects: true }) as string[],
       status: 'coming-soon',
       complexity: 'easy'
     },
@@ -46,7 +46,7 @@ const PaymentConfigurationTab = () => {
       icon: Globe,
       name: t('help.paymentMethods.paypal.name'),
       description: t('help.paymentMethods.paypal.description'),
-      steps: t('help.paymentMethods.paypal.steps', { returnObjects: true }),
+      steps: t('help.paymentMethods.paypal.steps', { returnObjects: true }) as string[],
       status: 'available',
       complexity: 'easy'
     }
@@ -87,18 +87,6 @@ const PaymentConfigurationTab = () => {
     );
   };
 
-  // Fonction pour s'assurer que steps est un tableau
-  const ensureArray = (steps: any): string[] => {
-    if (Array.isArray(steps)) {
-      return steps;
-    }
-    // Si c'est une chaîne, on la divise ou on retourne un tableau par défaut
-    if (typeof steps === 'string') {
-      return [steps];
-    }
-    return ['Configuration en cours...'];
-  };
-
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -113,7 +101,6 @@ const PaymentConfigurationTab = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {paymentMethods.map((method, index) => {
           const Icon = method.icon;
-          const methodSteps = ensureArray(method.steps);
           
           return (
             <Card key={index} className="h-full">
@@ -142,7 +129,7 @@ const PaymentConfigurationTab = () => {
                     {t('help.configurationSteps')}
                   </h4>
                   <ol className="list-decimal list-inside space-y-1 text-sm text-gray-700">
-                    {methodSteps.map((step, stepIndex) => (
+                    {method.steps.map((step, stepIndex) => (
                       <li key={stepIndex} className="leading-relaxed">
                         {step}
                       </li>

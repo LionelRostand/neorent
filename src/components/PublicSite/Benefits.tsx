@@ -8,16 +8,7 @@ import { Button } from '@/components/ui/button';
 const Benefits: React.FC = () => {
   const { t } = useTranslation();
 
-  // Fallback si les traductions ne sont pas disponibles
-  const benefits = t('publicSite.benefits.list', { returnObjects: true });
-  const benefitsArray = Array.isArray(benefits) ? benefits : [
-    "Gestion centralisée de votre portefeuille immobilier",
-    "Collecte automatisée des loyers et suivi des paiements",
-    "Outils complets de sélection des locataires",
-    "Rapports financiers et analyses en temps réel",
-    "Interface mobile pour une gestion nomade",
-    "Support client 24/7 et assistance personnalisée"
-  ];
+  const benefits = t('publicSite.benefits.list', { returnObjects: true }) as string[];
 
   return (
     <section className="py-20 bg-gray-50">
@@ -25,13 +16,13 @@ const Benefits: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              {t('publicSite.benefits.title', 'Pourquoi choisir notre plateforme ?')}
+              {t('publicSite.benefits.title')}
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              {t('publicSite.benefits.description', 'Rejoignez des milliers de gestionnaires immobiliers qui font confiance à notre plateforme pour optimiser leurs opérations.')}
+              {t('publicSite.benefits.description')}
             </p>
             <ul className="space-y-4 mb-8">
-              {benefitsArray.map((benefit, index) => (
+              {benefits.map((benefit, index) => (
                 <li key={index} className="flex items-start">
                   <Check className="h-6 w-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
                   <span className="text-gray-700">{benefit}</span>
@@ -40,7 +31,7 @@ const Benefits: React.FC = () => {
             </ul>
             <Link to="/contact">
               <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3">
-                {t('publicSite.benefits.contactTitle', 'Nous contacter')}
+                {t('publicSite.benefits.contactTitle')}
               </Button>
             </Link>
           </div>
@@ -54,7 +45,7 @@ const Benefits: React.FC = () => {
                   Neo Rent Platform
                 </h3>
                 <p className="text-gray-600">
-                  Découvrez l'avenir de la gestion immobilière
+                  Experience the future of property management
                 </p>
               </div>
             </div>

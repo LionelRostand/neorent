@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -38,23 +37,6 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
     return diffDays <= 30 && diffDays > 0;
   }).length;
   const pendingPayments = payments.filter(p => p.status === 'En attente').length;
-
-  // Enhanced navigate function that handles admin paths
-  const enhancedNavigate = (path: string) => {
-    console.log('Enhanced navigate called with path:', path);
-    
-    // Since we're in OwnerSpace context, we should NOT navigate away from the owner space
-    // Instead, we should use the setActiveView function if available
-    // This function will be overridden by components that provide a setActiveView function
-    if (path.startsWith('/admin/')) {
-      console.log('Admin path detected, should use setActiveView instead of navigate');
-      // This will be handled by the component that calls this hook
-      return;
-    } else {
-      // For other paths, use the original navigate
-      navigate(path);
-    }
-  };
 
   const handlePropertySubmit = async (propertyData: any) => {
     try {
@@ -225,8 +207,8 @@ export const useOwnerQuickActions = (ownerProfile: any) => {
     openDialog,
     setOpenDialog,
     
-    // Navigation - use enhanced navigate
-    navigate: enhancedNavigate,
+    // Navigation
+    navigate,
     
     // Data
     properties,
