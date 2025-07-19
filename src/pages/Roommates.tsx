@@ -89,29 +89,15 @@ const Roommates = () => {
 
   const handleUpdateRoommate = async (id: string, updates: any) => {
     try {
-      // Si password présent pour update, faire appel à une méthode à implémenter
-      if (updates.password && updates.password.trim().length >= 6) {
-        // Ici il faudrait faire une méthode d'update du mot de passe.
-        // Firebase Auth exige que l'utilisateur soit connecté pour ce type d'action
-        // sinon il faut passer par une réinitialisation (email de reset, etc).
-        // Pour cette demo, on laisse le champ mais on ne peut update password
-        // que pour l'utilisateur connecté, donc on affiche une alerte :
-        toast({
-          title: "Mot de passe",
-          description: "La mise à jour du mot de passe nécessite une interface de réinitialisation ou que l'utilisateur soit connecté.",
-          variant: "destructive",
-        });
-        // Vous pouvez faire un reset password en envoyant un mail ici si besoin.
-        // delete updates.password pour ne pas casser la structure backend :
-        delete updates.password;
-      }
-
-      await updateRoommate(id, updates);
+      // Remove password from updates for the database
+      const { password, ...dbUpdates } = updates;
+      
+      await updateRoommate(id, dbUpdates);
       toast({
         title: "Succès",
         description: "Le colocataire a été modifié avec succès.",
       });
-      console.log('Colocataire modifié dans la collection Rent_colocataires:', { id, updates });
+      console.log('Colocataire modifié dans la collection Rent_colocataires:', { id, updates: dbUpdates });
     } catch (err) {
       console.error('Erreur lors de la modification du colocataire:', err);
       toast({

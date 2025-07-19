@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Eye, EyeOff } from 'lucide-react';
+import { useFirebaseRoommateAuth } from '@/hooks/useFirebaseRoommateAuth';
+import { useToast } from '@/hooks/use-toast';
 
 interface Roommate {
   id: string;
@@ -38,9 +40,12 @@ interface RoommateEditModalProps {
 
 const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen, onClose, onSave, properties }) => {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const [formData, setFormData] = useState<Partial<Roommate>>({});
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createRoommateAuthAccount } = useFirebaseRoommateAuth();
 
   useEffect(() => {
     if (roommate) {
@@ -49,15 +54,68 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
     }
   }, [roommate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (roommate && formData) {
+    if (!roommate || !formData) return;
+
+    setIsSubmitting(true);
+    
+    try {
       const updates = { ...formData };
-      if (password.trim().length > 0) {
-        (updates as Partial<Roommate>).password = password;
+      
+      // Si un mot de passe est fourni, créer/mettre à jour le compte Firebase Auth
+      if (password.trim().length >= 6) {
+        console.log('Creating/updating Firebase Auth account for roommate:', roommate.email);
+        
+        const authResult = await createRoommateAuthAccount({
+          id: roommate.id,
+          name: formData.name || roommate.name,
+          email: formData.email || roommate.email,
+          phone: formData.phone || roommate.phone,
+          property: formData.property || roommate.property,
+          roomNumber: formData.roomNumber || roommate.roomNumber,
+          rentAmount: formData.rentAmount || roommate.rentAmount,
+          status: formData.status || roommate.status,
+          primaryTenant: formData.primaryTenant || roommate.primaryTenant,
+          moveInDate: formData.moveInDate || roommate.moveInDate
+        }, password);
+
+        if (authResult.success) {
+          if (authResult.emailAlreadyExists) {
+            toast({
+              title: "Compte mis à jour",
+              description: "Les informations du colocataire ont été mises à jour. L'email existe déjà dans Firebase Auth.",
+              variant: "default",
+            });
+          } else {
+            toast({
+              title: "Compte créé",
+              description: "Le compte Firebase Auth a été créé avec succès. Le colocataire peut maintenant se connecter.",
+              variant: "default",
+            });
+          }
+        } else {
+          toast({
+            title: "Attention",
+            description: "Les informations ont été mises à jour mais il y a eu un problème avec la création du compte d'authentification.",
+            variant: "destructive",
+          });
+        }
       }
+
+      // Sauvegarder les modifications du colocataire
       onSave(roommate.id, updates);
       onClose();
+      
+    } catch (error) {
+      console.error('Error updating roommate with auth:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la mise à jour du colocataire.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -129,7 +187,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="password">{t('roommateForm.newPassword')} ({t('roommateForm.passwordNote')})</Label>
+              <Label htmlFor="password">Nouveau mot de passe (laisser vide pour ne pas changer)</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -137,7 +195,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   minLength={6}
-                  placeholder={t('roommateForm.newPassword')}
+                  placeholder="Nouveau mot de passe"
                   autoComplete="new-password"
                 />
                 <button
@@ -150,7 +208,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
                 </button>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                {t('roommateForm.passwordMinLength')}. {t('roommateForm.passwordNote')}.
+                Minimum 6 caractères. Laissera créer/mettre à jour le compte Firebase Auth.
               </p>
             </div>
           </div>
@@ -201,11 +259,11 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
             />
           </div>
           <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
               {t('roommateForm.cancel')}
             </Button>
-            <Button type="submit">
-              {t('roommateForm.saveChanges')}
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Sauvegarde...' : t('roommateForm.saveChanges')}
             </Button>
           </div>
         </form>
