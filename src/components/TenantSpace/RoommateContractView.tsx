@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye, CheckCircle } from 'lucide-react';
+import { FileText, Download, Eye, CheckCircle, PenTool } from 'lucide-react';
 import RoommateContractTemplate from '@/components/Contracts/RoommateContractTemplate';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { generateContractPDF } from '@/services/contractPdfService';
@@ -22,6 +22,36 @@ const RoommateContractView = () => {
           <p className="text-gray-600">Contrat non disponible</p>
         </CardContent>
       </Card>
+    );
+  }
+
+  // Check if contract is signed
+  const isContractSigned = currentProfile.contractStatus === 'Signé';
+
+  // Show empty state for unsigned contracts
+  if (!isContractSigned) {
+    return (
+      <div className="space-y-6">
+        <Card className="border-2 border-dashed border-gray-300 bg-gray-50">
+          <CardContent className="p-8 text-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                <FileText className="h-8 w-8 text-gray-400" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-semibold text-gray-600">Contrat en attente de signature</h3>
+                <p className="text-gray-500 max-w-md">
+                  Votre contrat de colocation sera disponible ici une fois qu'il aura été signé par toutes les parties.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-400 mt-4">
+                <PenTool className="h-4 w-4" />
+                <span>En attente de signature</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
@@ -78,8 +108,6 @@ const RoommateContractView = () => {
     window.print();
   };
 
-  const isContractSigned = currentProfile.contractStatus === 'Signé';
-
   return (
     <div className="space-y-6">
       {/* En-tête avec actions */}
@@ -89,9 +117,7 @@ const RoommateContractView = () => {
             <div className="flex items-center gap-2">
               <FileText className="h-5 w-5 text-blue-600" />
               Mon Contrat de Colocation
-              {isContractSigned && (
-                <CheckCircle className="h-5 w-5 text-green-600" />
-              )}
+              <CheckCircle className="h-5 w-5 text-green-600" />
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={handlePrintContract}>
@@ -125,17 +151,15 @@ const RoommateContractView = () => {
             </div>
           </div>
           
-          {isContractSigned && (
-            <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
-              <div className="flex items-center gap-2 text-green-800">
-                <CheckCircle className="h-4 w-4" />
-                <span className="font-medium">Contrat signé et validé</span>
-              </div>
-              <p className="text-sm text-green-700 mt-1">
-                Votre contrat de colocation a été signé par toutes les parties.
-              </p>
+          <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+            <div className="flex items-center gap-2 text-green-800">
+              <CheckCircle className="h-4 w-4" />
+              <span className="font-medium">Contrat signé et validé</span>
             </div>
-          )}
+            <p className="text-sm text-green-700 mt-1">
+              Votre contrat de colocation a été signé par toutes les parties.
+            </p>
+          </div>
         </CardContent>
       </Card>
 

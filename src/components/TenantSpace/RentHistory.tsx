@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Card, CardContent } from '@/components/ui/card';
+import { FileText, PenTool } from 'lucide-react';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
@@ -21,12 +23,37 @@ const RentHistory = () => {
   const currentUserType = getCurrentUserType();
   const actualTenantName = currentProfile?.name || 'Marie Dubois';
   const actualTenantType = (currentUserType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Locataire' | 'Colocataire';
+  const isRoommate = currentUserType === 'colocataire';
   
-  console.log('RentHistory - Données du locataire:', {
-    actualTenantName,
-    actualTenantType,
-    currentProfile
-  });
+  // Check if contract is signed for roommates
+  const isContractSigned = !isRoommate || currentProfile?.contractStatus === 'Signé';
+
+  // Show empty state for roommates with unsigned contracts
+  if (isRoommate && !isContractSigned) {
+    return (
+      <div className="space-y-6">
+        <Card className="border-2 border-dashed border-gray-300 bg-gray-50">
+          <CardContent className="p-8 text-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                <FileText className="h-8 w-8 text-gray-400" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-semibold text-gray-600">Historique des paiements non disponible</h3>
+                <p className="text-gray-500 max-w-md">
+                  L'historique des paiements sera disponible après la signature de votre contrat de colocation.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-400 mt-4">
+                <PenTool className="h-4 w-4" />
+                <span>Contrat en attente de signature</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   // Fonction pour trouver le contrat correspondant
   const findTenantContract = () => {
