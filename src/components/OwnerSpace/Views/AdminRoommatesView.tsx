@@ -10,7 +10,6 @@ import { Dialog } from '@/components/ui/dialog';
 import RoommateForm from '@/components/RoommateForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
-import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useOwnerData } from '@/hooks/useOwnerData';
 
 interface AdminRoommatesViewProps {
@@ -22,11 +21,8 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
   const { userProfile } = useAuth();
   const profile = currentProfile || userProfile;
   const { handleRoommateSubmit } = useOwnerQuickActions(profile);
-  const { getButtonConfig } = useFormButtonConfig();
   const { roommates, tenants, payments } = useOwnerData(profile);
   const [showRoommateForm, setShowRoommateForm] = useState(false);
-
-  const roommateButtonConfig = getButtonConfig('roommate');
 
   const totalTenants = tenants?.length || 0;
   const activeTenants = tenants?.filter(t => t.status === 'Actif').length || 0;
@@ -42,6 +38,13 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
       default:
         return 'outline';
     }
+  };
+
+  // Create proper button config matching RoommateForm expectations
+  const roommateButtonConfig = {
+    submitText: 'Ajouter le colocataire',
+    loadingText: 'Ajout en cours...',
+    variant: 'default' as const
   };
 
   return (

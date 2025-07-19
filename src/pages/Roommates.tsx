@@ -209,7 +209,6 @@ const Roommates = () => {
                 <RoommateForm
                   onClose={() => setIsDialogOpen(false)}
                   onSubmit={handleAddRoommate}
-                  properties={properties}
                 />
               </Dialog>
             </div>
