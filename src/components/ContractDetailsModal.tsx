@@ -9,6 +9,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { 
   User, 
   Building2, 
@@ -17,7 +18,9 @@ import {
   FileText, 
   MapPin,
   Clock,
-  ScrollText
+  ScrollText,
+  Edit,
+  PenTool
 } from 'lucide-react';
 
 interface Contract {
@@ -40,12 +43,16 @@ interface ContractDetailsModalProps {
   contract: Contract | null;
   isOpen: boolean;
   onClose: () => void;
+  onEdit?: (contract: Contract) => void;
+  onSign?: (contract: Contract) => void;
 }
 
 const ContractDetailsModal: React.FC<ContractDetailsModalProps> = ({
   contract,
   isOpen,
-  onClose
+  onClose,
+  onEdit,
+  onSign
 }) => {
   if (!contract) return null;
 
@@ -96,14 +103,32 @@ const ContractDetailsModal: React.FC<ContractDetailsModalProps> = ({
     }
   };
 
+  const canSign = contract.status !== 'Signé' && (!contract.signatures || !contract.signatures.owner || !contract.signatures.tenant);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-            <FileText className="h-6 w-6 text-blue-600" />
-            Contract Details
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+              <FileText className="h-6 w-6 text-blue-600" />
+              Contract Details
+            </DialogTitle>
+            <div className="flex gap-2">
+              {onEdit && (
+                <Button variant="outline" size="sm" onClick={() => onEdit(contract)}>
+                  <Edit className="h-4 w-4 mr-2" />
+                  Modifier
+                </Button>
+              )}
+              {canSign && onSign && (
+                <Button size="sm" onClick={() => onSign(contract)}>
+                  <PenTool className="h-4 w-4 mr-2" />
+                  Signer
+                </Button>
+              )}
+            </div>
+          </div>
         </DialogHeader>
 
         <div className="space-y-6">

@@ -100,6 +100,8 @@ const Contracts = () => {
           contract={detailsContract}
           isOpen={isDetailsModalOpen}
           onClose={() => setIsDetailsModalOpen(false)}
+          onEdit={handleEditContract}
+          onSign={handleSignContract}
         />
       </div>
     </MainLayout>

@@ -2,14 +2,17 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye } from 'lucide-react';
+import { FileText, Download, Eye, CheckCircle } from 'lucide-react';
 import RoommateContractTemplate from '@/components/Contracts/RoommateContractTemplate';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { generateContractPDF } from '@/services/contractPdfService';
+import { useToast } from '@/hooks/use-toast';
 
 const RoommateContractView = () => {
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
   const currentProfile = getCurrentProfile();
   const currentUserType = getCurrentUserType();
+  const { toast } = useToast();
 
   // Vérifier que c'est bien un colocataire
   if (currentUserType !== 'colocataire' || !currentProfile) {
@@ -41,31 +44,65 @@ const RoommateContractView = () => {
   };
 
   const handleDownloadContract = () => {
-    // Logique pour télécharger le contrat en PDF
-    console.log('Téléchargement du contrat pour:', roommateData.name);
-    // Ici, vous pourriez intégrer jsPDF ou une autre solution de génération PDF
+    try {
+      const contractData = {
+        title: `Contrat de Colocation - ${roommateData.name}`,
+        type: 'Colocation',
+        tenant: roommateData.name,
+        property: roommateData.property,
+        startDate: roommateData.moveInDate,
+        endDate: new Date(new Date(roommateData.moveInDate).getTime() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        amount: `${roommateData.rentAmount}€`,
+        jurisdiction: 'française',
+        roomNumber: roommateData.roomNumber,
+        primaryTenant: roommateData.primaryTenant
+      };
+      
+      generateContractPDF(contractData);
+      
+      toast({
+        title: "Contrat téléchargé",
+        description: "Votre contrat de colocation a été téléchargé en PDF.",
+      });
+    } catch (error) {
+      console.error('Erreur lors du téléchargement:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors du téléchargement du contrat.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handlePrintContract = () => {
     window.print();
   };
 
+  const isContractSigned = currentProfile.contractStatus === 'Signé';
+
   return (
     <div className="space-y-6">
       {/* En-tête avec actions */}
-      <Card>
+      <Card className="border-l-4 border-l-blue-500">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
+              <FileText className="h-5 w-5 text-blue-600" />
               Mon Contrat de Colocation
+              {isContractSigned && (
+                <CheckCircle className="h-5 w-5 text-green-600" />
+              )}
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={handlePrintContract}>
                 <Eye className="h-4 w-4 mr-2" />
                 Imprimer
               </Button>
-              <Button variant="outline" size="sm" onClick={handleDownloadContract}>
+              <Button 
+                size="sm" 
+                onClick={handleDownloadContract}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Télécharger PDF
               </Button>
@@ -80,13 +117,25 @@ const RoommateContractView = () => {
             </div>
             <div>
               <span className="font-medium text-gray-600">Loyer mensuel:</span>
-              <p className="text-gray-900 font-semibold">{roommateData.rentAmount}€</p>
+              <p className="text-gray-900 font-semibold text-blue-600">{roommateData.rentAmount}€</p>
             </div>
             <div>
               <span className="font-medium text-gray-600">Date d'entrée:</span>
               <p className="text-gray-900">{new Date(roommateData.moveInDate).toLocaleDateString('fr-FR')}</p>
             </div>
           </div>
+          
+          {isContractSigned && (
+            <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+              <div className="flex items-center gap-2 text-green-800">
+                <CheckCircle className="h-4 w-4" />
+                <span className="font-medium">Contrat signé et validé</span>
+              </div>
+              <p className="text-sm text-green-700 mt-1">
+                Votre contrat de colocation a été signé par toutes les parties.
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -104,17 +153,21 @@ const RoommateContractView = () => {
           <CardTitle className="text-lg">Informations importantes</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
-          <div className="p-3 bg-blue-50 rounded-lg">
-            <p className="font-medium text-blue-900 mb-1">Paiement du loyer</p>
+          <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <p className="font-medium text-blue-900 mb-1">💳 Paiement du loyer</p>
             <p className="text-blue-800">Le loyer de {roommateData.rentAmount}€ est à payer avant le 5 de chaque mois.</p>
           </div>
-          <div className="p-3 bg-green-50 rounded-lg">
-            <p className="font-medium text-green-900 mb-1">Préavis de départ</p>
+          <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+            <p className="font-medium text-green-900 mb-1">📅 Préavis de départ</p>
             <p className="text-green-800">Un préavis d'un mois est requis pour résilier le contrat.</p>
           </div>
-          <div className="p-3 bg-amber-50 rounded-lg">
-            <p className="font-medium text-amber-900 mb-1">Assurance obligatoire</p>
+          <div className="p-3 bg-amber-50 rounded-lg border border-amber-200">
+            <p className="font-medium text-amber-900 mb-1">🛡️ Assurance obligatoire</p>
             <p className="text-amber-800">Une assurance multirisque habitation doit être souscrite et maintenue.</p>
+          </div>
+          <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+            <p className="font-medium text-purple-900 mb-1">📋 Règlement intérieur</p>
+            <p className="text-purple-800">Respecter les règles de vie commune et maintenir la propreté des espaces partagés.</p>
           </div>
         </CardContent>
       </Card>
