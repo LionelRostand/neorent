@@ -37,4 +37,7 @@ export interface Inspection {
   contractType: string;
   description?: string;
   observations?: string;
+  roomsData?: string;
+  equipmentsData?: string;
+  lastModified?: string;
 }

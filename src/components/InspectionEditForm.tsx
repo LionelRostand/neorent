@@ -3,39 +3,25 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Save } from 'lucide-react';
-
-interface InspectionDetails {
-  id: string;
-  title: string;
-  type: string;
-  tenant: string;
-  property: string;
-  roomNumber?: string;
-  date: string;
-  inspector: string;
-  status: string;
-  contractType?: string;
-  description?: string;
-  observations?: string;
-}
+import { Inspection } from '@/types/inspection';
 
 interface InspectionEditFormProps {
-  inspection: InspectionDetails;
+  inspection: Inspection;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (data: any) => void;
+  onSave: (id: string, updates: any) => void;
 }
 
 const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionEditFormProps) => {
   const { t } = useTranslation();
-  
+
   const [formData, setFormData] = useState({
     status: inspection.status,
     description: inspection.description || '',
@@ -59,10 +45,13 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
   });
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const handleRoomChange = (room: string, field: string, value: string) => {
+  const handleRoomChange = (room: string, field: string, value: any) => {
     setRooms(prev => ({
       ...prev,
       [room]: { ...prev[room], [field]: value }
@@ -78,9 +67,8 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Create a clean object with only simple data types for Firebase
-    const updatedInspection = {
+
+    const updatedData = {
       status: formData.status,
       description: formData.description,
       observations: formData.observations,
@@ -89,50 +77,24 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
       lastModified: new Date().toISOString()
     };
 
-    console.log('État des lieux mis à jour avec des données compatibles Firebase:', updatedInspection);
-    onSave(updatedInspection);
+    onSave(inspection.id, updatedData);
     onClose();
   };
-
-  const isColocatif = inspection.contractType === 'Bail colocatif' || (inspection.tenant && inspection.tenant.includes('Colocataire'));
-
-  const roomNames = {
-    salon: t('inspections.livingRoom'),
-    cuisine: t('inspections.kitchen'),
-    chambre1: isColocatif ? inspection.roomNumber || t('inspections.bedroom') : t('inspections.bedroom'),
-    salleDeBain: t('inspections.bathroom'),
-    wc: t('inspections.toilet'),
-    entree: t('inspections.entrance')
-  };
-
-  const equipmentNames = {
-    electromenager: t('inspections.appliances'),
-    chauffage: t('inspections.heating'),
-    plomberie: t('inspections.plumbing'),
-    electricite: t('inspections.electricity')
-  };
-
-  const stateOptions = [
-    { value: 'Excellent', label: t('inspections.excellent') },
-    { value: 'Bon', label: t('inspections.good') },
-    { value: 'Moyen', label: t('inspections.average') },
-    { value: 'Mauvais', label: t('inspections.poor') }
-  ];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
-            {t('inspections.modifyInspection')} - {inspection.title}
+            {t('inspections.editInspection')}
           </DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Informations générales */}
+          {/* Basic Information */}
           <Card>
             <CardHeader>
-              <CardTitle>{t('inspections.generalInformation')}</CardTitle>
+              <CardTitle className="text-lg">{t('inspections.basicInformation')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -149,50 +111,42 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                     </SelectContent>
                   </Select>
                 </div>
-                <div>
-                  <Label>{t('inspections.property')}: {inspection.property}</Label>
-                  {isColocatif && inspection.roomNumber && (
-                    <p className="text-sm text-gray-600">{t('inspections.room')}: {inspection.roomNumber}</p>
-                  )}
-                </div>
               </div>
-              
+
               <div>
                 <Label htmlFor="description">{t('inspections.description')}</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
-                  placeholder={t('inspections.descriptionPlaceholder')}
+                  rows={3}
                 />
               </div>
-              
+
               <div>
                 <Label htmlFor="observations">{t('inspections.observations')}</Label>
                 <Textarea
                   id="observations"
                   value={formData.observations}
                   onChange={(e) => handleInputChange('observations', e.target.value)}
-                  placeholder={t('inspections.observationsPlaceholder')}
+                  rows={3}
                 />
               </div>
             </CardContent>
           </Card>
 
-          {/* État des pièces */}
+          {/* Rooms Inspection */}
           <Card>
             <CardHeader>
-              <CardTitle>{t('inspections.roomsCondition')}</CardTitle>
+              <CardTitle className="text-lg">{t('inspections.roomsInspection')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {Object.entries(rooms).map(([roomKey, roomData]) => (
-                <div key={roomKey} className="border p-4 rounded-lg">
-                  <h4 className="font-medium mb-3">
-                    {roomNames[roomKey as keyof typeof roomNames]}
-                  </h4>
+                <div key={roomKey} className="p-4 border rounded-lg space-y-2">
+                  <h4 className="font-medium capitalize">{roomKey.replace(/([A-Z])/g, ' $1')}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label>{t('inspections.state')}</Label>
+                      <Label>{t('inspections.condition')}</Label>
                       <Select 
                         value={roomData.state} 
                         onValueChange={(value) => handleRoomChange(roomKey, 'state', value)}
@@ -201,11 +155,10 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {stateOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
+                          <SelectItem value="Excellent">Excellent</SelectItem>
+                          <SelectItem value="Bon">Bon</SelectItem>
+                          <SelectItem value="Moyen">Moyen</SelectItem>
+                          <SelectItem value="Mauvais">Mauvais</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -214,7 +167,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                       <Input
                         value={roomData.observations}
                         onChange={(e) => handleRoomChange(roomKey, 'observations', e.target.value)}
-                        placeholder={t('inspections.defectsRemarks')}
+                        placeholder={t('inspections.addObservations')}
                       />
                     </div>
                   </div>
@@ -223,27 +176,26 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
             </CardContent>
           </Card>
 
-          {/* Équipements */}
+          {/* Equipment Inspection */}
           <Card>
             <CardHeader>
-              <CardTitle>{t('inspections.equipment')}</CardTitle>
+              <CardTitle className="text-lg">{t('inspections.equipmentInspection')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {Object.entries(equipments).map(([equipmentKey, equipmentData]) => (
-                <div key={equipmentKey} className="border p-4 rounded-lg">
-                  <div className="flex items-center space-x-2 mb-3">
+                <div key={equipmentKey} className="p-4 border rounded-lg space-y-2">
+                  <div className="flex items-center space-x-2">
                     <Checkbox
                       checked={equipmentData.present}
                       onCheckedChange={(checked) => handleEquipmentChange(equipmentKey, 'present', checked)}
                     />
-                    <h4 className="font-medium">
-                      {equipmentNames[equipmentKey as keyof typeof equipmentNames]}
-                    </h4>
+                    <h4 className="font-medium capitalize">{equipmentKey.replace(/([A-Z])/g, ' $1')}</h4>
                   </div>
+                  
                   {equipmentData.present && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-6">
                       <div>
-                        <Label>{t('inspections.state')}</Label>
+                        <Label>{t('inspections.condition')}</Label>
                         <Select 
                           value={equipmentData.state} 
                           onValueChange={(value) => handleEquipmentChange(equipmentKey, 'state', value)}
@@ -252,11 +204,10 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            {stateOptions.map((option) => (
-                              <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
+                            <SelectItem value="Excellent">Excellent</SelectItem>
+                            <SelectItem value="Bon">Bon</SelectItem>
+                            <SelectItem value="Moyen">Moyen</SelectItem>
+                            <SelectItem value="Mauvais">Mauvais</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -265,7 +216,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
                         <Input
                           value={equipmentData.observations}
                           onChange={(e) => handleEquipmentChange(equipmentKey, 'observations', e.target.value)}
-                          placeholder={t('inspections.defectsRemarks')}
+                          placeholder={t('inspections.addObservations')}
                         />
                       </div>
                     </div>
@@ -275,14 +226,14 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
             </CardContent>
           </Card>
 
-          {/* Actions */}
-          <div className="flex justify-end space-x-3 pt-4 border-t">
+          {/* Action Buttons */}
+          <div className="flex justify-end space-x-2 pt-4">
             <Button type="button" variant="outline" onClick={onClose}>
-              {t('inspections.cancel')}
+              {t('common.cancel')}
             </Button>
-            <Button type="submit" className="bg-green-600 hover:bg-green-700">
+            <Button type="submit">
               <Save className="mr-2 h-4 w-4" />
-              {t('inspections.save')}
+              {t('common.save')}
             </Button>
           </div>
         </form>

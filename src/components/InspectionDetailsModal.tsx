@@ -7,27 +7,13 @@ import GeneralInfoSection from './InspectionDetails/GeneralInfoSection';
 import PropertyDetailsSection from './InspectionDetails/PropertyDetailsSection';
 import InspectionDetailsSection from './InspectionDetails/InspectionDetailsSection';
 import ModalActions from './InspectionDetails/ModalActions';
-
-interface InspectionDetails {
-  id: number;
-  title: string;
-  type: string;
-  tenant: string;
-  property: string;
-  roomNumber?: string;
-  date: string;
-  inspector: string;
-  status: string;
-  contractType?: string;
-  description?: string;
-  observations?: string;
-}
+import { Inspection } from '@/types/inspection';
 
 interface InspectionDetailsModalProps {
-  inspection: InspectionDetails | null;
+  inspection: Inspection | null;
   isOpen: boolean;
   onClose: () => void;
-  onUpdate?: (inspection: InspectionDetails) => void;
+  onUpdate?: (inspection: Inspection) => void;
 }
 
 const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: InspectionDetailsModalProps) => {
