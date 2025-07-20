@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CreditCard, DollarSign } from 'lucide-react';
+import { CreditCard, DollarSign, Smartphone, Wallet } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -56,6 +56,60 @@ const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
             <div className="flex items-center gap-2">
               <CreditCard className="h-3 w-3 sm:h-4 sm:w-4 text-indigo-600 flex-shrink-0" />
               <span className="text-xs sm:text-sm">{t('rentManagement.automaticDebit')}</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="paypal" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Wallet className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">PayPal</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="apple_pay" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 text-gray-800 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Apple Pay</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="google_pay" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Wallet className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Google Pay</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="revolut" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Revolut</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="n26" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 text-teal-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">N26</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="lydia" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 text-pink-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Lydia</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="orange_money" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 text-orange-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Orange Money</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="mtn_money" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">MTN Money</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="moov_money" className="py-2 sm:py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Moov Money</span>
             </div>
           </SelectItem>
         </SelectContent>

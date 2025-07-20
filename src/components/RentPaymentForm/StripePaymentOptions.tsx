@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CreditCard, Building, Smartphone, Globe } from 'lucide-react';
+import { CreditCard, Building, Smartphone, Globe, Wallet } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -64,6 +64,36 @@ const StripePaymentOptions: React.FC<StripePaymentOptionsProps> = ({
               Giropay (Allemagne) - 1,3%
             </div>
           </SelectItem>
+          <SelectItem value="stripe_paypal" className="py-3">
+            <div className="flex items-center gap-2">
+              <Wallet className="h-4 w-4 text-blue-500" />
+              PayPal (via Stripe) - 3,4% + 0,35€
+            </div>
+          </SelectItem>
+          <SelectItem value="stripe_apple_pay" className="py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-4 w-4 text-gray-800" />
+              Apple Pay - 1,4% + 0,25€
+            </div>
+          </SelectItem>
+          <SelectItem value="stripe_google_pay" className="py-3">
+            <div className="flex items-center gap-2">
+              <Wallet className="h-4 w-4 text-green-500" />
+              Google Pay - 1,4% + 0,25€
+            </div>
+          </SelectItem>
+          <SelectItem value="stripe_alipay" className="py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-4 w-4 text-blue-400" />
+              Alipay - 2,95%
+            </div>
+          </SelectItem>
+          <SelectItem value="stripe_wechat" className="py-3">
+            <div className="flex items-center gap-2">
+              <Smartphone className="h-4 w-4 text-green-500" />
+              WeChat Pay - 2,95%
+            </div>
+          </SelectItem>
         </SelectContent>
       </Select>
       
@@ -73,8 +103,8 @@ const StripePaymentOptions: React.FC<StripePaymentOptionsProps> = ({
           <ul className="space-y-1">
             <li>• <strong>SEPA</strong> : Idéal pour les virements européens (délai 1-3 jours)</li>
             <li>• <strong>Cartes</strong> : Paiement instantané avec frais variables</li>
-            <li>• <strong>Sofort</strong> : Virement instantané (Allemagne/Autriche)</li>
-            <li>• <strong>Autres</strong> : Méthodes locales européennes</li>
+            <li>• <strong>Portefeuilles digitaux</strong> : Apple Pay, Google Pay, PayPal</li>
+            <li>• <strong>Paiements internationaux</strong> : Alipay, WeChat Pay</li>
           </ul>
         </div>
       </div>

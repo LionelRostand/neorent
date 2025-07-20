@@ -52,7 +52,7 @@ const PaymentMethodTabs: React.FC<PaymentMethodTabsProps> = ({
           <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="font-semibold text-gray-900 mb-2">Méthodes de paiement traditionnelles</h3>
             <p className="text-sm text-gray-600 mb-3">
-              Virements, chèques, espèces et autres méthodes classiques
+              Virements, chèques, espèces et nouveaux moyens de paiement digitaux
             </p>
             <PaymentMethodSelector 
               paymentMethod={paymentMethod}
@@ -65,7 +65,7 @@ const PaymentMethodTabs: React.FC<PaymentMethodTabsProps> = ({
           <div className="bg-blue-50 p-4 rounded-lg">
             <h3 className="font-semibold text-gray-900 mb-2">Paiements Stripe</h3>
             <p className="text-sm text-gray-600 mb-3">
-              Virements SEPA, cartes bancaires et méthodes européennes
+              Cartes, virements SEPA, portefeuilles digitaux et paiements internationaux
             </p>
             <StripePaymentOptions 
               paymentMethod={paymentMethod}
@@ -78,7 +78,7 @@ const PaymentMethodTabs: React.FC<PaymentMethodTabsProps> = ({
           <div className="bg-green-50 p-4 rounded-lg">
             <h3 className="font-semibold text-gray-900 mb-2">Prélèvements automatiques</h3>
             <p className="text-sm text-gray-600 mb-3">
-              GoCardless pour les paiements récurrents automatisés
+              GoCardless pour les paiements récurrents dans le monde entier
             </p>
             <GoCardlessOptions 
               paymentMethod={paymentMethod}
@@ -91,7 +91,7 @@ const PaymentMethodTabs: React.FC<PaymentMethodTabsProps> = ({
           <div className="bg-yellow-50 p-4 rounded-lg">
             <h3 className="font-semibold text-gray-900 mb-2">APIs Bancaires (PSD2)</h3>
             <p className="text-sm text-gray-600 mb-3">
-              Connexion directe aux banques pour des virements instantanés
+              Connexion directe aux banques pour des virements instantanés et sécurisés
             </p>
             <BankAPIOptions 
               paymentMethod={paymentMethod}
@@ -110,13 +110,15 @@ const PaymentMethodTabs: React.FC<PaymentMethodTabsProps> = ({
             <ul className="text-gray-600 ml-4">
               <li>• APIs bancaires directes (PSD2)</li>
               <li>• Virements classiques</li>
+              <li>• Paylib, Revolut, N26</li>
             </ul>
           </div>
           <div>
             <p className="font-medium text-orange-600">💳 Avec frais :</p>
             <ul className="text-gray-600 ml-4">
-              <li>• Stripe : 0,35€ à 1,4%</li>
-              <li>• GoCardless : 1% + 0,25€</li>
+              <li>• Stripe : 0,29€ à 3,4%</li>
+              <li>• GoCardless : 0,5% à 1%</li>
+              <li>• Lydia Pro : 0,5%</li>
             </ul>
           </div>
         </div>
