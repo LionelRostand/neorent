@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface BasicContractFieldsProps {
@@ -17,18 +18,17 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
   return (
     <>
       <div>
-        <Label htmlFor="title">{t('contractForm.title')} *</Label>
+        <Label htmlFor="title">{t('contractForm.title')}</Label>
         <Input
           id="title"
           value={formData.title}
           onChange={(e) => handleInputChange('title', e.target.value)}
           placeholder={t('contractForm.titlePlaceholder')}
-          required
         />
       </div>
 
       <div>
-        <Label htmlFor="type">{t('contractForm.type')} *</Label>
+        <Label htmlFor="type">{t('contractForm.type')}</Label>
         <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
           <SelectTrigger>
             <SelectValue placeholder={t('contractForm.selectType')} />
@@ -54,16 +54,28 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
       </div>
 
       <div>
-        <Label htmlFor="jurisdiction">{t('contractForm.jurisdiction')} *</Label>
+        <Label htmlFor="jurisdiction">{t('contractForm.jurisdiction')}</Label>
         <Select value={formData.jurisdiction} onValueChange={(value) => handleInputChange('jurisdiction', value)}>
           <SelectTrigger>
             <SelectValue placeholder={t('contractForm.selectJurisdiction')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="francaise">{t('contractForm.french')}</SelectItem>
-            <SelectItem value="camerounaise">{t('contractForm.cameroonian')}</SelectItem>
+            <SelectItem value="french">{t('contractForm.french')}</SelectItem>
+            <SelectItem value="cameroonian">{t('contractForm.cameroonian')}</SelectItem>
           </SelectContent>
         </Select>
+        <p className="text-sm text-gray-500 mt-1">{t('contractForm.jurisdictionInfo')}</p>
+      </div>
+
+      <div className="md:col-span-2">
+        <Label htmlFor="description">{t('contractForm.description')}</Label>
+        <Textarea
+          id="description"
+          value={formData.description}
+          onChange={(e) => handleInputChange('description', e.target.value)}
+          placeholder={t('contractForm.descriptionPlaceholder')}
+          rows={3}
+        />
       </div>
     </>
   );

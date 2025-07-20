@@ -73,15 +73,24 @@ export const useDashboardMetrics = () => {
     // Calcul du taux d'occupation
     const occupancyRate = totalProperties > 0 ? (occupiedProperties / totalProperties) * 100 : 0;
 
-    // Calcul du rendement moyen (estimation basée sur les revenus et valeur des biens)
-    const averageYield = 6.2; // Valeur par défaut, peut être calculée différemment
+    // Calcul du rendement moyen basé sur les revenus annuels et la valeur des propriétés
+    const annualRevenue = monthlyRevenue * 12;
+    const totalPropertyValue = properties.reduce((sum, property) => {
+      // Utiliser creditImmobilier comme estimation de la valeur ou une estimation basée sur le loyer
+      const propertyValue = property.creditImmobilier 
+        ? parseFloat(property.creditImmobilier.toString()) 
+        : parseFloat(property.rent || '0') * 12 * 15; // 15x le loyer annuel comme estimation
+      return sum + (propertyValue || 0);
+    }, 0);
+
+    const averageYield = totalPropertyValue > 0 ? (annualRevenue / totalPropertyValue) * 100 : 0;
 
     return {
       monthlyRevenue,
       totalProperties,
       totalActiveTenants,
       occupancyRate,
-      averageYield,
+      averageYield: Math.round(averageYield * 100) / 100, // Arrondir à 2 décimales
       // Données pour les alertes
       latePayments: payments.filter(p => p.status === 'En retard').length,
       expiringContracts: contracts.filter(c => {

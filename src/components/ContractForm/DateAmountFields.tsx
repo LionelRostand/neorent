@@ -3,7 +3,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 
 interface DateAmountFieldsProps {
   formData: any;
@@ -39,20 +38,10 @@ const DateAmountFields = ({ formData, handleInputChange }: DateAmountFieldsProps
         <Label htmlFor="amount">{t('contractForm.amount')}</Label>
         <Input
           id="amount"
+          type="number"
           value={formData.amount}
           onChange={(e) => handleInputChange('amount', e.target.value)}
           placeholder={t('contractForm.amountPlaceholder')}
-        />
-      </div>
-
-      <div className="md:col-span-2">
-        <Label htmlFor="description">{t('contractForm.description')}</Label>
-        <Textarea
-          id="description"
-          value={formData.description}
-          onChange={(e) => handleInputChange('description', e.target.value)}
-          placeholder={t('contractForm.descriptionPlaceholder')}
-          className="min-h-[100px]"
         />
       </div>
     </>

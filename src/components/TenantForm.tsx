@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -9,6 +8,7 @@ import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog
 import { useToast } from '@/hooks/use-toast';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { Eye, EyeOff } from 'lucide-react';
 
 interface Property {
@@ -57,9 +57,14 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties, currentProfile }
   const { toast } = useToast();
   const { addTenant } = useFirebaseTenants();
   const { createUserAccount } = useFirebaseAuth();
+  const { properties: allProperties } = useFirebaseProperties();
 
-  // Filtrer les propriétés du propriétaire connecté
-  const ownerProperties = properties?.filter(property => 
+  // Utiliser les propriétés passées en props ou récupérer toutes les propriétés
+  const availableProperties = properties || allProperties;
+
+  // Filtrer les propriétés du propriétaire connecté et de type "Location" (location classique)
+  const ownerProperties = availableProperties?.filter(property => 
+    property.locationType === 'Location' &&
     currentProfile && (property.owner === currentProfile.name || property.owner === currentProfile.email)
   ) || [];
 
@@ -209,7 +214,7 @@ const TenantForm = ({ onSuccess, onClose, onSubmit, properties, currentProfile }
                   ))
                 ) : (
                   <SelectItem value="no-properties" disabled>
-                    Aucune propriété disponible
+                    Aucune propriété de type location disponible
                   </SelectItem>
                 )}
               </SelectContent>

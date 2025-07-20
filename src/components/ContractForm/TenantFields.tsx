@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -22,50 +23,26 @@ const TenantFields = ({
   tenants,
   roommates
 }: TenantFieldsProps) => {
-  return (
-    <>
-      {isBailContract && (
-        <div>
-          <Label htmlFor="tenant">
-            {formData.type === 'Bail locatif' ? 'Tenant *' : 'Roommate *'}
-          </Label>
-          <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder={
-                isDataLoading ? "Loading..." : 
-                `Select a ${formData.type === 'Bail locatif' ? 'tenant' : 'roommate'}`
-              } />
-            </SelectTrigger>
-            <SelectContent>
-              {getAvailableTenants().map((tenant) => (
-                <SelectItem key={tenant.id} value={`${tenant.name} (${tenant.type})`}>
-                  {tenant.name} ({tenant.type})
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
+  const { t } = useTranslation();
 
-      {!isBailContract && (
-        <div>
-          <Label htmlFor="tenant">Tenant/Roommate *</Label>
-          <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a tenant"} />
-            </SelectTrigger>
-            <SelectContent>
-              {[...tenants.map(t => ({ id: t.id, name: t.name, type: 'Tenant' })), 
-                ...roommates.map(r => ({ id: r.id, name: r.name, type: 'Roommate' }))].map((tenant) => (
-                <SelectItem key={tenant.id} value={`${tenant.name} (${tenant.type})`}>
-                  {tenant.name} ({tenant.type})
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
-    </>
+  if (!isBailContract) return null;
+
+  return (
+    <div>
+      <Label htmlFor="tenant">{t('contractForm.tenant', 'Locataire')}</Label>
+      <Select value={formData.tenant} onValueChange={(value) => handleInputChange('tenant', value)}>
+        <SelectTrigger>
+          <SelectValue placeholder={isDataLoading ? t('common.loading', 'Chargement...') : t('contractForm.selectTenant', 'Sélectionner un locataire')} />
+        </SelectTrigger>
+        <SelectContent>
+          {getAvailableTenants().map((tenant) => (
+            <SelectItem key={tenant.id} value={tenant.name}>
+              {tenant.name} ({tenant.type})
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };
 
