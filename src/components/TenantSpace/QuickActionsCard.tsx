@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +15,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   const { i18n } = useTranslation();
   const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
+  const [bankTransferDialogOpen, setBankTransferDialogOpen] = useState(false);
   const [messageDialogOpen, setMessageDialogOpen] = useState(false);
 
   // Get texts based on current language
@@ -124,16 +124,12 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   };
 
   const handleBankTransferClick = () => {
-    console.log('Ouverture du formulaire de déclaration de virement bancaire');
-    // Fermer le menu des options de paiement et ouvrir directement le PaymentDialog
-    // avec le mode virement bancaire pré-sélectionné
+    console.log('=== OUVERTURE DIRECTE FORMULAIRE VIREMENT BANCAIRE ===');
+    // Fermer le menu des options de paiement
     setPaymentDialogOpen(false);
-    // Utiliser un petit délai pour permettre la fermeture propre du premier dialog
+    // Ouvrir directement le formulaire de virement bancaire
     setTimeout(() => {
-      // Stocker la méthode de paiement sélectionnée
-      localStorage.setItem('selectedPaymentMethod', 'virement');
-      // Rediriger vers l'onglet paiement qui ouvrira automatiquement le bon formulaire
-      onTabChange('payment');
+      setBankTransferDialogOpen(true);
     }, 100);
   };
 
@@ -174,7 +170,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
                 <DialogTitle>{getLocalizedText('paymentOptions')}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 mt-4">
-                {/* Virement bancaire - DÉCLARATION DIRECTE */}
+                {/* Virement bancaire - OUVERTURE DIRECTE DU FORMULAIRE */}
                 <button 
                   onClick={(e) => {
                     e.preventDefault();
@@ -228,6 +224,31 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
               </div>
             </DialogContent>
           </Dialog>
+
+          {/* Dialog spécifique pour le virement bancaire */}
+          <PaymentDialog
+            open={bankTransferDialogOpen}
+            onOpenChange={setBankTransferDialogOpen}
+            actualTenantName="Marie Dupont"
+            actualTenantType="Colocataire"
+            propertyTitle="Appartement Colocation - 123 Rue de la Paix"
+            totalAmount={650}
+            paymentDate={new Date().toISOString().split('T')[0]}
+            setPaymentDate={() => {}}
+            paidAmount="650"
+            setPaidAmount={() => {}}
+            paymentMethod="virement"
+            setPaymentMethod={() => {}}
+            notes=""
+            setNotes={() => {}}
+            loading={false}
+            isFormValid={true}
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log('Virement bancaire déclaré');
+              setBankTransferDialogOpen(false);
+            }}
+          />
 
           {/* Action Maintenance */}
           <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
