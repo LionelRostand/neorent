@@ -267,11 +267,14 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
             </div>
           </Button>
 
-          {/* Virement bancaire */}
+          {/* Virement bancaire - CORRECTION DU PROBLÈME */}
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-blue-50 border-blue-200"
-            onClick={() => handleQuickPayment('virement')}
+            onClick={() => {
+              console.log('Clic sur Virement bancaire détecté');
+              handleQuickPayment('virement');
+            }}
           >
             <div className="flex items-center gap-3 w-full">
               <CreditCard className="h-5 w-5 text-blue-600 flex-shrink-0" />
