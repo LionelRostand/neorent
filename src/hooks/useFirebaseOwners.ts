@@ -18,12 +18,37 @@ export const useFirebaseOwners = () => {
   const fetchOwners = async () => {
     try {
       setLoading(true);
-      const querySnapshot = await getDocs(collection(db, 'Rent_owners'));
-      const ownersData = querySnapshot.docs.map(doc => ({
+      
+      // Fetch from Rent_owners collection
+      const rentOwnersSnapshot = await getDocs(collection(db, 'Rent_owners'));
+      const rentOwnersData = rentOwnersSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as Owner[];
-      setOwners(ownersData);
+
+      // Fetch from user_roles collection to include admin users who are also owners
+      const userRolesSnapshot = await getDocs(collection(db, 'user_roles'));
+      const adminOwnersData = userRolesSnapshot.docs
+        .filter(doc => {
+          const data = doc.data();
+          // Include users who are admin or have isOwner flag
+          return data.role === 'admin' || data.isOwner === true;
+        })
+        .map(doc => ({
+          id: doc.id,
+          name: doc.data().name || doc.data().email,
+          email: doc.data().email,
+          role: doc.data().role,
+          companyId: doc.data().companyId
+        })) as Owner[];
+
+      // Combine both lists and remove duplicates based on email
+      const combinedOwners = [...rentOwnersData, ...adminOwnersData];
+      const uniqueOwners = combinedOwners.filter((owner, index, self) => 
+        index === self.findIndex(o => o.email === owner.email)
+      );
+
+      setOwners(uniqueOwners);
     } catch (error) {
       console.error('Error fetching owners:', error);
     } finally {
