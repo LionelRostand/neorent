@@ -60,10 +60,10 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
     propertyType: actualTenantType === 'Colocataire' ? 'Chambre en colocation' : 'Appartement'
   });
 
-  // Valeurs corrigées selon la demande
-  const monthlyRent = 400; // CORRIGÉ: 400€ au lieu de 450€
-  const monthlyCharges = 50;
-  const totalAmount = monthlyRent + monthlyCharges; // 450€
+  // Utiliser le montant du contrat depuis propertyData (qui vient maintenant du contrat signé)
+  const monthlyRent = propertyData.rent; // Le montant vient maintenant du contrat
+  const monthlyCharges = propertyData.charges;
+  const totalAmount = monthlyRent + monthlyCharges;
 
   // Vérifier s'il y a une différence entre le montant saisi et le montant attendu
   const paidAmountNum = parseFloat(paidAmount) || 0;

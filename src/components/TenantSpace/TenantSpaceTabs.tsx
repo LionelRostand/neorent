@@ -7,6 +7,7 @@ import RentHistory from './RentHistory';
 import DocumentsSection from './DocumentsSection';
 import DocumentUpload from './DocumentUpload';
 import RoommateContractView from './RoommateContractView';
+import SignedContractsView from './SignedContractsView';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 
 interface TenantSpaceTabsProps {
@@ -21,6 +22,7 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
   const { getCurrentUserType } = useAdminTenantAccess();
   const currentUserType = getCurrentUserType();
   const isRoommate = currentUserType === 'colocataire';
+  const isTenant = currentUserType === 'locataire';
 
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
@@ -31,6 +33,9 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
         <TabsTrigger value="upload">{t('tenantSpace.tabs.upload')}</TabsTrigger>
         {isRoommate && (
           <TabsTrigger value="contract">Contrat</TabsTrigger>
+        )}
+        {isTenant && (
+          <TabsTrigger value="contracts">Contrats</TabsTrigger>
         )}
         <TabsTrigger value="profile">{t('tenantSpace.tabs.profile')}</TabsTrigger>
       </TabsList>
@@ -58,6 +63,12 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
       {isRoommate && (
         <TabsContent value="contract" className="mt-6">
           <RoommateContractView />
+        </TabsContent>
+      )}
+
+      {isTenant && (
+        <TabsContent value="contracts" className="mt-6">
+          <SignedContractsView />
         </TabsContent>
       )}
 
