@@ -12,8 +12,11 @@ import {
   Calendar,
   Euro,
   User,
-  Building2
+  Building2,
+  Download
 } from 'lucide-react';
+import { generateContractPDF } from '@/services/contractPdfService';
+import { useToast } from '@/hooks/use-toast';
 
 interface Contract {
   id: string;
@@ -45,6 +48,8 @@ const ContractsList: React.FC<ContractsListProps> = ({
   onViewDetails,
   onSign
 }) => {
+  const { toast } = useToast();
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Actif':
@@ -62,6 +67,23 @@ const ContractsList: React.FC<ContractsListProps> = ({
 
   const canSign = (contract: Contract) => {
     return contract.status !== 'Signé' && (!contract.signatures || !contract.signatures.owner || !contract.signatures.tenant);
+  };
+
+  const handleDownloadContract = (contract: Contract) => {
+    try {
+      generateContractPDF(contract);
+      toast({
+        title: "Contrat téléchargé",
+        description: "Le contrat a été téléchargé en PDF.",
+      });
+    } catch (error) {
+      console.error('Erreur lors du téléchargement:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors du téléchargement du contrat.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (!contracts || contracts.length === 0) {
@@ -146,6 +168,16 @@ const ContractsList: React.FC<ContractsListProps> = ({
               >
                 <Edit className="h-4 w-4 mr-1" />
                 Modifier
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDownloadContract(contract)}
+                className="flex items-center text-green-600 hover:text-green-700 hover:bg-green-50"
+              >
+                <Download className="h-4 w-4 mr-1" />
+                Télécharger
               </Button>
               
               {canSign(contract) && (

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -170,11 +169,12 @@ const RoommateContractView = () => {
         </CardContent>
       </Card>
 
-      {/* Contrat complet */}
+      {/* Contrat complet avec signatures */}
       <div className="bg-white rounded-lg shadow-sm border print:shadow-none print:border-none">
         <RoommateContractTemplate 
           roommateData={roommateData}
           propertyData={propertyData}
+          signatures={signedContract.signatures}
         />
       </div>
 
