@@ -9,6 +9,7 @@ import DocumentUpload from './DocumentUpload';
 import RoommateContractView from './RoommateContractView';
 import SignedContractsView from './SignedContractsView';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
 
 interface TenantSpaceTabsProps {
   activeTab: string;
@@ -20,16 +21,20 @@ interface TenantSpaceTabsProps {
 const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantData }: TenantSpaceTabsProps) => {
   const { t } = useTranslation();
   const { getCurrentUserType } = useAdminTenantAccess();
-  const currentUserType = getCurrentUserType();
+  const { currentType } = useTenantSpaceData();
   
-  // Simplifier les conditions - tous les utilisateurs peuvent voir tous les onglets de base
-  const isRoommate = currentUserType === 'colocataire';
-  const isTenant = currentUserType === 'locataire';
-  const isAdminOrOwner = currentUserType === 'admin' || currentUserType === 'owner';
+  // Utiliser currentType de useTenantSpaceData qui prend en compte les colocataires
+  const userType = currentType || getCurrentUserType();
+  
+  const isRoommate = userType === 'colocataire';
+  const isTenant = userType === 'locataire';
+  const isAdminOrOwner = userType === 'admin' || userType === 'owner';
 
-  console.log('TenantSpaceTabs - currentUserType:', currentUserType);
+  console.log('TenantSpaceTabs - userType (from currentType):', userType);
   console.log('TenantSpaceTabs - isRoommate:', isRoommate);
   console.log('TenantSpaceTabs - isTenant:', isTenant);
+  console.log('TenantSpaceTabs - Should show contract tab:', isRoommate || isAdminOrOwner);
+  console.log('TenantSpaceTabs - Should show contracts tab:', isTenant || isAdminOrOwner);
 
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
