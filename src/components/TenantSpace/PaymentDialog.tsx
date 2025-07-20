@@ -53,9 +53,16 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
   const [showBankTransferForm, setShowBankTransferForm] = React.useState(false);
 
   const handleQuickPayment = (method: string) => {
+    console.log('Méthode de paiement sélectionnée:', method);
+    
     if (method === 'virement') {
+      console.log('Affichage du formulaire de virement bancaire');
+      setPaymentMethod('virement');
+      setPaidAmount(totalAmount.toString());
+      setPaymentDate(new Date().toISOString().split('T')[0]);
       setShowBankTransferForm(true);
     } else {
+      console.log('Affichage du formulaire de paiement classique');
       setPaymentMethod(method);
       setPaidAmount(totalAmount.toString());
       setPaymentDate(new Date().toISOString().split('T')[0]);
@@ -65,9 +72,17 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
   const handleBankTransferSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Soumission du virement bancaire');
     // Préparer les données pour le virement bancaire
     setPaymentMethod('virement');
     onSubmit(e);
+  };
+
+  const handleHistoryClick = () => {
+    console.log('Clic sur historique des paiements');
+    // Pour l'instant, on ferme juste le dialog
+    // TODO: Implémenter la navigation vers l'historique
+    onOpenChange(false);
   };
 
   if (showBankTransferForm) {
@@ -241,10 +256,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-gray-50"
-            onClick={() => {
-              // Navigate to payment history
-              onOpenChange(false);
-            }}
+            onClick={handleHistoryClick}
           >
             <div className="flex items-center gap-3 w-full">
               <History className="h-5 w-5 text-blue-600 flex-shrink-0" />
