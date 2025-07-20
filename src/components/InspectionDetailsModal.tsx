@@ -24,7 +24,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
     setIsEditFormOpen(true);
   };
 
-  const handleSaveInspection = (updatedData: any) => {
+  const handleSaveInspection = (updatedData: Partial<Inspection>) => {
     if (inspection && onUpdate) {
       const updatedInspection = { ...inspection, ...updatedData };
       onUpdate(updatedInspection);

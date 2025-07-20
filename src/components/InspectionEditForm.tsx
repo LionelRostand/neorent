@@ -16,7 +16,7 @@ interface InspectionEditFormProps {
   inspection: Inspection;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (id: string, updates: any) => void;
+  onSave: (updates: Partial<Inspection>) => void;
 }
 
 const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionEditFormProps) => {
@@ -54,21 +54,21 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
   const handleRoomChange = (room: string, field: string, value: any) => {
     setRooms(prev => ({
       ...prev,
-      [room]: { ...prev[room], [field]: value }
+      [room]: { ...(prev as any)[room], [field]: value }
     }));
   };
 
   const handleEquipmentChange = (equipment: string, field: string, value: any) => {
     setEquipments(prev => ({
       ...prev,
-      [equipment]: { ...prev[equipment], [field]: value }
+      [equipment]: { ...(prev as any)[equipment], [field]: value }
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const updatedData = {
+    const updatedData: Partial<Inspection> = {
       status: formData.status,
       description: formData.description,
       observations: formData.observations,
@@ -77,7 +77,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
       lastModified: new Date().toISOString()
     };
 
-    onSave(inspection.id, updatedData);
+    onSave(updatedData);
     onClose();
   };
 
