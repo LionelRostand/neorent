@@ -30,7 +30,8 @@ const ContractForm = ({ onClose, onSubmit, isInDialog = true, buttonConfig }: Co
     isColocatifContract,
     isDataLoading,
     tenants,
-    roommates
+    roommates,
+    owners
   } = useContractForm();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,6 +73,8 @@ const ContractForm = ({ onClose, onSubmit, isInDialog = true, buttonConfig }: Co
           formData={formData}
           handleInputChange={handleInputChange}
           contractTypes={contractTypes}
+          owners={owners}
+          isDataLoading={isDataLoading}
         />
 
         <PropertyFields

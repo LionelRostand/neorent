@@ -5,14 +5,24 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import OwnerFields from './OwnerFields';
+import { Owner } from '@/hooks/useFirebaseOwners';
 
 interface BasicContractFieldsProps {
   formData: any;
   handleInputChange: (field: string, value: string) => void;
   contractTypes: string[];
+  owners: Owner[];
+  isDataLoading: boolean;
 }
 
-const BasicContractFields = ({ formData, handleInputChange, contractTypes }: BasicContractFieldsProps) => {
+const BasicContractFields = ({ 
+  formData, 
+  handleInputChange, 
+  contractTypes, 
+  owners, 
+  isDataLoading 
+}: BasicContractFieldsProps) => {
   const { t } = useTranslation();
 
   return (
@@ -43,15 +53,12 @@ const BasicContractFields = ({ formData, handleInputChange, contractTypes }: Bas
         </Select>
       </div>
 
-      <div>
-        <Label htmlFor="provider">{t('contractForm.provider')}</Label>
-        <Input
-          id="provider"
-          value={formData.provider}
-          onChange={(e) => handleInputChange('provider', e.target.value)}
-          placeholder={t('contractForm.providerPlaceholder')}
-        />
-      </div>
+      <OwnerFields
+        formData={formData}
+        handleInputChange={handleInputChange}
+        owners={owners}
+        isDataLoading={isDataLoading}
+      />
 
       <div>
         <Label htmlFor="jurisdiction">{t('contractForm.jurisdiction')}</Label>

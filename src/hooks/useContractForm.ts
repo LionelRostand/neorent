@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 
 export const useContractForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     type: '',
-    provider: '',
+    owner: '',
     property: '',
     roomNumber: '',
     startDate: '',
@@ -22,17 +23,12 @@ export const useContractForm = () => {
   const { properties, loading } = useFirebaseProperties();
   const { tenants, loading: tenantsLoading } = useFirebaseTenants();
   const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
+  const { owners, loading: ownersLoading } = useFirebaseOwners();
 
   const contractTypes = [
     'Residential Lease',
     'Shared Accommodation Lease'
   ];
-
-  // Rooms by property for shared accommodation
-  const roomsByProperty = {
-    'Villa Montparnasse': ['Room 1', 'Room 2', 'Room 3'],
-    'Appartement République': ['Room A', 'Room B']
-  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => {
@@ -87,14 +83,18 @@ export const useContractForm = () => {
 
   const getAvailableRooms = () => {
     if (formData.type === 'Shared Accommodation Lease' && formData.property) {
-      return roomsByProperty[formData.property] || [];
+      const selectedProperty = properties.find(p => p.title === formData.property);
+      if (selectedProperty && selectedProperty.totalRooms) {
+        // Generate room list based on totalRooms
+        return Array.from({ length: selectedProperty.totalRooms }, (_, index) => `Chambre ${index + 1}`);
+      }
     }
     return [];
   };
 
   const isBailContract = formData.type === 'Residential Lease' || formData.type === 'Shared Accommodation Lease';
   const isColocatifContract = formData.type === 'Shared Accommodation Lease';
-  const isDataLoading = loading || tenantsLoading || roommatesLoading;
+  const isDataLoading = loading || tenantsLoading || roommatesLoading || ownersLoading;
 
   return {
     formData,
@@ -107,6 +107,7 @@ export const useContractForm = () => {
     isColocatifContract,
     isDataLoading,
     tenants,
-    roommates
+    roommates,
+    owners
   };
 };
