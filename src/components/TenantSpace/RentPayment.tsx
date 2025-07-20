@@ -10,9 +10,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { usePaymentValidation } from '@/hooks/usePaymentValidation';
 import PaymentDetailsCard from './PaymentDetailsCard';
 import PaymentDialog from './PaymentDialog';
 import PaymentImportantInfo from './PaymentImportantInfo';
+import PaymentStatusNotification from './PaymentStatusNotification';
 
 interface RentPaymentProps {
   tenantData: {
@@ -40,6 +42,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   const { userProfile } = useAuth();
   const { addPayment } = useFirebasePayments();
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
+  const { pendingValidations } = usePaymentValidation();
   
   // Obtenir le profil actuel (soit utilisateur connecté, soit profil en mode admin)
   const currentProfile = getCurrentProfile();
@@ -47,11 +50,10 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   const actualTenantName = currentProfile?.name || tenantData.name;
   const actualTenantType = (currentUserType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Locataire' | 'Colocataire';
   
-  console.log('Données du locataire pour PDF:', {
-    actualTenantName,
-    actualTenantType,
-    currentProfile
-  });
+  // Filtrer les paiements pour ce locataire
+  const tenantPendingPayments = pendingValidations.filter(payment => 
+    payment.tenantName === actualTenantName
+  );
   
   const { generateReceipt } = useReceiptGeneration({
     tenantName: actualTenantName,
@@ -61,27 +63,33 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   });
 
   // Utiliser le montant du contrat depuis propertyData (qui vient maintenant du contrat signé)
-  const monthlyRent = propertyData.rent; // Le montant vient maintenant du contrat
+  const monthlyRent = propertyData.rent;
   const monthlyCharges = propertyData.charges;
   const totalAmount = monthlyRent + monthlyCharges;
 
-  // Vérifier s'il y a une différence entre le montant saisi et le montant attendu
-  const paidAmountNum = parseFloat(paidAmount) || 0;
-  const isFullPayment = paidAmountNum === totalAmount;
-
   // Validation du formulaire
-  const isFormValid = paymentDate && paymentMethod && paidAmount && paidAmountNum > 0;
+  const isFormValid = paymentDate && paymentMethod && paidAmount && (parseFloat(paidAmount) || 0) > 0;
+
+  const handleDownloadReceipt = (paymentId: string) => {
+    const payment = tenantPendingPayments.find(p => p.id === paymentId);
+    if (payment) {
+      const currentDate = new Date(payment.paymentDate);
+      const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      const monthYear = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+      generateReceipt({
+        month: monthYear,
+        rentAmount: monthlyRent,
+        charges: monthlyCharges,
+        paymentDate: payment.paymentDate,
+        paymentMethod: payment.paymentMethod
+      });
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    console.log('🔍 Validation du formulaire:', {
-      paymentDate,
-      paymentMethod,
-      paidAmount,
-      paidAmountNum,
-      isFormValid
-    });
     
     if (!paymentDate || !paymentMethod || !paidAmount) {
       toast({
@@ -92,6 +100,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
       return;
     }
 
+    const paidAmountNum = parseFloat(paidAmount) || 0;
     if (paidAmountNum <= 0) {
       toast({
         title: t('tenantSpace.payment.paymentError'),
@@ -109,7 +118,7 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
       let validationStatus = undefined;
       
       // Si c'est un virement, le mettre en attente de validation
-      if (paymentMethod === 'Virement') {
+      if (paymentMethod === 'virement') {
         paymentStatus = 'En attente de validation';
         validationStatus = 'pending';
       } else {
@@ -136,19 +145,17 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
         receiptGenerated: false
       };
 
-      console.log('💾 Données de paiement à enregistrer:', paymentData);
-
       await addPayment(paymentData);
 
       // Messages différents selon le mode de paiement
-      if (paymentMethod === 'Virement') {
+      if (paymentMethod === 'virement') {
         toast({
           title: 'Virement déclaré',
           description: 'Votre virement a été déclaré. Il sera validé par le bailleur sous 24h.',
         });
       } else {
         // Générer automatiquement le reçu pour les autres modes de paiement
-        if (isFullPayment) {
+        if (paidAmountNum === totalAmount) {
           const currentDate = new Date(paymentDate);
           const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
             'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
@@ -193,54 +200,62 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   };
 
   return (
-    <Card className="border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-green-800">
-          <CreditCard className="h-5 w-5" />
-          {t('tenantSpace.payment.payRent')}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <PaymentDetailsCard 
-            monthlyRent={monthlyRent}
-            monthlyCharges={monthlyCharges}
-            totalAmount={totalAmount}
-          />
+    <div className="space-y-4">
+      {/* Notifications de statut des paiements */}
+      <PaymentStatusNotification
+        pendingPayments={tenantPendingPayments}
+        onDownloadReceipt={handleDownloadReceipt}
+      />
 
-          <Dialog open={open} onOpenChange={setOpen}>
-            <PaymentDialog
-              open={open}
-              onOpenChange={setOpen}
-              actualTenantName={actualTenantName}
-              actualTenantType={actualTenantType}
-              propertyTitle={propertyData.title}
+      <Card className="border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-green-800">
+            <CreditCard className="h-5 w-5" />
+            {t('tenantSpace.payment.payRent')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <PaymentDetailsCard 
+              monthlyRent={monthlyRent}
+              monthlyCharges={monthlyCharges}
               totalAmount={totalAmount}
-              paymentDate={paymentDate}
-              setPaymentDate={setPaymentDate}
-              paidAmount={paidAmount}
-              setPaidAmount={setPaidAmount}
-              paymentMethod={paymentMethod}
-              setPaymentMethod={setPaymentMethod}
-              notes={notes}
-              setNotes={setNotes}
-              loading={loading}
-              isFormValid={isFormValid}
-              onSubmit={handleSubmit}
             />
 
-            <DialogTrigger asChild>
-              <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
-                <DollarSign className="mr-2 h-4 w-4" />
-                {t('tenantSpace.payment.makePayment')}
-              </Button>
-            </DialogTrigger>
-          </Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <PaymentDialog
+                open={open}
+                onOpenChange={setOpen}
+                actualTenantName={actualTenantName}
+                actualTenantType={actualTenantType}
+                propertyTitle={propertyData.title}
+                totalAmount={totalAmount}
+                paymentDate={paymentDate}
+                setPaymentDate={setPaymentDate}
+                paidAmount={paidAmount}
+                setPaidAmount={setPaidAmount}
+                paymentMethod={paymentMethod}
+                setPaymentMethod={setPaymentMethod}
+                notes={notes}
+                setNotes={setNotes}
+                loading={loading}
+                isFormValid={isFormValid}
+                onSubmit={handleSubmit}
+              />
 
-          <PaymentImportantInfo />
-        </div>
-      </CardContent>
-    </Card>
+              <DialogTrigger asChild>
+                <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
+                  <DollarSign className="mr-2 h-4 w-4" />
+                  {t('tenantSpace.payment.makePayment')}
+                </Button>
+              </DialogTrigger>
+            </Dialog>
+
+            <PaymentImportantInfo />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
