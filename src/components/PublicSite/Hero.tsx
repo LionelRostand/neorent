@@ -21,7 +21,7 @@ const Hero: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/login">
               <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 text-base">
-                {t('publicSite.hero.startFree')}
+                Login
               </Button>
             </Link>
             <Link to="/contact">
