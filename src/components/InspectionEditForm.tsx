@@ -12,7 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Save } from 'lucide-react';
 
 interface InspectionDetails {
-  id: number;
+  id: string;
   title: string;
   type: string;
   tenant: string;
@@ -39,21 +39,7 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
   const [formData, setFormData] = useState({
     status: inspection.status,
     description: inspection.description || '',
-    observations: inspection.observations || '',
-    roomsData: JSON.stringify({
-      salon: { state: 'Bon', observations: '' },
-      cuisine: { state: 'Bon', observations: '' },
-      chambre1: { state: 'Bon', observations: '' },
-      salleDeBain: { state: 'Bon', observations: '' },
-      wc: { state: 'Bon', observations: '' },
-      entree: { state: 'Bon', observations: '' }
-    }),
-    equipmentsData: JSON.stringify({
-      electromenager: { present: false, state: 'Bon', observations: '' },
-      chauffage: { present: false, state: 'Bon', observations: '' },
-      plomberie: { present: false, state: 'Bon', observations: '' },
-      electricite: { present: false, state: 'Bon', observations: '' }
-    })
+    observations: inspection.observations || ''
   });
 
   const [rooms, setRooms] = useState({
@@ -81,30 +67,12 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
       ...prev,
       [room]: { ...prev[room], [field]: value }
     }));
-    
-    // Update formData with stringified version
-    setFormData(prev => ({
-      ...prev,
-      roomsData: JSON.stringify({
-        ...rooms,
-        [room]: { ...rooms[room], [field]: value }
-      })
-    }));
   };
 
   const handleEquipmentChange = (equipment: string, field: string, value: any) => {
     setEquipments(prev => ({
       ...prev,
       [equipment]: { ...prev[equipment], [field]: value }
-    }));
-    
-    // Update formData with stringified version
-    setFormData(prev => ({
-      ...prev,
-      equipmentsData: JSON.stringify({
-        ...equipments,
-        [equipment]: { ...equipments[equipment], [field]: value }
-      })
     }));
   };
 
@@ -116,8 +84,8 @@ const InspectionEditForm = ({ inspection, isOpen, onClose, onSave }: InspectionE
       status: formData.status,
       description: formData.description,
       observations: formData.observations,
-      roomsData: formData.roomsData,
-      equipmentsData: formData.equipmentsData,
+      roomsData: JSON.stringify(rooms),
+      equipmentsData: JSON.stringify(equipments),
       lastModified: new Date().toISOString()
     };
 
