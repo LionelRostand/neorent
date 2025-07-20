@@ -4,16 +4,36 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { FileText, PenTool } from 'lucide-react';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 
 const DocumentsSection: React.FC = () => {
   const { t } = useTranslation();
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
+  const { contracts, loading } = useFirebaseContracts();
   const currentProfile = getCurrentProfile();
   const currentUserType = getCurrentUserType();
   const isRoommate = currentUserType === 'colocataire';
   
-  // Check if contract is signed for roommates
-  const isContractSigned = !isRoommate || currentProfile?.contractStatus === 'Signé';
+  // Vérifier si le contrat est signé en utilisant les données Firebase
+  const signedContract = contracts.find(contract => 
+    contract.status === 'Signé' && 
+    contract.tenant === currentProfile?.name
+  );
+  
+  const isContractSigned = !isRoommate || !!signedContract;
+
+  console.log('DocumentsSection - isRoommate:', isRoommate);
+  console.log('DocumentsSection - signedContract:', signedContract);
+  console.log('DocumentsSection - isContractSigned:', isContractSigned);
+
+  // Show loading state while contracts are being fetched
+  if (loading && isRoommate) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <p className="text-gray-500">Vérification du contrat...</p>
+      </div>
+    );
+  }
 
   // Show empty state for roommates with unsigned contracts
   if (isRoommate && !isContractSigned) {
