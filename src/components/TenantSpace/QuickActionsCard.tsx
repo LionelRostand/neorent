@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { CreditCard, Home, Mail, User, Banknote, History, Wallet } from 'lucide-react';
 import MaintenanceRequestForm from '../Maintenance/MaintenanceRequestForm';
 import PaymentDialog from './PaymentDialog';
+import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
 
 interface QuickActionsCardProps {
   onTabChange: (tab: string) => void;
@@ -13,6 +15,7 @@ interface QuickActionsCardProps {
 
 const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onViewChange }) => {
   const { i18n } = useTranslation();
+  const { currentProfile, currentType, mockPropertyData } = useTenantSpaceData();
   const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
   const [bankTransferDialogOpen, setBankTransferDialogOpen] = useState(false);
@@ -160,6 +163,12 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
     setMessageDialogOpen(false);
   };
 
+  // Données réelles du locataire pour le dialog de paiement
+  const actualTenantName = currentProfile?.name || 'Nom non disponible';
+  const actualTenantType = (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire';
+  const propertyTitle = mockPropertyData?.title || 'Propriété non disponible';
+  const totalAmount = (mockPropertyData?.rent || 0) + (mockPropertyData?.charges || 0);
+
   return (
     <Card className="shadow-md">
       <CardHeader>
@@ -247,19 +256,19 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             </DialogContent>
           </Dialog>
 
-          {/* Dialog spécifique pour le virement bancaire - OUVERTURE DIRECTE */}
+          {/* Dialog spécifique pour le virement bancaire - AVEC DONNÉES RÉELLES */}
           <Dialog open={bankTransferDialogOpen} onOpenChange={setBankTransferDialogOpen}>
             <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
               <PaymentDialog
                 open={bankTransferDialogOpen}
                 onOpenChange={setBankTransferDialogOpen}
-                actualTenantName="Marie Dupont"
-                actualTenantType="Colocataire"
-                propertyTitle="Appartement Colocation - 123 Rue de la Paix"
-                totalAmount={650}
+                actualTenantName={actualTenantName}
+                actualTenantType={actualTenantType}
+                propertyTitle={propertyTitle}
+                totalAmount={totalAmount}
                 paymentDate={new Date().toISOString().split('T')[0]}
                 setPaymentDate={() => {}}
-                paidAmount="650"
+                paidAmount={totalAmount.toString()}
                 setPaidAmount={() => {}}
                 paymentMethod="virement"
                 setPaymentMethod={() => {}}
@@ -344,7 +353,6 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             </DialogContent>
           </Dialog>
 
-          {/* Action Profil */}
           <button 
             onClick={handleProfileClick}
             className="flex flex-col items-center gap-2 p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
