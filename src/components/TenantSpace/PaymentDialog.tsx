@@ -50,70 +50,10 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
 }) => {
   const { t } = useTranslation();
   const [showPaymentForm, setShowPaymentForm] = React.useState(false);
-  const [showBankTransferForm, setShowBankTransferForm] = React.useState(false);
 
-  // Reset states when dialog closes
-  React.useEffect(() => {
-    console.log('PaymentDialog - States:', { showPaymentForm, showBankTransferForm });
-  }, [showPaymentForm, showBankTransferForm]);
-
-  const handleQuickPayment = (method: string) => {
-    console.log('=== handleQuickPayment appelé ===');
-    console.log('Méthode de paiement sélectionnée:', method);
-    console.log('État actuel - showBankTransferForm:', showBankTransferForm);
-    console.log('État actuel - showPaymentForm:', showPaymentForm);
-    
-    if (method === 'virement') {
-      console.log('=== TRAITEMENT VIREMENT BANCAIRE ===');
-      setPaymentMethod('virement');
-      setPaidAmount(totalAmount.toString());
-      setPaymentDate(new Date().toISOString().split('T')[0]);
-      setShowPaymentForm(false); // S'assurer que l'autre form est fermé
-      setShowBankTransferForm(true);
-      console.log('Après setState - showBankTransferForm devrait être true');
-    } else {
-      console.log('=== TRAITEMENT AUTRE PAIEMENT ===');
-      setPaymentMethod(method);
-      setPaidAmount(totalAmount.toString());
-      setPaymentDate(new Date().toISOString().split('T')[0]);
-      setShowBankTransferForm(false); // S'assurer que l'autre form est fermé
-      setShowPaymentForm(true);
-      console.log('Après setState - showPaymentForm devrait être true');
-    }
-  };
-
-  const handleBankTransferSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('=== SOUMISSION VIREMENT BANCAIRE ===');
-    console.log('Données du formulaire:', { paymentDate, paidAmount, notes });
-    setPaymentMethod('virement');
-    onSubmit(e);
-  };
-
-  const handleHistoryClick = () => {
-    console.log('Clic sur historique des paiements');
-    onOpenChange(false);
-  };
-
-  const handleBackToMenu = () => {
-    console.log('Retour au menu principal');
-    setShowPaymentForm(false);
-    setShowBankTransferForm(false);
-  };
-
-  const handleCancel = () => {
-    console.log('Annulation - fermeture du dialog');
-    setShowPaymentForm(false);
-    setShowBankTransferForm(false);
-    onOpenChange(false);
-  };
-
-  console.log('=== RENDU PaymentDialog ===');
-  console.log('showBankTransferForm:', showBankTransferForm);
-  console.log('showPaymentForm:', showPaymentForm);
-
-  if (showBankTransferForm) {
-    console.log('=== AFFICHAGE FORMULAIRE VIREMENT ===');
+  // Si la méthode de paiement est "virement", afficher directement le formulaire de virement bancaire
+  if (paymentMethod === 'virement') {
+    console.log('=== AFFICHAGE FORMULAIRE VIREMENT BANCAIRE DIRECT ===');
     return (
       <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
         <DialogHeader>
@@ -155,7 +95,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
             </div>
           </div>
 
-          <form onSubmit={handleBankTransferSubmit} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="paymentDate">Date du virement *</Label>
               <Input
@@ -195,7 +135,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
               <Button
                 type="button"
                 variant="outline"
-                onClick={handleCancel}
+                onClick={() => onOpenChange(false)}
                 className="flex-1"
               >
                 Annuler
@@ -213,6 +153,26 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
       </DialogContent>
     );
   }
+
+  // Reset states when dialog closes
+  React.useEffect(() => {
+    console.log('PaymentDialog - States:', { showPaymentForm });
+  }, [showPaymentForm]);
+
+  const handleQuickPayment = (method: string) => {
+    console.log('=== handleQuickPayment appelé ===');
+    console.log('Méthode de paiement sélectionnée:', method);
+    
+    setPaymentMethod(method);
+    setPaidAmount(totalAmount.toString());
+    setPaymentDate(new Date().toISOString().split('T')[0]);
+    setShowPaymentForm(true);
+  };
+
+  const handleHistoryClick = () => {
+    console.log('Clic sur historique des paiements');
+    onOpenChange(false);
+  };
 
   if (showPaymentForm) {
     console.log('=== AFFICHAGE FORMULAIRE PAIEMENT CLASSIQUE ===');
@@ -257,7 +217,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
             loading={loading}
             isFormValid={isFormValid}
             onSubmit={onSubmit}
-            onCancel={handleCancel}
+            onCancel={() => onOpenChange(false)}
           />
         </ScrollArea>
       </DialogContent>
@@ -291,15 +251,11 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
             </div>
           </Button>
 
-          {/* Virement bancaire - AVEC LOGS DE DEBUG */}
+          {/* Virement bancaire */}
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-blue-50 border-blue-200"
-            onClick={() => {
-              console.log('=== CLIC DÉTECTÉ SUR VIREMENT BANCAIRE ===');
-              console.log('Timestamp:', new Date().toISOString());
-              handleQuickPayment('virement');
-            }}
+            onClick={() => handleQuickPayment('virement')}
           >
             <div className="flex items-center gap-3 w-full">
               <CreditCard className="h-5 w-5 text-blue-600 flex-shrink-0" />
@@ -314,10 +270,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-green-50 border-green-200"
-            onClick={() => {
-              console.log('=== CLIC DÉTECTÉ SUR PAIEMENT ESPÈCES ===');
-              handleQuickPayment('especes');
-            }}
+            onClick={() => handleQuickPayment('especes')}
           >
             <div className="flex items-center gap-3 w-full">
               <Banknote className="h-5 w-5 text-green-600 flex-shrink-0" />
@@ -332,10 +285,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-purple-50 border-purple-200"
-            onClick={() => {
-              console.log('=== CLIC DÉTECTÉ SUR PAIEMENT CARTE ===');
-              handleQuickPayment('carte');
-            }}
+            onClick={() => handleQuickPayment('carte')}
           >
             <div className="flex items-center gap-3 w-full">
               <Wallet className="h-5 w-5 text-purple-600 flex-shrink-0" />
