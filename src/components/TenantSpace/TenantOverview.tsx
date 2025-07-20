@@ -9,6 +9,7 @@ import RentPayment from './RentPayment';
 import QuickActionsCard from './QuickActionsCard';
 import TenantProfile from './TenantProfile';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
+import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 
 interface TenantOverviewProps {
   propertyData: any;
@@ -20,12 +21,22 @@ interface TenantOverviewProps {
 
 const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'overview', onViewChange }: TenantOverviewProps) => {
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
+  const { contracts, loading } = useFirebaseContracts();
   const currentProfile = getCurrentProfile();
   const currentUserType = getCurrentUserType();
   const isRoommate = currentUserType === 'colocataire';
 
-  // Check if contract is signed for roommates
-  const isContractSigned = !isRoommate || currentProfile?.contractStatus === 'Signé';
+  // Vérifier si le contrat est signé en utilisant les données Firebase
+  const signedContract = contracts.find(contract => 
+    contract.status === 'Signé' && 
+    contract.tenant === currentProfile?.name
+  );
+  
+  const isContractSigned = !isRoommate || !!signedContract;
+
+  console.log('TenantOverview - isRoommate:', isRoommate);
+  console.log('TenantOverview - signedContract:', signedContract);
+  console.log('TenantOverview - isContractSigned:', isContractSigned);
 
   if (!propertyData || !tenantData) {
     return (
@@ -40,7 +51,7 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
   }
 
   // Show empty state for roommates with unsigned contracts
-  if (isRoommate && !isContractSigned) {
+  if (isRoommate && !isContractSigned && !loading) {
     return (
       <div className="space-y-6">
         <Card className="border-2 border-dashed border-gray-300 bg-gray-50">
@@ -62,6 +73,15 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
             </div>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  // Show loading state while contracts are being fetched
+  if (loading && isRoommate) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <p className="text-gray-500">Vérification du contrat...</p>
       </div>
     );
   }
