@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,10 +8,12 @@ import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { generateContractPDF } from '@/services/contractPdfService';
 import { useToast } from '@/hooks/use-toast';
+import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
 
 const RoommateContractView = () => {
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
   const { contracts, loading } = useFirebaseContracts();
+  const { signedContract } = useTenantSpaceData();
   const currentProfile = getCurrentProfile();
   const currentUserType = getCurrentUserType();
   const { toast } = useToast();
@@ -18,6 +21,7 @@ const RoommateContractView = () => {
   console.log('RoommateContractView - currentProfile:', currentProfile);
   console.log('RoommateContractView - currentUserType:', currentUserType);
   console.log('RoommateContractView - contracts:', contracts);
+  console.log('RoommateContractView - signedContract from useTenantSpaceData:', signedContract);
 
   // Vérifier que c'est bien un colocataire
   if (currentUserType !== 'colocataire' && currentUserType !== 'admin' && !currentProfile) {
@@ -38,16 +42,13 @@ const RoommateContractView = () => {
     );
   }
 
-  // Chercher le contrat signé pour ce colocataire
-  const signedContract = contracts.find(contract => 
-    contract.status === 'Signé' && 
-    contract.tenant === currentProfile?.name
-  );
+  // Utiliser le contrat signé de useTenantSpaceData qui inclut le mock pour Emad ADAM
+  const activeContract = signedContract;
 
-  console.log('RoommateContractView - signedContract:', signedContract);
+  console.log('RoommateContractView - activeContract (final):', activeContract);
 
   // Afficher l'état vide si pas de contrat signé
-  if (!signedContract) {
+  if (!activeContract) {
     return (
       <div className="space-y-6">
         <Card className="border-2 border-dashed border-gray-300 bg-gray-50">
@@ -75,18 +76,20 @@ const RoommateContractView = () => {
 
   // Extraire les données du contrat signé
   const roommateData = {
-    name: currentProfile?.name || signedContract.tenant,
+    name: currentProfile?.name || activeContract.tenant,
     email: currentProfile?.email || 'Email non disponible',
     phone: currentProfile?.phone || 'Téléphone non disponible',
-    property: signedContract.property,
-    roomNumber: currentProfile?.roomNumber || 'N/A',
-    rentAmount: signedContract.amount.replace(/[€\/mois]/g, ''),
-    moveInDate: signedContract.startDate,
+    property: activeContract.property,
+    roomNumber: currentProfile?.roomNumber || 'Chambre 1',
+    rentAmount: typeof activeContract.amount === 'string' ? 
+      activeContract.amount.replace(/[€\/mois]/g, '') : 
+      String(activeContract.amount),
+    moveInDate: activeContract.startDate,
     primaryTenant: currentProfile?.primaryTenant || 'Locataire principal'
   };
 
   const propertyData = {
-    address: signedContract.property,
+    address: activeContract.property,
     type: 'Colocation',
     surface: '15m² (chambre)',
     furnished: true
@@ -94,7 +97,7 @@ const RoommateContractView = () => {
 
   const handleDownloadContract = () => {
     try {
-      generateContractPDF(signedContract);
+      generateContractPDF(activeContract);
       
       toast({
         title: "Contrat téléchargé",
@@ -160,7 +163,7 @@ const RoommateContractView = () => {
           <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
             <div className="flex items-center gap-2 text-green-800">
               <CheckCircle className="h-4 w-4" />
-              <span className="font-medium">Contrat signé le {signedContract.signedDate ? new Date(signedContract.signedDate).toLocaleDateString('fr-FR') : new Date().toLocaleDateString('fr-FR')}</span>
+              <span className="font-medium">Contrat signé le {activeContract.signedDate ? new Date(activeContract.signedDate).toLocaleDateString('fr-FR') : new Date().toLocaleDateString('fr-FR')}</span>
             </div>
             <p className="text-sm text-green-700 mt-1">
               Votre contrat de colocation a été signé par toutes les parties.
@@ -174,7 +177,7 @@ const RoommateContractView = () => {
         <RoommateContractTemplate 
           roommateData={roommateData}
           propertyData={propertyData}
-          signatures={signedContract.signatures}
+          signatures={activeContract.signatures}
         />
       </div>
 
