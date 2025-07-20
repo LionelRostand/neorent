@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -139,9 +138,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   const handleBankTransferClick = () => {
     console.log('=== OUVERTURE DIRECTE FORMULAIRE VIREMENT BANCAIRE ===');
     setPaymentDialogOpen(false);
-    setTimeout(() => {
-      setBankTransferDialogOpen(true);
-    }, 100);
+    setBankTransferDialogOpen(true);
   };
 
   const handleCashPaymentClick = () => {
@@ -250,31 +247,33 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             </DialogContent>
           </Dialog>
 
-          {/* Dialog spécifique pour le virement bancaire */}
+          {/* Dialog spécifique pour le virement bancaire - OUVERTURE DIRECTE */}
           <Dialog open={bankTransferDialogOpen} onOpenChange={setBankTransferDialogOpen}>
-            <PaymentDialog
-              open={bankTransferDialogOpen}
-              onOpenChange={setBankTransferDialogOpen}
-              actualTenantName="Marie Dupont"
-              actualTenantType="Colocataire"
-              propertyTitle="Appartement Colocation - 123 Rue de la Paix"
-              totalAmount={650}
-              paymentDate={new Date().toISOString().split('T')[0]}
-              setPaymentDate={() => {}}
-              paidAmount="650"
-              setPaidAmount={() => {}}
-              paymentMethod="virement"
-              setPaymentMethod={() => {}}
-              notes=""
-              setNotes={() => {}}
-              loading={false}
-              isFormValid={true}
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log('Virement bancaire déclaré');
-                setBankTransferDialogOpen(false);
-              }}
-            />
+            <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
+              <PaymentDialog
+                open={bankTransferDialogOpen}
+                onOpenChange={setBankTransferDialogOpen}
+                actualTenantName="Marie Dupont"
+                actualTenantType="Colocataire"
+                propertyTitle="Appartement Colocation - 123 Rue de la Paix"
+                totalAmount={650}
+                paymentDate={new Date().toISOString().split('T')[0]}
+                setPaymentDate={() => {}}
+                paidAmount="650"
+                setPaidAmount={() => {}}
+                paymentMethod="virement"
+                setPaymentMethod={() => {}}
+                notes=""
+                setNotes={() => {}}
+                loading={false}
+                isFormValid={true}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  console.log('Virement bancaire déclaré');
+                  setBankTransferDialogOpen(false);
+                }}
+              />
+            </DialogContent>
           </Dialog>
 
           {/* Action Maintenance */}
