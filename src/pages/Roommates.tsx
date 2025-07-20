@@ -38,10 +38,31 @@ const Roommates = () => {
     .filter(r => r.status === 'Actif')
     .map(r => {
       const expected = Number(r.rentAmount) || 0;
-      const paid = r.paidAmount || 0; // Utilise 0 si paidAmount n'est pas défini
-      return { roommate: r, expected, paid, hasIssue: paid !== expected };
+      const paid = r.paidAmount || 0;
+      
+      // Une alerte n'est nécessaire QUE si un montant a été payé ET qu'il y a une différence
+      // Si paidAmount est 0 ou undefined, cela signifie qu'aucun paiement n'a été enregistré
+      // et il ne faut pas afficher d'alerte
+      const hasRealPaymentIssue = paid > 0 && paid !== expected;
+      
+      return { 
+        roommate: r, 
+        expected, 
+        paid, 
+        hasIssue: hasRealPaymentIssue 
+      };
     })
     .filter(alert => alert.hasIssue);
+
+  console.log('🔍 Analyse des alertes de paiement:', roommates
+    .filter(r => r.status === 'Actif')
+    .map(r => ({
+      nom: r.name,
+      attendu: r.rentAmount,
+      payé: r.paidAmount,
+      aUneAlerte: (r.paidAmount || 0) > 0 && (r.paidAmount || 0) !== Number(r.rentAmount || 0)
+    }))
+  );
 
   const handleAddRoommate = async (data: any) => {
     try {
