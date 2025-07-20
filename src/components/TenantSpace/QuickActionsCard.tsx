@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { CreditCard, Home, Mail, User, Banknote } from 'lucide-react';
 import MaintenanceRequestForm from '../Maintenance/MaintenanceRequestForm';
+import PaymentDialog from './PaymentDialog';
 
 interface QuickActionsCardProps {
   onTabChange: (tab: string) => void;
@@ -123,11 +124,17 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   };
 
   const handleBankTransferClick = () => {
-    console.log('Redirection vers paiement - virement bancaire');
-    // Stocker le type de paiement sélectionné pour l'onglet paiement
-    localStorage.setItem('selectedPaymentMethod', 'virement');
-    onTabChange('payment');
+    console.log('Ouverture du formulaire de déclaration de virement bancaire');
+    // Fermer le menu des options de paiement et ouvrir directement le PaymentDialog
+    // avec le mode virement bancaire pré-sélectionné
     setPaymentDialogOpen(false);
+    // Utiliser un petit délai pour permettre la fermeture propre du premier dialog
+    setTimeout(() => {
+      // Stocker la méthode de paiement sélectionnée
+      localStorage.setItem('selectedPaymentMethod', 'virement');
+      // Rediriger vers l'onglet paiement qui ouvrira automatiquement le bon formulaire
+      onTabChange('payment');
+    }, 100);
   };
 
   const handleCashPaymentClick = () => {
@@ -167,7 +174,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
                 <DialogTitle>{getLocalizedText('paymentOptions')}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 mt-4">
-                {/* Virement bancaire - AVEC GESTIONNAIRE DE CLIC CORRIGÉ */}
+                {/* Virement bancaire - DÉCLARATION DIRECTE */}
                 <button 
                   onClick={(e) => {
                     e.preventDefault();
