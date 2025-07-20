@@ -14,6 +14,8 @@ interface QuickActionsCardProps {
 const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onViewChange }) => {
   const { i18n } = useTranslation();
   const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
+  const [messageDialogOpen, setMessageDialogOpen] = useState(false);
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -43,6 +45,46 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
       newRequest: {
         fr: 'Nouvelle demande',
         en: 'New Request'
+      },
+      paymentOptions: {
+        fr: 'Options de paiement',
+        en: 'Payment Options'
+      },
+      newMessage: {
+        fr: 'Nouveau message',
+        en: 'New Message'
+      },
+      bankTransfer: {
+        fr: 'Virement bancaire',
+        en: 'Bank Transfer'
+      },
+      onlinePayment: {
+        fr: 'Paiement en ligne',
+        en: 'Online Payment'
+      },
+      paymentHistory: {
+        fr: 'Historique des paiements',
+        en: 'Payment History'
+      },
+      sendMessage: {
+        fr: 'Envoyer un message',
+        en: 'Send Message'
+      },
+      subject: {
+        fr: 'Sujet',
+        en: 'Subject'
+      },
+      message: {
+        fr: 'Message',
+        en: 'Message'
+      },
+      send: {
+        fr: 'Envoyer',
+        en: 'Send'
+      },
+      cancel: {
+        fr: 'Annuler',
+        en: 'Cancel'
       }
     };
 
@@ -50,11 +92,11 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   };
 
   const handlePaymentsClick = () => {
-    onTabChange('payments');
+    setPaymentDialogOpen(true);
   };
 
   const handleMessagesClick = () => {
-    onTabChange('messages');
+    setMessageDialogOpen(true);
   };
 
   const handleProfileClick = () => {
@@ -65,6 +107,17 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
     }
   };
 
+  const handlePaymentHistoryClick = () => {
+    onTabChange('history');
+    setPaymentDialogOpen(false);
+  };
+
+  const handleSendMessage = () => {
+    // Simuler l'envoi d'un message
+    console.log('Message envoyé');
+    setMessageDialogOpen(false);
+  };
+
   return (
     <Card className="shadow-md">
       <CardHeader>
@@ -72,14 +125,42 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <button 
-            onClick={handlePaymentsClick}
-            className="flex flex-col items-center gap-2 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-          >
-            <CreditCard className="h-6 w-6 text-blue-600" />
-            <span className="text-sm font-medium text-blue-800">{getLocalizedText('payments')}</span>
-          </button>
+          {/* Action Paiements */}
+          <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
+            <DialogTrigger asChild>
+              <button 
+                onClick={handlePaymentsClick}
+                className="flex flex-col items-center gap-2 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+              >
+                <CreditCard className="h-6 w-6 text-blue-600" />
+                <span className="text-sm font-medium text-blue-800">{getLocalizedText('payments')}</span>
+              </button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>{getLocalizedText('paymentOptions')}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <button 
+                  onClick={handlePaymentHistoryClick}
+                  className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <div className="font-medium">{getLocalizedText('paymentHistory')}</div>
+                  <div className="text-sm text-gray-600">Consulter l'historique des paiements</div>
+                </button>
+                <button className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="font-medium">{getLocalizedText('bankTransfer')}</div>
+                  <div className="text-sm text-gray-600">Effectuer un virement</div>
+                </button>
+                <button className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="font-medium">{getLocalizedText('onlinePayment')}</div>
+                  <div className="text-sm text-gray-600">Payer en ligne</div>
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
 
+          {/* Action Maintenance */}
           <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
             <DialogTrigger asChild>
               <button className="flex flex-col items-center gap-2 p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
@@ -97,14 +178,57 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             </DialogContent>
           </Dialog>
 
-          <button 
-            onClick={handleMessagesClick}
-            className="flex flex-col items-center gap-2 p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
-          >
-            <Mail className="h-6 w-6 text-purple-600" />
-            <span className="text-sm font-medium text-purple-800">{getLocalizedText('messages')}</span>
-          </button>
+          {/* Action Messages */}
+          <Dialog open={messageDialogOpen} onOpenChange={setMessageDialogOpen}>
+            <DialogTrigger asChild>
+              <button 
+                onClick={handleMessagesClick}
+                className="flex flex-col items-center gap-2 p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+              >
+                <Mail className="h-6 w-6 text-purple-600" />
+                <span className="text-sm font-medium text-purple-800">{getLocalizedText('messages')}</span>
+              </button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>{getLocalizedText('newMessage')}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">{getLocalizedText('subject')}</label>
+                  <input 
+                    type="text" 
+                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Objet du message"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">{getLocalizedText('message')}</label>
+                  <textarea 
+                    rows={4}
+                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Votre message..."
+                  />
+                </div>
+                <div className="flex space-x-2">
+                  <button 
+                    onClick={handleSendMessage}
+                    className="flex-1 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                  >
+                    {getLocalizedText('send')}
+                  </button>
+                  <button 
+                    onClick={() => setMessageDialogOpen(false)}
+                    className="flex-1 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    {getLocalizedText('cancel')}
+                  </button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
 
+          {/* Action Profil */}
           <button 
             onClick={handleProfileClick}
             className="flex flex-col items-center gap-2 p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
