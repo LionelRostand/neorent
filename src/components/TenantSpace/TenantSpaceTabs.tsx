@@ -21,8 +21,15 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
   const { t } = useTranslation();
   const { getCurrentUserType } = useAdminTenantAccess();
   const currentUserType = getCurrentUserType();
+  
+  // Simplifier les conditions - tous les utilisateurs peuvent voir tous les onglets de base
   const isRoommate = currentUserType === 'colocataire';
   const isTenant = currentUserType === 'locataire';
+  const isAdminOrOwner = currentUserType === 'admin' || currentUserType === 'owner';
+
+  console.log('TenantSpaceTabs - currentUserType:', currentUserType);
+  console.log('TenantSpaceTabs - isRoommate:', isRoommate);
+  console.log('TenantSpaceTabs - isTenant:', isTenant);
 
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
@@ -31,10 +38,12 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
         <TabsTrigger value="history">{t('tenantSpace.tabs.history')}</TabsTrigger>
         <TabsTrigger value="documents">{t('tenantSpace.tabs.documents')}</TabsTrigger>
         <TabsTrigger value="upload">{t('tenantSpace.tabs.upload')}</TabsTrigger>
-        {isRoommate && (
+        {/* Afficher l'onglet contrat pour les colocataires */}
+        {(isRoommate || isAdminOrOwner) && (
           <TabsTrigger value="contract">Contrat</TabsTrigger>
         )}
-        {isTenant && (
+        {/* Afficher l'onglet contrats pour les locataires principaux */}
+        {(isTenant || isAdminOrOwner) && (
           <TabsTrigger value="contracts">Contrats</TabsTrigger>
         )}
         <TabsTrigger value="profile">{t('tenantSpace.tabs.profile')}</TabsTrigger>
@@ -60,13 +69,15 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
         <DocumentUpload />
       </TabsContent>
 
-      {isRoommate && (
+      {/* Contenu du contrat pour colocataires */}
+      {(isRoommate || isAdminOrOwner) && (
         <TabsContent value="contract" className="mt-6">
           <RoommateContractView />
         </TabsContent>
       )}
 
-      {isTenant && (
+      {/* Contenu des contrats pour locataires principaux */}
+      {(isTenant || isAdminOrOwner) && (
         <TabsContent value="contracts" className="mt-6">
           <SignedContractsView />
         </TabsContent>
