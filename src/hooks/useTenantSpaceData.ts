@@ -17,8 +17,10 @@ export const useTenantSpaceData = () => {
   const { contracts } = useFirebaseContracts();
   const { roommateProfile } = useRoommateData(user?.email || null);
 
-  const currentProfile = getCurrentProfile() || roommateProfile;
-  const currentType = getCurrentUserType();
+  // Priorité au profil colocataire si il existe
+  const currentProfile = roommateProfile || getCurrentProfile();
+  // Priorité au type colocataire si le profil colocataire existe
+  const currentType = roommateProfile ? 'colocataire' : getCurrentUserType();
 
   // Trouver le contrat signé pour le locataire/colocataire actuel
   const signedContract = contracts.find(contract => 
@@ -39,28 +41,29 @@ export const useTenantSpaceData = () => {
 
   const activeContract = signedContract || mockSignedContract;
 
-  // Extraire le montant du contrat et calculer correctement loyer + charges
+  // Extraire le montant du contrat - 450€ pour Emad ADAM
   const contractTotalAmount = activeContract ? 
     parseInt(activeContract.amount.replace(/[€\/mois]/g, '')) : 
     (currentType === 'colocataire' ? 450 : 400);
 
-  // Séparer le loyer des charges
-  const charges = 50; // Charges fixes de 50€
-  const baseRent = contractTotalAmount - charges; // Loyer de base = Total - Charges
+  // Pour les colocataires : 450€ total = 400€ loyer + 50€ charges
+  const charges = 50;
+  const baseRent = contractTotalAmount - charges;
 
   // Debug logs
   useEffect(() => {
     console.log('=== TenantSpace Debug ===');
-    console.log('Current profile:', currentProfile);
-    console.log('Current type:', currentType);
+    console.log('User email:', user?.email);
+    console.log('Roommate profile:', roommateProfile);
+    console.log('getCurrentProfile():', getCurrentProfile());
+    console.log('Current profile (final):', currentProfile);
+    console.log('Current type (final):', currentType);
     console.log('Signed contract:', activeContract);
     console.log('Contract total amount:', contractTotalAmount);
     console.log('Base rent:', baseRent);
     console.log('Charges:', charges);
     console.log('Is impersonating:', isImpersonating);
     console.log('Is admin:', isAuthorizedAdmin);
-    console.log('User email:', user?.email);
-    console.log('Roommate profile:', roommateProfile);
     console.log('========================');
   }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType, activeContract, user?.email, roommateProfile]);
 

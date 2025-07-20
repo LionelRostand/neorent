@@ -3,8 +3,10 @@ import { useMemo } from 'react';
 
 export const useRoommateData = (email: string | null) => {
   const roommateProfile = useMemo(() => {
+    console.log('useRoommateData - Checking email:', email);
+    
     if (email === 'entrepreneurpro19@gmail.com') {
-      return {
+      const profile = {
         id: '1752971742586',
         property: 'Appartement 13',
         moveInDate: '2025-03-03',
@@ -25,7 +27,12 @@ export const useRoommateData = (email: string | null) => {
         companyId: null,
         permissions: null
       };
+      
+      console.log('useRoommateData - Returning profile for Emad:', profile);
+      return profile;
     }
+    
+    console.log('useRoommateData - No matching profile found');
     return null;
   }, [email]);
 
