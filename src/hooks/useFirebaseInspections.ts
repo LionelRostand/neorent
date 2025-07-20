@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 interface Inspection {
@@ -60,7 +60,17 @@ export const useFirebaseInspections = () => {
       const documentId = String(id);
       console.log('Updating inspection with ID:', documentId, 'Updates:', updates);
       
-      await updateDoc(doc(db, 'Rent_Inspections', documentId), updates);
+      // First check if the document exists
+      const docRef = doc(db, 'Rent_Inspections', documentId);
+      const docSnap = await getDoc(docRef);
+      
+      if (!docSnap.exists()) {
+        console.error('Document does not exist:', documentId);
+        setError(`Inspection with ID ${documentId} does not exist`);
+        throw new Error(`Document with ID ${documentId} not found`);
+      }
+      
+      await updateDoc(docRef, updates);
       setInspections(prev => prev.map(inspection => 
         inspection.id === documentId ? { ...inspection, ...updates } : inspection
       ));
@@ -75,7 +85,18 @@ export const useFirebaseInspections = () => {
     try {
       // Convert id to string to ensure Firebase compatibility
       const documentId = String(id);
-      await deleteDoc(doc(db, 'Rent_Inspections', documentId));
+      
+      // First check if the document exists
+      const docRef = doc(db, 'Rent_Inspections', documentId);
+      const docSnap = await getDoc(docRef);
+      
+      if (!docSnap.exists()) {
+        console.error('Document does not exist:', documentId);
+        setError(`Inspection with ID ${documentId} does not exist`);
+        throw new Error(`Document with ID ${documentId} not found`);
+      }
+      
+      await deleteDoc(docRef);
       setInspections(prev => prev.filter(inspection => inspection.id !== documentId));
     } catch (err) {
       console.error('Error deleting inspection:', err);
