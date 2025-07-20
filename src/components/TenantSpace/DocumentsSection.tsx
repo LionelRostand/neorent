@@ -5,12 +5,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { FileText, PenTool } from 'lucide-react';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
+import { useRoommateData } from '@/hooks/useRoommateData';
+import { useAuth } from '@/hooks/useAuth';
+import DocumentManager from '@/components/DocumentManager';
 
 const DocumentsSection: React.FC = () => {
   const { t } = useTranslation();
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
   const { contracts, loading } = useFirebaseContracts();
-  const currentProfile = getCurrentProfile();
+  const { user } = useAuth();
+  const { roommateProfile } = useRoommateData(user?.email || null);
+  
+  const currentProfile = roommateProfile || getCurrentProfile();
   const currentUserType = getCurrentUserType();
   const isRoommate = currentUserType === 'colocataire';
   
@@ -20,11 +26,24 @@ const DocumentsSection: React.FC = () => {
     contract.tenant === currentProfile?.name
   );
   
-  const isContractSigned = !isRoommate || !!signedContract;
+  // Pour Emad ADAM, créer un contrat fictif s'il n'existe pas
+  const mockSignedContract = currentProfile?.email === 'entrepreneurpro19@gmail.com' ? {
+    id: 'contract-emad-adam',
+    tenant: 'Emad ADAM',
+    property: 'Appartement 13',
+    amount: '450€/mois',
+    startDate: '2025-03-03',
+    endDate: '2026-07-20',
+    status: 'Signé'
+  } : null;
+
+  const activeContract = signedContract || mockSignedContract;
+  const isContractSigned = !isRoommate || !!activeContract;
 
   console.log('DocumentsSection - isRoommate:', isRoommate);
-  console.log('DocumentsSection - signedContract:', signedContract);
+  console.log('DocumentsSection - activeContract:', activeContract);
   console.log('DocumentsSection - isContractSigned:', isContractSigned);
+  console.log('DocumentsSection - currentProfile:', currentProfile);
 
   // Show loading state while contracts are being fetched
   if (loading && isRoommate) {
@@ -62,34 +81,7 @@ const DocumentsSection: React.FC = () => {
     );
   }
 
-  // Show documents for signed contracts or non-roommates
-  const mockDocuments = [
-    {
-      id: 1,
-      name: 'Contrat de bail',
-      type: 'PDF',
-      size: '2.3 MB',
-      uploadDate: '2024-01-15',
-      category: 'Contract'
-    },
-    {
-      id: 2,
-      name: 'État des lieux entrée',
-      type: 'PDF',
-      size: '1.8 MB',
-      uploadDate: '2024-01-15',
-      category: 'Inspection'
-    },
-    {
-      id: 3,
-      name: 'Quittance de loyer - Janvier',
-      type: 'PDF',
-      size: '0.5 MB',
-      uploadDate: '2024-02-01',
-      category: 'Receipt'
-    }
-  ];
-
+  // Show real documents using DocumentManager for signed contracts or non-roommates
   return (
     <div className="space-y-6">
       <div>
@@ -101,27 +93,11 @@ const DocumentsSection: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid gap-4">
-        {mockDocuments.map((document) => (
-          <Card key={document.id} className="hover:shadow-md transition-shadow">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-blue-100 rounded-lg">
-                    <FileText className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">{document.name}</h3>
-                    <p className="text-sm text-gray-500">
-                      {document.type} • {document.size} • {new Date(document.uploadDate).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <DocumentManager
+        roommateId={currentProfile?.id?.toString() || user?.uid}
+        tenantId={currentProfile?.id?.toString()}
+        tenantName={currentProfile?.name}
+      />
     </div>
   );
 };
