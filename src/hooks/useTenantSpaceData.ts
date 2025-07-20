@@ -24,10 +24,14 @@ export const useTenantSpaceData = () => {
     contract.tenant === currentProfile?.name
   );
 
-  // Extraire le montant du contrat (enlever le €/mois et convertir en nombre)
-  const contractRentAmount = signedContract ? 
+  // Extraire le montant du contrat et calculer correctement loyer + charges
+  const contractTotalAmount = signedContract ? 
     parseInt(signedContract.amount.replace(/[€\/mois]/g, '')) : 
     (currentType === 'colocataire' ? 450 : 400);
+
+  // Séparer le loyer des charges
+  const charges = 50; // Charges fixes de 50€
+  const baseRent = contractTotalAmount - charges; // Loyer de base = Total - Charges
 
   // Debug logs
   useEffect(() => {
@@ -35,7 +39,9 @@ export const useTenantSpaceData = () => {
     console.log('Current profile:', currentProfile);
     console.log('Current type:', currentType);
     console.log('Signed contract:', signedContract);
-    console.log('Contract rent amount:', contractRentAmount);
+    console.log('Contract total amount:', contractTotalAmount);
+    console.log('Base rent:', baseRent);
+    console.log('Charges:', charges);
     console.log('Is impersonating:', isImpersonating);
     console.log('Is admin:', isAuthorizedAdmin);
     console.log('========================');
@@ -48,9 +54,9 @@ export const useTenantSpaceData = () => {
     type: currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement',
     surface: currentType === 'colocataire' ? '15 m²' : '45 m²',
     rooms: currentType === 'colocataire' ? '1 chambre' : '2 pièces',
-    rent: contractRentAmount, // Utiliser le montant du contrat
-    charges: 50,
-    deposit: contractRentAmount + 50, // Caution = loyer + charges
+    rent: baseRent, // Loyer de base sans les charges
+    charges: charges, // Charges séparées
+    deposit: contractTotalAmount, // Caution = loyer total
     furnished: true,
     floor: "1er étage",
     elevator: true,
