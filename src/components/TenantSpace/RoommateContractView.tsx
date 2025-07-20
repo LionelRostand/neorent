@@ -9,7 +9,7 @@ import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { generateContractPDF } from '@/services/contractPdfService';
 import { useToast } from '@/hooks/use-toast';
 import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
-import RoommateContractTemplate from './RoommateContractTemplate';
+import RoommateContractTemplate from '../Contracts/RoommateContractTemplate';
 
 const RoommateContractView = () => {
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
