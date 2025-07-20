@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { CreditCard, Home, Mail, User, Banknote } from 'lucide-react';
+import { CreditCard, Home, Mail, User, Banknote, History, Wallet } from 'lucide-react';
 import MaintenanceRequestForm from '../Maintenance/MaintenanceRequestForm';
 import PaymentDialog from './PaymentDialog';
 
@@ -63,6 +64,10 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
         fr: 'Paiement en espèces',
         en: 'Cash Payment'
       },
+      onlinePayment: {
+        fr: 'Paiement en ligne',
+        en: 'Online Payment'
+      },
       paymentHistory: {
         fr: 'Historique des paiements',
         en: 'Payment History'
@@ -88,12 +93,20 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
         en: 'Cancel'
       },
       declareBankTransfer: {
-        fr: 'Déclarer un virement bancaire',
-        en: 'Declare bank transfer'
+        fr: "Déclarer un virement bancaire effectué",
+        en: 'Declare completed bank transfer'
       },
       declareCashPayment: {
         fr: 'Déclarer un paiement en espèces',
         en: 'Declare cash payment'
+      },
+      payOnlineByCard: {
+        fr: 'Payer en ligne par carte',
+        en: 'Pay online by card'
+      },
+      consultPaymentHistory: {
+        fr: "Consulter l'historique des paiements",
+        en: 'View payment history'
       }
     };
 
@@ -125,9 +138,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
 
   const handleBankTransferClick = () => {
     console.log('=== OUVERTURE DIRECTE FORMULAIRE VIREMENT BANCAIRE ===');
-    // Fermer le menu des options de paiement
     setPaymentDialogOpen(false);
-    // Ouvrir directement le formulaire de virement bancaire
     setTimeout(() => {
       setBankTransferDialogOpen(true);
     }, 100);
@@ -135,14 +146,19 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
 
   const handleCashPaymentClick = () => {
     console.log('Redirection vers paiement - espèces');
-    // Stocker le type de paiement sélectionné pour l'onglet paiement
     localStorage.setItem('selectedPaymentMethod', 'especes');
     onTabChange('payment');
     setPaymentDialogOpen(false);
   };
 
+  const handleOnlinePaymentClick = () => {
+    console.log('Redirection vers paiement en ligne');
+    localStorage.setItem('selectedPaymentMethod', 'carte');
+    onTabChange('payment');
+    setPaymentDialogOpen(false);
+  };
+
   const handleSendMessage = () => {
-    // Simuler l'envoi d'un message
     console.log('Message envoyé');
     setMessageDialogOpen(false);
   };
@@ -165,67 +181,76 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
                 <span className="text-sm font-medium text-blue-800">{getLocalizedText('payments')}</span>
               </button>
             </DialogTrigger>
-            <DialogContent className="max-w-md">
+            <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
-                <DialogTitle>{getLocalizedText('paymentOptions')}</DialogTitle>
+                <DialogTitle className="flex items-center gap-2 text-lg">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <span className="text-green-600 text-xl font-bold">$</span>
+                  </div>
+                  {getLocalizedText('paymentOptions')}
+                </DialogTitle>
               </DialogHeader>
-              <div className="space-y-4 mt-4">
-                {/* Virement bancaire - OUVERTURE DIRECTE DU FORMULAIRE */}
+              <div className="space-y-3 mt-4">
+                {/* Historique des paiements */}
                 <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('=== CLIC VIREMENT BANCAIRE DÉTECTÉ ===');
-                    handleBankTransferClick();
-                  }}
-                  className="w-full p-4 text-left border-2 border-blue-200 rounded-lg hover:bg-blue-50 transition-colors bg-gradient-to-r from-blue-50 to-blue-100"
+                  onClick={handlePaymentHistoryClick}
+                  className="w-full p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-3">
-                    <CreditCard className="h-5 w-5 text-blue-600" />
-                    <div>
-                      <div className="font-semibold text-blue-800">{getLocalizedText('bankTransfer')}</div>
-                      <div className="text-sm text-blue-600">{getLocalizedText('declareBankTransfer')}</div>
-                    </div>
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <History className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900">{getLocalizedText('paymentHistory')}</div>
+                    <div className="text-sm text-gray-600">{getLocalizedText('consultPaymentHistory')}</div>
                   </div>
                 </button>
 
-                {/* Paiement en espèces - AVEC GESTIONNAIRE DE CLIC CORRIGÉ */}
+                {/* Virement bancaire */}
                 <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('=== CLIC PAIEMENT ESPÈCES DÉTECTÉ ===');
-                    handleCashPaymentClick();
-                  }}
-                  className="w-full p-4 text-left border-2 border-green-200 rounded-lg hover:bg-green-50 transition-colors bg-gradient-to-r from-green-50 to-green-100"
+                  onClick={handleBankTransferClick}
+                  className="w-full p-4 text-left border-2 border-blue-200 rounded-lg hover:bg-blue-50 transition-colors bg-blue-25 flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-3">
-                    <Banknote className="h-5 w-5 text-green-600" />
-                    <div>
-                      <div className="font-semibold text-green-800">{getLocalizedText('cashPayment')}</div>
-                      <div className="text-sm text-green-600">{getLocalizedText('declareCashPayment')}</div>
-                    </div>
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <CreditCard className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900">{getLocalizedText('bankTransfer')}</div>
+                    <div className="text-sm text-gray-600">{getLocalizedText('declareBankTransfer')}</div>
                   </div>
                 </button>
 
-                {/* Historique des paiements - AVEC GESTIONNAIRE DE CLIC CORRIGÉ */}
+                {/* Paiement en espèces */}
                 <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('=== CLIC HISTORIQUE DÉTECTÉ ===');
-                    handlePaymentHistoryClick();
-                  }}
-                  className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors"
+                  onClick={handleCashPaymentClick}
+                  className="w-full p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
                 >
-                  <div className="font-medium">{getLocalizedText('paymentHistory')}</div>
-                  <div className="text-sm text-gray-600">Consulter l'historique des paiements</div>
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <Banknote className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900">{getLocalizedText('cashPayment')}</div>
+                    <div className="text-sm text-gray-600">{getLocalizedText('declareCashPayment')}</div>
+                  </div>
+                </button>
+
+                {/* Paiement en ligne */}
+                <button 
+                  onClick={handleOnlinePaymentClick}
+                  className="w-full p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3"
+                >
+                  <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                    <Wallet className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900">{getLocalizedText('onlinePayment')}</div>
+                    <div className="text-sm text-gray-600">{getLocalizedText('payOnlineByCard')}</div>
+                  </div>
                 </button>
               </div>
             </DialogContent>
           </Dialog>
 
-          {/* Dialog spécifique pour le virement bancaire - CORRECTEMENT ENVELOPPÉ */}
+          {/* Dialog spécifique pour le virement bancaire */}
           <Dialog open={bankTransferDialogOpen} onOpenChange={setBankTransferDialogOpen}>
             <PaymentDialog
               open={bankTransferDialogOpen}
