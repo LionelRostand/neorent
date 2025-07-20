@@ -54,11 +54,15 @@ export const useFirebaseInspections = () => {
     }
   };
 
-  const updateInspection = async (id: string, updates: Partial<Inspection>) => {
+  const updateInspection = async (id: string | number, updates: Partial<Inspection>) => {
     try {
-      await updateDoc(doc(db, 'Rent_Inspections', id), updates);
+      // Convert id to string to ensure Firebase compatibility
+      const documentId = String(id);
+      console.log('Updating inspection with ID:', documentId, 'Updates:', updates);
+      
+      await updateDoc(doc(db, 'Rent_Inspections', documentId), updates);
       setInspections(prev => prev.map(inspection => 
-        inspection.id === id ? { ...inspection, ...updates } : inspection
+        inspection.id === documentId ? { ...inspection, ...updates } : inspection
       ));
     } catch (err) {
       console.error('Error updating inspection:', err);
@@ -67,10 +71,12 @@ export const useFirebaseInspections = () => {
     }
   };
 
-  const deleteInspection = async (id: string) => {
+  const deleteInspection = async (id: string | number) => {
     try {
-      await deleteDoc(doc(db, 'Rent_Inspections', id));
-      setInspections(prev => prev.filter(inspection => inspection.id !== id));
+      // Convert id to string to ensure Firebase compatibility
+      const documentId = String(id);
+      await deleteDoc(doc(db, 'Rent_Inspections', documentId));
+      setInspections(prev => prev.filter(inspection => inspection.id !== documentId));
     } catch (err) {
       console.error('Error deleting inspection:', err);
       setError('Error deleting inspection');
