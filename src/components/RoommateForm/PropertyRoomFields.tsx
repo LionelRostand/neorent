@@ -4,42 +4,24 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useAuth } from '@/hooks/useAuth';
-import { useOwnerData } from '@/hooks/useOwnerData';
-
-interface Property {
-  id: string;
-  title: string;
-  address: string;
-  type: string;
-  surface: string;
-  rent: string;
-  status: string;
-  tenant: string | null;
-  image: string;
-  locationType: string;
-  totalRooms: number;
-  availableRooms: number;
-}
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface PropertyRoomFieldsProps {
   formData: any;
   onInputChange: (field: string, value: string) => void;
-  properties?: Property[];
 }
 
-const PropertyRoomFields = ({ formData, onInputChange, properties }: PropertyRoomFieldsProps) => {
+const PropertyRoomFields = ({ formData, onInputChange }: PropertyRoomFieldsProps) => {
   const { t } = useTranslation();
-  const { userProfile } = useAuth();
-  const { properties: ownerProperties } = useOwnerData(userProfile);
+  const { properties, loading } = useFirebaseProperties();
 
-  // Utiliser les propriétés du propriétaire connecté et filtrer pour les colocations
-  const availableProperties = (properties || ownerProperties)?.filter(property => 
+  // Filtrer les propriétés de type "Colocation"
+  const colivingProperties = properties?.filter(property => 
     property.locationType === 'Colocation'
   ) || [];
 
   // Trouver la propriété sélectionnée pour récupérer le nombre de chambres
-  const selectedProperty = availableProperties.find(property => property.title === formData.property);
+  const selectedProperty = colivingProperties.find(property => property.title === formData.property);
   
   // Générer la liste des chambres disponibles basée sur totalRooms
   const generateRoomNumbers = (totalRooms: number) => {
@@ -56,24 +38,28 @@ const PropertyRoomFields = ({ formData, onInputChange, properties }: PropertyRoo
     <>
       <div>
         <Label htmlFor="property">{t('roommateForm.property')}</Label>
-        <Select value={formData.property} onValueChange={(value) => {
-          onInputChange('property', value);
-          // Reset room number when property changes
-          onInputChange('roomNumber', '');
-        }}>
+        <Select 
+          value={formData.property} 
+          onValueChange={(value) => {
+            onInputChange('property', value);
+            // Reset room number when property changes
+            onInputChange('roomNumber', '');
+          }}
+          disabled={loading}
+        >
           <SelectTrigger>
-            <SelectValue placeholder={t('roommateForm.selectProperty')} />
+            <SelectValue placeholder={loading ? t('common.loading') : t('roommateForm.selectProperty')} />
           </SelectTrigger>
           <SelectContent>
-            {availableProperties && availableProperties.length > 0 ? (
-              availableProperties.map((property) => (
+            {colivingProperties && colivingProperties.length > 0 ? (
+              colivingProperties.map((property) => (
                 <SelectItem key={property.id} value={property.title}>
                   {property.title} - {property.address} ({property.totalRooms} chambres)
                 </SelectItem>
               ))
             ) : (
               <SelectItem value="no-properties" disabled>
-                Aucune propriété de colocation disponible
+                {loading ? t('common.loading') : 'Aucune propriété de colocation disponible'}
               </SelectItem>
             )}
           </SelectContent>
@@ -99,7 +85,7 @@ const PropertyRoomFields = ({ formData, onInputChange, properties }: PropertyRoo
               ))
             ) : (
               <SelectItem value="no-rooms" disabled>
-                Aucune chambre disponible
+                {formData.property ? 'Aucune chambre disponible' : 'Sélectionnez une propriété'}
               </SelectItem>
             )}
           </SelectContent>

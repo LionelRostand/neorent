@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { X, User, Mail, Phone, Home, Key, Euro, Calendar } from 'lucide-react';
 import { useRoommateRegistration } from '@/hooks/useRoommateRegistration';
+import PropertyRoomFields from './RoommateForm/PropertyRoomFields';
 
 interface RoommateFormProps {
   onClose: () => void;
@@ -227,25 +228,10 @@ const RoommateForm: React.FC<RoommateFormProps> = ({
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="property">{t('roommateForm.property')}</Label>
-              <Input
-                id="property"
-                value={formData.property}
-                onChange={(e) => handleInputChange('property', e.target.value)}
-                placeholder="123 Rue de la Paix, 75001 Paris"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="roomNumber">{t('roommateForm.roomNumber')}</Label>
-              <Input
-                id="roomNumber"
-                value={formData.roomNumber}
-                onChange={(e) => handleInputChange('roomNumber', e.target.value)}
-                placeholder="Chambre 1"
-              />
-            </div>
+            <PropertyRoomFields
+              formData={formData}
+              onInputChange={handleInputChange}
+            />
 
             <div className="space-y-2">
               <Label htmlFor="primaryTenant">{t('roommateForm.primaryTenant')}</Label>

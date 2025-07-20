@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -13,59 +14,47 @@ interface PropertyFieldsProps {
   isDataLoading: boolean;
 }
 
-const PropertyFields = ({ 
-  formData, 
-  handleInputChange, 
-  isBailContract, 
+const PropertyFields = ({
+  formData,
+  handleInputChange,
+  isBailContract,
   getAvailableProperties,
   getAvailableRooms,
   isColocatifContract,
   isDataLoading
 }: PropertyFieldsProps) => {
+  const { t } = useTranslation();
+
+  if (!isBailContract) return null;
+
   return (
     <>
-      {isBailContract && (
-        <div>
-          <Label htmlFor="property">Property</Label>
-          <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a property"} />
-            </SelectTrigger>
-            <SelectContent>
-              {getAvailableProperties().map((property) => (
-                <SelectItem key={property.id} value={property.title}>
-                  {property.title} - {property.address}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
+      <div>
+        <Label htmlFor="property">{t('contractForm.property')}</Label>
+        <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
+          <SelectTrigger>
+            <SelectValue placeholder={isDataLoading ? t('common.loading') : t('contractForm.selectProperty')} />
+          </SelectTrigger>
+          <SelectContent>
+            {getAvailableProperties().map((property) => (
+              <SelectItem key={property.id} value={property.title}>
+                {property.title} - {property.address}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-      {!isBailContract && (
+      {isColocatifContract && (
         <div>
-          <Label htmlFor="property">Property</Label>
-          <Select value={formData.property} onValueChange={(value) => handleInputChange('property', value)}>
+          <Label htmlFor="roomNumber">{t('contractForm.roomNumber')}</Label>
+          <Select 
+            value={formData.roomNumber} 
+            onValueChange={(value) => handleInputChange('roomNumber', value)}
+            disabled={!formData.property}
+          >
             <SelectTrigger>
-              <SelectValue placeholder={isDataLoading ? "Loading..." : "Select a property"} />
-            </SelectTrigger>
-            <SelectContent>
-              {getAvailableProperties().map((property) => (
-                <SelectItem key={property.id} value={property.title}>
-                  {property.title} - {property.address}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
-
-      {isColocatifContract && formData.property && (
-        <div>
-          <Label htmlFor="roomNumber">Room</Label>
-          <Select value={formData.roomNumber} onValueChange={(value) => handleInputChange('roomNumber', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a room" />
+              <SelectValue placeholder={formData.property ? t('contractForm.selectRoom') : t('contractForm.selectProperty')} />
             </SelectTrigger>
             <SelectContent>
               {getAvailableRooms().map((room) => (
