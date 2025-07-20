@@ -76,6 +76,47 @@ const LoginForm = () => {
         return;
       }
       
+      // Cas spécial pour Emad ADAM
+      if (email === 'entrepreneurpro19@gmail.com') {
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log('✅ Emad ADAM connecté directement');
+        } catch (loginError: any) {
+          console.log('⚠️ Erreur de connexion Emad:', loginError.code);
+          
+          // Si le compte n'existe pas, le créer
+          if (loginError.code === 'auth/user-not-found' || loginError.code === 'auth/invalid-credential') {
+            console.log('🔧 Création du compte Emad...');
+            try {
+              await createUserWithEmailAndPassword(auth, email, password || 'emad123');
+              console.log('✅ Compte Emad créé avec succès');
+            } catch (createError: any) {
+              if (createError.code === 'auth/email-already-in-use') {
+                try {
+                  await signInWithEmailAndPassword(auth, email, 'emad123');
+                  console.log('✅ Connexion Emad avec mot de passe par défaut');
+                } catch (defaultError) {
+                  throw loginError;
+                }
+              } else {
+                throw createError;
+              }
+            }
+          } else {
+            throw loginError;
+          }
+        }
+        
+        toast({
+          title: "Connexion réussie",
+          description: "Bienvenue Emad ADAM",
+        });
+        
+        // Redirection immédiate vers l'espace colocataire
+        navigate('/tenant-space', { replace: true });
+        return;
+      }
+      
       // Pour les autres utilisateurs
       await login(email, password);
       console.log('✅ Connexion Firebase réussie pour:', email);

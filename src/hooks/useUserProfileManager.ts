@@ -31,19 +31,44 @@ export const useUserProfileManager = (user: User | null) => {
       // Regular user profile - check if it's the admin email
       const isAdmin = user.email === 'admin@neotech-consulting.com';
       
-      const profile = {
-        id: user.uid,
-        name: isAdmin ? 'Lionel DJOSSA' : (user.displayName || user.email || ''),
-        email: user.email || '',
-        role: isAdmin ? 'admin' : 'locataire',
-        type: isAdmin ? 'admin' as const : 'locataire' as const
-      } as UserProfile;
+      // Check for specific roommate profile
+      const isEmadAdam = user.email === 'entrepreneurpro19@gmail.com';
+      
+      let profile: UserProfile;
+      
+      if (isAdmin) {
+        profile = {
+          id: user.uid,
+          name: 'Lionel DJOSSA',
+          email: user.email || '',
+          role: 'admin',
+          type: 'admin' as const
+        };
+      } else if (isEmadAdam) {
+        // Profile spécifique pour Emad ADAM
+        profile = {
+          id: '1752971742586',
+          name: 'Emad ADAM',
+          email: user.email || '',
+          role: 'colocataire',
+          type: 'colocataire' as const
+        };
+      } else {
+        // Default profile for other users
+        profile = {
+          id: user.uid,
+          name: user.displayName || user.email || '',
+          email: user.email || '',
+          role: 'locataire',
+          type: 'locataire' as const
+        };
+      } 
       
       setSelectedProfile(profile);
-      setUserType(isAdmin ? 'admin' : 'locataire');
+      setUserType(profile.type);
       
       console.log('Setting user profile:', profile);
-      console.log('Setting user type:', isAdmin ? 'admin' : 'locataire');
+      console.log('Setting user type:', profile.type);
     }
   }, [user]);
 

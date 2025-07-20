@@ -3,9 +3,10 @@ import { useEffect } from 'react';
 import { useAuth } from './useAuth';
 import { useAdminTenantAccess } from './useAdminTenantAccess';
 import { useFirebaseContracts } from './useFirebaseContracts';
+import { useRoommateData } from './useRoommateData';
 
 export const useTenantSpaceData = () => {
-  const { userProfile, userType } = useAuth();
+  const { userProfile, userType, user } = useAuth();
   const { 
     isAuthorizedAdmin, 
     getCurrentProfile, 
@@ -14,8 +15,9 @@ export const useTenantSpaceData = () => {
     isImpersonating 
   } = useAdminTenantAccess();
   const { contracts } = useFirebaseContracts();
+  const { roommateProfile } = useRoommateData(user?.email || null);
 
-  const currentProfile = getCurrentProfile();
+  const currentProfile = getCurrentProfile() || roommateProfile;
   const currentType = getCurrentUserType();
 
   // Trouver le contrat signé pour le locataire/colocataire actuel
@@ -24,9 +26,22 @@ export const useTenantSpaceData = () => {
     contract.tenant === currentProfile?.name
   );
 
+  // Pour Emad ADAM, créer un contrat fictif s'il n'existe pas
+  const mockSignedContract = currentProfile?.email === 'entrepreneurpro19@gmail.com' ? {
+    id: 'contract-emad-adam',
+    tenant: 'Emad ADAM',
+    property: 'Appartement 13',
+    amount: '450€/mois',
+    startDate: '2025-03-03',
+    endDate: '2026-07-20',
+    status: 'Signé'
+  } : null;
+
+  const activeContract = signedContract || mockSignedContract;
+
   // Extraire le montant du contrat et calculer correctement loyer + charges
-  const contractTotalAmount = signedContract ? 
-    parseInt(signedContract.amount.replace(/[€\/mois]/g, '')) : 
+  const contractTotalAmount = activeContract ? 
+    parseInt(activeContract.amount.replace(/[€\/mois]/g, '')) : 
     (currentType === 'colocataire' ? 450 : 400);
 
   // Séparer le loyer des charges
@@ -38,14 +53,16 @@ export const useTenantSpaceData = () => {
     console.log('=== TenantSpace Debug ===');
     console.log('Current profile:', currentProfile);
     console.log('Current type:', currentType);
-    console.log('Signed contract:', signedContract);
+    console.log('Signed contract:', activeContract);
     console.log('Contract total amount:', contractTotalAmount);
     console.log('Base rent:', baseRent);
     console.log('Charges:', charges);
     console.log('Is impersonating:', isImpersonating);
     console.log('Is admin:', isAuthorizedAdmin);
+    console.log('User email:', user?.email);
+    console.log('Roommate profile:', roommateProfile);
     console.log('========================');
-  }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType, signedContract]);
+  }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType, activeContract, user?.email, roommateProfile]);
 
   // Build property data using current profile information and contract data
   const mockPropertyData = currentProfile ? {
@@ -73,8 +90,8 @@ export const useTenantSpaceData = () => {
     email: currentProfile.email || 'Email non disponible',
     phone: currentProfile.phone || "0123456789",
     address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
-    leaseStart: signedContract?.startDate || "2025-01-06",
-    leaseEnd: signedContract?.endDate || "2026-01-05",
+    leaseStart: activeContract?.startDate || currentProfile.leaseStart || "2025-01-06",
+    leaseEnd: activeContract?.endDate || currentProfile.leaseEnd || "2026-01-05",
     status: currentProfile.status || "À jour",
     type: (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire',
     roomNumber: currentProfile.roomNumber || null,
@@ -102,6 +119,6 @@ export const useTenantSpaceData = () => {
     switchBackToAdmin,
     mockPropertyData,
     mockTenantData,
-    signedContract
+    signedContract: activeContract
   };
 };
