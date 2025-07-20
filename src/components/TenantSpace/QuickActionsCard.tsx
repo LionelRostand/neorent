@@ -100,6 +100,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   };
 
   const handlePaymentsClick = () => {
+    console.log('Ouverture du menu des options de paiement');
     setPaymentDialogOpen(true);
   };
 
@@ -116,18 +117,23 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   };
 
   const handlePaymentHistoryClick = () => {
+    console.log('Redirection vers historique des paiements');
     onTabChange('history');
     setPaymentDialogOpen(false);
   };
 
   const handleBankTransferClick = () => {
-    // Rediriger vers l'onglet paiement avec option virement
+    console.log('Redirection vers paiement - virement bancaire');
+    // Stocker le type de paiement sélectionné pour l'onglet paiement
+    localStorage.setItem('selectedPaymentMethod', 'virement');
     onTabChange('payment');
     setPaymentDialogOpen(false);
   };
 
   const handleCashPaymentClick = () => {
-    // Rediriger vers l'onglet paiement avec option espèces
+    console.log('Redirection vers paiement - espèces');
+    // Stocker le type de paiement sélectionné pour l'onglet paiement
+    localStorage.setItem('selectedPaymentMethod', 'especes');
     onTabChange('payment');
     setPaymentDialogOpen(false);
   };
@@ -145,7 +151,7 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {/* Action Paiements - Reconfigurée */}
+          {/* Action Paiements - Avec menu déroulant */}
           <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
             <DialogTrigger asChild>
               <button 
@@ -161,9 +167,14 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
                 <DialogTitle>{getLocalizedText('paymentOptions')}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 mt-4">
-                {/* Virement bancaire */}
+                {/* Virement bancaire - AVEC GESTIONNAIRE DE CLIC CORRIGÉ */}
                 <button 
-                  onClick={handleBankTransferClick}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('=== CLIC VIREMENT BANCAIRE DÉTECTÉ ===');
+                    handleBankTransferClick();
+                  }}
                   className="w-full p-4 text-left border-2 border-blue-200 rounded-lg hover:bg-blue-50 transition-colors bg-gradient-to-r from-blue-50 to-blue-100"
                 >
                   <div className="flex items-center gap-3">
@@ -175,9 +186,14 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
                   </div>
                 </button>
 
-                {/* Paiement en espèces */}
+                {/* Paiement en espèces - AVEC GESTIONNAIRE DE CLIC CORRIGÉ */}
                 <button 
-                  onClick={handleCashPaymentClick}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('=== CLIC PAIEMENT ESPÈCES DÉTECTÉ ===');
+                    handleCashPaymentClick();
+                  }}
                   className="w-full p-4 text-left border-2 border-green-200 rounded-lg hover:bg-green-50 transition-colors bg-gradient-to-r from-green-50 to-green-100"
                 >
                   <div className="flex items-center gap-3">
@@ -189,9 +205,14 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
                   </div>
                 </button>
 
-                {/* Historique des paiements */}
+                {/* Historique des paiements - AVEC GESTIONNAIRE DE CLIC CORRIGÉ */}
                 <button 
-                  onClick={handlePaymentHistoryClick}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('=== CLIC HISTORIQUE DÉTECTÉ ===');
+                    handlePaymentHistoryClick();
+                  }}
                   className="w-full p-3 text-left border rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <div className="font-medium">{getLocalizedText('paymentHistory')}</div>
