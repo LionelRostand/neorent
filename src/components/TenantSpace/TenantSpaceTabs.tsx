@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import TenantOverview from './TenantOverview';
 import RentHistory from './RentHistory';
 import DocumentsSection from './DocumentsSection';
-import DocumentUpload from './DocumentUpload';
 import RoommateContractView from './RoommateContractView';
 import SignedContractsView from './SignedContractsView';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
@@ -38,11 +37,10 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
 
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
+      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         <TabsTrigger value="overview">{t('tenantSpace.tabs.overview')}</TabsTrigger>
         <TabsTrigger value="history">{t('tenantSpace.tabs.history')}</TabsTrigger>
         <TabsTrigger value="documents">{t('tenantSpace.tabs.documents')}</TabsTrigger>
-        <TabsTrigger value="upload">{t('tenantSpace.tabs.upload')}</TabsTrigger>
         {/* Afficher l'onglet contrat pour les colocataires */}
         {(isRoommate || isAdminOrOwner) && (
           <TabsTrigger value="contract">Contrat</TabsTrigger>
@@ -68,10 +66,6 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
 
       <TabsContent value="documents" className="mt-6">
         <DocumentsSection />
-      </TabsContent>
-
-      <TabsContent value="upload" className="mt-6">
-        <DocumentUpload />
       </TabsContent>
 
       {/* Contenu du contrat pour colocataires */}
