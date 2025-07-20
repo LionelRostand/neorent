@@ -67,6 +67,12 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
     status: getTranslatedStatus(inspection.status)
   };
 
+  // Convert inspection to the format expected by ModalActions (with numeric id)
+  const modalActionsInspection = {
+    ...inspection,
+    id: parseInt(inspection.id) || 0 // Convert string id to number for ModalActions compatibility
+  };
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -82,7 +88,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
             <PropertyDetailsSection inspection={translatedInspection} />
             <InspectionDetailsSection inspection={translatedInspection} />
             <ModalActions 
-              inspection={inspection}
+              inspection={modalActionsInspection}
               onClose={onClose}
               onEdit={handleEditInspection}
             />
