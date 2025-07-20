@@ -225,30 +225,32 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
             </DialogContent>
           </Dialog>
 
-          {/* Dialog spécifique pour le virement bancaire */}
-          <PaymentDialog
-            open={bankTransferDialogOpen}
-            onOpenChange={setBankTransferDialogOpen}
-            actualTenantName="Marie Dupont"
-            actualTenantType="Colocataire"
-            propertyTitle="Appartement Colocation - 123 Rue de la Paix"
-            totalAmount={650}
-            paymentDate={new Date().toISOString().split('T')[0]}
-            setPaymentDate={() => {}}
-            paidAmount="650"
-            setPaidAmount={() => {}}
-            paymentMethod="virement"
-            setPaymentMethod={() => {}}
-            notes=""
-            setNotes={() => {}}
-            loading={false}
-            isFormValid={true}
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log('Virement bancaire déclaré');
-              setBankTransferDialogOpen(false);
-            }}
-          />
+          {/* Dialog spécifique pour le virement bancaire - CORRECTEMENT ENVELOPPÉ */}
+          <Dialog open={bankTransferDialogOpen} onOpenChange={setBankTransferDialogOpen}>
+            <PaymentDialog
+              open={bankTransferDialogOpen}
+              onOpenChange={setBankTransferDialogOpen}
+              actualTenantName="Marie Dupont"
+              actualTenantType="Colocataire"
+              propertyTitle="Appartement Colocation - 123 Rue de la Paix"
+              totalAmount={650}
+              paymentDate={new Date().toISOString().split('T')[0]}
+              setPaymentDate={() => {}}
+              paidAmount="650"
+              setPaidAmount={() => {}}
+              paymentMethod="virement"
+              setPaymentMethod={() => {}}
+              notes=""
+              setNotes={() => {}}
+              loading={false}
+              isFormValid={true}
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log('Virement bancaire déclaré');
+                setBankTransferDialogOpen(false);
+              }}
+            />
+          </Dialog>
 
           {/* Action Maintenance */}
           <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
