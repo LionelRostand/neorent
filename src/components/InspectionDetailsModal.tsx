@@ -70,7 +70,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
   // Convert inspection to the format expected by ModalActions (with numeric id)
   const modalActionsInspection = {
     ...inspection,
-    id: parseInt(inspection.id) || 0 // Convert string id to number for ModalActions compatibility
+    id: inspection.id // Keep as string since Firebase uses string IDs
   };
 
   return (

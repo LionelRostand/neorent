@@ -33,6 +33,7 @@ export const useFirebaseInspections = () => {
       })) as Inspection[];
       setInspections(inspectionsData);
       setError(null);
+      console.log('Fetched inspections:', inspectionsData);
     } catch (err) {
       console.error('Error fetching inspections:', err);
       setError('Error loading inspections');
@@ -54,11 +55,12 @@ export const useFirebaseInspections = () => {
     }
   };
 
-  const updateInspection = async (id: string | number, updates: Partial<Inspection>) => {
+  const updateInspection = async (id: string, updates: Partial<Inspection>) => {
     try {
-      // Convert id to string to ensure Firebase compatibility
+      console.log('Updating inspection with ID:', id, 'Updates:', updates);
+      
+      // Ensure we're using string ID
       const documentId = String(id);
-      console.log('Updating inspection with ID:', documentId, 'Updates:', updates);
       
       // First check if the document exists
       const docRef = doc(db, 'Rent_Inspections', documentId);
@@ -66,6 +68,7 @@ export const useFirebaseInspections = () => {
       
       if (!docSnap.exists()) {
         console.error('Document does not exist:', documentId);
+        console.log('Available inspections:', inspections.map(i => ({ id: i.id, title: i.title })));
         setError(`Inspection with ID ${documentId} does not exist`);
         throw new Error(`Document with ID ${documentId} not found`);
       }
@@ -74,6 +77,7 @@ export const useFirebaseInspections = () => {
       setInspections(prev => prev.map(inspection => 
         inspection.id === documentId ? { ...inspection, ...updates } : inspection
       ));
+      console.log('Successfully updated inspection:', documentId);
     } catch (err) {
       console.error('Error updating inspection:', err);
       setError('Error updating inspection');
@@ -81,9 +85,9 @@ export const useFirebaseInspections = () => {
     }
   };
 
-  const deleteInspection = async (id: string | number) => {
+  const deleteInspection = async (id: string) => {
     try {
-      // Convert id to string to ensure Firebase compatibility
+      // Ensure we're using string ID
       const documentId = String(id);
       
       // First check if the document exists
