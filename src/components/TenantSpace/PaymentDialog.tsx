@@ -52,40 +52,68 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
   const [showPaymentForm, setShowPaymentForm] = React.useState(false);
   const [showBankTransferForm, setShowBankTransferForm] = React.useState(false);
 
+  // Reset states when dialog closes
+  React.useEffect(() => {
+    console.log('PaymentDialog - States:', { showPaymentForm, showBankTransferForm });
+  }, [showPaymentForm, showBankTransferForm]);
+
   const handleQuickPayment = (method: string) => {
+    console.log('=== handleQuickPayment appelé ===');
     console.log('Méthode de paiement sélectionnée:', method);
+    console.log('État actuel - showBankTransferForm:', showBankTransferForm);
+    console.log('État actuel - showPaymentForm:', showPaymentForm);
     
     if (method === 'virement') {
-      console.log('Affichage du formulaire de virement bancaire');
+      console.log('=== TRAITEMENT VIREMENT BANCAIRE ===');
       setPaymentMethod('virement');
       setPaidAmount(totalAmount.toString());
       setPaymentDate(new Date().toISOString().split('T')[0]);
+      setShowPaymentForm(false); // S'assurer que l'autre form est fermé
       setShowBankTransferForm(true);
+      console.log('Après setState - showBankTransferForm devrait être true');
     } else {
-      console.log('Affichage du formulaire de paiement classique');
+      console.log('=== TRAITEMENT AUTRE PAIEMENT ===');
       setPaymentMethod(method);
       setPaidAmount(totalAmount.toString());
       setPaymentDate(new Date().toISOString().split('T')[0]);
+      setShowBankTransferForm(false); // S'assurer que l'autre form est fermé
       setShowPaymentForm(true);
+      console.log('Après setState - showPaymentForm devrait être true');
     }
   };
 
   const handleBankTransferSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Soumission du virement bancaire');
-    // Préparer les données pour le virement bancaire
+    console.log('=== SOUMISSION VIREMENT BANCAIRE ===');
+    console.log('Données du formulaire:', { paymentDate, paidAmount, notes });
     setPaymentMethod('virement');
     onSubmit(e);
   };
 
   const handleHistoryClick = () => {
     console.log('Clic sur historique des paiements');
-    // Pour l'instant, on ferme juste le dialog
-    // TODO: Implémenter la navigation vers l'historique
     onOpenChange(false);
   };
 
+  const handleBackToMenu = () => {
+    console.log('Retour au menu principal');
+    setShowPaymentForm(false);
+    setShowBankTransferForm(false);
+  };
+
+  const handleCancel = () => {
+    console.log('Annulation - fermeture du dialog');
+    setShowPaymentForm(false);
+    setShowBankTransferForm(false);
+    onOpenChange(false);
+  };
+
+  console.log('=== RENDU PaymentDialog ===');
+  console.log('showBankTransferForm:', showBankTransferForm);
+  console.log('showPaymentForm:', showPaymentForm);
+
   if (showBankTransferForm) {
+    console.log('=== AFFICHAGE FORMULAIRE VIREMENT ===');
     return (
       <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
         <DialogHeader>
@@ -167,10 +195,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  setShowBankTransferForm(false);
-                  onOpenChange(false);
-                }}
+                onClick={handleCancel}
                 className="flex-1"
               >
                 Annuler
@@ -190,6 +215,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
   }
 
   if (showPaymentForm) {
+    console.log('=== AFFICHAGE FORMULAIRE PAIEMENT CLASSIQUE ===');
     return (
       <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
         <DialogHeader>
@@ -231,16 +257,14 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
             loading={loading}
             isFormValid={isFormValid}
             onSubmit={onSubmit}
-            onCancel={() => {
-              setShowPaymentForm(false);
-              onOpenChange(false);
-            }}
+            onCancel={handleCancel}
           />
         </ScrollArea>
       </DialogContent>
     );
   }
 
+  console.log('=== AFFICHAGE MENU PRINCIPAL ===');
   return (
     <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
       <DialogHeader>
@@ -267,12 +291,13 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
             </div>
           </Button>
 
-          {/* Virement bancaire - CORRECTION DU PROBLÈME */}
+          {/* Virement bancaire - AVEC LOGS DE DEBUG */}
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-blue-50 border-blue-200"
             onClick={() => {
-              console.log('Clic sur Virement bancaire détecté');
+              console.log('=== CLIC DÉTECTÉ SUR VIREMENT BANCAIRE ===');
+              console.log('Timestamp:', new Date().toISOString());
               handleQuickPayment('virement');
             }}
           >
@@ -289,7 +314,10 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-green-50 border-green-200"
-            onClick={() => handleQuickPayment('especes')}
+            onClick={() => {
+              console.log('=== CLIC DÉTECTÉ SUR PAIEMENT ESPÈCES ===');
+              handleQuickPayment('especes');
+            }}
           >
             <div className="flex items-center gap-3 w-full">
               <Banknote className="h-5 w-5 text-green-600 flex-shrink-0" />
@@ -304,7 +332,10 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <Button
             variant="outline"
             className="w-full h-auto p-4 flex flex-col items-start gap-2 hover:bg-purple-50 border-purple-200"
-            onClick={() => handleQuickPayment('carte')}
+            onClick={() => {
+              console.log('=== CLIC DÉTECTÉ SUR PAIEMENT CARTE ===');
+              handleQuickPayment('carte');
+            }}
           >
             <div className="flex items-center gap-3 w-full">
               <Wallet className="h-5 w-5 text-purple-600 flex-shrink-0" />
