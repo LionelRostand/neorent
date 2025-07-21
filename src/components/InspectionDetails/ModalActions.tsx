@@ -6,7 +6,7 @@ import { FileText } from 'lucide-react';
 
 interface ModalActionsProps {
   inspection: {
-    id: number;
+    id: string;
     title: string;
     type: string;
     tenant: string;
