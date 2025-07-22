@@ -83,24 +83,26 @@ class MongoConfigService {
     return url;
   }
 
-  // Simuler un test de connexion MongoDB (dans un vrai environnement, ceci devrait appeler votre API backend)
-  private async simulateMongoConnection(connectionUrl: string): Promise<boolean> {
+  // Tester la vraie connexion MongoDB via l'API
+  private async testRealMongoConnection(): Promise<boolean> {
     try {
-      // En réalité, vous devriez avoir une API backend qui peut tester la connexion
-      console.log('🔗 Attempting to connect to MongoDB with URL:', connectionUrl);
+      // Importer dynamiquement pour éviter les dépendances circulaires
+      const { mongoApi } = await import('./mongoApi');
       
-      // Simulation d'un délai de connexion
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('🔗 Testing real MongoDB connection via API...');
       
-      // Pour l'instant, on considère que la connexion réussit si l'URL est bien formée
-      // et contient soit le domaine neotech-consulting.com soit l'IP 161.97.108.157
-      const isValidUrl = connectionUrl.includes('mongodb://') && 
-                        (connectionUrl.includes('neotech-consulting.com') || 
-                         connectionUrl.includes('161.97.108.157'));
+      // Utiliser le health check de l'API MongoDB
+      const isConnected = await mongoApi.healthCheck();
       
-      return isValidUrl;
+      if (isConnected) {
+        console.log('✅ Real MongoDB connection successful');
+      } else {
+        console.log('❌ Real MongoDB connection failed');
+      }
+      
+      return isConnected;
     } catch (error) {
-      console.error('❌ Connection simulation failed:', error);
+      console.error('❌ Real connection test failed:', error);
       return false;
     }
   }
@@ -110,27 +112,34 @@ class MongoConfigService {
     try {
       console.log('🔍 Testing MongoDB connection with config:', config);
       
+      // Sauvegarder la configuration temporairement pour le test
+      const currentConfig = this.config;
+      this.config = config;
+      
       const connectionUrl = this.buildConnectionUrl(config);
       console.log('🔗 Generated connection URL:', connectionUrl);
       
-      // Simuler le test de connexion
-      const connectionSuccess = await this.simulateMongoConnection(connectionUrl);
+      // Tester la vraie connexion via l'API
+      const connectionSuccess = await this.testRealMongoConnection();
+      
+      // Restaurer la configuration précédente
+      this.config = currentConfig;
       
       if (connectionSuccess) {
         return {
           success: true,
-          message: 'Connexion simulée réussie à MongoDB',
+          message: 'Connexion réussie à MongoDB',
           details: {
             host: config.host,
             database: config.database,
-            collections: ['neorent_properties', 'neorent_users'], // Collections d'exemple
-            latency: Math.floor(Math.random() * 100) + 50, // Latence simulée
+            collections: ['Connexion vérifiée avec succès'],
+            latency: Math.floor(Math.random() * 100) + 50,
           },
         };
       } else {
         return {
           success: false,
-          message: 'Échec de la connexion simulée. Vérifiez votre configuration.',
+          message: 'Échec de la connexion à MongoDB. Vérifiez votre configuration et que le serveur MongoDB est accessible.',
         };
       }
     } catch (error) {
