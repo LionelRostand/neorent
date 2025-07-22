@@ -93,7 +93,12 @@ class MongoConfigService {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Pour l'instant, on considère que la connexion réussit si l'URL est bien formée
-      return connectionUrl.includes('mongodb://') && connectionUrl.includes('neotech-consulting.com');
+      // et contient soit le domaine neotech-consulting.com soit l'IP 161.97.108.157
+      const isValidUrl = connectionUrl.includes('mongodb://') && 
+                        (connectionUrl.includes('neotech-consulting.com') || 
+                         connectionUrl.includes('161.97.108.157'));
+      
+      return isValidUrl;
     } catch (error) {
       console.error('❌ Connection simulation failed:', error);
       return false;
