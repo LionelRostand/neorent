@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useWebsiteSettings, useSaveWebsiteSettings } from '@/hooks/useMongoProperties';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,8 @@ const ImmoTab = () => {
   const { userProfile } = useAuth();
   const { properties: ownerProperties } = useOwnerData(userProfile);
   const { properties: allAdminProperties, loading: loadingProperties } = useFirebaseProperties();
+  const { data: websiteSettings } = useWebsiteSettings();
+  const saveWebsiteSettingsMutation = useSaveWebsiteSettings();
   const [isSaving, setIsSaving] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
@@ -50,28 +53,32 @@ const ImmoTab = () => {
 
   // Initialiser les paramètres des propriétés pour toutes les propriétés disponibles
   useEffect(() => {
-    if (uniqueProperties.length > 0) {
-      // Charger les paramètres existants depuis localStorage
-      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
-      const existingSettings = savedSettings ? JSON.parse(savedSettings) : {};
-      
+    if (uniqueProperties.length > 0 && websiteSettings) {
       const initialSettings: any = {};
       uniqueProperties.forEach((property) => {
+        const existingSetting = websiteSettings.find(s => s.propertyId === property.id);
         initialSettings[property.id] = {
-          visible: existingSettings[property.id]?.visible || false,
-          description: existingSettings[property.id]?.description || '',
-          featured: existingSettings[property.id]?.featured || false
+          visible: existingSetting?.visible || false,
+          description: existingSetting?.description || '',
+          featured: existingSetting?.featured || false
         };
       });
       setPropertySettings(initialSettings);
     }
-  }, [uniqueProperties.length]);
+  }, [uniqueProperties.length, websiteSettings]);
 
   const handleSaveWebsiteSettings = async () => {
     setIsSaving(true);
     try {
-      // Sauvegarder les paramètres dans localStorage pour le site public
-      localStorage.setItem('propertyWebsiteSettings', JSON.stringify(propertySettings));
+      // Convertir les paramètres en format attendu par l'API
+      const settingsArray = Object.entries(propertySettings).map(([propertyId, settings]) => ({
+        propertyId,
+        visible: settings.visible,
+        description: settings.description,
+        featured: settings.featured
+      }));
+      
+      await saveWebsiteSettingsMutation.mutateAsync(settingsArray);
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       

@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useWebsiteSettings } from '@/hooks/useMongoProperties';
 import { Property } from '@/types/property';
 import { 
   MapPin, 
@@ -30,19 +31,15 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
-
-  // Récupérer les paramètres de visibilité depuis le localStorage
-  const getPropertySettings = () => {
-    try {
-      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
-      return savedSettings ? JSON.parse(savedSettings) : {};
-    } catch (error) {
-      console.error('Error loading property settings:', error);
-      return {};
-    }
-  };
-
-  const propertySettings = getPropertySettings();
+  
+  // Récupérer les paramètres de visibilité depuis MongoDB
+  const { data: websiteSettings } = useWebsiteSettings();
+  
+  // Convertir les paramètres en format objet pour faciliter l'accès
+  const propertySettings = websiteSettings?.reduce((acc, setting) => {
+    acc[setting.propertyId] = setting;
+    return acc;
+  }, {} as Record<string, any>) || {};
 
   // Filtrer les propriétés visibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
