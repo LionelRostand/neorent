@@ -15,14 +15,14 @@ export const useMongoConfig = () => {
       // Configuration par défaut pour mongodb.neotech-consulting.com
       const defaultConfig: MongoConfig = {
         host: 'mongodb.neotech-consulting.com',
-        port: 443,
-        database: 'admin',
+        port: 27017,
+        database: 'neorent',
         username: 'admin',
         password: 'admin',
         authSource: 'admin',
         ssl: true,
         allowInvalidCertificates: true,
-        connectionString: ''
+        connectionString: 'mongodb://admin:admin@mongodb.neotech-consulting.com:27017/neorent?authSource=admin&ssl=true&tlsAllowInvalidCertificates=true'
       };
       setConfig(defaultConfig);
       mongoConfigService.saveConfig(defaultConfig);
