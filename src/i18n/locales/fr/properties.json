@@ -107,6 +107,8 @@
     "roomCountError": "Le nombre de chambres est requis pour une colocation",
     "addSuccessMessage": "Le bien a été ajouté avec succès",
     "addErrorMessage": "Erreur lors de l'ajout du bien",
+    "type": "Type",
+    "surface": "Surface",
     "propertyTypes": {
       "appartement": "Appartement",
       "studio": "Studio",
