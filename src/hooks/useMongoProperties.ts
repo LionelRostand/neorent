@@ -78,3 +78,46 @@ export const useMongoHealthCheck = () => {
     retry: 1,
   });
 };
+
+// Hook pour créer une propriété
+export const useCreateProperty = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (property: Omit<MongoProperty, '_id' | 'createdAt' | 'updatedAt'>) => 
+      mongoApi.createProperty(property),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['mongo-properties'] });
+      queryClient.invalidateQueries({ queryKey: ['mongo-owner-properties'] });
+    },
+  });
+};
+
+// Hook pour mettre à jour une propriété
+export const useUpdateProperty = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: ({ id, updates }: { id: string; updates: Partial<MongoProperty> }) =>
+      mongoApi.updateProperty(id, updates),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['mongo-properties'] });
+      queryClient.invalidateQueries({ queryKey: ['mongo-owner-properties'] });
+      queryClient.invalidateQueries({ queryKey: ['mongo-property', data._id] });
+    },
+  });
+};
+
+// Hook pour supprimer une propriété
+export const useDeleteProperty = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (id: string) => mongoApi.deleteProperty(id),
+    onSuccess: (_, deletedId) => {
+      queryClient.invalidateQueries({ queryKey: ['mongo-properties'] });
+      queryClient.invalidateQueries({ queryKey: ['mongo-owner-properties'] });
+      queryClient.removeQueries({ queryKey: ['mongo-property', deletedId] });
+    },
+  });
+};
