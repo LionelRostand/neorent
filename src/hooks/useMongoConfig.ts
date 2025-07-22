@@ -45,9 +45,10 @@ export const useMongoConfig = () => {
       const result = await mongoConfigService.testConnection(configToTest);
       setConnectionTest(result);
     } catch (error) {
+      console.error('Erreur de connexion MongoDB:', error);
       setConnectionTest({
         success: false,
-        message: 'Erreur lors du test de connexion',
+        message: 'Erreur lors du test de connexion: API Node.js non accessible sur localhost:5000. Veuillez démarrer votre API en local avec "cd api && npm run dev"',
       });
     } finally {
       setIsLoading(false);
