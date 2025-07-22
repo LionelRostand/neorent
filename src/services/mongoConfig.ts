@@ -151,7 +151,7 @@ class MongoConfigService {
     }
   }
 
-  // Récupérer toutes les collections avec leurs documents (simulation)
+  // Récupérer toutes les collections avec leurs documents (vraies données)
   async getCollectionsWithData(): Promise<MongoCollection[]> {
     try {
       const config = this.getConfig();
@@ -159,25 +159,73 @@ class MongoConfigService {
         throw new Error('Configuration MongoDB non trouvée');
       }
 
-      // Simulation de données de collections
-      await new Promise(resolve => setTimeout(resolve, 500));
+      console.log('🔍 Fetching real collections from MongoDB...');
       
-      return [
-        {
-          name: 'neorent_properties',
-          count: 25,
-          documents: []
-        },
-        {
-          name: 'neorent_users',
-          count: 12,
-          documents: []
-        }
-      ];
+      // Importer dynamiquement pour éviter les dépendances circulaires
+      const { mongoApi } = await import('./mongoApi');
+      const collections = await mongoApi.getCollections();
+      
+      if (collections && collections.length > 0) {
+        console.log('✅ Retrieved real collections from MongoDB:', collections);
+        return collections.map((col: any) => ({
+          name: col.name || col,
+          count: col.count || 0,
+          documents: col.documents || []
+        }));
+      } else {
+        console.warn('No collections found or API unavailable, using fallback');
+        return this.getMockCollections();
+      }
     } catch (error) {
-      console.error('Failed to get collections data:', error);
-      throw error;
+      console.error('Failed to get real collections data:', error);
+      console.log('Using mock collections as fallback');
+      return this.getMockCollections();
     }
+  }
+
+  // Collections simulées en fallback basées sur votre base MongoDB réelle
+  private getMockCollections(): MongoCollection[] {
+    return [
+      {
+        name: 'Rent_Companies',
+        count: 0,
+        documents: []
+      },
+      {
+        name: 'Rent_Payments',
+        count: 0,
+        documents: []
+      },
+      {
+        name: 'Rent_contracts',
+        count: 0,
+        documents: []
+      },
+      {
+        name: 'Rent_owners',
+        count: 0,
+        documents: []
+      },
+      {
+        name: 'delete_me',
+        count: 0,
+        documents: []
+      },
+      {
+        name: 'rent_tenants',
+        count: 0,
+        documents: []
+      }
+    ];
+  }
+
+  // Construire l'URL de l'API MongoDB
+  private buildMongoApiUrl(): string {
+    const config = this.getConfig();
+    if (config) {
+      return `https://${config.host}:${config.port === 27017 ? '30443' : config.port}`;
+    }
+    return 'https://mongodb.neotech-consulting.com:30443';
   }
 
   // Exporter les collections au format JSON

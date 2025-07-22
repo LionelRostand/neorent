@@ -261,6 +261,34 @@ class MongoApiService {
     }
   }
 
+  // Récupérer la liste des collections MongoDB
+  async getCollections(): Promise<any[]> {
+    try {
+      console.log('🔍 Fetching collections from MongoDB API...');
+      const response = await this.makeMongoRequest('/api/collections');
+      console.log('📡 Collections API response status:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        console.warn('❌ Could not fetch collections from MongoDB API, status:', response.status);
+        console.warn('Response headers:', Object.fromEntries(response.headers.entries()));
+        const errorText = await response.text();
+        console.warn('Response body:', errorText);
+        return [];
+      }
+      
+      const collections = await response.json();
+      console.log('✅ Collections fetched successfully:', collections);
+      return collections;
+    } catch (error) {
+      console.error('❌ Error fetching collections:', error);
+      console.error('Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      return [];
+    }
+  }
+
   // Nouvelle méthode pour créer une propriété
   async createProperty(property: Omit<MongoProperty, '_id' | 'createdAt' | 'updatedAt'>): Promise<MongoProperty> {
     try {
