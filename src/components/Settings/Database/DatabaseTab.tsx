@@ -23,22 +23,38 @@ const DatabaseTab = () => {
       </div>
 
       <Tabs defaultValue="config" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="config" className="flex items-center gap-2">
-            <Database className="h-4 w-4" />
-            MongoDB
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto p-1 bg-gray-100">
+          <TabsTrigger 
+            value="config" 
+            className="flex items-center gap-1 md:gap-2 p-2 md:p-3 text-xs md:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm"
+          >
+            <Database className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">MongoDB</span>
+            <span className="sm:hidden">Mongo</span>
           </TabsTrigger>
-          <TabsTrigger value="export" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Export MongoDB
+          <TabsTrigger 
+            value="export" 
+            className="flex items-center gap-1 md:gap-2 p-2 md:p-3 text-xs md:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm"
+          >
+            <FileText className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Export MongoDB</span>
+            <span className="sm:hidden">Export</span>
           </TabsTrigger>
-          <TabsTrigger value="firebase" className="flex items-center gap-2">
-            <Flame className="h-4 w-4" />
-            Export Firebase
+          <TabsTrigger 
+            value="firebase" 
+            className="flex items-center gap-1 md:gap-2 p-2 md:p-3 text-xs md:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm"
+          >
+            <Flame className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Export Firebase</span>
+            <span className="sm:hidden">Firebase</span>
           </TabsTrigger>
-          <TabsTrigger value="api" className="flex items-center gap-2">
-            <Globe className="h-4 w-4" />
-            API REST
+          <TabsTrigger 
+            value="api" 
+            className="flex items-center gap-1 md:gap-2 p-2 md:p-3 text-xs md:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm"
+          >
+            <Globe className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">API REST</span>
+            <span className="sm:hidden">API</span>
           </TabsTrigger>
         </TabsList>
 
