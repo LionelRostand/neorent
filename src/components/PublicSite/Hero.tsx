@@ -24,6 +24,11 @@ const Hero: React.FC = () => {
                 Login
               </Button>
             </Link>
+            <Link to="/contact">
+              <Button variant="outline" className="border-green-600 text-green-600 hover:bg-green-50 px-6 py-2 text-base">
+                {t('publicSite.hero.contactUs')}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
