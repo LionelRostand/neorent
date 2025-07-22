@@ -19,9 +19,9 @@ const Hero: React.FC = () => {
             {t('publicSite.hero.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/login">
+            <Link to="/contact">
               <Button variant="outline" className="border-green-600 text-green-600 hover:bg-green-50 px-6 py-2 text-base">
-                Login
+                {t('publicSite.hero.contactUs')}
               </Button>
             </Link>
           </div>

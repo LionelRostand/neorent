@@ -105,6 +105,23 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
               <div className="ml-4 px-2">
                 <LanguageSelector />
               </div>
+              
+              {/* Login Button with enhanced design */}
+              <Link to="/login" className="ml-4">
+                <Button className="
+                  flex items-center gap-2 
+                  bg-gradient-to-r from-green-600 to-green-700 
+                  hover:from-green-700 hover:to-green-800 
+                  text-white font-semibold
+                  px-6 py-3 rounded-xl
+                  shadow-lg hover:shadow-xl
+                  transition-all duration-300
+                  transform hover:scale-105
+                ">
+                  <LogIn className="h-4 w-4" />
+                  Login
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -148,6 +165,22 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
                 <div className="px-4 py-3 border-t border-gray-100 mt-2">
                   <LanguageSelector />
                 </div>
+                
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="px-4">
+                  <Button className="
+                    flex items-center gap-2 
+                    bg-gradient-to-r from-green-600 to-green-700 
+                    hover:from-green-700 hover:to-green-800 
+                    text-white font-semibold
+                    w-full justify-center 
+                    py-3 rounded-xl
+                    shadow-lg
+                    transition-all duration-300
+                  ">
+                    <LogIn className="h-4 w-4" />
+                    Login
+                  </Button>
+                </Link>
               </div>
             </div>
           )}
