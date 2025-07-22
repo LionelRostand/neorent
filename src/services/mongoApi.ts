@@ -27,28 +27,17 @@ export interface PropertyWebsiteSettings {
 }
 
 class MongoApiService {
+  // Construire l'URL de base pour l'API Node.js
   private getBaseUrl(): string {
-    const config = mongoConfigService.getConfig();
-    if (config) {
-      // Utilise l'URL configurée pour MongoDB
-      return `https://${config.host}:${config.port === 27017 ? '30443' : config.port}`;
-    }
-    // Fallback vers l'URL par défaut
-    return 'https://mongodb.neotech-consulting.com:30443';
+    // URL de votre API Node.js locale
+    return 'http://localhost:5000';
   }
 
+  // En-têtes pour l'API Node.js (pas d'auth nécessaire pour les tests)
   private getAuthHeaders(): Record<string, string> {
-    const config = mongoConfigService.getConfig();
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
+    return {
+      'Content-Type': 'application/json'
     };
-    
-    if (config?.username && config?.password) {
-      const credentials = btoa(`${config.username}:${config.password}`);
-      headers['Authorization'] = `Basic ${credentials}`;
-    }
-    
-    return headers;
   }
 
   private async makeMongoRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
@@ -264,15 +253,12 @@ class MongoApiService {
   // Récupérer la liste des collections MongoDB
   async getCollections(): Promise<any[]> {
     try {
-      console.log('🔍 Fetching collections from MongoDB API...');
+      console.log('🔍 Fetching collections from Node.js API...');
       const response = await this.makeMongoRequest('/api/collections');
       console.log('📡 Collections API response status:', response.status, response.statusText);
       
       if (!response.ok) {
-        console.warn('❌ Could not fetch collections from MongoDB API, status:', response.status);
-        console.warn('Response headers:', Object.fromEntries(response.headers.entries()));
-        const errorText = await response.text();
-        console.warn('Response body:', errorText);
+        console.warn('❌ Could not fetch collections from Node.js API, status:', response.status);
         return [];
       }
       
@@ -281,10 +267,6 @@ class MongoApiService {
       return collections;
     } catch (error) {
       console.error('❌ Error fetching collections:', error);
-      console.error('Error details:', {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined
-      });
       return [];
     }
   }

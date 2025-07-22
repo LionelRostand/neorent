@@ -159,21 +159,21 @@ class MongoConfigService {
         throw new Error('Configuration MongoDB non trouvée');
       }
 
-      console.log('🔍 Fetching real collections from MongoDB...');
+      console.log('🔍 Fetching real collections from Node.js API...');
       
       // Importer dynamiquement pour éviter les dépendances circulaires
       const { mongoApi } = await import('./mongoApi');
       const collections = await mongoApi.getCollections();
       
       if (collections && collections.length > 0) {
-        console.log('✅ Retrieved real collections from MongoDB:', collections);
+        console.log('✅ Retrieved real collections from Node.js API:', collections);
         return collections.map((col: any) => ({
           name: col.name || col,
           count: col.count || 0,
           documents: col.documents || []
         }));
       } else {
-        console.warn('No collections found or API unavailable, using fallback');
+        console.warn('No collections found from API, using fallback collections');
         return this.getMockCollections();
       }
     } catch (error) {
