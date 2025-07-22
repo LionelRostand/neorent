@@ -31,7 +31,7 @@ export interface MongoCollection {
 
 class MongoConfigService {
   private config: MongoConfig | null = null;
-  private baseUrl: string = 'https://161.97.108.157:30433';
+  private baseUrl: string = 'https://mongodb.neotech-consulting.com:30443';
 
   // Sauvegarder la configuration MongoDB
   saveConfig(config: MongoConfig): void {
