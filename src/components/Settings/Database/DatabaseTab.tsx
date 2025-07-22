@@ -2,10 +2,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Database, FileText, Globe } from 'lucide-react';
+import { Database, FileText, Globe, Flame } from 'lucide-react';
 import MongoConfigComponent from './MongoConfig';
 import MongoExport from './MongoExport';
 import ApiDocumentation from './ApiDocumentation';
+import FirebaseCollectionsExport from './FirebaseCollectionsExport';
 
 const DatabaseTab = () => {
   const { t } = useTranslation();
@@ -22,14 +23,18 @@ const DatabaseTab = () => {
       </div>
 
       <Tabs defaultValue="config" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="config" className="flex items-center gap-2">
             <Database className="h-4 w-4" />
-            Configuration
+            MongoDB
           </TabsTrigger>
           <TabsTrigger value="export" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
-            Export JSON
+            Export MongoDB
+          </TabsTrigger>
+          <TabsTrigger value="firebase" className="flex items-center gap-2">
+            <Flame className="h-4 w-4" />
+            Export Firebase
           </TabsTrigger>
           <TabsTrigger value="api" className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
@@ -43,6 +48,10 @@ const DatabaseTab = () => {
 
         <TabsContent value="export" className="space-y-6">
           <MongoExport />
+        </TabsContent>
+
+        <TabsContent value="firebase" className="space-y-6">
+          <FirebaseCollectionsExport />
         </TabsContent>
 
         <TabsContent value="api" className="space-y-6">
