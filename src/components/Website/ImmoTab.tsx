@@ -51,12 +51,16 @@ const ImmoTab = () => {
   // Initialiser les paramètres des propriétés pour toutes les propriétés disponibles
   useEffect(() => {
     if (uniqueProperties.length > 0) {
+      // Charger les paramètres existants depuis localStorage
+      const savedSettings = localStorage.getItem('propertyWebsiteSettings');
+      const existingSettings = savedSettings ? JSON.parse(savedSettings) : {};
+      
       const initialSettings: any = {};
       uniqueProperties.forEach((property) => {
         initialSettings[property.id] = {
-          visible: false,
-          description: '',
-          featured: false
+          visible: existingSettings[property.id]?.visible || false,
+          description: existingSettings[property.id]?.description || '',
+          featured: existingSettings[property.id]?.featured || false
         };
       });
       setPropertySettings(initialSettings);
@@ -66,7 +70,8 @@ const ImmoTab = () => {
   const handleSaveWebsiteSettings = async () => {
     setIsSaving(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Sauvegarder les paramètres dans localStorage pour le site public
+      localStorage.setItem('propertyWebsiteSettings', JSON.stringify(propertySettings));
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       
