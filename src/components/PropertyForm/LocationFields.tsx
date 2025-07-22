@@ -30,7 +30,7 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
           id="surface"
           value={formData.surface}
           onChange={(e) => onInputChange('surface', e.target.value)}
-          placeholder="ex: 45 m²"
+          placeholder={t('properties.surfacePlaceholder')}
         />
       </div>
     </>
