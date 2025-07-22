@@ -95,13 +95,13 @@ const MongoConfigComponent: React.FC = () => {
           />
         )}
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 p-2 sm:p-0">
           <Switch
             id="use-connection-string"
             checked={useConnectionString}
             onCheckedChange={setUseConnectionString}
           />
-          <Label htmlFor="use-connection-string">
+          <Label htmlFor="use-connection-string" className="text-sm sm:text-base">
             Utiliser une chaîne de connexion complète
           </Label>
         </div>
@@ -118,7 +118,7 @@ const MongoConfigComponent: React.FC = () => {
             />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="space-y-2">
               <Label htmlFor="host">Host</Label>
               <Input
@@ -176,86 +176,91 @@ const MongoConfigComponent: React.FC = () => {
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4 p-2 sm:p-0">
           <div className="flex items-center space-x-2">
             <Switch
               id="ssl"
               checked={formData.ssl}
               onCheckedChange={(checked) => handleInputChange('ssl', checked)}
             />
-            <Label htmlFor="ssl">Activer SSL</Label>
+            <Label htmlFor="ssl" className="text-sm sm:text-base">Activer SSL</Label>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-start space-x-2">
             <Switch
               id="allowInvalidCertificates"
               checked={formData.allowInvalidCertificates}
               onCheckedChange={(checked) => handleInputChange('allowInvalidCertificates', checked)}
+              className="mt-1"
             />
-            <Label htmlFor="allowInvalidCertificates" className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-amber-600" />
-              Autoriser les certificats invalides (certificats auto-signés)
+            <Label htmlFor="allowInvalidCertificates" className="flex items-start gap-2 text-sm sm:text-base leading-tight">
+              <Shield className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+              <span>Autoriser les certificats invalides (certificats auto-signés)</span>
             </Label>
           </div>
         </div>
 
-        <Alert>
-          <Info className="h-4 w-4" />
-          <AlertDescription>
-            <strong>URL de connexion générée:</strong>
-            <br />
-            <code className="text-sm bg-gray-100 p-1 rounded break-all">
+        <Alert className="mx-2 sm:mx-0">
+          <Info className="h-4 w-4 flex-shrink-0" />
+          <AlertDescription className="space-y-2">
+            <div className="font-medium text-sm sm:text-base">URL de connexion générée:</div>
+            <code className="text-xs sm:text-sm bg-gray-100 p-2 rounded block break-all whitespace-pre-wrap">
               {generatePreviewUrl()}
             </code>
           </AlertDescription>
         </Alert>
 
-        <div className="flex gap-2">
-          <Button onClick={handleSave} variant="outline">
+        <div className="flex flex-col sm:flex-row gap-2 p-2 sm:p-0">
+          <Button onClick={handleSave} variant="outline" className="w-full sm:w-auto">
             Sauvegarder
           </Button>
-          <Button onClick={handleTest} disabled={isLoading}>
+          <Button onClick={handleTest} disabled={isLoading} className="w-full sm:w-auto">
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Test en cours...
+                <span className="hidden sm:inline">Test en cours...</span>
+                <span className="sm:hidden">Test...</span>
               </>
             ) : (
-              'Tester la connexion'
+              <>
+                <span className="hidden sm:inline">Tester la connexion</span>
+                <span className="sm:hidden">Tester</span>
+              </>
             )}
           </Button>
           {!showCertificateHelper && (
             <Button 
               onClick={() => setShowCertificateHelper(true)} 
               variant="outline"
-              className="text-amber-600 border-amber-300 hover:bg-amber-50"
+              className="text-amber-600 border-amber-300 hover:bg-amber-50 w-full sm:w-auto"
             >
-              Gérer le certificat SSL
+              <span className="hidden sm:inline">Gérer le certificat SSL</span>
+              <span className="sm:hidden">Gérer certificat</span>
             </Button>
           )}
         </div>
 
         {connectionTest && (
-          <Alert className={connectionTest.success ? 'border-green-500' : 'border-red-500'}>
-            <div className="flex items-center gap-2">
+          <Alert className={`mx-2 sm:mx-0 ${connectionTest.success ? 'border-green-500' : 'border-red-500'}`}>
+            <div className="flex items-start gap-2">
               {connectionTest.success ? (
-                <CheckCircle className="h-4 w-4 text-green-500" />
+                <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
               ) : (
-                <XCircle className="h-4 w-4 text-red-500" />
+                <XCircle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
               )}
-              <AlertDescription className="flex-1">
+              <AlertDescription className="flex-1 text-sm sm:text-base">
                 {connectionTest.message}
               </AlertDescription>
             </div>
             {connectionTest.details && (
-              <div className="mt-2 text-sm text-gray-600">
-                <p>Host: {connectionTest.details.host}</p>
-                <p>Base de données: {connectionTest.details.database}</p>
+              <div className="mt-3 text-xs sm:text-sm text-gray-600 space-y-1">
+                <p><span className="font-medium">Host:</span> {connectionTest.details.host}</p>
+                <p><span className="font-medium">Base de données:</span> {connectionTest.details.database}</p>
                 {connectionTest.details.collections && (
-                  <p>Collections: {connectionTest.details.collections.join(', ')}</p>
+                  <p><span className="font-medium">Collections:</span> {connectionTest.details.collections.join(', ')}</p>
                 )}
                 {connectionTest.details.latency && (
-                  <p>Latence: {connectionTest.details.latency}ms</p>
+                  <p><span className="font-medium">Latence:</span> {connectionTest.details.latency}ms</p>
                 )}
               </div>
             )}
