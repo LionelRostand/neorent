@@ -10,11 +10,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, CheckCircle, XCircle, Database, Info, Shield } from 'lucide-react';
 import { useMongoConfig } from '@/hooks/useMongoConfig';
 import { MongoConfig } from '@/services/mongoConfig';
+import { useToast } from '@/hooks/use-toast';
 import CertificateHelper from './CertificateHelper';
 
 const MongoConfigComponent: React.FC = () => {
   const { t } = useTranslation();
   const { config, saveConfig, testConnection, isLoading, connectionTest } = useMongoConfig();
+  const { toast } = useToast();
   
   const [formData, setFormData] = useState<MongoConfig>({
     host: config?.host || '161.97.108.157',
@@ -39,7 +41,20 @@ const MongoConfigComponent: React.FC = () => {
   };
 
   const handleSave = () => {
-    saveConfig(formData);
+    try {
+      saveConfig(formData);
+      toast({
+        title: "Configuration sauvegardée",
+        description: "Les paramètres de connexion MongoDB ont été sauvegardés avec succès.",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur de sauvegarde",
+        description: "Impossible de sauvegarder la configuration.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleTest = () => {
