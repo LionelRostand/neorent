@@ -12,17 +12,17 @@ export const useMongoConfig = () => {
     if (savedConfig) {
       setConfig(savedConfig);
     } else {
-      // Configuration par défaut pour mongodb.neotech-consulting.com
+      // Configuration par défaut basée sur les paramètres utilisateur
       const defaultConfig: MongoConfig = {
         host: 'mongodb.neotech-consulting.com',
-        port: 30017, // Port NodePort pour MongoDB direct
-        database: 'neorent',
-        username: '',
+        port: 30017,
+        database: 'Neorent',
+        username: 'admin',
         password: '',
         authSource: 'admin',
-        ssl: false, // Désactiver SSL pour la connexion directe à MongoDB
+        ssl: false,
         allowInvalidCertificates: false,
-        connectionString: 'mongodb://mongodb.neotech-consulting.com:30017/neorent'
+        connectionString: 'mongodb://admin@mongodb.neotech-consulting.com:30017/Neorent'
       };
       setConfig(defaultConfig);
       mongoConfigService.saveConfig(defaultConfig);
