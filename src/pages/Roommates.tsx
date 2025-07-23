@@ -232,28 +232,18 @@ const Roommates = () => {
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('roommates.management')}</h1>
                 <p className="text-gray-600 mt-2 text-sm sm:text-base">{t('roommates.description')}</p>
               </div>
-              <div className="flex gap-2 flex-col sm:flex-row w-full sm:w-auto">
-                <Button 
-                  onClick={handleCleanupDuplicates}
-                  variant="outline"
-                  className="text-orange-600 border-orange-300 hover:bg-orange-50 px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto"
-                >
-                  <Trash2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                  <span className="text-sm sm:text-base">Nettoyer doublons</span>
-                </Button>
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto">
-                      <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                      <span className="text-sm sm:text-base">{t('roommates.addRoommate')}</span>
-                    </Button>
-                  </DialogTrigger>
-                  <RoommateForm
-                    onClose={() => setIsDialogOpen(false)}
-                    onSubmit={handleAddRoommate}
-                  />
-                </Dialog>
-              </div>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto">
+                    <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-sm sm:text-base">{t('roommates.addRoommate')}</span>
+                  </Button>
+                </DialogTrigger>
+                <RoommateForm
+                  onClose={() => setIsDialogOpen(false)}
+                  onSubmit={handleAddRoommate}
+                />
+              </Dialog>
             </div>
           </div>
 
