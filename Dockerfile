@@ -2,9 +2,17 @@
 # Build stage pour le frontend React
 FROM node:18-alpine as frontend-build
 WORKDIR /app/frontend
+
+# Copier les fichiers package.json en premier pour optimiser le cache Docker
 COPY package*.json ./
-RUN npm ci --only=production
+
+# Installer TOUTES les dépendances (y compris devDependencies pour vite)
+RUN npm ci
+
+# Copier tout le code source
 COPY . .
+
+# Build du frontend React avec Vite
 RUN npm run build
 
 # Build stage pour l'API Node.js
