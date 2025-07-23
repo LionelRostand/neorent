@@ -23,6 +23,24 @@ export const useFirebaseRoommates = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const checkRoommateExists = async (email: string): Promise<Roommate | null> => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'Rent_colocataires'));
+      const existingRoommate = querySnapshot.docs.find(doc => {
+        const data = doc.data();
+        return data.email === email;
+      });
+      
+      if (existingRoommate) {
+        return { id: existingRoommate.id, ...existingRoommate.data() } as Roommate;
+      }
+      return null;
+    } catch (err) {
+      console.error('Error checking roommate existence:', err);
+      return null;
+    }
+  };
+
   const fetchRoommates = async () => {
     try {
       setLoading(true);
@@ -153,6 +171,7 @@ export const useFirebaseRoommates = () => {
     updateRoommate,
     deleteRoommate,
     cleanupDuplicates,
+    checkRoommateExists,
     refetch: fetchRoommates
   };
 };

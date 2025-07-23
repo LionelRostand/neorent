@@ -6,7 +6,7 @@ import { toast } from '@/hooks/use-toast';
 
 export const useRoommateRegistration = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { addRoommate } = useFirebaseRoommates();
+  const { addRoommate, checkRoommateExists } = useFirebaseRoommates();
   const { createRoommateAuthAccount } = useFirebaseRoommateAuth();
 
   const registerRoommate = async (roommateData: any, password: string) => {
@@ -15,12 +15,21 @@ export const useRoommateRegistration = () => {
 
       console.log('Starting roommate registration process...');
 
-      // 1. Ajouter le colocataire dans la collection Rent_colocataires
-      const newRoommate = await addRoommate(roommateData);
-      console.log('Roommate added to collection:', newRoommate);
+      // 1. Vérifier si le colocataire existe déjà
+      const existingRoommate = await checkRoommateExists(roommateData.email);
+      
+      let roommate;
+      if (existingRoommate) {
+        console.log('Roommate already exists, skipping creation in database');
+        roommate = existingRoommate;
+      } else {
+        // 2. Ajouter le colocataire dans la collection Rent_colocataires seulement s'il n'existe pas
+        roommate = await addRoommate(roommateData);
+        console.log('Roommate added to collection:', roommate);
+      }
 
-      // 2. Créer le compte Firebase Auth et le profil utilisateur
-      const authResult = await createRoommateAuthAccount(newRoommate, password);
+      // 3. Créer le compte Firebase Auth et le profil utilisateur
+      const authResult = await createRoommateAuthAccount(roommate, password);
       
       if (authResult.success) {
         if (authResult.emailAlreadyExists) {
@@ -38,7 +47,7 @@ export const useRoommateRegistration = () => {
         }
         
         console.log('Roommate registration completed successfully');
-        return { success: true, roommate: newRoommate };
+        return { success: true, roommate };
       } else {
         throw new Error('Erreur lors de la création du compte d\'authentification');
       }

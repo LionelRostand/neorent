@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { useFirebaseAuth } from './useFirebaseAuth';
 
@@ -44,21 +44,44 @@ export const useFirebaseRoommateAuth = () => {
         // Sauvegarder dans la collection des profils utilisateurs
         await setDoc(doc(db, 'user_profiles', authResult.user.uid), roommateProfile);
         
-        // Sauvegarder aussi dans la collection des colocataires pour la gestion admin
-        await setDoc(doc(db, 'Rent_colocataires', roommateData.id), roommateProfile);
+        // Vérifier si ce colocataire existe déjà dans Rent_colocataires pour éviter les doublons
+        const existingQuery = query(
+          collection(db, 'Rent_colocataires'), 
+          where('email', '==', roommateData.email)
+        );
+        const existingSnapshot = await getDocs(existingQuery);
+        
+        if (existingSnapshot.empty) {
+          // Sauvegarder seulement s'il n'existe pas déjà
+          await setDoc(doc(db, 'Rent_colocataires', roommateData.id), roommateProfile);
+        } else {
+          console.log('Roommate already exists in Rent_colocataires, skipping duplicate creation');
+        }
 
         console.log('Roommate auth account created successfully:', authResult.user.uid);
         return { success: true, user: authResult.user, emailAlreadyExists: false };
       } else if (authResult.emailAlreadyExists) {
         console.log('Email already exists, but saving roommate data');
         
-        // L'email existe déjà, mais on peut quand même sauvegarder les données
+        // L'email existe déjà, vérifier si les données existent aussi
         const roommateProfile: RoommateAuthData = {
           ...roommateData,
           userType: 'colocataire'
         };
 
-        await setDoc(doc(db, 'Rent_colocataires', roommateData.id), roommateProfile);
+        // Vérifier si ce colocataire existe déjà dans Rent_colocataires pour éviter les doublons
+        const existingQuery = query(
+          collection(db, 'Rent_colocataires'), 
+          where('email', '==', roommateData.email)
+        );
+        const existingSnapshot = await getDocs(existingQuery);
+        
+        if (existingSnapshot.empty) {
+          // Sauvegarder seulement s'il n'existe pas déjà
+          await setDoc(doc(db, 'Rent_colocataires', roommateData.id), roommateProfile);
+        } else {
+          console.log('Roommate already exists in Rent_colocataires, skipping duplicate creation');
+        }
         
         return { success: true, user: null, emailAlreadyExists: true };
       }
