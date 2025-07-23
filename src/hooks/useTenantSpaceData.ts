@@ -79,7 +79,7 @@ export const useTenantSpaceData = () => {
   // Build property data using current profile information and contract data
   const mockPropertyData = currentProfile ? {
     title: `${currentType === 'colocataire' ? currentProfile.roomNumber || 'Chambre 3' : 'Appartement'} ${currentProfile.property || 'T2'}`,
-    address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
+    address: currentProfile.property || currentProfile.address || "Adresse non disponible",
     type: currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement',
     surface: currentType === 'colocataire' ? '15 m²' : '45 m²',
     rooms: currentType === 'colocataire' ? '1 chambre' : '2 pièces',
@@ -100,16 +100,16 @@ export const useTenantSpaceData = () => {
     id: currentProfile.id || 1,
     name: currentProfile.name?.trim() || 'Nom non disponible',
     email: currentProfile.email || 'Email non disponible',
-    phone: currentProfile.phone || "0123456789",
-    address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
-    leaseStart: activeContract?.startDate || currentProfile.leaseStart || "2025-01-06",
-    leaseEnd: activeContract?.endDate || currentProfile.leaseEnd || "2026-01-05",
+    phone: currentProfile.phone || "Non renseigné",
+    address: currentProfile.property || currentProfile.address || "Adresse non disponible",
+    leaseStart: activeContract?.startDate || currentProfile.leaseStart || currentProfile.moveInDate || "Date non disponible",
+    leaseEnd: activeContract?.endDate || currentProfile.leaseEnd || "Date non disponible",
     status: currentProfile.status || "À jour",
     type: (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire',
     roomNumber: currentProfile.roomNumber || null,
     emergencyContact: {
       name: "Contact Urgence",
-      phone: "0987654321",
+      phone: "Non renseigné",
       relation: "Famille"
     }
   } : null;
