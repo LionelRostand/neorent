@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Database, FileText, Globe, Flame } from 'lucide-react';
-import MongoConfigComponent from './MongoConfig';
+import DatabaseConfigComponent from './DatabaseConfig';
 import MongoExport from './MongoExport';
 import ApiDocumentation from './ApiDocumentation';
 import FirebaseCollectionsExport from './FirebaseCollectionsExport';
@@ -29,8 +29,8 @@ const DatabaseTab = () => {
             className="flex items-center gap-1 md:gap-2 p-2 md:p-3 text-xs md:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm"
           >
             <Database className="h-3 w-3 md:h-4 md:w-4" />
-            <span className="hidden sm:inline">MongoDB</span>
-            <span className="sm:hidden">Mongo</span>
+            <span className="hidden sm:inline">Configuration</span>
+            <span className="sm:hidden">Config</span>
           </TabsTrigger>
           <TabsTrigger 
             value="export" 
@@ -59,7 +59,7 @@ const DatabaseTab = () => {
         </TabsList>
 
         <TabsContent value="config" className="space-y-6">
-          <MongoConfigComponent />
+          <DatabaseConfigComponent />
         </TabsContent>
 
         <TabsContent value="export" className="space-y-6">

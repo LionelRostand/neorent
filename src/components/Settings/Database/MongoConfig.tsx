@@ -59,7 +59,7 @@ const MongoConfigComponent: React.FC = () => {
 
   const handleTest = () => {
     console.log('Testing connection with:', formData);
-    testConnection(formData);
+    testConnection();
   };
 
   const generatePreviewUrl = () => {
