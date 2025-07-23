@@ -55,7 +55,7 @@ export const useTenantSpaceData = () => {
     parseInt(activeContract.amount.replace(/[€\/mois]/g, '')) : 
     profileRentAmount;
 
-  // Pour les colocataires : calculer charges et loyer de base
+  // Pour les colocataires : 580€ total = 530€ loyer + 50€ charges
   const charges = 50;
   const baseRent = contractTotalAmount - charges;
 
