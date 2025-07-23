@@ -379,13 +379,6 @@ const Roommates = () => {
                             >
                               {t('roommates.viewDetails')}
                             </Button>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="w-full h-7 text-xs hover:bg-blue-50 hover:border-blue-300"
-                            >
-                              {t('roommates.contact')}
-                            </Button>
                           </div>
                         </div>
                       </CardContent>
