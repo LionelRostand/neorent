@@ -35,7 +35,7 @@ export const useTenantSpaceData = () => {
     type: 'Colocation',
     tenant: 'Emad ADAM',
     property: 'Appartement 13',
-    amount: '450€/mois',
+    amount: `${currentProfile.rentAmount || 580}€/mois`,
     startDate: '2025-03-03',
     endDate: '2026-07-20',
     status: 'Signé',
@@ -46,12 +46,16 @@ export const useTenantSpaceData = () => {
 
   const activeContract = signedContract || mockSignedContract;
 
-  // Extraire le montant du contrat - 450€ pour Emad ADAM
+  // Utiliser le montant réel du profil colocataire
+  const profileRentAmount = currentProfile?.rentAmount ? 
+    parseInt(currentProfile.rentAmount.toString()) : 
+    (currentType === 'colocataire' ? 580 : 400);
+
   const contractTotalAmount = activeContract ? 
     parseInt(activeContract.amount.replace(/[€\/mois]/g, '')) : 
-    (currentType === 'colocataire' ? 450 : 400);
+    profileRentAmount;
 
-  // Pour les colocataires : 450€ total = 400€ loyer + 50€ charges
+  // Pour les colocataires : calculer charges et loyer de base
   const charges = 50;
   const baseRent = contractTotalAmount - charges;
 
@@ -74,7 +78,7 @@ export const useTenantSpaceData = () => {
 
   // Build property data using current profile information and contract data
   const mockPropertyData = currentProfile ? {
-    title: `${currentType === 'colocataire' ? 'Chambre' : 'Appartement'} ${currentProfile.property || currentProfile.roomNumber || 'T2'}`,
+    title: `${currentType === 'colocataire' ? currentProfile.roomNumber || 'Chambre 3' : 'Appartement'} ${currentProfile.property || 'T2'}`,
     address: currentProfile.address || currentProfile.property || "123 Rue de la Paix, 75001 Paris",
     type: currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement',
     surface: currentType === 'colocataire' ? '15 m²' : '45 m²',
