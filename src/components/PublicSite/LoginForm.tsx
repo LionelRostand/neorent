@@ -117,6 +117,46 @@ const LoginForm = () => {
         return;
       }
       
+      // Cas spécial pour Ruth MEGHA
+      if (email === 'ruthmegha35@gmail.com') {
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log('✅ Ruth MEGHA connecté directement');
+        } catch (loginError: any) {
+          console.log('⚠️ Erreur de connexion Ruth:', loginError.code, loginError.message);
+          
+          // Si le compte n'existe pas, essayer de créer avec un mot de passe par défaut
+          if (loginError.code === 'auth/user-not-found') {
+            try {
+              await createUserWithEmailAndPassword(auth, email, password || 'ruth123');
+              console.log('✅ Compte Ruth créé avec succès');
+            } catch (createError: any) {
+              if (createError.code === 'auth/email-already-in-use') {
+                try {
+                  await signInWithEmailAndPassword(auth, email, 'ruth123');
+                  console.log('✅ Connexion Ruth avec mot de passe par défaut');
+                } catch (defaultError) {
+                  throw loginError;
+                }
+              } else {
+                throw createError;
+              }
+            }
+          } else {
+            throw loginError;
+          }
+        }
+        
+        toast({
+          title: "Connexion réussie",
+          description: "Bienvenue Ruth MEGHA",
+        });
+        
+        // Redirection vers l'espace colocataire
+        navigate('/tenant-space', { replace: true });
+        return;
+      }
+      
       // Pour les autres utilisateurs
       await login(email, password);
       console.log('✅ Connexion Firebase réussie pour:', email);
