@@ -11,6 +11,8 @@ import RoommateForm from '@/components/RoommateForm';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useToast } from '@/hooks/use-toast';
 
 interface AdminRoommatesViewProps {
   currentProfile?: any;
@@ -22,7 +24,25 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
   const profile = currentProfile || userProfile;
   const { handleRoommateSubmit } = useOwnerQuickActions(profile);
   const { roommates, tenants, payments } = useOwnerData(profile);
+  const { cleanupDuplicates } = useFirebaseRoommates();
+  const { toast } = useToast();
   const [showRoommateForm, setShowRoommateForm] = useState(false);
+
+  const handleCleanupDuplicates = async () => {
+    try {
+      const deletedCount = await cleanupDuplicates();
+      toast({
+        title: "Nettoyage terminé",
+        description: `${deletedCount} doublon(s) supprimé(s)`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Erreur lors du nettoyage des doublons",
+        variant: "destructive",
+      });
+    }
+  };
 
   const totalTenants = tenants?.length || 0;
   const activeTenants = tenants?.filter(t => t.status === 'Actif').length || 0;
@@ -56,13 +76,23 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
             <h1 className="text-2xl sm:text-3xl font-bold">Colocataires</h1>
             <p className="text-blue-100 mt-1 sm:mt-2 text-sm sm:text-base">Gérez vos colocataires et leurs informations</p>
           </div>
-          <Button 
-            onClick={() => setShowRoommateForm(true)}
-            className="bg-white text-blue-600 hover:bg-blue-50 border-0 shadow-md w-full sm:w-auto"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Nouveau colocataire
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button 
+              onClick={() => setShowRoommateForm(true)}
+              className="bg-white text-blue-600 hover:bg-blue-50 border-0 shadow-md"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Nouveau colocataire
+            </Button>
+            <Button 
+              onClick={handleCleanupDuplicates}
+              variant="outline"
+              className="bg-white/10 text-white border-white/30 hover:bg-white/20"
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Nettoyer les doublons
+            </Button>
+          </div>
         </div>
       </div>
 
