@@ -1,54 +1,81 @@
 
 import { useState, useEffect } from 'react';
-import { mongoConfigService, MongoConfig, MongoConnectionTest } from '@/services/mongoConfig';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
+interface FirebaseConfig {
+  projectId: string;
+  authDomain: string;
+  storageBucket: string;
+  status: string;
+}
+
+interface FirebaseConnectionTest {
+  success: boolean;
+  message: string;
+  details?: {
+    projectId: string;
+    collections: string[];
+    documentsCount: number;
+  };
+}
 
 export const useMongoConfig = () => {
-  const [config, setConfig] = useState<MongoConfig | null>(null);
+  const [config, setConfig] = useState<FirebaseConfig | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [connectionTest, setConnectionTest] = useState<MongoConnectionTest | null>(null);
+  const [connectionTest, setConnectionTest] = useState<FirebaseConnectionTest | null>(null);
 
   useEffect(() => {
-    const savedConfig = mongoConfigService.getConfig();
-    if (savedConfig) {
-      setConfig(savedConfig);
-    } else {
-      // Configuration par défaut basée sur les paramètres utilisateur
-      const defaultConfig: MongoConfig = {
-        host: 'mongodb.neotech-consulting.com',
-        port: 27017,
-        database: 'neorent',
-        username: 'admin',
-        password: 'admin',
-        authSource: 'admin',
-        ssl: true,
-        allowInvalidCertificates: true,
-        connectionString: 'mongodb://admin:admin@mongodb.neotech-consulting.com:27017/neorent?authSource=admin&ssl=true&tlsAllowInvalidCertificates=true'
-      };
-      setConfig(defaultConfig);
-      mongoConfigService.saveConfig(defaultConfig);
-    }
+    // Configuration Firebase (déjà disponible dans votre app)
+    const firebaseConfig: FirebaseConfig = {
+      projectId: 'neorent-23d85',
+      authDomain: 'neorent-23d85.firebaseapp.com',
+      storageBucket: 'neorent-23d85.firebasestorage.app',
+      status: 'Connecté'
+    };
+    setConfig(firebaseConfig);
   }, []);
 
-  const saveConfig = (newConfig: MongoConfig) => {
-    mongoConfigService.saveConfig(newConfig);
+  const saveConfig = (newConfig: FirebaseConfig) => {
     setConfig(newConfig);
   };
 
-  const testConnection = async (testConfig?: MongoConfig) => {
-    const configToTest = testConfig || config;
-    if (!configToTest) return;
+  const testConnection = async () => {
+    if (!config) return;
 
     setIsLoading(true);
     setConnectionTest(null);
 
     try {
-      const result = await mongoConfigService.testConnection(configToTest);
-      setConnectionTest(result);
+      // Tester la connexion à Firestore en récupérant quelques collections
+      const collections = ['Rent_locataires', 'Rent_colocataires', 'Rent_properties', 'Rent_owners'];
+      const results = await Promise.all(
+        collections.map(async (collectionName) => {
+          try {
+            const snapshot = await getDocs(collection(db, collectionName));
+            return { name: collectionName, count: snapshot.size };
+          } catch (error) {
+            return { name: collectionName, count: 0 };
+          }
+        })
+      );
+
+      const totalDocuments = results.reduce((sum, col) => sum + col.count, 0);
+
+      setConnectionTest({
+        success: true,
+        message: 'Connexion Firebase/Firestore réussie',
+        details: {
+          projectId: config.projectId,
+          collections: results.map(r => `${r.name} (${r.count} docs)`),
+          documentsCount: totalDocuments
+        }
+      });
     } catch (error) {
-      console.error('Erreur de connexion MongoDB:', error);
+      console.error('Erreur de connexion Firebase:', error);
       setConnectionTest({
         success: false,
-        message: 'Erreur lors du test de connexion: API Node.js non accessible sur localhost:5000. Veuillez démarrer votre API en local avec "cd api && npm run dev"',
+        message: 'Erreur lors du test de connexion Firebase/Firestore',
       });
     } finally {
       setIsLoading(false);
