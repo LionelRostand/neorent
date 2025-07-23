@@ -125,18 +125,30 @@ const LoginForm = () => {
         } catch (loginError: any) {
           console.log('⚠️ Erreur de connexion Ruth:', loginError.code, loginError.message);
           
-          // Si le compte n'existe pas, essayer de créer avec un mot de passe par défaut
-          if (loginError.code === 'auth/user-not-found') {
+          // Si le compte n'existe pas ou identifiants invalides, créer le compte
+          if (loginError.code === 'auth/user-not-found' || loginError.code === 'auth/invalid-credential') {
             try {
-              await createUserWithEmailAndPassword(auth, email, password || 'ruth123');
-              console.log('✅ Compte Ruth créé avec succès');
+              // Essayer de créer le compte avec le mot de passe fourni
+              const passwordToUse = password || 'ruth123';
+              await createUserWithEmailAndPassword(auth, email, passwordToUse);
+              console.log('✅ Compte Ruth créé avec mot de passe:', passwordToUse);
             } catch (createError: any) {
               if (createError.code === 'auth/email-already-in-use') {
+                // Le compte existe déjà, essayer avec le mot de passe par défaut
                 try {
                   await signInWithEmailAndPassword(auth, email, 'ruth123');
-                  console.log('✅ Connexion Ruth avec mot de passe par défaut');
-                } catch (defaultError) {
-                  throw loginError;
+                  console.log('✅ Connexion Ruth avec mot de passe par défaut: ruth123');
+                } catch (defaultError: any) {
+                  console.error('❌ Impossible de se connecter avec le mot de passe par défaut');
+                  throw new Error(`Mot de passe incorrect. Essayez avec "ruth123" ou contactez l'administrateur.`);
+                }
+              } else if (createError.code === 'auth/weak-password') {
+                // Le mot de passe est trop faible, utiliser le défaut
+                try {
+                  await createUserWithEmailAndPassword(auth, email, 'ruth123');
+                  console.log('✅ Compte Ruth créé avec mot de passe par défaut fort');
+                } catch (retryError) {
+                  throw new Error('Erreur lors de la création du compte. Contactez l\'administrateur.');
                 }
               } else {
                 throw createError;
