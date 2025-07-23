@@ -31,7 +31,25 @@ export const useFirebaseRoommates = () => {
         id: doc.id,
         ...doc.data()
       })) as Roommate[];
-      setRoommates(roommatesData);
+      
+      // Déduplication basée sur l'email (champ unique)
+      const uniqueRoommates = roommatesData.reduce((acc: Roommate[], current) => {
+        const isDuplicate = acc.some(roommate => 
+          roommate.email === current.email && 
+          roommate.name === current.name
+        );
+        
+        if (!isDuplicate) {
+          acc.push(current);
+        } else {
+          console.warn(`Duplicata détecté pour ${current.name} (${current.email}), ignoré`);
+        }
+        
+        return acc;
+      }, []);
+      
+      console.log(`📊 Colocataires récupérés: ${roommatesData.length} total, ${uniqueRoommates.length} uniques`);
+      setRoommates(uniqueRoommates);
       setError(null);
     } catch (err) {
       console.error('Error fetching roommates:', err);
@@ -78,6 +96,51 @@ export const useFirebaseRoommates = () => {
     }
   };
 
+  const cleanupDuplicates = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'Rent_colocataires'));
+      const allRoommates = querySnapshot.docs.map(doc => ({
+        docId: doc.id,
+        ...doc.data()
+      }));
+
+      // Grouper par email + nom pour détecter les doublons
+      const emailGroups = allRoommates.reduce((groups: any, roommate: any) => {
+        const key = `${roommate.email}_${roommate.name}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(roommate);
+        return groups;
+      }, {});
+
+      // Supprimer les doublons (garder le premier, supprimer les autres)
+      const duplicatesToDelete = [];
+      for (const [key, duplicates] of Object.entries(emailGroups) as [string, any[]][]) {
+        if (duplicates.length > 1) {
+          console.log(`🗑️ Doublons trouvés pour ${key}:`, duplicates.length);
+          // Garder le premier, marquer les autres pour suppression
+          duplicatesToDelete.push(...duplicates.slice(1));
+        }
+      }
+
+      // Supprimer les doublons de Firestore
+      for (const duplicate of duplicatesToDelete) {
+        console.log(`🗑️ Suppression du doublon:`, duplicate.docId, duplicate.name);
+        await deleteDoc(doc(db, 'Rent_colocataires', duplicate.docId));
+      }
+
+      if (duplicatesToDelete.length > 0) {
+        console.log(`✅ ${duplicatesToDelete.length} doublons supprimés`);
+        // Recharger les données après le nettoyage
+        await fetchRoommates();
+      }
+
+      return duplicatesToDelete.length;
+    } catch (err) {
+      console.error('Error cleaning up duplicates:', err);
+      return 0;
+    }
+  };
+
   useEffect(() => {
     fetchRoommates();
   }, []);
@@ -89,6 +152,7 @@ export const useFirebaseRoommates = () => {
     addRoommate,
     updateRoommate,
     deleteRoommate,
+    cleanupDuplicates,
     refetch: fetchRoommates
   };
 };
