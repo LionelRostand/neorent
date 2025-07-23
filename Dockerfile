@@ -1,53 +1,42 @@
 
-# Étape 1: Build de l'application avec Node.js
-FROM node:18.20.7-alpine AS builder
-
-# Activer Corepack pour utiliser Yarn directement
-RUN corepack enable
-
-# Définir le répertoire de travail
-WORKDIR /neorent
-
-# Copier uniquement les fichiers nécessaires pour l'installation des dépendances
+# Build stage pour le frontend React
+FROM node:18-alpine as frontend-build
+WORKDIR /app/frontend
 COPY package*.json ./
-
-# Configurer Yarn pour qu'il soit plus tolérant aux problèmes de réseau
-RUN yarn config set network-timeout 300000 && \
-    yarn config set httpRetry 5 && \
-    yarn config set httpsRetry 5
-
-# Installer les dépendances avec des retry en cas d'échec
-RUN yarn install --frozen-lockfile --network-timeout 300000 || \
-    yarn install --frozen-lockfile --network-timeout 300000 || \
-    yarn install --frozen-lockfile --network-timeout 300000
-
-# Copier le reste du projet
+RUN npm ci --only=production
 COPY . .
+RUN npm run build
 
-# Construire l'application
-RUN yarn build
+# Build stage pour l'API Node.js
+FROM node:18-alpine as api-build
+WORKDIR /app/api
+COPY api/package*.json ./
+RUN npm ci --only=production
+COPY api/ .
 
-# Étape 2: Image finale avec nginx
+# Stage de production avec Nginx + Node.js
 FROM nginx:alpine
 
-# Copier les fichiers buildés vers nginx
-COPY --from=builder /neorent/dist /usr/share/nginx/html
+# Installer Node.js pour l'API
+RUN apk add --no-cache nodejs npm
 
-# Copier la configuration nginx personnalisée
+# Copier le build React vers Nginx
+COPY --from=frontend-build /app/frontend/dist /usr/share/nginx/html
+
+# Copier l'API
+COPY --from=api-build /app/api /app/api
+
+# Configuration Nginx mise à jour
 COPY config/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Créer le répertoire pour les certificats SSL
-RUN mkdir -p /etc/nginx/ssl
+# Script de démarrage
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Générer un certificat auto-signé pour le développement
-RUN apk add --no-cache openssl && \
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/nginx.key \
-    -out /etc/nginx/ssl/nginx.crt \
-    -subj "/C=FR/ST=France/L=Paris/O=Neotech-consulting/CN=localhost"
+# Variables d'environnement
+ENV MONGODB_URI="mongodb://admin:admin@mongodb.neotech-consulting.com:27017/neorent?authSource=admin&ssl=true&tlsAllowInvalidCertificates=true"
+ENV PORT=5000
 
-# Exposer les ports HTTP et HTTPS
-EXPOSE 80 443
+EXPOSE 80 5000
 
-# Démarrer nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/start.sh"]
