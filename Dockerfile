@@ -6,8 +6,8 @@ WORKDIR /app/frontend
 # Copier les fichiers package.json en premier pour optimiser le cache Docker
 COPY package*.json ./
 
-# Installer TOUTES les dépendances (y compris devDependencies pour vite)
-RUN npm ci
+# Installer TOUTES les dépendances (npm install génère package-lock.json automatiquement)
+RUN npm install
 
 # Copier tout le code source
 COPY . .
@@ -18,8 +18,12 @@ RUN npm run build
 # Build stage pour l'API Node.js
 FROM node:18-alpine as api-build
 WORKDIR /app/api
+
+# Copier les fichiers package.json de l'API
 COPY api/package*.json ./
-RUN npm ci --only=production
+
+# Installer les dépendances de l'API
+RUN npm install
 COPY api/ .
 
 # Stage de production avec Nginx + Node.js
