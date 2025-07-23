@@ -45,7 +45,7 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { createRoommateAuthAccount } = useFirebaseRoommateAuth();
+  const { updateRoommateWithAuth } = useFirebaseRoommateAuth();
 
   useEffect(() => {
     if (roommate) {
@@ -63,48 +63,64 @@ const RoommateEditModal: React.FC<RoommateEditModalProps> = ({ roommate, isOpen,
     try {
       const updates = { ...formData };
       
-      // Si un mot de passe est fourni, créer/mettre à jour le compte Firebase Auth
-      if (password.trim().length >= 6) {
-        console.log('Creating/updating Firebase Auth account for roommate:', roommate.email);
-        
-        const authResult = await createRoommateAuthAccount({
-          id: roommate.id,
-          name: formData.name || roommate.name,
-          email: formData.email || roommate.email,
-          phone: formData.phone || roommate.phone,
-          property: formData.property || roommate.property,
-          roomNumber: formData.roomNumber || roommate.roomNumber,
-          rentAmount: formData.rentAmount || roommate.rentAmount,
-          status: formData.status || roommate.status,
-          primaryTenant: formData.primaryTenant || roommate.primaryTenant,
-          moveInDate: formData.moveInDate || roommate.moveInDate
-        }, password);
+      // Mettre à jour le colocataire avec ou sans authentification
+      const updateData = {
+        id: roommate.id,
+        name: formData.name || roommate.name,
+        email: formData.email || roommate.email,
+        phone: formData.phone || roommate.phone,
+        property: formData.property || roommate.property,
+        roomNumber: formData.roomNumber || roommate.roomNumber,
+        rentAmount: formData.rentAmount || roommate.rentAmount,
+        status: formData.status || roommate.status,
+        primaryTenant: formData.primaryTenant || roommate.primaryTenant,
+        moveInDate: formData.moveInDate || roommate.moveInDate
+      };
 
-        if (authResult.success) {
+      const authResult = await updateRoommateWithAuth(
+        roommate.id, 
+        updateData, 
+        password.trim().length >= 6 ? password : undefined
+      );
+
+      if (authResult.success) {
+        if (password.trim().length >= 6) {
           if (authResult.emailAlreadyExists) {
             toast({
-              title: "Compte mis à jour",
-              description: "Les informations du colocataire ont été mises à jour. L'email existe déjà dans Firebase Auth.",
+              title: "Colocataire mis à jour",
+              description: "Les informations ont été mises à jour. L'email existe déjà dans Firebase Auth.",
+              variant: "default",
+            });
+          } else if (authResult.authCreated) {
+            toast({
+              title: "Colocataire mis à jour",
+              description: "Le compte Firebase Auth a été créé avec succès. Le colocataire peut maintenant se connecter.",
               variant: "default",
             });
           } else {
             toast({
-              title: "Compte créé",
-              description: "Le compte Firebase Auth a été créé avec succès. Le colocataire peut maintenant se connecter.",
+              title: "Colocataire mis à jour",
+              description: "Les informations ont été mises à jour.",
               variant: "default",
             });
           }
         } else {
           toast({
-            title: "Attention",
-            description: "Les informations ont été mises à jour mais il y a eu un problème avec la création du compte d'authentification.",
-            variant: "destructive",
+            title: "Colocataire mis à jour",
+            description: "Les informations ont été mises à jour avec succès.",
+            variant: "default",
           });
         }
+        
+        // Sauvegarder les modifications dans l'interface locale
+        onSave(roommate.id, updates);
+      } else {
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la mise à jour du colocataire.",
+          variant: "destructive",
+        });
       }
-
-      // Sauvegarder les modifications du colocataire
-      onSave(roommate.id, updates);
       onClose();
       
     } catch (error) {
