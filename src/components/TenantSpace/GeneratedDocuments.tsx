@@ -576,36 +576,36 @@ startxref
           
           return (
             <Card key={document.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4 flex-1">
-                    <div className={`p-3 rounded-lg ${colorClass}`}>
-                      <IconComponent className="h-5 w-5" />
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
+                    <div className={`p-2 sm:p-3 rounded-lg flex-shrink-0 ${colorClass}`}>
+                      <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-medium text-gray-900 truncate">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                        <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">
                           {document.name}
                         </h4>
                         {getStatusBadge(document.status)}
                       </div>
                       
-                      <p className="text-sm text-gray-600 mb-3">
+                      <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">
                         {document.description}
                       </p>
                       
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs text-gray-500">
                         <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          <span>
+                          <Calendar className="h-3 w-3 flex-shrink-0" />
+                          <span className="truncate">
                             Créé le {new Date(document.createdDate).toLocaleDateString('fr-FR')}
                           </span>
                         </div>
                         {document.signedDate && (
                           <div className="flex items-center gap-1">
-                            <CheckCircle className="h-3 w-3" />
-                            <span>
+                            <CheckCircle className="h-3 w-3 flex-shrink-0" />
+                            <span className="truncate">
                               Signé le {new Date(document.signedDate).toLocaleDateString('fr-FR')}
                             </span>
                           </div>
@@ -614,34 +614,33 @@ startxref
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:ml-4">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleViewDocument(document)}
-                      className="flex items-center gap-1"
+                      className="flex items-center justify-center gap-1 text-xs"
                     >
-                      <Eye className="h-4 w-4" />
-                      Voir
+                      <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="hidden xs:inline">Voir</span>
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleDownloadDocument(document)}
-                      className="flex items-center gap-1"
+                      className="flex items-center justify-center gap-1 text-xs"
                     >
-                      <Download className="h-4 w-4" />
-                      PDF
+                      <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="hidden xs:inline">PDF</span>
                     </Button>
-                    {/* Temporairement visible pour tous pour débug */}
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => deleteDocument(document)}
-                      className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                      className="flex items-center justify-center gap-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
                     >
-                      <Trash2 className="h-4 w-4" />
-                      Supprimer
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="hidden xs:inline">Supprimer</span>
                     </Button>
                   </div>
                 </div>
