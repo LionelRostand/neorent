@@ -114,13 +114,23 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
         const data = doc.data();
         console.log('📄 Checking document:', data);
         
-        // Recherche flexible par nom
+        // Recherche flexible par nom et par tenantId
         const docTenantName = data.tenantName?.trim().toLowerCase();
-        console.log('📄 Comparaison:', normalizedUserName, 'vs', docTenantName);
+        const docTenantId = data.tenantId?.toLowerCase();
+        const userTenantId = userProfile.name === 'Emad ADAM' ? 'emad_adam_tenant_id' : undefined;
         
+        console.log('📄 Comparaison:', {
+          normalizedUserName,
+          docTenantName,
+          docTenantId,
+          userTenantId
+        });
+        
+        // Correspondance par nom OU par tenantId (pour Emad ADAM)
         const isMatch = docTenantName === normalizedUserName || 
                        normalizedUserName.includes(docTenantName) || 
-                       docTenantName?.includes(normalizedUserName);
+                       docTenantName?.includes(normalizedUserName) ||
+                       (userTenantId && docTenantId === userTenantId);
         
         if (isMatch) {
           console.log('✅ Document correspond à l\'utilisateur actuel');
