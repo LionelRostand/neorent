@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 
 export const useInspectionFormLogic = () => {
   const { properties } = useFirebaseProperties();
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
+  const { owners } = useFirebaseOwners();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -96,6 +98,7 @@ export const useInspectionFormLogic = () => {
     handleInputChange,
     availableTenants,
     availableRooms,
-    properties
+    properties,
+    owners
   };
 };

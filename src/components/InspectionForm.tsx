@@ -24,7 +24,8 @@ const InspectionForm = ({ onClose, onSubmit, isInDialog = true, buttonConfig }: 
     handleInputChange,
     availableTenants,
     availableRooms,
-    properties
+    properties,
+    owners
   } = useInspectionFormLogic();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -69,6 +70,7 @@ const InspectionForm = ({ onClose, onSubmit, isInDialog = true, buttonConfig }: 
           <InspectionDetailsFields
             formData={formData}
             onInputChange={handleInputChange}
+            owners={owners}
           />
         </div>
 

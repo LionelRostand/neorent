@@ -4,13 +4,16 @@ import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Owner } from '@/hooks/useFirebaseOwners';
 
 interface InspectionDetailsFieldsProps {
   formData: any;
   onInputChange: (field: string, value: string) => void;
+  owners: Owner[];
 }
 
-const InspectionDetailsFields = ({ formData, onInputChange }: InspectionDetailsFieldsProps) => {
+const InspectionDetailsFields = ({ formData, onInputChange, owners }: InspectionDetailsFieldsProps) => {
   const { t } = useTranslation();
 
   return (
@@ -28,13 +31,21 @@ const InspectionDetailsFields = ({ formData, onInputChange }: InspectionDetailsF
 
       <div>
         <Label htmlFor="inspector">{t('inspections.inspectorField')}</Label>
-        <Input
-          id="inspector"
+        <Select
           value={formData.inspector}
-          onChange={(e) => onInputChange('inspector', e.target.value)}
-          required
-          placeholder={t('inspections.inspectorPlaceholder')}
-        />
+          onValueChange={(value) => onInputChange('inspector', value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={t('inspections.inspectorPlaceholder')} />
+          </SelectTrigger>
+          <SelectContent>
+            {owners.map((owner) => (
+              <SelectItem key={owner.id} value={owner.name}>
+                {owner.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div>
