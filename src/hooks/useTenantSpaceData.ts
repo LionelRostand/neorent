@@ -55,14 +55,15 @@ export const useTenantSpaceData = () => {
     console.log('getCurrentProfile():', getCurrentProfile());
     console.log('Current profile (final):', currentProfile);
     console.log('Current type (final):', currentType);
-    console.log('Signed contract:', activeContract);
+    console.log('All contracts:', contracts);
+    console.log('Signed contract search result:', activeContract);
     console.log('Contract total amount:', contractTotalAmount);
     console.log('Base rent:', baseRent);
     console.log('Charges:', charges);
     console.log('Is impersonating:', isImpersonating);
     console.log('Is admin:', isAuthorizedAdmin);
     console.log('========================');
-  }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType, activeContract, user?.email, roommateProfile]);
+  }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType, activeContract, user?.email, roommateProfile, contracts]);
 
   // Build property data only from signed contract data
   const mockPropertyData = activeContract && currentProfile ? {
