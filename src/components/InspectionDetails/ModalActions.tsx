@@ -21,6 +21,8 @@ interface ModalActionsProps {
     contractType?: string;
     description?: string;
     observations?: string;
+    roomsData?: string;
+    equipmentsData?: string;
   };
   onClose: () => void;
   onEdit: () => void;
@@ -35,6 +37,26 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
 
     try {
       console.log('📄 Génération PDF pour inspection:', inspection);
+
+      // Parser les données des chambres et équipements
+      let roomsData = {};
+      let equipmentsData = {};
+      
+      try {
+        if (inspection.roomsData) {
+          roomsData = JSON.parse(inspection.roomsData);
+        }
+      } catch (e) {
+        console.warn('Erreur parsing roomsData:', e);
+      }
+      
+      try {
+        if (inspection.equipmentsData) {
+          equipmentsData = JSON.parse(inspection.equipmentsData);
+        }
+      } catch (e) {
+        console.warn('Erreur parsing equipmentsData:', e);
+      }
 
       // Créer le document directement dans Tenant_Documents (comme le test)
       const pdfDocument = {
@@ -61,7 +83,9 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
           },
           description: inspection.description,
           observations: inspection.observations,
-          status: inspection.status
+          status: inspection.status,
+          roomsInspection: roomsData,
+          equipmentsInspection: equipmentsData
         },
         downloadUrl: `#download-inspection-${inspection.id}`,
         fileSize: '2.5 MB',

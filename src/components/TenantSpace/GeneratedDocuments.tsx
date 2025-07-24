@@ -157,7 +157,7 @@ const GeneratedDocuments: React.FC = () => {
 
   // Générer le contenu pour un rapport d'inspection
   const generateInspectionHTML = (document: GeneratedDocument) => {
-    return `
+    let content = `
       <div class="header">
         <h1>Rapport d'Inspection</h1>
         <p><strong>Document:</strong> ${document.name}</p>
@@ -170,12 +170,88 @@ const GeneratedDocuments: React.FC = () => {
         <p><span class="label">Locataire/Colocataire:</span><span class="value">${document.tenantId}</span></p>
         <p><span class="label">Statut:</span><span class="value">${document.status}</span></p>
       </div>
+    `;
+
+    // Ajouter les informations de base si disponibles
+    if (document.content) {
+      const { generalInfo, description, observations, roomsInspection, equipmentsInspection } = document.content;
       
-      <div class="section">
-        <h2>Description</h2>
-        <p>${document.description}</p>
-      </div>
-      
+      if (generalInfo) {
+        content += `
+          <div class="section">
+            <h2>Détails de l'Inspection</h2>
+            <p><span class="label">Titre:</span><span class="value">${generalInfo.title || ''}</span></p>
+            <p><span class="label">Type:</span><span class="value">${generalInfo.type || ''}</span></p>
+            <p><span class="label">Date:</span><span class="value">${generalInfo.date || ''}</span></p>
+            <p><span class="label">Inspecteur:</span><span class="value">${generalInfo.inspector || ''}</span></p>
+            ${generalInfo.roomNumber ? `<p><span class="label">Numéro de chambre:</span><span class="value">${generalInfo.roomNumber}</span></p>` : ''}
+          </div>
+        `;
+      }
+
+      if (description) {
+        content += `
+          <div class="section">
+            <h2>Description</h2>
+            <p>${description}</p>
+          </div>
+        `;
+      }
+
+      if (observations) {
+        content += `
+          <div class="section">
+            <h2>Observations</h2>
+            <p>${observations}</p>
+          </div>
+        `;
+      }
+
+      // Ajouter l'état des chambres
+      if (roomsInspection && Object.keys(roomsInspection).length > 0) {
+        content += `
+          <div class="section">
+            <h2>État des Chambres</h2>
+        `;
+        
+        Object.entries(roomsInspection).forEach(([room, data]: [string, any]) => {
+          content += `
+            <div style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+              <h3 style="color: #2563eb; margin-bottom: 10px;">${room}</h3>
+              <p><span class="label">État général:</span><span class="value">${data.condition || 'Non spécifié'}</span></p>
+              <p><span class="label">Propreté:</span><span class="value">${data.cleanliness || 'Non spécifié'}</span></p>
+              <p><span class="label">Dommages:</span><span class="value">${data.damages || 'Aucun'}</span></p>
+              ${data.notes ? `<p><span class="label">Notes:</span><span class="value">${data.notes}</span></p>` : ''}
+            </div>
+          `;
+        });
+        
+        content += `</div>`;
+      }
+
+      // Ajouter l'état des équipements
+      if (equipmentsInspection && Object.keys(equipmentsInspection).length > 0) {
+        content += `
+          <div class="section">
+            <h2>État des Équipements</h2>
+        `;
+        
+        Object.entries(equipmentsInspection).forEach(([equipment, data]: [string, any]) => {
+          content += `
+            <div style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+              <h3 style="color: #2563eb; margin-bottom: 10px;">${equipment}</h3>
+              <p><span class="label">État:</span><span class="value">${data.condition || 'Non spécifié'}</span></p>
+              <p><span class="label">Fonctionnel:</span><span class="value">${data.working ? 'Oui' : 'Non'}</span></p>
+              ${data.notes ? `<p><span class="label">Notes:</span><span class="value">${data.notes}</span></p>` : ''}
+            </div>
+          `;
+        });
+        
+        content += `</div>`;
+      }
+    }
+
+    content += `
       <div class="section">
         <h2>Signatures</h2>
         <div class="signature-box">
@@ -186,6 +262,8 @@ const GeneratedDocuments: React.FC = () => {
         </div>
       </div>
     `;
+
+    return content;
   };
 
   // Générer le contenu pour un contrat

@@ -19,6 +19,7 @@ export interface GeneratedDocument {
   downloadUrl?: string;
   sharedWith: ('landlord' | 'tenant' | 'roommate')[];
   description: string;
+  content?: any;
 }
 
 export const useGeneratedDocuments = (userId?: string, userType?: string, userProfile?: any) => {
@@ -136,7 +137,8 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
             status: 'completed' as const,
             createdDate: data.uploadDate,
             sharedWith: ['landlord', 'tenant', 'roommate'] as ('landlord' | 'tenant' | 'roommate')[],
-            description: `Rapport d'inspection pour ${data.propertyName}${data.roomNumber ? ` - ${data.roomNumber}` : ''}`
+            description: `Rapport d'inspection pour ${data.propertyName}${data.roomNumber ? ` - ${data.roomNumber}` : ''}`,
+            content: data.content
           };
           
           console.log('📄 Adding inspection document to list:', inspectionDoc);
