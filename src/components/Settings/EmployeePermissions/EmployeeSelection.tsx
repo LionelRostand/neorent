@@ -31,6 +31,9 @@ const EmployeeSelection: React.FC<EmployeeSelectionProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  console.log('🎯 EmployeeSelection - employees reçus:', employees);
+  console.log('🎯 EmployeeSelection - selectedEmployeeId:', selectedEmployeeId);
+
   const getCompanyName = (companyId?: string): string => {
     if (!companyId) return t('settings.permissions.noCompany');
     const company = companies.find(c => c.id === companyId);

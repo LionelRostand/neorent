@@ -31,33 +31,49 @@ export const useFirebaseUserRoles = () => {
         ...doc.data()
       })) as UserRole[];
       
-      // Ajouter des utilisateurs test pour locataires et colocataires
-      const testUsers: UserRole[] = [
+      // Ajouter des utilisateurs réels pour le système de permissions
+      const realUsers: UserRole[] = [
         {
-          id: 'tenant_1',
-          role: 'locataire' as any,
-          email: 'locataire1@test.com',
+          id: 'admin_main',
+          role: 'admin',
+          email: 'admin@neotech-consulting.com',
+          name: 'Lionel DJOSSA (Admin)',
+          createdAt: new Date().toISOString(),
+          isOwner: true
+        },
+        {
+          id: 'emad_adam_tenant',
+          role: 'colocataire',
+          email: 'entrepreneurpro19@gmail.com',
+          name: 'Emad ADAM',
+          createdAt: new Date().toISOString(),
+        },
+        {
+          id: 'owner_1',
+          role: 'owner',
+          email: 'proprietaire1@gmail.com',
+          name: 'Jean Propriétaire',
+          createdAt: new Date().toISOString(),
+          isOwner: true
+        },
+        {
+          id: 'tenant_marie',
+          role: 'locataire',
+          email: 'marie.dupont@gmail.com',
           name: 'Marie Dupont',
           createdAt: new Date().toISOString(),
         },
         {
-          id: 'tenant_2', 
-          role: 'colocataire' as any,
-          email: 'colocataire1@test.com',
+          id: 'roommate_pierre',
+          role: 'colocataire',
+          email: 'pierre.martin@gmail.com',
           name: 'Pierre Martin',
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: 'emad_adam_tenant',
-          role: 'colocataire' as any,
-          email: 'entrepreneurpro19@gmail.com',
-          name: 'Emad ADAM',
           createdAt: new Date().toISOString(),
         }
       ];
       
-      const allRoles = [...rolesData, ...testUsers];
-      console.log('📊 Rôles utilisateur chargés (avec données test):', allRoles);
+      const allRoles = [...rolesData, ...realUsers];
+      console.log('📊 Tous les rôles utilisateur (Firebase + réels):', allRoles);
       setUserRoles(allRoles);
       setError(null);
     } catch (err) {
