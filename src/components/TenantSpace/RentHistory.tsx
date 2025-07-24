@@ -14,17 +14,26 @@ const RentHistory = () => {
   const currentUserType = getCurrentUserType();
   const isRoommate = currentUserType === 'colocataire';
   
-  // Vérifier si le contrat est signé en utilisant les données Firebase
+  // Vérifier si le contrat est signé par les deux parties
   const signedContract = contracts.find(contract => 
     contract.status === 'Signé' && 
     contract.tenant === currentProfile?.name
   );
   
-  const isContractSigned = !isRoommate || !!signedContract;
+  // Vérifier que le contrat existe et qu'il est signé par les deux parties
+  const isContractFullySigned = signedContract && 
+    signedContract.signatures && 
+    signedContract.signatures.owner && 
+    signedContract.signatures.tenant &&
+    signedContract.signatures.owner.signatureDataUrl && 
+    signedContract.signatures.tenant.signatureDataUrl;
+  
+  const shouldShowHistory = !isRoommate || isContractFullySigned;
 
   console.log('RentHistory - isRoommate:', isRoommate);
   console.log('RentHistory - signedContract:', signedContract);
-  console.log('RentHistory - isContractSigned:', isContractSigned);
+  console.log('RentHistory - isContractFullySigned:', isContractFullySigned);
+  console.log('RentHistory - shouldShowHistory:', shouldShowHistory);
 
   // Show loading state while contracts are being fetched
   if (loading && isRoommate) {
@@ -35,8 +44,8 @@ const RentHistory = () => {
     );
   }
 
-  // Show empty state for roommates with unsigned contracts
-  if (isRoommate && !isContractSigned) {
+  // Show empty state for roommates with contracts not fully signed
+  if (isRoommate && !shouldShowHistory) {
     return (
       <div className="space-y-6">
         <Card className="border-2 border-dashed border-gray-300 bg-gray-50">
@@ -48,12 +57,12 @@ const RentHistory = () => {
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-gray-600">Historique non disponible</h3>
                 <p className="text-gray-500 max-w-md">
-                  L'historique des paiements sera disponible après la signature de votre contrat de colocation.
+                  L'historique des paiements sera disponible après la signature complète de votre contrat de colocation par les deux parties.
                 </p>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-400 mt-4">
                 <PenTool className="h-4 w-4" />
-                <span>Contrat en attente de signature</span>
+                <span>Contrat en attente de signature complète</span>
               </div>
             </div>
           </CardContent>

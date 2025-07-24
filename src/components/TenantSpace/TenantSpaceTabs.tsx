@@ -41,13 +41,9 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
         <TabsTrigger value="overview">{t('tenantSpace.tabs.overview')}</TabsTrigger>
         <TabsTrigger value="history">{t('tenantSpace.tabs.history')}</TabsTrigger>
         <TabsTrigger value="documents">{t('tenantSpace.tabs.documents')}</TabsTrigger>
-        {/* Afficher l'onglet contrat pour les colocataires */}
-        {(isRoommate || isAdminOrOwner) && (
-          <TabsTrigger value="contract">Contrat</TabsTrigger>
-        )}
-        {/* Afficher l'onglet contrats pour les locataires principaux */}
-        {(isTenant || isAdminOrOwner) && (
-          <TabsTrigger value="contracts">Contrats</TabsTrigger>
+        {/* Un seul onglet contrat - adapté selon le type d'utilisateur */}
+        {(isRoommate || isTenant || isAdminOrOwner) && (
+          <TabsTrigger value="contract">{isRoommate ? 'Contrat' : 'Contrats'}</TabsTrigger>
         )}
         <TabsTrigger value="profile">{t('tenantSpace.tabs.profile')}</TabsTrigger>
       </TabsList>
@@ -68,17 +64,10 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
         <DocumentsSection />
       </TabsContent>
 
-      {/* Contenu du contrat pour colocataires */}
-      {(isRoommate || isAdminOrOwner) && (
+      {/* Contenu des contrats - adapté selon le type d'utilisateur */}
+      {(isRoommate || isTenant || isAdminOrOwner) && (
         <TabsContent value="contract" className="mt-6">
-          <RoommateContractView />
-        </TabsContent>
-      )}
-
-      {/* Contenu des contrats pour locataires principaux */}
-      {(isTenant || isAdminOrOwner) && (
-        <TabsContent value="contracts" className="mt-6">
-          <SignedContractsView />
+          {isRoommate ? <RoommateContractView /> : <SignedContractsView />}
         </TabsContent>
       )}
 
