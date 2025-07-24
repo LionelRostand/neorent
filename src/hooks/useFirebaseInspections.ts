@@ -26,17 +26,14 @@ export const useFirebaseInspections = () => {
   const fetchInspections = async () => {
     try {
       setLoading(true);
-      console.log('=== FETCHING INSPECTIONS ===');
-      console.log('Starting to fetch inspections from Rent_Inspections collection...');
       
       const querySnapshot = await getDocs(collection(db, 'Rent_Inspections'));
-      console.log('Firebase query snapshot received, docs count:', querySnapshot.docs.length);
       
       const inspectionsData = querySnapshot.docs.map(doc => {
         const data = doc.data();
-        // IMPORTANT: Always use Firebase document ID, never the data.id field
+        // FORCE: Always use Firebase document ID, completely ignore data.id
         return {
-          id: doc.id, // Firebase document ID (this is what we need for updates)
+          id: doc.id, // This is the real Firebase document ID like "5iLNJt6dToiOgcuJU9ST"
           title: data.title || '',
           type: data.type || '',
           tenant: data.tenant || '',
@@ -50,10 +47,6 @@ export const useFirebaseInspections = () => {
           observations: data.observations || '',
         } as Inspection;
       });
-      
-      console.log('=== ALL INSPECTIONS MAPPED ===');
-      console.log('Total inspections:', inspectionsData.length);
-      console.log('IDs being used:', inspectionsData.map(i => ({ id: i.id, title: i.title })));
       
       setInspections(inspectionsData);
       setError(null);

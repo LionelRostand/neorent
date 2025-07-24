@@ -44,18 +44,16 @@ const Inspections = () => {
   };
 
   const handleViewDetails = (inspection: any) => {
-    console.log('=== VIEW DETAILS DEBUG ===');
-    console.log('Inspection passed to details modal:', inspection);
-    console.log('Inspection ID:', inspection.id, 'Type:', typeof inspection.id);
-    setSelectedInspection(inspection);
+    // Force refresh of inspection data to ensure we have the correct Firebase ID
+    const correctInspection = inspections.find(i => i.title === inspection.title && i.date === inspection.date);
+    setSelectedInspection(correctInspection || inspection);
     setIsDetailsModalOpen(true);
   };
 
   const handleEditInspection = (inspection: any) => {
-    console.log('=== EDIT INSPECTION DEBUG ===');
-    console.log('Inspection passed to edit modal:', inspection);
-    console.log('Inspection ID:', inspection.id, 'Type:', typeof inspection.id);
-    setEditingInspection(inspection);
+    // Force refresh of inspection data to ensure we have the correct Firebase ID
+    const correctInspection = inspections.find(i => i.title === inspection.title && i.date === inspection.date);
+    setEditingInspection(correctInspection || inspection);
     setIsEditModalOpen(true);
   };
 
