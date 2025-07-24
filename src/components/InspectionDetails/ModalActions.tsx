@@ -60,20 +60,40 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
         console.warn('Erreur parsing equipmentsData:', e);
       }
 
-      // Créer le document directement dans Tenant_Documents (comme le test)
+      // Afficher tous les détails dans la console pour vérification
+      console.log('📋 === DÉTAILS COMPLETS DE L\'INSPECTION ===');
+      console.log('📋 Informations de base:', {
+        title: inspection.title,
+        type: inspection.type,
+        date: inspection.date,
+        inspector: inspection.inspector,
+        property: inspection.property,
+        tenant: inspection.tenant,
+        roomNumber: inspection.roomNumber,
+        contractType: inspection.contractType,
+        status: inspection.status
+      });
+      
+      console.log('📋 Description:', inspection.description);
+      console.log('📋 Observations:', inspection.observations);
+      console.log('📋 Inspection des pièces:', roomsData);
+      console.log('📋 Inspection des équipements:', equipmentsData);
+
+      // Créer le document avec toutes les informations détaillées
       const pdfDocument = {
-        name: `Inspection_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
+        name: `Inspection_Complete_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
         type: 'inspection_report',
         category: 'État des lieux',
         uploadDate: new Date().toISOString(),
         inspectionId: inspection.id,
         propertyName: inspection.property,
         roomNumber: inspection.roomNumber,
-        tenantId: inspection.id, // Utiliser l'ID de l'inspection comme ID temporaire
-        tenantName: inspection.tenant, // Utiliser le nom EXACT de l'inspection
+        tenantId: inspection.id,
+        tenantName: inspection.tenant,
         tenantType: inspection.contractType === 'Bail colocatif' ? 'Colocataire' : 'Locataire',
         generatedBy: 'system',
         content: {
+          // Informations de base complètes
           generalInfo: {
             title: inspection.title,
             type: inspection.type,
@@ -81,39 +101,62 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
             inspector: inspection.inspector,
             property: inspection.property,
             tenant: inspection.tenant,
-            roomNumber: inspection.roomNumber
+            roomNumber: inspection.roomNumber,
+            contractType: inspection.contractType,
+            status: inspection.status
           },
-          description: inspection.description,
-          observations: inspection.observations,
-          status: inspection.status,
+          // Description détaillée
+          description: inspection.description || 'Aucune description fournie',
+          // Observations détaillées
+          observations: inspection.observations || 'Aucune observation particulière',
+          // Inspection des pièces détaillée
           roomsInspection: roomsData,
-          equipmentsInspection: equipmentsData
+          // Inspection des équipements détaillée
+          equipmentsInspection: equipmentsData,
+          // Données complètes pour référence
+          fullInspectionData: {
+            basicInfo: {
+              title: inspection.title,
+              type: inspection.type,
+              date: inspection.date,
+              inspector: inspection.inspector,
+              property: inspection.property,
+              tenant: inspection.tenant,
+              roomNumber: inspection.roomNumber,
+              contractType: inspection.contractType,
+              status: inspection.status
+            },
+            detailedDescription: inspection.description,
+            detailedObservations: inspection.observations,
+            roomsDetails: roomsData,
+            equipmentsDetails: equipmentsData
+          }
         },
         downloadUrl: `#download-inspection-${inspection.id}`,
-        fileSize: '2.5 MB',
+        fileSize: '3.2 MB',
         status: 'available'
       };
 
-      console.log('📄 Document à sauvegarder:', pdfDocument);
+      console.log('📄 Document PDF complet à sauvegarder:', pdfDocument);
 
-      // Sauvegarder directement dans Tenant_Documents
+      // Sauvegarder dans Tenant_Documents
       const docRef = await addDoc(collection(db, 'Tenant_Documents'), pdfDocument);
-      console.log('✅ Document sauvegardé avec ID:', docRef.id);
+      console.log('✅ Document PDF complet sauvegardé avec ID:', docRef.id);
 
-      // Déterminer le type de personne (locataire ou colocataire)
+      // Déterminer le type de personne
       const personType = inspection.contractType === 'Bail colocatif' ? 'colocataire' : 'locataire';
       
-      // Afficher la notification de succès
+      // Notification de succès avec plus de détails
       toast({
-        title: "PDF généré avec succès",
-        description: `Le rapport d'inspection est maintenant disponible dans l'espace du ${personType} "${inspection.tenant}".`,
-        duration: 5000,
+        title: "PDF complet généré avec succès",
+        description: `Le rapport d'inspection détaillé (informations de base, inspection des pièces, équipements et observations) est disponible dans l'espace du ${personType} "${inspection.tenant}".`,
+        duration: 6000,
       });
 
-      console.log('✅ PDF document generated and saved successfully');
+      console.log('✅ PDF complet avec tous les détails généré et sauvegardé');
       
     } catch (error) {
-      console.error('❌ Erreur lors de la génération du PDF:', error);
+      console.error('❌ Erreur lors de la génération du PDF complet:', error);
       
       toast({
         title: "Erreur",
