@@ -4,8 +4,7 @@ import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc } from '
 import { db } from '@/lib/firebase';
 
 interface Inspection {
-  id: string;
-  originalId?: string;
+  id: string; // Firebase document ID
   title: string;
   type: string;
   tenant: string;
@@ -35,31 +34,21 @@ export const useFirebaseInspections = () => {
       
       const inspectionsData = querySnapshot.docs.map(doc => {
         const data = doc.data();
-        console.log('=== DOCUMENT MAPPING ===');
-        console.log('Firebase Document ID:', doc.id);
-        console.log('Document data field "id":', data.id);
-        console.log('Full document data:', data);
-        
-        // Use Firebase document ID as the primary ID
-        const inspection = {
-          id: doc.id, // Firebase document ID (e.g., "5iLNJt6dToiOgcuJU9ST")
-          firebaseId: doc.id, // Backup reference
-          originalDataId: data.id, // The old numeric ID from data
-          title: data.title,
-          type: data.type,
-          tenant: data.tenant,
-          property: data.property,
-          roomNumber: data.roomNumber,
-          date: data.date,
-          inspector: data.inspector,
-          status: data.status,
-          contractType: data.contractType,
-          description: data.description,
-          observations: data.observations,
-        };
-        
-        console.log('Mapped inspection:', inspection);
-        return inspection;
+        // IMPORTANT: Always use Firebase document ID, never the data.id field
+        return {
+          id: doc.id, // Firebase document ID (this is what we need for updates)
+          title: data.title || '',
+          type: data.type || '',
+          tenant: data.tenant || '',
+          property: data.property || '',
+          roomNumber: data.roomNumber || '',
+          date: data.date || '',
+          inspector: data.inspector || '',
+          status: data.status || '',
+          contractType: data.contractType || '',
+          description: data.description || '',
+          observations: data.observations || '',
+        } as Inspection;
       });
       
       console.log('=== ALL INSPECTIONS MAPPED ===');
