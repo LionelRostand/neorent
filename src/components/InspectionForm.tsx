@@ -38,7 +38,6 @@ const InspectionForm = ({ onClose, onSubmit, isInDialog = true, buttonConfig }: 
 
     const inspectionData = {
       ...formData,
-      id: Date.now(),
       status: 'Planifié'
     };
 
