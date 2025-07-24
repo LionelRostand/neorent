@@ -130,22 +130,45 @@ const GeneratedDocuments: React.FC = () => {
   };
 
   const handleDeleteDocument = async (document: GeneratedDocument) => {
+    // Vérifier si l'utilisateur est administrateur
+    if (userType !== 'admin') {
+      toast({
+        title: "Accès refusé",
+        description: "Seuls les administrateurs peuvent supprimer des documents",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
-      console.log('🗑️ Suppression du document:', document);
+      console.log('🗑️ Suppression du document par admin:', document);
       
-      // Trouver le document dans Firestore par inspectionId
-      const documentsQuery = query(
-        collection(db, 'Tenant_Documents'),
-        where('inspectionId', '==', document.id.replace('inspection-', ''))
-      );
+      // Chercher le document dans Tenant_Documents par nom ou par inspectionId
+      let documentsQuery;
+      
+      if (document.id.startsWith('inspection-')) {
+        // Pour les documents d'inspection
+        const inspectionId = document.id.replace('inspection-', '');
+        documentsQuery = query(
+          collection(db, 'Tenant_Documents'),
+          where('inspectionId', '==', inspectionId)
+        );
+      } else {
+        // Pour les autres documents, chercher par nom
+        documentsQuery = query(
+          collection(db, 'Tenant_Documents'),
+          where('name', '==', document.name)
+        );
+      }
       
       const querySnapshot = await getDocs(documentsQuery);
       
       if (!querySnapshot.empty) {
-        // Supprimer tous les documents trouvés (il devrait y en avoir un seul)
-        const deletePromises = querySnapshot.docs.map(docSnapshot => 
-          deleteDoc(doc(db, 'Tenant_Documents', docSnapshot.id))
-        );
+        // Supprimer tous les documents trouvés
+        const deletePromises = querySnapshot.docs.map(docSnapshot => {
+          console.log('🗑️ Suppression du document Firestore ID:', docSnapshot.id);
+          return deleteDoc(doc(db, 'Tenant_Documents', docSnapshot.id));
+        });
         
         await Promise.all(deletePromises);
         
@@ -157,6 +180,7 @@ const GeneratedDocuments: React.FC = () => {
         // Recharger la page pour actualiser la liste
         window.location.reload();
       } else {
+        console.warn('🗑️ Aucun document trouvé pour:', document);
         toast({
           title: "Document non trouvé",
           description: "Le document n'a pas pu être trouvé dans la base de données",
@@ -164,7 +188,7 @@ const GeneratedDocuments: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error('Erreur lors de la suppression du document:', error);
+      console.error('❌ Erreur lors de la suppression du document:', error);
       toast({
         title: "Erreur",
         description: "Impossible de supprimer le document",
@@ -620,15 +644,17 @@ startxref
                       <Download className="h-4 w-4" />
                       PDF
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDeleteDocument(document)}
-                      className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Supprimer
-                    </Button>
+                    {userType === 'admin' && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteDocument(document)}
+                        className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Supprimer
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardContent>
