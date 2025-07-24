@@ -36,7 +36,9 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
     if (!inspection) return;
 
     try {
-      console.log('📄 Génération PDF pour inspection:', inspection);
+      console.log('📄 Génération PDF pour inspection complète:', inspection);
+      console.log('📄 roomsData brut:', inspection.roomsData);
+      console.log('📄 equipmentsData brut:', inspection.equipmentsData);
 
       // Parser les données des chambres et équipements
       let roomsData = {};

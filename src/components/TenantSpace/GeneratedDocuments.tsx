@@ -174,6 +174,7 @@ const GeneratedDocuments: React.FC = () => {
 
     // Ajouter les informations de base si disponibles
     if (document.content) {
+      console.log('📄 Contenu du document pour affichage:', document.content);
       const { generalInfo, description, observations, roomsInspection, equipmentsInspection } = document.content;
       
       if (generalInfo) {
