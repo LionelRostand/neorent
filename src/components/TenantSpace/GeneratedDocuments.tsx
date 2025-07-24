@@ -131,15 +131,12 @@ const GeneratedDocuments: React.FC = () => {
   };
 
   const handleDeleteDocument = async (document: GeneratedDocument) => {
-    // Vérifier si l'utilisateur est administrateur - vérification simple
-    const isAdmin = userProfile?.role === 'admin' || 
-                   userProfile?.type === 'admin' ||
-                   userProfile?.name?.includes('admin') ||
-                   userProfile?.name?.includes('Admin') ||
-                   (userProfile as any)?.role === 'Administrateur';
+    // Pour le moment, permettre à tous pour voir les logs d'authentification
+    console.log('🔍 Debug suppression - userType:', userType, 'userProfile:', userProfile);
+    console.log('🔍 Debug suppression - userProfile complet:', JSON.stringify(userProfile, null, 2));
     
-    console.log('🔍 Debug suppression - userType:', userType, 'userProfile:', userProfile, 'isAdmin:', isAdmin);
-    
+    // Commenté temporairement pour debug
+    /*
     if (!isAdmin) {
       toast({
         title: "Accès refusé",
@@ -148,6 +145,7 @@ const GeneratedDocuments: React.FC = () => {
       });
       return;
     }
+    */
 
     try {
       console.log('🗑️ Suppression du document par admin:', document);
@@ -653,21 +651,16 @@ startxref
                       <Download className="h-4 w-4" />
                       PDF
                     </Button>
-                    {(userProfile?.role === 'admin' || 
-                      userProfile?.type === 'admin' ||
-                      userProfile?.name?.includes('admin') ||
-                      userProfile?.name?.includes('Admin') ||
-                      (userProfile as any)?.role === 'Administrateur') && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDeleteDocument(document)}
-                        className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        Supprimer
-                      </Button>
-                    )}
+                    {/* Temporairement visible pour tous pour débug */}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteDocument(document)}
+                      className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Supprimer
+                    </Button>
                   </div>
                 </div>
               </CardContent>
