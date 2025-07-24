@@ -28,23 +28,8 @@ export const useTenantSpaceData = () => {
     contract.tenant === currentProfile?.name
   );
 
-  // Pour Emad ADAM, créer un contrat fictif s'il n'existe pas
-  const mockSignedContract = currentProfile?.email === 'entrepreneurpro19@gmail.com' ? {
-    id: 'contract-emad-adam',
-    title: 'Contrat de Colocation',
-    type: 'Colocation',
-    tenant: 'Emad ADAM',
-    property: 'Appartement 13',
-    amount: `${currentProfile.rentAmount || 580}€/mois`,
-    startDate: '2025-03-03',
-    endDate: '2026-07-20',
-    status: 'Signé',
-    jurisdiction: 'francaise',
-    provider: 'Gestionnaire',
-    signatures: {}
-  } : null;
-
-  const activeContract = signedContract || mockSignedContract;
+  // Utiliser uniquement les contrats réellement signés dans Firebase
+  const activeContract = signedContract;
 
   // Utiliser le montant réel du profil colocataire
   const profileRentAmount = currentProfile?.rentAmount ? 

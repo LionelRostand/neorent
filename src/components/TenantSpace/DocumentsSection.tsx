@@ -27,18 +27,8 @@ const DocumentsSection: React.FC = () => {
     contract.tenant === currentProfile?.name
   );
   
-  // Pour Emad ADAM, créer un contrat fictif s'il n'existe pas
-  const mockSignedContract = currentProfile?.email === 'entrepreneurpro19@gmail.com' ? {
-    id: 'contract-emad-adam',
-    tenant: 'Emad ADAM',
-    property: 'Appartement 13',
-    amount: '450€/mois',
-    startDate: '2025-03-03',
-    endDate: '2026-07-20',
-    status: 'Signé'
-  } : null;
-
-  const activeContract = signedContract || mockSignedContract;
+  // Utiliser uniquement les contrats réellement signés dans Firebase
+  const activeContract = signedContract;
   const isContractSigned = !isRoommate || !!activeContract;
 
   console.log('DocumentsSection - isRoommate:', isRoommate);
