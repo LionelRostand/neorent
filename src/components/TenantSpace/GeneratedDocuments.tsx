@@ -614,33 +614,33 @@ startxref
                     </div>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:ml-4">
+                  <div className="flex items-center justify-center gap-1 sm:gap-2 sm:ml-4">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleViewDocument(document)}
-                      className="flex items-center justify-center gap-1 text-xs"
+                      className="flex items-center justify-center gap-1 text-xs min-w-0 px-2 sm:px-3"
                     >
-                      <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="hidden xs:inline">Voir</span>
+                      <Eye className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                      <span className="hidden xs:inline text-xs">Voir</span>
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleDownloadDocument(document)}
-                      className="flex items-center justify-center gap-1 text-xs"
+                      className="flex items-center justify-center gap-1 text-xs min-w-0 px-2 sm:px-3"
                     >
-                      <Download className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="hidden xs:inline">PDF</span>
+                      <Download className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                      <span className="hidden xs:inline text-xs">PDF</span>
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => deleteDocument(document)}
-                      className="flex items-center justify-center gap-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                      className="flex items-center justify-center gap-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 min-w-0 px-2 sm:px-3"
                     >
-                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="hidden xs:inline">Supprimer</span>
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                      <span className="hidden xs:inline text-xs">Suppr.</span>
                     </Button>
                   </div>
                 </div>
