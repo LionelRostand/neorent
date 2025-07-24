@@ -53,7 +53,7 @@ export const UserProfileDropdown = () => {
   const displayName = isAdmin ? 'Lionel DJOSSA' : (userProfile?.name || user.displayName || user.email || t('profile.unknownUser'));
 
   // Vérifier si l'utilisateur peut changer son mot de passe
-  const canChangePassword = userType === 'owner' || userType === 'admin';
+  const canChangePassword = userType === 'owner' || userType === 'admin' || userType === 'colocataire';
 
   // Déterminer le type d'utilisateur à afficher avec traduction
   const getRoleTranslation = (role: string) => {
