@@ -55,8 +55,10 @@ const Inspections = () => {
 
   const handleUpdateInspection = async (id: string, updates: any) => {
     try {
-      // Try to update directly in Firebase without local state validation
-      // The Firebase hook will handle existence validation
+      console.log('Attempting to update inspection:', id);
+      console.log('Available inspection IDs:', inspections.map(i => i.id));
+      console.log('Updates to apply:', updates);
+      
       await updateInspection(id, updates);
       toast({
         title: t('common.success'),
