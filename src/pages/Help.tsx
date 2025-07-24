@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import MainLayout from '@/components/Layout/MainLayout';
 import HelpSearch from '@/components/Help/HelpSearch';
 import CategoryFilters from '@/components/Help/CategoryFilters';
 import HelpCard from '@/components/Help/HelpCard';
@@ -48,8 +47,8 @@ const Help = () => {
   };
 
   return (
-    <MainLayout>
-      <div className="space-y-4 md:space-y-6">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto p-4 md:p-6 space-y-4 md:space-y-6">
         <div className="px-1">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('help.title')}</h1>
           <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
@@ -100,7 +99,7 @@ const Help = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </MainLayout>
+    </div>
   );
 };
 

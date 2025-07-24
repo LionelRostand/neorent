@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import MainLayout from '@/components/Layout/MainLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
@@ -121,8 +120,8 @@ const Messages = () => {
   };
 
   return (
-    <MainLayout>
-      <div className="space-y-6">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto p-4 md:p-6 space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">{t('messages.title')}</h1>
           <p className="text-gray-600">{t('messages.subtitle')}</p>
@@ -158,7 +157,7 @@ const Messages = () => {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </div>
   );
 };
 
