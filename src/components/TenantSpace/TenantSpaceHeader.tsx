@@ -27,9 +27,9 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
   // Title display based on language and type
   const titleDisplay = isRoommate ? t('tenantSpace.roommate') : t('tenantSpace.tenant');
 
-  // For the badge, display room number if available, otherwise use translated type
+  // For the badge, display room number without repetition
   const displayType = currentProfile?.roomNumber 
-    ? `${t('tenantSpace.room').replace('{number}', currentProfile.roomNumber)}`
+    ? `Chambre ${currentProfile.roomNumber}`
     : t(`tenantSpace.${currentType === 'colocataire' ? 'roommate' : 'tenant'}`);
 
   console.log('TenantSpaceHeader render:', {
@@ -68,7 +68,7 @@ const TenantSpaceHeader: React.FC<TenantSpaceHeaderProps> = ({
             {currentProfile?.roomNumber && (
               <div className="flex items-center gap-2">
                 <Key className="h-4 w-4" />
-                <span>{t('tenantSpace.room').replace('{number}', currentProfile.roomNumber)}</span>
+                <span>Chambre {currentProfile.roomNumber}</span>
               </div>
             )}
             {currentProfile?.address && (
