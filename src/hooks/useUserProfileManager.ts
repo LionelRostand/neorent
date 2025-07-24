@@ -54,6 +54,7 @@ export const useUserProfileManager = (user: User | null) => {
           role: 'colocataire',
           type: 'colocataire' as const
         };
+        console.log('✅ Profile Emad ADAM créé:', profile);
       } else if (isRuthMegha) {
         // Profile spécifique pour Ruth MEGHA
         profile = {
@@ -63,6 +64,7 @@ export const useUserProfileManager = (user: User | null) => {
           role: 'colocataire',
           type: 'colocataire' as const
         };
+        console.log('✅ Profile Ruth MEGHA créé:', profile);
       } else {
         // Default profile for other users
         profile = {
@@ -72,13 +74,14 @@ export const useUserProfileManager = (user: User | null) => {
           role: 'locataire',
           type: 'locataire' as const
         };
-      } 
+        console.log('✅ Profile par défaut créé pour:', user.email, profile);
+      }
       
       setSelectedProfile(profile);
       setUserType(profile.type);
       
-      console.log('Setting user profile:', profile);
-      console.log('Setting user type:', profile.type);
+      console.log('🔄 Setting user profile for:', user.email, profile);
+      console.log('🔄 Setting user type:', profile.type);
     }
   }, [user]);
 
