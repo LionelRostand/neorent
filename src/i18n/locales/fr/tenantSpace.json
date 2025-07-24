@@ -147,6 +147,7 @@
     },
     "documents": {
       "title": "Documents",
+      "description": "Accédez et gérez tous vos documents importants",
       "myDocuments": "Mes documents",
       "uploadDocument": "Téléverser un document",
       "noDocuments": "Aucun document disponible",
