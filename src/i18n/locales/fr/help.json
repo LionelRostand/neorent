@@ -56,7 +56,7 @@
         "functional": "Enregistrez les locataires, suivez leurs paiements et gérez leur dossier"
       },
       "roommates": {
-        "title": "Gestion des colocataires",
+        "title": "Colocataires",
         "description": "Gérez les colocataires, leurs informations et leurs espaces partagés",
         "technical": "Système de gestion multi-utilisateurs avec liens locataire-colocataire",
         "functional": "Enregistrez les colocataires, gérez leurs accès et suivez leur statut"
