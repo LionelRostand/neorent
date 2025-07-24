@@ -649,7 +649,11 @@ startxref
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleDeleteDocument(document)}
+                      onClick={() => {
+                        console.log('🚨 BOUTON SUPPRIMER CLIQUÉ!');
+                        alert('Test: Bouton supprimer cliqué');
+                        handleDeleteDocument(document);
+                      }}
                       className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
                     >
                       <Trash2 className="h-4 w-4" />
