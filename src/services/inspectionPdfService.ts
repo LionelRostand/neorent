@@ -97,44 +97,64 @@ const savePDFToOwnerSpace = async (pdfData: InspectionPDFData) => {
 
 const findTenantByName = async (tenantName: string) => {
   try {
+    console.log('🔍 Recherche du locataire/colocataire avec le nom:', tenantName);
+    
+    // Normaliser le nom pour la recherche (enlever les espaces supplémentaires, etc.)
+    const normalizedSearchName = tenantName.trim().toLowerCase();
+    console.log('🔍 Nom normalisé pour recherche:', normalizedSearchName);
+
     // Chercher dans les locataires
-    const tenantsQuery = query(
-      collection(db, 'Rent_tenants'),
-      where('name', '==', tenantName)
-    );
+    const tenantsQuery = collection(db, 'Rent_tenants');
     const tenantsSnapshot = await getDocs(tenantsQuery);
     
-    if (!tenantsSnapshot.empty) {
-      const tenant = tenantsSnapshot.docs[0];
-      return {
-        id: tenant.id,
-        name: tenant.data().name,
-        type: 'Locataire',
-        ...tenant.data()
-      };
+    console.log('🔍 Recherche dans', tenantsSnapshot.docs.length, 'locataires');
+    
+    for (const doc of tenantsSnapshot.docs) {
+      const data = doc.data();
+      const tenantNormalized = data.name?.trim().toLowerCase();
+      console.log('🔍 Comparaison:', normalizedSearchName, 'vs', tenantNormalized);
+      
+      if (tenantNormalized === normalizedSearchName || 
+          normalizedSearchName.includes(tenantNormalized) || 
+          tenantNormalized?.includes(normalizedSearchName)) {
+        console.log('✅ Locataire trouvé dans Rent_tenants:', data);
+        return {
+          id: doc.id,
+          name: data.name,
+          type: 'Locataire',
+          ...data
+        };
+      }
     }
 
     // Chercher dans les colocataires
-    const roommatesQuery = query(
-      collection(db, 'Rent_roommates'),
-      where('name', '==', tenantName)
-    );
+    const roommatesQuery = collection(db, 'Rent_roommates');
     const roommatesSnapshot = await getDocs(roommatesQuery);
     
-    if (!roommatesSnapshot.empty) {
-      const roommate = roommatesSnapshot.docs[0];
-      return {
-        id: roommate.id,
-        name: roommate.data().name,
-        type: 'Colocataire',
-        ...roommate.data()
-      };
+    console.log('🔍 Recherche dans', roommatesSnapshot.docs.length, 'colocataires');
+    
+    for (const doc of roommatesSnapshot.docs) {
+      const data = doc.data();
+      const roommateNormalized = data.name?.trim().toLowerCase();
+      console.log('🔍 Comparaison:', normalizedSearchName, 'vs', roommateNormalized);
+      
+      if (roommateNormalized === normalizedSearchName || 
+          normalizedSearchName.includes(roommateNormalized) || 
+          roommateNormalized?.includes(normalizedSearchName)) {
+        console.log('✅ Colocataire trouvé dans Rent_roommates:', data);
+        return {
+          id: doc.id,
+          name: data.name,
+          type: 'Colocataire',
+          ...data
+        };
+      }
     }
 
-    console.warn(`Locataire/Colocataire non trouvé: ${tenantName}`);
+    console.warn(`⚠️ Aucun locataire/colocataire trouvé pour: ${tenantName}`);
     return null;
   } catch (error) {
-    console.error('Erreur lors de la recherche du locataire:', error);
+    console.error('❌ Erreur lors de la recherche du locataire:', error);
     return null;
   }
 };

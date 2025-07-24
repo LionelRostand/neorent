@@ -85,40 +85,59 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
       console.log('📄 Searching for inspection PDFs for:', userProfile.name);
       console.log('📄 User profile details:', userProfile);
 
-      // Chercher les PDFs d'inspection dans Tenant_Documents
+      // Normaliser le nom pour la recherche
+      const normalizedUserName = userProfile.name.trim().toLowerCase();
+      console.log('📄 Nom normalisé:', normalizedUserName);
+
+      // Récupérer TOUS les documents d'inspection et filtrer côté client
       const q = query(
         collection(db, 'Tenant_Documents'),
-        where('tenantName', '==', userProfile.name),
         where('type', '==', 'inspection_report')
       );
       
       console.log('📄 Querying Tenant_Documents collection...');
       const querySnapshot = await getDocs(q);
-      console.log(`📄 Found ${querySnapshot.docs.length} inspection documents in Tenant_Documents`);
+      console.log(`📄 Found ${querySnapshot.docs.length} total inspection documents in Tenant_Documents`);
       
+      let matchedDocs = 0;
       querySnapshot.forEach(doc => {
         const data = doc.data();
-        console.log('📄 Processing inspection document:', data);
+        console.log('📄 Checking document:', data);
         
-        const inspectionDoc = {
-          id: `inspection-${data.inspectionId}`,
-          name: data.name,
-          type: 'inspection_report' as const,
-          contractId: undefined,
-          tenantId: data.tenantId,
-          roommateId: data.tenantType === 'Colocataire' ? data.tenantId : undefined,
-          propertyId: data.propertyName,
-          status: 'completed' as const,
-          createdDate: data.uploadDate,
-          sharedWith: ['landlord', 'tenant', 'roommate'] as ('landlord' | 'tenant' | 'roommate')[],
-          description: `Rapport d'inspection pour ${data.propertyName}${data.roomNumber ? ` - ${data.roomNumber}` : ''}`
-        };
+        // Recherche flexible par nom
+        const docTenantName = data.tenantName?.trim().toLowerCase();
+        console.log('📄 Comparaison:', normalizedUserName, 'vs', docTenantName);
         
-        console.log('📄 Adding inspection document to list:', inspectionDoc);
-        generatedDocs.push(inspectionDoc);
+        const isMatch = docTenantName === normalizedUserName || 
+                       normalizedUserName.includes(docTenantName) || 
+                       docTenantName?.includes(normalizedUserName);
+        
+        if (isMatch) {
+          console.log('✅ Document correspond à l\'utilisateur actuel');
+          matchedDocs++;
+          
+          const inspectionDoc = {
+            id: `inspection-${data.inspectionId}`,
+            name: data.name,
+            type: 'inspection_report' as const,
+            contractId: undefined,
+            tenantId: data.tenantId,
+            roommateId: data.tenantType === 'Colocataire' ? data.tenantId : undefined,
+            propertyId: data.propertyName,
+            status: 'completed' as const,
+            createdDate: data.uploadDate,
+            sharedWith: ['landlord', 'tenant', 'roommate'] as ('landlord' | 'tenant' | 'roommate')[],
+            description: `Rapport d'inspection pour ${data.propertyName}${data.roomNumber ? ` - ${data.roomNumber}` : ''}`
+          };
+          
+          console.log('📄 Adding inspection document to list:', inspectionDoc);
+          generatedDocs.push(inspectionDoc);
+        } else {
+          console.log('❌ Document ne correspond pas à l\'utilisateur actuel');
+        }
       });
 
-      console.log(`✅ Successfully loaded ${querySnapshot.docs.length} inspection PDFs for ${userProfile.name}`);
+      console.log(`✅ Successfully loaded ${matchedDocs} matching inspection PDFs for ${userProfile.name}`);
       console.log('📄 Current generated docs after loading inspections:', generatedDocs);
     } catch (error) {
       console.error('❌ Error loading inspection PDFs:', error);
