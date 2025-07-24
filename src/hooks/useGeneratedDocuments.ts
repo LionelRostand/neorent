@@ -52,11 +52,11 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
       
       const generatedDocs: GeneratedDocument[] = [];
 
-      // Ajouter les contrats signés
+      // Ajouter uniquement les contrats signés qui appartiennent à l'utilisateur actuel
       console.log('📋 Chargement des contrats...');
       contracts.forEach(contract => {
-        if (contract.status === 'Signé') {
-          console.log('📋 Contrat signé trouvé:', contract);
+        if (contract.status === 'Signé' && contract.tenant === userProfile?.name) {
+          console.log('📋 Contrat signé trouvé pour l\'utilisateur:', contract);
           generatedDocs.push({
             id: `contract-${contract.id}`,
             name: `Contrat de bail - ${contract.property}`,
