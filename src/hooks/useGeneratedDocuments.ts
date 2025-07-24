@@ -38,11 +38,18 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
   const loadGeneratedDocuments = async () => {
     setLoading(true);
     try {
+      console.log('🚀 === DÉBUT CHARGEMENT DOCUMENTS ===');
+      console.log('🚀 User ID:', userId);
+      console.log('🚀 User Type:', userType);
+      console.log('🚀 User Profile:', userProfile);
+      
       const generatedDocs: GeneratedDocument[] = [];
 
       // Ajouter les contrats signés
+      console.log('📋 Chargement des contrats...');
       contracts.forEach(contract => {
         if (contract.status === 'Signé') {
+          console.log('📋 Contrat signé trouvé:', contract);
           generatedDocs.push({
             id: `contract-${contract.id}`,
             name: `Contrat de bail - ${contract.property}`,
@@ -61,12 +68,14 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
       });
 
       // Ajouter les PDFs d'inspection générés
+      console.log('📄 Chargement des inspections...');
       await loadInspectionPDFs(generatedDocs);
 
-      console.log('Generated documents loaded:', generatedDocs);
+      console.log('🏁 Documents finaux avant filtrage:', generatedDocs);
+      console.log('🏁 === FIN CHARGEMENT DOCUMENTS ===');
       setDocuments(generatedDocs);
     } catch (error) {
-      console.error('Error loading generated documents:', error);
+      console.error('❌ Error loading generated documents:', error);
     } finally {
       setLoading(false);
     }
