@@ -15,11 +15,14 @@ export const useUserProfileManager = (user: User | null) => {
   const [userType, setUserType] = useState<'admin' | 'owner' | 'locataire' | 'colocataire'>('locataire');
 
   useEffect(() => {
+    console.log('🔄 useUserProfileManager - User changed:', user?.email);
+    
     // Check if admin is impersonating
     const adminProfile = sessionStorage.getItem('adminSelectedProfile');
     if (adminProfile) {
       try {
         const profile = JSON.parse(adminProfile);
+        console.log('👤 Admin impersonation detected:', profile);
         setSelectedProfile(profile);
         // Map owner role to owner type for consistency
         const mappedType = profile.role === 'owner' ? 'owner' : profile.type;
@@ -28,12 +31,12 @@ export const useUserProfileManager = (user: User | null) => {
         console.error('Error parsing admin profile:', error);
       }
     } else if (user) {
-      // Regular user profile - check if it's the admin email
+      // Regular user profile - check specific cases
       const isAdmin = user.email === 'admin@neotech-consulting.com';
-      
-      // Check for specific roommate profiles
       const isEmadAdam = user.email === 'entrepreneurpro19@gmail.com';
       const isRuthMegha = user.email === 'ruthmegha35@gmail.com';
+      
+      console.log('🔍 User type checks:', { isAdmin, isEmadAdam, isRuthMegha, email: user.email });
       
       let profile: UserProfile;
       
