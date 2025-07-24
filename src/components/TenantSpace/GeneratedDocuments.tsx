@@ -584,33 +584,41 @@ startxref
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">
-                          {document.name}
+                      <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                        <h4 className="font-medium text-gray-900 text-xs sm:text-sm md:text-base truncate max-w-[160px] sm:max-w-none">
+                          <span className="sm:hidden">
+                            {document.name.length > 25 ? `${document.name.substring(0, 25)}...` : document.name}
+                          </span>
+                          <span className="hidden sm:inline">{document.name}</span>
                         </h4>
                         {getStatusBadge(document.status)}
                       </div>
                       
-                      <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">
-                        {document.description}
+                      <p className="text-xs text-gray-600 mb-2 sm:mb-3 line-clamp-1 sm:line-clamp-2">
+                        <span className="sm:hidden">
+                          {document.description.length > 30 ? `${document.description.substring(0, 30)}...` : document.description}
+                        </span>
+                        <span className="hidden sm:inline">{document.description}</span>
                       </p>
                       
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs text-gray-500">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3 flex-shrink-0" />
-                          <span className="truncate">
-                            Créé le {new Date(document.createdDate).toLocaleDateString('fr-FR')}
-                          </span>
-                        </div>
-                        {document.signedDate && (
-                          <div className="flex items-center gap-1">
-                            <CheckCircle className="h-3 w-3 flex-shrink-0" />
-                            <span className="truncate">
-                              Signé le {new Date(document.signedDate).toLocaleDateString('fr-FR')}
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                       <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs text-gray-500">
+                         <div className="flex items-center gap-1">
+                           <Calendar className="h-3 w-3 flex-shrink-0" />
+                           <span className="truncate">
+                             <span className="sm:hidden">{new Date(document.createdDate).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' })}</span>
+                             <span className="hidden sm:inline">Créé le {new Date(document.createdDate).toLocaleDateString('fr-FR')}</span>
+                           </span>
+                         </div>
+                         {document.signedDate && (
+                           <div className="flex items-center gap-1">
+                             <CheckCircle className="h-3 w-3 flex-shrink-0" />
+                             <span className="truncate">
+                               <span className="sm:hidden">Signé</span>
+                               <span className="hidden sm:inline">Signé le {new Date(document.signedDate).toLocaleDateString('fr-FR')}</span>
+                             </span>
+                           </div>
+                         )}
+                       </div>
                     </div>
                   </div>
                   
