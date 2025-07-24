@@ -74,7 +74,14 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
 
   const loadInspectionPDFs = async (generatedDocs: GeneratedDocument[]) => {
     try {
-      if (!userProfile?.name) return;
+      console.log('Loading inspection PDFs for user:', userProfile);
+      
+      if (!userProfile?.name) {
+        console.log('No user profile name found, skipping inspection PDFs');
+        return;
+      }
+
+      console.log('Searching for inspection PDFs for tenant:', userProfile.name);
 
       // Chercher les PDFs d'inspection dans Tenant_Documents
       const q = query(
@@ -84,9 +91,12 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
       );
       
       const querySnapshot = await getDocs(q);
+      console.log('Found', querySnapshot.docs.length, 'inspection documents in Tenant_Documents');
       
       querySnapshot.forEach(doc => {
         const data = doc.data();
+        console.log('Processing inspection document:', data);
+        
         generatedDocs.push({
           id: `inspection-${data.inspectionId}`,
           name: data.name,
