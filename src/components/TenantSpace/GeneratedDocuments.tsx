@@ -11,12 +11,15 @@ import {
   CheckCircle,
   AlertCircle,
   FileCheck,
-  ExternalLink
+  ExternalLink,
+  Trash2
 } from 'lucide-react';
 import { useGeneratedDocuments, GeneratedDocument } from '@/hooks/useGeneratedDocuments';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { deleteTestInspectionDocuments } from '@/services/deleteTestDocumentsService';
+import { deleteDoc, doc, query, collection, where, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const GeneratedDocuments: React.FC = () => {
   const { t } = useTranslation();
@@ -121,6 +124,50 @@ const GeneratedDocuments: React.FC = () => {
       toast({
         title: "Erreur",
         description: "Impossible de télécharger le document",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteDocument = async (document: GeneratedDocument) => {
+    try {
+      console.log('🗑️ Suppression du document:', document);
+      
+      // Trouver le document dans Firestore par inspectionId
+      const documentsQuery = query(
+        collection(db, 'Tenant_Documents'),
+        where('inspectionId', '==', document.id.replace('inspection-', ''))
+      );
+      
+      const querySnapshot = await getDocs(documentsQuery);
+      
+      if (!querySnapshot.empty) {
+        // Supprimer tous les documents trouvés (il devrait y en avoir un seul)
+        const deletePromises = querySnapshot.docs.map(docSnapshot => 
+          deleteDoc(doc(db, 'Tenant_Documents', docSnapshot.id))
+        );
+        
+        await Promise.all(deletePromises);
+        
+        toast({
+          title: "Document supprimé",
+          description: `${document.name} a été supprimé avec succès`,
+        });
+        
+        // Recharger la page pour actualiser la liste
+        window.location.reload();
+      } else {
+        toast({
+          title: "Document non trouvé",
+          description: "Le document n'a pas pu être trouvé dans la base de données",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression du document:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer le document",
         variant: "destructive",
       });
     }
@@ -572,6 +619,15 @@ startxref
                     >
                       <Download className="h-4 w-4" />
                       PDF
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteDocument(document)}
+                      className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Supprimer
                     </Button>
                   </div>
                 </div>
