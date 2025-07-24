@@ -24,6 +24,7 @@ import { db } from '@/lib/firebase';
 const GeneratedDocuments: React.FC = () => {
   const { t } = useTranslation();
   const { user, userType, userProfile } = useAuth();
+  console.log('🔍 Debug Auth - userType:', userType, 'userProfile:', userProfile);
   const { toast } = useToast();
   
   const { 
@@ -130,8 +131,16 @@ const GeneratedDocuments: React.FC = () => {
   };
 
   const handleDeleteDocument = async (document: GeneratedDocument) => {
-    // Vérifier si l'utilisateur est administrateur
-    if (userType !== 'admin') {
+    // Vérifier si l'utilisateur est administrateur - vérification simple
+    const isAdmin = userProfile?.role === 'admin' || 
+                   userProfile?.type === 'admin' ||
+                   userProfile?.name?.includes('admin') ||
+                   userProfile?.name?.includes('Admin') ||
+                   (userProfile as any)?.role === 'Administrateur';
+    
+    console.log('🔍 Debug suppression - userType:', userType, 'userProfile:', userProfile, 'isAdmin:', isAdmin);
+    
+    if (!isAdmin) {
       toast({
         title: "Accès refusé",
         description: "Seuls les administrateurs peuvent supprimer des documents",
@@ -644,7 +653,11 @@ startxref
                       <Download className="h-4 w-4" />
                       PDF
                     </Button>
-                    {userType === 'admin' && (
+                    {(userProfile?.role === 'admin' || 
+                      userProfile?.type === 'admin' ||
+                      userProfile?.name?.includes('admin') ||
+                      userProfile?.name?.includes('Admin') ||
+                      (userProfile as any)?.role === 'Administrateur') && (
                       <Button
                         variant="outline"
                         size="sm"
