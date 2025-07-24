@@ -584,7 +584,7 @@ startxref
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                      <div className="flex items-center gap-2 mb-2">
                         <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">
                           {document.name}
                         </h4>

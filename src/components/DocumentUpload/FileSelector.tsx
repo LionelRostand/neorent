@@ -15,7 +15,8 @@ const FileSelector: React.FC<FileSelectorProps> = ({ onFileSelect, uploading }) 
   return (
     <div className="w-full">
       <Label htmlFor="file-upload" className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-        {t('tenantUpload.chooseFile')}
+        <span className="hidden sm:inline">{t('tenantUpload.chooseFile')}</span>
+        <span className="sm:hidden">Fichier</span>
       </Label>
       <Input
         id="file-upload"
@@ -26,7 +27,8 @@ const FileSelector: React.FC<FileSelectorProps> = ({ onFileSelect, uploading }) 
         className="w-full cursor-pointer text-xs sm:text-sm file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-medium file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100"
       />
       <p className="text-xs text-gray-500 mt-1 break-words leading-tight">
-        {t('tenantUpload.maxSizeInfo')}
+        <span className="hidden sm:inline">{t('tenantUpload.maxSizeInfo')}</span>
+        <span className="sm:hidden">Max: 1.5MB • PDF, Images</span>
       </p>
     </div>
   );

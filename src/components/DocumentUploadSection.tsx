@@ -106,7 +106,7 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
   return (
     <Card className="w-full max-w-none">
       <CardHeader className="pb-3 sm:pb-4">
-        <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
+        <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
           <Upload className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
           <span className="text-sm sm:text-base md:text-lg">{t('tenantUpload.uploadDocument')}</span>
         </CardTitle>
