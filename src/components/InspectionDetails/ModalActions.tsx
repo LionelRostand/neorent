@@ -3,6 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
+import { saveInspectionPDFToSpaces } from '@/services/inspectionPdfService';
+import { useToast } from '@/hooks/use-toast';
 
 interface ModalActionsProps {
   inspection: {
@@ -25,48 +27,59 @@ interface ModalActionsProps {
 
 const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
   const { t } = useTranslation();
+  const { toast } = useToast();
 
-  const handleGeneratePDF = () => {
+  const handleGeneratePDF = async () => {
     if (!inspection) return;
 
-    // Generate PDF with all inspection information
-    const pdfDocument = {
-      id: Date.now(),
-      name: `Inspection_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
-      type: 'inspection_report',
-      uploadDate: new Date().toISOString(),
-      inspectionId: inspection.id,
-      tenantName: inspection.tenant,
-      propertyName: inspection.property,
-      roomNumber: inspection.roomNumber,
-      contractType: inspection.contractType,
-      content: {
-        generalInfo: {
-          title: inspection.title,
-          type: inspection.type,
-          date: inspection.date,
-          inspector: inspection.inspector,
-          property: inspection.property,
-          tenant: inspection.tenant,
-          roomNumber: inspection.roomNumber
-        },
-        description: inspection.description,
-        observations: inspection.observations,
-        status: inspection.status
-      }
-    };
+    try {
+      // Générer les données du PDF
+      const pdfDocument = {
+        id: Date.now().toString(),
+        name: `Inspection_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
+        type: 'inspection_report',
+        uploadDate: new Date().toISOString(),
+        inspectionId: inspection.id,
+        tenantName: inspection.tenant,
+        propertyName: inspection.property,
+        roomNumber: inspection.roomNumber,
+        contractType: inspection.contractType,
+        content: {
+          generalInfo: {
+            title: inspection.title,
+            type: inspection.type,
+            date: inspection.date,
+            inspector: inspection.inspector,
+            property: inspection.property,
+            tenant: inspection.tenant,
+            roomNumber: inspection.roomNumber
+          },
+          description: inspection.description,
+          observations: inspection.observations,
+          status: inspection.status
+        }
+      };
 
-    console.log('PDF document generated with complete content:', pdfDocument);
-    console.log(`PDF stored in ${inspection.tenant}'s profile - Documents tab`);
-    
-    // Simulate sending to backend API
-    console.log('Sending to API:', {
-      endpoint: '/api/documents/generate-pdf',
-      method: 'POST',
-      data: pdfDocument
-    });
-    
-    alert(`${t('inspections.generatePDF')} ${t('common.success')}!\n\n${t('common.fileName')}: ${pdfDocument.name}`);
+      // Sauvegarder le PDF dans les espaces locataire et propriétaire
+      await saveInspectionPDFToSpaces(pdfDocument);
+
+      // Afficher la notification de succès
+      toast({
+        title: "PDF généré avec succès",
+        description: `Le rapport d'inspection est maintenant disponible dans l'espace du locataire et du propriétaire.`,
+      });
+
+      console.log('PDF document generated and saved:', pdfDocument);
+      
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error);
+      
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la génération du PDF. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
