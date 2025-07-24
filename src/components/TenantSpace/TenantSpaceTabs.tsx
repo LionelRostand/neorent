@@ -32,8 +32,7 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
   console.log('TenantSpaceTabs - userType (from currentType):', userType);
   console.log('TenantSpaceTabs - isRoommate:', isRoommate);
   console.log('TenantSpaceTabs - isTenant:', isTenant);
-  console.log('TenantSpaceTabs - Should show contract tab:', isRoommate || isAdminOrOwner);
-  console.log('TenantSpaceTabs - Should show contracts tab:', isTenant || isAdminOrOwner);
+  console.log('TenantSpaceTabs - Should show contracts tab (tenants + admin/owner only):', isTenant || isAdminOrOwner);
 
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
@@ -41,9 +40,9 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
         <TabsTrigger value="overview">{t('tenantSpace.tabs.overview')}</TabsTrigger>
         <TabsTrigger value="history">{t('tenantSpace.tabs.history')}</TabsTrigger>
         <TabsTrigger value="documents">{t('tenantSpace.tabs.documents')}</TabsTrigger>
-        {/* Un seul onglet contrat - adapté selon le type d'utilisateur */}
-        {(isRoommate || isTenant || isAdminOrOwner) && (
-          <TabsTrigger value="contract">{isRoommate ? 'Contrat' : 'Contrats'}</TabsTrigger>
+        {/* Onglet contrats - uniquement pour locataires et admin/owner */}
+        {(isTenant || isAdminOrOwner) && (
+          <TabsTrigger value="contract">Contrats</TabsTrigger>
         )}
         <TabsTrigger value="profile">{t('tenantSpace.tabs.profile')}</TabsTrigger>
       </TabsList>
@@ -64,10 +63,10 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
         <DocumentsSection />
       </TabsContent>
 
-      {/* Contenu des contrats - adapté selon le type d'utilisateur */}
-      {(isRoommate || isTenant || isAdminOrOwner) && (
+      {/* Contenu des contrats - uniquement pour locataires et admin/owner */}
+      {(isTenant || isAdminOrOwner) && (
         <TabsContent value="contract" className="mt-6">
-          {isRoommate ? <RoommateContractView /> : <SignedContractsView />}
+          <SignedContractsView />
         </TabsContent>
       )}
 
