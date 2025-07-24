@@ -17,8 +17,12 @@ export const useUserProfileManager = (user: User | null) => {
   useEffect(() => {
     console.log('🔄 useUserProfileManager - User changed:', user?.email);
     
+    // Clear any old data first
+    sessionStorage.removeItem('adminSelectedProfile');
+    
     // Check if admin is impersonating
     const adminProfile = sessionStorage.getItem('adminSelectedProfile');
+    console.log('🔍 Admin profile in storage:', adminProfile);
     if (adminProfile) {
       try {
         const profile = JSON.parse(adminProfile);
