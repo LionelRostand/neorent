@@ -26,35 +26,27 @@ export const useFirebaseInspections = () => {
   const fetchInspections = async () => {
     try {
       setLoading(true);
+      console.log('Starting to fetch inspections from Rent_Inspections collection...');
+      
       const querySnapshot = await getDocs(collection(db, 'Rent_Inspections'));
-      const inspectionsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Inspection[];
+      console.log('Firebase query snapshot received, docs count:', querySnapshot.docs.length);
       
-      console.log('Raw inspections data from Firebase:', inspectionsData);
+      const inspectionsData = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        console.log('Document data:', { id: doc.id, ...data });
+        return {
+          id: doc.id,
+          ...data
+        };
+      }) as Inspection[];
       
-      // Filter out any inspections with invalid IDs or missing critical data
-      const validInspections = inspectionsData.filter(inspection => {
-        const hasValidId = inspection.id && typeof inspection.id === 'string';
-        const hasTitle = inspection.title && typeof inspection.title === 'string';
-        
-        if (!hasValidId) {
-          console.warn('Filtered out inspection with invalid ID:', inspection);
-          return false;
-        }
-        
-        if (!hasTitle) {
-          console.warn('Filtered out inspection without title:', inspection);
-          return false;
-        }
-        
-        return true;
-      });
+      console.log('All inspections data:', inspectionsData);
       
-      console.log('Valid inspections after filtering:', validInspections);
-      setInspections(validInspections);
+      // Temporarily remove filtering to see all data
+      setInspections(inspectionsData);
       setError(null);
+      
+      console.log('Inspections set in state:', inspectionsData);
     } catch (err) {
       console.error('Error fetching inspections:', err);
       setError('Error loading inspections');
