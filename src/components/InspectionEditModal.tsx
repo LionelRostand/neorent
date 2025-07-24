@@ -76,11 +76,21 @@ const InspectionEditModal: React.FC<InspectionEditModalProps> = ({
     }
   }, [formData.property, properties, t]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (inspection) {
-      onSave(inspection.id, formData);
-      onClose();
+      console.log('=== SAVING INSPECTION EDITS ===');
+      console.log('Inspection ID:', inspection.id);
+      console.log('Form data to save:', formData);
+      
+      try {
+        await onSave(inspection.id, formData);
+        console.log('✅ Modifications sauvegardées avec succès');
+        onClose();
+      } catch (error) {
+        console.error('❌ Erreur lors de la sauvegarde:', error);
+        // Ne pas fermer la modale si la sauvegarde échoue
+      }
     }
   };
 
