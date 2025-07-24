@@ -33,6 +33,16 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
   const { t } = useTranslation();
   const { toast } = useToast();
 
+  // Fonction pour générer un ID unique basé sur le nom du colocataire
+  const generateTenantId = (tenantName: string) => {
+    // Pour "Emad ADAM", utiliser un ID fixe pour cohérence
+    if (tenantName === 'Emad ADAM') {
+      return 'emad_adam_tenant_id';
+    }
+    // Pour les autres, générer un ID basé sur le nom
+    return tenantName.toLowerCase().replace(/\s+/g, '_') + '_tenant_id';
+  };
+
   const handleGeneratePDF = async () => {
     if (!inspection) return;
 
@@ -215,6 +225,9 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
       doc.save(fileName);
 
       // Aussi sauvegarder dans Firebase pour l'espace locataire
+      // Générer un ID tenant basé sur le nom du colocataire/locataire
+      const tenantId = generateTenantId(inspection.tenant || 'Unknown');
+      
       const pdfDocument = {
         name: fileName,
         type: 'inspection_report',
@@ -223,7 +236,7 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
         inspectionId: inspection.id,
         propertyName: inspection.property,
         roomNumber: inspection.roomNumber,
-        tenantId: inspection.id,
+        tenantId: tenantId, // Utiliser l'ID généré basé sur le nom
         tenantName: inspection.tenant,
         tenantType: inspection.contractType === 'Bail colocatif' ? 'Colocataire' : 'Locataire',
         generatedBy: 'system',
