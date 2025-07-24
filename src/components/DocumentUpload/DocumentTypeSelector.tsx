@@ -26,19 +26,19 @@ const DocumentTypeSelector: React.FC<DocumentTypeSelectorProps> = ({
 }) => {
   return (
     <div className="w-full">
-      <Label htmlFor="document-type" className="block text-sm font-medium text-gray-700 mb-2">
+      <Label htmlFor="document-type" className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
         Type de document
       </Label>
       <Select value={selectedDocumentType} onValueChange={onDocumentTypeChange} disabled={uploading}>
-        <SelectTrigger className="w-full h-10 text-sm">
+        <SelectTrigger className="w-full h-10 sm:h-11 text-xs sm:text-sm">
           <SelectValue 
             placeholder="Sélectionner un type de document" 
-            className="text-sm placeholder:text-sm"
+            className="text-xs sm:text-sm placeholder:text-xs placeholder:sm:text-sm"
           />
         </SelectTrigger>
         <SelectContent className="max-h-60">
           {documentTypes.map((docType) => (
-            <SelectItem key={docType.key} value={docType.key} className="text-sm">
+            <SelectItem key={docType.key} value={docType.key} className="text-xs sm:text-sm">
               {docType.label}
             </SelectItem>
           ))}
