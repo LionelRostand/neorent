@@ -131,22 +131,10 @@ const GeneratedDocuments: React.FC = () => {
   };
 
   const handleDeleteDocument = async (document: GeneratedDocument) => {
-    // Pour le moment, permettre à tous pour voir les logs d'authentification
+    console.log('🗑️ FONCTION SUPPRESSION DÉCLENCHÉE');
     console.log('🔍 Debug suppression - userType:', userType, 'userProfile:', userProfile);
-    console.log('🔍 Debug suppression - userProfile complet:', JSON.stringify(userProfile, null, 2));
+    console.log('🔍 Debug suppression - document à supprimer:', document);
     
-    // Commenté temporairement pour debug
-    /*
-    if (!isAdmin) {
-      toast({
-        title: "Accès refusé",
-        description: "Seuls les administrateurs peuvent supprimer des documents",
-        variant: "destructive",
-      });
-      return;
-    }
-    */
-
     try {
       console.log('🗑️ Suppression du document par admin:', document);
       
@@ -156,19 +144,23 @@ const GeneratedDocuments: React.FC = () => {
       if (document.id.startsWith('inspection-')) {
         // Pour les documents d'inspection
         const inspectionId = document.id.replace('inspection-', '');
+        console.log('🔍 Recherche par inspectionId:', inspectionId);
         documentsQuery = query(
           collection(db, 'Tenant_Documents'),
           where('inspectionId', '==', inspectionId)
         );
       } else {
         // Pour les autres documents, chercher par nom
+        console.log('🔍 Recherche par nom:', document.name);
         documentsQuery = query(
           collection(db, 'Tenant_Documents'),
           where('name', '==', document.name)
         );
       }
       
+      console.log('🔍 Exécution de la requête Firestore...');
       const querySnapshot = await getDocs(documentsQuery);
+      console.log('🔍 Résultats trouvés:', querySnapshot.docs.length);
       
       if (!querySnapshot.empty) {
         // Supprimer tous les documents trouvés
@@ -178,6 +170,7 @@ const GeneratedDocuments: React.FC = () => {
         });
         
         await Promise.all(deletePromises);
+        console.log('✅ Suppression terminée avec succès');
         
         toast({
           title: "Document supprimé",
@@ -185,6 +178,7 @@ const GeneratedDocuments: React.FC = () => {
         });
         
         // Recharger la page pour actualiser la liste
+        console.log('🔄 Rechargement de la page...');
         window.location.reload();
       } else {
         console.warn('🗑️ Aucun document trouvé pour:', document);
@@ -198,7 +192,7 @@ const GeneratedDocuments: React.FC = () => {
       console.error('❌ Erreur lors de la suppression du document:', error);
       toast({
         title: "Erreur",
-        description: "Impossible de supprimer le document",
+        description: `Impossible de supprimer le document: ${error}`,
         variant: "destructive",
       });
     }
