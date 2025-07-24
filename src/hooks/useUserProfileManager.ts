@@ -31,8 +31,9 @@ export const useUserProfileManager = (user: User | null) => {
       // Regular user profile - check if it's the admin email
       const isAdmin = user.email === 'admin@neotech-consulting.com';
       
-      // Check for specific roommate profile
+      // Check for specific roommate profiles
       const isEmadAdam = user.email === 'entrepreneurpro19@gmail.com';
+      const isRuthMegha = user.email === 'ruthmegha35@gmail.com';
       
       let profile: UserProfile;
       
@@ -49,6 +50,15 @@ export const useUserProfileManager = (user: User | null) => {
         profile = {
           id: '1752971742586',
           name: 'Emad ADAM',
+          email: user.email || '',
+          role: 'colocataire',
+          type: 'colocataire' as const
+        };
+      } else if (isRuthMegha) {
+        // Profile spécifique pour Ruth MEGHA
+        profile = {
+          id: '1752971742587',
+          name: 'Ruth MEGHA',
           email: user.email || '',
           role: 'colocataire',
           type: 'colocataire' as const
