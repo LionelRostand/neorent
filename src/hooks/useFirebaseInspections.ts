@@ -70,10 +70,13 @@ export const useFirebaseInspections = () => {
 
   const updateInspection = async (id: string, updates: Partial<Inspection>) => {
     try {
-      console.log('Updating inspection with ID:', id, 'Updates:', updates);
+      console.log('=== UPDATE INSPECTION DEBUG ===');
+      console.log('Original ID received:', id, 'Type:', typeof id);
+      console.log('Updates:', updates);
       
       // Ensure we're using string ID
       const documentId = String(id);
+      console.log('Document ID after String conversion:', documentId);
       
       // First check if the document exists
       const docRef = doc(db, 'Rent_Inspections', documentId);
