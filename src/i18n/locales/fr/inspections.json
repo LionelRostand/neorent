@@ -96,6 +96,9 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "basicInformation": "Informations de base",
-    "roomsInspection": "Inspection des pièces"
+    "roomsInspection": "Inspection des pièces",
+    "condition": "État",
+    "addObservations": "Ajouter des observations...",
+    "equipmentInspection": "Inspection des équipements"
   }
 }
