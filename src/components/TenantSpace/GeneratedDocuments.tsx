@@ -130,69 +130,57 @@ const GeneratedDocuments: React.FC = () => {
     }
   };
 
-  const handleDeleteDocument = async (document: GeneratedDocument) => {
-    console.log('🗑️ FONCTION SUPPRESSION DÉCLENCHÉE');
-    console.log('🔍 Debug suppression - userType:', userType, 'userProfile:', userProfile);
-    console.log('🔍 Debug suppression - document à supprimer:', document);
+  // Fonction de suppression simplifiée
+  const deleteDocument = async (documentToDelete: GeneratedDocument) => {
+    console.log('🗑️ SUPPRESSION DÉCLENCHÉE POUR:', documentToDelete);
     
     try {
-      console.log('🗑️ Suppression du document par admin:', document);
+      // Rechercher et supprimer le document dans Firestore
+      const tenantDocsRef = collection(db, 'Tenant_Documents');
+      const snapshot = await getDocs(tenantDocsRef);
       
-      // Chercher le document dans Tenant_Documents par nom ou par inspectionId
-      let documentsQuery;
+      console.log('📄 Total documents dans Tenant_Documents:', snapshot.docs.length);
       
-      if (document.id.startsWith('inspection-')) {
-        // Pour les documents d'inspection
-        const inspectionId = document.id.replace('inspection-', '');
-        console.log('🔍 Recherche par inspectionId:', inspectionId);
-        documentsQuery = query(
-          collection(db, 'Tenant_Documents'),
-          where('inspectionId', '==', inspectionId)
-        );
-      } else {
-        // Pour les autres documents, chercher par nom
-        console.log('🔍 Recherche par nom:', document.name);
-        documentsQuery = query(
-          collection(db, 'Tenant_Documents'),
-          where('name', '==', document.name)
-        );
+      let documentSupprimer = false;
+      
+      for (const docSnap of snapshot.docs) {
+        const data = docSnap.data();
+        console.log('🔍 Vérification document:', data.name, 'vs', documentToDelete.name);
+        
+        // Chercher par nom exact
+        if (data.name === documentToDelete.name) {
+          console.log('✅ Document trouvé! Suppression en cours...');
+          await deleteDoc(doc(db, 'Tenant_Documents', docSnap.id));
+          documentSupprimer = true;
+          console.log('✅ Document supprimé avec succès');
+          break;
+        }
       }
       
-      console.log('🔍 Exécution de la requête Firestore...');
-      const querySnapshot = await getDocs(documentsQuery);
-      console.log('🔍 Résultats trouvés:', querySnapshot.docs.length);
-      
-      if (!querySnapshot.empty) {
-        // Supprimer tous les documents trouvés
-        const deletePromises = querySnapshot.docs.map(docSnapshot => {
-          console.log('🗑️ Suppression du document Firestore ID:', docSnapshot.id);
-          return deleteDoc(doc(db, 'Tenant_Documents', docSnapshot.id));
-        });
-        
-        await Promise.all(deletePromises);
-        console.log('✅ Suppression terminée avec succès');
-        
+      if (documentSupprimer) {
         toast({
-          title: "Document supprimé",
-          description: `${document.name} a été supprimé avec succès`,
+          title: "✅ Document supprimé",
+          description: `${documentToDelete.name} a été supprimé`,
         });
         
-        // Recharger la page pour actualiser la liste
-        console.log('🔄 Rechargement de la page...');
-        window.location.reload();
+        // Attendre 1 seconde puis recharger
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
-        console.warn('🗑️ Aucun document trouvé pour:', document);
+        console.warn('❌ Document non trouvé dans la base');
         toast({
-          title: "Document non trouvé",
-          description: "Le document n'a pas pu être trouvé dans la base de données",
+          title: "❌ Erreur",
+          description: "Document non trouvé dans la base de données",
           variant: "destructive",
         });
       }
+      
     } catch (error) {
-      console.error('❌ Erreur lors de la suppression du document:', error);
+      console.error('❌ Erreur suppression:', error);
       toast({
-        title: "Erreur",
-        description: `Impossible de supprimer le document: ${error}`,
+        title: "❌ Erreur",
+        description: `Erreur: ${error}`,
         variant: "destructive",
       });
     }
@@ -649,11 +637,7 @@ startxref
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => {
-                        console.log('🚨 BOUTON SUPPRIMER CLIQUÉ!');
-                        alert('Test: Bouton supprimer cliqué');
-                        handleDeleteDocument(document);
-                      }}
+                      onClick={() => deleteDocument(document)}
                       className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
                     >
                       <Trash2 className="h-4 w-4" />
