@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 interface UserRole {
   id: string;
-  role: 'admin' | 'owner';
+  role: 'admin' | 'owner' | 'locataire' | 'colocataire';
   email: string;
   name: string;
   createdAt: string;
@@ -37,6 +37,16 @@ const EmployeeSelection: React.FC<EmployeeSelectionProps> = ({
     return company ? company.name : t('settings.permissions.unknownCompany');
   };
 
+  const getRoleLabel = (role: string): string => {
+    switch (role) {
+      case 'admin': return '👑 Admin';
+      case 'owner': return '🏠 Propriétaire';
+      case 'locataire': return '👤 Locataire';
+      case 'colocataire': return '👥 Colocataire';
+      default: return role;
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div>
@@ -48,7 +58,7 @@ const EmployeeSelection: React.FC<EmployeeSelectionProps> = ({
           <SelectContent>
             {employees.map((employee) => (
               <SelectItem key={employee.id} value={employee.id}>
-                {employee.name} ({employee.email}) - {getCompanyName(employee.companyId)}
+                {getRoleLabel(employee.role)} - {employee.name} ({employee.email})
               </SelectItem>
             ))}
           </SelectContent>
@@ -63,6 +73,9 @@ const EmployeeSelection: React.FC<EmployeeSelectionProps> = ({
           </p>
           <p className="text-sm text-gray-600">
             <strong>{t('settings.permissions.email')}:</strong> {selectedEmployee.email}
+          </p>
+          <p className="text-sm text-gray-600">
+            <strong>Type:</strong> {getRoleLabel(selectedEmployee.role)}
           </p>
           <p className="text-sm text-gray-600">
             <strong>{t('settings.permissions.company')}:</strong> {getCompanyName(selectedEmployee.companyId)}

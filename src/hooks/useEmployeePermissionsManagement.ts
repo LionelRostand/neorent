@@ -15,11 +15,13 @@ export const useEmployeePermissionsManagement = () => {
   const [permissions, setPermissions] = useState<EmployeePermissions>(defaultEmployeePermissions);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Filtrer les employés - inclure tous les propriétaires et admins (sauf l'admin principal)
+  // Inclure tous les utilisateurs : propriétaires, admin (traité comme propriétaire), locataires et colocataires
   const employees = userRoles.filter(user => 
     user.role === 'owner' || 
     user.isOwner === true || 
-    (user.role === 'admin' && user.email !== 'admin@neotech-consulting.com') // Exclure l'admin principal
+    user.role === 'admin' || // Inclure tous les admins (traités comme propriétaires)
+    user.role === 'locataire' ||
+    user.role === 'colocataire'
   );
   
   const selectedEmployee = employees.find(emp => emp.id === selectedEmployeeId);
@@ -39,8 +41,8 @@ export const useEmployeePermissionsManagement = () => {
         const userRoleDoc = await getDoc(doc(db, 'user_roles', selectedEmployeeId));
         if (userRoleDoc.exists()) {
           const data = userRoleDoc.data();
-          // Pour les propriétaires, définir des permissions complètes par défaut sur leurs données
-          if (data.role === 'owner' || data.isOwner) {
+          // Pour les propriétaires et admins, définir des permissions complètes par défaut
+          if (data.role === 'owner' || data.isOwner || data.role === 'admin') {
             const fullOwnerPermissions = {
               dashboard: { read: true, write: true, view: true, delete: true },
               properties: { read: true, write: true, view: true, delete: true },
@@ -57,6 +59,24 @@ export const useEmployeePermissionsManagement = () => {
               settings: { read: false, write: false, view: false, delete: false }, // Seul l'admin peut gérer les paramètres
             };
             setPermissions(data.detailedPermissions || fullOwnerPermissions);
+          } else if (data.role === 'locataire' || data.role === 'colocataire') {
+            // Pour les locataires/colocataires, permissions limitées par défaut
+            const tenantDefaultPermissions = {
+              dashboard: { read: true, write: false, view: true, delete: false },
+              properties: { read: false, write: false, view: false, delete: false },
+              tenants: { read: false, write: false, view: false, delete: false },
+              roommates: { read: false, write: false, view: false, delete: false },
+              contracts: { read: true, write: false, view: true, delete: false },
+              inspections: { read: true, write: false, view: true, delete: false },
+              rentManagement: { read: true, write: false, view: true, delete: false },
+              rentalCharges: { read: true, write: false, view: true, delete: false },
+              maintenance: { read: true, write: true, view: true, delete: false },
+              messages: { read: true, write: true, view: true, delete: false },
+              taxes: { read: false, write: false, view: false, delete: false },
+              website: { read: false, write: false, view: false, delete: false },
+              settings: { read: false, write: false, view: false, delete: false },
+            };
+            setPermissions(data.detailedPermissions || tenantDefaultPermissions);
           } else {
             setPermissions(data.detailedPermissions || defaultEmployeePermissions);
           }

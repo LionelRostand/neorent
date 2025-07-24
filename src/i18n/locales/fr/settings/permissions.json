@@ -2,17 +2,17 @@
 {
   "settings": {
     "permissions": {
-      "title": "Permissions des propriétaires",
-      "subtitle": "Configurez les permissions détaillées pour chaque propriétaire",
-      "selectOwner": "Sélectionner un propriétaire",
-      "chooseOwner": "Choisir un propriétaire",
-      "selectedOwnerInfo": "Informations du propriétaire sélectionné",
+      "title": "Permissions des utilisateurs",
+      "subtitle": "Configurez les permissions détaillées pour chaque utilisateur",
+      "selectOwner": "Sélectionner un utilisateur",
+      "chooseOwner": "Choisir un utilisateur",
+      "selectedOwnerInfo": "Informations de l'utilisateur sélectionné",
       "name": "Nom",
       "email": "Email",
       "company": "Entreprise",
       "noCompany": "Aucune entreprise",
       "unknownCompany": "Entreprise inconnue",
-      "noOwners": "Aucun propriétaire disponible",
+      "noOwners": "Aucun utilisateur disponible",
       "allowAll": "Tout autoriser",
       "denyAll": "Tout refuser",
       "read": "Lecture",

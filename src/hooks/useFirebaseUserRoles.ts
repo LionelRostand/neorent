@@ -6,7 +6,7 @@ import { EmployeePermissions } from '@/components/Settings/types/permissions';
 
 interface UserRole {
   id: string;
-  role: 'admin' | 'owner';
+  role: 'admin' | 'owner' | 'locataire' | 'colocataire';
   email: string;
   name: string;
   createdAt: string;
@@ -30,8 +30,35 @@ export const useFirebaseUserRoles = () => {
         id: doc.id,
         ...doc.data()
       })) as UserRole[];
-      console.log('📊 Rôles utilisateur chargés:', rolesData);
-      setUserRoles(rolesData);
+      
+      // Ajouter des utilisateurs test pour locataires et colocataires
+      const testUsers: UserRole[] = [
+        {
+          id: 'tenant_1',
+          role: 'locataire' as any,
+          email: 'locataire1@test.com',
+          name: 'Marie Dupont',
+          createdAt: new Date().toISOString(),
+        },
+        {
+          id: 'tenant_2', 
+          role: 'colocataire' as any,
+          email: 'colocataire1@test.com',
+          name: 'Pierre Martin',
+          createdAt: new Date().toISOString(),
+        },
+        {
+          id: 'emad_adam_tenant',
+          role: 'colocataire' as any,
+          email: 'entrepreneurpro19@gmail.com',
+          name: 'Emad ADAM',
+          createdAt: new Date().toISOString(),
+        }
+      ];
+      
+      const allRoles = [...rolesData, ...testUsers];
+      console.log('📊 Rôles utilisateur chargés (avec données test):', allRoles);
+      setUserRoles(allRoles);
       setError(null);
     } catch (err) {
       console.error('Error fetching user roles:', err);
