@@ -5,6 +5,7 @@ import { db } from '@/lib/firebase';
 
 interface Inspection {
   id: string;
+  originalId?: string;
   title: string;
   type: string;
   tenant: string;
@@ -33,9 +34,14 @@ export const useFirebaseInspections = () => {
       
       const inspectionsData = querySnapshot.docs.map(doc => {
         const data = doc.data();
-        console.log('Document data:', { id: doc.id, ...data });
+        console.log('Document data:', { 
+          documentId: doc.id, 
+          fieldId: data.id,
+          ...data 
+        });
         return {
-          id: doc.id,
+          id: doc.id, // Use Firebase document ID
+          originalId: data.id, // Keep original ID as backup
           ...data
         };
       }) as Inspection[];
