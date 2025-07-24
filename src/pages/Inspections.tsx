@@ -59,19 +59,39 @@ const Inspections = () => {
 
   const handleUpdateInspection = async (id: string, updates: any) => {
     try {
-      console.log('Attempting to update inspection:', id);
-      console.log('Available inspection IDs:', inspections.map(i => i.id));
-      console.log('Updates to apply:', updates);
+      console.log('=== HANDLE UPDATE INSPECTION ===');
+      console.log('ID reçu:', id, 'Type:', typeof id);
+      console.log('Updates:', updates);
+      console.log('Liste de toutes les inspections disponibles:');
+      inspections.forEach(insp => {
+        console.log(`- Title: ${insp.title}, ID: ${insp.id}, Type: ${typeof insp.id}`);
+      });
       
-      await updateInspection(id, updates);
+      // Vérifier si l'ID existe dans notre liste
+      const foundInspection = inspections.find(i => i.id === id);
+      if (!foundInspection) {
+        console.error('❌ ID non trouvé dans la liste locale:', id);
+        console.log('Tentative de trouver par titre...');
+        const byTitle = inspections.find(i => i.title === updates.title || i.inspector === updates.inspector);
+        if (byTitle) {
+          console.log('✅ Trouvé par correspondance:', byTitle);
+          console.log('Utilisation du bon ID:', byTitle.id);
+          await updateInspection(byTitle.id, updates);
+        } else {
+          throw new Error(`Inspection avec ID ${id} introuvable`);
+        }
+      } else {
+        console.log('✅ ID trouvé, mise à jour...');
+        await updateInspection(id, updates);
+      }
+      
       toast({
         title: t('common.success'),
         description: t('inspections.updateSuccess'),
       });
-      console.log('Inspection updated in Rent_Inspections collection:', { id, updates });
-      setSelectedInspection({ ...selectedInspection, ...updates });
+      console.log('✅ Inspection mise à jour avec succès');
     } catch (err) {
-      console.error('Error updating inspection:', err);
+      console.error('❌ Erreur lors de la mise à jour:', err);
       toast({
         title: t('common.error'),
         description: t('inspections.updateError'),
