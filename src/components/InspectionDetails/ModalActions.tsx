@@ -6,6 +6,7 @@ import { FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import jsPDF from 'jspdf';
 
 interface ModalActionsProps {
   inspection: {
@@ -36,10 +37,6 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
     if (!inspection) return;
 
     try {
-      console.log('📄 Génération PDF pour inspection complète:', inspection);
-      console.log('📄 roomsData brut:', inspection.roomsData);
-      console.log('📄 equipmentsData brut:', inspection.equipmentsData);
-
       // Parser les données des chambres et équipements
       let roomsData = {};
       let equipmentsData = {};
@@ -60,28 +57,166 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
         console.warn('Erreur parsing equipmentsData:', e);
       }
 
-      // Afficher tous les détails dans la console pour vérification
-      console.log('📋 === DÉTAILS COMPLETS DE L\'INSPECTION ===');
-      console.log('📋 Informations de base:', {
-        title: inspection.title,
-        type: inspection.type,
-        date: inspection.date,
-        inspector: inspection.inspector,
-        property: inspection.property,
-        tenant: inspection.tenant,
-        roomNumber: inspection.roomNumber,
-        contractType: inspection.contractType,
-        status: inspection.status
-      });
-      
-      console.log('📋 Description:', inspection.description);
-      console.log('📋 Observations:', inspection.observations);
-      console.log('📋 Inspection des pièces:', roomsData);
-      console.log('📋 Inspection des équipements:', equipmentsData);
+      // Créer le PDF avec jsPDF
+      const doc = new jsPDF();
+      const pageHeight = doc.internal.pageSize.height;
+      let currentY = 20;
 
-      // Créer le document avec toutes les informations détaillées
+      // Fonction pour ajouter une nouvelle page si nécessaire
+      const addPageIfNeeded = (neededSpace: number) => {
+        if (currentY + neededSpace > pageHeight - 20) {
+          doc.addPage();
+          currentY = 20;
+        }
+      };
+
+      // === TITRE DU DOCUMENT ===
+      doc.setFontSize(20);
+      doc.setFont('helvetica', 'bold');
+      doc.text('RAPPORT D\'INSPECTION COMPLET', 20, currentY);
+      currentY += 15;
+
+      // === 1. INFORMATIONS DE BASE ===
+      addPageIfNeeded(50);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('1. INFORMATIONS DE BASE', 20, currentY);
+      currentY += 10;
+
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      const basicInfo = [
+        `Titre: ${inspection.title}`,
+        `Type: ${inspection.type}`,
+        `Date: ${inspection.date}`,
+        `Inspecteur: ${inspection.inspector}`,
+        `Propriété: ${inspection.property}`,
+        `Locataire: ${inspection.tenant}`,
+        `Numéro de chambre: ${inspection.roomNumber || 'N/A'}`,
+        `Type de contrat: ${inspection.contractType || 'N/A'}`,
+        `Statut: ${inspection.status}`
+      ];
+
+      basicInfo.forEach(info => {
+        addPageIfNeeded(8);
+        doc.text(info, 20, currentY);
+        currentY += 8;
+      });
+
+      currentY += 10;
+
+      // === 2. DESCRIPTION ===
+      if (inspection.description) {
+        addPageIfNeeded(30);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('2. DESCRIPTION', 20, currentY);
+        currentY += 10;
+
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        const splitDescription = doc.splitTextToSize(inspection.description, 170);
+        splitDescription.forEach((line: string) => {
+          addPageIfNeeded(8);
+          doc.text(line, 20, currentY);
+          currentY += 8;
+        });
+        currentY += 10;
+      }
+
+      // === 3. INSPECTION DES PIÈCES ===
+      if (Object.keys(roomsData).length > 0) {
+        addPageIfNeeded(30);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('3. INSPECTION DES PIÈCES', 20, currentY);
+        currentY += 10;
+
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        
+        Object.entries(roomsData).forEach(([roomName, roomInfo]: [string, any]) => {
+          addPageIfNeeded(20);
+          doc.setFont('helvetica', 'bold');
+          doc.text(`• ${roomName}:`, 20, currentY);
+          currentY += 8;
+          
+          doc.setFont('helvetica', 'normal');
+          if (typeof roomInfo === 'object') {
+            Object.entries(roomInfo).forEach(([key, value]) => {
+              addPageIfNeeded(8);
+              doc.text(`  - ${key}: ${value}`, 25, currentY);
+              currentY += 8;
+            });
+          } else {
+            addPageIfNeeded(8);
+            doc.text(`  ${roomInfo}`, 25, currentY);
+            currentY += 8;
+          }
+          currentY += 5;
+        });
+        currentY += 10;
+      }
+
+      // === 4. INSPECTION DES ÉQUIPEMENTS ===
+      if (Object.keys(equipmentsData).length > 0) {
+        addPageIfNeeded(30);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('4. INSPECTION DES ÉQUIPEMENTS', 20, currentY);
+        currentY += 10;
+
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        
+        Object.entries(equipmentsData).forEach(([equipmentName, equipmentInfo]: [string, any]) => {
+          addPageIfNeeded(20);
+          doc.setFont('helvetica', 'bold');
+          doc.text(`• ${equipmentName}:`, 20, currentY);
+          currentY += 8;
+          
+          doc.setFont('helvetica', 'normal');
+          if (typeof equipmentInfo === 'object') {
+            Object.entries(equipmentInfo).forEach(([key, value]) => {
+              addPageIfNeeded(8);
+              doc.text(`  - ${key}: ${value}`, 25, currentY);
+              currentY += 8;
+            });
+          } else {
+            addPageIfNeeded(8);
+            doc.text(`  ${equipmentInfo}`, 25, currentY);
+            currentY += 8;
+          }
+          currentY += 5;
+        });
+        currentY += 10;
+      }
+
+      // === 5. OBSERVATIONS ===
+      if (inspection.observations) {
+        addPageIfNeeded(30);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('5. OBSERVATIONS', 20, currentY);
+        currentY += 10;
+
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        const splitObservations = doc.splitTextToSize(inspection.observations, 170);
+        splitObservations.forEach((line: string) => {
+          addPageIfNeeded(8);
+          doc.text(line, 20, currentY);
+          currentY += 8;
+        });
+      }
+
+      // Télécharger le PDF
+      const fileName = `Inspection_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.save(fileName);
+
+      // Aussi sauvegarder dans Firebase pour l'espace locataire
       const pdfDocument = {
-        name: `Inspection_Complete_${inspection.type}_${inspection.tenant?.replace(/\s+/g, '_') || 'Unknown'}_${new Date().toISOString().split('T')[0]}.pdf`,
+        name: fileName,
         type: 'inspection_report',
         category: 'État des lieux',
         uploadDate: new Date().toISOString(),
@@ -93,7 +228,6 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
         tenantType: inspection.contractType === 'Bail colocatif' ? 'Colocataire' : 'Locataire',
         generatedBy: 'system',
         content: {
-          // Informations de base complètes
           generalInfo: {
             title: inspection.title,
             type: inspection.type,
@@ -105,58 +239,28 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
             contractType: inspection.contractType,
             status: inspection.status
           },
-          // Description détaillée
           description: inspection.description || 'Aucune description fournie',
-          // Observations détaillées
           observations: inspection.observations || 'Aucune observation particulière',
-          // Inspection des pièces détaillée
           roomsInspection: roomsData,
-          // Inspection des équipements détaillée
-          equipmentsInspection: equipmentsData,
-          // Données complètes pour référence
-          fullInspectionData: {
-            basicInfo: {
-              title: inspection.title,
-              type: inspection.type,
-              date: inspection.date,
-              inspector: inspection.inspector,
-              property: inspection.property,
-              tenant: inspection.tenant,
-              roomNumber: inspection.roomNumber,
-              contractType: inspection.contractType,
-              status: inspection.status
-            },
-            detailedDescription: inspection.description,
-            detailedObservations: inspection.observations,
-            roomsDetails: roomsData,
-            equipmentsDetails: equipmentsData
-          }
+          equipmentsInspection: equipmentsData
         },
         downloadUrl: `#download-inspection-${inspection.id}`,
-        fileSize: '3.2 MB',
+        fileSize: '2.1 MB',
         status: 'available'
       };
 
-      console.log('📄 Document PDF complet à sauvegarder:', pdfDocument);
+      await addDoc(collection(db, 'Tenant_Documents'), pdfDocument);
 
-      // Sauvegarder dans Tenant_Documents
-      const docRef = await addDoc(collection(db, 'Tenant_Documents'), pdfDocument);
-      console.log('✅ Document PDF complet sauvegardé avec ID:', docRef.id);
-
-      // Déterminer le type de personne
+      // Notification de succès
       const personType = inspection.contractType === 'Bail colocatif' ? 'colocataire' : 'locataire';
-      
-      // Notification de succès avec plus de détails
       toast({
-        title: "PDF complet généré avec succès",
-        description: `Le rapport d'inspection détaillé (informations de base, inspection des pièces, équipements et observations) est disponible dans l'espace du ${personType} "${inspection.tenant}".`,
+        title: "PDF généré avec succès",
+        description: `Le rapport complet a été téléchargé et est disponible dans l'espace du ${personType} "${inspection.tenant}".`,
         duration: 6000,
       });
-
-      console.log('✅ PDF complet avec tous les détails généré et sauvegardé');
       
     } catch (error) {
-      console.error('❌ Erreur lors de la génération du PDF complet:', error);
+      console.error('❌ Erreur lors de la génération du PDF:', error);
       
       toast({
         title: "Erreur",
