@@ -32,18 +32,29 @@ export const useFirebaseInspections = () => {
         ...doc.data()
       })) as Inspection[];
       
-      // Filter out any inspections with invalid IDs or data
+      console.log('Raw inspections data from Firebase:', inspectionsData);
+      
+      // Filter out any inspections with invalid IDs or missing critical data
       const validInspections = inspectionsData.filter(inspection => {
-        const isValid = inspection.id && typeof inspection.id === 'string' && inspection.title;
-        if (!isValid) {
-          console.warn('Filtered out invalid inspection:', inspection);
+        const hasValidId = inspection.id && typeof inspection.id === 'string';
+        const hasTitle = inspection.title && typeof inspection.title === 'string';
+        
+        if (!hasValidId) {
+          console.warn('Filtered out inspection with invalid ID:', inspection);
+          return false;
         }
-        return isValid;
+        
+        if (!hasTitle) {
+          console.warn('Filtered out inspection without title:', inspection);
+          return false;
+        }
+        
+        return true;
       });
       
+      console.log('Valid inspections after filtering:', validInspections);
       setInspections(validInspections);
       setError(null);
-      console.log('Fetched valid inspections:', validInspections);
     } catch (err) {
       console.error('Error fetching inspections:', err);
       setError('Error loading inspections');
