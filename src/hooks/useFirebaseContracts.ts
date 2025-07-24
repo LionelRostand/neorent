@@ -92,29 +92,10 @@ export const useFirebaseContracts = () => {
           property: 'Appartement 13',
           startDate: '2024-02-01',
           endDate: '2026-01-31',
-          amount: '480€/mois',
-          status: 'Signé',
+          amount: '580€/mois',
+          status: 'En attente de signature',
           tenant: 'Ruth MEGHA',
-          jurisdiction: 'Paris',
-          signatures: {
-            owner: {
-              signatureDataUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCI+PHRleHQgeD0iMTAiIHk9IjMwIj5MaW9uZWwgREpPU1NBPC90ZXh0Pjwvc3ZnPg==',
-              signerInfo: {
-                name: 'Lionel DJOSSA',
-                role: 'Propriétaire',
-                date: '2024-01-15'
-              }
-            },
-            tenant: {
-              signatureDataUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCI+PHRleHQgeD0iMTAiIHk9IjMwIj5SdXRoIE1FR0hBPC90ZXh0Pjwvc3ZnPg==',
-              signerInfo: {
-                name: 'Ruth MEGHA',
-                role: 'Locataire',
-                date: '2024-01-15'
-              }
-            }
-          },
-          signedDate: '2024-01-15'
+          jurisdiction: 'Paris'
         }
       ];
       
