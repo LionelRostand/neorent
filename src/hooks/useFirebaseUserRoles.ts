@@ -31,50 +31,8 @@ export const useFirebaseUserRoles = () => {
         ...doc.data()
       })) as UserRole[];
       
-      // Ajouter des utilisateurs réels pour le système de permissions
-      const realUsers: UserRole[] = [
-        {
-          id: 'admin_main',
-          role: 'admin',
-          email: 'admin@neotech-consulting.com',
-          name: 'Lionel DJOSSA (Admin)',
-          createdAt: new Date().toISOString(),
-          isOwner: true
-        },
-        {
-          id: 'emad_adam_tenant',
-          role: 'colocataire',
-          email: 'entrepreneurpro19@gmail.com',
-          name: 'Emad ADAM',
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: 'owner_1',
-          role: 'owner',
-          email: 'proprietaire1@gmail.com',
-          name: 'Jean Propriétaire',
-          createdAt: new Date().toISOString(),
-          isOwner: true
-        },
-        {
-          id: 'tenant_marie',
-          role: 'locataire',
-          email: 'marie.dupont@gmail.com',
-          name: 'Marie Dupont',
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: 'roommate_pierre',
-          role: 'colocataire',
-          email: 'pierre.martin@gmail.com',
-          name: 'Pierre Martin',
-          createdAt: new Date().toISOString(),
-        }
-      ];
-      
-      const allRoles = [...rolesData, ...realUsers];
-      console.log('📊 Tous les rôles utilisateur (Firebase + réels):', allRoles);
-      setUserRoles(allRoles);
+      console.log('📊 Rôles utilisateur chargés depuis Firebase:', rolesData);
+      setUserRoles(rolesData);
       setError(null);
     } catch (err) {
       console.error('Error fetching user roles:', err);
