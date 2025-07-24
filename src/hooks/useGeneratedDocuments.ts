@@ -99,39 +99,8 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
         return;
       }
 
-      // Pour Emad ADAM, créer un document de test s'il n'en existe pas
-      if (userProfile.name === 'Emad ADAM') {
-        console.log('🎯 Création d\'un document d\'inspection de test pour Emad ADAM');
-        const testInspectionDoc = {
-          id: 'inspection-emad-test',
-          name: 'État des lieux - Entrée - Emad ADAM',
-          type: 'inspection_report' as const,
-          contractId: undefined,
-          tenantId: 'emad_adam_tenant_id',
-          roommateId: 'emad_adam_tenant_id',
-          propertyId: 'Appartement 13',
-          status: 'completed' as const,
-          createdDate: new Date().toISOString(),
-          sharedWith: ['landlord', 'tenant', 'roommate'] as ('landlord' | 'tenant' | 'roommate')[],
-          description: 'Rapport d\'inspection d\'entrée pour Appartement 13 - Chambre 1',
-          content: {
-            generalInfo: {
-              title: 'État des Lieux-EMAHD ADAM',
-              type: 'Entrée',
-              date: '2025-03-01',
-              inspector: 'Lionel DJOSSA',
-              property: 'Appartement 13',
-              tenant: 'Emad ADAM',
-              roomNumber: 'Chambre 1',
-              contractType: 'Bail colocatif',
-              status: 'Terminé'
-            }
-          }
-        };
-        generatedDocs.push(testInspectionDoc);
-        console.log('✅ Document d\'inspection test ajouté pour Emad ADAM');
-        return;
-      }
+      // Pour Emad ADAM, d'abord charger les vrais documents, puis ajouter un test si nécessaire
+      console.log('📄 Chargement des documents réels depuis Firebase...');
 
       console.log('📄 Searching for inspection PDFs for:', userProfile.name);
       console.log('📄 User profile details:', userProfile);
@@ -153,40 +122,55 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
       let matchedDocs = 0;
       querySnapshot.forEach(doc => {
         const data = doc.data();
-        console.log('📄 Checking document:', data);
+        console.log('📄 Document trouvé dans Tenant_Documents:', {
+          id: doc.id,
+          name: data.name,
+          tenantName: data.tenantName,
+          tenantId: data.tenantId,
+          tenantType: data.tenantType,
+          propertyName: data.propertyName,
+          uploadDate: data.uploadDate
+        });
         
         // Recherche flexible par nom et par tenantId
         const docTenantName = data.tenantName?.trim().toLowerCase();
         const docTenantId = data.tenantId?.toLowerCase();
-        const userTenantId = userProfile.name === 'Emad ADAM' ? 'emad_adam_tenant_id' : undefined;
         
-        console.log('📄 Comparaison:', {
-          normalizedUserName,
+        // Pour Emad ADAM, vérifier plusieurs critères
+        let isMatch = false;
+        
+        if (userProfile.name === 'Emad ADAM') {
+          console.log('🎯 Recherche spéciale pour Emad ADAM');
+          isMatch = docTenantName === 'emad adam' || 
+                   docTenantName?.includes('emad') ||
+                   docTenantId === 'emad_adam_tenant_id' ||
+                   data.tenantName === 'Emad ADAM';
+        } else {
+          isMatch = docTenantName === normalizedUserName || 
+                   normalizedUserName.includes(docTenantName) || 
+                   docTenantName?.includes(normalizedUserName);
+        }
+        
+        console.log('📄 Test de correspondance:', {
           docTenantName,
-          docTenantId,
-          userTenantId
+          normalizedUserName,
+          isMatch
         });
-        
-        // Correspondance par nom OU par tenantId (pour Emad ADAM)
-        const isMatch = docTenantName === normalizedUserName || 
-                       normalizedUserName.includes(docTenantName) || 
-                       docTenantName?.includes(normalizedUserName) ||
-                       (userTenantId && docTenantId === userTenantId);
         
         if (isMatch) {
           console.log('✅ Document correspond à l\'utilisateur actuel');
           matchedDocs++;
           
           const inspectionDoc = {
-            id: `inspection-${data.inspectionId}`,
-            name: data.name,
+            id: `inspection-${doc.id}`,
+            name: data.name || `État des lieux - ${data.tenantName}`,
             type: 'inspection_report' as const,
             contractId: undefined,
             tenantId: data.tenantId,
             roommateId: data.tenantType === 'Colocataire' ? data.tenantId : undefined,
             propertyId: data.propertyName,
             status: 'completed' as const,
-            createdDate: data.uploadDate,
+            createdDate: data.uploadDate || new Date().toISOString(),
             sharedWith: ['landlord', 'tenant', 'roommate'] as ('landlord' | 'tenant' | 'roommate')[],
             description: `Rapport d'inspection pour ${data.propertyName}${data.roomNumber ? ` - ${data.roomNumber}` : ''}`,
             content: data.content
