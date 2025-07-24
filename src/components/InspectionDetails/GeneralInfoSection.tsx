@@ -1,22 +1,33 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar, User, ClipboardList } from 'lucide-react';
 
 interface GeneralInfoSectionProps {
   inspection: {
+    id?: string;
     title: string;
     type: string;
     status: string;
     date: string;
     inspector: string;
   };
+  onStatusChange?: (newStatus: string) => void;
 }
 
-const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
+const GeneralInfoSection = ({ inspection, onStatusChange }: GeneralInfoSectionProps) => {
   const { t } = useTranslation();
+  const [currentStatus, setCurrentStatus] = useState(inspection.status);
+
+  const handleStatusChange = (newStatus: string) => {
+    setCurrentStatus(newStatus);
+    if (onStatusChange) {
+      onStatusChange(newStatus);
+    }
+  };
 
   const getBadgeVariant = (status: string) => {
     if (!status) return 'outline';
@@ -78,12 +89,25 @@ const GeneralInfoSection = ({ inspection }: GeneralInfoSectionProps) => {
             </p>
           </div>
           <div className="flex-shrink-0 self-start sm:self-auto">
-            <Badge 
-              variant={getBadgeVariant(inspection.status)}
-              className={`text-xs sm:text-sm whitespace-nowrap ${getBadgeClassName(inspection.status)}`}
-            >
-              {inspection.status || t('inspections.planned')}
-            </Badge>
+            {onStatusChange ? (
+              <Select value={currentStatus} onValueChange={handleStatusChange}>
+                <SelectTrigger className="w-[140px] h-8 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Planifié">{t('inspections.planned')}</SelectItem>
+                  <SelectItem value="En cours">{t('inspections.inProgress')}</SelectItem>
+                  <SelectItem value="Terminé">{t('inspections.completed')}</SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <Badge 
+                variant={getBadgeVariant(currentStatus)}
+                className={`text-xs sm:text-sm whitespace-nowrap ${getBadgeClassName(currentStatus)}`}
+              >
+                {currentStatus || t('inspections.planned')}
+              </Badge>
+            )}
           </div>
         </div>
         

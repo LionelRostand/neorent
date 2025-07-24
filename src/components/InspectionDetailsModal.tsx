@@ -32,6 +32,13 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
     }
   };
 
+  const handleStatusChange = async (newStatus: string) => {
+    if (inspection && onUpdate) {
+      const updated = { ...inspection, status: newStatus };
+      await onUpdate(updated);
+    }
+  };
+
   const getTranslatedInspectionType = (type: string) => {
     switch (type) {
       case 'Entrée':
@@ -84,7 +91,7 @@ const InspectionDetailsModal = ({ inspection, isOpen, onClose, onUpdate }: Inspe
           </DialogHeader>
           
           <div className="space-y-4 sm:space-y-6">
-            <GeneralInfoSection inspection={translatedInspection} />
+            <GeneralInfoSection inspection={translatedInspection} onStatusChange={handleStatusChange} />
             <PropertyDetailsSection inspection={translatedInspection} />
             <InspectionDetailsSection inspection={translatedInspection} />
             <ModalActions 
