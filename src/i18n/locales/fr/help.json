@@ -1,4 +1,3 @@
-
 {
   "help": {
     "title": "Centre d'Aide",
@@ -56,11 +55,41 @@
         "technical": "Système de base de données relationnelle avec liens propriété-locataire",
         "functional": "Enregistrez les locataires, suivez leurs paiements et gérez leur dossier"
       },
+      "roommates": {
+        "title": "Gestion des colocataires",
+        "description": "Gérez les colocataires, leurs informations et leurs espaces partagés",
+        "technical": "Système de gestion multi-utilisateurs avec liens locataire-colocataire",
+        "functional": "Enregistrez les colocataires, gérez leurs accès et suivez leur statut"
+      },
       "contracts": {
         "title": "Contrats de bail",
         "description": "Créez, modifiez et suivez les contrats de location avec modèles prédéfinis",
         "technical": "Générateur de PDF avec templates personnalisables selon la juridiction",
         "functional": "Rédigez des baux conformes, suivez les échéances et gérez les renouvellements"
+      },
+      "inspections": {
+        "title": "États des lieux",
+        "description": "Créez et gérez les états des lieux d'entrée et de sortie",
+        "technical": "Interface de saisie avec photos et génération automatique de rapports PDF",
+        "functional": "Documentez l'état des biens, comparez entrée/sortie et gérez les dépôts de garantie"
+      },
+      "rentManagement": {
+        "title": "Gestion des loyers",
+        "description": "Suivi des paiements de loyers et gestion des échéances",
+        "technical": "Système de gestion des paiements avec calculs automatiques et rappels",
+        "functional": "Suivez les paiements, gérez les retards et générez les quittances"
+      },
+      "rentalCharges": {
+        "title": "Charges locatives",
+        "description": "Gestion et répartition des charges entre locataires",
+        "technical": "Calcul automatique de répartition avec règles personnalisables",
+        "functional": "Répartissez les charges communes, suivez les consommations et facturez"
+      },
+      "paymentSetup": {
+        "title": "Configuration des paiements",
+        "description": "Configurez les méthodes de paiement acceptées",
+        "technical": "Intégration avec les services de paiement populaires et API bancaires",
+        "functional": "Activez cartes bancaires, virements et paiements mobiles"
       },
       "rentPayments": {
         "title": "Suivi des loyers",
@@ -73,6 +102,24 @@
         "description": "Gérez les demandes de maintenance, interventions et suivi des coûts",
         "technical": "Workflow de gestion des tickets avec statuts et assignation",
         "functional": "Recevez les demandes, planifiez les interventions et suivez les dépenses"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Système de messagerie pour communiquer avec locataires et prestataires",
+        "technical": "Interface de chat en temps réel avec notifications push",
+        "functional": "Échangez messages, partager documents et suivez les conversations"
+      },
+      "taxes": {
+        "title": "Gestion fiscale",
+        "description": "Suivi des déclarations fiscales et optimisation",
+        "technical": "Calculs automatiques selon réglementation fiscale en vigueur",
+        "functional": "Générez déclarations, suivez déductions et optimisez votre fiscalité"
+      },
+      "website": {
+        "title": "Site web",
+        "description": "Gérez votre présence en ligne et vos annonces immobilières",
+        "technical": "CMS intégré avec SEO optimisé et responsive design",
+        "functional": "Créez pages propriétés, gérez contenus et suivez performances"
       },
       "reporting": {
         "title": "Rapports et analyses",
