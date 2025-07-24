@@ -2,8 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { FileText, TestTube } from 'lucide-react';
-import { createTestInspectionDocument } from '@/services/testInspectionService';
+import { FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -98,32 +97,6 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
     }
   };
 
-  // Fonction de test pour créer directement un document
-  const handleTestPDF = async () => {
-    if (!inspection) return;
-    
-    try {
-      console.log('🧪 Création d\'un document de test...');
-      
-      const result = await createTestInspectionDocument(inspection.tenant);
-      
-      if (result.success) {
-        toast({
-          title: "Document de test créé",
-          description: `Document de test créé pour ${inspection.tenant}. Vérifiez l'espace colocataire.`,
-          duration: 5000,
-        });
-      } else {
-        toast({
-          title: "Erreur",
-          description: "Erreur lors de la création du document de test.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Erreur lors du test:', error);
-    }
-  };
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 pt-4 border-t">
@@ -142,15 +115,7 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
         >
           {t('inspections.modify')}
         </Button>
-        <Button 
-          onClick={handleTestPDF} 
-          variant="outline"
-          className="bg-yellow-100 border-yellow-300 hover:bg-yellow-200 text-yellow-800 w-full sm:w-auto text-sm sm:text-base px-4 sm:px-6 py-2"
-        >
-          <TestTube className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-          <span className="truncate">🧪 Test PDF</span>
-        </Button>
-        <Button 
+        <Button
           onClick={handleGeneratePDF} 
           className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto text-sm sm:text-base px-4 sm:px-6 py-2"
         >
