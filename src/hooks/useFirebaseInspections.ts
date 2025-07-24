@@ -31,9 +31,19 @@ export const useFirebaseInspections = () => {
         id: doc.id,
         ...doc.data()
       })) as Inspection[];
-      setInspections(inspectionsData);
+      
+      // Filter out any inspections with invalid IDs or data
+      const validInspections = inspectionsData.filter(inspection => {
+        const isValid = inspection.id && typeof inspection.id === 'string' && inspection.title;
+        if (!isValid) {
+          console.warn('Filtered out invalid inspection:', inspection);
+        }
+        return isValid;
+      });
+      
+      setInspections(validInspections);
       setError(null);
-      console.log('Fetched inspections:', inspectionsData);
+      console.log('Fetched valid inspections:', validInspections);
     } catch (err) {
       console.error('Error fetching inspections:', err);
       setError('Error loading inspections');

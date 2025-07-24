@@ -55,6 +55,18 @@ const Inspections = () => {
 
   const handleUpdateInspection = async (id: string, updates: any) => {
     try {
+      // Validate that the inspection exists in our local state
+      const inspectionExists = inspections.some(inspection => inspection.id === String(id));
+      if (!inspectionExists) {
+        console.error('Inspection not found in local state:', id);
+        toast({
+          title: t('common.error'),
+          description: `Inspection with ID ${id} not found`,
+          variant: "destructive",
+        });
+        return;
+      }
+
       await updateInspection(id, updates);
       toast({
         title: t('common.success'),
