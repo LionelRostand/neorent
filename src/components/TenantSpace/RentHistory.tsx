@@ -6,40 +6,49 @@ import { Button } from '@/components/ui/button';
 import { FileText, PenTool, Calendar, Euro, Download, Receipt } from 'lucide-react';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
 
 const RentHistory = () => {
   const { getCurrentProfile, getCurrentUserType } = useAdminTenantAccess();
-  const { contracts, loading } = useFirebaseContracts();
+  const { contracts, loading: contractsLoading } = useFirebaseContracts();
+  const { payments, loading: paymentsLoading } = useFirebasePayments();
+  const { signedContract } = useTenantSpaceData();
   const currentProfile = getCurrentProfile();
   const currentUserType = getCurrentUserType();
   const isRoommate = currentUserType === 'colocataire';
   
-  // Vérifier si le contrat est signé par les deux parties
-  const signedContract = contracts.find(contract => 
-    contract.status === 'Signé' && 
-    contract.tenant === currentProfile?.name
-  );
+  // Utiliser le contrat signé depuis useTenantSpaceData
+  const activeContract = signedContract;
   
   // Vérifier que le contrat existe et qu'il est signé par les deux parties
-  const isContractFullySigned = signedContract && 
-    signedContract.signatures && 
-    signedContract.signatures.owner && 
-    signedContract.signatures.tenant &&
-    signedContract.signatures.owner.signatureDataUrl && 
-    signedContract.signatures.tenant.signatureDataUrl;
+  const isContractFullySigned = activeContract && 
+    activeContract.signatures && 
+    typeof activeContract.signatures === 'object' &&
+    'owner' in activeContract.signatures &&
+    'tenant' in activeContract.signatures &&
+    activeContract.signatures.owner?.signatureDataUrl && 
+    activeContract.signatures.tenant?.signatureDataUrl;
   
   const shouldShowHistory = !isRoommate || isContractFullySigned;
 
+  // Filtrer les paiements pour ce locataire/colocataire
+  const tenantPayments = payments.filter(payment => 
+    payment.tenantName === currentProfile?.name && 
+    payment.status === 'Payé'
+  );
+
   console.log('RentHistory - isRoommate:', isRoommate);
-  console.log('RentHistory - signedContract:', signedContract);
+  console.log('RentHistory - activeContract:', activeContract);
   console.log('RentHistory - isContractFullySigned:', isContractFullySigned);
   console.log('RentHistory - shouldShowHistory:', shouldShowHistory);
+  console.log('RentHistory - tenantPayments:', tenantPayments);
 
-  // Show loading state while contracts are being fetched
-  if (loading && isRoommate) {
+  // Show loading state while data is being fetched
+  if ((contractsLoading || paymentsLoading) && isRoommate) {
     return (
       <div className="flex items-center justify-center py-8">
-        <p className="text-gray-500">Vérification du contrat...</p>
+        <p className="text-gray-500">Chargement de l'historique des paiements...</p>
       </div>
     );
   }
@@ -71,61 +80,37 @@ const RentHistory = () => {
     );
   }
 
-  // Generate payment history from contract signature date to July 2025
-  const generatePaymentHistory = () => {
-    const contractStartDate = signedContract ? new Date(signedContract.startDate) : new Date('2025-01-06');
-    const endDate = new Date('2025-07-31');
-    const payments = [];
-    
-    const rentAmount = signedContract ? parseInt(signedContract.amount.replace(/[€\/mois]/g, '')) : 450;
-    const charges = 50;
-    
-    let currentDate = new Date(contractStartDate);
-    let paymentId = 1;
-    
-    while (currentDate <= endDate) {
-      const month = currentDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
-      const monthCapitalized = month.charAt(0).toUpperCase() + month.slice(1);
-      
-      // Due date is the 5th of each month
-      const dueDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 5);
-      
-      // Paid date is usually 1-3 days before due date for past months, null for future months
-      let paidDate = null;
-      let status = 'En attente';
-      
-      const now = new Date();
-      if (currentDate < now) {
-        const paidDay = Math.floor(Math.random() * 3) + 2; // 2-4 days before due date
-        paidDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), paidDay);
-        status = 'Payé';
-      } else if (currentDate.getMonth() === now.getMonth() && currentDate.getFullYear() === now.getFullYear()) {
-        // Current month - 50% chance it's paid
-        if (Math.random() > 0.5) {
-          paidDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 3);
-          status = 'Payé';
-        }
-      }
-      
-      payments.push({
-        id: paymentId++,
-        month: monthCapitalized,
-        dueDate: dueDate.toISOString().split('T')[0],
-        paidDate: paidDate ? paidDate.toISOString().split('T')[0] : null,
-        amount: rentAmount,
-        charges: charges,
-        totalAmount: rentAmount + charges,
-        status: status
-      });
-      
-      // Move to next month
-      currentDate.setMonth(currentDate.getMonth() + 1);
-    }
-    
-    return payments.reverse(); // Most recent first
-  };
-
-  const paymentHistory = generatePaymentHistory();
+  // Si aucun paiement réel n'existe
+  if (shouldShowHistory && tenantPayments.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Historique des paiements
+          </h2>
+          <p className="text-gray-600">
+            Aucun paiement enregistré pour le moment.
+          </p>
+        </div>
+        
+        <Card className="border-2 border-dashed border-gray-300 bg-gray-50">
+          <CardContent className="p-8 text-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                <Euro className="h-8 w-8 text-gray-400" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-semibold text-gray-600">Aucun paiement trouvé</h3>
+                <p className="text-gray-500 max-w-md">
+                  Les paiements apparaîtront ici une fois qu'ils auront été enregistrés dans le système.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -141,19 +126,17 @@ const RentHistory = () => {
   };
 
   const handleDownloadReceipt = (payment: any) => {
-    // Simuler le téléchargement d'une quittance
-    console.log('Téléchargement de la quittance pour:', payment.month);
+    console.log('Téléchargement de la quittance pour:', payment.tenantName, payment.month);
     
-    // Créer un blob avec du contenu de quittance simulé
+    // Créer un blob avec du contenu de quittance réel
     const receiptContent = `
 QUITTANCE DE LOYER
 
-Mois: ${payment.month}
-Locataire: ${currentProfile?.name}
-Montant du loyer: ${payment.amount}€
-Charges: ${payment.charges}€
-Total payé: ${payment.totalAmount}€
-Date de paiement: ${payment.paidDate ? new Date(payment.paidDate).toLocaleDateString('fr-FR') : 'Non payé'}
+Mois: ${payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) : 'Non spécifié'}
+Locataire: ${payment.tenantName}
+Montant du loyer: ${payment.rentAmount}€
+Total payé: ${payment.paidAmount || payment.rentAmount}€
+Date de paiement: ${payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString('fr-FR') : 'Non spécifié'}
 
 Cette quittance fait foi du paiement du loyer pour la période concernée.
     `;
@@ -162,7 +145,7 @@ Cette quittance fait foi du paiement du loyer pour la période concernée.
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `quittance-${payment.month.toLowerCase().replace(' ', '-')}.txt`;
+    link.download = `quittance-${payment.tenantName?.replace(/\s+/g, '-')}-${payment.paymentDate ? new Date(payment.paymentDate).toISOString().slice(0, 7) : 'paiement'}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -176,18 +159,24 @@ Cette quittance fait foi du paiement du loyer pour la période concernée.
           Historique des paiements
         </h2>
         <p className="text-gray-600">
-          Historique depuis la signature du contrat ({signedContract ? new Date(signedContract.startDate).toLocaleDateString('fr-FR') : '06/01/2025'}) jusqu'en juillet 2025.
+          Historique des paiements réellement effectués ({tenantPayments.length} paiement{tenantPayments.length > 1 ? 's' : ''}).
         </p>
       </div>
 
       <div className="grid gap-4">
-        {paymentHistory.map((payment) => (
-          <Card key={payment.id}>
+        {tenantPayments.map((payment, index) => {
+          const paymentMonth = payment.paymentDate ? 
+            new Date(payment.paymentDate).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) : 
+            'Non spécifié';
+          const paymentMonthCapitalized = paymentMonth.charAt(0).toUpperCase() + paymentMonth.slice(1);
+          
+          return (
+          <Card key={payment.id || index}>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-5 w-5 text-blue-600" />
-                  {payment.month}
+                  {paymentMonthCapitalized}
                 </div>
                 {getStatusBadge(payment.status)}
               </CardTitle>
@@ -196,51 +185,48 @@ Cette quittance fait foi du paiement du loyer pour la période concernée.
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="flex items-center text-gray-600">
                   <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                  <span className="font-medium mr-1">Échéance:</span>
-                  <span>{new Date(payment.dueDate).toLocaleDateString('fr-FR')}</span>
+                  <span className="font-medium mr-1">Payé le:</span>
+                  <span>{payment.paymentDate ? new Date(payment.paymentDate).toLocaleDateString('fr-FR') : 'Non spécifié'}</span>
                 </div>
                 
-                {payment.paidDate && (
-                  <div className="flex items-center text-gray-600">
-                    <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                    <span className="font-medium mr-1">Payé le:</span>
-                    <span>{new Date(payment.paidDate).toLocaleDateString('fr-FR')}</span>
-                  </div>
-                )}
+                <div className="flex items-center text-gray-600">
+                  <Euro className="h-4 w-4 mr-2 text-gray-400" />
+                  <span className="font-medium mr-1">Loyer:</span>
+                  <span>{payment.rentAmount}€</span>
+                </div>
                 
                 <div className="flex items-center text-gray-600">
                   <Euro className="h-4 w-4 mr-2 text-gray-400" />
                   <span className="font-medium mr-1">Total:</span>
-                  <span className="font-semibold text-green-600">{payment.totalAmount}€</span>
-                  <span className="text-xs text-gray-500 ml-1">({payment.amount}€ + {payment.charges}€)</span>
+                  <span className="font-semibold text-green-600">{payment.paidAmount || payment.rentAmount}€</span>
+                  <span className="text-xs text-gray-500 ml-1">({payment.rentAmount}€ + charges)</span>
                 </div>
               </div>
 
-              {payment.status === 'Payé' && (
-                <div className="flex justify-end space-x-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => handleDownloadReceipt(payment)}
-                    className="flex items-center gap-2"
-                  >
-                    <Receipt className="h-4 w-4" />
-                    Quittance de loyer
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => handleDownloadReceipt(payment)}
-                    className="flex items-center gap-2"
-                  >
-                    <Download className="h-4 w-4" />
-                    Télécharger
-                  </Button>
-                </div>
-              )}
+              <div className="flex justify-end space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => handleDownloadReceipt(payment)}
+                  className="flex items-center gap-2"
+                >
+                  <Receipt className="h-4 w-4" />
+                  Quittance de loyer
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => handleDownloadReceipt(payment)}
+                  className="flex items-center gap-2"
+                >
+                  <Download className="h-4 w-4" />
+                  Télécharger
+                </Button>
+              </div>
             </CardContent>
           </Card>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
