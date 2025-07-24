@@ -17,10 +17,14 @@ export const useTenantSpaceData = () => {
   const { contracts } = useFirebaseContracts();
   const { roommateProfile } = useRoommateData(user?.email || null);
 
-  // Priorité au profil colocataire si il existe
-  const currentProfile = roommateProfile || getCurrentProfile();
-  // Priorité au type colocataire si le profil colocataire existe
-  const currentType = roommateProfile ? 'colocataire' : getCurrentUserType();
+  // Utiliser le profil colocataire seulement s'il correspond à l'utilisateur connecté
+  const currentProfile = roommateProfile && roommateProfile.email === user?.email 
+    ? roommateProfile 
+    : getCurrentProfile();
+  // Type basé sur le profil final
+  const currentType = (roommateProfile && roommateProfile.email === user?.email) 
+    ? 'colocataire' 
+    : getCurrentUserType();
 
   // Trouver le contrat signé pour le locataire/colocataire actuel
   const signedContract = contracts.find(contract => 
