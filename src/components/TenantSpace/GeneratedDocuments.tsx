@@ -15,6 +15,7 @@ import {
 import { useGeneratedDocuments, GeneratedDocument } from '@/hooks/useGeneratedDocuments';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { deleteTestInspectionDocuments } from '@/services/deleteTestDocumentsService';
 
 const GeneratedDocuments: React.FC = () => {
   const { t } = useTranslation();
@@ -30,6 +31,37 @@ const GeneratedDocuments: React.FC = () => {
     userType,
     userProfile
   );
+
+  const handleDeleteTestDocuments = async () => {
+    if (!userProfile?.name) return;
+    
+    try {
+      const result = await deleteTestInspectionDocuments(userProfile.name);
+      
+      if (result.success) {
+        toast({
+          title: "Documents supprimés",
+          description: `${result.deletedCount} document(s) de test supprimé(s)`,
+        });
+        
+        // Recharger les documents
+        window.location.reload();
+      } else {
+        toast({
+          title: "Erreur",
+          description: "Erreur lors de la suppression des documents de test",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la suppression",
+        variant: "destructive",
+      });
+    }
+  };
 
   const getDocumentIcon = (type: string) => {
     switch (type) {
@@ -165,13 +197,26 @@ const GeneratedDocuments: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          Documents générés automatiquement
-        </h3>
-        <p className="text-gray-600 text-sm">
-          Documents officiels créés par l'application et partagés entre toutes les parties
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            Documents générés automatiquement
+          </h3>
+          <p className="text-gray-600 text-sm">
+            Documents officiels créés par l'application et partagés entre toutes les parties
+          </p>
+        </div>
+        {/* Bouton de nettoyage - visible seulement s'il y a des documents de test */}
+        {documents.some(doc => doc.name.startsWith('Test_')) && (
+          <Button
+            onClick={handleDeleteTestDocuments}
+            variant="outline"
+            size="sm"
+            className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+          >
+            🗑️ Nettoyer les tests
+          </Button>
+        )}
       </div>
 
       <div className="grid gap-4">
