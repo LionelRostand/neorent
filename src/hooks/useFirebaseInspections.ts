@@ -27,6 +27,7 @@ export const useFirebaseInspections = () => {
   const fetchInspections = async () => {
     try {
       setLoading(true);
+      console.log('=== FETCHING INSPECTIONS ===');
       console.log('Starting to fetch inspections from Rent_Inspections collection...');
       
       const querySnapshot = await getDocs(collection(db, 'Rent_Inspections'));
@@ -34,25 +35,40 @@ export const useFirebaseInspections = () => {
       
       const inspectionsData = querySnapshot.docs.map(doc => {
         const data = doc.data();
-        console.log('Document data:', { 
-          documentId: doc.id, 
-          fieldId: data.id,
-          ...data 
-        });
-        return {
-          id: doc.id, // Use Firebase document ID
-          originalId: data.id, // Keep original ID as backup
-          ...data
+        console.log('=== DOCUMENT MAPPING ===');
+        console.log('Firebase Document ID:', doc.id);
+        console.log('Document data field "id":', data.id);
+        console.log('Full document data:', data);
+        
+        // Use Firebase document ID as the primary ID
+        const inspection = {
+          id: doc.id, // Firebase document ID (e.g., "5iLNJt6dToiOgcuJU9ST")
+          firebaseId: doc.id, // Backup reference
+          originalDataId: data.id, // The old numeric ID from data
+          title: data.title,
+          type: data.type,
+          tenant: data.tenant,
+          property: data.property,
+          roomNumber: data.roomNumber,
+          date: data.date,
+          inspector: data.inspector,
+          status: data.status,
+          contractType: data.contractType,
+          description: data.description,
+          observations: data.observations,
         };
-      }) as Inspection[];
+        
+        console.log('Mapped inspection:', inspection);
+        return inspection;
+      });
       
-      console.log('All inspections data:', inspectionsData);
+      console.log('=== ALL INSPECTIONS MAPPED ===');
+      console.log('Total inspections:', inspectionsData.length);
+      console.log('IDs being used:', inspectionsData.map(i => ({ id: i.id, title: i.title })));
       
-      // Temporarily remove filtering to see all data
       setInspections(inspectionsData);
       setError(null);
       
-      console.log('Inspections set in state:', inspectionsData);
     } catch (err) {
       console.error('Error fetching inspections:', err);
       setError('Error loading inspections');
