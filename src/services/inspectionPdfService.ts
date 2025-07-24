@@ -16,25 +16,29 @@ interface InspectionPDFData {
 
 export const saveInspectionPDFToSpaces = async (pdfData: InspectionPDFData) => {
   try {
+    console.log('📄 Starting PDF save process for:', pdfData.tenantName);
+    
     // 1. Sauvegarder dans l'espace du locataire/colocataire
     await savePDFToTenantSpace(pdfData);
     
     // 2. Sauvegarder dans l'espace du propriétaire
     await savePDFToOwnerSpace(pdfData);
     
-    console.log('PDF sauvegardé avec succès dans les espaces locataire et propriétaire');
+    console.log('✅ PDF sauvegardé avec succès dans les espaces locataire et propriétaire');
     return true;
   } catch (error) {
-    console.error('Erreur lors de la sauvegarde du PDF:', error);
+    console.error('❌ Erreur lors de la sauvegarde du PDF:', error);
     throw error;
   }
 };
 
 const savePDFToTenantSpace = async (pdfData: InspectionPDFData) => {
+  console.log('🔍 Recherche du locataire/colocataire:', pdfData.tenantName);
   // Trouver le locataire/colocataire par nom
   const tenant = await findTenantByName(pdfData.tenantName);
   
   if (tenant) {
+    console.log(`✅ Locataire/colocataire trouvé:`, tenant);
     const documentData = {
       name: pdfData.name,
       type: 'inspection_report',
@@ -54,8 +58,11 @@ const savePDFToTenantSpace = async (pdfData: InspectionPDFData) => {
     };
 
     // Sauvegarder dans la collection des documents des locataires
+    console.log('💾 Sauvegarde du document dans Tenant_Documents:', documentData);
     await addDoc(collection(db, 'Tenant_Documents'), documentData);
-    console.log(`PDF ajouté à l'espace du ${tenant.type}: ${tenant.name}`);
+    console.log(`📄 PDF ajouté à l'espace du ${tenant.type}: ${tenant.name}`);
+  } else {
+    console.warn(`⚠️  Locataire/colocataire non trouvé: ${pdfData.tenantName}`);
   }
 };
 

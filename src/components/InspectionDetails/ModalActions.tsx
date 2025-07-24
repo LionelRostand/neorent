@@ -33,6 +33,8 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
     if (!inspection) return;
 
     try {
+      console.log('Starting PDF generation for inspection:', inspection);
+
       // Générer les données du PDF
       const pdfDocument = {
         id: Date.now().toString(),
@@ -60,16 +62,19 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
         }
       };
 
+      console.log('PDF document data prepared:', pdfDocument);
+
       // Sauvegarder le PDF dans les espaces locataire et propriétaire
       await saveInspectionPDFToSpaces(pdfDocument);
 
       // Afficher la notification de succès
       toast({
         title: "PDF généré avec succès",
-        description: `Le rapport d'inspection est maintenant disponible dans l'espace du locataire et du propriétaire.`,
+        description: `Le rapport d'inspection est maintenant disponible dans l'espace du locataire "${inspection.tenant}".`,
+        duration: 5000,
       });
 
-      console.log('PDF document generated and saved:', pdfDocument);
+      console.log('PDF document generated and saved successfully');
       
     } catch (error) {
       console.error('Erreur lors de la génération du PDF:', error);
