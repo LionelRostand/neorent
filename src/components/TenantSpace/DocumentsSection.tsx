@@ -8,6 +8,7 @@ import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useRoommateData } from '@/hooks/useRoommateData';
 import { useAuth } from '@/hooks/useAuth';
 import DocumentManager from '@/components/DocumentManager';
+import GeneratedDocuments from './GeneratedDocuments';
 
 const DocumentsSection: React.FC = () => {
   const { t } = useTranslation();
@@ -93,6 +94,10 @@ const DocumentsSection: React.FC = () => {
         </p>
       </div>
 
+      {/* Documents générés automatiquement par l'application */}
+      <GeneratedDocuments />
+
+      {/* Gestionnaire de documents uploadés par l'utilisateur */}
       <DocumentManager
         roommateId={currentProfile?.id?.toString() || user?.uid}
         tenantId={currentProfile?.id?.toString()}
