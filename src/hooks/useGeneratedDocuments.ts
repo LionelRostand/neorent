@@ -74,14 +74,16 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
 
   const loadInspectionPDFs = async (generatedDocs: GeneratedDocument[]) => {
     try {
-      console.log('Loading inspection PDFs for user:', userProfile);
+      console.log('🔍 Loading inspection PDFs for user:', userProfile);
+      console.log('🔍 User type:', userType);
       
       if (!userProfile?.name) {
-        console.log('No user profile name found, skipping inspection PDFs');
+        console.log('❌ No user profile name found, skipping inspection PDFs');
         return;
       }
 
-      console.log('Searching for inspection PDFs for tenant:', userProfile.name);
+      console.log('📄 Searching for inspection PDFs for:', userProfile.name);
+      console.log('📄 User profile details:', userProfile);
 
       // Chercher les PDFs d'inspection dans Tenant_Documents
       const q = query(
@@ -90,31 +92,36 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
         where('type', '==', 'inspection_report')
       );
       
+      console.log('📄 Querying Tenant_Documents collection...');
       const querySnapshot = await getDocs(q);
-      console.log('Found', querySnapshot.docs.length, 'inspection documents in Tenant_Documents');
+      console.log(`📄 Found ${querySnapshot.docs.length} inspection documents in Tenant_Documents`);
       
       querySnapshot.forEach(doc => {
         const data = doc.data();
-        console.log('Processing inspection document:', data);
+        console.log('📄 Processing inspection document:', data);
         
-        generatedDocs.push({
+        const inspectionDoc = {
           id: `inspection-${data.inspectionId}`,
           name: data.name,
-          type: 'inspection_report',
+          type: 'inspection_report' as const,
           contractId: undefined,
           tenantId: data.tenantId,
           roommateId: data.tenantType === 'Colocataire' ? data.tenantId : undefined,
           propertyId: data.propertyName,
-          status: 'completed',
+          status: 'completed' as const,
           createdDate: data.uploadDate,
-          sharedWith: ['landlord', 'tenant', 'roommate'],
+          sharedWith: ['landlord', 'tenant', 'roommate'] as ('landlord' | 'tenant' | 'roommate')[],
           description: `Rapport d'inspection pour ${data.propertyName}${data.roomNumber ? ` - ${data.roomNumber}` : ''}`
-        });
+        };
+        
+        console.log('📄 Adding inspection document to list:', inspectionDoc);
+        generatedDocs.push(inspectionDoc);
       });
 
-      console.log(`Loaded ${querySnapshot.docs.length} inspection PDFs for ${userProfile.name}`);
+      console.log(`✅ Successfully loaded ${querySnapshot.docs.length} inspection PDFs for ${userProfile.name}`);
+      console.log('📄 Current generated docs after loading inspections:', generatedDocs);
     } catch (error) {
-      console.error('Error loading inspection PDFs:', error);
+      console.error('❌ Error loading inspection PDFs:', error);
     }
   };
 
