@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFirebaseContracts } from './useFirebaseContracts';
 import { useFirebaseInspections } from './useFirebaseInspections';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 export interface GeneratedDocument {
   id: string;
   name: string;
-  type: 'contract' | 'entry_inspection' | 'exit_inspection';
+  type: 'contract' | 'entry_inspection' | 'exit_inspection' | 'inspection_report';
   contractId?: string;
   tenantId?: string;
   roommateId?: string;
@@ -46,9 +48,9 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
             name: `Contrat de bail - ${contract.property}`,
             type: 'contract',
             contractId: contract.id,
-            tenantId: contract.tenant, // Using tenant name as ID for now
-            roommateId: undefined, // Not available in current contract structure
-            propertyId: contract.property, // Using property name as ID for now
+            tenantId: contract.tenant,
+            roommateId: undefined,
+            propertyId: contract.property,
             status: 'signed',
             createdDate: contract.startDate || new Date().toISOString(),
             signedDate: contract.signedDate,
@@ -58,65 +60,51 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
         }
       });
 
-      // Ajouter les états des lieux d'entrée
-      inspections.forEach(inspection => {
-        if (inspection.type === 'entry' && inspection.status === 'completed') {
-          generatedDocs.push({
-            id: `entry-inspection-${inspection.id}`,
-            name: `État des lieux d'entrée - ${inspection.property}`,
-            type: 'entry_inspection',
-            contractId: undefined, // Not available in current inspection structure
-            tenantId: inspection.tenant, // Using tenant name as ID for now
-            roommateId: undefined, // Not available in current inspection structure  
-            propertyId: inspection.property, // Using property name as ID for now
-            status: 'completed',
-            createdDate: inspection.date || new Date().toISOString(),
-            signedDate: inspection.date,
-            sharedWith: ['landlord', 'tenant', 'roommate'],
-            description: `État des lieux d'entrée complété pour ${inspection.property}`
-          });
-        }
-      });
+      // Ajouter les PDFs d'inspection générés
+      await loadInspectionPDFs(generatedDocs);
 
-      // Ajouter les états des lieux de sortie
-      inspections.forEach(inspection => {
-        if (inspection.type === 'exit' && inspection.status === 'completed') {
-          generatedDocs.push({
-            id: `exit-inspection-${inspection.id}`,
-            name: `État des lieux de sortie - ${inspection.property}`,
-            type: 'exit_inspection',
-            contractId: undefined, // Not available in current inspection structure
-            tenantId: inspection.tenant, // Using tenant name as ID for now
-            roommateId: undefined, // Not available in current inspection structure
-            propertyId: inspection.property, // Using property name as ID for now
-            status: 'completed',
-            createdDate: inspection.date || new Date().toISOString(),
-            signedDate: inspection.date,
-            sharedWith: ['landlord', 'tenant', 'roommate'],
-            description: `État des lieux de sortie complété pour ${inspection.property}`
-          });
-        }
-      });
-
-      // Filtrer les documents selon le type d'utilisateur
-      const filteredDocs = generatedDocs.filter(doc => {
-        if (userType === 'admin' || userType === 'owner') {
-          return doc.sharedWith.includes('landlord');
-        } else if (userType === 'locataire') {
-          return doc.sharedWith.includes('tenant') && 
-                 (doc.tenantId === userId || doc.tenantId === userProfile?.name);
-        } else if (userType === 'colocataire') {
-          return doc.sharedWith.includes('roommate') && 
-                 (doc.roommateId === userId || doc.tenantId === userProfile?.name);
-        }
-        return false;
-      });
-
-      setDocuments(filteredDocs);
+      console.log('Generated documents loaded:', generatedDocs);
+      setDocuments(generatedDocs);
     } catch (error) {
       console.error('Error loading generated documents:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadInspectionPDFs = async (generatedDocs: GeneratedDocument[]) => {
+    try {
+      if (!userProfile?.name) return;
+
+      // Chercher les PDFs d'inspection dans Tenant_Documents
+      const q = query(
+        collection(db, 'Tenant_Documents'),
+        where('tenantName', '==', userProfile.name),
+        where('type', '==', 'inspection_report')
+      );
+      
+      const querySnapshot = await getDocs(q);
+      
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        generatedDocs.push({
+          id: `inspection-${data.inspectionId}`,
+          name: data.name,
+          type: 'inspection_report',
+          contractId: undefined,
+          tenantId: data.tenantId,
+          roommateId: data.tenantType === 'Colocataire' ? data.tenantId : undefined,
+          propertyId: data.propertyName,
+          status: 'completed',
+          createdDate: data.uploadDate,
+          sharedWith: ['landlord', 'tenant', 'roommate'],
+          description: `Rapport d'inspection pour ${data.propertyName}${data.roomNumber ? ` - ${data.roomNumber}` : ''}`
+        });
+      });
+
+      console.log(`Loaded ${querySnapshot.docs.length} inspection PDFs for ${userProfile.name}`);
+    } catch (error) {
+      console.error('Error loading inspection PDFs:', error);
     }
   };
 
@@ -144,4 +132,5 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
     downloadDocument,
     refreshDocuments: loadGeneratedDocuments
   };
+
 };

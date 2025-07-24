@@ -39,6 +39,8 @@ const GeneratedDocuments: React.FC = () => {
         return FileCheck;
       case 'exit_inspection':
         return AlertCircle;
+      case 'inspection_report':
+        return FileCheck;
       default:
         return FileText;
     }
@@ -52,8 +54,25 @@ const GeneratedDocuments: React.FC = () => {
         return 'text-green-600 bg-green-100';
       case 'exit_inspection':
         return 'text-orange-600 bg-orange-100';
+      case 'inspection_report':
+        return 'text-purple-600 bg-purple-100';
       default:
         return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  const getDocumentTypeLabel = (type: string) => {
+    switch (type) {
+      case 'contract':
+        return 'Contrat';
+      case 'entry_inspection':
+        return 'État des lieux d\'entrée';
+      case 'exit_inspection':
+        return 'État des lieux de sortie';
+      case 'inspection_report':
+        return 'Rapport d\'inspection';
+      default:
+        return 'Document';
     }
   };
 
