@@ -67,10 +67,13 @@ const ModalActions = ({ inspection, onClose, onEdit }: ModalActionsProps) => {
       // Sauvegarder le PDF dans les espaces locataire et propriétaire
       await saveInspectionPDFToSpaces(pdfDocument);
 
+      // Déterminer le type de personne (locataire ou colocataire)
+      const personType = inspection.contractType === 'Bail colocatif' ? 'colocataire' : 'locataire';
+      
       // Afficher la notification de succès
       toast({
         title: "PDF généré avec succès",
-        description: `Le rapport d'inspection est maintenant disponible dans l'espace du locataire "${inspection.tenant}".`,
+        description: `Le rapport d'inspection est maintenant disponible dans l'espace du ${personType} "${inspection.tenant}".`,
         duration: 5000,
       });
 
