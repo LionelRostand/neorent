@@ -94,6 +94,8 @@
     "defectsRemarks": "Défauts, remarques...",
     "tenantName": "Nom du locataire",
     "edit": "Modifier",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "basicInformation": "Informations de base",
+    "roomsInspection": "Inspection des pièces"
   }
 }
