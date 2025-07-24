@@ -52,26 +52,32 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
       
       const generatedDocs: GeneratedDocument[] = [];
 
-      // Ajouter uniquement les contrats signés qui appartiennent à l'utilisateur actuel
-      console.log('📋 Chargement des contrats...');
-      contracts.forEach(contract => {
-        if (contract.status === 'Signé' && contract.tenant === userProfile?.name) {
-          console.log('📋 Contrat signé trouvé pour l\'utilisateur:', contract);
-          generatedDocs.push({
-            id: `contract-${contract.id}`,
-            name: `Contrat de bail - ${contract.property}`,
-            type: 'contract',
-            contractId: contract.id,
-            tenantId: contract.tenant,
-            roommateId: undefined,
-            propertyId: contract.property,
-            status: 'signed',
-            createdDate: contract.startDate || new Date().toISOString(),
-            signedDate: contract.signedDate,
-            sharedWith: ['landlord', 'tenant', 'roommate'],
-            description: `Contrat de bail signé pour ${contract.property} - ${contract.tenant}`
-          });
-        }
+      // Ne pas ajouter de contrats automatiquement - seulement s'ils existent vraiment pour cet utilisateur
+      console.log('📋 Vérification des contrats réels pour:', userProfile?.name);
+      const userContracts = contracts.filter(contract => 
+        contract.status === 'Signé' && 
+        contract.tenant === userProfile?.name &&
+        contract.id !== 'contract-emad-adam' // Exclure les contrats fictifs
+      );
+      
+      console.log('📋 Contrats réels trouvés:', userContracts);
+      
+      userContracts.forEach(contract => {
+        console.log('📋 Ajout du contrat réel:', contract);
+        generatedDocs.push({
+          id: `contract-${contract.id}`,
+          name: `Contrat de bail - ${contract.property}`,
+          type: 'contract',
+          contractId: contract.id,
+          tenantId: contract.tenant,
+          roommateId: undefined,
+          propertyId: contract.property,
+          status: 'signed',
+          createdDate: contract.startDate || new Date().toISOString(),
+          signedDate: contract.signedDate,
+          sharedWith: ['landlord', 'tenant', 'roommate'],
+          description: `Contrat de bail signé pour ${contract.property} - ${contract.tenant}`
+        });
       });
 
       // Ajouter les PDFs d'inspection générés
@@ -136,19 +142,22 @@ export const useGeneratedDocuments = (userId?: string, userType?: string, userPr
         const docTenantName = data.tenantName?.trim().toLowerCase();
         const docTenantId = data.tenantId?.toLowerCase();
         
-        // Pour Emad ADAM, vérifier plusieurs critères
+        // Recherche stricte - seulement les documents réellement liés à cet utilisateur
         let isMatch = false;
         
-        if (userProfile.name === 'Emad ADAM') {
-          console.log('🎯 Recherche spéciale pour Emad ADAM');
-          isMatch = docTenantName === 'emad adam' || 
-                   docTenantName?.includes('emad') ||
-                   docTenantId === 'emad_adam_tenant_id' ||
-                   data.tenantName === 'Emad ADAM';
-        } else {
-          isMatch = docTenantName === normalizedUserName || 
-                   normalizedUserName.includes(docTenantName) || 
-                   docTenantName?.includes(normalizedUserName);
+        // Pour éviter les documents fictifs, vérifier que c'est un vrai document
+        if (data.tenantName && userProfile?.name) {
+          isMatch = data.tenantName.trim() === userProfile.name.trim();
+        }
+        
+        // Exclure explicitement les documents de test ou fictifs
+        const isFakeDocument = data.name?.includes('Emad_A') || 
+                              data.tenantId?.includes('emad_adam_tenant_id') ||
+                              data.name?.includes('test');
+        
+        if (isFakeDocument) {
+          console.log('⚠️ Document fictif exclu:', data.name);
+          isMatch = false;
         }
         
         console.log('📄 Test de correspondance:', {
