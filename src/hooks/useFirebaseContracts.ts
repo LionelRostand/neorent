@@ -180,10 +180,20 @@ export const useFirebaseContracts = () => {
 
       console.log('Attempting to delete contract with ID:', contractId);
       
-      // Vérifier d'abord que le document existe dans Firestore
-      const docRef = doc(db, 'Rent_contracts', contractId);
+      // Vérifier si c'est un contrat mock
+      if (contractId.startsWith('mock-')) {
+        console.log('Deleting mock contract, skipping Firestore deletion');
+        // Pour les contrats mock, on supprime seulement de l'état local
+        setContracts(prev => {
+          const filtered = prev.filter(contract => contract.id !== contractId);
+          console.log('Mock contract deleted successfully. Remaining contracts:', filtered.length);
+          return filtered;
+        });
+        return;
+      }
       
-      // Supprimer le document
+      // Pour les vrais contrats, supprimer de Firestore
+      const docRef = doc(db, 'Rent_contracts', contractId);
       await deleteDoc(docRef);
       
       // Mettre à jour l'état local seulement après succès de la suppression
