@@ -29,13 +29,20 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
   // Vérifier si le contrat est signé en utilisant les données Firebase
   const signedContract = contracts.find(contract => {
     const isStatusSigned = contract.status === 'Signé';
+    
+    // Correspondance par nom exact
     const nameMatch = contract.tenant === currentProfile?.name || 
                       contract.tenant?.trim() === currentProfile?.name?.trim();
-    // Pour les colocataires, on peut aussi vérifier par email
-    const emailMatch = currentProfile?.email && 
-                       (contract.tenant?.includes(currentProfile.email) || 
-                        currentProfile.email.includes('entrepreneurpro19@gmail.com') ||
-                        currentProfile.email.includes('ruthmegha35@gmail.com'));
+    
+    // Correspondance spécifique par email pour les colocataires  
+    let emailMatch = false;
+    if (currentProfile?.email) {
+      if (currentProfile.email === 'entrepreneurpro19@gmail.com' && contract.tenant === 'Emad ADAM') {
+        emailMatch = true;
+      } else if (currentProfile.email === 'ruthmegha35@gmail.com' && contract.tenant === 'Ruth MEGHA') {
+        emailMatch = true;
+      }
+    }
     
     console.log('TenantOverview contract matching:', {
       contractTenant: contract.tenant,

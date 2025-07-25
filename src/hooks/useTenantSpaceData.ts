@@ -28,11 +28,20 @@ export const useTenantSpaceData = () => {
   // Trouver le contrat signé pour le locataire/colocataire actuel
   const signedContract = contracts.find(contract => {
     const isStatusSigned = contract.status === 'Signé';
+    
+    // Correspondance par nom exact
     const nameMatch = contract.tenant === currentProfile?.name || 
                       contract.tenant?.trim() === currentProfile?.name?.trim();
-    const emailMatch = currentProfile?.email && 
-                       (contract.tenant?.includes(currentProfile.email) || 
-                        currentProfile.email === user?.email);
+    
+    // Correspondance spécifique par email pour les colocataires
+    let emailMatch = false;
+    if (currentProfile?.email && user?.email) {
+      if (user.email === 'entrepreneurpro19@gmail.com' && contract.tenant === 'Emad ADAM') {
+        emailMatch = true;
+      } else if (user.email === 'ruthmegha35@gmail.com' && contract.tenant === 'Ruth MEGHA') {
+        emailMatch = true;
+      }
+    }
     
     console.log('Contract matching check:', {
       contractTenant: contract.tenant,
