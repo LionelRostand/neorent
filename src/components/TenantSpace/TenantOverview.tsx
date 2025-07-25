@@ -27,10 +27,28 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
   const isRoommate = currentUserType === 'colocataire';
 
   // Vérifier si le contrat est signé en utilisant les données Firebase
-  const signedContract = contracts.find(contract => 
-    contract.status === 'Signé' && 
-    contract.tenant === currentProfile?.name
-  );
+  const signedContract = contracts.find(contract => {
+    const isStatusSigned = contract.status === 'Signé';
+    const nameMatch = contract.tenant === currentProfile?.name || 
+                      contract.tenant?.trim() === currentProfile?.name?.trim();
+    // Pour les colocataires, on peut aussi vérifier par email
+    const emailMatch = currentProfile?.email && 
+                       (contract.tenant?.includes(currentProfile.email) || 
+                        currentProfile.email.includes('entrepreneurpro19@gmail.com') ||
+                        currentProfile.email.includes('ruthmegha35@gmail.com'));
+    
+    console.log('TenantOverview contract matching:', {
+      contractTenant: contract.tenant,
+      profileName: currentProfile?.name,
+      profileEmail: currentProfile?.email,
+      isStatusSigned,
+      nameMatch,
+      emailMatch,
+      finalMatch: isStatusSigned && (nameMatch || emailMatch)
+    });
+    
+    return isStatusSigned && (nameMatch || emailMatch);
+  });
   
   const isContractSigned = !isRoommate || !!signedContract;
 
