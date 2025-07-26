@@ -11,7 +11,7 @@ import { Owner } from '@/hooks/useFirebaseOwners';
 interface BasicContractFieldsProps {
   formData: any;
   handleInputChange: (field: string, value: string) => void;
-  contractTypes: string[];
+  contractTypes: { value: string; label: string; }[];
   owners: Owner[];
   isDataLoading: boolean;
 }
@@ -45,8 +45,8 @@ const BasicContractFields = ({
           </SelectTrigger>
           <SelectContent>
             {contractTypes.map((type) => (
-              <SelectItem key={type} value={type}>
-                {type}
+              <SelectItem key={type.value} value={type.value}>
+                {type.label}
               </SelectItem>
             ))}
           </SelectContent>

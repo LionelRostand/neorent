@@ -55,6 +55,10 @@
     "descriptionPlaceholder": "Detailed contract description...",
     "createContract": "Create Contract",
     "requiredFieldsError": "Please fill in all required fields",
-    "jurisdictionInfo": "The jurisdiction determines the legal clauses included in the contract"
+    "jurisdictionInfo": "The jurisdiction determines the legal clauses included in the contract",
+    "contractTypes": {
+      "residential": "Residential Lease",
+      "shared": "Shared Accommodation Lease"
+    }
   }
 }
