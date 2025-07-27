@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
-import { FirebaseTest } from '@/components/FirebaseTest';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
@@ -220,7 +219,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
 
   return (
     <>
-      <FirebaseTest />
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
