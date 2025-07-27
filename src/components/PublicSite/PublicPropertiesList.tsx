@@ -33,10 +33,37 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
   
+  // Données de test pour contourner le problème Firebase temporairement
+  const testProperties = [
+    {
+      id: 'test-1',
+      title: 'Appartement de test',
+      address: '123 rue de test, Paris',
+      type: 'Appartement',
+      surface: '50',
+      rent: '800',
+      status: 'Libre',
+      tenant: null,
+      image: '/placeholder.svg',
+      images: ['/placeholder.svg'],
+      locationType: 'Appartement',
+      totalRooms: 2,
+      availableRooms: 2,
+      creditImmobilier: '',
+      owner: '',
+      charges: {},
+      floor: ''
+    }
+  ] as Property[];
+  
+  // Utiliser les données de test si Firebase ne fonctionne pas
+  const finalProperties = (allProperties && allProperties.length > 0) ? allProperties : testProperties;
+  
   // Debug: log des propriétés récupérées
   React.useEffect(() => {
     console.log('🔥 Firebase Properties loaded:', allProperties?.length || 0, allProperties);
-  }, [allProperties]);
+    console.log('📋 Final properties used:', finalProperties?.length || 0, finalProperties);
+  }, [allProperties, finalProperties]);
   
   // Récupérer les colocataires pour calculer l'occupation
   const { roommates } = useFirebaseRoommates();
@@ -96,7 +123,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   };
 
   // Filtrer les propriétés visibles, avec chambres disponibles et selon le terme de recherche
-  const filteredProperties = allProperties?.filter(property => {
+  const filteredProperties = finalProperties?.filter(property => {
     console.log(`🔍 Analyse propriété: ${property.title}`);
     console.log(`📊 Status: ${property.status}, Type: ${property.locationType}, Colocataires actifs: ${roommates.filter(r => r.property === property.id && r.status === 'Actif').length}`);
     

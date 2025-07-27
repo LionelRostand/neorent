@@ -11,16 +11,24 @@ export const useFirebaseProperties = () => {
 
   const fetchProperties = async () => {
     try {
+      console.log('🔄 Début récupération propriétés Firebase...');
       setLoading(true);
       const querySnapshot = await getDocs(collection(db, 'Rent_properties'));
-      const propertiesData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Property[];
+      console.log(`📊 Firebase response: ${querySnapshot.docs.length} documents trouvés`);
+      
+      const propertiesData = querySnapshot.docs.map(doc => {
+        console.log(`📄 Document ${doc.id}:`, doc.data());
+        return {
+          id: doc.id,
+          ...doc.data()
+        };
+      }) as Property[];
+      
+      console.log(`✅ Propriétés récupérées:`, propertiesData);
       setProperties(propertiesData);
       setError(null);
     } catch (err) {
-      console.error('Error fetching properties:', err);
+      console.error('❌ Erreur Firebase:', err);
       setError('Erreur lors du chargement des biens');
     } finally {
       setLoading(false);
