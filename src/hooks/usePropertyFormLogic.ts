@@ -50,7 +50,14 @@ export const usePropertyFormLogic = (
     }
 
     try {
-      await onSubmit(formData);
+      // Assembler l'adresse complète à partir des champs séparés
+      const fullAddress = `${formData.streetNumber} ${formData.street}, ${formData.city} ${formData.postalCode}`;
+      const submitData = {
+        ...formData,
+        address: fullAddress
+      };
+      
+      await onSubmit(submitData);
       onClose();
     } catch (error) {
       console.error('Error submitting property:', error);
