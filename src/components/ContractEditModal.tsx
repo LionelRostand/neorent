@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useFirebaseSuppliers } from '@/hooks/useFirebaseSuppliers';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 
 interface ContractEditModalProps {
   contract: any;
@@ -21,7 +21,7 @@ const ContractEditModal: React.FC<ContractEditModalProps> = ({
   onClose,
   onSave
 }) => {
-  const { suppliers, loading: suppliersLoading } = useFirebaseSuppliers();
+  const { owners, loading: ownersLoading } = useFirebaseOwners();
   const [formData, setFormData] = useState({
     title: '',
     type: '',
@@ -100,15 +100,15 @@ const ContractEditModal: React.FC<ContractEditModalProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="provider">Fournisseur</Label>
+              <Label htmlFor="provider">Propriétaire</Label>
               <Select value={formData.provider} onValueChange={(value) => handleChange('provider', value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder={suppliersLoading ? "Chargement..." : "Sélectionner un fournisseur"} />
+                  <SelectValue placeholder={ownersLoading ? "Chargement..." : "Sélectionner un propriétaire"} />
                 </SelectTrigger>
                 <SelectContent>
-                  {suppliers.map((supplier) => (
-                    <SelectItem key={supplier.id} value={supplier.name}>
-                      {supplier.name}
+                  {owners.map((owner) => (
+                    <SelectItem key={owner.id} value={owner.name}>
+                      {owner.name} - {owner.email}
                     </SelectItem>
                   ))}
                 </SelectContent>
