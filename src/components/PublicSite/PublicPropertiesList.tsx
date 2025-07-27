@@ -92,41 +92,38 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
 
   // Filtrer les propriétés visibles, avec chambres disponibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
+    console.log(`🔍 Analyse propriété: ${property.title}`);
+    console.log(`📊 Status: ${property.status}, Type: ${property.locationType}, Colocataires actifs: ${roommates.filter(r => r.property === property.id && r.status === 'Actif').length}`);
+    
     // Mode fallback : si MongoDB ne fonctionne pas (settingsError) ou pas de données (websiteSettings === undefined)
-    // Afficher toutes les propriétés avec des chambres disponibles
     if (settingsError || websiteSettings === undefined) {
-      console.log(`🔧 Mode fallback actif pour propriété ${property.title}: erreur=${!!settingsError}, noData=${websiteSettings === undefined}`);
+      console.log(`🔧 Mode fallback actif pour ${property.title}`);
       
-      // N'afficher que les propriétés avec des chambres disponibles
-      const availableRooms = getAvailableRoomsCount(property);
-      if (availableRooms <= 0) return false;
-      
-      if (!searchFilter) return true;
+      // Pour le debug, afficher TOUTES les propriétés temporairement
+      if (!searchFilter) {
+        console.log(`✅ Propriété ${property.title} acceptée (mode fallback sans filtre)`);
+        return true;
+      }
       
       const searchTerm = searchFilter.toLowerCase();
-      return (
+      const matches = (
         property.title.toLowerCase().includes(searchTerm) ||
         property.address.toLowerCase().includes(searchTerm) ||
         property.type.toLowerCase().includes(searchTerm)
       );
+      console.log(`🔍 Recherche "${searchTerm}" pour ${property.title}: ${matches}`);
+      return matches;
     }
     
     // Mode normal : vérifier la visibilité MongoDB
     const settings = propertySettings[property.id];
-    if (!settings?.visible) return false;
+    if (!settings?.visible) {
+      console.log(`❌ Propriété ${property.title} non visible selon MongoDB`);
+      return false;
+    }
     
-    // N'afficher que les propriétés avec des chambres disponibles
-    const availableRooms = getAvailableRoomsCount(property);
-    if (availableRooms <= 0) return false;
-    
-    if (!searchFilter) return true;
-    
-    const searchTerm = searchFilter.toLowerCase();
-    return (
-      property.title.toLowerCase().includes(searchTerm) ||
-      property.address.toLowerCase().includes(searchTerm) ||
-      property.type.toLowerCase().includes(searchTerm)
-    );
+    console.log(`✅ Propriété ${property.title} visible selon MongoDB`);
+    return true;
   }) || [];
 
   // Trier les propriétés pour mettre en avant celles qui sont featured
