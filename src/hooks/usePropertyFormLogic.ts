@@ -14,6 +14,8 @@ export const usePropertyFormLogic = (
     street: '',
     city: '',
     postalCode: '',
+    latitude: '',
+    longitude: '',
     type: initialType || '',
     surface: '',
     rent: '',

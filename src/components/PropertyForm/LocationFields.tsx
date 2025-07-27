@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import PropertyMap from '@/components/Map/PropertyMap';
 
 interface LocationFieldsProps {
   formData: any;
@@ -68,6 +69,20 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
           value={formData.surface}
           onChange={(e) => onInputChange('surface', e.target.value)}
           placeholder={t('properties.surfacePlaceholder')}
+        />
+      </div>
+      
+      <div className="col-span-2">
+        <Label>Localisation sur carte</Label>
+        <PropertyMap
+          streetNumber={formData.streetNumber}
+          street={formData.street}
+          city={formData.city}
+          postalCode={formData.postalCode}
+          onLocationSelect={(coordinates) => {
+            onInputChange('latitude', coordinates[1].toString());
+            onInputChange('longitude', coordinates[0].toString());
+          }}
         />
       </div>
     </>

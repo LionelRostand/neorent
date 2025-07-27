@@ -17,6 +17,8 @@ export interface PropertyFormData {
   street: string;
   city: string;
   postalCode: string;
+  latitude?: string;
+  longitude?: string;
   type: string;
   surface: string;
   rent: string;
