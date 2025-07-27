@@ -14,14 +14,50 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
 
   return (
     <>
-      <div>
-        <Label htmlFor="address">{t('properties.address')} *</Label>
-        <Input
-          id="address"
-          value={formData.address}
-          onChange={(e) => onInputChange('address', e.target.value)}
-          required
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="streetNumber">Numéro *</Label>
+          <Input
+            id="streetNumber"
+            value={formData.streetNumber || ''}
+            onChange={(e) => onInputChange('streetNumber', e.target.value)}
+            placeholder="Ex: 721"
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="street">Rue *</Label>
+          <Input
+            id="street"
+            value={formData.street || ''}
+            onChange={(e) => onInputChange('street', e.target.value)}
+            placeholder="Ex: Résidence de l'Aquitaine"
+            required
+          />
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="city">Ville *</Label>
+          <Input
+            id="city"
+            value={formData.city || ''}
+            onChange={(e) => onInputChange('city', e.target.value)}
+            placeholder="Ex: Dammarie-les-Lys"
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="postalCode">Code postal *</Label>
+          <Input
+            id="postalCode"
+            value={formData.postalCode || ''}
+            onChange={(e) => onInputChange('postalCode', e.target.value)}
+            placeholder="Ex: 77190"
+            required
+          />
+        </div>
       </div>
       
       <div>
