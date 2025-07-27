@@ -203,7 +203,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
               Nos Propriétés Disponibles
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
-              Découvrez notre sélection de logements de qualité, 
+              Découvrez notre sélection de {sortedProperties.length} logements de qualité disponibles, 
               soigneusement sélectionnés pour répondre à vos besoins
             </p>
             
