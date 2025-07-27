@@ -13,6 +13,10 @@ import { FormButtonConfig } from '@/hooks/useFormButtonConfig';
 export interface PropertyFormData {
   title: string;
   address: string;
+  streetNumber: string;
+  street: string;
+  city: string;
+  postalCode: string;
   type: string;
   surface: string;
   rent: string;

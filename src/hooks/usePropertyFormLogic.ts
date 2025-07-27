@@ -10,6 +10,10 @@ export const usePropertyFormLogic = (
   const [formData, setFormData] = useState<PropertyFormData>({
     title: '',
     address: '',
+    streetNumber: '',
+    street: '',
+    city: '',
+    postalCode: '',
     type: initialType || '',
     surface: '',
     rent: '',
@@ -40,7 +44,7 @@ export const usePropertyFormLogic = (
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.address || !formData.type) {
+    if (!formData.title || !formData.streetNumber || !formData.street || !formData.city || !formData.postalCode || !formData.type) {
       alert('Veuillez remplir tous les champs obligatoires');
       return;
     }
