@@ -33,37 +33,14 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
   
-  // Données de test pour contourner le problème Firebase temporairement
-  const testProperties = [
-    {
-      id: 'test-1',
-      title: 'Appartement de test',
-      address: '123 rue de test, Paris',
-      type: 'Appartement',
-      surface: '50',
-      rent: '800',
-      status: 'Libre',
-      tenant: null,
-      image: '/placeholder.svg',
-      images: ['/placeholder.svg'],
-      locationType: 'Appartement',
-      totalRooms: 2,
-      availableRooms: 2,
-      creditImmobilier: '',
-      owner: '',
-      charges: {},
-      floor: ''
-    }
-  ] as Property[];
-  
-  // Utiliser les données de test si Firebase ne fonctionne pas
-  const finalProperties = (allProperties && allProperties.length > 0) ? allProperties : testProperties;
+  // Utiliser uniquement les vraies propriétés Firebase
+  const finalProperties = allProperties || [];
   
   // Debug: log des propriétés récupérées
   React.useEffect(() => {
     console.log('🔥 Firebase Properties loaded:', allProperties?.length || 0, allProperties);
     console.log('📋 Final properties used:', finalProperties?.length || 0, finalProperties);
-    console.log('🎯 Using Firebase data:', (allProperties && allProperties.length > 0));
+    console.log('🎯 Using only Firebase data (no test data)');
   }, [allProperties, finalProperties]);
   
   // Récupérer les colocataires pour calculer l'occupation
