@@ -33,6 +33,11 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
   
+  // Debug: log des propriétés récupérées
+  React.useEffect(() => {
+    console.log('🔥 Firebase Properties loaded:', allProperties?.length || 0, allProperties);
+  }, [allProperties]);
+  
   // Récupérer les colocataires pour calculer l'occupation
   const { roommates } = useFirebaseRoommates();
   
@@ -193,6 +198,14 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   }
 
   if (sortedProperties.length === 0) {
+    console.log('❌ Aucune propriété à afficher:', {
+      allProperties: allProperties?.length || 0,
+      filteredProperties: filteredProperties.length,
+      loading,
+      settingsError: !!settingsError,
+      websiteSettings: !!websiteSettings
+    });
+    
     return (
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -206,6 +219,9 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                 : "Aucune propriété n'est actuellement disponible."
               }
             </p>
+            <div className="mt-4 text-xs text-gray-500">
+              Debug: {allProperties?.length || 0} propriétés Firebase récupérées
+            </div>
           </div>
         </div>
       </section>
