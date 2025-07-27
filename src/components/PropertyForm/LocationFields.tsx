@@ -11,7 +11,8 @@ interface LocationFieldsProps {
 
 const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
   const { t } = useTranslation();
-
+  
+  // Composant mis à jour avec champs d'adresse séparés
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
