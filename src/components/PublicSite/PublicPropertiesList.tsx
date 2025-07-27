@@ -85,9 +85,14 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
 
   // Filtrer les propriétés visibles, avec chambres disponibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
-    // Vérifier si la propriété est visible sur le site web
+    // Si les paramètres de visibilité ne peuvent pas être récupérés (erreur MongoDB),
+    // considérer toutes les propriétés comme potentiellement visibles
     const settings = propertySettings[property.id];
-    if (!settings?.visible) return false;
+    
+    // Si websiteSettings est undefined (erreur de récupération), afficher toutes les propriétés
+    // Sinon, vérifier la visibilité
+    const isVisible = websiteSettings === undefined || settings?.visible;
+    if (!isVisible) return false;
     
     // N'afficher que les propriétés avec des chambres disponibles
     const availableRooms = getAvailableRoomsCount(property);
