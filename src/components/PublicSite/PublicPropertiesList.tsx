@@ -63,6 +63,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   React.useEffect(() => {
     console.log('🔥 Firebase Properties loaded:', allProperties?.length || 0, allProperties);
     console.log('📋 Final properties used:', finalProperties?.length || 0, finalProperties);
+    console.log('🎯 Using Firebase data:', (allProperties && allProperties.length > 0));
   }, [allProperties, finalProperties]);
   
   // Récupérer les colocataires pour calculer l'occupation
@@ -122,9 +123,9 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return property.status === 'Libre' ? 1 : 0;
   };
 
-  // FORCER L'AFFICHAGE : ignorer tous les filtres temporairement
-  console.log('🚀 FORCE DISPLAY: Utilisation des données de test');
-  const filteredProperties = testProperties; // Forcer l'utilisation des données de test
+  // Utiliser les vraies propriétés Firebase si disponibles, sinon les données de test
+  console.log('🚀 Using finalProperties:', finalProperties.length, finalProperties);
+  const filteredProperties = finalProperties; // Utiliser les données finales (Firebase ou test)
   
   // Pas de tri pour le moment
   const sortedProperties = filteredProperties;

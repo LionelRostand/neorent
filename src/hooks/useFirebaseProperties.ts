@@ -12,9 +12,30 @@ export const useFirebaseProperties = () => {
   const fetchProperties = async () => {
     try {
       console.log('🔄 Début récupération propriétés Firebase...');
+      console.log('🔧 Configuration db:', db);
       setLoading(true);
+      
+      // Test de connexion à Firebase
+      console.log('📡 Test connexion Firebase avec collection Rent_properties...');
       const querySnapshot = await getDocs(collection(db, 'Rent_properties'));
       console.log(`📊 Firebase response: ${querySnapshot.docs.length} documents trouvés`);
+      console.log('📋 QuerySnapshot:', querySnapshot);
+      
+      if (querySnapshot.empty) {
+        console.log('❌ Collection Rent_properties est VIDE ou n\'EXISTE PAS');
+        
+        // Test avec d'autres noms de collection possibles
+        const testCollections = ['properties', 'Properties', 'rent_properties', 'rentProperties'];
+        for (const collectionName of testCollections) {
+          try {
+            console.log(`🔍 Test collection: ${collectionName}`);
+            const testSnapshot = await getDocs(collection(db, collectionName));
+            console.log(`📊 ${collectionName}: ${testSnapshot.docs.length} documents`);
+          } catch (testErr) {
+            console.log(`❌ Erreur test ${collectionName}:`, testErr);
+          }
+        }
+      }
       
       const propertiesData = querySnapshot.docs.map(doc => {
         console.log(`📄 Document ${doc.id}:`, doc.data());
@@ -28,7 +49,10 @@ export const useFirebaseProperties = () => {
       setProperties(propertiesData);
       setError(null);
     } catch (err) {
-      console.error('❌ Erreur Firebase:', err);
+      console.error('❌ Erreur Firebase détaillée:', err);
+      console.error('❌ Type d\'erreur:', typeof err);
+      console.error('❌ Message:', (err as any)?.message);
+      console.error('❌ Code:', (err as any)?.code);
       setError('Erreur lors du chargement des biens');
     } finally {
       setLoading(false);
