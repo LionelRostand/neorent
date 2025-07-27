@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useWebsiteSettings } from '@/hooks/useMongoProperties';
 import { Property } from '@/types/property';
 import { 
@@ -32,6 +33,9 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading } = useFirebaseProperties();
   
+  // Récupérer les colocataires pour calculer l'occupation
+  const { roommates } = useFirebaseRoommates();
+  
   // Récupérer les paramètres de visibilité depuis MongoDB
   const { data: websiteSettings } = useWebsiteSettings();
   
@@ -41,11 +45,53 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return acc;
   }, {} as Record<string, any>) || {};
 
-  // Filtrer les propriétés visibles et selon le terme de recherche
+  // Calculer le statut réel et les chambres disponibles pour chaque propriété
+  const getRealStatus = (property: Property) => {
+    if (property.locationType === 'Colocation') {
+      const activeRoommates = roommates.filter(
+        roommate => roommate.property === property.id && roommate.status === 'Actif'
+      ).length;
+      
+      const totalRooms = property.totalRooms || 1;
+      const availableRooms = totalRooms - activeRoommates;
+      
+      if (availableRooms === totalRooms) {
+        return { status: 'Libre', color: 'bg-green-100 text-green-800 border-green-200' };
+      } else if (availableRooms > 0) {
+        return { status: 'Partiellement occupé', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' };
+      } else {
+        return { status: 'Occupé', color: 'bg-red-100 text-red-800 border-red-200' };
+      }
+    } else {
+      // Pour les appartements/maisons classiques
+      return { 
+        status: property.status, 
+        color: getStatusColor(property.status) 
+      };
+    }
+  };
+
+  const getAvailableRoomsCount = (property: Property) => {
+    if (property.locationType === 'Colocation') {
+      const activeRoommates = roommates.filter(
+        roommate => roommate.property === property.id && roommate.status === 'Actif'
+      ).length;
+      
+      const totalRooms = property.totalRooms || 1;
+      return totalRooms - activeRoommates;
+    }
+    return property.status === 'Libre' ? 1 : 0;
+  };
+
+  // Filtrer les propriétés visibles, avec chambres disponibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
     // Vérifier si la propriété est visible sur le site web
     const settings = propertySettings[property.id];
     if (!settings?.visible) return false;
+    
+    // N'afficher que les propriétés avec des chambres disponibles
+    const availableRooms = getAvailableRoomsCount(property);
+    if (availableRooms <= 0) return false;
     
     if (!searchFilter) return true;
     
@@ -183,6 +229,8 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
               const roomInfo = getRoomInfo(property);
               const settings = propertySettings[property.id] || {};
               const mainImage = getPropertyMainImage(property);
+              const realStatus = getRealStatus(property);
+              const availableRooms = getAvailableRoomsCount(property);
               
               return (
                 <Card 
@@ -208,8 +256,8 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
 
                     {/* Badges de statut et mise en avant */}
                     <div className="absolute top-3 left-3 flex flex-col gap-2">
-                      <Badge className={`${getStatusColor(property.status)} border font-medium`}>
-                        {property.status}
+                      <Badge className={`${realStatus.color} border font-medium`}>
+                        {realStatus.status}
                       </Badge>
                       {settings.featured && (
                         <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 font-medium">
@@ -261,6 +309,13 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                           <span className="text-sm text-gray-500">• {property.locationType}</span>
                         )}
                       </div>
+                      
+                      {/* Affichage des chambres disponibles pour les colocations */}
+                      {property.locationType === 'Colocation' && (
+                        <div className="text-sm text-gray-600 font-medium">
+                          {availableRooms}/{property.totalRooms || 1} chambres disponibles
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between pt-4 border-t border-gray-100">
