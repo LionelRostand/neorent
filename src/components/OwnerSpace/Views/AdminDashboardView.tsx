@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Building, Users, FileText, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useOwnerData } from '@/hooks/useOwnerData';
-import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useDashboardMetrics } from '@/hooks/useDashboardMetrics';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface AdminDashboardViewProps {
@@ -14,7 +14,7 @@ interface AdminDashboardViewProps {
 const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile }) => {
   const { i18n } = useTranslation();
   const { properties, tenants, roommates, contracts } = useOwnerData(currentProfile);
-  const { payments } = useFirebasePayments();
+  const { monthlyRevenue, totalActiveTenants, occupancyRate } = useDashboardMetrics();
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -59,32 +59,8 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
   };
 
   const totalProperties = properties.length;
-  const totalTenants = tenants.length + roommates.length;
+  const totalTenants = totalActiveTenants; // Utilise les données du hook useDashboardMetrics
   const totalContracts = contracts.length;
-  
-  // Calcul des revenus réels du mois en cours basé sur les paiements
-  const currentMonth = new Date().getMonth();
-  const currentYear = new Date().getFullYear();
-  
-  const monthlyRevenue = payments
-    .filter(payment => {
-      if (!payment.paymentDate || payment.status !== 'Payé') return false;
-      const paymentDate = new Date(payment.paymentDate);
-      return paymentDate.getMonth() === currentMonth && 
-             paymentDate.getFullYear() === currentYear;
-    })
-    .reduce((sum, payment) => sum + payment.rentAmount, 0);
-
-  console.log('🔍 CALCUL REVENUS ADMIN DASHBOARD:', {
-    paymentsThisMonth: payments.filter(p => {
-      if (!p.paymentDate) return false;
-      const paymentDate = new Date(p.paymentDate);
-      return paymentDate.getMonth() === currentMonth && 
-             paymentDate.getFullYear() === currentYear &&
-             p.status === 'Payé';
-    }),
-    totalRevenue: monthlyRevenue
-  });
 
   // Mock data for the chart to match your screenshot
   const chartData = [
