@@ -37,13 +37,20 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   const { roommates } = useFirebaseRoommates();
   
   // Récupérer les paramètres de visibilité depuis MongoDB
-  const { data: websiteSettings } = useWebsiteSettings();
+  const { data: websiteSettings, isLoading: settingsLoading, error: settingsError } = useWebsiteSettings();
   
   // Convertir les paramètres en format objet pour faciliter l'accès
   const propertySettings = websiteSettings?.reduce((acc, setting) => {
     acc[setting.propertyId] = setting;
     return acc;
   }, {} as Record<string, any>) || {};
+
+  // Log des erreurs pour déboguer
+  React.useEffect(() => {
+    if (settingsError) {
+      console.log('🔧 Erreur MongoDB détectée, mode fallback activé:', settingsError);
+    }
+  }, [settingsError]);
 
   // Calculer le statut réel et les chambres disponibles pour chaque propriété
   const getRealStatus = (property: Property) => {
@@ -85,14 +92,28 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
 
   // Filtrer les propriétés visibles, avec chambres disponibles et selon le terme de recherche
   const filteredProperties = allProperties?.filter(property => {
-    // Si les paramètres de visibilité ne peuvent pas être récupérés (erreur MongoDB),
-    // considérer toutes les propriétés comme potentiellement visibles
-    const settings = propertySettings[property.id];
+    // Mode fallback : si MongoDB ne fonctionne pas (settingsError) ou pas de données (websiteSettings === undefined)
+    // Afficher toutes les propriétés avec des chambres disponibles
+    if (settingsError || websiteSettings === undefined) {
+      console.log(`🔧 Mode fallback actif pour propriété ${property.title}: erreur=${!!settingsError}, noData=${websiteSettings === undefined}`);
+      
+      // N'afficher que les propriétés avec des chambres disponibles
+      const availableRooms = getAvailableRoomsCount(property);
+      if (availableRooms <= 0) return false;
+      
+      if (!searchFilter) return true;
+      
+      const searchTerm = searchFilter.toLowerCase();
+      return (
+        property.title.toLowerCase().includes(searchTerm) ||
+        property.address.toLowerCase().includes(searchTerm) ||
+        property.type.toLowerCase().includes(searchTerm)
+      );
+    }
     
-    // Si websiteSettings est undefined (erreur de récupération), afficher toutes les propriétés
-    // Sinon, vérifier la visibilité
-    const isVisible = websiteSettings === undefined || settings?.visible;
-    if (!isVisible) return false;
+    // Mode normal : vérifier la visibilité MongoDB
+    const settings = propertySettings[property.id];
+    if (!settings?.visible) return false;
     
     // N'afficher que les propriétés avec des chambres disponibles
     const availableRooms = getAvailableRoomsCount(property);
