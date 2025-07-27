@@ -11,6 +11,7 @@ export interface Payment {
   status: string;
   paymentDate: string | null;
   paymentMethod: string | null;
+  paymentType?: 'loyer' | 'avance' | 'caution' | 'charges'; // Type de paiement
   notes?: string | null;
 }
 

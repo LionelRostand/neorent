@@ -3,13 +3,19 @@ import { Payment } from '@/types/payment';
 
 export const calculatePaymentStatus = (
   paidAmount: number | undefined | null, 
-  contractAmount: number
+  contractAmount: number,
+  paymentType?: 'loyer' | 'avance' | 'caution' | 'charges'
 ): string => {
   if (paidAmount === undefined || paidAmount === null) {
     return 'En attente';
   }
 
   const paid = Number(paidAmount);
+  
+  // Gestion spéciale pour les types de paiements
+  if (paymentType === 'caution' || paymentType === 'avance') {
+    return paid > 0 ? 'Payé' : 'En attente';
+  }
   
   if (paid < contractAmount && paid > 0) {
     return 'En retard';

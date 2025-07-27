@@ -46,11 +46,11 @@ export const useFirebasePayments = () => {
         correctionAppliquée: payment.tenantName && payment.tenantName.toLowerCase().includes('georges') && payment.tenantName.toLowerCase().includes('momo')
       });
       
-      updatedPayment = {
+        updatedPayment = {
         ...payment,
         contractRentAmount: contractAmount,
         rentAmount: contractAmount,
-        status: calculatePaymentStatus(payment.paidAmount, contractAmount)
+        status: calculatePaymentStatus(payment.paidAmount, contractAmount, payment.paymentType)
       };
       
       console.log(`🔧 PAIEMENT MIS À JOUR pour ${payment.tenantName}:`, {
@@ -68,7 +68,7 @@ export const useFirebasePayments = () => {
           ...payment,
           contractRentAmount: 450,
           rentAmount: 450,
-          status: calculatePaymentStatus(payment.paidAmount, 450)
+          status: calculatePaymentStatus(payment.paidAmount, 450, payment.paymentType)
         };
       } else {
         // Si pas de contrat, garder les valeurs originales mais assurer la cohérence

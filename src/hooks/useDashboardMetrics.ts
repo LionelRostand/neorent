@@ -22,14 +22,30 @@ export const useDashboardMetrics = () => {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     
+    // Calcul des revenus du mois en tenant compte des types de paiements
     const monthlyRevenue = payments
       .filter(payment => {
         if (!payment.paymentDate) return false;
         const paymentDate = new Date(payment.paymentDate);
-        return paymentDate.getMonth() === currentMonth && 
-               paymentDate.getFullYear() === currentYear &&
-               payment.status === 'Payé';
+        const isCurrentMonth = paymentDate.getMonth() === currentMonth && 
+               paymentDate.getFullYear() === currentYear;
+        const isPaid = payment.status === 'Payé';
+        // Inclure seulement les loyers et charges, exclure cautions et avances
+        const isRegularPayment = !payment.paymentType || 
+                               payment.paymentType === 'loyer' || 
+                               payment.paymentType === 'charges';
+        
+        return isCurrentMonth && isPaid && isRegularPayment;
       })
+      .reduce((sum, payment) => sum + payment.rentAmount, 0);
+
+    // Calcul des avances et cautions (pour information)
+    const advancePayments = payments
+      .filter(payment => payment.paymentType === 'avance' && payment.status === 'Payé')
+      .reduce((sum, payment) => sum + payment.rentAmount, 0);
+    
+    const securityDeposits = payments
+      .filter(payment => payment.paymentType === 'caution' && payment.status === 'Payé')
       .reduce((sum, payment) => sum + payment.rentAmount, 0);
 
     // Nombre total de biens
@@ -91,6 +107,9 @@ export const useDashboardMetrics = () => {
       totalActiveTenants,
       occupancyRate,
       averageYield: Math.round(averageYield * 100) / 100, // Arrondir à 2 décimales
+      // Nouvelles métriques pour les types de paiements
+      advancePayments,
+      securityDeposits,
       // Données pour les alertes
       latePayments: payments.filter(p => p.status === 'En retard').length,
       expiringContracts: contracts.filter(c => {
