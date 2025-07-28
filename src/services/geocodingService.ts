@@ -8,6 +8,15 @@ export interface Coordinates {
 // Cache pour éviter trop d'appels à l'API
 const geocodeCache = new Map<string, Coordinates>();
 
+// Coordonnées de secours pour certaines villes françaises
+const fallbackCoordinates: Record<string, Coordinates> = {
+  'DAMMARIE LES LYS': { lat: 48.5167, lon: 2.6333 },
+  'DAMMARIE-LES-LYS': { lat: 48.5167, lon: 2.6333 },
+  'MELUN': { lat: 48.5394, lon: 2.6611 },
+  'FONTAINEBLEAU': { lat: 48.4041, lon: 2.7019 },
+  'SAVIGNY LE TEMPLE': { lat: 48.5942, lon: 2.5778 },
+};
+
 // Fonction pour géocoder une adresse en utilisant l'API Nominatim (gratuite)
 export const geocodeAddress = async (address: string): Promise<Coordinates | null> => {
   // Vérifier le cache d'abord
@@ -52,12 +61,51 @@ export const geocodeAddress = async (address: string): Promise<Coordinates | nul
       await new Promise(resolve => setTimeout(resolve, 200));
     }
     
+    // Si aucune coordonnée trouvée via l'API, essayer les coordonnées de secours
+    console.log(`🔄 Recherche de coordonnées de secours pour: ${address}`);
+    const fallbackCoords = getFallbackCoordinates(address);
+    if (fallbackCoords) {
+      console.log(`🎯 Coordonnées de secours trouvées pour: ${extractCityName(address)}`);
+      geocodeCache.set(address, fallbackCoords);
+      return fallbackCoords;
+    }
+    
     console.log(`❌ Aucune coordonnée trouvée pour: ${address}`);
     return null;
   } catch (error) {
     console.error('Erreur lors du géocodage de l\'adresse:', address, error);
+    
+    // En cas d'erreur, essayer quand même les coordonnées de secours
+    const fallbackCoords = getFallbackCoordinates(address);
+    if (fallbackCoords) {
+      console.log(`🎯 Utilisation des coordonnées de secours après erreur`);
+      geocodeCache.set(address, fallbackCoords);
+      return fallbackCoords;
+    }
+    
     return null;
   }
+};
+
+// Fonction pour obtenir les coordonnées de secours
+const getFallbackCoordinates = (address: string): Coordinates | null => {
+  const cityName = extractCityName(address);
+  if (!cityName) return null;
+  
+  // Essayer avec le nom exact de la ville
+  const normalizedCity = cityName.toUpperCase();
+  if (fallbackCoordinates[normalizedCity]) {
+    return fallbackCoordinates[normalizedCity];
+  }
+  
+  // Essayer avec des variantes
+  for (const [key, coords] of Object.entries(fallbackCoordinates)) {
+    if (normalizedCity.includes(key) || key.includes(normalizedCity)) {
+      return coords;
+    }
+  }
+  
+  return null;
 };
 
 // Fonction pour générer plusieurs variantes de recherche d'une adresse
