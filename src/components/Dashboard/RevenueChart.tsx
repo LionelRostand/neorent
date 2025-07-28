@@ -36,28 +36,39 @@ const RevenueChart = () => {
                paymentDate.getFullYear() === year;
       });
 
-      // Debug: Afficher toutes les données disponibles
-      console.log(`📊 DÉBOGAGE pour ${month}:`, {
-        monthlyPayments: monthlyPayments.length,
-        totalProperties: properties.length,
-        payments: monthlyPayments.map(p => ({ 
-          tenant: p.tenantName, 
-          property: p.property, 
-          amount: p.rentAmount 
-        })),
-        properties: properties.map(p => ({ 
-          title: p.title, 
-          address: p.address, 
-          locationType: p.locationType 
-        }))
+      // Séparer les revenus selon le type de propriété réel
+      let locatifRevenue = 0;
+      let colocatifRevenue = 0;
+
+      monthlyPayments.forEach(payment => {
+        const property = properties.find(p => 
+          p.address === payment.property || 
+          p.title === payment.property ||
+          p.address.includes(payment.property) ||
+          payment.property.includes(p.address)
+        );
+        
+        if (property) {
+          if (property.locationType === 'Location') {
+            locatifRevenue += payment.rentAmount;
+          } else if (property.locationType === 'Colocation') {
+            colocatifRevenue += payment.rentAmount;
+          }
+        } else {
+          // Si aucune propriété trouvée, essayer de deviner par le tenantType
+          if (payment.tenantType === 'Colocataire' || payment.tenantType === 'colocataire') {
+            colocatifRevenue += payment.rentAmount;
+          } else {
+            locatifRevenue += payment.rentAmount;
+          }
+        }
       });
 
-      // Calculer le total pour vérifier s'il y a des données
-      const totalRevenue = monthlyPayments.reduce((sum, payment) => sum + payment.rentAmount, 0);
-      
-      // Pour l'instant, diviser artificiellement pour tester l'affichage
-      const locatifRevenue = Math.floor(totalRevenue * 0.7); // 70% en locatif
-      const colocatifRevenue = Math.floor(totalRevenue * 0.3); // 30% en colocatif
+      console.log(`📊 Revenus réels pour ${month}:`, {
+        locatifs: locatifRevenue,
+        colocatifs: colocatifRevenue,
+        totalPayments: monthlyPayments.length
+      });
 
       return {
         month,
