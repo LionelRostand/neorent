@@ -54,6 +54,9 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
   const { owners, loading: ownersLoading } = useFirebaseOwners();
   const [formData, setFormData] = useState<Partial<Property>>({});
 
+  console.log('🔧 PropertyEditModal - Reçu property:', property);
+  console.log('🔧 PropertyEditModal - isOpen:', isOpen);
+  console.log('🔧 PropertyEditModal - formData actuel:', formData);
   console.log('🔧 PropertyEditModal - owners loaded:', owners);
   console.log('🔧 PropertyEditModal - loading:', ownersLoading);
 
