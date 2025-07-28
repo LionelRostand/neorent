@@ -26,158 +26,153 @@ interface TestEmailRequest {
   message: string;
 }
 
-// Test de résolution DNS pour vérifier si le serveur existe
-const testDNSResolution = async (hostname: string): Promise<boolean> => {
-  try {
-    // Essayer de résoudre le nom de domaine via fetch (limité mais fonctionne)
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
-    
-    await fetch(`https://${hostname}`, {
-      method: 'HEAD',
-      mode: 'no-cors',
-      signal: controller.signal
-    });
-    
-    clearTimeout(timeoutId);
-    return true;
-  } catch (error) {
-    // Même si la requête échoue, cela signifie que le DNS fonctionne
-    return true;
-  }
-};
-
-// Test de connectivité réseau basique
-const testNetworkConnectivity = async (host: string, port: number): Promise<boolean> => {
-  try {
-    // Pour Gmail et autres services connus, on peut faire des vérifications spécifiques
-    if (host.includes('gmail.com')) {
-      const response = await fetch('https://accounts.google.com', { method: 'HEAD', mode: 'no-cors' });
-      return true;
+// Validation intelligente basée sur des règles connues (sans requêtes cross-origin)
+const validateServerConfig = (host: string, port: number, security: string): { valid: boolean; error?: string } => {
+  // Validation Gmail
+  if (host.includes('gmail.com') || host.includes('googlemail.com')) {
+    if (host !== 'smtp.gmail.com') {
+      return { valid: false, error: 'Gmail utilise smtp.gmail.com comme serveur SMTP' };
     }
-    
-    if (host.includes('outlook.com') || host.includes('hotmail.com')) {
-      const response = await fetch('https://outlook.live.com', { method: 'HEAD', mode: 'no-cors' });
-      return true;
+    if (port !== 587) {
+      return { valid: false, error: 'Gmail utilise le port 587 pour SMTP' };
     }
-    
-    // Test générique de résolution DNS
-    return await testDNSResolution(host);
-  } catch (error) {
-    return false;
-  }
-};
-
-// Validation avancée avec test réseau
-const validateSMTPConfigAdvanced = async (config: SMTPConfig): Promise<{ success: boolean; error?: string }> => {
-  // Validation basique
-  if (!config.host || !config.username || !config.password) {
-    return { success: false, error: 'Configuration SMTP incomplète' };
+    if (security !== 'tls') {
+      return { valid: false, error: 'Gmail nécessite TLS' };
+    }
+    return { valid: true };
   }
 
-  // Validation du format email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(config.username)) {
-    return { success: false, error: 'Format d\'email invalide pour le nom d\'utilisateur' };
+  // Validation Outlook/Hotmail
+  if (host.includes('outlook.com') || host.includes('hotmail.com')) {
+    if (host !== 'smtp-mail.outlook.com') {
+      return { valid: false, error: 'Outlook utilise smtp-mail.outlook.com comme serveur SMTP' };
+    }
+    if (port !== 587) {
+      return { valid: false, error: 'Outlook utilise le port 587 pour SMTP' };
+    }
+    if (security !== 'tls') {
+      return { valid: false, error: 'Outlook nécessite TLS' };
+    }
+    return { valid: true };
   }
 
-  // Validation du port
+  // Validation Yahoo
+  if (host.includes('yahoo.com')) {
+    if (host !== 'smtp.mail.yahoo.com') {
+      return { valid: false, error: 'Yahoo utilise smtp.mail.yahoo.com comme serveur SMTP' };
+    }
+    if (port !== 587 && port !== 465) {
+      return { valid: false, error: 'Yahoo utilise les ports 587 (TLS) ou 465 (SSL)' };
+    }
+    return { valid: true };
+  }
+
+  // Validation générale pour les serveurs SMTP
+  if (!host.includes('smtp.')) {
+    return { valid: false, error: 'L\'adresse du serveur SMTP devrait contenir "smtp."' };
+  }
+
   const validPorts = [25, 465, 587, 2525];
-  if (!validPorts.includes(config.port)) {
-    return { success: false, error: `Le port ${config.port} n'est pas un port SMTP standard (25, 465, 587, 2525)` };
+  if (!validPorts.includes(port)) {
+    return { valid: false, error: `Port ${port} non standard. Utilisez 25, 465, 587 ou 2525` };
   }
 
-  // Validation de la sécurité vs port
-  if (config.port === 465 && config.security !== 'ssl') {
-    return { success: false, error: 'Le port 465 nécessite SSL' };
+  // Validation sécurité vs port
+  if (port === 465 && security !== 'ssl') {
+    return { valid: false, error: 'Le port 465 nécessite SSL' };
   }
-  
-  if (config.port === 587 && config.security === 'none') {
-    return { success: false, error: 'Le port 587 nécessite TLS' };
-  }
-
-  // Test de connectivité réseau
-  console.log(`🔍 Test de connectivité vers ${config.host}:${config.port}`);
-  const isConnectable = await testNetworkConnectivity(config.host, config.port);
-  if (!isConnectable) {
-    return { success: false, error: `Impossible de joindre le serveur ${config.host}` };
+  if (port === 587 && security === 'none') {
+    return { valid: false, error: 'Le port 587 nécessite généralement TLS' };
   }
 
-  return { success: true };
+  return { valid: true };
 };
 
-const validateIMAPConfigAdvanced = async (config: IMAPConfig): Promise<{ success: boolean; error?: string }> => {
-  // Validation basique
-  if (!config.host || !config.username || !config.password) {
-    return { success: false, error: 'Configuration IMAP incomplète' };
+// Validation IMAP
+const validateIMAPServerConfig = (host: string, port: number, security: string): { valid: boolean; error?: string } => {
+  // Validation Gmail IMAP
+  if (host.includes('gmail.com') || host.includes('googlemail.com')) {
+    if (host !== 'imap.gmail.com') {
+      return { valid: false, error: 'Gmail utilise imap.gmail.com comme serveur IMAP' };
+    }
+    if (port !== 993) {
+      return { valid: false, error: 'Gmail utilise le port 993 pour IMAP' };
+    }
+    if (security !== 'ssl') {
+      return { valid: false, error: 'Gmail IMAP nécessite SSL' };
+    }
+    return { valid: true };
   }
 
-  // Validation du format email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(config.username)) {
-    return { success: false, error: 'Format d\'email invalide pour le nom d\'utilisateur' };
+  // Validation Outlook IMAP
+  if (host.includes('outlook.com') || host.includes('hotmail.com')) {
+    if (host !== 'outlook.office365.com') {
+      return { valid: false, error: 'Outlook utilise outlook.office365.com comme serveur IMAP' };
+    }
+    if (port !== 993) {
+      return { valid: false, error: 'Outlook utilise le port 993 pour IMAP' };
+    }
+    if (security !== 'ssl') {
+      return { valid: false, error: 'Outlook IMAP nécessite SSL' };
+    }
+    return { valid: true };
   }
 
-  // Validation du port
+  // Validation générale IMAP
+  if (!host.includes('imap.')) {
+    return { valid: false, error: 'L\'adresse du serveur IMAP devrait contenir "imap."' };
+  }
+
   const validPorts = [143, 993];
-  if (!validPorts.includes(config.port)) {
-    return { success: false, error: `Le port ${config.port} n'est pas un port IMAP standard (143, 993)` };
+  if (!validPorts.includes(port)) {
+    return { valid: false, error: `Port ${port} non standard. Utilisez 143 (non sécurisé) ou 993 (SSL)` };
   }
 
-  // Validation de la sécurité vs port
-  if (config.port === 993 && config.security !== 'ssl') {
-    return { success: false, error: 'Le port 993 nécessite SSL' };
+  if (port === 993 && security !== 'ssl') {
+    return { valid: false, error: 'Le port 993 nécessite SSL' };
   }
 
-  // Test de connectivité réseau
-  console.log(`🔍 Test de connectivité vers ${config.host}:${config.port}`);
-  const isConnectable = await testNetworkConnectivity(config.host, config.port);
-  if (!isConnectable) {
-    return { success: false, error: `Impossible de joindre le serveur ${config.host}` };
-  }
-
-  return { success: true };
+  return { valid: true };
 };
 
 export const emailTestService = {
   async testSMTPConnection(config: SMTPConfig) {
     try {
-      console.log('🧪 Test de connexion SMTP réel:', config.host);
+      console.log('🧪 Test de connexion SMTP:', config.host);
       
-      // Validation avancée avec test réseau
-      const validation = await validateSMTPConfigAdvanced(config);
-      if (!validation.success) {
-        return validation;
+      // Validation basique
+      if (!config.host || !config.username || !config.password) {
+        return { success: false, error: 'Configuration SMTP incomplète' };
       }
 
-      // Test spécifique Gmail
+      // Validation du format email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(config.username)) {
+        return { success: false, error: 'Format d\'email invalide pour le nom d\'utilisateur' };
+      }
+
+      // Validation de la longueur du mot de passe
+      if (config.password.length < 8) {
+        return { success: false, error: 'Le mot de passe doit contenir au moins 8 caractères' };
+      }
+
+      // Validation intelligente du serveur
+      const serverValidation = validateServerConfig(config.host, config.port, config.security);
+      if (!serverValidation.valid) {
+        return { success: false, error: serverValidation.error };
+      }
+
+      // Vérifications spéciales Gmail
       if (config.host.includes('gmail.com')) {
-        if (config.port !== 587) {
-          return { success: false, error: 'Gmail recommande le port 587 avec TLS' };
-        }
-        if (config.security !== 'tls') {
-          return { success: false, error: 'Gmail nécessite TLS' };
-        }
-        // Vérification si c'est un mot de passe d'application
-        if (!config.password.match(/^[a-z]{16}$/)) {
-          console.warn('⚠️ Gmail recommande d\'utiliser un mot de passe d\'application');
-        }
-      }
-
-      // Test spécifique Outlook
-      if (config.host.includes('outlook.com')) {
-        if (config.port !== 587) {
-          return { success: false, error: 'Outlook recommande le port 587 avec TLS' };
-        }
-        if (config.security !== 'tls') {
-          return { success: false, error: 'Outlook nécessite TLS' };
+        if (!config.password.match(/^[a-z]{16}$/) && !config.password.includes(' ')) {
+          console.warn('⚠️ Gmail recommande d\'utiliser un mot de passe d\'application (16 caractères)');
         }
       }
 
       console.log('✅ Test SMTP réussi - Configuration validée');
       return { 
         success: true, 
-        message: 'Configuration SMTP validée avec succès. Connectivité réseau confirmée.' 
+        message: 'Configuration SMTP validée avec succès selon les standards du fournisseur' 
       };
     } catch (error: any) {
       console.error('❌ Erreur test SMTP:', error);
@@ -190,38 +185,29 @@ export const emailTestService = {
 
   async testIMAPConnection(config: IMAPConfig) {
     try {
-      console.log('🧪 Test de connexion IMAP réel:', config.host);
+      console.log('🧪 Test de connexion IMAP:', config.host);
       
-      // Validation avancée avec test réseau
-      const validation = await validateIMAPConfigAdvanced(config);
-      if (!validation.success) {
-        return validation;
+      // Validation basique
+      if (!config.host || !config.username || !config.password) {
+        return { success: false, error: 'Configuration IMAP incomplète' };
       }
 
-      // Test spécifique Gmail
-      if (config.host.includes('gmail.com')) {
-        if (config.port !== 993) {
-          return { success: false, error: 'Gmail IMAP utilise le port 993 avec SSL' };
-        }
-        if (config.security !== 'ssl') {
-          return { success: false, error: 'Gmail IMAP nécessite SSL' };
-        }
+      // Validation du format email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(config.username)) {
+        return { success: false, error: 'Format d\'email invalide pour le nom d\'utilisateur' };
       }
 
-      // Test spécifique Outlook
-      if (config.host.includes('outlook.com')) {
-        if (config.port !== 993) {
-          return { success: false, error: 'Outlook IMAP utilise le port 993 avec SSL' };
-        }
-        if (config.security !== 'ssl') {
-          return { success: false, error: 'Outlook IMAP nécessite SSL' };
-        }
+      // Validation intelligente du serveur IMAP
+      const serverValidation = validateIMAPServerConfig(config.host, config.port, config.security);
+      if (!serverValidation.valid) {
+        return { success: false, error: serverValidation.error };
       }
 
       console.log('✅ Test IMAP réussi - Configuration validée');
       return { 
         success: true, 
-        message: 'Configuration IMAP validée avec succès. Connectivité réseau confirmée.' 
+        message: 'Configuration IMAP validée avec succès selon les standards du fournisseur' 
       };
     } catch (error: any) {
       console.error('❌ Erreur test IMAP:', error);
@@ -234,12 +220,12 @@ export const emailTestService = {
 
   async sendTestEmail(request: TestEmailRequest) {
     try {
-      console.log('📧 Test d\'envoi d\'email vers:', request.to);
+      console.log('📧 Validation pour envoi d\'email vers:', request.to);
       
-      // Validation de la configuration SMTP
-      const validation = await validateSMTPConfigAdvanced(request.smtp);
-      if (!validation.success) {
-        return validation;
+      // Test de la configuration SMTP d'abord
+      const smtpTest = await this.testSMTPConnection(request.smtp);
+      if (!smtpTest.success) {
+        return smtpTest;
       }
 
       // Validation de l'email destinataire
@@ -249,20 +235,24 @@ export const emailTestService = {
       }
 
       // Validation du contenu
-      if (!request.subject || !request.message) {
-        return { success: false, error: 'Sujet et message requis' };
+      if (!request.subject?.trim()) {
+        return { success: false, error: 'Le sujet de l\'email est requis' };
+      }
+
+      if (!request.message?.trim()) {
+        return { success: false, error: 'Le message de l\'email est requis' };
       }
 
       console.log('✅ Configuration email validée pour l\'envoi');
       return { 
         success: true, 
-        message: 'Configuration validée. L\'envoi d\'email réel nécessite un serveur backend pour des raisons de sécurité.' 
+        message: 'Configuration validée. Prêt pour l\'envoi d\'email (nécessite backend pour l\'envoi réel)' 
       };
     } catch (error: any) {
-      console.error('❌ Erreur test envoi email:', error);
+      console.error('❌ Erreur validation envoi email:', error);
       return { 
         success: false, 
-        error: error.message || 'Erreur lors du test d\'envoi d\'email' 
+        error: error.message || 'Erreur lors de la validation d\'envoi d\'email' 
       };
     }
   }
