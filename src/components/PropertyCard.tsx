@@ -118,7 +118,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
   // Traduire le type de location
   const getTranslatedLocationType = (locationType: string) => {
     const locationKey = locationType.toLowerCase();
-    return t(`properties.locationTypes.${locationKey}`, locationType);
+    return t(`propertyForm.locationTypes.${locationKey}`, locationType);
   };
 
   return (
