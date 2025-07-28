@@ -46,7 +46,7 @@ export function AdminSidebar() {
 
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-2">
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.path}>
                   <SidebarMenuButton asChild>
@@ -54,7 +54,7 @@ export function AdminSidebar() {
                       to={item.path} 
                       end 
                       className={({ isActive }) => 
-                        `flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors mx-3 ${
+                        `flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors mx-3 my-1 ${
                           isActive
                             ? 'bg-green-400 text-white'
                             : 'text-white/90 hover:text-white hover:bg-green-400/50'
