@@ -33,6 +33,32 @@ const Roommates = () => {
   const searchingCount = roommates.filter(r => r.status === 'En recherche').length;
   const totalCount = roommates.length;
 
+  // Détection des doublons
+  const hasDuplicates = () => {
+    const normalizedEntries = roommates.map(r => ({
+      id: r.id,
+      normalizedName: r.name?.toLowerCase().trim().replace(/\s+/g, ' '),
+      normalizedEmail: r.email?.toLowerCase().trim()
+    }));
+
+    const nameMap = new Map();
+    const emailMap = new Map();
+
+    for (const entry of normalizedEntries) {
+      if (entry.normalizedName && nameMap.has(entry.normalizedName)) {
+        return true;
+      }
+      if (entry.normalizedEmail && emailMap.has(entry.normalizedEmail)) {
+        return true;
+      }
+      if (entry.normalizedName) nameMap.set(entry.normalizedName, entry.id);
+      if (entry.normalizedEmail) emailMap.set(entry.normalizedEmail, entry.id);
+    }
+    return false;
+  };
+
+  const showCleanupButton = hasDuplicates();
+
   // Debug: Afficher les données des colocataires pour vérification
   console.log('📊 MÉTRIQUES COLOCATAIRES DEBUG:', {
     totalRoommates: roommates.length,
@@ -249,15 +275,17 @@ const Roommates = () => {
                 <p className="text-gray-600 mt-2 text-sm sm:text-base">{t('roommates.description')}</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
-                {/* Bouton de nettoyage des doublons */}
-                <Button 
-                  onClick={handleCleanupDuplicates}
-                  variant="outline" 
-                  className="border-orange-500 text-orange-600 hover:bg-orange-50 px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto"
-                >
-                  <Users className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                  <span className="text-sm sm:text-base">Nettoyer les doublons</span>
-                </Button>
+                {/* Bouton de nettoyage des doublons - affiché seulement s'il y a des doublons */}
+                {showCleanupButton && (
+                  <Button 
+                    onClick={handleCleanupDuplicates}
+                    variant="outline" 
+                    className="border-orange-500 text-orange-600 hover:bg-orange-50 px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto"
+                  >
+                    <Users className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-sm sm:text-base">Nettoyer les doublons</span>
+                  </Button>
+                )}
                 
                 {/* Bouton d'ajout de colocataire */}
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
