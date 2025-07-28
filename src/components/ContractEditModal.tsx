@@ -22,6 +22,12 @@ const ContractEditModal: React.FC<ContractEditModalProps> = ({
   onSave
 }) => {
   const { owners, loading: ownersLoading } = useFirebaseOwners();
+  
+  // Debug: Log owners data
+  useEffect(() => {
+    console.log('ContractEditModal - Owners data:', owners);
+    console.log('ContractEditModal - Loading state:', ownersLoading);
+  }, [owners, ownersLoading]);
   const [formData, setFormData] = useState({
     title: '',
     type: '',
