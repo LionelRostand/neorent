@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { PropertyDetailsContent } from './PropertyDetailsContent';
 import { VisitSchedulingForm } from './VisitSchedulingForm';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 
 interface PropertyDetailsModalProps {
   isOpen: boolean;
@@ -17,8 +18,36 @@ export const PropertyDetailsModal = ({
   property
 }: PropertyDetailsModalProps) => {
   const [showVisitForm, setShowVisitForm] = useState(false);
+  const { roommates } = useFirebaseRoommates();
 
   if (!property) return null;
+
+  // Calculer le statut réel (même logique que dans PublicPropertiesList)
+  const getRealStatus = (property: any) => {
+    if (property.locationType === 'Colocation') {
+      const activeRoommates = roommates.filter(
+        roommate => roommate.property === property.title && roommate.status === 'Actif'
+      ).length;
+      
+      const totalRooms = property.totalRooms || 1;
+      const availableRooms = totalRooms - activeRoommates;
+      
+      if (availableRooms === totalRooms) {
+        return { status: 'Libre', color: 'bg-green-100 text-green-800' };
+      } else if (availableRooms > 0) {
+        return { status: 'Partiellement occupé', color: 'bg-yellow-100 text-yellow-800' };
+      } else {
+        return { status: 'Occupé', color: 'bg-red-100 text-red-800' };
+      }
+    } else {
+      return { 
+        status: property.status, 
+        color: getStatusColor(property.status) 
+      };
+    }
+  };
+
+  const realStatus = getRealStatus(property);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -45,8 +74,8 @@ export const PropertyDetailsModal = ({
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>{property.title}</span>
-            <Badge className={getStatusColor(property.status)}>
-              {property.status}
+            <Badge className={realStatus.color}>
+              {realStatus.status}
             </Badge>
           </DialogTitle>
         </DialogHeader>
