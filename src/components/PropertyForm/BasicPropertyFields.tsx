@@ -32,10 +32,10 @@ const BasicPropertyFields = ({ formData, onInputChange }: BasicPropertyFieldsPro
             <SelectValue placeholder={t('properties.selectType')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Appartement">{t('properties.propertyTypes.apartment')}</SelectItem>
-            <SelectItem value="Maison">{t('properties.propertyTypes.house')}</SelectItem>
-            <SelectItem value="Studio">{t('properties.propertyTypes.studio')}</SelectItem>
-            <SelectItem value="Chambre">{t('properties.propertyTypes.room')}</SelectItem>
+            <SelectItem value="Appartement">{t('propertyForm.propertyTypes.appartement')}</SelectItem>
+            <SelectItem value="Maison">{t('propertyForm.propertyTypes.maison')}</SelectItem>
+            <SelectItem value="Studio">{t('propertyForm.propertyTypes.studio')}</SelectItem>
+            <SelectItem value="Chambre">{t('propertyForm.propertyTypes.chambre')}</SelectItem>
           </SelectContent>
         </Select>
       </div>

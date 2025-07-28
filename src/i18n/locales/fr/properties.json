@@ -114,7 +114,8 @@
       "studio": "Studio",
       "maison": "Maison",
       "loft": "Loft",
-      "duplex": "Duplex"
+      "duplex": "Duplex",
+      "chambre": "Chambre"
     },
     "locationTypes": {
       "location": "Location",
