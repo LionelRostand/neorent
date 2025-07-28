@@ -193,19 +193,29 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                       uniqueOwners.push({
                         id: 'admin-neotech',
                         email: 'admin@neotech-consulting.com',
-                        name: 'Administrateur',
+                        name: 'Administrateur Principal',
                         role: 'admin'
                       });
                     }
                     
-                    // Filtrer les doublons par email
-                    const filteredOwners = uniqueOwners.filter((owner, index, self) => 
-                      index === self.findIndex(o => o.email === owner.email)
-                    );
+                    // Filtrer les doublons par email et s'assurer qu'on a un nom
+                    const filteredOwners = uniqueOwners
+                      .filter((owner, index, self) => 
+                        index === self.findIndex(o => o.email === owner.email)
+                      )
+                      .map(owner => ({
+                        ...owner,
+                        // S'assurer qu'on a un nom d'affichage
+                        displayName: owner.email === 'admin@neotech-consulting.com' 
+                          ? 'Administrateur Principal'
+                          : (owner.name && owner.name !== owner.email) 
+                            ? owner.name 
+                            : owner.email.split('@')[0] // Utiliser la partie avant @ si pas de nom
+                      }));
                     
                     return filteredOwners.map((owner) => (
                       <SelectItem key={owner.id} value={owner.email}>
-                        {owner.name || owner.email} {owner.role === 'admin' ? '(Admin)' : ''}
+                        {owner.displayName}
                       </SelectItem>
                     ));
                   })()}
