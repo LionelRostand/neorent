@@ -59,6 +59,8 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
 
   useEffect(() => {
     if (property) {
+      console.log('🏠 Propriété reçue:', property);
+      
       // Si les champs séparés n'existent pas, tenter de décomposer l'adresse
       let streetNumber = property.streetNumber || '';
       let street = property.street || '';
@@ -67,6 +69,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
       
       // Si aucun champ séparé n'existe mais qu'on a une adresse
       if (!streetNumber && !street && !city && !postalCode && property.address) {
+        console.log('📍 Décomposition de l\'adresse:', property.address);
         // Exemple: "721 RESIDENCE DE L'AQUITAINE 77190 DAMMARIE LES LYS"
         const addressParts = property.address.trim().split(' ');
         if (addressParts.length >= 4) {
@@ -80,9 +83,10 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
             city = addressParts.slice(postalIndex + 1).join(' ');
           }
         }
+        console.log('📍 Adresse décomposée:', { streetNumber, street, city, postalCode });
       }
       
-      setFormData({
+      const initialData = {
         ...property,
         streetNumber,
         street,
@@ -98,7 +102,10 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
           internet: 0,
           taxes: 0
         }
-      });
+      };
+      
+      console.log('📝 FormData initial:', initialData);
+      setFormData(initialData);
     }
   }, [property]);
 
