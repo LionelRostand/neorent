@@ -3,11 +3,13 @@ import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useTranslation } from 'react-i18next';
 
 const RevenueChart = () => {
   const { t } = useTranslation();
   const { payments } = useFirebasePayments();
+  const { properties } = useFirebaseProperties();
 
   const chartData = useMemo(() => {
     const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
@@ -34,26 +36,35 @@ const RevenueChart = () => {
                paymentDate.getFullYear() === year;
       });
 
-      // Séparer les revenus locatifs et colocatifs
-      // Pour l'instant, on va traiter tous les paiements comme locatifs
-      // et créer des données de test pour les colocatifs
-      const tenantRevenue = monthlyPayments.reduce((sum, payment) => sum + payment.rentAmount, 0);
-      const roommateRevenue = Math.floor(tenantRevenue * 0.3); // 30% du total comme exemple pour colocatifs
+      // Séparer les revenus locatifs et colocatifs basé sur le type de propriété
+      const locatifRevenue = monthlyPayments
+        .filter(payment => {
+          const property = properties.find(p => p.address === payment.property || p.title === payment.property);
+          return property && property.locationType === 'Location';
+        })
+        .reduce((sum, payment) => sum + payment.rentAmount, 0);
+
+      const colocatifRevenue = monthlyPayments
+        .filter(payment => {
+          const property = properties.find(p => p.address === payment.property || p.title === payment.property);
+          return property && property.locationType === 'Colocation';
+        })
+        .reduce((sum, payment) => sum + payment.rentAmount, 0);
 
       console.log(`📊 Revenus pour ${month}:`, {
-        locatifs: tenantRevenue,
-        colocatifs: roommateRevenue,
+        locatifs: locatifRevenue,
+        colocatifs: colocatifRevenue,
         totalPayments: monthlyPayments.length,
-        paymentTypes: monthlyPayments.map(p => p.tenantType)
+        properties: properties.map(p => ({ title: p.title, address: p.address, type: p.locationType }))
       });
 
       return {
         month,
-        locatifs: tenantRevenue,
-        colocatifs: roommateRevenue
+        locatifs: locatifRevenue,
+        colocatifs: colocatifRevenue
       };
     });
-  }, [payments]);
+  }, [payments, properties]);
 
   return (
     <Card>
