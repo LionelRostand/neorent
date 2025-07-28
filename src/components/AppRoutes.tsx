@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from '@/components/Auth/ProtectedRoute';
+import MainLayout from '@/components/Layout/MainLayout';
 import PublicHome from '@/pages/PublicSite/Home';
 import PublicAbout from '@/pages/PublicSite/About';
 import PublicContact from '@/pages/PublicSite/Contact';
@@ -195,7 +196,9 @@ export const AppRoutes = () => {
         path="/admin/help" 
         element={
           <ProtectedRoute>
-            <Help />
+            <MainLayout>
+              <Help />
+            </MainLayout>
           </ProtectedRoute>
         } 
       />
