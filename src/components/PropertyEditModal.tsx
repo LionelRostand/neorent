@@ -184,11 +184,22 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                   <SelectValue placeholder={ownersLoading ? "Chargement..." : "Sélectionner un propriétaire"} />
                 </SelectTrigger>
                 <SelectContent>
+                  {!ownersLoading && owners.length === 0 && (
+                    <SelectItem value="admin@neotech-consulting.com">
+                      admin@neotech-consulting.com (Admin)
+                    </SelectItem>
+                  )}
                   {owners.map((owner) => (
-                    <SelectItem key={owner.id} value={owner.name}>
-                      {owner.name} {owner.role === 'admin' ? '(Admin)' : ''}
+                    <SelectItem key={owner.id} value={owner.email}>
+                      {owner.name || owner.email} {owner.role === 'admin' ? '(Admin)' : ''}
                     </SelectItem>
                   ))}
+                  {/* Ajouter admin@neotech-consulting.com s'il n'est pas déjà dans la liste */}
+                  {!owners.some(owner => owner.email === 'admin@neotech-consulting.com') && (
+                    <SelectItem value="admin@neotech-consulting.com">
+                      admin@neotech-consulting.com (Admin)
+                    </SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>
