@@ -73,7 +73,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
       });
       
       const activeRoommates = roommates.filter(
-        roommate => roommate.property === property.id && roommate.status === 'Actif'
+        roommate => roommate.property === property.title && roommate.status === 'Actif'
       ).length;
       
       const totalRooms = property.totalRooms || 1;
@@ -104,7 +104,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   const getAvailableRoomsCount = (property: Property) => {
     if (property.locationType === 'Colocation') {
       const activeRoommates = roommates.filter(
-        roommate => roommate.property === property.id && roommate.status === 'Actif'
+        roommate => roommate.property === property.title && roommate.status === 'Actif'
       ).length;
       
       const totalRooms = property.totalRooms || 1;
