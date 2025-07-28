@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Building, Users, FileText, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useDashboardMetrics } from '@/hooks/useDashboardMetrics';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -13,7 +14,8 @@ interface AdminDashboardViewProps {
 
 const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile }) => {
   const { i18n } = useTranslation();
-  const { properties, tenants, roommates, contracts, payments } = useOwnerData(currentProfile);
+  const { properties, tenants, roommates, contracts } = useOwnerData(currentProfile);
+  const { payments } = useFirebasePayments(); // Utilisation directe pour éviter les erreurs
   const { monthlyRevenue, totalActiveTenants, occupancyRate } = useDashboardMetrics();
 
   // Get texts based on current language
