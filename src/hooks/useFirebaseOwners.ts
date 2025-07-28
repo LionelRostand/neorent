@@ -18,6 +18,7 @@ export const useFirebaseOwners = () => {
   const fetchOwners = async () => {
     try {
       setLoading(true);
+      console.log('🔄 Starting to fetch owners...');
       
       // Fetch from Rent_owners collection
       const rentOwnersSnapshot = await getDocs(collection(db, 'Rent_owners'));
@@ -25,6 +26,7 @@ export const useFirebaseOwners = () => {
         id: doc.id,
         ...doc.data()
       })) as Owner[];
+      console.log('📊 Rent_owners data:', rentOwnersData);
 
       // Fetch from user_roles collection to include admin users who are also owners
       const userRolesSnapshot = await getDocs(collection(db, 'user_roles'));
@@ -41,12 +43,14 @@ export const useFirebaseOwners = () => {
           role: doc.data().role,
           companyId: doc.data().companyId
         })) as Owner[];
+      console.log('👑 Admin owners data:', adminOwnersData);
 
       // Combine both lists and remove duplicates based on email
       const combinedOwners = [...rentOwnersData, ...adminOwnersData];
       const uniqueOwners = combinedOwners.filter((owner, index, self) => 
         index === self.findIndex(o => o.email === owner.email)
       );
+      console.log('✅ Final combined owners:', uniqueOwners);
 
       setOwners(uniqueOwners);
     } catch (error) {
