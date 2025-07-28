@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calculator } from 'lucide-react';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 
 interface Property {
   id: string;
@@ -50,6 +51,7 @@ interface PropertyEditModalProps {
 
 const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen, onClose, onSave }) => {
   const { t } = useTranslation();
+  const { owners, loading: ownersLoading } = useFirebaseOwners();
   const [formData, setFormData] = useState<Partial<Property>>({});
 
   useEffect(() => {
@@ -161,12 +163,21 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
             </div>
             <div>
               <Label htmlFor="owner">{t('propertyForm.owner')}</Label>
-              <Input
-                id="owner"
-                value={formData.owner || ''}
-                onChange={(e) => setFormData({...formData, owner: e.target.value})}
-                placeholder={t('propertyForm.ownerPlaceholder')}
-              />
+              <Select 
+                value={formData.owner || ''} 
+                onValueChange={(value) => setFormData({...formData, owner: value})}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={ownersLoading ? "Chargement..." : "Sélectionner un propriétaire"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {owners.map((owner) => (
+                    <SelectItem key={owner.id} value={owner.name}>
+                      {owner.name} {owner.role === 'admin' ? '(Admin)' : ''}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           {/* Champs d'adresse séparés */}
