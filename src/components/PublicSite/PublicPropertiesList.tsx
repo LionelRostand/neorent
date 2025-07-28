@@ -65,6 +65,13 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Calculer le statut réel et les chambres disponibles pour chaque propriété
   const getRealStatus = (property: Property) => {
     if (property.locationType === 'Colocation') {
+      console.log(`🔍 Debug pour ${property.title}:`, {
+        propertyId: property.id,
+        totalRoommates: roommates.length,
+        roommatesForThisProperty: roommates.filter(r => r.property === property.id),
+        allRoommates: roommates
+      });
+      
       const activeRoommates = roommates.filter(
         roommate => roommate.property === property.id && roommate.status === 'Actif'
       ).length;
