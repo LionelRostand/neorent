@@ -166,7 +166,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="title">{t('propertyForm.titleRequired')}</Label>
+              <Label htmlFor="title">{t('properties.titleRequired')}</Label>
               <Input
                 id="title"
                 value={formData.title || ''}
@@ -175,7 +175,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="owner">{t('propertyForm.owner')}</Label>
+              <Label htmlFor="owner">{t('properties.owner')}</Label>
               <Select 
                 value={formData.owner || ''} 
                 onValueChange={(value) => setFormData({...formData, owner: value})}
@@ -271,22 +271,22 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="type">{t('propertyForm.typeRequired')}</Label>
+              <Label htmlFor="type">{t('properties.typeRequired')}</Label>
               <Select value={formData.type} onValueChange={(value) => setFormData({...formData, type: value})}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Appartement">{t('propertyForm.propertyTypes.appartement')}</SelectItem>
-                  <SelectItem value="Maison">{t('propertyForm.propertyTypes.maison')}</SelectItem>
-                  <SelectItem value="Studio">{t('propertyForm.propertyTypes.studio')}</SelectItem>
-                  <SelectItem value="Loft">{t('propertyForm.propertyTypes.loft')}</SelectItem>
-                  <SelectItem value="Duplex">{t('propertyForm.propertyTypes.duplex')}</SelectItem>
+                  <SelectItem value="Appartement">{t('properties.propertyTypes.appartement')}</SelectItem>
+                  <SelectItem value="Maison">{t('properties.propertyTypes.maison')}</SelectItem>
+                  <SelectItem value="Studio">{t('properties.propertyTypes.studio')}</SelectItem>
+                  <SelectItem value="Loft">{t('properties.propertyTypes.loft')}</SelectItem>
+                  <SelectItem value="Duplex">{t('properties.propertyTypes.duplex')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label htmlFor="surface">{t('propertyForm.surfaceRequired')}</Label>
+              <Label htmlFor="surface">{t('properties.surfaceRequired')}</Label>
               <Input
                 id="surface"
                 value={formData.surface || ''}
@@ -295,18 +295,18 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
               />
             </div>
             <div>
-              <Label htmlFor="floor">{t('propertyForm.floor')}</Label>
+              <Label htmlFor="floor">{t('properties.floor')}</Label>
               <Input
                 id="floor"
                 value={formData.floor || ''}
                 onChange={(e) => setFormData({...formData, floor: e.target.value})}
-                placeholder={t('propertyForm.floorPlaceholder')}
+                placeholder={t('properties.floorPlaceholder')}
               />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="creditImmobilier">{t('propertyForm.creditImmobilierRequired')}</Label>
+              <Label htmlFor="creditImmobilier">{t('properties.creditImmobilierRequired')}</Label>
               <Input
                 id="creditImmobilier"
                 value={formData.creditImmobilier || ''}
@@ -329,7 +329,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
             </div>
           </div>
           <div>
-            <Label htmlFor="locationType">{t('propertyForm.locationTypeRequired')}</Label>
+            <Label htmlFor="locationType">{t('properties.locationTypeRequired')}</Label>
             <Select value={formData.locationType} onValueChange={(value) => setFormData({...formData, locationType: value})}>
               <SelectTrigger>
                 <SelectValue />
@@ -344,7 +344,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
           {formData.locationType === 'Colocation' && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="totalRooms">{t('propertyForm.roomCountRequired')}</Label>
+                <Label htmlFor="totalRooms">{t('properties.roomCountRequired')}</Label>
                 <Input
                   id="totalRooms"
                   type="number"
@@ -369,107 +369,107 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Calculator className="h-5 w-5" />
-                {t('propertyForm.charges.title')}
+                {t('properties.charges.title')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="electricity">{t('propertyForm.charges.electricityUnit')}</Label>
+                  <Label htmlFor="electricity">{t('properties.charges.electricityUnit')}</Label>
                   <Input
                     id="electricity"
                     type="number"
                     value={formData.charges?.electricity || ''}
                     onChange={(e) => handleChargeChange('electricity', e.target.value)}
-                    placeholder={t('propertyForm.charges.electricityPlaceholder')}
+                    placeholder={t('properties.charges.electricityPlaceholder')}
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="water">{t('propertyForm.charges.waterUnit')}</Label>
+                  <Label htmlFor="water">{t('properties.charges.waterUnit')}</Label>
                   <Input
                     id="water"
                     type="number"
                     value={formData.charges?.water || ''}
                     onChange={(e) => handleChargeChange('water', e.target.value)}
-                    placeholder={t('propertyForm.charges.waterPlaceholder')}
+                    placeholder={t('properties.charges.waterPlaceholder')}
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="heating">{t('propertyForm.charges.heatingUnit')}</Label>
+                  <Label htmlFor="heating">{t('properties.charges.heatingUnit')}</Label>
                   <Input
                     id="heating"
                     type="number"
                     value={formData.charges?.heating || ''}
                     onChange={(e) => handleChargeChange('heating', e.target.value)}
-                    placeholder={t('propertyForm.charges.heatingPlaceholder')}
+                    placeholder={t('properties.charges.heatingPlaceholder')}
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="maintenance">{t('propertyForm.charges.maintenanceUnit')}</Label>
+                  <Label htmlFor="maintenance">{t('properties.charges.maintenanceUnit')}</Label>
                   <Input
                     id="maintenance"
                     type="number"
                     value={formData.charges?.maintenance || ''}
                     onChange={(e) => handleChargeChange('maintenance', e.target.value)}
-                    placeholder={t('propertyForm.charges.maintenancePlaceholder')}
+                    placeholder={t('properties.charges.maintenancePlaceholder')}
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="insurance">{t('propertyForm.charges.insuranceUnit')}</Label>
+                  <Label htmlFor="insurance">{t('properties.charges.insuranceUnit')}</Label>
                   <Input
                     id="insurance"
                     type="number"
                     value={formData.charges?.insurance || ''}
                     onChange={(e) => handleChargeChange('insurance', e.target.value)}
-                    placeholder={t('propertyForm.charges.insurancePlaceholder')}
+                    placeholder={t('properties.charges.insurancePlaceholder')}
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="garbage">{t('propertyForm.charges.garbageUnit')}</Label>
+                  <Label htmlFor="garbage">{t('properties.charges.garbageUnit')}</Label>
                   <Input
                     id="garbage"
                     type="number"
                     value={formData.charges?.garbage || ''}
                     onChange={(e) => handleChargeChange('garbage', e.target.value)}
-                    placeholder={t('propertyForm.charges.garbagePlaceholder')}
+                    placeholder={t('properties.charges.garbagePlaceholder')}
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="internet">{t('propertyForm.charges.internetUnit')}</Label>
+                  <Label htmlFor="internet">{t('properties.charges.internetUnit')}</Label>
                   <Input
                     id="internet"
                     type="number"
                     value={formData.charges?.internet || ''}
                     onChange={(e) => handleChargeChange('internet', e.target.value)}
-                    placeholder={t('propertyForm.charges.internetPlaceholder')}
+                    placeholder={t('properties.charges.internetPlaceholder')}
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="taxes">{t('propertyForm.charges.taxesUnit')}</Label>
+                  <Label htmlFor="taxes">{t('properties.charges.taxesUnit')}</Label>
                   <Input
                     id="taxes"
                     type="number"
                     value={formData.charges?.taxes || ''}
                     onChange={(e) => handleChargeChange('taxes', e.target.value)}
-                    placeholder={t('propertyForm.charges.taxesPlaceholder')}
+                    placeholder={t('properties.charges.taxesPlaceholder')}
                   />
                 </div>
               </div>
               
               <div className="border-t pt-4 space-y-2">
                 <div className="flex justify-between items-center text-lg font-semibold">
-                  <span>{t('propertyForm.charges.totalCharges')}</span>
+                  <span>{t('properties.charges.totalCharges')}</span>
                   <span className="text-blue-600">{calculateTotalCharges().toFixed(2)}€</span>
                 </div>
                 <div className="flex justify-between items-center text-xl font-bold text-green-600">
-                  <span>{t('propertyForm.charges.totalCost')}</span>
+                  <span>{t('properties.charges.totalCost')}</span>
                   <span>{calculateTotalCost().toFixed(2)}€</span>
                 </div>
               </div>
@@ -478,7 +478,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button type="button" variant="outline" onClick={onClose}>
-              {t('propertyForm.cancel')}
+              {t('properties.cancel')}
             </Button>
             <Button type="submit">
               {t('common.save')}
