@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Building, Users, FileText, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,7 +13,7 @@ interface AdminDashboardViewProps {
 
 const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile }) => {
   const { i18n } = useTranslation();
-  const { properties, tenants, roommates, contracts } = useOwnerData(currentProfile);
+  const { properties, tenants, roommates, contracts, payments } = useOwnerData(currentProfile);
   const { monthlyRevenue, totalActiveTenants, occupancyRate } = useDashboardMetrics();
 
   // Get texts based on current language
@@ -62,15 +62,39 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
   const totalTenants = totalActiveTenants; // Utilise les données du hook useDashboardMetrics
   const totalContracts = contracts.length;
 
-  // Mock data for the chart to match your screenshot
-  const chartData = [
-    { month: 'Jan', tenants: 0, roommates: 0 },
-    { month: 'Feb', tenants: 0, roommates: 0 },
-    { month: 'Mar', tenants: 0, roommates: 0 },
-    { month: 'Apr', tenants: 0, roommates: 0 },
-    { month: 'May', tenants: 0, roommates: 0 },
-    { month: 'Jun', tenants: 0, roommates: 0 },
-  ];
+  // Données réelles des revenus mensuels basées sur les paiements
+  const chartData = useMemo(() => {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const last6Months = [];
+    
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date();
+      date.setMonth(date.getMonth() - i);
+      last6Months.push({
+        month: monthNames[date.getMonth()],
+        monthIndex: date.getMonth(),
+        year: date.getFullYear()
+      });
+    }
+
+    return last6Months.map(({ month, monthIndex, year }) => {
+      const monthlyPayments = payments.filter(payment => {
+        if (!payment.paymentDate || payment.status !== 'Payé') return false;
+        const paymentDate = new Date(payment.paymentDate);
+        return paymentDate.getMonth() === monthIndex && 
+               paymentDate.getFullYear() === year;
+      });
+
+      // Tous vos revenus vont dans roommates (colocataires) car vous n'avez que ça
+      const totalRevenue = monthlyPayments.reduce((sum, payment) => sum + payment.rentAmount, 0);
+
+      return {
+        month,
+        tenants: 0, // Pas de locataires
+        roommates: totalRevenue // Tous vos revenus colocatifs
+      };
+    });
+  }, [payments]);
 
   return (
     <div className="p-6 space-y-6">
