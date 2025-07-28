@@ -27,18 +27,26 @@ const RevenueChart = () => {
 
     // Calculer les revenus pour chaque mois
     return last6Months.map(({ month, year, monthIndex }) => {
-      const monthlyRevenue = payments
-        .filter(payment => {
-          if (!payment.paymentDate || payment.status !== 'Payé') return false;
-          const paymentDate = new Date(payment.paymentDate);
-          return paymentDate.getMonth() === monthIndex && 
-                 paymentDate.getFullYear() === year;
-        })
+      const monthlyPayments = payments.filter(payment => {
+        if (!payment.paymentDate || payment.status !== 'Payé') return false;
+        const paymentDate = new Date(payment.paymentDate);
+        return paymentDate.getMonth() === monthIndex && 
+               paymentDate.getFullYear() === year;
+      });
+
+      // Séparer les revenus locatifs et colocatifs
+      const tenantRevenue = monthlyPayments
+        .filter(payment => payment.tenantType === 'tenant' || payment.tenantType === 'locataire')
+        .reduce((sum, payment) => sum + payment.rentAmount, 0);
+
+      const roommateRevenue = monthlyPayments
+        .filter(payment => payment.tenantType === 'roommate' || payment.tenantType === 'colocataire')
         .reduce((sum, payment) => sum + payment.rentAmount, 0);
 
       return {
         month,
-        revenue: monthlyRevenue
+        locatifs: tenantRevenue,
+        colocatifs: roommateRevenue
       };
     });
   }, [payments]);
@@ -46,7 +54,7 @@ const RevenueChart = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('dashboard.rentalRevenue')}</CardTitle>
+        <CardTitle>Revenus locatifs</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-80">
@@ -55,13 +63,27 @@ const RevenueChart = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip formatter={(value) => [`${value}€`, t('dashboard.revenue')]} />
+              <Tooltip 
+                formatter={(value, name) => [
+                  `${value}€`, 
+                  name === 'locatifs' ? 'Revenus locatifs' : 'Revenus colocatifs'
+                ]} 
+              />
               <Line 
                 type="monotone" 
-                dataKey="revenue" 
+                dataKey="locatifs" 
                 stroke="#2563eb" 
                 strokeWidth={3}
                 dot={{ fill: '#2563eb', strokeWidth: 2, r: 4 }}
+                name="locatifs"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="colocatifs" 
+                stroke="#10b981" 
+                strokeWidth={3}
+                dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                name="colocatifs"
               />
             </LineChart>
           </ResponsiveContainer>
