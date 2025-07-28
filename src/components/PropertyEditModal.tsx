@@ -193,7 +193,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                       uniqueOwners.push({
                         id: 'admin-neotech',
                         email: 'admin@neotech-consulting.com',
-                        name: 'admin@neotech-consulting.com',
+                        name: 'Administrateur',
                         role: 'admin'
                       });
                     }
