@@ -30,12 +30,21 @@ export function AdminSidebar() {
 
   return (
     <Sidebar
-      className={state === "collapsed" ? "w-14" : "w-60"}
+      className={`bg-green-500 text-white ${state === "collapsed" ? "w-14" : "w-60"}`}
       collapsible="icon"
     >
-      <SidebarContent>
+      <SidebarContent className="bg-green-500">
+        {/* Header */}
+        <div className="p-6 flex-shrink-0">
+          <div className="flex items-center">
+            <div className="h-6 w-6 bg-white/20 rounded mr-2 flex items-center justify-center">
+              <span className="text-white font-bold text-sm">N</span>
+            </div>
+            {state !== "collapsed" && <h1 className="text-xl font-bold text-white">NeoRent</h1>}
+          </div>
+        </div>
+
         <SidebarGroup>
-          <SidebarGroupLabel>Administration</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -44,9 +53,15 @@ export function AdminSidebar() {
                     <NavLink 
                       to={item.path} 
                       end 
-                      className={({ isActive }) => getNavCls({ isActive })}
+                      className={({ isActive }) => 
+                        `flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors mx-3 ${
+                          isActive
+                            ? 'bg-green-400 text-white'
+                            : 'text-white/90 hover:text-white hover:bg-green-400/50'
+                        }`
+                      }
                     >
-                      <item.icon className="mr-2 h-4 w-4" />
+                      <item.icon className="mr-3 h-5 w-5" />
                       {state !== "collapsed" && <span>{item.label}</span>}
                     </NavLink>
                   </SidebarMenuButton>
@@ -55,6 +70,18 @@ export function AdminSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Footer */}
+        <div className="mt-auto p-4 border-t border-green-400 flex-shrink-0">
+          <div className="text-center">
+            <div className="text-white text-sm font-medium animate-pulse">
+              NEOTECH-CONSULTING
+            </div>
+            <div className="text-white/80 text-xs mt-1">
+              Version 1.0 • {new Date().getFullYear()}
+            </div>
+          </div>
+        </div>
       </SidebarContent>
     </Sidebar>
   );
