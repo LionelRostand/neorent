@@ -18,7 +18,18 @@
       "history": "Historique", 
       "documents": "Documents",
       "upload": "Téléverser",
-      "profile": "Profil"
+      "profile": "Profil",
+      "chat": "Chat"
+    },
+    "chat": {
+      "title": "Chat avec les colocataires",
+      "contacts": "Contacts",
+      "noContacts": "Aucun colocataire disponible pour le chat",
+      "selectContact": "Sélectionnez un contact",
+      "selectContactDescription": "Choisissez un colocataire dans la liste pour commencer une conversation",
+      "startConversation": "Commencez votre conversation ici",
+      "typeMessage": "Tapez votre message...",
+      "send": "Envoyer"
     },
     "messages": {
       "description": "Communiquez avec votre gestionnaire immobilier et recevez des notifications importantes"

@@ -7,6 +7,7 @@ import RentHistory from './RentHistory';
 import DocumentsSection from './DocumentsSection';
 import RoommateContractView from './RoommateContractView';
 import SignedContractsView from './SignedContractsView';
+import TenantChat from './TenantChat';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useTenantSpaceData } from '@/hooks/useTenantSpaceData';
 
@@ -36,12 +37,13 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
 
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         <TabsTrigger value="overview">{t('tenantSpace.tabs.overview')}</TabsTrigger>
         <TabsTrigger value="history">{t('tenantSpace.tabs.history')}</TabsTrigger>
         <TabsTrigger value="documents">{t('tenantSpace.tabs.documents')}</TabsTrigger>
         {/* Onglet contrat pour tous les utilisateurs */}
         <TabsTrigger value="contract">{isRoommate ? 'Contrat' : 'Contrats'}</TabsTrigger>
+        <TabsTrigger value="chat">{t('tenantSpace.tabs.chat')}</TabsTrigger>
         <TabsTrigger value="profile">{t('tenantSpace.tabs.profile')}</TabsTrigger>
       </TabsList>
 
@@ -64,6 +66,10 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
       {/* Contenu des contrats adapté selon le type d'utilisateur */}
       <TabsContent value="contract" className="mt-6">
         {isRoommate ? <RoommateContractView /> : <SignedContractsView />}
+      </TabsContent>
+
+      <TabsContent value="chat" className="mt-6">
+        <TenantChat currentProfile={mockTenantData} />
       </TabsContent>
 
       <TabsContent value="profile" className="mt-6">
