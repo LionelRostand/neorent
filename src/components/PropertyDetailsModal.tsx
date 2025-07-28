@@ -183,7 +183,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                   variant={property.locationType === 'Colocation' ? 'default' : 'secondary'}
                   className={property.locationType === 'Colocation' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}
                 >
-                  {t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`)}
+                  {t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`, property.locationType)}
                 </Badge>
                 <Badge 
                   variant={occupancyInfo.status === 'Libre' ? 'secondary' : 'default'}
@@ -326,7 +326,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
                   <div className="text-center p-4 bg-gray-50 rounded-lg">
                     <Users className="h-8 w-8 mx-auto mb-2 text-purple-600" />
                     <div className="font-medium">{occupants.length} {t('properties.occupants')}</div>
-                    <div className="text-sm text-gray-600">{t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`)}</div>
+                    <div className="text-sm text-gray-600">{t(`propertyForm.locationTypes.${property.locationType.toLowerCase()}`, property.locationType)}</div>
                   </div>
                 </div>
               </CardContent>
