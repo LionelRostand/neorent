@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import PropertyMap from '@/components/Map/PropertyMap';
+import OpenStreetMap from '@/components/Map/OpenStreetMap';
 
 interface LocationFieldsProps {
   formData: any;
@@ -74,7 +74,7 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
       
       <div className="col-span-2">
         <Label>Localisation sur carte</Label>
-        <PropertyMap
+        <OpenStreetMap
           streetNumber={formData.streetNumber}
           street={formData.street}
           city={formData.city}
