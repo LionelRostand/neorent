@@ -220,10 +220,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Nos Propriétés Disponibles
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
-              Découvrez notre sélection de {sortedProperties.length} logements de qualité disponibles, 
-              soigneusement sélectionnés pour répondre à vos besoins
-            </p>
             
             <div className="flex justify-center">
               <Button
