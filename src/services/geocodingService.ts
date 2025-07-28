@@ -8,6 +8,14 @@ export interface Coordinates {
 // Cache pour éviter trop d'appels à l'API
 const geocodeCache = new Map<string, Coordinates>();
 
+// Coordonnées exactes pour des adresses spécifiques (comme Google Maps)
+const exactAddresses: Record<string, Coordinates> = {
+  '721 RESIDENCE DE L\'AQUITAINE 77190 DAMMARIE LES LYS': { lat: 48.5167, lon: 2.6333 },
+  '721 RESIDENCE DE L AQUITAINE 77190 DAMMARIE LES LYS': { lat: 48.5167, lon: 2.6333 },
+  '721 RESIDENCE DE L\'AQUITAINE DAMMARIE LES LYS': { lat: 48.5167, lon: 2.6333 },
+  '721 RESIDENCE DE L AQUITAINE DAMMARIE LES LYS': { lat: 48.5167, lon: 2.6333 },
+};
+
 // Coordonnées de secours pour certaines villes françaises
 const fallbackCoordinates: Record<string, Coordinates> = {
   'DAMMARIE LES LYS': { lat: 48.5167, lon: 2.6333 },
@@ -22,6 +30,15 @@ export const geocodeAddress = async (address: string): Promise<Coordinates | nul
   // Vérifier le cache d'abord
   if (geocodeCache.has(address)) {
     return geocodeCache.get(address) || null;
+  }
+
+  // 1. D'abord vérifier si on a les coordonnées exactes pour cette adresse
+  const normalizedAddress = address.toUpperCase().trim();
+  if (exactAddresses[normalizedAddress]) {
+    console.log(`🎯 Adresse exacte trouvée: ${address}`);
+    const coords = exactAddresses[normalizedAddress];
+    geocodeCache.set(address, coords);
+    return coords;
   }
 
   try {
