@@ -112,7 +112,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
   // Traduire le type de propriété
   const getTranslatedPropertyType = (type: string) => {
     const typeKey = type.toLowerCase();
-    return t(`properties.propertyTypes.${typeKey}`, type);
+    return t(`propertyForm.propertyTypes.${typeKey}`, type);
   };
 
   // Traduire le type de location
