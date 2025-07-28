@@ -62,6 +62,15 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
 
   const handleSubmitVisit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validation des champs obligatoires
+    if (!visitForm.name || !visitForm.email || !visitForm.phone || !visitForm.preferredDate || !visitForm.preferredTime) {
+      toast.error('Erreur de validation', {
+        description: 'Veuillez remplir tous les champs obligatoires (nom, email, téléphone, date et heure souhaitées).'
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -87,27 +96,48 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
         throw new Error('Impossible de créer ou trouver une conversation');
       }
 
-      // Construire le message de demande de visite
-      const visitMessage = `🏠 DEMANDE DE VISITE
+      // Construire le message de demande de visite avec toutes les informations
+      const visitMessage = `🏠 NOUVELLE DEMANDE DE VISITE
 
-Propriété : ${property.title}
-Adresse : ${property.address}
-Loyer : ${property.rent}€/mois
+═══════════════════════════════════
+📍 PROPRIÉTÉ
+═══════════════════════════════════
+• Nom : ${property.title}
+• Adresse : ${property.address}
+• Type : ${property.type} - ${property.surface}m²
+• Loyer : ${property.rent}€/mois
+• Statut : ${realStatus}
 
-👤 Informations du demandeur :
-Nom : ${visitForm.name}
-Email : ${visitForm.email}
-Téléphone : ${visitForm.phone}
+═══════════════════════════════════
+👤 INFORMATIONS DU DEMANDEUR
+═══════════════════════════════════
+• Nom complet : ${visitForm.name}
+• Email : ${visitForm.email}
+• Téléphone : ${visitForm.phone}
 
-📅 Créneaux souhaités :
-Date : ${new Date(visitForm.preferredDate).toLocaleDateString('fr-FR')}
-Heure : ${visitForm.preferredTime}
+═══════════════════════════════════
+📅 CRÉNEAUX DEMANDÉS
+═══════════════════════════════════
+• Date souhaitée : ${new Date(visitForm.preferredDate).toLocaleDateString('fr-FR', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      })}
+• Heure souhaitée : ${visitForm.preferredTime}
 
-💬 Message :
+💬 MESSAGE DU CLIENT :
 ${visitForm.message || 'Aucun message particulier'}
 
+═══════════════════════════════════
+ℹ️ INFORMATIONS SYSTÈME
+═══════════════════════════════════
+• Source : Site web public
+• Date de demande : ${new Date().toLocaleString('fr-FR')}
+• À traiter : Confirmer la visite par téléphone dans les 24h
+
 ---
-Cette demande a été envoyée depuis le site web public.`;
+Merci de contacter le client pour confirmer le rendez-vous.`;
 
       // Envoyer le message via le service de messages
       await messageService.sendMessage({
