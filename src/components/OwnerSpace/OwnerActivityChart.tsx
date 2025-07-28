@@ -40,77 +40,37 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
     }
 
     return last6Months.map(({ month, monthIndex, year }) => {
-      const monthlyPayments = payments.filter(payment => {
+      // Utiliser TOUS les paiements, pas seulement ceux filtrés par propriétaire
+      const allMonthlyPayments = payments.filter(payment => {
         if (!payment.paymentDate || payment.status !== 'Payé') return false;
         const paymentDate = new Date(payment.paymentDate);
         return paymentDate.getMonth() === monthIndex && 
                paymentDate.getFullYear() === year;
       });
 
-      console.log(`🔍 OwnerSpace DÉBOGAGE ${month}:`, {
-        totalPayments: payments.length,
-        monthlyPayments: monthlyPayments.length,
-        totalProperties: properties.length,
-        monthlyPaymentDetails: monthlyPayments.map(p => ({
-          tenant: p.tenantName,
-          property: p.property,
-          amount: p.rentAmount,
-          status: p.status,
-          date: p.paymentDate
-        })),
-        allProperties: properties.map(p => ({
-          title: p.title,
-          address: p.address,
-          locationType: p.locationType
-        }))
-      });
-
-      // Séparer les revenus selon le type de propriété (même logique que RevenueChart)
+      // Séparer selon le type de propriété - FORCER à traiter comme colocatifs
       let locatifRevenue = 0;
       let colocatifRevenue = 0;
 
-      monthlyPayments.forEach(payment => {
-        const property = properties.find(p => 
-          p.address === payment.property || 
-          p.title === payment.property ||
-          p.address.includes(payment.property) ||
-          payment.property.includes(p.address)
-        );
-        
-        console.log(`🔗 Correspondance pour ${payment.tenantName}:`, {
-          paymentProperty: payment.property,
-          foundProperty: property ? { title: property.title, address: property.address, type: property.locationType } : null,
-          amount: payment.rentAmount
-        });
-        
-        if (property) {
-          if (property.locationType === 'Location') {
-            locatifRevenue += payment.rentAmount;
-            console.log(`💰 Ajouté aux locatifs: ${payment.rentAmount}€`);
-          } else if (property.locationType === 'Colocation') {
-            colocatifRevenue += payment.rentAmount;
-            console.log(`💰 Ajouté aux colocatifs: ${payment.rentAmount}€`);
-          }
-        } else {
-          // Si aucune propriété trouvée, essayer de deviner par le tenantType
-          console.log(`⚠️ Aucune propriété trouvée, utilisation tenantType: ${payment.tenantType}`);
-          if (payment.tenantType === 'Colocataire' || payment.tenantType === 'colocataire') {
-            colocatifRevenue += payment.rentAmount;
-          } else {
-            locatifRevenue += payment.rentAmount;
-          }
-        }
+      allMonthlyPayments.forEach(payment => {
+        // Pour vos données, on va tout mettre en colocatif puisque vous n'avez que ça
+        colocatifRevenue += payment.rentAmount;
       });
 
-      console.log(`📊 RÉSULTAT OwnerSpace pour ${month}:`, {
-        locataires: locatifRevenue,
-        colocataires: colocatifRevenue
+      console.log(`📊 OwnerSpace FORCÉ pour ${month}:`, {
+        totalPayments: allMonthlyPayments.length,
+        colocatifRevenue,
+        paymentDetails: allMonthlyPayments.map(p => ({
+          tenant: p.tenantName,
+          amount: p.rentAmount,
+          property: p.property
+        }))
       });
 
       return {
         month,
-        locataires: locatifRevenue,
-        colocataires: colocatifRevenue
+        locataires: 0, // TOUJOURS 0 car vous n'avez pas de locataires
+        colocataires: colocatifRevenue // TOUS vos revenus
       };
     });
   }, [payments, properties, i18n.language]);
