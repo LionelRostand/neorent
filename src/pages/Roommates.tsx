@@ -286,20 +286,9 @@ const Roommates = () => {
           {/* Section Liste des Colocataires */}
           <div className="bg-white rounded-lg shadow-sm border">
             <div className="p-4 sm:p-6 border-b border-gray-200">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t('roommates.roommateList')}</h2>
-                  <p className="text-gray-600 mt-1 text-sm sm:text-base">{t('roommates.description')}</p>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCleanupDuplicates}
-                  className="bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100 hover:border-orange-300"
-                >
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Nettoyer les doublons
-                </Button>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t('roommates.roommateList')}</h2>
+                <p className="text-gray-600 mt-1 text-sm sm:text-base">{t('roommates.description')}</p>
               </div>
             </div>
             

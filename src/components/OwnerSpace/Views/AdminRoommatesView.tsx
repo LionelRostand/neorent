@@ -84,14 +84,6 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
               <Plus className="h-4 w-4 mr-2" />
               Nouveau colocataire
             </Button>
-            <Button 
-              onClick={handleCleanupDuplicates}
-              variant="outline"
-              className="bg-white/10 text-white border-white/30 hover:bg-white/20"
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Nettoyer les doublons
-            </Button>
           </div>
         </div>
       </div>
