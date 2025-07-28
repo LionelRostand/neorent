@@ -66,10 +66,14 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
         const reader = new FileReader();
         reader.onload = async (e) => {
           const base64Image = e.target?.result as string;
-          // Mise à jour de la propriété avec la nouvelle image
-          const updatedProperty = { ...property, image: base64Image };
-          await updateProperty(property.id, updatedProperty);
-          console.log('Property updated with new image');
+          try {
+            // Mise à jour de la propriété avec la nouvelle image
+            await updateProperty(property.id, { ...property, image: base64Image });
+            console.log('Property updated with new image');
+            // L'image sera automatiquement affichée grâce au re-render du composant
+          } catch (error) {
+            console.error('Error updating property image:', error);
+          }
         };
         reader.readAsDataURL(file);
       }
@@ -152,6 +156,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
           src={property.image || '/placeholder.svg'} 
           alt={property.title}
           className="w-full h-48 object-cover rounded-t-lg"
+          onError={(e) => {
+            e.currentTarget.src = '/placeholder.svg';
+          }}
         />
         <div className="absolute top-2 right-2 flex space-x-1">
           <Button
