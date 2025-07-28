@@ -40,7 +40,7 @@ export function AdminSidebar() {
             <div className="h-6 w-6 bg-white/20 rounded mr-2 flex items-center justify-center">
               <span className="text-white font-bold text-sm">N</span>
             </div>
-            {state !== "collapsed" && <h1 className="text-xl font-bold text-white">NeoRent</h1>}
+            {state !== "collapsed" && <h1 className="text-xl font-bold text-white">NEORENT</h1>}
           </div>
         </div>
 

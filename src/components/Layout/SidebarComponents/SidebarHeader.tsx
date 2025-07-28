@@ -7,7 +7,7 @@ const SidebarHeader: React.FC = () => {
     <div className="p-6 flex-shrink-0">
       <div className="flex items-center">
         <Building className="h-6 w-6 text-white mr-2" />
-        <h1 className="text-xl font-bold text-white">NeoRent</h1>
+        <h1 className="text-xl font-bold text-white">NEORENT</h1>
       </div>
     </div>
   );

@@ -68,7 +68,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
               </div>
               <div className="ml-3">
                 <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">
-                  Neo Rent
+                  NEORENT
                 </span>
                 <div className="text-xs text-gray-500 font-medium">Gestion immobilière</div>
               </div>
@@ -199,7 +199,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             <div>
               <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
                 <Home className="h-6 w-6 text-green-400" />
-                <span className="ml-2 text-lg font-bold">Neo Rent</span>
+                <span className="ml-2 text-lg font-bold">NEORENT</span>
               </Link>
               <p className="mt-4 text-gray-400 text-sm lg:text-base">
                 {t('publicSite.footer.description')}
