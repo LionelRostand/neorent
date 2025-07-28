@@ -241,25 +241,38 @@ const Roommates = () => {
             </div>
           )}
 
-          {/* En-tête avec titre et bouton d'ajout */}
+          {/* En-tête avec titre et boutons d'action */}
           <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('roommates.management')}</h1>
                 <p className="text-gray-600 mt-2 text-sm sm:text-base">{t('roommates.description')}</p>
               </div>
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto">
-                    <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                    <span className="text-sm sm:text-base">{t('roommates.addRoommate')}</span>
-                  </Button>
-                </DialogTrigger>
-                <RoommateForm
-                  onClose={() => setIsDialogOpen(false)}
-                  onSubmit={handleAddRoommate}
-                />
-              </Dialog>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+                {/* Bouton de nettoyage des doublons */}
+                <Button 
+                  onClick={handleCleanupDuplicates}
+                  variant="outline" 
+                  className="border-orange-500 text-orange-600 hover:bg-orange-50 px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto"
+                >
+                  <Users className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="text-sm sm:text-base">Nettoyer les doublons</span>
+                </Button>
+                
+                {/* Bouton d'ajout de colocataire */}
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 w-full sm:w-auto">
+                      <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                      <span className="text-sm sm:text-base">{t('roommates.addRoommate')}</span>
+                    </Button>
+                  </DialogTrigger>
+                  <RoommateForm
+                    onClose={() => setIsDialogOpen(false)}
+                    onSubmit={handleAddRoommate}
+                  />
+                </Dialog>
+              </div>
             </div>
           </div>
 

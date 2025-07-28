@@ -122,27 +122,50 @@ export const useFirebaseRoommates = () => {
         ...doc.data()
       }));
 
-      // Grouper par email + nom pour détecter les doublons
+      console.log(`🔍 Recherche de doublons parmi ${allRoommates.length} colocataires...`);
+
+      // Grouper par email normalisé + nom normalisé pour détecter les doublons
       const emailGroups = allRoommates.reduce((groups: any, roommate: any) => {
-        const key = `${roommate.email}_${roommate.name}`;
+        // Normaliser email et nom (minuscules, espaces supprimés)
+        const normalizedEmail = (roommate.email || '').toLowerCase().trim();
+        const normalizedName = (roommate.name || '').toLowerCase().trim().replace(/\s+/g, ' ');
+        const key = `${normalizedEmail}_${normalizedName}`;
+        
         if (!groups[key]) groups[key] = [];
         groups[key].push(roommate);
         return groups;
       }, {});
 
-      // Supprimer les doublons (garder le premier, supprimer les autres)
+      // Supprimer les doublons (garder le plus récent ou celui avec plus d'infos)
       const duplicatesToDelete = [];
       for (const [key, duplicates] of Object.entries(emailGroups) as [string, any[]][]) {
         if (duplicates.length > 1) {
           console.log(`🗑️ Doublons trouvés pour ${key}:`, duplicates.length);
-          // Garder le premier, marquer les autres pour suppression
-          duplicatesToDelete.push(...duplicates.slice(1));
+          console.log('Détails des doublons:', duplicates.map(d => ({
+            id: d.docId,
+            name: d.name,
+            email: d.email,
+            property: d.property,
+            room: d.room
+          })));
+          
+          // Trier par qualité des données (plus d'infos = meilleur)
+          const sortedDuplicates = duplicates.sort((a, b) => {
+            const scoreA = (a.name ? 1 : 0) + (a.email ? 1 : 0) + (a.property ? 1 : 0) + (a.room ? 1 : 0) + (a.rentAmount ? 1 : 0);
+            const scoreB = (b.name ? 1 : 0) + (b.email ? 1 : 0) + (b.property ? 1 : 0) + (b.room ? 1 : 0) + (b.rentAmount ? 1 : 0);
+            return scoreB - scoreA; // Meilleur score en premier
+          });
+          
+          // Garder le premier (meilleur), marquer les autres pour suppression
+          duplicatesToDelete.push(...sortedDuplicates.slice(1));
+          console.log(`📌 Garder:`, sortedDuplicates[0].name, sortedDuplicates[0].property);
+          console.log(`🗑️ Supprimer:`, sortedDuplicates.slice(1).map(d => `${d.name} (${d.property})`));
         }
       }
 
       // Supprimer les doublons de Firestore
       for (const duplicate of duplicatesToDelete) {
-        console.log(`🗑️ Suppression du doublon:`, duplicate.docId, duplicate.name);
+        console.log(`🗑️ Suppression du doublon:`, duplicate.docId, duplicate.name, duplicate.property);
         await deleteDoc(doc(db, 'Rent_colocataires', duplicate.docId));
       }
 
@@ -150,6 +173,8 @@ export const useFirebaseRoommates = () => {
         console.log(`✅ ${duplicatesToDelete.length} doublons supprimés`);
         // Recharger les données après le nettoyage
         await fetchRoommates();
+      } else {
+        console.log('✅ Aucun doublon trouvé');
       }
 
       return duplicatesToDelete.length;
