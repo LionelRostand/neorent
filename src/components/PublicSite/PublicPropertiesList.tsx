@@ -74,11 +74,15 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
       
       console.log(`🏠 ${property.title}: ${activeRoommates} colocataires actifs / ${totalRooms} chambres = ${availableRooms} disponibles`);
       
+      // Logique corrigée : si toutes les chambres sont libres = Libre
       if (availableRooms === totalRooms) {
+        console.log(`✅ Statut: Libre (${availableRooms}/${totalRooms})`);
         return { status: 'Libre', color: 'bg-green-100 text-green-800 border-green-200' };
       } else if (availableRooms > 0) {
+        console.log(`⚠️ Statut: Partiellement occupé (${availableRooms}/${totalRooms})`);
         return { status: 'Partiellement occupé', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' };
       } else {
+        console.log(`❌ Statut: Occupé (${availableRooms}/${totalRooms})`);
         return { status: 'Occupé', color: 'bg-red-100 text-red-800 border-red-200' };
       }
     } else {
