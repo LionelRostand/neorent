@@ -101,6 +101,11 @@ export const createQuickActionsConfig = (
         description: { fr: 'Communication', en: 'Communication' },
         preview: { fr: 'Nouveaux messages', en: 'New messages' }
       },
+      chat: {
+        title: { fr: 'Chat NeoRent', en: 'NeoRent Chat' },
+        description: { fr: 'Discuter avec locataires', en: 'Chat with tenants' },
+        preview: { fr: 'Conversations actives', en: 'Active conversations' }
+      },
       taxes: {
         title: { fr: 'Fiscalité', en: 'Tax Management' },
         description: { fr: 'Gestion fiscale', en: 'Tax management' },
@@ -256,6 +261,18 @@ export const createQuickActionsConfig = (
           setActiveView('admin-messages');
         } else {
           navigate('/admin/messages');
+        }
+      }
+    },
+    chat: {
+      id: 'chat',
+      icon: MessageSquare,
+      color: 'bg-green-500',
+      action: () => {
+        if (setActiveView) {
+          setActiveView('chat');
+        } else {
+          navigate('/owner-space?view=chat');
         }
       }
     },

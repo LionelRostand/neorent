@@ -30,6 +30,7 @@ interface TenantMessage {
   conversationId: string;
   senderId: string;
   senderName: string;
+  senderType: 'tenant' | 'roommate' | 'owner' | 'admin';
   content: string;
   timestamp: Timestamp;
   read: boolean;

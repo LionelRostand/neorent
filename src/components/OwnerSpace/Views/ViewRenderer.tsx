@@ -11,6 +11,7 @@ import AdminDashboardView from './AdminDashboardView';
 import Messages from '@/pages/Messages';
 import Website from '@/pages/Website';
 import Help from '@/pages/Help';
+import OwnerChat from '@/components/OwnerSpace/OwnerChat';
 
 interface ViewRendererProps {
   activeView: string;
@@ -52,6 +53,8 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
         return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'messages':
         return <Messages />;
+      case 'chat':
+        return <OwnerChat ownerProfile={currentProfile} />;
       case 'website':
         return <Website />;
       case 'help':

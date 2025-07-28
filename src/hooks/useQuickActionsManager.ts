@@ -61,6 +61,17 @@ export const defaultQuickActions: QuickActionConfig[] = [
     order: 4,
     action: 'dialog',
     actionValue: 'roommate'
+  },
+  {
+    id: 'chat',
+    title: { fr: 'Chat NeoRent', en: 'NeoRent Chat' },
+    description: { fr: 'Discuter avec locataires', en: 'Chat with tenants' },
+    icon: 'MessageSquare',
+    color: 'bg-green-500',
+    enabled: true,
+    order: 5,
+    action: 'navigate',
+    actionValue: 'chat'
   }
 ];
 
