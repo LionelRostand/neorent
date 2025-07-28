@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { Users, Home, TrendingUp } from 'lucide-react';
 
 interface OwnerActivityChartProps {
@@ -13,6 +14,7 @@ interface OwnerActivityChartProps {
 const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile }) => {
   const { t, i18n } = useTranslation();
   const { tenants, roommates, payments } = useOwnerData(ownerProfile);
+  const { properties } = useFirebaseProperties();
 
   // Get month names based on current language
   const getMonthNames = () => {
@@ -38,33 +40,54 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
     }
 
     return last6Months.map(({ month, monthIndex, year }) => {
-      const monthlyTenantPayments = payments
-        .filter(payment => {
-          if (!payment.paymentDate || payment.status !== 'Payé') return false;
-          const paymentDate = new Date(payment.paymentDate);
-          return paymentDate.getMonth() === monthIndex && 
-                 paymentDate.getFullYear() === year &&
-                 payment.tenantType === 'Locataire';
-        })
-        .reduce((sum, payment) => sum + payment.rentAmount, 0);
+      const monthlyPayments = payments.filter(payment => {
+        if (!payment.paymentDate || payment.status !== 'Payé') return false;
+        const paymentDate = new Date(payment.paymentDate);
+        return paymentDate.getMonth() === monthIndex && 
+               paymentDate.getFullYear() === year;
+      });
 
-      const monthlyRoommatePayments = payments
-        .filter(payment => {
-          if (!payment.paymentDate || payment.status !== 'Payé') return false;
-          const paymentDate = new Date(payment.paymentDate);
-          return paymentDate.getMonth() === monthIndex && 
-                 paymentDate.getFullYear() === year &&
-                 payment.tenantType === 'Colocataire';
-        })
-        .reduce((sum, payment) => sum + payment.rentAmount, 0);
+      // Séparer les revenus selon le type de propriété (même logique que RevenueChart)
+      let locatifRevenue = 0;
+      let colocatifRevenue = 0;
+
+      monthlyPayments.forEach(payment => {
+        const property = properties.find(p => 
+          p.address === payment.property || 
+          p.title === payment.property ||
+          p.address.includes(payment.property) ||
+          payment.property.includes(p.address)
+        );
+        
+        if (property) {
+          if (property.locationType === 'Location') {
+            locatifRevenue += payment.rentAmount;
+          } else if (property.locationType === 'Colocation') {
+            colocatifRevenue += payment.rentAmount;
+          }
+        } else {
+          // Si aucune propriété trouvée, essayer de deviner par le tenantType
+          if (payment.tenantType === 'Colocataire' || payment.tenantType === 'colocataire') {
+            colocatifRevenue += payment.rentAmount;
+          } else {
+            locatifRevenue += payment.rentAmount;
+          }
+        }
+      });
+
+      console.log(`📊 Revenus OwnerSpace pour ${month}:`, {
+        locataires: locatifRevenue,
+        colocataires: colocatifRevenue,
+        totalPayments: monthlyPayments.length
+      });
 
       return {
         month,
-        locataires: monthlyTenantPayments,
-        colocataires: monthlyRoommatePayments
+        locataires: locatifRevenue,
+        colocataires: colocatifRevenue
       };
     });
-  }, [payments, i18n.language]);
+  }, [payments, properties, i18n.language]);
 
   // Données pour le graphique en secteurs de répartition
   const distributionData = useMemo(() => {
