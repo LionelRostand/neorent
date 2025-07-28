@@ -53,8 +53,29 @@ export const useFirebaseOwners = () => {
       console.log('✅ Final combined owners:', uniqueOwners);
 
       setOwners(uniqueOwners);
+      
+      // If no owners found, add a default admin owner
+      if (uniqueOwners.length === 0) {
+        console.log('⚠️ No owners found, adding default admin');
+        const defaultOwner: Owner = {
+          id: 'admin-default',
+          name: 'Lionel DJOSSA',
+          email: 'admin@neotech-consulting.com',
+          role: 'admin'
+        };
+        setOwners([defaultOwner]);
+      }
     } catch (error) {
-      console.error('Error fetching owners:', error);
+      console.error('❌ Error fetching owners:', error);
+      
+      // Set default owner in case of error
+      const defaultOwner: Owner = {
+        id: 'admin-default',
+        name: 'Lionel DJOSSA', 
+        email: 'admin@neotech-consulting.com',
+        role: 'admin'
+      };
+      setOwners([defaultOwner]);
     } finally {
       setLoading(false);
     }
