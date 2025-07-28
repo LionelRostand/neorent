@@ -335,8 +335,8 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Location">{t('propertyForm.locationTypes.location')}</SelectItem>
-                <SelectItem value="Colocation">{t('propertyForm.locationTypes.colocation')}</SelectItem>
+                <SelectItem value="Location">{t('properties.locationTypes.location')}</SelectItem>
+                <SelectItem value="Colocation">{t('properties.locationTypes.colocation')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
