@@ -14,8 +14,11 @@ import {
   Square,
   Image as ImageIcon,
   Plus,
-  Trash2
+  Trash2,
+  Upload
 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import DocumentUploadComponent from '@/components/DocumentUploadComponent';
 
 interface PropertyEditPanelProps {
   selectedProperty: any;
@@ -157,28 +160,59 @@ export const PropertyEditPanel = ({
 
           {/* Add new image */}
           {localImages.length < 3 && (
-            <div className="space-y-2">
-              <div className="flex gap-2">
-                <Input
-                  placeholder="URL de l'image"
-                  value={newImageUrl}
-                  onChange={(e) => setNewImageUrl(e.target.value)}
-                  className="flex-1"
-                />
-                <Button
-                  size="sm"
-                  onClick={addImage}
-                  disabled={!newImageUrl.trim()}
-                >
+            <Tabs defaultValue="upload" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="upload" className="flex items-center gap-2">
+                  <Upload className="h-4 w-4" />
+                  Upload fichier
+                </TabsTrigger>
+                <TabsTrigger value="url" className="flex items-center gap-2">
                   <Plus className="h-4 w-4" />
-                </Button>
-              </div>
-              <p className="text-xs text-gray-500">
-                {localImages.length}/3 images ajoutées
-                {localImages.length >= 3 && " (maximum atteint)"}
-              </p>
-            </div>
+                  Ajouter URL
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="upload" className="space-y-2">
+                <DocumentUploadComponent
+                  folder="property-images"
+                  onUploadSuccess={(result) => {
+                    if (localImages.length < 3) {
+                      const updatedImages = [...localImages, result.url];
+                      setLocalImages(updatedImages);
+                      console.log('Updated images for property:', selectedProperty?._id || selectedProperty?.id, updatedImages);
+                    }
+                  }}
+                  allowedTypes={['image/*']}
+                  maxSizeMB={5}
+                  label="Choisir une image"
+                  accept="image/*"
+                />
+              </TabsContent>
+              
+              <TabsContent value="url" className="space-y-2">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="URL de l'image"
+                    value={newImageUrl}
+                    onChange={(e) => setNewImageUrl(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button
+                    size="sm"
+                    onClick={addImage}
+                    disabled={!newImageUrl.trim()}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              </TabsContent>
+            </Tabs>
           )}
+          
+          <p className="text-xs text-gray-500">
+            {localImages.length}/3 images ajoutées
+            {localImages.length >= 3 && " (maximum atteint)"}
+          </p>
 
           {localImages.length === 0 && (
             <div className="w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center">
