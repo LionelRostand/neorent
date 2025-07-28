@@ -100,12 +100,30 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return property.status === 'Libre' ? 1 : 0;
   };
 
-  // Utiliser les vraies propriétés Firebase si disponibles, sinon les données de test
-  console.log('🚀 Using finalProperties:', finalProperties.length, finalProperties);
-  const filteredProperties = finalProperties; // Utiliser les données finales (Firebase ou test)
+  // Filtrer les propriétés selon le terme de recherche
+  const filteredProperties = finalProperties.filter(property => {
+    if (!searchFilter.trim()) return true;
+    
+    const searchLower = searchFilter.toLowerCase();
+    
+    return (
+      property.title?.toLowerCase().includes(searchLower) ||
+      property.address?.toLowerCase().includes(searchLower) ||
+      property.type?.toLowerCase().includes(searchLower)
+    );
+  });
   
-  // Pas de tri pour le moment
-  const sortedProperties = filteredProperties;
+  // Trier par statut (Libre en premier) puis par titre
+  const sortedProperties = filteredProperties.sort((a, b) => {
+    const statusA = getRealStatus(a);
+    const statusB = getRealStatus(b);
+    
+    // Libre en premier, puis par ordre alphabétique
+    if (statusA.status === 'Libre' && statusB.status !== 'Libre') return -1;
+    if (statusA.status !== 'Libre' && statusB.status === 'Libre') return 1;
+    
+    return a.title.localeCompare(b.title);
+  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
