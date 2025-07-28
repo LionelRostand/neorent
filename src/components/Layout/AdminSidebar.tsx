@@ -44,32 +44,28 @@ export function AdminSidebar() {
           </div>
         </div>
 
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.path} 
-                      end 
-                      className={({ isActive }) => 
-                        `flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors mx-3 my-1 ${
-                          isActive
-                            ? 'bg-green-400 text-white'
-                            : 'text-white/90 hover:text-white hover:bg-green-400/50'
-                        }`
-                      }
-                    >
-                      <item.icon className="mr-3 h-5 w-5" />
-                      {state !== "collapsed" && <span>{item.label}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {/* Navigation Menu */}
+        <div className="flex-1 px-3">
+          <div className="space-y-2">
+            {menuItems.map((item) => (
+              <NavLink 
+                key={item.path}
+                to={item.path} 
+                end 
+                className={({ isActive }) => 
+                  `flex items-center px-3 py-3 text-sm font-medium rounded-md transition-colors ${
+                    isActive
+                      ? 'bg-green-400 text-white'
+                      : 'text-white/90 hover:text-white hover:bg-green-400/50'
+                  }`
+                }
+              >
+                <item.icon className="mr-3 h-5 w-5" />
+                {state !== "collapsed" && <span>{item.label}</span>}
+              </NavLink>
+            ))}
+          </div>
+        </div>
 
         {/* Footer */}
         <div className="mt-auto p-4 border-t border-green-400 flex-shrink-0">
