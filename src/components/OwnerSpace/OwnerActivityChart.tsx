@@ -47,6 +47,24 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
                paymentDate.getFullYear() === year;
       });
 
+      console.log(`🔍 OwnerSpace DÉBOGAGE ${month}:`, {
+        totalPayments: payments.length,
+        monthlyPayments: monthlyPayments.length,
+        totalProperties: properties.length,
+        monthlyPaymentDetails: monthlyPayments.map(p => ({
+          tenant: p.tenantName,
+          property: p.property,
+          amount: p.rentAmount,
+          status: p.status,
+          date: p.paymentDate
+        })),
+        allProperties: properties.map(p => ({
+          title: p.title,
+          address: p.address,
+          locationType: p.locationType
+        }))
+      });
+
       // Séparer les revenus selon le type de propriété (même logique que RevenueChart)
       let locatifRevenue = 0;
       let colocatifRevenue = 0;
@@ -59,14 +77,23 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
           payment.property.includes(p.address)
         );
         
+        console.log(`🔗 Correspondance pour ${payment.tenantName}:`, {
+          paymentProperty: payment.property,
+          foundProperty: property ? { title: property.title, address: property.address, type: property.locationType } : null,
+          amount: payment.rentAmount
+        });
+        
         if (property) {
           if (property.locationType === 'Location') {
             locatifRevenue += payment.rentAmount;
+            console.log(`💰 Ajouté aux locatifs: ${payment.rentAmount}€`);
           } else if (property.locationType === 'Colocation') {
             colocatifRevenue += payment.rentAmount;
+            console.log(`💰 Ajouté aux colocatifs: ${payment.rentAmount}€`);
           }
         } else {
           // Si aucune propriété trouvée, essayer de deviner par le tenantType
+          console.log(`⚠️ Aucune propriété trouvée, utilisation tenantType: ${payment.tenantType}`);
           if (payment.tenantType === 'Colocataire' || payment.tenantType === 'colocataire') {
             colocatifRevenue += payment.rentAmount;
           } else {
@@ -75,10 +102,9 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
         }
       });
 
-      console.log(`📊 Revenus OwnerSpace pour ${month}:`, {
+      console.log(`📊 RÉSULTAT OwnerSpace pour ${month}:`, {
         locataires: locatifRevenue,
-        colocataires: colocatifRevenue,
-        totalPayments: monthlyPayments.length
+        colocataires: colocatifRevenue
       });
 
       return {
