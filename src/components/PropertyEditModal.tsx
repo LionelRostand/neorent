@@ -54,6 +54,9 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
   const { owners, loading: ownersLoading } = useFirebaseOwners();
   const [formData, setFormData] = useState<Partial<Property>>({});
 
+  console.log('🔧 PropertyEditModal - owners loaded:', owners);
+  console.log('🔧 PropertyEditModal - loading:', ownersLoading);
+
   useEffect(() => {
     if (property) {
       // Si les champs séparés n'existent pas, tenter de décomposer l'adresse
