@@ -13,6 +13,10 @@ interface Property {
   id: string;
   title: string;
   address: string;
+  streetNumber?: string;
+  street?: string;
+  city?: string;
+  postalCode?: string;
   type: string;
   surface: string;
   rent: string;
@@ -50,8 +54,35 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
 
   useEffect(() => {
     if (property) {
+      // Si les champs séparés n'existent pas, tenter de décomposer l'adresse
+      let streetNumber = property.streetNumber || '';
+      let street = property.street || '';
+      let city = property.city || '';
+      let postalCode = property.postalCode || '';
+      
+      // Si aucun champ séparé n'existe mais qu'on a une adresse
+      if (!streetNumber && !street && !city && !postalCode && property.address) {
+        // Exemple: "721 RESIDENCE DE L'AQUITAINE 77190 DAMMARIE LES LYS"
+        const addressParts = property.address.trim().split(' ');
+        if (addressParts.length >= 4) {
+          // Premier élément = numéro
+          streetNumber = addressParts[0];
+          // Chercher le code postal (5 chiffres)
+          const postalIndex = addressParts.findIndex(part => /^\d{5}$/.test(part));
+          if (postalIndex > 0) {
+            postalCode = addressParts[postalIndex];
+            street = addressParts.slice(1, postalIndex).join(' ');
+            city = addressParts.slice(postalIndex + 1).join(' ');
+          }
+        }
+      }
+      
       setFormData({
         ...property,
+        streetNumber,
+        street,
+        city,
+        postalCode,
         charges: property.charges || {
           electricity: 0,
           water: 0,
@@ -96,7 +127,15 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (property && formData) {
-      onSave(property.id, formData);
+      // Construire l'adresse complète à partir des champs séparés
+      const fullAddress = `${formData.streetNumber || ''} ${formData.street || ''} ${formData.postalCode || ''} ${formData.city || ''}`.trim();
+      
+      const updatedData = {
+        ...formData,
+        address: fullAddress
+      };
+      
+      onSave(property.id, updatedData);
       onClose();
     }
   };
@@ -130,14 +169,51 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
               />
             </div>
           </div>
-          <div>
-            <Label htmlFor="address">{t('propertyForm.addressRequired')}</Label>
-            <Textarea
-              id="address"
-              value={formData.address || ''}
-              onChange={(e) => setFormData({...formData, address: e.target.value})}
-              required
-            />
+          {/* Champs d'adresse séparés */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="streetNumber">Numéro *</Label>
+              <Input
+                id="streetNumber"
+                value={formData.streetNumber || ''}
+                onChange={(e) => setFormData({...formData, streetNumber: e.target.value})}
+                placeholder="Ex: 721"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="street">Rue *</Label>
+              <Input
+                id="street"
+                value={formData.street || ''}
+                onChange={(e) => setFormData({...formData, street: e.target.value})}
+                placeholder="Ex: Résidence de l'Aquitaine"
+                required
+              />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="city">Ville *</Label>
+              <Input
+                id="city"
+                value={formData.city || ''}
+                onChange={(e) => setFormData({...formData, city: e.target.value})}
+                placeholder="Ex: Dammarie-les-Lys"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="postalCode">Code postal *</Label>
+              <Input
+                id="postalCode"
+                value={formData.postalCode || ''}
+                onChange={(e) => setFormData({...formData, postalCode: e.target.value})}
+                placeholder="Ex: 77190"
+                required
+              />
+            </div>
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div>
