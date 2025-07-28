@@ -33,6 +33,22 @@ const Roommates = () => {
   const searchingCount = roommates.filter(r => r.status === 'En recherche').length;
   const totalCount = roommates.length;
 
+  // Debug: Afficher les données des colocataires pour vérification
+  console.log('📊 MÉTRIQUES COLOCATAIRES DEBUG:', {
+    totalRoommates: roommates.length,
+    roommatesDetails: roommates.map(r => ({
+      name: r.name,
+      status: r.status,
+      property: r.property
+    })),
+    counts: {
+      actifs: activeCount,
+      inactifs: inactiveCount,
+      enRecherche: searchingCount,
+      total: totalCount
+    }
+  });
+
   // Calculer les alertes de paiement
   const paymentAlerts = roommates
     .filter(r => r.status === 'Actif')
