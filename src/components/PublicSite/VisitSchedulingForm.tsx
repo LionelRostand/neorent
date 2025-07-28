@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { messageService } from '@/services/messageService';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { 
   Calendar,
   X
@@ -16,6 +17,7 @@ interface VisitSchedulingFormProps {
 }
 
 export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormProps) => {
+  const { roommates } = useFirebaseRoommates();
   const [visitForm, setVisitForm] = useState({
     name: '',
     email: '',
@@ -25,6 +27,30 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Calculer le statut réel (même logique que dans les autres composants)
+  const getRealStatus = (property: any) => {
+    if (property.locationType === 'Colocation') {
+      const activeRoommates = roommates.filter(
+        roommate => roommate.property === property.title && roommate.status === 'Actif'
+      ).length;
+      
+      const totalRooms = property.totalRooms || 1;
+      const availableRooms = totalRooms - activeRoommates;
+      
+      if (availableRooms === totalRooms) {
+        return 'Libre';
+      } else if (availableRooms > 0) {
+        return 'Partiellement occupé';
+      } else {
+        return 'Occupé';
+      }
+    } else {
+      return property.status;
+    }
+  };
+
+  const realStatus = getRealStatus(property);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -134,7 +160,7 @@ Cette demande a été envoyée depuis le site web public.`;
           <p><strong>Adresse :</strong> {property.address}</p>
           <p><strong>Type :</strong> {property.type} - {property.surface}m²</p>
           <p><strong>Loyer :</strong> {property.rent}€/mois</p>
-          <p><strong>Statut :</strong> <span className="font-medium">{property.status}</span></p>
+          <p><strong>Statut :</strong> <span className="font-medium">{realStatus}</span></p>
         </div>
       </div>
 
