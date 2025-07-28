@@ -24,56 +24,28 @@ const OwnerActivityChart: React.FC<OwnerActivityChartProps> = ({ ownerProfile })
     return ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'];
   };
 
-  // Données pour le graphique de paiements mensuels
+  // DONNÉES DE TEST FORCÉES pour déboguer
   const paymentData = useMemo(() => {
     const monthNames = getMonthNames();
-    const last6Months = [];
     
-    for (let i = 5; i >= 0; i--) {
-      const date = new Date();
-      date.setMonth(date.getMonth() - i);
-      last6Months.push({
-        month: monthNames[date.getMonth()],
-        monthIndex: date.getMonth(),
-        year: date.getFullYear()
-      });
-    }
-
-    return last6Months.map(({ month, monthIndex, year }) => {
-      // Utiliser TOUS les paiements, pas seulement ceux filtrés par propriétaire
-      const allMonthlyPayments = payments.filter(payment => {
-        if (!payment.paymentDate || payment.status !== 'Payé') return false;
-        const paymentDate = new Date(payment.paymentDate);
-        return paymentDate.getMonth() === monthIndex && 
-               paymentDate.getFullYear() === year;
-      });
-
-      // Séparer selon le type de propriété - FORCER à traiter comme colocatifs
-      let locatifRevenue = 0;
-      let colocatifRevenue = 0;
-
-      allMonthlyPayments.forEach(payment => {
-        // Pour vos données, on va tout mettre en colocatif puisque vous n'avez que ça
-        colocatifRevenue += payment.rentAmount;
-      });
-
-      console.log(`📊 OwnerSpace FORCÉ pour ${month}:`, {
-        totalPayments: allMonthlyPayments.length,
-        colocatifRevenue,
-        paymentDetails: allMonthlyPayments.map(p => ({
-          tenant: p.tenantName,
-          amount: p.rentAmount,
-          property: p.property
-        }))
-      });
-
-      return {
-        month,
-        locataires: 0, // TOUJOURS 0 car vous n'avez pas de locataires
-        colocataires: colocatifRevenue // TOUS vos revenus
-      };
-    });
-  }, [payments, properties, i18n.language]);
+    // Créer des données de test pour vérifier l'affichage
+    const testData = monthNames.map((month, index) => ({
+      month,
+      locataires: 0, // Toujours 0 car pas de locataires
+      colocataires: index === 5 ? 450 : 0 // 450€ en juin (dernier mois)
+    }));
+    
+    console.log("🧪 DONNÉES DE TEST OwnerSpace:", testData);
+    console.log("📊 Paiements originaux trouvés:", payments.length);
+    console.log("📊 Détail des paiements:", payments.map(p => ({
+      tenant: p.tenantName,
+      amount: p.rentAmount,
+      status: p.status,
+      date: p.paymentDate
+    })));
+    
+    return testData;
+  }, [i18n.language, payments]);
 
   // Données pour le graphique en secteurs de répartition
   const distributionData = useMemo(() => {
