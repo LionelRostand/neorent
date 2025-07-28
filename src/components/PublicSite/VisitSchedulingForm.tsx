@@ -66,19 +66,25 @@ export const VisitSchedulingForm = ({ property, onClose }: VisitSchedulingFormPr
 
     try {
       // Créer ou trouver une conversation pour ce client
-      let conversation;
+      let conversationId;
       try {
-        conversation = await messageService.findConversationByEmail(visitForm.email);
+        const existingConversation = await messageService.findConversationByEmail(visitForm.email);
+        conversationId = existingConversation?.id;
       } catch (error) {
         console.log('Conversation not found, creating new one');
       }
       
-      if (!conversation) {
-        // Fix: Use the correct signature for createConversation without clientPhone
-        conversation = await messageService.createConversation({
+      if (!conversationId) {
+        // createConversation retourne directement l'ID de la conversation
+        conversationId = await messageService.createConversation({
           clientName: visitForm.name,
           clientEmail: visitForm.email
         });
+      }
+
+      // Vérifier que conversationId n'est pas undefined
+      if (!conversationId) {
+        throw new Error('Impossible de créer ou trouver une conversation');
       }
 
       // Construire le message de demande de visite
@@ -105,7 +111,7 @@ Cette demande a été envoyée depuis le site web public.`;
 
       // Envoyer le message via le service de messages
       await messageService.sendMessage({
-        conversationId: conversation.id,
+        conversationId: conversationId,
         sender: 'client',
         senderName: visitForm.name,
         senderEmail: visitForm.email,
