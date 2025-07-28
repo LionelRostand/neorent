@@ -68,7 +68,8 @@
     "apartmentOccupied": "Appartement occupé",
     "availableRooms": "Chambres disponibles",
     "status": "Statut",
-    "underRenovation": "En travaux"
+    "underRenovation": "En travaux",
+    "uploadPhoto": "Ajouter une photo"
   },
   "propertyForm": {
     "addTitle": "Ajouter une propriété",

@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Home, Euro, Edit, Trash2 } from 'lucide-react';
+import { MapPin, Home, Euro, Edit, Trash2, Camera } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 
 interface Property {
   id: string;
@@ -32,6 +33,7 @@ interface PropertyCardProps {
 const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, onDelete }) => {
   const { t } = useTranslation();
   const { roommates } = useFirebaseRoommates();
+  const { updateProperty } = useFirebaseProperties();
 
   const handleCardClick = () => {
     if (onClick) {
@@ -51,6 +53,28 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
     if (onDelete && window.confirm(t('properties.confirmDelete'))) {
       onDelete(property.id);
     }
+  };
+
+  const handlePhotoUpload = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async (event) => {
+      const file = (event.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const base64Image = e.target?.result as string;
+          // Mise à jour de la propriété avec la nouvelle image
+          const updatedProperty = { ...property, image: base64Image };
+          await updateProperty(property.id, updatedProperty);
+          console.log('Property updated with new image');
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
   };
 
   const getLocationTypeColor = (locationType: string) => {
@@ -130,6 +154,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
           className="w-full h-48 object-cover rounded-t-lg"
         />
         <div className="absolute top-2 right-2 flex space-x-1">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePhotoUpload}
+            className="bg-white/90 hover:bg-white"
+            title={t('properties.uploadPhoto')}
+          >
+            <Camera className="h-4 w-4" />
+          </Button>
           <Button
             variant="outline"
             size="sm"
