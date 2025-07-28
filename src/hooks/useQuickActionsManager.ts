@@ -89,31 +89,29 @@ export const useQuickActionsManager = () => {
         return;
       }
 
+      // Vérifier si Firebase est disponible avant d'essayer d'accéder aux données
+      if (!db) {
+        console.warn('Firebase not available, using default actions');
+        setQuickActions(defaultQuickActions);
+        setLoading(false);
+        return;
+      }
+
       const configDoc = await getDoc(doc(db, 'system_config', 'quick_actions'));
       if (configDoc.exists()) {
         const data = configDoc.data();
         console.log('Loaded quick actions from Firebase:', data.actions);
         setQuickActions(data.actions || defaultQuickActions);
       } else {
-        console.log('No quick actions found in Firebase, using default and saving them');
+        console.log('No quick actions found in Firebase, using default actions');
         setQuickActions(defaultQuickActions);
-        // Sauvegarder les actions par défaut pour les futures utilisations
-        if (isAdmin) {
-          await setDoc(doc(db, 'system_config', 'quick_actions'), {
-            actions: defaultQuickActions,
-            updatedAt: new Date().toISOString(),
-            updatedBy: user.uid
-          }, { merge: true });
-        }
+        // Ne pas essayer de sauvegarder si on n'a pas les permissions
       }
     } catch (error) {
       console.error('Error loading quick actions:', error);
+      // Utiliser les actions par défaut sans afficher d'erreur utilisateur
       setQuickActions(defaultQuickActions);
-      toast({
-        title: "Erreur",
-        description: "Erreur lors du chargement des actions rapides, utilisation des actions par défaut",
-        variant: "destructive",
-      });
+      console.log('Using default quick actions due to error');
     } finally {
       setLoading(false);
     }
