@@ -193,7 +193,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                       uniqueOwners.push({
                         id: 'admin-neotech',
                         email: 'admin@neotech-consulting.com',
-                        name: 'Administrateur Principal',
+                        name: 'Lionel DJOSSA',
                         role: 'admin'
                       });
                     }
@@ -207,7 +207,7 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                         ...owner,
                         // S'assurer qu'on a un nom d'affichage
                         displayName: owner.email === 'admin@neotech-consulting.com' 
-                          ? 'Administrateur Principal'
+                          ? 'Lionel DJOSSA'
                           : (owner.name && owner.name !== owner.email) 
                             ? owner.name 
                             : owner.email.split('@')[0] // Utiliser la partie avant @ si pas de nom
