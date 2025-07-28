@@ -10,7 +10,7 @@ import AdminViewRenderer from './AdminViewRenderer';
 import AdminDashboardView from './AdminDashboardView';
 import Messages from '@/pages/Messages';
 import Website from '@/pages/Website';
-import Help from '@/pages/Help';
+import HelpView from './HelpView';
 import OwnerChat from '@/components/OwnerSpace/OwnerChat';
 
 interface ViewRendererProps {
@@ -58,7 +58,7 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       case 'website':
         return <Website />;
       case 'help':
-        return <Help />;
+        return <HelpView currentProfile={currentProfile} onViewChange={onViewChange} />;
       default:
         return <AdminDashboardView currentProfile={currentProfile} />;
     }
