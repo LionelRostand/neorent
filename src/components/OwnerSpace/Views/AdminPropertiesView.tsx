@@ -23,7 +23,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
   const profile = currentProfile || userProfile;
   const { handlePropertySubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
-  const { properties, tenants, payments } = useOwnerData(profile);
+  const { properties, tenants, roommates, payments } = useOwnerData(profile);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
 
   const propertyButtonConfig = getButtonConfig('property');
@@ -43,6 +43,62 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
         return 'destructive';
       default:
         return 'outline';
+    }
+  };
+
+  // Fonction pour calculer l'affichage correct des locataires
+  const getTenantDisplay = (property: any) => {
+    if (property.locationType === 'Colocation') {
+      // Pour une colocation, compter les colocataires actifs
+      const propertyRoommates = roommates?.filter(r => 
+        r.status === 'Actif' && (
+          r.property === property.title || 
+          r.property === property.address ||
+          r.property?.includes(property.title) ||
+          property.title?.includes(r.property)
+        )
+      ) || [];
+      
+      const totalRooms = property.totalRooms || 1;
+      const occupiedRooms = propertyRoommates.length;
+      const availableRooms = totalRooms - occupiedRooms;
+      
+      if (occupiedRooms === 0) {
+        return 'Aucun';
+      } else {
+        return `${occupiedRooms}/${totalRooms} occupées`;
+      }
+    } else {
+      // Pour une location classique
+      return property.tenant || 'Aucun';
+    }
+  };
+
+  // Fonction pour calculer le statut correct
+  const getRealStatus = (property: any) => {
+    if (property.locationType === 'Colocation') {
+      const propertyRoommates = roommates?.filter(r => 
+        r.status === 'Actif' && (
+          r.property === property.title || 
+          r.property === property.address ||
+          r.property?.includes(property.title) ||
+          property.title?.includes(r.property)
+        )
+      ) || [];
+      
+      const totalRooms = property.totalRooms || 1;
+      const occupiedRooms = propertyRoommates.length;
+      
+      if (occupiedRooms === 0) {
+        return 'Libre';
+      } else if (occupiedRooms < totalRooms) {
+        return 'Partiellement occupé';
+      } else {
+        return 'Occupé';
+      }
+    } else {
+      // Pour une location classique, utiliser le statut existant
+      return property.status;
     }
   };
 
@@ -149,10 +205,10 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                       <TableCell className="hidden sm:table-cell">{property.type}</TableCell>
                       <TableCell className="hidden md:table-cell">{property.surface}m²</TableCell>
                       <TableCell className="font-semibold">{property.rent}€</TableCell>
-                      <TableCell className="hidden lg:table-cell">{property.tenant || 'Aucun'}</TableCell>
+                      <TableCell className="hidden lg:table-cell">{getTenantDisplay(property)}</TableCell>
                       <TableCell>
-                        <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
-                          {property.status}
+                        <Badge variant={getStatusBadgeVariant(getRealStatus(property))} className="text-xs">
+                          {getRealStatus(property)}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
