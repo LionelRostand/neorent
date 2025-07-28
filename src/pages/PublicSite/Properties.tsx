@@ -17,6 +17,7 @@ const PublicProperties = () => {
   }, [trackPageView]);
 
   const handleSearch = (searchTerm: string) => {
+    console.log('📥 Filtre de recherche reçu:', searchTerm);
     setSearchFilter(searchTerm);
   };
 

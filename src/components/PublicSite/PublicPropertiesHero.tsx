@@ -14,6 +14,7 @@ export const PublicPropertiesHero: React.FC<PublicPropertiesHeroProps> = ({ onSe
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
+    console.log('🔍 Recherche effectuée avec le terme:', searchTerm);
     if (onSearch) {
       onSearch(searchTerm);
     }
