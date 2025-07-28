@@ -184,22 +184,31 @@ const PropertyEditModal: React.FC<PropertyEditModalProps> = ({ property, isOpen,
                   <SelectValue placeholder={ownersLoading ? "Chargement..." : "Sélectionner un propriétaire"} />
                 </SelectTrigger>
                 <SelectContent>
-                  {!ownersLoading && owners.length === 0 && (
-                    <SelectItem value="admin@neotech-consulting.com">
-                      admin@neotech-consulting.com (Admin)
-                    </SelectItem>
-                  )}
-                  {owners.map((owner) => (
-                    <SelectItem key={owner.id} value={owner.email}>
-                      {owner.name || owner.email} {owner.role === 'admin' ? '(Admin)' : ''}
-                    </SelectItem>
-                  ))}
-                  {/* Ajouter admin@neotech-consulting.com s'il n'est pas déjà dans la liste */}
-                  {!owners.some(owner => owner.email === 'admin@neotech-consulting.com') && (
-                    <SelectItem value="admin@neotech-consulting.com">
-                      admin@neotech-consulting.com (Admin)
-                    </SelectItem>
-                  )}
+                  {(() => {
+                    // Créer une liste unique de propriétaires par email
+                    const uniqueOwners = [...owners];
+                    
+                    // Ajouter admin@neotech-consulting.com s'il n'existe pas
+                    if (!uniqueOwners.some(owner => owner.email === 'admin@neotech-consulting.com')) {
+                      uniqueOwners.push({
+                        id: 'admin-neotech',
+                        email: 'admin@neotech-consulting.com',
+                        name: 'admin@neotech-consulting.com',
+                        role: 'admin'
+                      });
+                    }
+                    
+                    // Filtrer les doublons par email
+                    const filteredOwners = uniqueOwners.filter((owner, index, self) => 
+                      index === self.findIndex(o => o.email === owner.email)
+                    );
+                    
+                    return filteredOwners.map((owner) => (
+                      <SelectItem key={owner.id} value={owner.email}>
+                        {owner.name || owner.email} {owner.role === 'admin' ? '(Admin)' : ''}
+                      </SelectItem>
+                    ));
+                  })()}
                 </SelectContent>
               </Select>
             </div>
