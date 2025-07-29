@@ -78,8 +78,18 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
     return <TenantProfile tenantData={tenantData} />;
   }
 
-  // Show empty state for roommates with unsigned contracts
-  if (isRoommate && !isContractSigned && !loading) {
+  // Pour le débogage - temporairement permettre l'accès même sans contrat signé
+  console.log('TenantOverview Debug:', {
+    isRoommate,
+    isContractSigned,
+    loading,
+    signedContract: !!signedContract,
+    tenantName: tenantData?.name,
+    currentProfileName: currentProfile?.name
+  });
+
+  // Show empty state for roommates with unsigned contracts (TEMPORAIREMENT DÉSACTIVÉ)
+  if (false && isRoommate && !isContractSigned && !loading) {
     return (
       <div className="space-y-6">
         <Card className="border-2 border-dashed border-gray-300 bg-gray-50">
