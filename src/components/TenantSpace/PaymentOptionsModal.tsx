@@ -60,6 +60,8 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
   ];
 
   const handleOptionSelect = (optionId: string) => {
+    console.log('Option selected:', optionId); // Debug log
+    
     if (optionId === 'history') {
       // Rediriger vers l'onglet historique
       onOpenChange(false);
@@ -74,6 +76,8 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
       // Pré-remplir le montant avec le loyer + charges du locataire
       amount: tenantData?.type === 'Colocataire' ? '450' : '1200'
     }));
+    
+    console.log('Selected option set to:', optionId); // Debug log
   };
 
   const handlePaymentSubmit = async () => {
