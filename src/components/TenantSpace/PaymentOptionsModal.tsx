@@ -204,7 +204,10 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
                 <Card 
                   key={option.id}
                   className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary/20"
-                  onClick={() => handleOptionSelect(option.id)}
+                  onClick={() => {
+                    console.log('Clicking on option:', option.id);
+                    handleOptionSelect(option.id);
+                  }}
                 >
                   <CardContent className="p-4">
                     <div className="flex items-center gap-4">
@@ -277,13 +280,19 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
             <div className="flex gap-3 pt-4">
               <Button 
                 variant="outline" 
-                onClick={() => setSelectedOption(null)}
+                onClick={() => {
+                  console.log('Retour clicked');
+                  setSelectedOption(null);
+                }}
                 className="flex-1"
               >
                 Retour
               </Button>
               <Button 
-                onClick={handlePaymentSubmit}
+                onClick={() => {
+                  console.log('Déclarer clicked');
+                  handlePaymentSubmit();
+                }}
                 className="flex-1"
               >
                 {selectedOption === 'online' ? 'Payer en ligne' : 'Déclarer le paiement'}
