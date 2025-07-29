@@ -28,6 +28,9 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
     method: ''
   });
 
+  console.log('PaymentOptionsModal render - selectedOption:', selectedOption);
+  console.log('PaymentOptionsModal render - open:', open);
+
   const paymentOptions = [
     {
       id: 'history',
@@ -60,24 +63,27 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
   ];
 
   const handleOptionSelect = (optionId: string) => {
-    console.log('Option selected:', optionId); // Debug log
+    console.log('🔥 handleOptionSelect called with:', optionId);
+    console.log('🔥 Current selectedOption before:', selectedOption);
     
     if (optionId === 'history') {
-      // Rediriger vers l'onglet historique
+      console.log('🔥 History option selected, closing modal');
       onOpenChange(false);
-      // Callback pour changer d'onglet si fourni
       return;
     }
     
+    console.log('🔥 Setting selectedOption to:', optionId);
     setSelectedOption(optionId);
-    setPaymentForm(prev => ({ 
-      ...prev, 
-      method: optionId,
-      // Pré-remplir le montant avec le loyer + charges du locataire
-      amount: tenantData?.type === 'Colocataire' ? '450' : '1200'
-    }));
     
-    console.log('Selected option set to:', optionId); // Debug log
+    const newForm = { 
+      ...paymentForm, 
+      method: optionId,
+      amount: tenantData?.type === 'Colocataire' ? '450' : '1200'
+    };
+    console.log('🔥 Setting paymentForm to:', newForm);
+    setPaymentForm(newForm);
+    
+    console.log('🔥 handleOptionSelect completed');
   };
 
   const handlePaymentSubmit = async () => {
@@ -198,6 +204,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
 
         {!selectedOption ? (
           <div className="space-y-4">
+            <p className="text-sm text-gray-500">DEBUG: selectedOption is null, showing options</p>
             {paymentOptions.map((option) => {
               const IconComponent = option.icon;
               return (
@@ -205,7 +212,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
                   key={option.id}
                   className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary/20"
                   onClick={() => {
-                    console.log('Clicking on option:', option.id);
+                    console.log('🔥 Card clicked for option:', option.id);
                     handleOptionSelect(option.id);
                   }}
                 >
@@ -226,6 +233,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
           </div>
         ) : (
           <div className="space-y-6">
+            <p className="text-sm text-green-600">DEBUG: selectedOption is {selectedOption}, showing form</p>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="amount">Montant *</Label>
