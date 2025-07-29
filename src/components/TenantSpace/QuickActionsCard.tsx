@@ -145,10 +145,11 @@ const QuickActionsCard: React.FC<QuickActionsCardProps> = ({ onTabChange, onView
   };
 
   const handleCashPaymentClick = () => {
-    console.log('Redirection vers paiement - espèces');
-    localStorage.setItem('selectedPaymentMethod', 'especes');
-    onTabChange('payment');
+    console.log('🔥 OUVERTURE DIRECTE MODAL PAIEMENT EN ESPÈCES');
     setPaymentDialogOpen(false);
+    // Déclencher directement l'ouverture du modal de paiement en espèces
+    const event = new CustomEvent('openCashPaymentModal');
+    window.dispatchEvent(event);
   };
 
   const handleOnlinePaymentClick = () => {

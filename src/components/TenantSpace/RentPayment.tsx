@@ -63,6 +63,17 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
     propertyType: actualTenantType === 'Colocataire' ? 'Chambre en colocation' : 'Appartement'
   });
 
+  // Écouter l'événement d'ouverture du modal de paiement en espèces
+  React.useEffect(() => {
+    const handleOpenCashModal = () => {
+      console.log('🔥 ÉVÉNEMENT REÇU - Ouverture modal espèces');
+      setCashPaymentModalOpen(true);
+    };
+
+    window.addEventListener('openCashPaymentModal', handleOpenCashModal);
+    return () => window.removeEventListener('openCashPaymentModal', handleOpenCashModal);
+  }, []);
+
   // Utiliser le montant du contrat depuis propertyData (qui vient maintenant du contrat signé)
   const monthlyRent = propertyData.rent;
   const monthlyCharges = propertyData.charges;
