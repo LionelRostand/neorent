@@ -244,7 +244,10 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
               />
 
               <DialogTrigger asChild>
-                <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
+                <Button 
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
+                  onClick={() => setOpen(true)}
+                >
                   <DollarSign className="mr-2 h-4 w-4" />
                   {t('tenantSpace.payment.makePayment')}
                 </Button>
