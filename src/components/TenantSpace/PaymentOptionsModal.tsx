@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { CalendarIcon, Clock, CreditCard, Banknote, Upload, History, DollarSign } from 'lucide-react';
+import { CreditCard, Banknote, Upload, History, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -28,8 +28,19 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
     method: ''
   });
 
-  console.log('PaymentOptionsModal render - selectedOption:', selectedOption);
-  console.log('PaymentOptionsModal render - open:', open);
+  // Reset selectedOption when modal opens/closes
+  useEffect(() => {
+    if (!open) {
+      setSelectedOption(null);
+      setPaymentForm({
+        amount: '',
+        date: format(new Date(), 'yyyy-MM-dd'),
+        reference: '',
+        description: '',
+        method: ''
+      });
+    }
+  }, [open]);
 
   const paymentOptions = [
     {
@@ -63,30 +74,31 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
   ];
 
   const handleOptionSelect = (optionId: string) => {
-    console.log('🔥 handleOptionSelect called with:', optionId);
-    console.log('🔥 Current selectedOption before:', selectedOption);
+    console.log('🔥🔥🔥 Option clicked:', optionId);
     
     if (optionId === 'history') {
-      console.log('🔥 History option selected, closing modal');
+      console.log('History selected, closing modal');
       onOpenChange(false);
       return;
     }
     
-    console.log('🔥 Setting selectedOption to:', optionId);
+    console.log('Setting selectedOption to:', optionId);
     setSelectedOption(optionId);
     
-    const newForm = { 
-      ...paymentForm, 
-      method: optionId,
-      amount: tenantData?.type === 'Colocataire' ? '450' : '1200'
-    };
-    console.log('🔥 Setting paymentForm to:', newForm);
-    setPaymentForm(newForm);
+    // Pré-remplir le montant
+    const amount = tenantData?.type === 'Colocataire' ? '450' : '1200';
+    console.log('Setting amount to:', amount);
     
-    console.log('🔥 handleOptionSelect completed');
+    setPaymentForm(prev => ({ 
+      ...prev, 
+      method: optionId,
+      amount: amount
+    }));
   };
 
   const handlePaymentSubmit = async () => {
+    console.log('🔥 Payment submit clicked');
+    
     if (!paymentForm.amount || !paymentForm.date) {
       toast({
         title: "Erreur",
@@ -97,57 +109,34 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
     }
 
     try {
-      // Données du paiement
-      const paymentData = {
-        tenantId: tenantData?.id,
-        tenantName: tenantData?.name,
-        amount: parseFloat(paymentForm.amount),
-        date: paymentForm.date,
-        method: paymentForm.method,
-        reference: paymentForm.reference,
-        description: paymentForm.description,
-        status: selectedOption === 'online' ? 'processing' : 'declared',
-        property: propertyData?.address
-      };
+      // Générer la quittance
+      const { generateRentReceipt } = await import('@/services/receiptPdfService');
+      await generateRentReceipt({
+        tenant: {
+          name: tenantData?.name || 'Nom du locataire',
+          address: propertyData?.address || 'Adresse de la propriété',
+          email: tenantData?.email || 'email@example.com'
+        },
+        property: {
+          address: propertyData?.address || 'Adresse de la propriété',
+          rent: propertyData?.rent || 400,
+          charges: propertyData?.charges || 50
+        },
+        payment: {
+          amount: parseFloat(paymentForm.amount),
+          date: paymentForm.date,
+          method: getPaymentMethodLabel(paymentForm.method),
+          reference: paymentForm.reference || '',
+          period: format(new Date(paymentForm.date), 'MMMM yyyy', { locale: fr })
+        }
+      });
 
-      console.log('Payment data to save:', paymentData);
+      toast({
+        title: "Paiement déclaré",
+        description: "Votre quittance a été générée et téléchargée"
+      });
 
-      if (selectedOption === 'online') {
-        // Intégration Stripe à venir
-        toast({
-          title: "Paiement en ligne",
-          description: "Redirection vers le paiement sécurisé..."
-        });
-      } else {
-        // Générer immédiatement la quittance pour espèces/virement
-        const { generateRentReceipt } = await import('@/services/receiptPdfService');
-        await generateRentReceipt({
-          tenant: {
-            name: tenantData?.name || 'Nom du locataire',
-            address: propertyData?.address || 'Adresse de la propriété',
-            email: tenantData?.email || 'email@example.com'
-          },
-          property: {
-            address: propertyData?.address || 'Adresse de la propriété',
-            rent: propertyData?.rent || 400,
-            charges: propertyData?.charges || 50
-          },
-          payment: {
-            amount: parseFloat(paymentForm.amount),
-            date: paymentForm.date,
-            method: getPaymentMethodLabel(paymentForm.method),
-            reference: paymentForm.reference || '',
-            period: format(new Date(paymentForm.date), 'MMMM yyyy', { locale: fr })
-          }
-        });
-
-        toast({
-          title: "Paiement déclaré",
-          description: "Votre quittance a été générée et téléchargée"
-        });
-      }
-
-      // Reset form
+      // Reset form and close modal
       setSelectedOption(null);
       setPaymentForm({
         amount: '',
@@ -158,6 +147,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
       });
       onOpenChange(false);
     } catch (error) {
+      console.error('Error generating receipt:', error);
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors de l'enregistrement",
@@ -192,6 +182,8 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
     }
   };
 
+  console.log('🚀 Render - selectedOption:', selectedOption, 'open:', open);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -204,15 +196,17 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
 
         {!selectedOption ? (
           <div className="space-y-4">
-            <p className="text-sm text-gray-500">DEBUG: selectedOption is null, showing options</p>
+            <p className="text-xs text-gray-400">DEBUG: Showing options (selectedOption is {selectedOption})</p>
             {paymentOptions.map((option) => {
               const IconComponent = option.icon;
               return (
                 <Card 
                   key={option.id}
-                  className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary/20"
-                  onClick={() => {
-                    console.log('🔥 Card clicked for option:', option.id);
+                  className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary/20 active:border-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('🔥🔥🔥 Card clicked for:', option.id);
                     handleOptionSelect(option.id);
                   }}
                 >
@@ -233,7 +227,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
           </div>
         ) : (
           <div className="space-y-6">
-            <p className="text-sm text-green-600">DEBUG: selectedOption is {selectedOption}, showing form</p>
+            <p className="text-xs text-green-600">DEBUG: Showing form for {selectedOption}</p>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="amount">Montant *</Label>
@@ -289,7 +283,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
               <Button 
                 variant="outline" 
                 onClick={() => {
-                  console.log('Retour clicked');
+                  console.log('🔥 Back button clicked');
                   setSelectedOption(null);
                 }}
                 className="flex-1"
@@ -298,7 +292,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
               </Button>
               <Button 
                 onClick={() => {
-                  console.log('Déclarer clicked');
+                  console.log('🔥 Submit button clicked');
                   handlePaymentSubmit();
                 }}
                 className="flex-1"
