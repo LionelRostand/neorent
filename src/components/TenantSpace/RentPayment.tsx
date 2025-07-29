@@ -11,7 +11,7 @@ import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { usePaymentValidation } from '@/hooks/usePaymentValidation';
 import PaymentDetailsCard from './PaymentDetailsCard';
-import SimplePaymentModal from './SimplePaymentModal';
+import CashPaymentModal from './CashPaymentModal';
 import PaymentImportantInfo from './PaymentImportantInfo';
 import PaymentStatusNotification from './PaymentStatusNotification';
 
@@ -221,11 +221,10 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
               totalAmount={totalAmount}
             />
 
-            <SimplePaymentModal
+            <CashPaymentModal
               open={open}
               onOpenChange={setOpen}
               tenantData={{
-                id: currentProfile?.id || '1',
                 name: actualTenantName,
                 type: actualTenantType,
                 email: currentProfile?.email || 'email@example.com'

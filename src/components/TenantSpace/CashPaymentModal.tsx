@@ -3,36 +3,57 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { DollarSign } from 'lucide-react';
+import { DollarSign, AlertTriangle } from 'lucide-react';
 
-interface SimplePaymentModalProps {
+interface CashPaymentModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  tenantData: any;
-  propertyData: any;
+  tenantData: {
+    name: string;
+    type?: 'Locataire' | 'Colocataire';
+    email?: string;
+  };
+  propertyData: {
+    address: string;
+    rent: number;
+    charges: number;
+  };
 }
 
-const SimplePaymentModal = ({ open, onOpenChange, tenantData, propertyData }: SimplePaymentModalProps) => {
+const CashPaymentModal = ({ open, onOpenChange, tenantData, propertyData }: CashPaymentModalProps) => {
   const { toast } = useToast();
-  const [amount, setAmount] = useState('450');
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const { addPayment } = useFirebasePayments();
+  
+  const [amount, setAmount] = useState('');
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [reference, setReference] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const expectedAmount = propertyData.rent + propertyData.charges;
+
   const handleSubmit = async () => {
-    console.log('🚀 Simple Payment Submit');
+    console.log('🚀 Cash Payment Submit');
     
-    if (!amount || !paymentMethod || !date) {
+    if (!amount || !date) {
       toast({
         title: "Erreur",
-        description: "Veuillez remplir tous les champs obligatoires",
+        description: "Veuillez remplir le montant et la date",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const paidAmount = parseFloat(amount);
+    if (paidAmount <= 0) {
+      toast({
+        title: "Erreur",
+        description: "Le montant doit être positif",
         variant: "destructive"
       });
       return;
@@ -41,80 +62,87 @@ const SimplePaymentModal = ({ open, onOpenChange, tenantData, propertyData }: Si
     setIsSubmitting(true);
 
     try {
-      const paidAmount = parseFloat(amount);
-      const expectedAmount = (propertyData?.rent || 0) + (propertyData?.charges || 0);
-      
       // Vérifier si le montant correspond au loyer attendu
-      if (paidAmount !== expectedAmount) {
+      const hasDiscrepancy = paidAmount !== expectedAmount;
+      
+      if (hasDiscrepancy) {
         // Générer une alerte pour discordance
         toast({
-          title: "Montant différent du loyer attendu",
+          title: "⚠️ Montant différent du loyer attendu",
           description: `Montant payé: ${paidAmount}€ - Loyer attendu: ${expectedAmount}€. Une alerte a été envoyée au propriétaire.`,
           variant: "destructive"
         });
         
-        // Ici on pourrait envoyer une notification au propriétaire
-        console.log(`🚨 ALERTE: Paiement de ${paidAmount}€ au lieu de ${expectedAmount}€ par ${tenantData?.name}`);
+        console.log(`🚨 ALERTE: Paiement de ${paidAmount}€ au lieu de ${expectedAmount}€ par ${tenantData.name}`);
       }
 
-      // Enregistrer le paiement dans Firebase
-      const { useFirebasePayments } = await import('@/hooks/useFirebasePayments');
-      
-      // Créer l'objet paiement
+      // Déterminer le statut du paiement
+      let status = 'Payé';
+      if (paidAmount < expectedAmount) {
+        status = 'Partiel';
+      } else if (paidAmount > expectedAmount) {
+        status = 'Trop-perçu';
+      }
+
+      // Créer l'objet paiement pour Firebase
       const paymentData = {
-        tenantName: tenantData?.name || 'Nom du locataire',
-        tenantType: tenantData?.type || 'Locataire',
-        property: propertyData?.address || 'Adresse de la propriété',
+        tenantName: tenantData.name,
+        tenantType: tenantData.type || 'Locataire',
+        property: propertyData.address,
         rentAmount: expectedAmount,
         paidAmount: paidAmount,
         dueDate: date,
-        status: paidAmount === expectedAmount ? 'Payé' : 
-                paidAmount < expectedAmount ? 'Partiel' : 'Trop-perçu',
+        status: status,
         paymentDate: date,
-        paymentMethod: getMethodLabel(paymentMethod),
-        notes: description || null
+        paymentMethod: 'Espèces',
+        notes: description || null,
+        paymentType: 'loyer' as const
       };
 
       console.log('💾 Enregistrement du paiement:', paymentData);
+
+      // Enregistrer le paiement dans Firebase
+      await addPayment(paymentData);
 
       // Générer la quittance PDF
       const { generateRentReceipt } = await import('@/services/receiptPdfService');
       
       await generateRentReceipt({
         tenant: {
-          name: tenantData?.name || 'Nom du locataire',
-          address: propertyData?.address || 'Adresse de la propriété',
-          email: tenantData?.email || 'email@example.com'
+          name: tenantData.name,
+          address: propertyData.address,
+          email: tenantData.email || 'email@example.com'
         },
         property: {
-          address: propertyData?.address || 'Adresse de la propriété',
-          rent: propertyData?.rent || 400,
-          charges: propertyData?.charges || 50
+          address: propertyData.address,
+          rent: propertyData.rent,
+          charges: propertyData.charges
         },
         payment: {
           amount: paidAmount,
           date: date,
-          method: getMethodLabel(paymentMethod),
+          method: 'Espèces',
           reference: reference || '',
           period: format(new Date(date), 'MMMM yyyy', { locale: fr })
         }
       });
 
       toast({
-        title: "Paiement enregistré",
-        description: "Votre paiement a été enregistré et votre quittance a été générée avec succès"
+        title: "✅ Paiement en espèces enregistré",
+        description: hasDiscrepancy 
+          ? "Paiement enregistré avec alerte pour le propriétaire. Quittance générée."
+          : "Votre paiement a été enregistré et votre quittance a été générée avec succès"
       });
 
       // Reset form
-      setAmount('450');
-      setPaymentMethod('');
+      setAmount('');
       setDate(format(new Date(), 'yyyy-MM-dd'));
       setReference('');
       setDescription('');
       onOpenChange(false);
 
     } catch (error) {
-      console.error('Erreur lors de la génération:', error);
+      console.error('Erreur lors de l\'enregistrement du paiement:', error);
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors de l'enregistrement du paiement",
@@ -125,15 +153,8 @@ const SimplePaymentModal = ({ open, onOpenChange, tenantData, propertyData }: Si
     }
   };
 
-  const getMethodLabel = (method: string) => {
-    switch (method) {
-      case 'cash': return 'Espèces';
-      case 'transfer': return 'Virement bancaire';
-      case 'check': return 'Chèque';
-      case 'online': return 'Paiement en ligne';
-      default: return method;
-    }
-  };
+  const amountDifference = amount ? parseFloat(amount) - expectedAmount : 0;
+  const hasDiscrepancy = amount && parseFloat(amount) !== expectedAmount;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -141,24 +162,50 @@ const SimplePaymentModal = ({ open, onOpenChange, tenantData, propertyData }: Si
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <DollarSign className="h-5 w-5 text-green-600" />
-            Déclarer un paiement
+            Paiement en espèces
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* Affichage du montant attendu */}
+          <div className="bg-blue-50 p-3 rounded-lg">
+            <p className="text-sm text-blue-800">
+              <strong>Montant attendu :</strong> {expectedAmount}€
+            </p>
+            <p className="text-xs text-blue-600">
+              Loyer: {propertyData.rent}€ + Charges: {propertyData.charges}€
+            </p>
+          </div>
+
+          {/* Alerte si discordance */}
+          {hasDiscrepancy && (
+            <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg">
+              <div className="flex items-center gap-2 text-amber-800">
+                <AlertTriangle className="h-4 w-4" />
+                <span className="text-sm font-medium">
+                  Montant différent de {amountDifference > 0 ? '+' : ''}{amountDifference}€
+                </span>
+              </div>
+              <p className="text-xs text-amber-700 mt-1">
+                Une alerte sera envoyée au propriétaire
+              </p>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="amount">Montant (€) *</Label>
+              <Label htmlFor="amount">Montant payé (€) *</Label>
               <Input
                 id="amount"
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder="450"
+                placeholder={expectedAmount.toString()}
+                step="0.01"
               />
             </div>
             <div>
-              <Label htmlFor="date">Date *</Label>
+              <Label htmlFor="date">Date du paiement *</Label>
               <Input
                 id="date"
                 type="date"
@@ -169,27 +216,12 @@ const SimplePaymentModal = ({ open, onOpenChange, tenantData, propertyData }: Si
           </div>
 
           <div>
-            <Label htmlFor="method">Mode de paiement *</Label>
-            <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionnez un mode de paiement" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="cash">Espèces</SelectItem>
-                <SelectItem value="transfer">Virement bancaire</SelectItem>
-                <SelectItem value="check">Chèque</SelectItem>
-                <SelectItem value="online">Paiement en ligne</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
             <Label htmlFor="reference">Référence (optionnel)</Label>
             <Input
               id="reference"
               value={reference}
               onChange={(e) => setReference(e.target.value)}
-              placeholder="Numéro de transaction, chèque..."
+              placeholder="Numéro de reçu, note..."
             />
           </div>
 
@@ -218,7 +250,7 @@ const SimplePaymentModal = ({ open, onOpenChange, tenantData, propertyData }: Si
               className="flex-1"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Génération...' : 'Déclarer et générer la quittance'}
+              {isSubmitting ? 'Enregistrement...' : 'Enregistrer le paiement'}
             </Button>
           </div>
         </div>
@@ -227,4 +259,4 @@ const SimplePaymentModal = ({ open, onOpenChange, tenantData, propertyData }: Si
   );
 };
 
-export default SimplePaymentModal;
+export default CashPaymentModal;
