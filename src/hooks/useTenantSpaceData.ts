@@ -26,8 +26,19 @@ export const useTenantSpaceData = () => {
     : getCurrentUserType();
 
   // Trouver le contrat signé pour le locataire/colocataire actuel
+  console.log('=== Contract Search Debug ===');
+  console.log('All contracts:', contracts);
+  console.log('currentProfile:', currentProfile);
+  console.log('user.email:', user?.email);
+  
   const signedContract = contracts.find(contract => {
     const isStatusSigned = contract.status === 'Signé';
+    
+    console.log('Checking contract:', {
+      tenant: contract.tenant,
+      status: contract.status,
+      isStatusSigned
+    });
     
     // Correspondance par nom exact
     const nameMatch = contract.tenant === currentProfile?.name || 
@@ -56,6 +67,9 @@ export const useTenantSpaceData = () => {
     
     return isStatusSigned && (nameMatch || emailMatch);
   });
+  
+  console.log('Found signed contract:', signedContract);
+  console.log('=== End Contract Search Debug ===');
 
   // Utiliser uniquement les contrats réellement signés dans Firebase
   const activeContract = signedContract;
