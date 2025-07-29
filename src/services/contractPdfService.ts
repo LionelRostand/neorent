@@ -103,13 +103,44 @@ export const generateContractPDF = (contractData: ContractData) => {
   
   // Owner signature
   doc.text('Propriétaire:', margin, yPosition);
-  doc.text('Date: ___________', margin, yPosition + 15);
-  doc.text('Signature:', margin, yPosition + 30);
+  if (contractData.signatures?.owner) {
+    doc.text(`Date: ${contractData.signatures.owner.signerInfo.date}`, margin, yPosition + 15);
+    doc.text('Signature: [Signé électroniquement]', margin, yPosition + 30);
+    doc.text(`Par: ${contractData.signatures.owner.signerInfo.name}`, margin, yPosition + 45);
+    
+    // Optionally add the signature image if it exists
+    if (contractData.signatures.owner.signatureDataUrl) {
+      try {
+        doc.addImage(contractData.signatures.owner.signatureDataUrl, 'PNG', margin, yPosition + 55, 60, 20);
+      } catch (error) {
+        console.warn('Could not add owner signature image:', error);
+      }
+    }
+  } else {
+    doc.text('Date: ___________', margin, yPosition + 15);
+    doc.text('Signature:', margin, yPosition + 30);
+  }
 
   // Tenant signature
-  doc.text('Locataire:', pageWidth / 2 + 10, yPosition);
-  doc.text('Date: ___________', pageWidth / 2 + 10, yPosition + 15);
-  doc.text('Signature:', pageWidth / 2 + 10, yPosition + 30);
+  const tenantXPosition = pageWidth / 2 + 10;
+  doc.text('Locataire:', tenantXPosition, yPosition);
+  if (contractData.signatures?.tenant) {
+    doc.text(`Date: ${contractData.signatures.tenant.signerInfo.date}`, tenantXPosition, yPosition + 15);
+    doc.text('Signature: [Signé électroniquement]', tenantXPosition, yPosition + 30);
+    doc.text(`Par: ${contractData.signatures.tenant.signerInfo.name}`, tenantXPosition, yPosition + 45);
+    
+    // Optionally add the signature image if it exists
+    if (contractData.signatures.tenant.signatureDataUrl) {
+      try {
+        doc.addImage(contractData.signatures.tenant.signatureDataUrl, 'PNG', tenantXPosition, yPosition + 55, 60, 20);
+      } catch (error) {
+        console.warn('Could not add tenant signature image:', error);
+      }
+    }
+  } else {
+    doc.text('Date: ___________', tenantXPosition, yPosition + 15);
+    doc.text('Signature:', tenantXPosition, yPosition + 30);
+  }
 
   // Download the PDF
   const fileName = `${contractData.title.replace(/\s+/g, '_')}.pdf`;
