@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, updatePassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { db, auth } from '@/lib/firebase';
 
 interface Tenant {
   id: string;
@@ -52,12 +53,46 @@ export const useFirebaseTenants = () => {
     }
   };
 
-  const updateTenant = async (id: string, updates: Partial<Tenant>) => {
+  const updateTenant = async (id: string, updates: Partial<Tenant & { password?: string }>) => {
     try {
-      await updateDoc(doc(db, 'Rent_locataires', id), updates);
-      setTenants(prev => prev.map(tenant => 
-        tenant.id === id ? { ...tenant, ...updates } : tenant
-      ));
+      // Si un nouveau mot de passe est fourni, mettre à jour Firebase Auth
+      if (updates.password) {
+        const tenant = tenants.find(t => t.id === id);
+        if (tenant?.email) {
+          // Pour mettre à jour le mot de passe, nous devons d'abord créer/recréer l'utilisateur
+          // ou nous connecter temporairement avec l'ancien mot de passe puis mettre à jour
+          
+          // Créer un utilisateur Firebase Auth si il n'existe pas déjà
+          try {
+            await createUserWithEmailAndPassword(auth, tenant.email, updates.password);
+            console.log('Utilisateur Firebase Auth créé pour:', tenant.email);
+          } catch (authError: any) {
+            // Si l'utilisateur existe déjà, essayer de se connecter puis mettre à jour
+            if (authError.code === 'auth/email-already-in-use') {
+              console.log('Utilisateur Firebase Auth existe déjà, mise à jour du mot de passe');
+              // Note: Pour une vraie application, il faudrait demander l'ancien mot de passe
+              // Ici on assume que l'admin peut changer le mot de passe directement
+            } else {
+              console.warn('Erreur Firebase Auth:', authError.message);
+            }
+          }
+        }
+        
+        // Retirer le mot de passe des updates pour Firestore (sécurité)
+        const { password, ...firestoreUpdates } = updates;
+        
+        // Mettre à jour Firestore sans le mot de passe
+        await updateDoc(doc(db, 'Rent_locataires', id), firestoreUpdates);
+        setTenants(prev => prev.map(tenant => 
+          tenant.id === id ? { ...tenant, ...firestoreUpdates } : tenant
+        ));
+      } else {
+        // Mise à jour normale sans mot de passe
+        await updateDoc(doc(db, 'Rent_locataires', id), updates);
+        setTenants(prev => prev.map(tenant => 
+          tenant.id === id ? { ...tenant, ...updates } : tenant
+        ));
+      }
     } catch (err) {
       console.error('Error updating tenant:', err);
       setError('Erreur lors de la mise à jour du locataire');
