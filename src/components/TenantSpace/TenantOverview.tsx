@@ -141,12 +141,6 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
     <div className="space-y-6">
       {onTabChange && <QuickActionsCard onTabChange={onTabChange} onViewChange={onViewChange} />}
       
-      {/* DEBUG: Toujours afficher RentPayment pour tester */}
-      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <p className="text-sm text-yellow-800">
-          DEBUG - isRoommate: {isRoommate.toString()}, isContractSigned: {isContractSigned.toString()}
-        </p>
-      </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
