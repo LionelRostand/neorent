@@ -40,23 +40,28 @@ export const useTenantSpaceData = () => {
       isStatusSigned
     });
     
-    // Correspondance par nom exact
-    const nameMatch = contract.tenant === currentProfile?.name || 
-                      contract.tenant?.trim() === currentProfile?.name?.trim();
+    // Correspondance par nom - insensible à la casse et aux variations
+    const normalizedContractName = contract.tenant?.toLowerCase().trim();
+    const normalizedProfileName = currentProfile?.name?.toLowerCase().trim();
+    const nameMatch = normalizedContractName === normalizedProfileName;
     
     // Correspondance spécifique par email pour les colocataires
     let emailMatch = false;
     if (currentProfile?.email && user?.email) {
-      if (user.email === 'entrepreneurpro19@gmail.com' && contract.tenant === 'Emad ADAM') {
+      if (user.email === 'entrepreneurpro19@gmail.com' && 
+          (contract.tenant?.toLowerCase().includes('emad') && contract.tenant?.toLowerCase().includes('adam'))) {
         emailMatch = true;
-      } else if (user.email === 'ruthmegha35@gmail.com' && contract.tenant === 'Ruth MEGHA') {
+      } else if (user.email === 'ruthmegha35@gmail.com' && 
+                 (contract.tenant?.toLowerCase().includes('ruth') && contract.tenant?.toLowerCase().includes('megha'))) {
         emailMatch = true;
       }
     }
     
     console.log('Contract matching check:', {
       contractTenant: contract.tenant,
+      normalizedContractName,
       profileName: currentProfile?.name,
+      normalizedProfileName,
       userEmail: user?.email,
       profileEmail: currentProfile?.email,
       isStatusSigned,

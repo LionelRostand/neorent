@@ -8,9 +8,9 @@ export const useRoommateData = (email: string | null) => {
     if (email === 'entrepreneurpro19@gmail.com') {
       const profile = {
         id: '1752971742586',
-        property: 'Appartement 13',
+        property: 'Appartement 113',
         moveInDate: '2025-03-03',
-        name: 'Emad ADAM',
+        name: 'Emad Adam',
         image: null,
         phone: '0753857994',
         rentAmount: 450,
@@ -19,7 +19,7 @@ export const useRoommateData = (email: string | null) => {
         primaryTenant: null,
         email: 'entrepreneurpro19@gmail.com',
         type: 'colocataire' as const,
-        address: 'Appartement 13',
+        address: 'Appartement 113',
         leaseStart: '2025-03-03',
         leaseEnd: '2026-07-20',
         nextPayment: null,
