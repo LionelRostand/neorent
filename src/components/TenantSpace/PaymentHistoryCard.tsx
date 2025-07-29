@@ -69,21 +69,27 @@ const PaymentHistoryCard = ({ payments, tenantData, propertyData }: PaymentHisto
 
   const handleDownloadReceipt = async (payment: Payment) => {
     try {
-      // Génération simplifiée de la quittance pour le moment
-      console.log('Génération de la quittance pour:', payment);
-      
-      // Simuler la génération d'une quittance
-      const receiptData = {
-        tenant: tenantData?.name || 'Nom du locataire',
-        amount: payment.amount,
-        date: payment.date,
-        method: getPaymentMethodLabel(payment.method),
-        reference: payment.reference || '',
-        period: format(new Date(payment.date), 'MMMM yyyy', { locale: fr })
-      };
-      
-      // Ici, l'intégration avec le service PDF se fera après la connexion Supabase
-      alert(`Quittance générée pour ${receiptData.tenant} - ${receiptData.amount}€ - ${receiptData.period}`);
+      // Utiliser le hook Firebase Documents pour générer la quittance
+      const { generateRentReceipt } = await import('@/services/receiptPdfService');
+      await generateRentReceipt({
+        tenant: {
+          name: tenantData?.name || 'Nom du locataire',
+          address: propertyData?.address || 'Adresse de la propriété',
+          email: tenantData?.email || 'email@example.com'
+        },
+        property: {
+          address: propertyData?.address || 'Adresse de la propriété',
+          rent: propertyData?.rent || 400,
+          charges: propertyData?.charges || 50
+        },
+        payment: {
+          amount: payment.amount,
+          date: payment.date,
+          method: getPaymentMethodLabel(payment.method),
+          reference: payment.reference || '',
+          period: format(new Date(payment.date), 'MMMM yyyy', { locale: fr })
+        }
+      });
     } catch (error) {
       console.error('Erreur lors de la génération de la quittance:', error);
     }
