@@ -89,7 +89,7 @@ const PersonalInfoCard: React.FC<PersonalInfoCardProps> = ({ tenantData, isRoomm
             <div>
               <p className="text-sm text-gray-500">{t('tenantOverview.roomNumber')}</p>
               <p className="font-medium text-blue-600">
-                {t('tenantSpace.room').replace('{number}', '2')}
+                {tenantData.roomNumber || 'Chambre 1'}
               </p>
             </div>
           </div>
