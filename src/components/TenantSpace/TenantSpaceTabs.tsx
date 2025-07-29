@@ -34,6 +34,8 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
   console.log('TenantSpaceTabs - isRoommate:', isRoommate);
   console.log('TenantSpaceTabs - isTenant:', isTenant);
   console.log('TenantSpaceTabs - Should show contract tab for all users:', true);
+  console.log('TenantSpaceTabs - mockPropertyData:', mockPropertyData);
+  console.log('TenantSpaceTabs - mockTenantData:', mockTenantData);
 
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
@@ -48,11 +50,19 @@ const TenantSpaceTabs = ({ activeTab, onTabChange, mockPropertyData, mockTenantD
       </TabsList>
 
       <TabsContent value="overview" className="mt-6">
-        <TenantOverview 
-          propertyData={mockPropertyData}
-          tenantData={mockTenantData}
-          onTabChange={onTabChange}
-        />
+        {!mockPropertyData || !mockTenantData ? (
+          <div className="p-8 text-center">
+            <p className="text-red-600">ERREUR: Données manquantes</p>
+            <p className="text-sm text-gray-500">mockPropertyData: {mockPropertyData ? 'OK' : 'MANQUANT'}</p>
+            <p className="text-sm text-gray-500">mockTenantData: {mockTenantData ? 'OK' : 'MANQUANT'}</p>
+          </div>
+        ) : (
+          <TenantOverview 
+            propertyData={mockPropertyData}
+            tenantData={mockTenantData}
+            onTabChange={onTabChange}
+          />
+        )}
       </TabsContent>
 
       <TabsContent value="history" className="mt-6">
