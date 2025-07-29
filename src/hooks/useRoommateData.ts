@@ -15,7 +15,7 @@ export const useRoommateData = (email: string | null) => {
         phone: '0753857994',
         rentAmount: 450,
         status: 'Actif',
-        roomNumber: 'Chambre 2',
+        roomNumber: 'Chambre 1',
         primaryTenant: null,
         email: 'entrepreneurpro19@gmail.com',
         type: 'colocataire' as const,
