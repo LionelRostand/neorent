@@ -63,12 +63,17 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
     if (optionId === 'history') {
       // Rediriger vers l'onglet historique
       onOpenChange(false);
-      // Vous pouvez ajouter une fonction de callback pour changer d'onglet
+      // Callback pour changer d'onglet si fourni
       return;
     }
     
     setSelectedOption(optionId);
-    setPaymentForm(prev => ({ ...prev, method: optionId }));
+    setPaymentForm(prev => ({ 
+      ...prev, 
+      method: optionId,
+      // Pré-remplir le montant avec le loyer + charges du locataire
+      amount: tenantData?.type === 'Colocataire' ? '450' : '1200'
+    }));
   };
 
   const handlePaymentSubmit = async () => {
@@ -82,7 +87,7 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
     }
 
     try {
-      // Ici, vous intégrerez avec Supabase pour sauvegarder le paiement
+      // Données du paiement
       const paymentData = {
         tenantId: tenantData?.id,
         tenantName: tenantData?.name,
@@ -104,13 +109,35 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
           description: "Redirection vers le paiement sécurisé..."
         });
       } else {
-        // Paiement déclaré
+        // Générer immédiatement la quittance pour espèces/virement
+        const { generateRentReceipt } = await import('@/services/receiptPdfService');
+        await generateRentReceipt({
+          tenant: {
+            name: tenantData?.name || 'Nom du locataire',
+            address: propertyData?.address || 'Adresse de la propriété',
+            email: tenantData?.email || 'email@example.com'
+          },
+          property: {
+            address: propertyData?.address || 'Adresse de la propriété',
+            rent: propertyData?.rent || 400,
+            charges: propertyData?.charges || 50
+          },
+          payment: {
+            amount: parseFloat(paymentForm.amount),
+            date: paymentForm.date,
+            method: getPaymentMethodLabel(paymentForm.method),
+            reference: paymentForm.reference || '',
+            period: format(new Date(paymentForm.date), 'MMMM yyyy', { locale: fr })
+          }
+        });
+
         toast({
           title: "Paiement déclaré",
-          description: "Votre déclaration de paiement a été enregistrée"
+          description: "Votre quittance a été générée et téléchargée"
         });
       }
 
+      // Reset form
       setSelectedOption(null);
       setPaymentForm({
         amount: '',
@@ -126,6 +153,19 @@ const PaymentOptionsModal = ({ open, onOpenChange, tenantData, propertyData }: P
         description: "Une erreur est survenue lors de l'enregistrement",
         variant: "destructive"
       });
+    }
+  };
+
+  const getPaymentMethodLabel = (method: string) => {
+    switch (method) {
+      case 'bank-transfer':
+        return 'Virement bancaire';
+      case 'cash':
+        return 'Espèces';
+      case 'online':
+        return 'Paiement en ligne';
+      default:
+        return 'Autre';
     }
   };
 

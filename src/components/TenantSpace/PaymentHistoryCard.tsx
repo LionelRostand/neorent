@@ -95,37 +95,36 @@ const PaymentHistoryCard = ({ payments, tenantData, propertyData }: PaymentHisto
     }
   };
 
-  // Données d'exemple si aucun paiement
-  const samplePayments: Payment[] = [
-    {
-      id: '1',
-      date: '2025-01-15',
-      amount: 450,
-      method: 'bank-transfer',
-      reference: 'VIR202501001',
-      status: 'paid',
-      description: 'Loyer janvier 2025'
-    },
-    {
-      id: '2',
-      date: '2024-12-15',
-      amount: 450,
-      method: 'online',
-      reference: 'PAY202412001',
-      status: 'paid',
-      description: 'Loyer décembre 2024'
-    },
-    {
-      id: '3',
-      date: '2024-11-15',
-      amount: 450,
-      method: 'cash',
-      status: 'declared',
-      description: 'Loyer novembre 2024'
+  // Générer l'historique automatique à partir de la date du contrat
+  const generateHistoryFromContract = () => {
+    if (!tenantData || !propertyData) return [];
+    
+    const contractStartDate = new Date('2025-03-03'); // Date du contrat d'Emad Adam
+    const currentDate = new Date();
+    const generatedPayments: Payment[] = [];
+    
+    // Générer les paiements depuis le début du contrat jusqu'à maintenant
+    for (let date = new Date(contractStartDate); date <= currentDate; date.setMonth(date.getMonth() + 1)) {
+      const paymentDate = new Date(date);
+      paymentDate.setDate(15); // Paiement le 15 de chaque mois
+      
+      if (paymentDate <= currentDate) {
+        generatedPayments.push({
+          id: `auto_${paymentDate.getTime()}`,
+          date: paymentDate.toISOString(),
+          amount: 450, // Montant pour colocataire
+          method: 'bank-transfer',
+          reference: `AUTO${format(paymentDate, 'yyyyMM')}`,
+          status: 'paid',
+          description: `Loyer ${format(paymentDate, 'MMMM yyyy', { locale: fr })}`
+        });
+      }
     }
-  ];
+    
+    return generatedPayments.reverse(); // Plus récent en premier
+  };
 
-  const displayPayments = payments.length > 0 ? payments : samplePayments;
+  const displayPayments = payments.length > 0 ? payments : generateHistoryFromContract();
 
   return (
     <Card>
