@@ -26,10 +26,10 @@ interface ReceiptData {
 export const generateReceiptPDF = async (data: ReceiptData): Promise<Blob> => {
   const doc = new jsPDF();
   
-  // Configuration des couleurs
-  const primaryColor = [34, 197, 94]; // Vert
-  const secondaryColor = [75, 85, 99]; // Gris
-  const textColor = [31, 41, 55]; // Gris foncé
+  // Configuration des couleurs (typées explicitement)
+  const primaryColor: [number, number, number] = [34, 197, 94]; // Vert
+  const secondaryColor: [number, number, number] = [75, 85, 99]; // Gris
+  const textColor: [number, number, number] = [31, 41, 55]; // Gris foncé
   
   let currentY = 30;
   

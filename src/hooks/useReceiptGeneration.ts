@@ -1,5 +1,4 @@
-
-import { generateReceiptPDF } from '@/services/receiptPdfService';
+import { generateRentReceipt } from '@/services/receiptPdfService';
 
 interface UseReceiptGenerationProps {
   tenantName: string;
@@ -15,7 +14,7 @@ export const useReceiptGeneration = ({
   propertyType = 'Appartement'
 }: UseReceiptGenerationProps) => {
   
-  const generateReceipt = (paymentData: {
+  const generateReceipt = async (paymentData: {
     month: string;
     rentAmount: number;
     charges: number;
@@ -27,22 +26,27 @@ export const useReceiptGeneration = ({
     const year = paymentData.month.split(' ')[1] || new Date().getFullYear().toString();
     
     const receiptData = {
-      companyName: 'Neo Rent',
-      companyAddress: '123 Rue de la Gestion, 75001 Paris',
-      tenantName,
-      tenantType,
-      propertyAddress,
-      propertyType: tenantType === 'Colocataire' ? 'Chambre en colocation' : propertyType,
-      month: monthName,
-      year,
-      rentAmount: paymentData.rentAmount,
-      charges: paymentData.charges,
-      totalAmount: paymentData.rentAmount + paymentData.charges,
-      paymentDate: new Date(paymentData.paymentDate).toLocaleDateString('fr-FR'),
-      paymentMethod: paymentData.paymentMethod
+      tenant: {
+        name: tenantName,
+        address: propertyAddress,
+        email: 'email@example.com'
+      },
+      property: {
+        address: propertyAddress,
+        rent: paymentData.rentAmount,
+        charges: paymentData.charges
+      },
+      payment: {
+        amount: paymentData.rentAmount + paymentData.charges,
+        date: paymentData.paymentDate,
+        method: paymentData.paymentMethod,
+        reference: '',
+        period: `${monthName} ${year}`
+      }
     };
     
-    generateReceiptPDF(receiptData);
+    // Utiliser le service PDF corrigé
+    await generateRentReceipt(receiptData);
   };
   
   return { generateReceipt };

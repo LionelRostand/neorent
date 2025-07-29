@@ -104,7 +104,13 @@ class FirebaseStorageService {
           rent: receiptData.amount - 50,
           charges: 50
         },
-        payment: receiptData
+        payment: {
+          amount: receiptData.amount,
+          date: receiptData.paymentDate, // Mapper paymentDate vers date
+          method: receiptData.method,
+          reference: receiptData.reference || '',
+          period: receiptData.period
+        }
       });
       
       const fileName = `quittance_${tenantName.replace(/\s+/g, '_')}_${receiptData.period.replace(/\s+/g, '_')}.pdf`;
