@@ -30,23 +30,28 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
   const signedContract = contracts.find(contract => {
     const isStatusSigned = contract.status === 'Signé';
     
-    // Correspondance par nom exact
-    const nameMatch = contract.tenant === currentProfile?.name || 
-                      contract.tenant?.trim() === currentProfile?.name?.trim();
+    // Correspondance par nom - insensible à la casse et aux variations
+    const normalizedContractName = contract.tenant?.toLowerCase().trim();
+    const normalizedProfileName = currentProfile?.name?.toLowerCase().trim();
+    const nameMatch = normalizedContractName === normalizedProfileName;
     
     // Correspondance spécifique par email pour les colocataires  
     let emailMatch = false;
     if (currentProfile?.email) {
-      if (currentProfile.email === 'entrepreneurpro19@gmail.com' && contract.tenant === 'Emad ADAM') {
+      if (currentProfile.email === 'entrepreneurpro19@gmail.com' && 
+          (contract.tenant?.toLowerCase().includes('emad') && contract.tenant?.toLowerCase().includes('adam'))) {
         emailMatch = true;
-      } else if (currentProfile.email === 'ruthmegha35@gmail.com' && contract.tenant === 'Ruth MEGHA') {
+      } else if (currentProfile.email === 'ruthmegha35@gmail.com' && 
+                 (contract.tenant?.toLowerCase().includes('ruth') && contract.tenant?.toLowerCase().includes('megha'))) {
         emailMatch = true;
       }
     }
     
     console.log('TenantOverview contract matching:', {
       contractTenant: contract.tenant,
+      normalizedContractName,
       profileName: currentProfile?.name,
+      normalizedProfileName,
       profileEmail: currentProfile?.email,
       isStatusSigned,
       nameMatch,
@@ -57,12 +62,10 @@ const TenantOverview = ({ propertyData, tenantData, onTabChange, activeView = 'o
     return isStatusSigned && (nameMatch || emailMatch);
   });
   
-  const isContractSigned = !isRoommate || !!signedContract;
-
-  console.log('TenantOverview - isRoommate:', isRoommate);
+  const isContractSigned = !!signedContract;
+  
   console.log('TenantOverview - signedContract:', signedContract);
   console.log('TenantOverview - isContractSigned:', isContractSigned);
-
   if (!propertyData || !tenantData) {
     return (
       <div className="flex items-center justify-center py-16">
