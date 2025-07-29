@@ -184,6 +184,7 @@ const ContractEditModal: React.FC<ContractEditModalProps> = ({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Actif">Actif</SelectItem>
+                  <SelectItem value="Signé">Signé</SelectItem>
                   <SelectItem value="Expiré">Expiré</SelectItem>
                   <SelectItem value="Résilié">Résilié</SelectItem>
                 </SelectContent>
