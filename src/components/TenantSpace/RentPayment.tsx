@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { CreditCard, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
@@ -12,7 +11,7 @@ import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { usePaymentValidation } from '@/hooks/usePaymentValidation';
 import PaymentDetailsCard from './PaymentDetailsCard';
-import PaymentDialog from './PaymentDialog';
+import PaymentOptionsModal from './PaymentOptionsModal';
 import PaymentImportantInfo from './PaymentImportantInfo';
 import PaymentStatusNotification from './PaymentStatusNotification';
 
@@ -222,37 +221,29 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
               totalAmount={totalAmount}
             />
 
-            <Dialog open={open} onOpenChange={setOpen}>
-              <PaymentDialog
-                open={open}
-                onOpenChange={setOpen}
-                actualTenantName={actualTenantName}
-                actualTenantType={actualTenantType}
-                propertyTitle={propertyData.title}
-                totalAmount={totalAmount}
-                paymentDate={paymentDate}
-                setPaymentDate={setPaymentDate}
-                paidAmount={paidAmount}
-                setPaidAmount={setPaidAmount}
-                paymentMethod={paymentMethod}
-                setPaymentMethod={setPaymentMethod}
-                notes={notes}
-                setNotes={setNotes}
-                loading={loading}
-                isFormValid={isFormValid}
-                onSubmit={handleSubmit}
-              />
+            <PaymentOptionsModal
+              open={open}
+              onOpenChange={setOpen}
+              tenantData={{
+                id: currentProfile?.id || '1',
+                name: actualTenantName,
+                type: actualTenantType,
+                email: currentProfile?.email || 'email@example.com'
+              }}
+              propertyData={{
+                address: propertyData.address,
+                rent: monthlyRent,
+                charges: monthlyCharges
+              }}
+            />
 
-              <DialogTrigger asChild>
-                <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
-                  onClick={() => setOpen(true)}
-                >
-                  <DollarSign className="mr-2 h-4 w-4" />
-                  {t('tenantSpace.payment.makePayment')}
-                </Button>
-              </DialogTrigger>
-            </Dialog>
+            <Button 
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
+              onClick={() => setOpen(true)}
+            >
+              <DollarSign className="mr-2 h-4 w-4" />
+              {t('tenantSpace.payment.makePayment')}
+            </Button>
 
             <PaymentImportantInfo />
           </div>
