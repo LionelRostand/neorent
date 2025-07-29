@@ -11,6 +11,7 @@ import { useReceiptGeneration } from '@/hooks/useReceiptGeneration';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { usePaymentValidation } from '@/hooks/usePaymentValidation';
 import PaymentDetailsCard from './PaymentDetailsCard';
+import PaymentOptionsModal from './PaymentOptionsModal';
 import CashPaymentModal from './CashPaymentModal';
 import PaymentImportantInfo from './PaymentImportantInfo';
 import PaymentStatusNotification from './PaymentStatusNotification';
@@ -31,6 +32,7 @@ interface RentPaymentProps {
 const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [cashPaymentModalOpen, setCashPaymentModalOpen] = useState(false);
   const [paymentDate, setPaymentDate] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [paidAmount, setPaidAmount] = useState('');
@@ -221,9 +223,27 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
               totalAmount={totalAmount}
             />
 
-            <CashPaymentModal
+            <PaymentOptionsModal
               open={open}
               onOpenChange={setOpen}
+              onSelectCashPayment={() => setCashPaymentModalOpen(true)}
+              onSelectBankTransfer={() => {
+                // TODO: Ouvrir modal virement bancaire
+                console.log('Virement bancaire sélectionné');
+              }}
+              onSelectOnlinePayment={() => {
+                // TODO: Ouvrir modal paiement en ligne
+                console.log('Paiement en ligne sélectionné');
+              }}
+              onSelectHistory={() => {
+                // TODO: Naviguer vers historique
+                console.log('Historique sélectionné');
+              }}
+            />
+
+            <CashPaymentModal
+              open={cashPaymentModalOpen}
+              onOpenChange={setCashPaymentModalOpen}
               tenantData={{
                 name: actualTenantName,
                 type: actualTenantType,
@@ -244,16 +264,6 @@ const RentPayment = ({ tenantData, propertyData }: RentPaymentProps) => {
               >
                 <DollarSign className="mr-2 h-4 w-4" />
                 {t('tenantSpace.payment.makePayment')}
-              </Button>
-              
-              {/* Bouton direct pour paiement en espèces */}
-              <Button 
-                variant="outline"
-                className="w-full border-green-200 text-green-700 hover:bg-green-50"
-                onClick={() => setOpen(true)}
-              >
-                <DollarSign className="mr-2 h-4 w-4" />
-                Effectuer un paiement en espèces
               </Button>
             </div>
 
