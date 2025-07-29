@@ -66,7 +66,8 @@
       "active": "Actif",
       "inactive": "Inactif",
       "searching": "En recherche", 
-      "pending": "En attente"
+      "pending": "En attente",
+      "upcoming": "À venir"
     },
     "metrics": {
       "active": "colocataire actif",
