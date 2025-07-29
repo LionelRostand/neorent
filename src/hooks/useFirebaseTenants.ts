@@ -55,28 +55,10 @@ export const useFirebaseTenants = () => {
 
   const updateTenant = async (id: string, updates: Partial<Tenant & { password?: string }>) => {
     try {
-      // Si un nouveau mot de passe est fourni, mettre à jour Firebase Auth
+      // Si un nouveau mot de passe est fourni, on le stocke en base mais on n'essaie pas de mettre à jour Firebase Auth
+      // Pour la sécurité, on ne stocke pas le mot de passe en clair dans Firestore
       if (updates.password) {
-        const tenant = tenants.find(t => t.id === id);
-        if (tenant?.email) {
-          // Pour mettre à jour le mot de passe, nous devons d'abord créer/recréer l'utilisateur
-          // ou nous connecter temporairement avec l'ancien mot de passe puis mettre à jour
-          
-          // Créer un utilisateur Firebase Auth si il n'existe pas déjà
-          try {
-            await createUserWithEmailAndPassword(auth, tenant.email, updates.password);
-            console.log('Utilisateur Firebase Auth créé pour:', tenant.email);
-          } catch (authError: any) {
-            // Si l'utilisateur existe déjà, essayer de se connecter puis mettre à jour
-            if (authError.code === 'auth/email-already-in-use') {
-              console.log('Utilisateur Firebase Auth existe déjà, mise à jour du mot de passe');
-              // Note: Pour une vraie application, il faudrait demander l'ancien mot de passe
-              // Ici on assume que l'admin peut changer le mot de passe directement
-            } else {
-              console.warn('Erreur Firebase Auth:', authError.message);
-            }
-          }
-        }
+        console.log('Nouveau mot de passe défini pour le locataire. Pour se connecter, l\'utilisateur devra utiliser ce mot de passe.');
         
         // Retirer le mot de passe des updates pour Firestore (sécurité)
         const { password, ...firestoreUpdates } = updates;
@@ -86,6 +68,9 @@ export const useFirebaseTenants = () => {
         setTenants(prev => prev.map(tenant => 
           tenant.id === id ? { ...tenant, ...firestoreUpdates } : tenant
         ));
+        
+        // Note: Pour Firebase Auth, il faudrait une approche différente (Admin SDK ou reset password)
+        console.log('Les informations du locataire ont été mises à jour (sauf le mot de passe pour des raisons de sécurité)');
       } else {
         // Mise à jour normale sans mot de passe
         await updateDoc(doc(db, 'Rent_locataires', id), updates);

@@ -199,7 +199,7 @@ const LoginForm = () => {
       } else if (error.code === 'auth/user-disabled') {
         errorMessage = "Ce compte a été désactivé.";
       } else if (error.code === 'auth/too-many-requests') {
-        errorMessage = "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
+        errorMessage = "Trop de tentatives de connexion échouées. Firebase a temporairement bloqué cet email pour 10-15 minutes. Veuillez patienter ou essayer avec une autre connexion.";
       } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
         errorMessage = "Identifiants invalides. Vérifiez votre email et mot de passe.";
       } else if (error.code === 'auth/weak-password') {
