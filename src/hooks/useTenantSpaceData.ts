@@ -110,6 +110,11 @@ export const useTenantSpaceData = () => {
     console.log('========================');
   }, [currentProfile, currentType, isImpersonating, isAuthorizedAdmin, userProfile, userType, activeContract, user?.email, roommateProfile, contracts]);
 
+  console.log('=== Building property data ===');
+  console.log('currentType:', currentType);
+  console.log('currentProfile.roomNumber:', currentProfile?.roomNumber);
+  console.log('activeContract.property:', activeContract?.property);
+  
   // Build property data only from signed contract data
   const mockPropertyData = activeContract && currentProfile ? {
     title: `${currentType === 'colocataire' ? currentProfile.roomNumber || 'Chambre' : 'Appartement'} ${activeContract.property}`,
