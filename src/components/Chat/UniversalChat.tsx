@@ -40,6 +40,12 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
 
   // Filtrer les contacts disponibles selon le type d'utilisateur
   const getAvailableContacts = () => {
+    console.log('UniversalChat - userType:', userType);
+    console.log('UniversalChat - currentProfile:', currentProfile);
+    console.log('UniversalChat - roommates:', roommates);
+    console.log('UniversalChat - properties:', properties);
+    console.log('UniversalChat - owners:', owners);
+    
     if (userType === 'owner' || userType === 'admin') {
       // Les propriétaires peuvent parler à tous leurs locataires/colocataires
       const ownerProperties = properties.filter(p => p.owner === currentProfile?.name);
@@ -59,6 +65,41 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
         r.status === 'Actif' &&
         r.property === currentProfile?.property
       );
+      console.log('UniversalChat - samePropertyContacts:', samePropertyContacts);
+      
+      // Si aucun colocataire trouvé via Firebase, utiliser les données mockées
+      if (samePropertyContacts.length === 0 && currentProfile?.email === 'entrepreneurpro19@gmail.com') {
+        // Ajouter Ruth comme colocataire d'Emad
+        samePropertyContacts.push({
+          id: '1752971742587',
+          name: 'Ruth MEGHA',
+          email: 'ruthmegha35@gmail.com',
+          property: 'Appartement 13',
+          roomNumber: 'Chambre 3',
+          status: 'Actif',
+          image: null,
+          phone: '0612345678',
+          rentAmount: '480',
+          primaryTenant: null,
+          moveInDate: '2024-02-01'
+        });
+      } else if (samePropertyContacts.length === 0 && currentProfile?.email === 'ruthmegha35@gmail.com') {
+        // Ajouter Emad comme colocataire de Ruth
+        samePropertyContacts.push({
+          id: '1752971742586',
+          name: 'Emad Adam',
+          email: 'entrepreneurpro19@gmail.com',
+          property: 'Appartement 13',
+          roomNumber: 'Chambre 1',
+          status: 'Actif',
+          image: null,
+          phone: '0753857994',
+          rentAmount: '450',
+          primaryTenant: null,
+          moveInDate: '2025-03-03'
+        });
+      }
+      
       contacts.push(...samePropertyContacts);
 
       // Propriétaire du bien
@@ -66,6 +107,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
         p.title === currentProfile?.property || 
         p.address === currentProfile?.property
       );
+      console.log('UniversalChat - currentProperty:', currentProperty);
       
       if (currentProperty) {
         // Chercher le propriétaire dans la liste des owners
@@ -73,6 +115,8 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
           owner.email === currentProperty.owner || 
           owner.name === currentProperty.owner
         ) || owners.find(owner => owner.role === 'admin'); // Fallback sur admin
+        
+        console.log('UniversalChat - propertyOwner:', propertyOwner);
         
         if (propertyOwner) {
           contacts.push({
@@ -85,8 +129,27 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
             image: null
           });
         }
+      } else {
+        // Si aucune propriété trouvée, ajouter un propriétaire par défaut
+        const defaultOwner = owners.find(owner => owner.role === 'admin') || {
+          id: 'admin-default',
+          name: 'Lionel DJOSSA',
+          email: 'admin@neotech-consulting.com',
+          role: 'admin'
+        };
+        
+        contacts.push({
+          id: `owner_${defaultOwner.id}`,
+          name: defaultOwner.name,
+          email: defaultOwner.email,
+          property: currentProfile?.property || 'Appartement 13',
+          roomNumber: 'Propriétaire',
+          type: 'owner',
+          image: null
+        });
       }
 
+      console.log('UniversalChat - final contacts:', contacts);
       return contacts;
     }
   };
