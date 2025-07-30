@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { MessageSquare, Users, Send, User, Building } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useTenantChat } from '@/hooks/useTenantChat';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -22,6 +23,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   const { t, i18n } = useTranslation();
   const { roommates } = useFirebaseRoommates();
   const { properties } = useFirebaseProperties();
+  const { owners } = useFirebaseOwners();
   const ownerData = useOwnerData(currentProfile);
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [messageText, setMessageText] = useState('');
@@ -60,19 +62,29 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
       contacts.push(...samePropertyContacts);
 
       // Propriétaire du bien
-      const currentProperty = properties.find(p => p.title === currentProfile?.property);
-      if (currentProperty?.owner) {
-        // Ici on devrait récupérer les infos du propriétaire
-        // Pour l'instant on simule
-        contacts.push({
-          id: `owner_${currentProperty.id}`,
-          name: currentProperty.owner,
-          email: 'proprietaire@example.com',
-          property: currentProperty.title,
-          roomNumber: 'Propriétaire',
-          type: 'owner',
-          image: null
-        });
+      const currentProperty = properties.find(p => 
+        p.title === currentProfile?.property || 
+        p.address === currentProfile?.property
+      );
+      
+      if (currentProperty) {
+        // Chercher le propriétaire dans la liste des owners
+        const propertyOwner = owners.find(owner => 
+          owner.email === currentProperty.owner || 
+          owner.name === currentProperty.owner
+        ) || owners.find(owner => owner.role === 'admin'); // Fallback sur admin
+        
+        if (propertyOwner) {
+          contacts.push({
+            id: `owner_${propertyOwner.id}`,
+            name: propertyOwner.name,
+            email: propertyOwner.email,
+            property: currentProperty.title,
+            roomNumber: 'Propriétaire',
+            type: 'owner',
+            image: null
+          });
+        }
       }
 
       return contacts;
@@ -133,7 +145,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   const getContactTypeLabel = (contact: any) => {
     if (contact.type === 'owner') return 'Propriétaire';
     if (contact.roomNumber === 'Propriétaire') return 'Propriétaire';
-    return `Chambre ${contact.roomNumber}`;
+    return contact.roomNumber || 'Colocataire';
   };
 
   const getContactIcon = (contact: any) => {
@@ -215,13 +227,13 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                         }`}
                         onClick={() => handleStartConversation(contact)}
                       >
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-10 w-10">
-                            <AvatarImage src={contact.image} />
-                            <AvatarFallback>
-                              {getContactIcon(contact)}
-                            </AvatarFallback>
-                          </Avatar>
+                         <div className="flex items-center gap-3">
+                           <Avatar className="h-10 w-10">
+                             <AvatarImage src={contact.image} />
+                             <AvatarFallback className={contact.type === 'owner' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}>
+                               {contact.type === 'owner' ? getContactIcon(contact) : contact.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                             </AvatarFallback>
+                           </Avatar>
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm text-gray-900 truncate">
                               {contact.name}
