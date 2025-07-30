@@ -8,6 +8,7 @@ import { MessageSquare, Users, Send, User, Building } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
+import { useFirebasePresence } from '@/hooks/useFirebasePresence';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useTenantChat } from '@/hooks/useTenantChat';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,10 +25,10 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   const { roommates } = useFirebaseRoommates();
   const { properties } = useFirebaseProperties();
   const { owners } = useFirebaseOwners();
+  const { getUserStatus, loading: presenceLoading } = useFirebasePresence(currentProfile);
   const ownerData = useOwnerData(currentProfile);
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [messageText, setMessageText] = useState('');
-  const [onlineStatus, setOnlineStatus] = useState<{[key: string]: {isOnline: boolean, lastSeen?: string}}>({});
 
   const {
     conversations,
@@ -39,15 +40,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     subscribeToMessages
   } = useTenantChat(currentProfile?.id);
 
-  // Simuler le statut en ligne des utilisateurs
-  useEffect(() => {
-    const mockOnlineStatus = {
-      '1752971742587': { isOnline: true, lastSeen: 'En ligne' }, // Ruth
-      '1752971742586': { isOnline: false, lastSeen: 'Vu il y a 2h' }, // Emad
-      'owner_admin-default': { isOnline: true, lastSeen: 'En ligne' }, // Lionel
-    };
-    setOnlineStatus(mockOnlineStatus);
-  }, []);
+  console.log('UniversalChat - Présence loading:', presenceLoading);
 
   // Filtrer les contacts disponibles selon le type d'utilisateur
   const getAvailableContacts = () => {
@@ -166,7 +159,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   };
 
   const getOnlineStatus = (contactId: string) => {
-    return onlineStatus[contactId] || { isOnline: false, lastSeen: 'Hors ligne' };
+    return getUserStatus(contactId);
   };
 
   const availableContacts = getAvailableContacts();
