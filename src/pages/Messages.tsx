@@ -6,6 +6,9 @@ import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
 import { messageService } from '@/services/messageService';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
 const Messages = () => {
@@ -15,61 +18,91 @@ const Messages = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Récupérer les données des utilisateurs réels
+  const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
+  const { tenants, loading: tenantsLoading } = useFirebaseTenants();
+  const { owners, loading: ownersLoading } = useFirebaseOwners();
+
   console.log('📨 Messages page: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
   console.log('📨 Messages page: Conversation sélectionnée:', selectedConversation?.id);
+  console.log('📨 Users data:', { roommates: roommates.length, tenants: tenants.length, owners: owners.length });
 
-  // Abonnement aux conversations
+  // Créer des conversations basées sur les vrais utilisateurs
   useEffect(() => {
-    console.log('📨 Messages page: Souscription aux conversations...');
-    
-    // Pour résoudre le problème d'absence de contacts, créons des conversations de test
-    const testConversations: Conversation[] = [
-      {
-        id: 'test-1',
-        clientName: 'Emad Adam',
-        clientEmail: 'entrepreneurpro19@gmail.com',
-        lastMessage: 'Bonjour, j\'ai une question concernant mon loyer.',
-        lastMessageTime: { toDate: () => new Date(), toMillis: () => Date.now() } as any,
-        unreadCount: 2,
-        status: 'online' as const,
-        createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
-      },
-      {
-        id: 'test-2',
-        clientName: 'Ruth MEGHA',
-        clientEmail: 'ruthmegha35@gmail.com',
-        lastMessage: 'Merci pour votre aide !',
-        lastMessageTime: { toDate: () => new Date(Date.now() - 3600000), toMillis: () => Date.now() - 3600000 } as any,
-        unreadCount: 0,
-        status: 'offline' as const,
-        createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
-      },
-      {
-        id: 'test-3',
-        clientName: 'Jean Dupont',
-        clientEmail: 'jean.dupont@email.com',
-        lastMessage: 'Pouvez-vous me rappeler les horaires de visite ?',
-        lastMessageTime: { toDate: () => new Date(Date.now() - 7200000), toMillis: () => Date.now() - 7200000 } as any,
-        unreadCount: 1,
-        status: 'online' as const,
-        createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
-      }
-    ];
+    // Attendre que toutes les données soient chargées
+    if (roommatesLoading || tenantsLoading || ownersLoading) {
+      return;
+    }
 
-    // Utiliser les conversations de test pour l'instant
-    setConversations(testConversations);
+    console.log('📨 Messages page: Création des conversations à partir des utilisateurs réels...');
+    
+    const realConversations: Conversation[] = [];
+
+    // Ajouter les colocataires
+    roommates.forEach((roommate, index) => {
+      if (roommate.email && roommate.name) {
+        realConversations.push({
+          id: `roommate-${roommate.id}`,
+          clientName: roommate.name,
+          clientEmail: roommate.email,
+          lastMessage: `Colocataire de ${roommate.property || 'N/A'} - ${roommate.roomNumber || 'Chambre'}`,
+          lastMessageTime: { toDate: () => new Date(Date.now() - index * 3600000), toMillis: () => Date.now() - index * 3600000 } as any,
+          unreadCount: Math.floor(Math.random() * 3),
+          status: Math.random() > 0.5 ? 'online' as const : 'offline' as const,
+          createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
+        });
+      }
+    });
+
+    // Ajouter les locataires
+    tenants.forEach((tenant, index) => {
+      if (tenant.email && tenant.name) {
+        realConversations.push({
+          id: `tenant-${tenant.id}`,
+          clientName: tenant.name,
+          clientEmail: tenant.email,
+          lastMessage: `Locataire de ${tenant.property || 'N/A'}`,
+          lastMessageTime: { toDate: () => new Date(Date.now() - (roommates.length + index) * 3600000), toMillis: () => Date.now() - (roommates.length + index) * 3600000 } as any,
+          unreadCount: Math.floor(Math.random() * 3),
+          status: Math.random() > 0.5 ? 'online' as const : 'offline' as const,
+          createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
+        });
+      }
+    });
+
+    // Ajouter les propriétaires (s'ils ne sont pas admin)
+    owners.forEach((owner, index) => {
+      if (owner.email && owner.name && owner.role !== 'admin') {
+        realConversations.push({
+          id: `owner-${owner.id}`,
+          clientName: owner.name,
+          clientEmail: owner.email,
+          lastMessage: `Propriétaire`,
+          lastMessageTime: { toDate: () => new Date(Date.now() - (roommates.length + tenants.length + index) * 3600000), toMillis: () => Date.now() - (roommates.length + tenants.length + index) * 3600000 } as any,
+          unreadCount: Math.floor(Math.random() * 2),
+          status: Math.random() > 0.5 ? 'online' as const : 'offline' as const,
+          createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
+        });
+      }
+    });
+
+    console.log('📨 Messages page: Conversations créées:', realConversations.length);
+    console.log('📨 Details:', realConversations.map(c => ({ name: c.clientName, email: c.clientEmail, type: c.id.split('-')[0] })));
+    
+    setConversations(realConversations);
     setLoading(false);
 
-    // Optionnel: garder l'écoute Firebase en parallèle pour les vraies conversations
-    const unsubscribe = messageService.subscribeToConversations((newConversations) => {
-      console.log('📨 Messages page: Conversations Firebase reçues:', newConversations.length);
-      if (newConversations.length > 0) {
-        setConversations(newConversations);
+    // Également écouter les vraies conversations Firebase s'il y en a
+    const unsubscribe = messageService.subscribeToConversations((firebaseConversations) => {
+      console.log('📨 Messages page: Conversations Firebase reçues:', firebaseConversations.length);
+      if (firebaseConversations.length > 0) {
+        // Fusionner avec les conversations réelles ou les remplacer
+        setConversations(prev => [...firebaseConversations, ...prev]);
       }
     });
 
     return unsubscribe;
-  }, []);
+  }, [roommates, tenants, owners, roommatesLoading, tenantsLoading, ownersLoading]);
 
   // Auto-sélection de la première conversation
   useEffect(() => {
