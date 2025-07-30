@@ -187,25 +187,27 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   }, [selectedContact, conversations, currentProfile, subscribeToMessages]);
 
   const handleStartConversation = async (contact: any) => {
+    console.log('Sélection du contact:', contact);
     try {
+      // Sélectionner directement le contact pour commencer la conversation
+      setSelectedContact(contact);
+      
       // Vérifier s'il existe déjà une conversation
       const existingConversation = conversations.find(conv => 
         (conv.participant1Id === currentProfile.id && conv.participant2Id === contact.id) ||
         (conv.participant1Id === contact.id && conv.participant2Id === currentProfile.id)
       );
 
-      if (existingConversation) {
-        setSelectedContact(contact);
-        return;
-      }
+      console.log('Conversation existante:', existingConversation);
 
-      // Créer une nouvelle conversation
-      const conversationId = await createConversation(contact.id, contact.name, contact.email);
-      if (conversationId) {
-        setSelectedContact(contact);
+      if (!existingConversation) {
+        // Créer une nouvelle conversation si elle n'existe pas
+        console.log('Création d\'une nouvelle conversation...');
+        const conversationId = await createConversation(contact.id, contact.name, contact.email);
+        console.log('Nouvelle conversation créée:', conversationId);
       }
     } catch (error) {
-      console.error('Erreur lors de la création de la conversation:', error);
+      console.error('Erreur lors de la sélection du contact:', error);
     }
   };
 
@@ -290,20 +292,23 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                     <Users className="h-8 w-8 mx-auto mb-2 text-gray-400" />
                     <p className="text-sm">Aucun contact disponible</p>
                   </div>
-                ) : (
-                  availableContacts.map((contact) => {
-                    const conversation = conversations.find(conv => 
-                      (conv.participant1Id === currentProfile.id && conv.participant2Id === contact.id) ||
-                      (conv.participant1Id === contact.id && conv.participant2Id === currentProfile.id)
-                    );
-                    
-                    return (
-                      <div
-                        key={contact.id}
-                        className={`p-3 hover:bg-gray-50 cursor-pointer border-b transition-colors ${
-                          selectedContact?.id === contact.id ? 'bg-blue-50 border-blue-200' : ''
-                        }`}
-                        onClick={() => handleStartConversation(contact)}
+                 ) : (
+                   availableContacts.map((contact) => {
+                     const conversation = conversations.find(conv => 
+                       (conv.participant1Id === currentProfile.id && conv.participant2Id === contact.id) ||
+                       (conv.participant1Id === contact.id && conv.participant2Id === currentProfile.id)
+                     );
+                     
+                     return (
+                       <div
+                         key={contact.id}
+                         className={`p-3 hover:bg-gray-50 cursor-pointer border-b transition-colors duration-200 ${
+                           selectedContact?.id === contact.id ? 'bg-blue-50 border-blue-200 shadow-sm' : 'hover:shadow-sm'
+                         }`}
+                         onClick={() => {
+                           console.log('Clic sur le contact:', contact);
+                           handleStartConversation(contact);
+                         }}
                        >
                          <div className="flex items-center gap-3">
                            <div className="relative">
@@ -334,22 +339,25 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                              <p className="text-xs text-gray-500 truncate">
                                {contact.property} - {getContactTypeLabel(contact)}
                              </p>
-                            {conversation && (
-                              <p className="text-xs text-gray-400 truncate mt-1">
-                                {conversation.lastMessage}
-                              </p>
-                            )}
-                          </div>
-                          {conversation && conversation.unreadCount > 0 && (
-                            <Badge variant="destructive" className="text-xs">
-                              {conversation.unreadCount}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
+                             {conversation && conversation.lastMessage && (
+                               <p className="text-xs text-gray-400 truncate mt-1">
+                                 {conversation.lastMessage}
+                               </p>
+                             )}
+                           </div>
+                           {conversation && conversation.unreadCount && conversation.unreadCount > 0 && (
+                             <Badge variant="destructive" className="text-xs">
+                               {conversation.unreadCount}
+                             </Badge>
+                           )}
+                           {selectedContact?.id === contact.id && (
+                             <div className="w-2 h-2 bg-blue-600 rounded-full ml-2"></div>
+                           )}
+                         </div>
+                       </div>
+                     );
+                   })
+                 )}
               </div>
             </CardContent>
           </Card>
