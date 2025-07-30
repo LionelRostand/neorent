@@ -27,6 +27,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   const ownerData = useOwnerData(currentProfile);
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [messageText, setMessageText] = useState('');
+  const [onlineStatus, setOnlineStatus] = useState<{[key: string]: {isOnline: boolean, lastSeen?: string}}>({});
 
   const {
     conversations,
@@ -37,6 +38,16 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     loadingMessages,
     subscribeToMessages
   } = useTenantChat(currentProfile?.id);
+
+  // Simuler le statut en ligne des utilisateurs
+  useEffect(() => {
+    const mockOnlineStatus = {
+      '1752971742587': { isOnline: true, lastSeen: 'En ligne' }, // Ruth
+      '1752971742586': { isOnline: false, lastSeen: 'Vu il y a 2h' }, // Emad
+      'owner_admin-default': { isOnline: true, lastSeen: 'En ligne' }, // Lionel
+    };
+    setOnlineStatus(mockOnlineStatus);
+  }, []);
 
   // Filtrer les contacts disponibles selon le type d'utilisateur
   const getAvailableContacts = () => {
@@ -152,6 +163,10 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
       console.log('UniversalChat - final contacts:', contacts);
       return contacts;
     }
+  };
+
+  const getOnlineStatus = (contactId: string) => {
+    return onlineStatus[contactId] || { isOnline: false, lastSeen: 'Hors ligne' };
   };
 
   const availableContacts = getAvailableContacts();
@@ -289,21 +304,36 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                           selectedContact?.id === contact.id ? 'bg-blue-50 border-blue-200' : ''
                         }`}
                         onClick={() => handleStartConversation(contact)}
-                      >
+                       >
                          <div className="flex items-center gap-3">
-                           <Avatar className="h-10 w-10">
-                             <AvatarImage src={contact.image} />
-                             <AvatarFallback className={contact.type === 'owner' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}>
-                               {contact.type === 'owner' ? getContactIcon(contact) : contact.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                             </AvatarFallback>
-                           </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-sm text-gray-900 truncate">
-                              {contact.name}
-                            </p>
-                            <p className="text-xs text-gray-500 truncate">
-                              {contact.property} - {getContactTypeLabel(contact)}
-                            </p>
+                           <div className="relative">
+                             <Avatar className="h-10 w-10">
+                               <AvatarImage src={contact.image} />
+                               <AvatarFallback className={contact.type === 'owner' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}>
+                                 {contact.type === 'owner' ? getContactIcon(contact) : contact.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                               </AvatarFallback>
+                             </Avatar>
+                             {/* Indicateur de statut en ligne */}
+                             <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${
+                               getOnlineStatus(contact.id).isOnline ? 'bg-green-500' : 'bg-gray-400'
+                             }`}></div>
+                           </div>
+                           <div className="flex-1 min-w-0">
+                             <div className="flex items-center gap-2">
+                               <p className="font-medium text-sm text-gray-900 truncate">
+                                 {contact.name}
+                               </p>
+                               <span className={`text-xs px-2 py-0.5 rounded-full ${
+                                 getOnlineStatus(contact.id).isOnline 
+                                   ? 'bg-green-100 text-green-700' 
+                                   : 'bg-gray-100 text-gray-600'
+                               }`}>
+                                 {getOnlineStatus(contact.id).lastSeen}
+                               </span>
+                             </div>
+                             <p className="text-xs text-gray-500 truncate">
+                               {contact.property} - {getContactTypeLabel(contact)}
+                             </p>
                             {conversation && (
                               <p className="text-xs text-gray-400 truncate mt-1">
                                 {conversation.lastMessage}
@@ -330,20 +360,35 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
           <Card className="h-full flex flex-col">
             {selectedContact ? (
               <>
-                <CardHeader className="pb-3 border-b">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={selectedContact.image} />
-                      <AvatarFallback>
-                        {getContactIcon(selectedContact)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{selectedContact.name}</h3>
-                      <p className="text-sm text-gray-500">
-                        {selectedContact.property} - {getContactTypeLabel(selectedContact)}
-                      </p>
-                    </div>
+                 <CardHeader className="pb-3 border-b">
+                   <div className="flex items-center gap-3">
+                     <div className="relative">
+                       <Avatar className="h-10 w-10">
+                         <AvatarImage src={selectedContact.image} />
+                         <AvatarFallback className={selectedContact.type === 'owner' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}>
+                           {selectedContact.type === 'owner' ? getContactIcon(selectedContact) : selectedContact.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                         </AvatarFallback>
+                       </Avatar>
+                       {/* Indicateur de statut en ligne */}
+                       <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${
+                         getOnlineStatus(selectedContact.id).isOnline ? 'bg-green-500' : 'bg-gray-400'
+                       }`}></div>
+                     </div>
+                     <div>
+                       <div className="flex items-center gap-2">
+                         <h3 className="font-semibold text-gray-900">{selectedContact.name}</h3>
+                         <span className={`text-xs px-2 py-0.5 rounded-full ${
+                           getOnlineStatus(selectedContact.id).isOnline 
+                             ? 'bg-green-100 text-green-700' 
+                             : 'bg-gray-100 text-gray-600'
+                         }`}>
+                           {getOnlineStatus(selectedContact.id).lastSeen}
+                         </span>
+                       </div>
+                       <p className="text-sm text-gray-500">
+                         {selectedContact.property} - {getContactTypeLabel(selectedContact)}
+                       </p>
+                     </div>
                   </div>
                 </CardHeader>
 
