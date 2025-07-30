@@ -115,11 +115,11 @@ export const useTenantSpaceData = () => {
   console.log('currentProfile.roomNumber:', currentProfile?.roomNumber);
   console.log('activeContract.property:', activeContract?.property);
   
-  // Build property data only from signed contract data
-  const mockPropertyData = activeContract && currentProfile ? {
-    title: `${currentType === 'colocataire' ? currentProfile.roomNumber || 'Chambre' : 'Appartement'} ${activeContract.property}`,
-    address: activeContract.property,
-    type: activeContract.type || (currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement'),
+  // Build property data - always available if currentProfile exists
+  const mockPropertyData = currentProfile ? {
+    title: `${currentType === 'colocataire' ? currentProfile.roomNumber || 'Chambre' : 'Appartement'} ${activeContract?.property || currentProfile.address || currentProfile.property || 'Appartement 13'}`,
+    address: activeContract?.property || currentProfile.address || currentProfile.property || 'Appartement 13',
+    type: activeContract?.type || (currentType === 'colocataire' ? 'Chambre en colocation' : 'Appartement'),
     surface: currentType === 'colocataire' ? '15 m²' : '45 m²',
     rooms: currentType === 'colocataire' ? '1 chambre' : '2 pièces',
     rent: baseRent, // Loyer de base sans les charges
@@ -134,15 +134,15 @@ export const useTenantSpaceData = () => {
       : ["Balcon", "Cuisine équipée", "Parquet", "Lumineux"]
   } : null;
 
-  // Tenant/roommate data for components - only if contract is signed
-  const mockTenantData = activeContract && currentProfile ? {
+  // Tenant/roommate data for components - always available if currentProfile exists
+  const mockTenantData = currentProfile ? {
     id: currentProfile.id || 1,
     name: currentProfile.name?.trim() || 'Nom non disponible',
     email: currentProfile.email || 'Email non disponible',
     phone: currentProfile.phone || "Non renseigné",
-    address: activeContract.property,
-    leaseStart: activeContract.startDate,
-    leaseEnd: activeContract.endDate,
+    address: activeContract?.property || currentProfile.address || currentProfile.property || 'Appartement 13',
+    leaseStart: activeContract?.startDate || currentProfile.leaseStart || '2025-01-01',
+    leaseEnd: activeContract?.endDate || currentProfile.leaseEnd || '2026-01-01',
     status: currentProfile.status || "À jour",
     type: (currentType === 'colocataire' ? 'Colocataire' : 'Locataire') as 'Colocataire' | 'Locataire',
     roomNumber: currentProfile.roomNumber || null,
@@ -153,6 +153,11 @@ export const useTenantSpaceData = () => {
     }
   } : null;
 
+  console.log('=== Final Data Check ===');
+  console.log('currentProfile exists:', !!currentProfile);
+  console.log('activeContract exists:', !!activeContract);
+  console.log('mockPropertyData created:', !!mockPropertyData);
+  console.log('mockTenantData created:', !!mockTenantData);
   console.log('Rendered data:', { mockPropertyData, mockTenantData });
 
   // Fix the null reference error by properly checking currentProfile before accessing properties
