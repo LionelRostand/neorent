@@ -37,21 +37,22 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
 
   // Filtrer les paiements payés selon le type d'affichage
   const filteredPaidPayments = payments.filter(payment => {
-    if (payment.status !== 'Payé' || !payment.paymentDate) return false;
+    if (payment.status !== 'Payé' || !payment.dueDate) return false;
     
-    const paymentDate = new Date(payment.paymentDate);
+    // Utiliser la dueDate (date d'échéance) plutôt que paymentDate pour le filtrage
+    const dueDate = new Date(payment.dueDate);
     const selectedMonthStart = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
     const selectedMonthEnd = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
     
     if (showPreviousMonths) {
-      // Afficher les paiements des mois précédents au mois sélectionné
-      return paymentDate < selectedMonthStart;
+      // Afficher les paiements dus avant le mois sélectionné
+      return dueDate < selectedMonthStart;
     } else if (showNextMonths) {
-      // Afficher les paiements des mois suivants au mois sélectionné
-      return paymentDate > selectedMonthEnd;
+      // Afficher les paiements dus après le mois sélectionné
+      return dueDate > selectedMonthEnd;
     } else {
-      // Afficher les paiements du mois sélectionné
-      return paymentDate >= selectedMonthStart && paymentDate <= selectedMonthEnd;
+      // Afficher les paiements dus pendant le mois sélectionné
+      return dueDate >= selectedMonthStart && dueDate <= selectedMonthEnd;
     }
   });
 
