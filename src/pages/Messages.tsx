@@ -34,26 +34,71 @@ const Messages = () => {
       return;
     }
 
-    console.log('📨 Messages page: Initialisation avec conversations vides...');
+    console.log('📨 Messages page: Initialisation avec colocataires et locataires...');
+    console.log('📨 Roommates trouvés:', roommates.length);
+    console.log('📨 Tenants trouvés:', tenants.length);
     
-    // Commencer avec un tableau vide - les conversations ne seront ajoutées que s'il y a de vrais messages
-    const realConversations: Conversation[] = [];
+    // Créer des conversations potentielles pour tous les utilisateurs actifs
+    const potentialConversations: Conversation[] = [];
+    
+    // Ajouter les colocataires actifs
+    roommates.forEach(roommate => {
+      if (roommate.status === 'Actif' && roommate.email && roommate.name) {
+        potentialConversations.push({
+          id: `roommate-${roommate.id}`,
+          clientName: roommate.name,
+          clientEmail: roommate.email,
+          lastMessage: '',
+          lastMessageTime: new Date() as any,
+          unreadCount: 0,
+          status: 'offline' as const,
+          createdAt: new Date() as any,
+        });
+      }
+    });
 
-    console.log('📨 Messages page: Démarrage avec 0 conversations - attente de vrais messages Firebase');
-    
-    setConversations(realConversations);
+    // Ajouter les locataires actifs
+    tenants.forEach(tenant => {
+      if (tenant.status === 'Actif' && tenant.email && tenant.name) {
+        potentialConversations.push({
+          id: `tenant-${tenant.id}`,
+          clientName: tenant.name,
+          clientEmail: tenant.email,
+          lastMessage: '',
+          lastMessageTime: new Date() as any,
+          unreadCount: 0,
+          status: 'offline' as const,
+          createdAt: new Date() as any,
+        });
+      }
+    });
+
+    console.log('📨 Messages page: Conversations potentielles créées:', potentialConversations.length);
+    setConversations(potentialConversations);
     setLoading(false);
 
-    // Écouter uniquement les vraies conversations Firebase
+    // Écouter les vraies conversations Firebase pour mettre à jour les données
     const unsubscribe = messageService.subscribeToConversations((firebaseConversations) => {
       console.log('📨 Messages page: Conversations Firebase reçues:', firebaseConversations.length);
-      if (firebaseConversations.length > 0) {
-        // Utiliser uniquement les vraies conversations Firebase
-        setConversations(firebaseConversations);
-      } else {
-        // Aucune conversation réelle - garder le tableau vide
-        setConversations([]);
-      }
+      
+      // Fusionner les conversations potentielles avec les vraies conversations Firebase
+      const mergedConversations = [...potentialConversations];
+      
+      firebaseConversations.forEach(firebaseConv => {
+        const existingIndex = mergedConversations.findIndex(conv => 
+          conv.clientEmail === firebaseConv.clientEmail
+        );
+        
+        if (existingIndex >= 0) {
+          // Remplacer la conversation potentielle par la vraie
+          mergedConversations[existingIndex] = firebaseConv;
+        } else {
+          // Ajouter une nouvelle conversation qui n'était pas dans les potentielles
+          mergedConversations.push(firebaseConv);
+        }
+      });
+      
+      setConversations(mergedConversations);
     });
 
     return unsubscribe;
@@ -128,13 +173,46 @@ const Messages = () => {
     try {
       console.log('📨 Messages page: Envoi du message:', message, 'pour conversation:', selectedConversation.id);
       
-      await messageService.sendMessage({
-        conversationId: selectedConversation.id,
-        sender: 'staff',
-        senderName: 'Support NeoRent',
-        senderEmail: 'support@neorent.fr',
-        message
-      });
+      // Vérifier si c'est une conversation potentielle (pas encore créée dans Firebase)
+      const isPotentialConversation = selectedConversation.id.startsWith('roommate-') || selectedConversation.id.startsWith('tenant-');
+      
+      if (isPotentialConversation) {
+        console.log('📨 Messages page: Création d\'une nouvelle conversation Firebase pour:', selectedConversation.clientEmail);
+        
+        // Créer une vraie conversation Firebase
+        const realConversationId = await messageService.createConversation({
+          clientName: selectedConversation.clientName,
+          clientEmail: selectedConversation.clientEmail
+        });
+        
+        console.log('📨 Messages page: Nouvelle conversation créée avec ID:', realConversationId);
+        
+        // Envoyer le message à la vraie conversation
+        await messageService.sendMessage({
+          conversationId: realConversationId,
+          sender: 'staff',
+          senderName: 'Support NeoRent',
+          senderEmail: 'support@neorent.fr',
+          message
+        });
+        
+        // Mettre à jour la conversation sélectionnée avec le vrai ID
+        setSelectedConversation(prev => prev ? {
+          ...prev,
+          id: realConversationId
+        } : null);
+        
+      } else {
+        // Conversation existante, envoyer le message normalement
+        await messageService.sendMessage({
+          conversationId: selectedConversation.id,
+          sender: 'staff',
+          senderName: 'Support NeoRent',
+          senderEmail: 'support@neorent.fr',
+          message
+        });
+      }
+      
       console.log('📨 Messages page: Message envoyé avec succès');
     } catch (error) {
       console.error('📨 Messages page: Error sending message:', error);
