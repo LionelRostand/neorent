@@ -108,6 +108,7 @@ export const useFirebasePayments = () => {
       })) as Contract[];
 
       console.log('📋 DONNÉES BRUTES - Contrats:', contractsData);
+      console.log('🔍 CONTRAT D\'EMAD ADAM:', contractsData.find(c => c.tenant === 'EMAD ADAM' || JSON.stringify(c).includes('EMAD')));
       console.log('💰 DONNÉES BRUTES - Paiements:', paymentsData);
 
       // Enrichir CHAQUE paiement avec les données de contrat
