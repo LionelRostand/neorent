@@ -25,11 +25,13 @@ export const ownerAccountService = {
     const updatedProfile = {
       ...userData,
       role: 'owner' as const,
+      userType: 'owner' as const,
       name: request.name,
       phone: request.phone || userData.phone || '',
       company: request.company || userData.company || '',
       address: request.address || userData.address || '',
       isOwner: true,
+      isPropertyOwner: true,
       firebaseUid: firebaseUid,
       hasPassword: true,
       temporaryPassword: temporaryPassword,
@@ -43,12 +45,14 @@ export const ownerAccountService = {
   async createNewProfile(firebaseUid: string, request: OwnerRegistrationRequest, temporaryPassword: string) {
     const ownerProfile = {
       role: 'owner' as const,
+      userType: 'owner' as const,
       email: request.email,
       name: request.name,
       createdAt: new Date().toISOString(),
       permissions: ['read', 'write', 'manage'],
       hasPassword: true,
       isOwner: true,
+      isPropertyOwner: true,
       phone: request.phone || '',
       company: request.company || '',
       address: request.address || '',
