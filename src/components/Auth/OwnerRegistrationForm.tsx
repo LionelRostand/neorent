@@ -49,8 +49,8 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
   };
 
   return (
-    <div className="max-h-[80vh] overflow-y-auto overscroll-contain">
-      <form onSubmit={handleSubmit} className="space-y-4 px-1">
+    <div className="max-h-[70vh] overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
       <PersonalInfoFields
         formData={formData}
         onChange={handleFormChange}
