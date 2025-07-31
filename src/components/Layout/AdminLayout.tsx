@@ -2,6 +2,7 @@ import React from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AdminSidebar } from './AdminSidebar';
 import { useTranslation } from 'react-i18next';
+import { Menu } from 'lucide-react';
 import LanguageSelector from '../LanguageSelector';
 import UserProfile from './UserProfile';
 
@@ -23,7 +24,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           {/* Header with sidebar trigger */}
           <header className="bg-white shadow-sm border-b px-4 py-3 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">
-              <SidebarTrigger className="p-2 hover:bg-gray-100 rounded-md transition-colors" />
+              <SidebarTrigger asChild>
+                <button className="p-2 hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center">
+                  <Menu className="h-5 w-5 text-gray-700" />
+                </button>
+              </SidebarTrigger>
               <h1 className="text-lg font-semibold text-gray-900 truncate">
                 Tableau de bord
               </h1>
