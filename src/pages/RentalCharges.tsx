@@ -18,8 +18,11 @@ const RentalCharges = () => {
   const { t } = useTranslation();
   const { charges, loading, error, addCharge, deleteCharge } = useFirebaseCharges();
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState('2024-12'); // Décembre 2024 par défaut
-  const [selectedYear, setSelectedYear] = useState('2024');
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  });
+  const [selectedYear, setSelectedYear] = useState(() => new Date().getFullYear().toString());
   const [selectedView, setSelectedView] = useState<'monthly' | 'annual'>('monthly');
   const { toast } = useToast();
 
@@ -90,11 +93,14 @@ const RentalCharges = () => {
   React.useEffect(() => {
     if (charges.length === 0 && !loading) {
       console.log('🆘 Aucune charge trouvée, création d\'une charge de test...');
+      const now = new Date();
+      const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      
       const testCharge = {
         propertyName: 'Appartement 13 - Colocation',
         propertyType: 'colocation',
         tenant: 'EMAD ADAM, RUTH MEGHA',
-        month: '2024-12',
+        month: currentMonth, // Utilise le mois actuel
         electricity: 0,
         water: 83.33,
         heating: 150,
