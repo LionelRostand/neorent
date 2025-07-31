@@ -47,8 +47,8 @@ const Messages = () => {
           clientEmail: roommate.email,
           lastMessage: `Colocataire de ${roommate.property || 'N/A'} - ${roommate.roomNumber || 'Chambre'}`,
           lastMessageTime: { toDate: () => new Date(Date.now() - index * 3600000), toMillis: () => Date.now() - index * 3600000 } as any,
-          unreadCount: Math.floor(Math.random() * 3),
-          status: Math.random() > 0.5 ? 'online' as const : 'offline' as const,
+          unreadCount: 0, // Pas de messages non lus par défaut
+          status: 'offline' as const, // Status offline par défaut
           createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
         });
       }
@@ -63,8 +63,8 @@ const Messages = () => {
           clientEmail: tenant.email,
           lastMessage: `Locataire de ${tenant.property || 'N/A'}`,
           lastMessageTime: { toDate: () => new Date(Date.now() - (roommates.length + index) * 3600000), toMillis: () => Date.now() - (roommates.length + index) * 3600000 } as any,
-          unreadCount: Math.floor(Math.random() * 3),
-          status: Math.random() > 0.5 ? 'online' as const : 'offline' as const,
+          unreadCount: 0, // Pas de messages non lus par défaut
+          status: 'offline' as const, // Status offline par défaut
           createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
         });
       }
@@ -79,8 +79,8 @@ const Messages = () => {
           clientEmail: owner.email,
           lastMessage: `Propriétaire`,
           lastMessageTime: { toDate: () => new Date(Date.now() - (roommates.length + tenants.length + index) * 3600000), toMillis: () => Date.now() - (roommates.length + tenants.length + index) * 3600000 } as any,
-          unreadCount: Math.floor(Math.random() * 2),
-          status: Math.random() > 0.5 ? 'online' as const : 'offline' as const,
+          unreadCount: 0, // Pas de messages non lus par défaut
+          status: 'offline' as const, // Status offline par défaut  
           createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
         });
       }
