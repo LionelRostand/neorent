@@ -77,15 +77,27 @@ export const simpleChat = {
   // Envoyer un message
   async sendMessage(conversationId: string, senderEmail: string, senderName: string, content: string): Promise<void> {
     try {
+      console.log('📤 DEBUT sendMessage');
+      console.log('📤 conversationId:', conversationId);
+      console.log('📤 senderEmail:', senderEmail);
+      console.log('📤 senderName:', senderName);
+      console.log('📤 content:', content);
+      
       // Ajouter le message
       const messagesRef = collection(db, 'simple_messages');
-      await addDoc(messagesRef, {
+      console.log('📤 Collection messages ref créée');
+      
+      const messageData = {
         conversationId,
         senderEmail,
         senderName,
         content,
         timestamp: serverTimestamp()
-      });
+      };
+      console.log('📤 Message data:', messageData);
+      
+      const messageDoc = await addDoc(messagesRef, messageData);
+      console.log('✅ Message ajouté avec ID:', messageDoc.id);
 
       // Mettre à jour la conversation
       const conversationRef = doc(db, 'simple_conversations', conversationId);
@@ -93,10 +105,12 @@ export const simpleChat = {
         lastMessage: content,
         lastMessageTime: serverTimestamp()
       });
+      console.log('✅ Conversation mise à jour');
 
-      console.log('✅ Message envoyé avec succès');
+      console.log('✅ Message envoyé avec succès !');
     } catch (error) {
       console.error('❌ Erreur lors de l\'envoi du message:', error);
+      console.error('❌ Error details:', error.message);
       throw error;
     }
   },

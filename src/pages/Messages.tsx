@@ -6,6 +6,7 @@ import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
 import { useSimpleChat } from '@/hooks/useSimpleChat';
+import { simpleChat } from '@/services/simpleChat';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
@@ -138,23 +139,37 @@ const Messages = () => {
 
   const handleSendMessage = async (message: string) => {
     const selectedConversation = conversations.find(c => c.id === selectedConversationId);
-    if (!selectedConversation || !userProfile) return;
+    if (!selectedConversation || !userProfile) {
+      console.error('❌ Pas de conversation sélectionnée ou profil utilisateur manquant');
+      return;
+    }
 
     try {
-      console.log('📨 Envoi du message:', message);
+      console.log('📤 ENVOI MESSAGE:', message);
+      console.log('📤 Conversation:', selectedConversation);
+      console.log('📤 User profile:', userProfile);
       
       const otherParticipant = selectedConversation.participants.find(p => p !== userProfile.email);
       if (!otherParticipant) {
-        console.error('📨 Aucun autre participant trouvé');
+        console.error('❌ Aucun autre participant trouvé dans:', selectedConversation.participants);
         return;
       }
 
       const otherParticipantName = selectedConversation.participantNames[otherParticipant] || 'Utilisateur';
       
-      await sendMessage(otherParticipant, otherParticipantName, message);
-      console.log('📨 Message envoyé avec succès');
+      console.log('📤 Envoi vers:', otherParticipant, otherParticipantName);
+      
+      // Utiliser directement le service de chat simple
+      await simpleChat.sendMessage(
+        selectedConversationId,
+        userProfile.email,
+        userProfile.name || 'Admin',
+        message
+      );
+      
+      console.log('✅ Message envoyé avec succès !');
     } catch (error) {
-      console.error('📨 Erreur envoi message:', error);
+      console.error('❌ Erreur envoi message:', error);
     }
   };
 
