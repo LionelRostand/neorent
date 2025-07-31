@@ -24,7 +24,7 @@ export const ownerAccountService = {
   async updateExistingProfile(existingUserId: string, request: OwnerRegistrationRequest, firebaseUid: string, temporaryPassword: string, userData: any) {
     const updatedProfile = {
       ...userData,
-      role: 'employee' as const,
+      role: 'owner' as const,
       name: request.name,
       phone: request.phone || userData.phone || '',
       company: request.company || userData.company || '',
@@ -33,7 +33,8 @@ export const ownerAccountService = {
       firebaseUid: firebaseUid,
       hasPassword: true,
       temporaryPassword: temporaryPassword,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      permissions: ['read', 'write', 'manage']
     };
 
     await updateDoc(doc(db, 'user_roles', existingUserId), updatedProfile);
@@ -41,11 +42,11 @@ export const ownerAccountService = {
 
   async createNewProfile(firebaseUid: string, request: OwnerRegistrationRequest, temporaryPassword: string) {
     const ownerProfile = {
-      role: 'employee' as const,
+      role: 'owner' as const,
       email: request.email,
       name: request.name,
       createdAt: new Date().toISOString(),
-      permissions: ['read'],
+      permissions: ['read', 'write', 'manage'],
       hasPassword: true,
       isOwner: true,
       phone: request.phone || '',

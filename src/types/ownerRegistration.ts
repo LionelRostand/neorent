@@ -7,6 +7,7 @@ export interface OwnerRegistrationRequest {
   company?: string;
   address?: string;
   message?: string;
+  password?: string;
   status: 'pending' | 'approved' | 'rejected';
   createdAt: string;
   type: 'owner_registration';

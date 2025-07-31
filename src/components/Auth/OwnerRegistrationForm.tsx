@@ -26,6 +26,11 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
       setEmailError('Veuillez entrer une adresse email valide.');
       return;
     }
+
+    if (!formData.password || formData.password.length < 6) {
+      setEmailError('Le mot de passe doit contenir au moins 6 caractères.');
+      return;
+    }
     
     clearEmailError();
     await submitRegistration(formData, onSuccess, resetForm);
@@ -64,7 +69,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
       <Button 
         type="submit" 
         className="w-full" 
-        disabled={isLoading || !!emailError}
+        disabled={isLoading || !!emailError || !formData.name || !formData.email || !formData.password}
       >
         {isLoading ? t('publicSite.ownerRegistration.sending') : t('publicSite.ownerRegistration.sendRequest')}
       </Button>

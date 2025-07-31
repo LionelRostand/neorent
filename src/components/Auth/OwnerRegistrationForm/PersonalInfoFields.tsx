@@ -8,6 +8,7 @@ interface PersonalInfoFieldsProps {
   formData: {
     name: string;
     email: string;
+    password: string;
   };
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onEmailBlur: () => void;
@@ -25,37 +26,53 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="name">{t('publicSite.ownerRegistration.fullName')} *</Label>
+          <Input
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={onChange}
+            required
+            disabled={isLoading}
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="email">{t('publicSite.ownerRegistration.email')} *</Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={onChange}
+            onBlur={onEmailBlur}
+            required
+            disabled={isLoading}
+            className={emailError ? 'border-red-500 focus:border-red-500' : ''}
+          />
+          {emailError && (
+            <p className="text-sm text-red-600 mt-1">{emailError}</p>
+          )}
+        </div>
+      </div>
+
       <div className="space-y-2">
-        <Label htmlFor="name">{t('publicSite.ownerRegistration.fullName')} *</Label>
+        <Label htmlFor="password">{t('publicSite.ownerRegistration.password')} *</Label>
         <Input
-          id="name"
-          name="name"
-          value={formData.name}
+          id="password"
+          name="password"
+          type="password"
+          value={formData.password}
           onChange={onChange}
           required
           disabled={isLoading}
+          placeholder="Entrez votre mot de passe"
         />
       </div>
-      
-      <div className="space-y-2">
-        <Label htmlFor="email">{t('publicSite.ownerRegistration.email')} *</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={onChange}
-          onBlur={onEmailBlur}
-          required
-          disabled={isLoading}
-          className={emailError ? 'border-red-500 focus:border-red-500' : ''}
-        />
-        {emailError && (
-          <p className="text-sm text-red-600 mt-1">{emailError}</p>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -24,11 +24,11 @@ export const useOwnerRegistrations = () => {
 
   const approveRequest = async (request: OwnerRegistrationRequest) => {
     try {
-      // Générer un mot de passe temporaire
-      const temporaryPassword = ownerAccountService.generateTemporaryPassword();
+      // Utiliser le mot de passe fourni dans la demande ou générer un temporaire
+      const password = request.password || ownerAccountService.generateTemporaryPassword();
       
       // Créer le compte dans Firebase Authentication
-      const firebaseUser = await ownerAccountService.createFirebaseAccount(request.email, temporaryPassword);
+      const firebaseUser = await ownerAccountService.createFirebaseAccount(request.email, password);
       
       console.log('Compte Firebase Auth créé pour:', request.email);
 
@@ -42,26 +42,26 @@ export const useOwnerRegistrations = () => {
           existingUser.id, 
           request, 
           firebaseUser.uid, 
-          temporaryPassword, 
+          password, 
           userData
         );
 
         toast({
           title: "Demande approuvée",
-          description: `Le profil de ${request.name} a été mis à jour et apparaît maintenant dans l'onglet Propriétaires. Mot de passe temporaire : ${temporaryPassword}`,
+          description: `Le profil de ${request.name} a été mis à jour et apparaît maintenant dans l'onglet Propriétaires. L'utilisateur peut maintenant se connecter.`,
         });
       } else {
         // Créer un nouveau profil propriétaire avec l'UID Firebase
-        await ownerAccountService.createNewProfile(firebaseUser.uid, request, temporaryPassword);
+        await ownerAccountService.createNewProfile(firebaseUser.uid, request, password);
 
         toast({
           title: "Demande approuvée",
-          description: `Le profil de ${request.name} a été créé avec succès. Mot de passe temporaire : ${temporaryPassword}. L'utilisateur peut maintenant se connecter.`,
+          description: `Le profil de ${request.name} a été créé avec succès. L'utilisateur peut maintenant se connecter.`,
         });
       }
 
       // Mettre à jour le statut de la demande
-      await ownerRegistrationService.updateRequestStatus(request.id, firebaseUser.uid, temporaryPassword);
+      await ownerRegistrationService.updateRequestStatus(request.id, firebaseUser.uid, password);
 
       fetchRequests();
     } catch (error: any) {

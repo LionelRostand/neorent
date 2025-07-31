@@ -8,6 +8,7 @@ export interface OwnerRegistrationFormData {
   company: string;
   address: string;
   message: string;
+  password: string;
 }
 
 export const useOwnerRegistrationForm = () => {
@@ -17,7 +18,8 @@ export const useOwnerRegistrationForm = () => {
     phone: '',
     company: '',
     address: '',
-    message: ''
+    message: '',
+    password: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,7 +37,8 @@ export const useOwnerRegistrationForm = () => {
       phone: '',
       company: '',
       address: '',
-      message: ''
+      message: '',
+      password: ''
     });
   };
 
