@@ -43,7 +43,6 @@ const OwnerSpaceTabs: React.FC<OwnerSpaceTabsProps> = ({
   const { t } = useTranslation();
 
   const tabs = [
-    { id: 'dashboard', label: 'Tableau de bord', icon: Home, component: Dashboard },
     { id: 'properties', label: 'Propriétés', icon: Building, component: Properties },
     { id: 'tenants', label: 'Locataires', icon: Users, component: Tenants },
     { id: 'roommates', label: 'Colocataires', icon: UserCheck, component: Roommates },

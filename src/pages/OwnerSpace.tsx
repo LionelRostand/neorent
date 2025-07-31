@@ -91,17 +91,6 @@ const OwnerSpace = () => {
       
       {/* Main content area - full height, conditional layout */}
       <div className="flex-1 flex flex-col min-w-0 h-full">
-        {/* Mobile menu button - only for mobile */}
-        <div className="md:hidden bg-white border-b px-4 py-3 flex items-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="p-2"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        </div>
         
         {/* Owner space header */}
         <OwnerSpaceProfileHeader currentProfile={currentProfile} />
