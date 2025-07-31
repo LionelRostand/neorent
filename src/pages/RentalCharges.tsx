@@ -23,9 +23,23 @@ const RentalCharges = () => {
   const [selectedView, setSelectedView] = useState<'monthly' | 'annual'>('monthly');
   const { toast } = useToast();
 
+  // Debug pour comprendre le problème de filtrage
+  console.log('🔍 Debug charges:', {
+    totalCharges: charges.length,
+    charges: charges.map(c => ({ id: c.id, month: c.month, propertyName: c.propertyName })),
+    selectedMonth,
+    selectedView
+  });
+
   const filteredCharges = selectedView === 'monthly' 
-    ? charges.filter(charge => charge.month === selectedMonth)
+    ? charges.filter(charge => {
+        const matches = charge.month === selectedMonth;
+        console.log(`🎯 Filtrage: ${charge.propertyName} - ${charge.month} === ${selectedMonth} ? ${matches}`);
+        return matches;
+      })
     : charges.filter(charge => charge.month && charge.month.startsWith(selectedYear));
+  
+  console.log('📊 Charges filtrées:', filteredCharges);
   
   const totalCharges = filteredCharges.reduce((sum, charge) => sum + charge.total, 0);
   const averageCharges = filteredCharges.length > 0 ? totalCharges / filteredCharges.length : 0;
