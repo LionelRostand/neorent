@@ -92,14 +92,23 @@ export const useDashboardMetrics = () => {
     // Calcul du rendement moyen basé sur les revenus annuels et la valeur des propriétés
     const annualRevenue = monthlyRevenue * 12;
     const totalPropertyValue = properties.reduce((sum, property) => {
-      // Utiliser creditImmobilier comme estimation de la valeur ou une estimation basée sur le loyer
-      const propertyValue = property.creditImmobilier 
-        ? parseFloat(property.creditImmobilier.toString()) 
-        : parseFloat(property.rent || '0') * 12 * 15; // 15x le loyer annuel comme estimation
-      return sum + (propertyValue || 0);
+      let propertyValue = 0;
+      
+      // Si creditImmobilier existe et est réaliste (> 50000€), l'utiliser
+      if (property.creditImmobilier && parseFloat(property.creditImmobilier.toString()) > 50000) {
+        propertyValue = parseFloat(property.creditImmobilier.toString());
+      } else {
+        // Sinon, estimer la valeur à 200x le loyer mensuel (plus réaliste que 15x annuel)
+        const monthlyRent = parseFloat(property.rent || '0');
+        propertyValue = monthlyRent * 200; // Estimation réaliste: 200x le loyer mensuel
+      }
+      
+      return sum + propertyValue;
     }, 0);
 
-    const averageYield = totalPropertyValue > 0 ? (annualRevenue / totalPropertyValue) * 100 : 0;
+    // Rendement plafonné à 15% maximum pour éviter les valeurs aberrantes
+    const calculatedYield = totalPropertyValue > 0 ? (annualRevenue / totalPropertyValue) * 100 : 0;
+    const averageYield = Math.min(calculatedYield, 15); // Maximum 15% de rendement
 
     return {
       monthlyRevenue,
