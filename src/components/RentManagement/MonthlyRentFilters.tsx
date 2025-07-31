@@ -53,20 +53,21 @@ const MonthlyRentFilters: React.FC<MonthlyRentFiltersProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <Button
             variant="outline"
             size="sm"
             onClick={handlePreviousMonth}
-            className="flex items-center gap-2"
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
           >
             <ChevronLeft className="h-4 w-4" />
-            Mois précédent
+            <span className="hidden xs:inline">Mois précédent</span>
+            <span className="xs:hidden">Précédent</span>
           </Button>
           
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 order-first sm:order-none">
             <div className="text-center">
-              <div className="text-lg font-semibold">
+              <div className="text-lg sm:text-xl font-semibold">
                 {formatMonth(selectedMonth)}
               </div>
               {isCurrentMonth() && (
@@ -81,9 +82,10 @@ const MonthlyRentFilters: React.FC<MonthlyRentFiltersProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={handleCurrentMonth}
-                className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                className="text-blue-600 border-blue-600 hover:bg-blue-50 w-full sm:w-auto"
               >
-                Retour au mois actuel
+                <span className="hidden sm:inline">Retour au mois actuel</span>
+                <span className="sm:hidden">Mois actuel</span>
               </Button>
             )}
           </div>
@@ -92,9 +94,10 @@ const MonthlyRentFilters: React.FC<MonthlyRentFiltersProps> = ({
             variant="outline"
             size="sm"
             onClick={handleNextMonth}
-            className="flex items-center gap-2"
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
           >
-            Mois suivant
+            <span className="hidden xs:inline">Mois suivant</span>
+            <span className="xs:hidden">Suivant</span>
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>

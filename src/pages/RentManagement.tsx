@@ -151,19 +151,19 @@ const RentManagement = () => {
   return (
     <MainLayout>
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+          <div className="flex-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
               Paiements Mensuels - {selectedMonth.toLocaleDateString('fr-FR', { 
                 month: 'long', 
                 year: 'numeric' 
               })}
             </h1>
-            <p className="text-base text-gray-600 mt-2">
+            <p className="text-sm sm:text-base text-gray-600 mt-2">
               Basé sur les Contrats de Bail
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center lg:justify-end">
             <RentPaymentForm />
           </div>
         </div>
