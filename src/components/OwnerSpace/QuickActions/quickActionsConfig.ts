@@ -294,7 +294,7 @@ export const createQuickActionsConfig = (
       color: 'bg-violet-500',
       action: () => {
         if (setActiveView) {
-          setActiveView('admin-website');
+          setActiveView('website');
         } else {
           navigate('/admin/website');
         }
