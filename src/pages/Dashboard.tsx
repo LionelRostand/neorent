@@ -9,27 +9,81 @@ import { Building2, Users, DollarSign, TrendingUp, AlertTriangle } from 'lucide-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useDashboardMetrics } from '@/hooks/useDashboardMetrics';
+import { useOwnerData } from '@/hooks/useOwnerData';
+import { useAuth } from '@/hooks/useAuth';
+import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useFirebaseContracts } from '@/hooks/useFirebaseContracts';
 import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const metrics = useDashboardMetrics();
+  const { userType } = useAuth();
+  const { getCurrentProfile } = useAdminTenantAccess();
+  const currentProfile = getCurrentProfile();
+  
+  // Si c'est un propriétaire, utiliser les données filtrées
+  const ownerData = useOwnerData(currentProfile);
+  const globalMetrics = useDashboardMetrics();
+  
+  // Déterminer quelles données utiliser selon le type d'utilisateur
+  const isOwner = userType === 'owner' || currentProfile?.role === 'owner';
+  
+  console.log('=== Dashboard Debug ===');
+  console.log('User type:', userType);
+  console.log('Current profile:', currentProfile);
+  console.log('Is owner:', isOwner);
+  console.log('Using owner data:', isOwner);
+  console.log('=======================');
+  
+  // Calculer les métriques selon le type d'utilisateur
+  const metrics = isOwner ? {
+    // Métriques calculées pour le propriétaire
+    monthlyRevenue: (() => {
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      const monthlyPayments = ownerData.payments.filter(payment => {
+        const paymentDate = new Date(payment.paymentDate || payment.dueDate);
+        return paymentDate.getMonth() === currentMonth && 
+               paymentDate.getFullYear() === currentYear &&
+               payment.status === 'Payé';
+      });
+      return monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
+    })(),
+    totalProperties: ownerData.properties.length,
+    totalActiveTenants: [
+      ...ownerData.tenants.filter(t => t.status === 'Actif'),
+      ...ownerData.roommates.filter(r => r.status === 'Actif')
+    ].length,
+    occupancyRate: (() => {
+      const occupiedProperties = ownerData.properties.filter(property => {
+        const propertyTenants = ownerData.tenants.filter(t => t.property === property.title && t.status === 'Actif');
+        const propertyRoommates = ownerData.roommates.filter(r => r.property === property.title && r.status === 'Actif');
+        return propertyTenants.length > 0 || propertyRoommates.length > 0;
+      }).length;
+      return ownerData.properties.length > 0 ? (occupiedProperties / ownerData.properties.length) * 100 : 0;
+    })(),
+    averageYield: 5.2 // Valeur par défaut pour les propriétaires
+  } : globalMetrics; // Pour l'admin, utiliser les métriques globales
+  
   const { payments } = useFirebasePayments();
   const { contracts } = useFirebaseContracts();
   const { inspections } = useFirebaseInspections();
 
-  // Alertes importantes
-  const latePayments = payments.filter(p => p.status === 'En retard');
-  const expiringContracts = contracts.filter(c => {
+  // Alertes importantes - filtrer selon le type d'utilisateur
+  const relevantPayments = isOwner ? ownerData.payments : payments;
+  const relevantContracts = isOwner ? ownerData.contracts : contracts;
+  const relevantInspections = isOwner ? ownerData.inspections : inspections;
+  
+  const latePayments = relevantPayments.filter(p => p.status === 'En retard');
+  const expiringContracts = relevantContracts.filter(c => {
     if (!c.endDate) return false;
     const endDate = new Date(c.endDate);
     const today = new Date();
     const daysUntilExpiry = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     return daysUntilExpiry <= 30 && daysUntilExpiry > 0;
   });
-  const urgentInspections = inspections.filter(i => i.status === 'Urgent');
+  const urgentInspections = relevantInspections.filter(i => i.status === 'Urgent');
 
   return (
     <MainLayout>
