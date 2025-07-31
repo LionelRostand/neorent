@@ -187,46 +187,44 @@ const Messages = () => {
   };
 
   return (
-    <AdminLayout>
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto p-4 md:p-6 space-y-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t('messages.title')}</h1>
-            <p className="text-gray-600">{t('messages.subtitle')}</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto p-4 md:p-6 space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">{t('messages.title')}</h1>
+          <p className="text-gray-600">{t('messages.subtitle')}</p>
+        </div>
+
+        <MessageStats conversations={conversations} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
+          <div className="lg:col-span-1">
+            <ContactList
+              conversations={conversations}
+              selectedConversation={selectedConversation}
+              onConversationSelect={handleConversationSelect}
+              onConversationDelete={handleConversationDelete}
+              loading={loading}
+            />
           </div>
-
-          <MessageStats conversations={conversations} />
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
-            <div className="lg:col-span-1">
-              <ContactList
-                conversations={conversations}
-                selectedConversation={selectedConversation}
-                onConversationSelect={handleConversationSelect}
-                onConversationDelete={handleConversationDelete}
-                loading={loading}
+          
+          <div className="lg:col-span-2">
+            {selectedConversation ? (
+              <ChatWindow
+                conversation={selectedConversation}
+                messages={messages}
+                onSendMessage={handleSendMessage}
               />
-            </div>
-            
-            <div className="lg:col-span-2">
-              {selectedConversation ? (
-                <ChatWindow
-                  conversation={selectedConversation}
-                  messages={messages}
-                  onSendMessage={handleSendMessage}
-                />
-              ) : (
-                <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                  <div className="text-center">
-                    <p className="text-gray-500">{t('messages.selectContact')}</p>
-                  </div>
+            ) : (
+              <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                <div className="text-center">
+                  <p className="text-gray-500">{t('messages.selectContact')}</p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </div>
   );
 };
 
