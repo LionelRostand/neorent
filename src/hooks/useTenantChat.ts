@@ -9,7 +9,9 @@ import {
   serverTimestamp,
   doc,
   updateDoc,
-  Timestamp
+  Timestamp,
+  getDocs,
+  increment
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import type { Conversation } from '@/types/chat';
@@ -230,43 +232,74 @@ export const useTenantChat = (currentUserId: string) => {
       setLoading(true);
       console.log('🗨️ useTenantChat - Envoi message vers:', otherUserId, 'contenu:', content);
 
-      // Trouver la conversation existante
-      let conversation = conversations.find(conv => 
-        (conv.participant1Id === currentUserId && conv.participant2Id === otherUserId) ||
-        (conv.participant1Id === otherUserId && conv.participant2Id === currentUserId) ||
-        (conv.participant1Id === 'admin' && conv.participant2Id === currentUserId) ||
-        (conv.participant2Id === 'admin' && conv.participant1Id === currentUserId)
-      );
-
-      console.log('🗨️ useTenantChat - Conversation trouvée:', conversation);
+      // Déterminer si c'est une conversation admin
+      const isAdminConversation = otherUserId.startsWith('owner_') || otherUserId === 'admin';
       
-      if (conversation && conversation.participant1Id === 'admin') {
+      if (isAdminConversation) {
         console.log('🗨️ useTenantChat - Envoi vers conversation admin (rent_messages)');
         
-        // C'est une conversation admin - envoyer vers rent_messages
-        const messageData = {
-          conversationId: conversation.id,
-          sender: 'client',
-          senderName: conversation.participant2Name || 'Locataire',
-          senderEmail: currentUserId,
-          message: content,
-          timestamp: serverTimestamp(),
-          read: false
-        };
+        // Trouver ou créer une conversation admin
+        let adminConversation = conversations.find(conv => 
+          conv.participant1Id === 'admin' && conv.participant2Id === currentUserId
+        );
 
-        await addDoc(collection(db, 'rent_messages'), messageData);
+        if (!adminConversation) {
+          // Créer une nouvelle conversation admin
+          const adminConversationData = {
+            clientName: currentUserId, // Utiliser l'ID comme nom temporaire
+            clientEmail: currentUserId,
+            lastMessage: content,
+            lastMessageTime: serverTimestamp(),
+            unreadCount: 1,
+            status: 'online',
+            createdAt: serverTimestamp()
+          };
+
+          const docRef = await addDoc(collection(db, 'conversations'), adminConversationData);
+          console.log('🗨️ useTenantChat - Nouvelle conversation admin créée:', docRef.id);
+        }
+
+        // Recharger les conversations pour obtenir l'ID de la nouvelle conversation
+        const conversationsRef = collection(db, 'conversations');
+        const adminConversationsQuery = query(
+          conversationsRef,
+          where('clientEmail', '==', currentUserId)
+        );
         
-        // Mettre à jour la conversation admin
-        await updateDoc(doc(db, 'conversations', conversation.id), {
-          lastMessage: content,
-          lastMessageTime: serverTimestamp(),
-          unreadCount: (conversation.unreadCount || 0) + 1
-        });
+        const adminSnapshot = await getDocs(adminConversationsQuery);
+        const adminConvData = adminSnapshot.docs[0];
+        
+        if (adminConvData) {
+          // Envoyer le message via rent_messages
+          const messageData = {
+            conversationId: adminConvData.id,
+            sender: 'client',
+            senderName: currentUserId,
+            senderEmail: currentUserId,
+            message: content,
+            timestamp: serverTimestamp(),
+            read: false
+          };
+
+          await addDoc(collection(db, 'rent_messages'), messageData);
+          
+          // Mettre à jour la conversation admin
+          await updateDoc(doc(db, 'conversations', adminConvData.id), {
+            lastMessage: content,
+            lastMessageTime: serverTimestamp(),
+            unreadCount: increment(1)
+          });
+        }
         
       } else {
         console.log('🗨️ useTenantChat - Envoi vers conversation tenant (tenant_messages)');
         
-        // Conversation tenant normale
+        // Conversation tenant normale - s'assurer que les deux participants peuvent voir la conversation
+        let conversation = conversations.find(conv => 
+          (conv.participant1Id === currentUserId && conv.participant2Id === otherUserId) ||
+          (conv.participant1Id === otherUserId && conv.participant2Id === currentUserId)
+        );
+
         let conversationId = conversation?.id;
         if (!conversationId) {
           conversationId = await createConversation(otherUserId, 'Contact', '');
@@ -277,7 +310,7 @@ export const useTenantChat = (currentUserId: string) => {
         const messageData = {
           conversationId,
           senderId: currentUserId,
-          senderName: 'Moi', // Sera mis à jour avec le vrai nom
+          senderName: currentUserId, // Utiliser l'ID temporairement
           senderType: 'tenant' as const,
           content,
           timestamp: serverTimestamp(),
@@ -291,7 +324,7 @@ export const useTenantChat = (currentUserId: string) => {
           await updateDoc(doc(db, 'tenant_conversations', conversationId), {
             lastMessage: content,
             lastMessageTime: serverTimestamp(),
-            unreadCount: conversation ? conversation.unreadCount + 1 : 1
+            unreadCount: increment(1)
           });
         }
       }
