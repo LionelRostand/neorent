@@ -8,7 +8,7 @@ import RoommateView from './RoommateView';
 import RentalChargesView from './RentalChargesView';
 import AdminViewRenderer from './AdminViewRenderer';
 import AdminDashboardView from './AdminDashboardView';
-import Messages from '@/pages/Messages';
+import MessagesView from './MessagesView';
 import WebsiteView from './WebsiteView';
 import HelpView from './HelpView';
 import OwnerChat from '@/components/OwnerSpace/OwnerChat';
@@ -52,7 +52,7 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       case 'rental-charges':
         return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'messages':
-        return <Messages />;
+        return <MessagesView />;
       case 'chat':
         return <OwnerChat ownerProfile={currentProfile} />;
       case 'website':
