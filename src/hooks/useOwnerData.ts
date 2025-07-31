@@ -20,7 +20,14 @@ export const useOwnerData = (ownerProfile: any) => {
   const { charges } = useFirebaseCharges();
 
   const ownerData = useMemo(() => {
+    console.log('=== useOwnerData Debug ===');
+    console.log('ownerProfile:', ownerProfile);
+    console.log('userType:', userType);
+    console.log('Total properties loaded:', properties.length);
+    console.log('Total payments loaded:', payments.length);
+    
     if (!ownerProfile) {
+      console.log('No ownerProfile provided, returning empty data');
       return {
         properties: [],
         roommates: [],
@@ -49,6 +56,12 @@ export const useOwnerData = (ownerProfile: any) => {
     }
 
     // Pour les propriétaires, filtrer seulement leurs données avec vérifications strictes
+    console.log('All properties in database:', properties.map(p => ({ 
+      title: p.title, 
+      owner: p.owner,
+      id: p.id 
+    })));
+    
     const ownerProperties = properties.filter(property => {
       const isOwnerByName = property.owner === ownerProfile.name;
       const isOwnerByEmail = property.owner === ownerProfile.email;
