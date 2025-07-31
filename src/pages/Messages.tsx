@@ -180,14 +180,23 @@ const Messages = () => {
           </div>
           
           <div className="lg:col-span-2 h-full">
-            {selectedConversation ? (
-              <ChatWindow
-                conversation={adaptedConversations.find(c => c.id === selectedConversation?.id) || adaptedConversations[0]}
-                messages={adaptedMessages}
-                onSendMessage={handleSendMessage}
-                onDeleteMessage={handleDeleteMessage}
-              />
-            ) : (
+            {selectedConversation && adaptedConversations.length > 0 ? (() => {
+              const currentConversation = adaptedConversations.find(c => c.id === selectedConversation?.id);
+              return currentConversation ? (
+                <ChatWindow
+                  conversation={currentConversation}
+                  messages={adaptedMessages}
+                  onSendMessage={handleSendMessage}
+                  onDeleteMessage={handleDeleteMessage}
+                />
+              ) : (
+                <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <div className="text-center">
+                    <p className="text-gray-500">Chargement de la conversation...</p>
+                  </div>
+                </div>
+              );
+            })() : (
               <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
                 <div className="text-center">
                   <p className="text-gray-500">{t('messages.selectContact')}</p>
