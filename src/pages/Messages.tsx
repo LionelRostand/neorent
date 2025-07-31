@@ -5,44 +5,31 @@ import { AdminLayout } from '@/components/Layout/AdminLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
-import { useUnifiedChat } from '@/hooks/useUnifiedChat';
-import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
-import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
+import { useSimpleChat } from '@/hooks/useSimpleChat';
 import { AuthContext } from '@/contexts/AuthContext';
-import { createInitialConversations } from '@/utils/migrateToUnifiedChat';
-import type { UnifiedConversation, UnifiedMessage } from '@/types/unifiedChat';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
 const Messages = () => {
   const { t } = useTranslation();
   const { userProfile } = useContext(AuthContext);
-  const [selectedConversation, setSelectedConversation] = useState<UnifiedConversation | null>(null);
+  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
 
-  // Utiliser le système de chat unifié
+  // Utiliser le système de chat simple
   const {
     conversations,
     messages,
     sendMessage,
     subscribeToMessages,
-    markAsRead,
-    loading,
-    loadingMessages
-  } = useUnifiedChat(userProfile?.email || '');
+    loading
+  } = useSimpleChat(userProfile?.email || '', userProfile?.name || '');
 
-  // Récupérer les données des utilisateurs réels
-  const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
-  const { tenants, loading: tenantsLoading } = useFirebaseTenants();
-  const { owners, loading: ownersLoading } = useFirebaseOwners();
+  console.log('📨 Messages page SIMPLE: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
+  console.log('📨 Messages page SIMPLE: Conversation sélectionnée:', selectedConversationId);
+  console.log('📨 Messages page SIMPLE: Profil utilisateur:', userProfile);
 
-  console.log('📨 Messages page UNIFIED: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
-  console.log('📨 Messages page UNIFIED: Conversation sélectionnée:', selectedConversation?.id);
-  console.log('📨 Messages page UNIFIED: Profil utilisateur:', userProfile);
-
-  // Convertir les conversations unifiées vers l'ancien format pour la compatibilité
+  // Convertir les conversations simples vers l'ancien format pour la compatibilité
   const adaptedConversations: Conversation[] = conversations.map(conv => {
-    const participants = conv.participants;
-    const otherParticipant = participants.find(p => p !== userProfile?.email) || participants[0];
+    const otherParticipant = conv.participants.find(p => p !== userProfile?.email) || conv.participants[0];
     const participantName = conv.participantNames[otherParticipant] || otherParticipant;
     
     return {
@@ -51,13 +38,13 @@ const Messages = () => {
       clientEmail: otherParticipant,
       lastMessage: conv.lastMessage,
       lastMessageTime: conv.lastMessageTime,
-      unreadCount: conv.unreadCount[userProfile?.email || ''] || 0,
+      unreadCount: 0, // Simplifié pour l'instant
       status: 'online' as const,
       createdAt: conv.createdAt
     };
   });
 
-  // Convertir les messages unifiés vers l'ancien format
+  // Convertir les messages simples vers l'ancien format
   const adaptedMessages: ChatMessage[] = messages.map(msg => ({
     id: msg.id,
     conversationId: msg.conversationId,
@@ -66,96 +53,90 @@ const Messages = () => {
     senderEmail: msg.senderEmail,
     message: msg.content,
     timestamp: msg.timestamp,
-    read: msg.readBy.includes(userProfile?.email || '')
+    read: true // Simplifié pour l'instant
   }));
 
-  // Créer les conversations initiales si aucune n'existe
+  // Créer des conversations de test avec les utilisateurs existants
   useEffect(() => {
-    const initializeConversations = async () => {
+    const createTestConversations = async () => {
       if (conversations.length === 0 && userProfile?.email === 'admin@neotech-consulting.com') {
-        console.log('🔄 Initialisation des conversations...');
-        try {
-          await createInitialConversations();
-        } catch (error) {
-          console.error('❌ Erreur lors de l\'initialisation des conversations:', error);
+        console.log('🧪 Création de conversations de test...');
+        
+        const testUsers = [
+          { email: 'ruthmegha35@gmail.com', name: 'Ruth MEGHA' },
+          { email: 'entrepreneurpro19@gmail.com', name: 'Emad Adam' },
+          { email: 'rostandlionel@yahoo.fr', name: 'ROSTAND' }
+        ];
+
+        for (const user of testUsers) {
+          try {
+            await sendMessage(
+              user.email,
+              user.name,
+              `Bonjour ${user.name}! Bienvenue dans le système de messagerie.`
+            );
+            console.log(`✅ Conversation créée avec ${user.name}`);
+          } catch (error) {
+            console.error(`❌ Erreur création conversation avec ${user.name}:`, error);
+          }
         }
       }
     };
 
-    // Délai pour laisser le temps aux conversations de se charger
-    const timer = setTimeout(initializeConversations, 1000);
+    const timer = setTimeout(createTestConversations, 1000);
     return () => clearTimeout(timer);
-  }, [conversations.length, userProfile?.email]);
+  }, [conversations.length, userProfile?.email, sendMessage]);
 
   // Auto-sélection de la première conversation
   useEffect(() => {
-    if (!selectedConversation && conversations.length > 0) {
-      console.log('📨 Messages page UNIFIED: Auto-sélection de la première conversation:', conversations[0].id);
-      setSelectedConversation(conversations[0]);
+    if (!selectedConversationId && conversations.length > 0) {
+      console.log('📨 Auto-sélection de la première conversation:', conversations[0].id);
+      setSelectedConversationId(conversations[0].id);
     }
-  }, [conversations, selectedConversation]);
+  }, [conversations, selectedConversationId]);
 
   // Abonnement aux messages de la conversation sélectionnée
   useEffect(() => {
-    if (!selectedConversation) {
-      console.log('📨 Messages page UNIFIED: Pas de conversation sélectionnée');
-      return;
-    }
+    if (!selectedConversationId) return;
 
-    console.log('📨 Messages page UNIFIED: Souscription aux messages pour conversation:', selectedConversation.id);
-    const unsubscribe = subscribeToMessages(selectedConversation.id);
-    
-    // Marquer comme lu
-    markAsRead(selectedConversation.id);
-
+    console.log('📨 Souscription aux messages pour conversation:', selectedConversationId);
+    const unsubscribe = subscribeToMessages(selectedConversationId);
     return unsubscribe;
-  }, [selectedConversation, subscribeToMessages, markAsRead]);
+  }, [selectedConversationId, subscribeToMessages]);
 
   const handleConversationSelect = (conversation: Conversation) => {
-    console.log('📨 Messages page UNIFIED: Sélection de la conversation:', conversation.id);
-    // Trouver la conversation unifiée correspondante
-    const unifiedConv = conversations.find(c => c.id === conversation.id);
-    if (unifiedConv) {
-      setSelectedConversation(unifiedConv);
-    }
+    console.log('📨 Sélection de la conversation:', conversation.id);
+    setSelectedConversationId(conversation.id);
   };
 
   const handleConversationDelete = async (conversationId: string) => {
-    // Pour l'instant, on ne supporte pas la suppression dans le système unifié
-    console.log('📨 Messages page UNIFIED: Suppression non supportée pour:', conversationId);
+    console.log('📨 Suppression non supportée pour:', conversationId);
   };
 
   const handleSendMessage = async (message: string) => {
+    const selectedConversation = conversations.find(c => c.id === selectedConversationId);
     if (!selectedConversation || !userProfile) return;
 
     try {
-      console.log('📨 Messages page UNIFIED: Envoi du message:', message, 'pour conversation:', selectedConversation.id);
+      console.log('📨 Envoi du message:', message);
       
-      // Trouver l'autre participant (pas l'admin)
       const otherParticipant = selectedConversation.participants.find(p => p !== userProfile.email);
-      
       if (!otherParticipant) {
-        console.error('📨 Messages page UNIFIED: Aucun autre participant trouvé');
+        console.error('📨 Aucun autre participant trouvé');
         return;
       }
 
-      // Utiliser le système unifié pour envoyer le message
-      await sendMessage(
-        otherParticipant,
-        message,
-        userProfile.name || 'Admin',
-        selectedConversation.participantNames[otherParticipant] || 'Utilisateur'
-      );
+      const otherParticipantName = selectedConversation.participantNames[otherParticipant] || 'Utilisateur';
       
-      console.log('📨 Messages page UNIFIED: Message envoyé avec succès');
+      await sendMessage(otherParticipant, otherParticipantName, message);
+      console.log('📨 Message envoyé avec succès');
     } catch (error) {
-      console.error('📨 Messages page UNIFIED: Error sending message:', error);
+      console.error('📨 Erreur envoi message:', error);
     }
   };
 
   const handleDeleteMessage = async (messageId: string) => {
-    // Pour l'instant, on ne supporte pas la suppression dans le système unifié
-    console.log('📨 Messages page UNIFIED: Suppression de message non supportée pour:', messageId);
+    console.log('📨 Suppression de message non supportée pour:', messageId);
   };
 
   return (
@@ -172,7 +153,7 @@ const Messages = () => {
           <div className="lg:col-span-1">
             <ContactList
               conversations={adaptedConversations}
-              selectedConversation={adaptedConversations.find(c => c.id === selectedConversation?.id) || null}
+              selectedConversation={adaptedConversations.find(c => c.id === selectedConversationId) || null}
               onConversationSelect={handleConversationSelect}
               onConversationDelete={handleConversationDelete}
               loading={loading}
@@ -180,8 +161,8 @@ const Messages = () => {
           </div>
           
           <div className="lg:col-span-2 h-full">
-            {selectedConversation && adaptedConversations.length > 0 ? (() => {
-              const currentConversation = adaptedConversations.find(c => c.id === selectedConversation?.id);
+            {selectedConversationId && adaptedConversations.length > 0 ? (() => {
+              const currentConversation = adaptedConversations.find(c => c.id === selectedConversationId);
               return currentConversation ? (
                 <ChatWindow
                   conversation={currentConversation}
