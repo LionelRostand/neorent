@@ -219,44 +219,79 @@ export const useTenantChat = (currentUserId: string) => {
     }
   };
 
-  // Envoyer un message
+  // Envoyer un message (tenant ou admin selon le type de conversation)
   const sendMessage = async (otherUserId: string, content: string) => {
     try {
       setLoading(true);
+      console.log('🗨️ useTenantChat - Envoi message vers:', otherUserId, 'contenu:', content);
 
-      // Trouver ou créer la conversation
+      // Trouver la conversation existante
       let conversation = conversations.find(conv => 
         (conv.participant1Id === currentUserId && conv.participant2Id === otherUserId) ||
-        (conv.participant1Id === otherUserId && conv.participant2Id === currentUserId)
+        (conv.participant1Id === otherUserId && conv.participant2Id === currentUserId) ||
+        (conv.participant1Id === 'admin' && conv.participant2Id === currentUserId) ||
+        (conv.participant2Id === 'admin' && conv.participant1Id === currentUserId)
       );
 
-      let conversationId = conversation?.id;
-      if (!conversationId) {
-        conversationId = await createConversation(otherUserId, 'Contact', '');
-        if (!conversationId) throw new Error('Impossible de créer la conversation');
-      }
+      console.log('🗨️ useTenantChat - Conversation trouvée:', conversation);
+      
+      if (conversation && conversation.participant1Id === 'admin') {
+        console.log('🗨️ useTenantChat - Envoi vers conversation admin (rent_messages)');
+        
+        // C'est une conversation admin - envoyer vers rent_messages
+        const messageData = {
+          conversationId: conversation.id,
+          sender: 'client',
+          senderName: conversation.participant2Name || 'Locataire',
+          senderEmail: currentUserId, // En supposant que currentUserId est l'email
+          message: content,
+          timestamp: serverTimestamp(),
+          read: false
+        };
 
-      // Ajouter le message
-      const messageData = {
-        conversationId,
-        senderId: currentUserId,
-        senderName: 'Moi', // Sera mis à jour avec le vrai nom
-        content,
-        timestamp: serverTimestamp(),
-        read: false
-      };
-
-      await addDoc(collection(db, 'tenant_messages'), messageData);
-
-      // Mettre à jour la conversation
-      if (conversationId) {
-        await updateDoc(doc(db, 'tenant_conversations', conversationId), {
+        await addDoc(collection(db, 'rent_messages'), messageData);
+        
+        // Mettre à jour la conversation admin
+        await updateDoc(doc(db, 'rent_conversations', conversation.id), {
           lastMessage: content,
           lastMessageTime: serverTimestamp(),
-          unreadCount: conversation ? conversation.unreadCount + 1 : 1
+          unreadCount: (conversation.unreadCount || 0) + 1
         });
+        
+      } else {
+        console.log('🗨️ useTenantChat - Envoi vers conversation tenant (tenant_messages)');
+        
+        // Conversation tenant normale
+        let conversationId = conversation?.id;
+        if (!conversationId) {
+          conversationId = await createConversation(otherUserId, 'Contact', '');
+          if (!conversationId) throw new Error('Impossible de créer la conversation');
+        }
+
+        // Ajouter le message tenant
+        const messageData = {
+          conversationId,
+          senderId: currentUserId,
+          senderName: 'Moi', // Sera mis à jour avec le vrai nom
+          senderType: 'tenant' as const,
+          content,
+          timestamp: serverTimestamp(),
+          read: false
+        };
+
+        await addDoc(collection(db, 'tenant_messages'), messageData);
+        
+        // Mettre à jour la conversation tenant
+        if (conversationId) {
+          await updateDoc(doc(db, 'tenant_conversations', conversationId), {
+            lastMessage: content,
+            lastMessageTime: serverTimestamp(),
+            unreadCount: conversation ? conversation.unreadCount + 1 : 1
+          });
+        }
       }
 
+      console.log('🗨️ useTenantChat - Message envoyé avec succès');
     } catch (error) {
       console.error('Erreur lors de l\'envoi du message:', error);
       throw error;
