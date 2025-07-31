@@ -103,25 +103,41 @@ export const simpleChat = {
 
   // Écouter les conversations d'un utilisateur
   subscribeToConversations(userEmail: string, callback: (conversations: SimpleConversation[]) => void) {
-    console.log('🔍 Écoute des conversations pour:', userEmail);
+    console.log('🔍 Démarrage écoute conversations pour:', userEmail);
+    console.log('🔍 Collections Firebase:', { db });
     
     const conversationsRef = collection(db, 'simple_conversations');
+    console.log('🔍 Référence collection:', conversationsRef);
+    
     const q = query(
       conversationsRef,
       where('participants', 'array-contains', userEmail),
       orderBy('lastMessageTime', 'desc')
     );
+    console.log('🔍 Query créée:', q);
 
     return onSnapshot(q, (snapshot) => {
+      console.log('📊 Snapshot Firebase reçu - Documents:', snapshot.docs.length);
+      console.log('📊 Snapshot empty?', snapshot.empty);
+      console.log('📊 Snapshot metadata:', snapshot.metadata);
+      
+      if (!snapshot.empty) {
+        snapshot.docs.forEach((doc, index) => {
+          console.log(`📄 Document ${index}:`, doc.id, doc.data());
+        });
+      }
+      
       const conversations = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as SimpleConversation[];
 
-      console.log('📨 Conversations reçues:', conversations.length);
+      console.log('📨 Conversations retournées:', conversations.length, conversations);
       callback(conversations);
     }, (error) => {
-      console.error('❌ Erreur écoute conversations:', error);
+      console.error('❌ Erreur Firebase écoute conversations:', error);
+      console.error('❌ Erreur code:', error.code);
+      console.error('❌ Erreur message:', error.message);
       callback([]);
     });
   },

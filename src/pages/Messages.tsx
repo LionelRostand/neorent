@@ -59,33 +59,37 @@ const Messages = () => {
   // Créer des conversations de test avec les utilisateurs existants
   useEffect(() => {
     const createTestConversations = async () => {
-      if (conversations.length === 0 && userProfile?.email === 'admin@neotech-consulting.com') {
-        console.log('🧪 Création de conversations de test...');
-        
-        const testUsers = [
-          { email: 'ruthmegha35@gmail.com', name: 'Ruth MEGHA' },
-          { email: 'entrepreneurpro19@gmail.com', name: 'Emad Adam' },
-          { email: 'rostandlionel@yahoo.fr', name: 'ROSTAND' }
-        ];
+      if (!userProfile?.email) return;
+      
+      console.log('🧪 Démarrage création conversations de test...');
+      console.log('🧪 Conversations actuelles:', conversations.length);
+      
+      const testUsers = [
+        { email: 'ruthmegha35@gmail.com', name: 'Ruth MEGHA' },
+        { email: 'entrepreneurpro19@gmail.com', name: 'Emad Adam' },
+        { email: 'rostandlionel@yahoo.fr', name: 'ROSTAND' }
+      ];
 
-        for (const user of testUsers) {
-          try {
-            await sendMessage(
-              user.email,
-              user.name,
-              `Bonjour ${user.name}! Bienvenue dans le système de messagerie.`
-            );
-            console.log(`✅ Conversation créée avec ${user.name}`);
-          } catch (error) {
-            console.error(`❌ Erreur création conversation avec ${user.name}:`, error);
-          }
+      for (const user of testUsers) {
+        try {
+          console.log(`🔄 Création conversation avec ${user.name}...`);
+          await sendMessage(
+            user.email,
+            user.name,
+            `Bonjour ${user.name}! Bienvenue dans le système de messagerie.`
+          );
+          console.log(`✅ Conversation créée avec ${user.name}`);
+        } catch (error) {
+          console.error(`❌ Erreur création conversation avec ${user.name}:`, error);
         }
       }
     };
 
-    const timer = setTimeout(createTestConversations, 1000);
-    return () => clearTimeout(timer);
-  }, [conversations.length, userProfile?.email, sendMessage]);
+    // Créer les conversations immédiatement au démarrage
+    if (userProfile?.email === 'admin@neotech-consulting.com') {
+      createTestConversations();
+    }
+  }, [userProfile?.email, sendMessage]); // Retiré conversations.length pour forcer l'exécution
 
   // Auto-sélection de la première conversation
   useEffect(() => {
