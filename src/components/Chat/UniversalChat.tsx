@@ -208,10 +208,17 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     if (!messageText.trim() || !selectedContact) return;
 
     try {
+      console.log('📤 Envoi du message:', {
+        contactId: selectedContact.id,
+        message: messageText.trim(),
+        currentUserId: currentProfile.id
+      });
+      
       await sendMessage(selectedContact.id, messageText.trim());
       setMessageText('');
+      console.log('✅ Message envoyé avec succès');
     } catch (error) {
-      console.error('Erreur lors de l\'envoi du message:', error);
+      console.error('❌ Erreur lors de l\'envoi du message:', error);
     }
   };
 
