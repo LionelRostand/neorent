@@ -36,7 +36,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           </header>
 
           {/* Main content area */}
-          <main className="flex-1 overflow-hidden bg-gray-50">
+          <main className="flex-1 overflow-hidden bg-gray-50 p-4 md:p-6">
             {children}
           </main>
         </div>
