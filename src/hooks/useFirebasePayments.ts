@@ -214,8 +214,8 @@ export const useFirebasePayments = () => {
       // Extraire le montant du contrat (enlever le € et convertir en nombre)
       const contractAmount = parseFloat(emadContract.amount.replace(/[^\d.,]/g, '').replace(',', '.'));
       
-      // Date de début du contrat (supposons janvier 2025 si pas spécifié)
-      const contractStartDate = new Date('2025-01-01');
+      // Date de début du contrat d'EMAD ADAM en mars 2025
+      const contractStartDate = new Date('2025-03-01');
       const currentDate = new Date();
       
       // Générer les paiements pour chaque mois depuis le début du contrat
