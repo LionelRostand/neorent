@@ -53,9 +53,18 @@ const MonthlyRentFilters: React.FC<MonthlyRentFiltersProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col space-y-4 sm:space-y-0">
-          {/* Version mobile - layout vertical */}
-          <div className="sm:hidden space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePreviousMonth}
+            className="flex items-center gap-2"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Mois précédent
+          </Button>
+          
+          <div className="flex items-center gap-4">
             <div className="text-center">
               <div className="text-lg font-semibold">
                 {formatMonth(selectedMonth)}
@@ -67,89 +76,27 @@ const MonthlyRentFilters: React.FC<MonthlyRentFiltersProps> = ({
               )}
             </div>
             
-            <div className="flex justify-between gap-2">
+            {!isCurrentMonth() && (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={handlePreviousMonth}
-                className="flex items-center gap-1 flex-1"
+                onClick={handleCurrentMonth}
+                className="text-blue-600 border-blue-600 hover:bg-blue-50"
               >
-                <ChevronLeft className="h-4 w-4" />
-                <span className="hidden xs:inline">Mois précédent</span>
-                <span className="xs:hidden">Préc.</span>
+                Retour au mois actuel
               </Button>
-              
-              {!isCurrentMonth() && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCurrentMonth}
-                  className="text-blue-600 border-blue-600 hover:bg-blue-50 flex-1"
-                >
-                  <span className="hidden xs:inline">Retour</span>
-                  <span className="xs:hidden">↩</span>
-                </Button>
-              )}
-              
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleNextMonth}
-                className="flex items-center gap-1 flex-1"
-              >
-                <span className="hidden xs:inline">Mois suivant</span>
-                <span className="xs:hidden">Suiv.</span>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
+            )}
           </div>
-
-          {/* Version desktop - layout horizontal */}
-          <div className="hidden sm:flex items-center justify-between gap-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handlePreviousMonth}
-              className="flex items-center gap-2"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              Mois précédent
-            </Button>
-            
-            <div className="flex items-center gap-4">
-              <div className="text-center">
-                <div className="text-lg font-semibold">
-                  {formatMonth(selectedMonth)}
-                </div>
-                {isCurrentMonth() && (
-                  <div className="text-sm text-green-600 font-medium">
-                    Mois actuel
-                  </div>
-                )}
-              </div>
-              
-              {!isCurrentMonth() && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCurrentMonth}
-                  className="text-blue-600 border-blue-600 hover:bg-blue-50"
-                >
-                  Retour au mois actuel
-                </Button>
-              )}
-            </div>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleNextMonth}
-              className="flex items-center gap-2"
-            >
-              Mois suivant
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNextMonth}
+            className="flex items-center gap-2"
+          >
+            Mois suivant
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       </CardContent>
     </Card>
