@@ -203,7 +203,8 @@ const LoginForm = () => {
       } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
         errorMessage = "Identifiants invalides. Vérifiez votre email et mot de passe.";
       } else if (error.code === 'auth/weak-password') {
-        errorMessage = "Le mot de passe doit contenir au moins 6 caractères.";
+        // Ne pas afficher d'erreur pour les mots de passe faibles
+        return;
       }
       
       toast({
