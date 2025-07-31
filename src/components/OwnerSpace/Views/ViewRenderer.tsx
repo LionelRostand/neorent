@@ -52,7 +52,7 @@ const ViewRenderer: React.FC<ViewRendererProps> = ({
       case 'rental-charges':
         return <RentalChargesView currentProfile={currentProfile} onViewChange={onViewChange} />;
       case 'messages':
-        return <MessagesView />;
+        return <MessagesView currentProfile={currentProfile} />;
       case 'chat':
         return <OwnerChat ownerProfile={currentProfile} />;
       case 'website':
