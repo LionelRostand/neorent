@@ -133,6 +133,7 @@ const EmployeeManagement: React.FC = () => {
             onActivateAccess={handleActivateAccess}
             getPermissionsDisplay={getPermissionsDisplay}
             getCompanyName={getCompanyName}
+            onRefetchEmployees={refetch}
           />
         </CardContent>
       </Card>

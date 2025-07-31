@@ -7,7 +7,11 @@ import { useOwnerRegistrations } from '@/hooks/useOwnerRegistrations';
 import { Check, X, Trash2, Mail, Phone, Building, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-const OwnerRegistrations: React.FC = () => {
+interface OwnerRegistrationsProps {
+  onRefetchEmployees?: () => void;
+}
+
+const OwnerRegistrations: React.FC<OwnerRegistrationsProps> = ({ onRefetchEmployees }) => {
   const { t } = useTranslation();
   const { requests, loading, approveRequest, rejectRequest, deleteRequest } = useOwnerRegistrations();
 
@@ -113,7 +117,10 @@ const OwnerRegistrations: React.FC = () => {
                 <div className="flex gap-2 pt-2">
                   <Button
                     size="sm"
-                    onClick={() => approveRequest(request)}
+                    onClick={async () => {
+                      await approveRequest(request);
+                      onRefetchEmployees?.();
+                    }}
                     className="bg-green-600 hover:bg-green-700"
                   >
                     <Check className="h-4 w-4 mr-1" />

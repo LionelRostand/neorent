@@ -17,6 +17,7 @@ interface EmployeeManagementTabsProps {
   onActivateAccess: (employee: Employee) => void;
   getPermissionsDisplay: (permissions: any) => string;
   getCompanyName: (companyId?: string) => string;
+  onRefetchEmployees?: () => void;
 }
 
 const EmployeeManagementTabs: React.FC<EmployeeManagementTabsProps> = ({
@@ -27,7 +28,8 @@ const EmployeeManagementTabs: React.FC<EmployeeManagementTabsProps> = ({
   onPasswordClick,
   onActivateAccess,
   getPermissionsDisplay,
-  getCompanyName
+  getCompanyName,
+  onRefetchEmployees
 }) => {
   const { t } = useTranslation();
 
@@ -58,7 +60,7 @@ const EmployeeManagementTabs: React.FC<EmployeeManagementTabsProps> = ({
       </TabsContent>
       
       <TabsContent value="requests">
-        <OwnerRegistrations />
+        <OwnerRegistrations onRefetchEmployees={onRefetchEmployees} />
       </TabsContent>
     </Tabs>
   );
