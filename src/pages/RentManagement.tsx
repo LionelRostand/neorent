@@ -164,20 +164,6 @@ const RentManagement = () => {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Button 
-              onClick={handleCleanEmadPayments}
-              variant="outline"
-              className="text-red-600 border-red-600 hover:bg-red-50"
-            >
-              Supprimer paiements EMAD
-            </Button>
-            <Button 
-              onClick={handleGenerateEmadPayments}
-              variant="outline"
-              className="text-blue-600 border-blue-600 hover:bg-blue-50"
-            >
-              Corriger paiements EMAD
-            </Button>
             <RentPaymentForm />
           </div>
         </div>
