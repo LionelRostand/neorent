@@ -1,10 +1,12 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import RentPaymentForm from '@/components/RentPaymentForm';
 import NewRentMetrics from '@/components/RentManagement/NewRentMetrics';
 import NewRentPaymentsList from '@/components/RentManagement/NewRentPaymentsList';
+import MonthlyRentFilters from '@/components/RentManagement/MonthlyRentFilters';
+import PaidRentsDisplay from '@/components/RentManagement/PaidRentsDisplay';
 import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useToast } from '@/hooks/use-toast';
 
@@ -12,6 +14,7 @@ const RentManagement = () => {
   const { t } = useTranslation();
   const { payments, loading, error, updatePayment, deletePayment, refetch } = useFirebasePayments();
   const { toast } = useToast();
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -88,6 +91,19 @@ const RentManagement = () => {
     );
   }
 
+  // Filtrer les paiements pour le mois sélectionné
+  const currentMonthPayments = payments.filter(payment => {
+    const dueDate = new Date(payment.dueDate);
+    return dueDate.getMonth() === selectedMonth.getMonth() && 
+           dueDate.getFullYear() === selectedMonth.getFullYear();
+  });
+
+  // Déterminer si c'est le mois actuel ou un mois futur
+  const now = new Date();
+  const isCurrentMonth = selectedMonth.getMonth() === now.getMonth() && 
+                         selectedMonth.getFullYear() === now.getFullYear();
+  const isFutureMonth = selectedMonth > now;
+
   return (
     <MainLayout>
       <div className="space-y-6">
@@ -103,10 +119,28 @@ const RentManagement = () => {
           </div>
         </div>
 
-        <NewRentMetrics payments={payments} />
+        <MonthlyRentFilters 
+          selectedMonth={selectedMonth}
+          onMonthChange={setSelectedMonth}
+        />
+
+        <NewRentMetrics payments={currentMonthPayments} />
+
+        {/* Affichage des loyers payés selon le type de mois */}
+        <PaidRentsDisplay
+          payments={payments}
+          selectedMonth={selectedMonth}
+          title={
+            isCurrentMonth 
+              ? "Loyers payés du mois en cours"
+              : isFutureMonth 
+                ? "Loyers payés des mois prochains"
+                : "Loyers payés du mois sélectionné"
+          }
+        />
 
         <NewRentPaymentsList
-          payments={payments}
+          payments={currentMonthPayments}
           onMarkAsPaid={handleMarkAsPaid}
           onDeletePayment={handleDeletePayment}
         />
