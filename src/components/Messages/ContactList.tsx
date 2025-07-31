@@ -89,10 +89,22 @@ export const ContactList: React.FC<ContactListProps> = ({
                         {conversation.clientEmail}
                       </p>
                       <p className="text-xs text-gray-400 mt-1">
-                        {formatDistanceToNow(conversation.lastMessageTime.toDate(), {
-                          addSuffix: true,
-                          locale: fr
-                        })}
+                        {(() => {
+                          // Vérifier que lastMessageTime existe et a une méthode toDate
+                          if (!conversation.lastMessageTime || typeof conversation.lastMessageTime.toDate !== 'function') {
+                            return 'Pas de message';
+                          }
+                          
+                          try {
+                            return formatDistanceToNow(conversation.lastMessageTime.toDate(), {
+                              addSuffix: true,
+                              locale: fr
+                            });
+                          } catch (error) {
+                            console.warn('Erreur lors de la conversion de timestamp:', error);
+                            return 'Date invalide';
+                          }
+                        })()}
                       </p>
                     </div>
                     <Button
