@@ -161,6 +161,8 @@ export const unifiedChatService = {
 
   // Écouter les conversations d'un utilisateur
   subscribeToConversations(userEmail: string, callback: (conversations: UnifiedConversation[]) => void) {
+    console.log('🔍 Recherche de conversations pour userEmail:', userEmail);
+    
     const conversationsRef = collection(db, 'unified_conversations');
     const q = query(
       conversationsRef,
@@ -169,13 +171,22 @@ export const unifiedChatService = {
     );
 
     return onSnapshot(q, (snapshot) => {
-      const conversations = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as UnifiedConversation[];
+      console.log('📊 Snapshot reçu - Documents trouvés:', snapshot.docs.length);
+      
+      const conversations = snapshot.docs.map(doc => {
+        const data = doc.data();
+        console.log('📄 Document conversation:', doc.id, data);
+        return {
+          id: doc.id,
+          ...data
+        };
+      }) as UnifiedConversation[];
 
-      console.log('🔄 Conversations unifiées reçues:', conversations.length);
+      console.log('🔄 Conversations unifiées reçues:', conversations.length, conversations);
       callback(conversations);
+    }, (error) => {
+      console.error('❌ Erreur lors de l\'écoute des conversations:', error);
+      callback([]);
     });
   },
 

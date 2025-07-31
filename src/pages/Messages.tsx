@@ -68,6 +68,29 @@ const Messages = () => {
     read: msg.readBy.includes(userProfile?.email || '')
   }));
 
+  // Créer une conversation de test si aucune n'existe
+  useEffect(() => {
+    const createTestConversation = async () => {
+      if (conversations.length === 0 && userProfile?.email === 'admin@neotech-consulting.com') {
+        console.log('🧪 Création d\'une conversation de test avec Ruth...');
+        try {
+          await sendMessage(
+            'ruthmegha35@gmail.com',
+            'Bonjour Ruth! Comment allez-vous? Ceci est un message de test.',
+            'Lionel DJOSSA',
+            'Ruth MEGHA'
+          );
+        } catch (error) {
+          console.error('❌ Erreur création conversation test:', error);
+        }
+      }
+    };
+
+    // Délai pour laisser le temps aux conversations de se charger
+    const timer = setTimeout(createTestConversation, 2000);
+    return () => clearTimeout(timer);
+  }, [conversations.length, userProfile?.email, sendMessage]);
+
   // Auto-sélection de la première conversation
   useEffect(() => {
     if (!selectedConversation && conversations.length > 0) {
