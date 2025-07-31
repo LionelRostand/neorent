@@ -7,6 +7,7 @@ import { Menu } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useAdminTenantAccess } from '@/hooks/useAdminTenantAccess';
 import { useOwnerPermissions } from '@/hooks/useOwnerPermissions';
+import { useIsMobile } from '@/hooks/use-mobile';
 import OwnerSpaceQuickActionsSidebar from '@/components/OwnerSpace/OwnerSpaceQuickActionsSidebar';
 import OwnerSpaceProfileHeader from '@/components/OwnerSpace/OwnerSpaceProfileHeader';
 import ViewRenderer from '@/components/OwnerSpace/Views/ViewRenderer';
@@ -17,7 +18,9 @@ const OwnerSpace = () => {
   const { userProfile, userType } = useAuth();
   const { getCurrentProfile, isAuthorizedAdmin } = useAdminTenantAccess();
   const { canAccessOwnerSpace } = useOwnerPermissions();
+  const isMobile = useIsMobile();
   const [activeView, setActiveView] = useState('properties');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
 
   // Get current profile (logged user or profile selected by admin)
@@ -67,20 +70,50 @@ const OwnerSpace = () => {
   return (
     <div className="h-screen flex w-full bg-gray-50 relative">
 
+      {/* Mobile overlay */}
+      {isMobile && sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Quick actions sidebar */}
-      <div className="flex-shrink-0 h-full">
+      <div className={`
+        ${isMobile ? 'fixed inset-y-0 left-0 z-50' : 'flex-shrink-0'} 
+        h-full transition-transform duration-300 ease-in-out
+        ${isMobile && !sidebarOpen ? '-translate-x-full' : 'translate-x-0'}
+      `}>
         <OwnerSpaceQuickActionsSidebar 
           ownerProfile={currentProfile} 
           activeView={activeView}
           setActiveView={setActiveView}
+          onMobileClose={isMobile ? () => setSidebarOpen(false) : undefined}
         />
       </div>
       
       {/* Main content area - full height, conditional layout */}
       <div className="flex-1 flex flex-col min-w-0 h-full">
         
+        {/* Mobile menu button */}
+        {isMobile && (
+          <div className="bg-white border-b px-4 py-3 flex items-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSidebarOpen(true)}
+              className="mr-3"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+            <h1 className="text-lg font-semibold text-gray-900">
+              Espace Propriétaire
+            </h1>
+          </div>
+        )}
+
         {/* Owner space header */}
-        <OwnerSpaceProfileHeader currentProfile={currentProfile} />
+        {!isMobile && <OwnerSpaceProfileHeader currentProfile={currentProfile} />}
 
         {/* Main content */}
         <main className="flex-1 overflow-auto bg-gray-50">
