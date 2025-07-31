@@ -49,7 +49,8 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-h-[80vh] overflow-y-auto overscroll-contain">
+      <form onSubmit={handleSubmit} className="space-y-4 px-1">
       <PersonalInfoFields
         formData={formData}
         onChange={handleFormChange}
@@ -73,7 +74,8 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
       >
         {isLoading ? t('publicSite.ownerRegistration.sending') : t('publicSite.ownerRegistration.sendRequest')}
       </Button>
-    </form>
+      </form>
+    </div>
   );
 };
 
