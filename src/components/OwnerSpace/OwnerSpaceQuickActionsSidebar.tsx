@@ -67,9 +67,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
             
             {/* Interventions */}
             <div 
-              onClick={() => setActiveView('maintenance')}
+              onClick={() => setActiveView('admin-maintenance')}
               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'maintenance' ? 'bg-white/10' : 'hover:bg-white/5'
+                activeView === 'admin-maintenance' ? 'bg-white/10' : 'hover:bg-white/5'
               }`}
             >
               <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -83,9 +83,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
 
             {/* Prévisions */}
             <div 
-              onClick={() => setActiveView('forecasting')}
+              onClick={() => setActiveView('admin-forecasting')}
               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'forecasting' ? 'bg-white/10' : 'hover:bg-white/5'
+                activeView === 'admin-forecasting' ? 'bg-white/10' : 'hover:bg-white/5'
               }`}
             >
               <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -100,9 +100,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
 
             {/* Site web */}
             <div 
-              onClick={() => setActiveView('website')}
+              onClick={() => setActiveView('admin-website')}
               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'website' ? 'bg-white/10' : 'hover:bg-white/5'
+                activeView === 'admin-website' ? 'bg-white/10' : 'hover:bg-white/5'
               }`}
             >
               <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -134,9 +134,9 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
 
             {/* Aide */}
             <div 
-              onClick={() => setActiveView('help')}
+              onClick={() => setActiveView('admin-help')}
               className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'help' ? 'bg-white/10' : 'hover:bg-white/5'
+                activeView === 'admin-help' ? 'bg-white/10' : 'hover:bg-white/5'
               }`}
             >
               <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
