@@ -13,14 +13,15 @@ const MonthSelector: React.FC<MonthSelectorProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // Générer les options de mois dynamiquement
+  // Générer les options de mois dynamiquement pour l'année complète
   const generateMonthOptions = () => {
     const options = [];
     const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
     
-    // Créer 12 mois d'options (6 mois avant, mois actuel, 5 mois après)
-    for (let i = -6; i <= 5; i++) {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
+    // Créer les 12 mois de l'année en cours
+    for (let month = 0; month < 12; month++) {
+      const date = new Date(currentYear, month, 1);
       const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       const label = date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
       
@@ -30,7 +31,35 @@ const MonthSelector: React.FC<MonthSelectorProps> = ({
       });
     }
     
-    return options;
+    // Ajouter aussi les 12 mois de l'année prochaine
+    const nextYear = currentYear + 1;
+    for (let month = 0; month < 12; month++) {
+      const date = new Date(nextYear, month, 1);
+      const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const label = date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+      
+      options.push({
+        value,
+        label: label.charAt(0).toUpperCase() + label.slice(1)
+      });
+    }
+    
+    // Ajouter aussi les 12 mois de l'année précédente au début
+    const previousYear = currentYear - 1;
+    const previousYearOptions = [];
+    for (let month = 0; month < 12; month++) {
+      const date = new Date(previousYear, month, 1);
+      const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const label = date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+      
+      previousYearOptions.push({
+        value,
+        label: label.charAt(0).toUpperCase() + label.slice(1)
+      });
+    }
+    
+    // Combiner : année précédente + année actuelle + année prochaine
+    return [...previousYearOptions, ...options];
   };
 
   const monthOptions = generateMonthOptions();
