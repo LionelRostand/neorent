@@ -76,10 +76,10 @@ const OwnerSpace = () => {
 
       {/* Quick actions sidebar - responsive with same height as main content */}
       <div className={`
-        ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-        md:translate-x-0 transition-transform duration-300 ease-in-out
+        ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} 
+        transition-transform duration-300 ease-in-out
         fixed md:static inset-y-0 left-0 z-50 md:z-auto
-        md:block flex-shrink-0 h-full
+        flex-shrink-0 h-full
       `}>
         <OwnerSpaceQuickActionsSidebar 
           ownerProfile={currentProfile} 
