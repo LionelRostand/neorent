@@ -61,7 +61,8 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
     ? filteredPaidPayments.reduce((groups: Record<string, Payment[]>, payment) => {
         const dueDate = new Date(payment.dueDate);
         const monthKey = `${dueDate.getFullYear()}-${String(dueDate.getMonth() + 1).padStart(2, '0')}`;
-        const monthLabel = dueDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+        
+        console.log(`🗓️ Groupement: ${payment.tenantName} - dueDate: ${payment.dueDate} -> monthKey: ${monthKey}`);
         
         if (!groups[monthKey]) {
           groups[monthKey] = [];
