@@ -16,6 +16,8 @@ interface ChargesData {
   insurance: string;
   garbage: string;
   internet: string;
+  taxeHabitation: string;
+  taxeFonciere: string;
 }
 
 interface ChargeInputsProps {
@@ -122,10 +124,9 @@ const ChargeInputs = ({ charges, onChargeChange, selectedProperty, maintenanceLo
           {renderChargeField('maintenance', 'maintenance', charges.maintenance, <Wrench className="h-3 w-3 text-blue-500" />, true)}
           {renderChargeField('insurance', 'insurance', charges.insurance)}
           {renderChargeField('garbage', 'garbage', charges.garbage)}
-          
-          <div className="md:col-span-2">
-            {renderChargeField('internet', 'internet', charges.internet)}
-          </div>
+          {renderChargeField('internet', 'internet', charges.internet)}
+          {renderChargeField('taxeHabitation', 'taxeHabitation', charges.taxeHabitation)}
+          {renderChargeField('taxeFonciere', 'taxeFonciere', charges.taxeFonciere)}
         </div>
       </CardContent>
     </Card>

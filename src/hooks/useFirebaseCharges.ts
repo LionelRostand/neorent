@@ -15,6 +15,8 @@ interface ChargeData {
   insurance: number;
   garbage: number;
   internet: number;
+  taxeHabitation: number; // Nouvelle charge - Taxe d'habitation (gérée par les locataires)
+  taxeFonciere: number;   // Nouvelle charge - Taxe foncière
   total: number;
   tenant: string;
 }

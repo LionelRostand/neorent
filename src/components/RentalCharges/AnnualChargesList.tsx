@@ -17,6 +17,8 @@ interface ChargeData {
   insurance: number;
   garbage: number;
   internet: number;
+  taxeHabitation: number; // Nouvelle charge - Taxe d'habitation (gérée par les locataires)
+  taxeFonciere: number;   // Nouvelle charge - Taxe foncière
   total: number;
   tenant: string;
 }
@@ -83,7 +85,7 @@ const AnnualChargesList: React.FC<AnnualChargesListProps> = ({
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-9 gap-3 sm:gap-4">
                 <div className="text-center p-2 sm:p-0">
                   <p className="text-xs sm:text-sm text-gray-600">Électricité</p>
                   <p className="text-sm sm:text-base font-semibold">
@@ -124,6 +126,18 @@ const AnnualChargesList: React.FC<AnnualChargesListProps> = ({
                   <p className="text-xs sm:text-sm text-gray-600">Internet</p>
                   <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.internet, 0).toFixed(2)}€
+                  </p>
+                </div>
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Taxe Habitation</p>
+                  <p className="text-sm sm:text-base font-semibold">
+                    {entry.charges.reduce((sum, c) => sum + (c.taxeHabitation || 0), 0).toFixed(2)}€
+                  </p>
+                </div>
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Taxe Foncière</p>
+                  <p className="text-sm sm:text-base font-semibold">
+                    {entry.charges.reduce((sum, c) => sum + (c.taxeFonciere || 0), 0).toFixed(2)}€
                   </p>
                 </div>
               </div>

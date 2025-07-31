@@ -26,6 +26,8 @@ interface ChargeData {
   insurance: number;
   garbage: number;
   internet: number;
+  taxeHabitation: number; // Nouvelle charge - Taxe d'habitation (gérée par les locataires)
+  taxeFonciere: number;   // Nouvelle charge - Taxe foncière
   total: number;
   tenant: string;
 }
@@ -48,7 +50,9 @@ const RentalChargeEditForm = ({ isOpen, onClose, onSubmit, editingCharge }: Rent
     maintenance: '',
     insurance: '',
     garbage: '',
-    internet: ''
+    internet: '',
+    taxeHabitation: '',
+    taxeFonciere: ''
   });
   const { toast } = useToast();
   const { properties } = useFirebaseProperties();
@@ -68,7 +72,9 @@ const RentalChargeEditForm = ({ isOpen, onClose, onSubmit, editingCharge }: Rent
         maintenance: editingCharge.maintenance.toString(),
         insurance: editingCharge.insurance.toString(),
         garbage: editingCharge.garbage.toString(),
-        internet: editingCharge.internet.toString()
+        internet: editingCharge.internet.toString(),
+        taxeHabitation: (editingCharge.taxeHabitation || 0).toString(),
+        taxeFonciere: (editingCharge.taxeFonciere || 0).toString()
       });
     }
   }, [editingCharge, isOpen, properties]);
@@ -153,6 +159,8 @@ const RentalChargeEditForm = ({ isOpen, onClose, onSubmit, editingCharge }: Rent
       insurance: parseFloat(charges.insurance) || 0,
       garbage: parseFloat(charges.garbage) || 0,
       internet: parseFloat(charges.internet) || 0,
+      taxeHabitation: parseFloat(charges.taxeHabitation) || 0,
+      taxeFonciere: parseFloat(charges.taxeFonciere) || 0,
       total: calculateTotal(),
     };
 
@@ -172,7 +180,9 @@ const RentalChargeEditForm = ({ isOpen, onClose, onSubmit, editingCharge }: Rent
       maintenance: '',
       insurance: '',
       garbage: '',
-      internet: ''
+      internet: '',
+      taxeHabitation: '',
+      taxeFonciere: ''
     });
     onClose();
   };
