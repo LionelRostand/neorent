@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AdminLayout } from '@/components/Layout/AdminLayout';
@@ -49,87 +48,90 @@ const Website = () => {
 
   return (
     <AdminLayout>
-      <div className="w-full h-full overflow-hidden">
-        <div className="h-full flex flex-col space-y-3 md:space-y-4">
-          <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4 md:p-6 flex-shrink-0">
-            <div className="flex items-start space-x-3">
-              <Settings className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-primary flex-shrink-0 mt-1" />
-              <div className="min-w-0 flex-1">
-                <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground break-words">{t('website.title')}</h1>
-                <p className="text-muted-foreground mt-1 text-xs sm:text-sm md:text-base break-words">
-                  {t('website.description')}
-                </p>
-              </div>
+      <div className="flex flex-col h-screen overflow-hidden">
+        {/* Header - Fixed at top */}
+        <div className="bg-card rounded-lg shadow-sm border p-4 sm:p-6 flex-shrink-0 mb-4">
+          <div className="flex items-start space-x-3">
+            <Settings className="h-6 w-6 sm:h-8 sm:w-8 text-primary flex-shrink-0 mt-1" />
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">{t('website.title')}</h1>
+              <p className="text-muted-foreground mt-1 text-sm sm:text-base">
+                {t('website.description')}
+              </p>
             </div>
           </div>
+        </div>
 
-          <div className="flex-1 overflow-hidden">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-              {/* Mobile responsive tabs with horizontal scroll */}
-              <div className="w-full overflow-x-auto scrollbar-hide flex-shrink-0">
-                <TabsList className="inline-flex h-auto w-max min-w-full p-1 bg-muted rounded-lg mb-3 md:mb-4">
+        {/* Content area with tabs */}
+        <div className="flex-1 flex flex-col min-h-0">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
+            {/* Main content area */}
+            <div className="flex-1 overflow-hidden min-h-0">
+              <TabsContent value="pages" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <PagesTab />
+              </TabsContent>
+
+              <TabsContent value="immo" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <ImmoTab />
+              </TabsContent>
+
+              <TabsContent value="content" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <ContentTab />
+              </TabsContent>
+
+              <TabsContent value="medias" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <MediasTab />
+              </TabsContent>
+
+              <TabsContent value="theme" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <ThemeTab />
+              </TabsContent>
+
+              <TabsContent value="footer" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <FooterTab />
+              </TabsContent>
+
+              <TabsContent value="legal" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <LegalPagesTab />
+              </TabsContent>
+
+              <TabsContent value="cookies" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <CookiesTab />
+              </TabsContent>
+
+              <TabsContent value="carte" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <MapTab />
+              </TabsContent>
+
+              <TabsContent value="analytics" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <AnalyticsTab />
+              </TabsContent>
+
+              <TabsContent value="config" className="h-full overflow-y-auto data-[state=inactive]:hidden">
+                <ConfigTab />
+              </TabsContent>
+            </div>
+
+            {/* Bottom tabs for mobile - Fixed at bottom */}
+            <div className="flex-shrink-0 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <div className="w-full overflow-x-auto">
+                <TabsList className="w-full h-auto p-2 bg-transparent justify-start min-w-max">
                   {tabs.map((tab) => (
                     <TabsTrigger 
                       key={tab.id} 
                       value={tab.id}
-                      className="flex flex-col items-center gap-1 px-1.5 sm:px-2 md:px-3 py-1.5 sm:py-2 md:py-3 text-xs font-medium whitespace-nowrap min-w-[60px] sm:min-w-[70px] md:min-w-[90px] lg:min-w-[100px] data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all"
+                      className="flex flex-col items-center gap-1 px-2 py-2 text-xs font-medium whitespace-nowrap min-w-[65px] data-[state=active]:bg-primary/10 data-[state=active]:text-primary border-none rounded-lg transition-all"
                     >
-                      <tab.icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 flex-shrink-0" />
-                      <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs leading-tight text-center">
+                      <tab.icon className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-[10px] leading-tight text-center">
                         {tab.label}
                       </span>
                     </TabsTrigger>
                   ))}
                 </TabsList>
               </div>
-
-              <div className="flex-1 overflow-hidden">
-                <TabsContent value="pages" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <PagesTab />
-                </TabsContent>
-
-                <TabsContent value="immo" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <ImmoTab />
-                </TabsContent>
-
-                <TabsContent value="content" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <ContentTab />
-                </TabsContent>
-
-                <TabsContent value="medias" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <MediasTab />
-                </TabsContent>
-
-                <TabsContent value="theme" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <ThemeTab />
-                </TabsContent>
-
-                <TabsContent value="footer" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <FooterTab />
-                </TabsContent>
-
-                <TabsContent value="legal" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <LegalPagesTab />
-                </TabsContent>
-
-                <TabsContent value="cookies" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <CookiesTab />
-                </TabsContent>
-
-                <TabsContent value="carte" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <MapTab />
-                </TabsContent>
-
-                <TabsContent value="analytics" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <AnalyticsTab />
-                </TabsContent>
-
-                <TabsContent value="config" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
-                  <ConfigTab />
-                </TabsContent>
-              </div>
-            </Tabs>
-          </div>
+            </div>
+          </Tabs>
         </div>
       </div>
     </AdminLayout>
