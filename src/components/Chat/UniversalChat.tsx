@@ -174,10 +174,10 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     );
 
     if (conversation?.id) {
-      const unsubscribe = subscribeToMessages(conversation.id);
-      return unsubscribe;
+      console.log('🔄 Souscription aux messages pour conversation:', conversation.id);
+      subscribeToMessages(conversation.id);
     }
-  }, [selectedContact, conversations, currentProfile, subscribeToMessages]);
+  }, [selectedContact, conversations, currentProfile]);
 
   const handleStartConversation = async (contact: any) => {
     console.log('Sélection du contact:', contact);
