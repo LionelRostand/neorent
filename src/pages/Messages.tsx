@@ -6,6 +6,9 @@ import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
 import { useSimpleChat } from '@/hooks/useSimpleChat';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 import { AuthContext } from '@/contexts/AuthContext';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
@@ -23,9 +26,18 @@ const Messages = () => {
     loading
   } = useSimpleChat(userProfile?.email || '', userProfile?.name || '');
 
+  
+  // Récupérer les données des utilisateurs réels
+  const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
+  const { tenants, loading: tenantsLoading } = useFirebaseTenants();
+  const { owners, loading: ownersLoading } = useFirebaseOwners();
+
   console.log('📨 Messages page SIMPLE: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
   console.log('📨 Messages page SIMPLE: Conversation sélectionnée:', selectedConversationId);
   console.log('📨 Messages page SIMPLE: Profil utilisateur:', userProfile);
+  console.log('👥 Colocataires:', roommates.length, roommates);
+  console.log('🏠 Locataires:', tenants.length, tenants);
+  console.log('👑 Propriétaires:', owners.length, owners);
 
   // Convertir les conversations simples vers l'ancien format pour la compatibilité
   const adaptedConversations: Conversation[] = conversations.map(conv => {
@@ -56,27 +68,34 @@ const Messages = () => {
     read: true // Simplifié pour l'instant
   }));
 
-  // Créer des conversations de test avec les utilisateurs existants
+  // Créer des conversations avec tous les utilisateurs réels
   useEffect(() => {
-    const createTestConversations = async () => {
-      if (!userProfile?.email) return;
+    const createConversationsWithRealUsers = async () => {
+      if (!userProfile?.email || roommatesLoading || tenantsLoading || ownersLoading) return;
       
-      console.log('🧪 Démarrage création conversations de test...');
-      console.log('🧪 Conversations actuelles:', conversations.length);
+      console.log('🏗️ Création conversations avec utilisateurs réels...');
       
-      const testUsers = [
-        { email: 'ruthmegha35@gmail.com', name: 'Ruth MEGHA' },
-        { email: 'entrepreneurpro19@gmail.com', name: 'Emad Adam' },
-        { email: 'rostandlionel@yahoo.fr', name: 'ROSTAND' }
+      // Collecter tous les utilisateurs
+      const allUsers = [
+        ...roommates.map(r => ({ email: r.email, name: r.name, type: 'Colocataire' })),
+        ...tenants.map(t => ({ email: t.email, name: t.name, type: 'Locataire' })),
+        ...owners.filter(o => o.email !== userProfile.email).map(o => ({ email: o.email, name: o.name, type: 'Propriétaire' }))
       ];
 
-      for (const user of testUsers) {
+      console.log('👥 Tous les utilisateurs trouvés:', allUsers.length, allUsers);
+
+      for (const user of allUsers) {
+        if (!user.email || !user.name) {
+          console.log('⚠️ Utilisateur invalide (email ou nom manquant):', user);
+          continue;
+        }
+
         try {
-          console.log(`🔄 Création conversation avec ${user.name}...`);
+          console.log(`🔄 Création conversation avec ${user.name} (${user.type})...`);
           await sendMessage(
             user.email,
             user.name,
-            `Bonjour ${user.name}! Bienvenue dans le système de messagerie.`
+            `Bonjour ${user.name}! Vous pouvez maintenant échanger des messages via ce système. N'hésitez pas à me contacter pour toute question.`
           );
           console.log(`✅ Conversation créée avec ${user.name}`);
         } catch (error) {
@@ -85,11 +104,11 @@ const Messages = () => {
       }
     };
 
-    // Créer les conversations immédiatement au démarrage
-    if (userProfile?.email === 'admin@neotech-consulting.com') {
-      createTestConversations();
+    // Créer les conversations quand les données sont chargées
+    if (userProfile?.email && !roommatesLoading && !tenantsLoading && !ownersLoading) {
+      createConversationsWithRealUsers();
     }
-  }, [userProfile?.email, sendMessage]); // Retiré conversations.length pour forcer l'exécution
+  }, [userProfile?.email, roommates, tenants, owners, roommatesLoading, tenantsLoading, ownersLoading, sendMessage]);
 
   // Auto-sélection de la première conversation
   useEffect(() => {
