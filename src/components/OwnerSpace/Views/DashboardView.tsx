@@ -31,13 +31,13 @@ const DashboardView: React.FC<DashboardViewProps> = ({ currentProfile }) => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 md:p-6 space-y-4 md:space-y-6">
       {/* Header harmonisé */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-4 md:p-6 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">{getLocalizedText('title')}</h1>
-            <p className="text-blue-100 mt-2">{getLocalizedText('subtitle')}</p>
+            <h1 className="text-2xl md:text-3xl font-bold">{getLocalizedText('title')}</h1>
+            <p className="text-blue-100 mt-2 text-sm md:text-base">{getLocalizedText('subtitle')}</p>
           </div>
         </div>
       </div>

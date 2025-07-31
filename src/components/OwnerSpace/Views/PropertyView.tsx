@@ -168,17 +168,17 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
 
   return (
     <div className="min-h-screen">
-      <div className="p-6">
+      <div className="p-3 md:p-6">
         {/* Header harmonisé */}
-        <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-6 text-white shadow-lg mb-6">
-          <div className="flex items-center justify-between">
+        <div className="bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl p-4 md:p-6 text-white shadow-lg mb-4 md:mb-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold">{getLocalizedText('title')}</h1>
-              <p className="text-slate-100 mt-2">{getLocalizedText('subtitle')}</p>
+              <h1 className="text-2xl md:text-3xl font-bold">{getLocalizedText('title')}</h1>
+              <p className="text-slate-100 mt-2 text-sm md:text-base">{getLocalizedText('subtitle')}</p>
             </div>
             <Dialog open={isNewPropertyDialogOpen} onOpenChange={setIsNewPropertyDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-white text-slate-600 hover:bg-slate-50 border-0 shadow-md">
+                <Button className="bg-white text-slate-600 hover:bg-slate-50 border-0 shadow-md w-full md:w-auto">
                   <Plus className="h-4 w-4 mr-2" />
                   {getLocalizedText('newProperty')}
                 </Button>
@@ -195,7 +195,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           <Card className="border-l-4 border-l-slate-500 hover:shadow-lg transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('totalProperties')}</CardTitle>
@@ -268,7 +268,7 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
                 </Button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                 {properties.map((property) => {
                   const activeRoommates = roommates.filter(roommate => 
                     roommate.property === property.title && roommate.status === 'Actif'
