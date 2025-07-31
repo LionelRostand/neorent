@@ -32,6 +32,11 @@ const ChargeInputs = ({ charges, onChargeChange, selectedProperty, maintenanceLo
   const selectedPropertyData = properties.find(p => p.id === selectedProperty);
   const propertyConfig = selectedPropertyData ? getPropertyChargesConfig(selectedPropertyData.title) : null;
   
+  // Debug pour comprendre pourquoi maintenance est bloqué
+  console.log('🏠 Propriété sélectionnée:', selectedPropertyData?.title);
+  console.log('⚙️ Configuration trouvée:', propertyConfig);
+  console.log('📋 Charges gérées par copropriété:', propertyConfig?.managedByCopropriete);
+  
   const renderChargeField = (
     id: string,
     labelKey: string,
@@ -41,6 +46,16 @@ const ChargeInputs = ({ charges, onChargeChange, selectedProperty, maintenanceLo
   ) => {
     const isManagedByCopropriete = selectedPropertyData ? 
       isChargeManagedbyCopropriete(selectedPropertyData.title, id) : false;
+    
+    // Force maintenance à être modifiable temporairement
+    const isFieldReadOnly = id === 'maintenance' ? false : isManagedByCopropriete;
+    
+    console.log(`🔧 Champ ${id}:`, {
+      isManagedByCopropriete,
+      isFieldReadOnly,
+      propertyTitle: selectedPropertyData?.title,
+      chargeType: id
+    });
     
     return (
       <div className="space-y-2">
@@ -66,7 +81,7 @@ const ChargeInputs = ({ charges, onChargeChange, selectedProperty, maintenanceLo
           value={value}
           onChange={(e) => onChargeChange(id, e.target.value)}
           className={isManagedByCopropriete ? "border-green-200 bg-green-50" : ""}
-          readOnly={isManagedByCopropriete}
+          readOnly={isFieldReadOnly}
         />
         {isManagedByCopropriete && propertyConfig && (
           <p className="text-xs text-green-600 flex items-center gap-1">
