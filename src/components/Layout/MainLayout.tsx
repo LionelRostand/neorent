@@ -28,6 +28,17 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      {/* Mobile menu button - visible only on small screens when sidebar should be shown */}
+      {shouldShowSidebar && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={toggleSidebar}
+          className="fixed top-4 left-4 z-50 lg:hidden bg-white shadow-md"
+        >
+          {isSidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </Button>
+      )}
 
       {/* Mobile overlay */}
       {isSidebarOpen && shouldShowSidebar && (
@@ -50,7 +61,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header onToggleSidebar={shouldShowSidebar ? toggleSidebar : undefined} />
         
         <main className="flex-1 overflow-y-auto p-3 sm:p-6">
           {children}
