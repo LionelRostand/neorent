@@ -122,8 +122,9 @@ export const useFinancialForecasting = () => {
       const monthlyChargesMap = new Map<string, number>();
       data.charges.forEach(charge => {
         const monthKey = charge.month;
-        monthlyChargesMap.set(monthKey, (monthlyChargesMap.get(monthKey) || 0) + charge.total);
-        console.log(`  💸 ${charge.propertyName} (${monthKey}): +${charge.total}€`);
+        const chargeAmount = charge.total;
+        monthlyChargesMap.set(monthKey, (monthlyChargesMap.get(monthKey) || 0) + chargeAmount);
+        console.log(`  💸 ${charge.propertyName} (${monthKey}): +${chargeAmount}€ (total charges ce mois)`);
       });
       
       // Afficher un message si aucune charge n'est trouvée
@@ -135,12 +136,18 @@ export const useFinancialForecasting = () => {
       const annualRevenue = Array.from(monthlyRevenues.values()).reduce((sum, amount) => sum + amount, 0);
       const annualCharges = Array.from(monthlyChargesMap.values()).reduce((sum, amount) => sum + amount, 0);
       
-      // Moyennes mensuelles basées sur les mois où il y a eu des données
-      const monthsWithRevenue = monthlyRevenues.size || 1;
-      const monthsWithCharges = monthlyChargesMap.size || 1;
+      // CORRECTION: Calcul correct des moyennes mensuelles
+      // Utiliser le nombre de mois réels où il y a eu des données, pas forcer /12
+      const monthsWithRevenue = monthlyRevenues.size > 0 ? monthlyRevenues.size : 1;
+      const monthsWithCharges = monthlyChargesMap.size > 0 ? monthlyChargesMap.size : 1;
       
-      const monthlyRevenue = annualRevenue / 12; // Ramené sur 12 mois pour comparaison
-      const monthlyCharges = annualCharges / 12; // Ramené sur 12 mois pour comparaison
+      // Moyennes mensuelles réelles basées sur les données existantes
+      const avgMonthlyRevenue = annualRevenue / monthsWithRevenue;
+      const avgMonthlyCharges = annualCharges / monthsWithCharges;
+      
+      // Pour l'affichage, utiliser ces moyennes réelles
+      const monthlyRevenue = avgMonthlyRevenue;
+      const monthlyCharges = avgMonthlyCharges;
       
       const monthlyProfit = monthlyRevenue - monthlyCharges;
       const annualProfit = annualRevenue - annualCharges;
@@ -152,22 +159,27 @@ export const useFinancialForecasting = () => {
 
       console.log(`📊 === Résultats pour ${propertyName} ===`);
       console.log(`  📅 Mois avec revenus: ${monthsWithRevenue}, avec charges: ${monthsWithCharges}`);
-      console.log(`  💰 Revenus annuels: ${annualRevenue.toLocaleString()}€`);
-      console.log(`  💸 Charges annuelles: ${annualCharges.toLocaleString()}€`);
-      console.log(`  📈 Revenus mensuels moyens: ${monthlyRevenue.toLocaleString()}€`);
-      console.log(`  📉 Charges mensuelles moyennes: ${monthlyCharges.toLocaleString()}€`);
+      console.log(`  💰 Revenus annuels totaux: ${annualRevenue.toLocaleString()}€`);
+      console.log(`  💸 Charges annuelles totales: ${annualCharges.toLocaleString()}€`);
+      console.log(`  📈 Revenus mensuels moyens: ${monthlyRevenue.toLocaleString()}€ (${annualRevenue}€ ÷ ${monthsWithRevenue} mois)`);
+      console.log(`  📉 Charges mensuelles moyennes: ${monthlyCharges.toLocaleString()}€ (${annualCharges}€ ÷ ${monthsWithCharges} mois)`);
       console.log(`  💚 Profit mensuel: ${monthlyProfit.toLocaleString()}€`);
       console.log(`  📊 Marge: ${profitMargin.toFixed(1)}%`);
       console.log(`  🎯 ROI: ${roi.toFixed(1)}%`);
+      
+      // Recalculer les valeurs annuelles pour l'affichage (projection sur 12 mois)
+      const projectedAnnualRevenue = monthlyRevenue * 12;
+      const projectedAnnualCharges = monthlyCharges * 12;
+      const projectedAnnualProfit = projectedAnnualRevenue - projectedAnnualCharges;
 
       return {
         propertyName,
         monthlyRevenue,
-        annualRevenue,
+        annualRevenue: projectedAnnualRevenue,
         monthlyCharges,
-        annualCharges,
+        annualCharges: projectedAnnualCharges,
         monthlyProfit,
-        annualProfit,
+        annualProfit: projectedAnnualProfit,
         profitMargin,
         roi
       };
