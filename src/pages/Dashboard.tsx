@@ -63,7 +63,30 @@ const Dashboard = () => {
       }).length;
       return ownerData.properties.length > 0 ? (occupiedProperties / ownerData.properties.length) * 100 : 0;
     })(),
-    averageYield: 5.2 // Valeur par défaut pour les propriétaires
+    averageYield: (() => {
+      // Calculer le rendement réel basé sur les données du propriétaire
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      const monthlyPayments = ownerData.payments.filter(payment => {
+        const paymentDate = new Date(payment.paymentDate || payment.dueDate);
+        return paymentDate.getMonth() === currentMonth && 
+               paymentDate.getFullYear() === currentYear &&
+               payment.status === 'Payé';
+      });
+      const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
+      const annualRevenue = monthlyRevenue * 12;
+      
+      // Estimer la valeur des propriétés du propriétaire
+      const totalPropertyValue = ownerData.properties.reduce((sum, property) => {
+        // Utiliser creditImmobilier ou estimation basée sur le loyer
+        const propertyValue = property.creditImmobilier 
+          ? parseFloat(property.creditImmobilier.toString()) 
+          : parseFloat(property.rent || '0') * 12 * 15; // 15x le loyer annuel comme estimation
+        return sum + (propertyValue || 0);
+      }, 0);
+      
+      return totalPropertyValue > 0 ? Math.round(((annualRevenue / totalPropertyValue) * 100) * 100) / 100 : 0;
+    })()
   } : globalMetrics; // Pour l'admin, utiliser les métriques globales
   
   const { payments } = useFirebasePayments();
