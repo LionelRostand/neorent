@@ -97,7 +97,7 @@ export const useUserProfileManager = (user: User | null) => {
               userData = userDoc.data();
               console.log('📊 User data found by UID:', userData);
             } else {
-              // Si pas trouvé par UID, chercher par email
+              // Si pas trouvé par UID, chercher par email dans toute la collection
               const q = query(collection(db, 'user_roles'), where('email', '==', user.email));
               const querySnapshot = await getDocs(q);
               
@@ -106,19 +106,38 @@ export const useUserProfileManager = (user: User | null) => {
                 userData = userDoc.data();
                 docId = userDoc.id;
                 console.log('📊 User data found by email:', userData);
+                
+                // Si trouvé par email mais pas par UID, mettre à jour le document avec le bon UID
+                if (docId !== user.uid && userData.firebaseUid !== user.uid) {
+                  console.log('🔄 Updating firebaseUid for user:', user.email);
+                  const { updateDoc } = await import('firebase/firestore');
+                  await updateDoc(doc(db, 'user_roles', docId), {
+                    firebaseUid: user.uid
+                  });
+                }
               }
             }
             
             if (userData) {
+              // Déterminer le type d'utilisateur - priorité aux champs owner
+              let determinedUserType: 'admin' | 'owner' | 'locataire' | 'colocataire' = 'locataire';
+              
+              if (userData.role === 'owner' || userData.userType === 'owner' || userData.type === 'owner' || userData.isOwner || userData.isPropertyOwner) {
+                determinedUserType = 'owner';
+              } else if (userData.role === 'colocataire' || userData.userType === 'colocataire' || userData.type === 'colocataire') {
+                determinedUserType = 'colocataire';
+              }
+              
               profile = {
                 id: docId,
                 name: userData.name || user.displayName || user.email || '',
                 email: userData.email || user.email || '',
-                role: userData.role || 'locataire',
-                type: userData.userType || userData.type || userData.role || 'locataire'
+                role: userData.role || (determinedUserType === 'owner' ? 'owner' : 'locataire'),
+                type: determinedUserType
               };
               
               console.log('✅ Profile loaded from Firebase:', profile);
+              console.log('✅ Determined user type:', determinedUserType);
             } else {
               // Si aucun profil trouvé, créer un profil par défaut
               profile = {
