@@ -23,21 +23,24 @@ export const useUserProfileManager = (user: User | null) => {
       // Clear any old data first
       sessionStorage.removeItem('adminSelectedProfile');
       
-      // Check if admin is impersonating
-      const adminProfile = sessionStorage.getItem('adminSelectedProfile');
-      console.log('🔍 Admin profile in storage:', adminProfile);
-      if (adminProfile) {
-        try {
-          const profile = JSON.parse(adminProfile);
-          console.log('👤 Admin impersonation detected:', profile);
-          setSelectedProfile(profile);
-          // Map owner role to owner type for consistency
-          const mappedType = profile.role === 'owner' ? 'owner' : profile.type;
-          setUserType(mappedType);
-        } catch (error) {
-          console.error('Error parsing admin profile:', error);
+      // Force refresh profile data on every load
+      if (user) {
+        // Check if admin is impersonating
+        const adminProfile = sessionStorage.getItem('adminSelectedProfile');
+        console.log('🔍 Admin profile in storage:', adminProfile);
+        if (adminProfile) {
+          try {
+            const profile = JSON.parse(adminProfile);
+            console.log('👤 Admin impersonation detected:', profile);
+            setSelectedProfile(profile);
+            // Map owner role to owner type for consistency
+            const mappedType = profile.role === 'owner' ? 'owner' : profile.type;
+            setUserType(mappedType);
+            return; // Exit early for admin impersonation
+          } catch (error) {
+            console.error('Error parsing admin profile:', error);
+          }
         }
-      } else if (user) {
         // Regular user profile - check specific cases
         const isAdmin = user.email === 'admin@neotech-consulting.com';
         const isEmadAdam = user.email === 'entrepreneurpro19@gmail.com';
@@ -79,47 +82,46 @@ export const useUserProfileManager = (user: User | null) => {
           // Pour les autres utilisateurs, récupérer le profil depuis Firebase
           try {
             // Chercher d'abord par firebaseUid
-            const userRoleDoc = await getDoc(doc(db, 'user_roles', user.uid));
+            let userDoc = await getDoc(doc(db, 'user_roles', user.uid));
+            let userData = null;
+            let docId = user.uid;
             
-            if (userRoleDoc.exists()) {
-              const userData = userRoleDoc.data();
+            if (userDoc.exists()) {
+              userData = userDoc.data();
               console.log('📊 User data found by UID:', userData);
-              
-              profile = {
-                id: userRoleDoc.id,
-                name: userData.name || user.displayName || user.email || '',
-                email: userData.email || user.email || '',
-                role: userData.role || 'locataire',
-                type: userData.userType || userData.role || 'locataire'
-              };
             } else {
               // Si pas trouvé par UID, chercher par email
               const q = query(collection(db, 'user_roles'), where('email', '==', user.email));
               const querySnapshot = await getDocs(q);
               
               if (!querySnapshot.empty) {
-                const userDoc = querySnapshot.docs[0];
-                const userData = userDoc.data();
+                userDoc = querySnapshot.docs[0];
+                userData = userDoc.data();
+                docId = userDoc.id;
                 console.log('📊 User data found by email:', userData);
-                
-                profile = {
-                  id: userDoc.id,
-                  name: userData.name || user.displayName || user.email || '',
-                  email: userData.email || user.email || '',
-                  role: userData.role || 'locataire',
-                  type: userData.userType || userData.role || 'locataire'
-                };
-              } else {
-                // Si aucun profil trouvé, créer un profil par défaut
-                profile = {
-                  id: user.uid,
-                  name: user.displayName || user.email || '',
-                  email: user.email || '',
-                  role: 'locataire',
-                  type: 'locataire' as const
-                };
-                console.log('⚠️ Aucun profil trouvé, profil par défaut créé:', profile);
               }
+            }
+            
+            if (userData) {
+              profile = {
+                id: docId,
+                name: userData.name || user.displayName || user.email || '',
+                email: userData.email || user.email || '',
+                role: userData.role || 'locataire',
+                type: userData.userType || userData.type || userData.role || 'locataire'
+              };
+              
+              console.log('✅ Profile loaded from Firebase:', profile);
+            } else {
+              // Si aucun profil trouvé, créer un profil par défaut
+              profile = {
+                id: user.uid,
+                name: user.displayName || user.email || '',
+                email: user.email || '',
+                role: 'locataire',
+                type: 'locataire' as const
+              };
+              console.log('⚠️ Aucun profil trouvé, profil par défaut créé:', profile);
             }
           } catch (error) {
             console.error('❌ Erreur lors de la récupération du profil:', error);
