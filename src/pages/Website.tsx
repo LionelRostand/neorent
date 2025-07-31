@@ -49,8 +49,18 @@ const Website = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-6">
-        <WebsiteHeader />
+      <div className="space-y-4 md:space-y-6">
+        <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
+          <div className="flex items-center space-x-3">
+            <Settings className="h-8 w-8 text-blue-600" />
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('website.title')}</h1>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">
+                {t('website.description')}
+              </p>
+            </div>
+          </div>
+        </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Mobile responsive tabs with horizontal scroll */}
