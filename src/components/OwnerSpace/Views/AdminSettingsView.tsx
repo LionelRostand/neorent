@@ -16,161 +16,163 @@ const AdminSettingsView: React.FC<AdminSettingsViewProps> = ({ currentProfile })
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="p-6">
+      <div className="p-3 md:p-6 max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">{t('settings.title')}</h1>
-            <p className="text-gray-600 mt-1">{t('settings.description')}</p>
-          </div>
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Paramètres</h1>
+          <p className="text-gray-600">Gérez les paramètres de votre application</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Profile Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5" />
-                {t('settings.account')}
+        <div className="space-y-6">
+          {/* Compte utilisateur */}
+          <Card className="shadow-sm border-0 bg-white">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-lg">
+                <User className="h-5 w-5 text-gray-700" />
+                Compte utilisateur
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="name">{t('common.name')}</Label>
-                <Input id="name" defaultValue={currentProfile?.name || ''} />
-              </div>
-              <div>
-                <Label htmlFor="email">{t('common.email')}</Label>
-                <Input id="email" type="email" defaultValue={currentProfile?.email || ''} />
-              </div>
-              <div>
-                <Label htmlFor="phone">{t('common.phone')}</Label>
-                <Input id="phone" defaultValue={currentProfile?.phone || ''} />
-              </div>
-              <Button>{t('common.save')}</Button>
-            </CardContent>
-          </Card>
-
-          {/* Security Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
-                {t('settings.security.title')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="current-password">{t('settings.security.currentPassword')}</Label>
-                <Input id="current-password" type="password" />
-              </div>
-              <div>
-                <Label htmlFor="new-password">{t('settings.security.newPassword')}</Label>
-                <Input id="new-password" type="password" />
-              </div>
-              <div>
-                <Label htmlFor="confirm-password">{t('settings.security.confirmPassword')}</Label>
-                <Input id="confirm-password" type="password" />
-              </div>
-              <Button>{t('settings.security.changePassword')}</Button>
-            </CardContent>
-          </Card>
-
-          {/* Notification Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Mail className="h-5 w-5" />
-                {t('settings.notifications')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="space-y-4">
                 <div>
-                  <p className="font-medium">{t('settings.emailNotifications')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.emailNotificationsDesc')}</p>
+                  <Label htmlFor="name" className="text-sm font-medium text-gray-700 mb-2 block">
+                    Nom
+                  </Label>
+                  <Input 
+                    id="name" 
+                    defaultValue={currentProfile?.email || 'test@yahoo.com'}
+                    className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  />
                 </div>
-                <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
-              </div>
-              <div className="flex items-center justify-between">
+                
                 <div>
-                  <p className="font-medium">{t('settings.paymentAlerts')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.paymentAlertsDesc')}</p>
+                  <Label htmlFor="email" className="text-sm font-medium text-gray-700 mb-2 block">
+                    E-mail
+                  </Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    defaultValue={currentProfile?.email || 'test@yahoo.com'}
+                    className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  />
                 </div>
-                <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
-              </div>
-              <div className="flex items-center justify-between">
+                
                 <div>
-                  <p className="font-medium">{t('settings.maintenanceAlerts')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.maintenanceAlertsDesc')}</p>
+                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-2 block">
+                    Téléphone
+                  </Label>
+                  <Input 
+                    id="phone" 
+                    defaultValue={currentProfile?.phone || ''}
+                    placeholder=""
+                    className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  />
                 </div>
-                <Button variant="outline" size="sm">{t('settings.enabled')}</Button>
+                
+                <div className="pt-2">
+                  <Button 
+                    className="bg-gray-800 hover:bg-gray-900 text-white px-6 py-2.5 rounded-md font-medium"
+                  >
+                    Enregistrer
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* System Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
-                {t('settings.general')}
+          {/* Sécurité */}
+          <Card className="shadow-sm border-0 bg-white">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-lg">
+                <Shield className="h-5 w-5 text-gray-700" />
+                Sécurité
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="space-y-4">
                 <div>
-                  <p className="font-medium">{t('settings.language')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.currentLanguage')}</p>
+                  <Label htmlFor="current-password" className="text-sm font-medium text-gray-700 mb-2 block">
+                    Mot de passe actuel
+                  </Label>
+                  <Input 
+                    id="current-password" 
+                    type="password" 
+                    className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  />
                 </div>
-                <Button variant="outline" size="sm">{t('common.change')}</Button>
-              </div>
-              <div className="flex items-center justify-between">
+                
                 <div>
-                  <p className="font-medium">{t('settings.timezone')}</p>
-                  <p className="text-sm text-gray-500">Europe/Paris</p>
+                  <Label htmlFor="new-password" className="text-sm font-medium text-gray-700 mb-2 block">
+                    Nouveau mot de passe
+                  </Label>
+                  <Input 
+                    id="new-password" 
+                    type="password" 
+                    className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  />
                 </div>
-                <Button variant="outline" size="sm">{t('common.edit')}</Button>
-              </div>
-              <div className="flex items-center justify-between">
+                
                 <div>
-                  <p className="font-medium">{t('settings.dateFormat')}</p>
-                  <p className="text-sm text-gray-500">DD/MM/YYYY</p>
+                  <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700 mb-2 block">
+                    Confirmer le mot de passe
+                  </Label>
+                  <Input 
+                    id="confirm-password" 
+                    type="password" 
+                    className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  />
                 </div>
-                <Button variant="outline" size="sm">{t('common.change')}</Button>
+                
+                <div className="pt-2">
+                  <Button 
+                    className="bg-gray-800 hover:bg-gray-900 text-white px-6 py-2.5 rounded-md font-medium"
+                  >
+                    Modifier le mot de passe
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Data Management */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="h-5 w-5" />
-                {t('settings.dataManagement')}
+          {/* Notifications */}
+          <Card className="shadow-sm border-0 bg-white">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-lg">
+                <Mail className="h-5 w-5 text-gray-700" />
+                Notifications
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">{t('settings.dataExport')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.dataExportDesc')}</p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between py-2">
+                  <div>
+                    <p className="font-medium text-gray-900">Notifications par e-mail</p>
+                    <p className="text-sm text-gray-500">Recevez des notifications importantes par e-mail</p>
+                  </div>
+                  <Button variant="outline" size="sm" className="border-gray-300">
+                    Activé
+                  </Button>
                 </div>
-                <Button variant="outline">{t('common.export')}</Button>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">{t('settings.autoBackup')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.autoBackupDesc')}</p>
+                
+                <div className="flex items-center justify-between py-2">
+                  <div>
+                    <p className="font-medium text-gray-900">Alertes de paiement</p>
+                    <p className="text-sm text-gray-500">Notifications pour les loyers en retard</p>
+                  </div>
+                  <Button variant="outline" size="sm" className="border-gray-300">
+                    Activé
+                  </Button>
                 </div>
-                <Button variant="outline" size="sm">{t('settings.configure')}</Button>
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium text-red-600">{t('settings.deleteAccount')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.deleteAccountDesc')}</p>
+                
+                <div className="flex items-center justify-between py-2">
+                  <div>
+                    <p className="font-medium text-gray-900">Alertes de maintenance</p>
+                    <p className="text-sm text-gray-500">Notifications pour les demandes de maintenance</p>
+                  </div>
+                  <Button variant="outline" size="sm" className="border-gray-300">
+                    Désactivé
+                  </Button>
                 </div>
-                <Button variant="destructive">{t('common.delete')}</Button>
               </div>
             </CardContent>
           </Card>
