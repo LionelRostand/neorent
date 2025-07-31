@@ -34,70 +34,25 @@ const Messages = () => {
       return;
     }
 
-    console.log('📨 Messages page: Création des conversations à partir des utilisateurs réels...');
+    console.log('📨 Messages page: Initialisation avec conversations vides...');
     
+    // Commencer avec un tableau vide - les conversations ne seront ajoutées que s'il y a de vrais messages
     const realConversations: Conversation[] = [];
 
-    // Ajouter les colocataires
-    roommates.forEach((roommate, index) => {
-      if (roommate.email && roommate.name) {
-        realConversations.push({
-          id: `roommate-${roommate.id}`,
-          clientName: roommate.name,
-          clientEmail: roommate.email,
-          lastMessage: `Colocataire de ${roommate.property || 'N/A'} - ${roommate.roomNumber || 'Chambre'}`,
-          lastMessageTime: { toDate: () => new Date(Date.now() - index * 3600000), toMillis: () => Date.now() - index * 3600000 } as any,
-          unreadCount: 0, // Pas de messages non lus par défaut
-          status: 'offline' as const, // Status offline par défaut
-          createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
-        });
-      }
-    });
-
-    // Ajouter les locataires
-    tenants.forEach((tenant, index) => {
-      if (tenant.email && tenant.name) {
-        realConversations.push({
-          id: `tenant-${tenant.id}`,
-          clientName: tenant.name,
-          clientEmail: tenant.email,
-          lastMessage: `Locataire de ${tenant.property || 'N/A'}`,
-          lastMessageTime: { toDate: () => new Date(Date.now() - (roommates.length + index) * 3600000), toMillis: () => Date.now() - (roommates.length + index) * 3600000 } as any,
-          unreadCount: 0, // Pas de messages non lus par défaut
-          status: 'offline' as const, // Status offline par défaut
-          createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
-        });
-      }
-    });
-
-    // Ajouter les propriétaires (s'ils ne sont pas admin)
-    owners.forEach((owner, index) => {
-      if (owner.email && owner.name && owner.role !== 'admin') {
-        realConversations.push({
-          id: `owner-${owner.id}`,
-          clientName: owner.name,
-          clientEmail: owner.email,
-          lastMessage: `Propriétaire`,
-          lastMessageTime: { toDate: () => new Date(Date.now() - (roommates.length + tenants.length + index) * 3600000), toMillis: () => Date.now() - (roommates.length + tenants.length + index) * 3600000 } as any,
-          unreadCount: 0, // Pas de messages non lus par défaut
-          status: 'offline' as const, // Status offline par défaut  
-          createdAt: { toDate: () => new Date(), toMillis: () => Date.now() } as any
-        });
-      }
-    });
-
-    console.log('📨 Messages page: Conversations créées:', realConversations.length);
-    console.log('📨 Details:', realConversations.map(c => ({ name: c.clientName, email: c.clientEmail, type: c.id.split('-')[0] })));
+    console.log('📨 Messages page: Démarrage avec 0 conversations - attente de vrais messages Firebase');
     
     setConversations(realConversations);
     setLoading(false);
 
-    // Également écouter les vraies conversations Firebase s'il y en a
+    // Écouter uniquement les vraies conversations Firebase
     const unsubscribe = messageService.subscribeToConversations((firebaseConversations) => {
       console.log('📨 Messages page: Conversations Firebase reçues:', firebaseConversations.length);
       if (firebaseConversations.length > 0) {
-        // Fusionner avec les conversations réelles ou les remplacer
-        setConversations(prev => [...firebaseConversations, ...prev]);
+        // Utiliser uniquement les vraies conversations Firebase
+        setConversations(firebaseConversations);
+      } else {
+        // Aucune conversation réelle - garder le tableau vide
+        setConversations([]);
       }
     });
 
