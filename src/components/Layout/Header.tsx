@@ -16,20 +16,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   return (
     <header className="bg-white shadow-sm border-b px-4 py-3 flex items-center justify-between">
       <div className="flex items-center">
-        {/* Mobile menu button - hidden on large screens where sidebar is always visible */}
-        {onToggleSidebar && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onToggleSidebar}
-            className="lg:hidden mr-3"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        )}
-        
         <h1 className="text-xl font-semibold text-gray-900">
-          {t('navigation.dashboard')}
+          {t('website.title')}
         </h1>
       </div>
 
