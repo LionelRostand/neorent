@@ -49,16 +49,16 @@ const Website = () => {
 
   return (
     <AdminLayout>
-      <div className="h-full flex flex-col p-2 sm:p-4 md:p-6">
+      <div className="h-full flex flex-col p-4 md:p-6">
         {/* Header Section */}
-        <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4 md:p-6 flex-shrink-0 mb-4">
-          <div className="flex items-start space-x-2 sm:space-x-3">
-            <Settings className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-primary flex-shrink-0 mt-0.5 sm:mt-1" />
+        <div className="bg-white rounded-lg shadow-sm border p-4 md:p-6 flex-shrink-0 mb-6">
+          <div className="flex items-start space-x-3">
+            <Settings className="h-6 w-6 md:h-8 md:w-8 text-blue-600 flex-shrink-0 mt-1" />
             <div className="min-w-0 flex-1">
-              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground leading-tight">
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight">
                 {t('website.title')}
               </h1>
-              <p className="text-muted-foreground mt-1 text-xs sm:text-sm md:text-base leading-relaxed">
+              <p className="text-gray-600 mt-2 text-sm md:text-base leading-relaxed">
                 {t('website.description')}
               </p>
             </div>
@@ -69,16 +69,16 @@ const Website = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
             {/* Tabs - Responsive */}
-            <div className="w-full overflow-x-auto scrollbar-hide mb-2 sm:mb-3 md:mb-4">
-              <TabsList className="inline-flex h-auto w-max p-0.5 sm:p-1 bg-muted rounded-lg">
+            <div className="w-full overflow-x-auto scrollbar-hide mb-4">
+              <TabsList className="inline-flex h-auto w-max p-1 bg-gray-100 rounded-lg">
                 {tabs.map((tab) => (
                   <TabsTrigger 
                     key={tab.id} 
                     value={tab.id}
-                    className="flex flex-col items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-3 py-1.5 sm:py-2 md:py-3 text-xs font-medium whitespace-nowrap min-w-[55px] sm:min-w-[65px] md:min-w-[80px] lg:min-w-[90px] data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all"
+                    className="flex flex-col items-center gap-1 px-3 py-3 text-xs font-medium whitespace-nowrap min-w-[70px] sm:min-w-[80px] md:min-w-[90px] data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm rounded-md transition-all text-gray-600 hover:text-gray-900"
                   >
-                    <tab.icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 flex-shrink-0" />
-                    <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs leading-tight text-center">
+                    <tab.icon className="h-4 w-4 flex-shrink-0" />
+                    <span className="text-[10px] lg:text-xs leading-tight text-center">
                       {tab.label}
                     </span>
                   </TabsTrigger>
@@ -88,7 +88,7 @@ const Website = () => {
 
             {/* Content */}
             <div className="flex-1 overflow-hidden">
-              <div className="h-full overflow-y-auto">
+              <div className="h-full overflow-y-auto bg-white rounded-lg shadow-sm border p-4">
                 <TabsContent value="pages" className="m-0 h-full">
                   <PagesTab />
                 </TabsContent>
