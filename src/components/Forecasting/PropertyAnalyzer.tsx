@@ -106,13 +106,10 @@ const PropertyAnalyzer: React.FC<PropertyAnalyzerProps> = ({ propertiesData }) =
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Choisir une propriété..." />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
               {propertiesData.map((property) => (
                 <SelectItem key={property.propertyName} value={property.propertyName}>
-                  <div className="flex items-center gap-2">
-                    <Building className="h-4 w-4" />
-                    {property.propertyName}
-                  </div>
+                  {property.propertyName}
                 </SelectItem>
               ))}
             </SelectContent>
