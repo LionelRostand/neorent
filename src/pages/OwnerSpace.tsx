@@ -17,7 +17,7 @@ const OwnerSpace = () => {
   const { userProfile, userType } = useAuth();
   const { getCurrentProfile, isAuthorizedAdmin } = useAdminTenantAccess();
   const { canAccessOwnerSpace } = useOwnerPermissions();
-  const [activeView, setActiveView] = useState('dashboard');
+  const [activeView, setActiveView] = useState('properties');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Get current profile (logged user or profile selected by admin)
