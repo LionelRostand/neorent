@@ -56,6 +56,12 @@ export const useOwnerData = (ownerProfile: any) => {
     }
 
     // Pour les propriétaires, filtrer seulement leurs données avec vérifications strictes
+    console.log('=== DETAILED PROPERTY FILTERING ===');
+    console.log('Owner profile to filter for:', {
+      name: ownerProfile.name,
+      email: ownerProfile.email,
+      id: ownerProfile.id
+    });
     console.log('All properties in database:', properties.map(p => ({ 
       title: p.title, 
       owner: p.owner,
@@ -66,11 +72,11 @@ export const useOwnerData = (ownerProfile: any) => {
       const isOwnerByName = property.owner === ownerProfile.name;
       const isOwnerByEmail = property.owner === ownerProfile.email;
       
-      console.log('Property filter check:', {
-        propertyTitle: property.title,
+      console.log(`Property "${property.title}" filter check:`, {
         propertyOwner: property.owner,
         profileName: ownerProfile.name,
         profileEmail: ownerProfile.email,
+        profileId: ownerProfile.id,
         matches: { isOwnerByName, isOwnerByEmail }
       });
       
