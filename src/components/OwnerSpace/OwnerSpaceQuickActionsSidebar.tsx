@@ -64,11 +64,6 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full [&>div>div[style]]:!pr-0">
           <div className="p-4">
-            <div className="mb-4">
-              <h2 className="text-white text-lg font-semibold flex items-center gap-2">
-                <span>+</span> Actions rapides
-              </h2>
-            </div>
             <OwnerQuickActions 
               ownerProfile={ownerProfile} 
               setActiveView={setActiveView}
