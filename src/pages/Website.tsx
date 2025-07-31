@@ -49,13 +49,13 @@ const Website = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-4 md:space-y-6">
+      <div className="w-full max-w-full overflow-hidden space-y-4 md:space-y-6">
         <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-          <div className="flex items-center space-x-3">
-            <Settings className="h-8 w-8 text-blue-600" />
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('website.title')}</h1>
-              <p className="text-gray-600 mt-1 text-sm sm:text-base">
+          <div className="flex items-start space-x-3">
+            <Settings className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 flex-shrink-0 mt-1" />
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-words">{t('website.title')}</h1>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base break-words">
                 {t('website.description')}
               </p>
             </div>
@@ -64,16 +64,16 @@ const Website = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Mobile responsive tabs with horizontal scroll */}
-          <div className="overflow-x-auto scrollbar-hide">
-            <TabsList className="inline-flex h-auto min-w-full w-max p-1 bg-gray-100 rounded-lg mb-4 md:mb-6">
+          <div className="w-full overflow-x-auto scrollbar-hide">
+            <TabsList className="inline-flex h-auto w-max min-w-full p-1 bg-gray-100 rounded-lg mb-4 md:mb-6">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 
                   value={tab.id}
-                  className="flex flex-col items-center gap-1 px-3 py-3 text-xs font-medium whitespace-nowrap min-w-[80px] sm:min-w-[100px] data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md transition-all"
+                  className="flex flex-col items-center gap-1 px-2 sm:px-3 py-2 sm:py-3 text-xs font-medium whitespace-nowrap min-w-[70px] sm:min-w-[90px] md:min-w-[100px] data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md transition-all"
                 >
-                  <tab.icon className="h-4 w-4 flex-shrink-0" />
-                  <span className="text-[10px] sm:text-xs leading-tight text-center">
+                  <tab.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                  <span className="text-[9px] sm:text-[10px] md:text-xs leading-tight text-center">
                     {tab.label}
                   </span>
                 </TabsTrigger>
@@ -81,48 +81,48 @@ const Website = () => {
             </TabsList>
           </div>
 
-          <div className="min-h-[600px]">
-            <TabsContent value="pages" className="space-y-4 md:space-y-6 mt-0">
+          <div className="w-full min-h-[400px] sm:min-h-[500px] lg:min-h-[600px]">
+            <TabsContent value="pages" className="space-y-4 md:space-y-6 mt-0 w-full">
               <PagesTab />
             </TabsContent>
 
-            <TabsContent value="immo" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="immo" className="space-y-4 md:space-y-6 mt-0 w-full">
               <ImmoTab />
             </TabsContent>
 
-            <TabsContent value="content" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="content" className="space-y-4 md:space-y-6 mt-0 w-full">
               <ContentTab />
             </TabsContent>
 
-            <TabsContent value="medias" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="medias" className="space-y-4 md:space-y-6 mt-0 w-full">
               <MediasTab />
             </TabsContent>
 
-            <TabsContent value="theme" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="theme" className="space-y-4 md:space-y-6 mt-0 w-full">
               <ThemeTab />
             </TabsContent>
 
-            <TabsContent value="footer" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="footer" className="space-y-4 md:space-y-6 mt-0 w-full">
               <FooterTab />
             </TabsContent>
 
-            <TabsContent value="legal" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="legal" className="space-y-4 md:space-y-6 mt-0 w-full">
               <LegalPagesTab />
             </TabsContent>
 
-            <TabsContent value="cookies" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="cookies" className="space-y-4 md:space-y-6 mt-0 w-full">
               <CookiesTab />
             </TabsContent>
 
-            <TabsContent value="carte" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="carte" className="space-y-4 md:space-y-6 mt-0 w-full">
               <MapTab />
             </TabsContent>
 
-            <TabsContent value="analytics" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="analytics" className="space-y-4 md:space-y-6 mt-0 w-full">
               <AnalyticsTab />
             </TabsContent>
 
-            <TabsContent value="config" className="space-y-4 md:space-y-6 mt-0">
+            <TabsContent value="config" className="space-y-4 md:space-y-6 mt-0 w-full">
               <ConfigTab />
             </TabsContent>
           </div>
