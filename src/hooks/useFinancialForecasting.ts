@@ -40,22 +40,26 @@ export const useFinancialForecasting = () => {
 
   // Calculer les données financières par propriété avec agrégation des chambres
   const propertyFinancials = useMemo<PropertyFinancials[]>(() => {
-    // Grouper les paiements par propriété (12 derniers mois)
+    // Prendre les données des 12 derniers mois complets
     const now = new Date();
-    const lastYear = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+    const twelveMonthsAgo = new Date(now.getFullYear() - 1, now.getMonth(), 1);
     
     const recentPayments = payments.filter(payment => {
-      return payment.status === 'Payé' && new Date(payment.paymentDate || payment.dueDate) >= lastYear;
+      const paymentDate = new Date(payment.paymentDate || payment.dueDate);
+      return payment.status === 'Payé' && paymentDate >= twelveMonthsAgo;
     });
 
     const recentCharges = charges.filter(charge => {
       const chargeDate = new Date(charge.month + '-01');
-      return chargeDate >= lastYear;
+      return chargeDate >= twelveMonthsAgo;
     });
+
+    console.log(`📅 Période d'analyse: ${twelveMonthsAgo.toLocaleDateString()} à ${now.toLocaleDateString()}`);
+    console.log(`💰 ${recentPayments.length} paiements trouvés`);
+    console.log(`💸 ${recentCharges.length} charges trouvées`);
 
     // Fonction pour extraire le nom de l'appartement principal
     const getMainPropertyName = (propertyName: string): string => {
-      // Extraire "Appartement X" du nom complet
       const match = propertyName.match(/^(Appartement\s+\d+)/i);
       return match ? match[1] : propertyName;
     };
@@ -84,39 +88,63 @@ export const useFinancialForecasting = () => {
       aggregatedData.get(mainPropertyKey)!.charges.push(charge);
     });
 
+    console.log(`🏢 Propriétés agrégées: ${Array.from(aggregatedData.keys()).join(', ')}`);
+
     // Calculer les métriques pour chaque appartement principal
     return Array.from(aggregatedData.entries()).map(([propertyName, data]) => {
-      console.log(`🏠 Calcul pour ${propertyName}:`);
+      console.log(`\n🏠 === Analyse pour ${propertyName} ===`);
       
-      // Calculer les revenus annuels (somme de tous les paiements des chambres)
-      const annualRevenue = data.payments.reduce((sum, payment) => {
+      // Calculer les revenus des 12 derniers mois
+      const monthlyRevenues = new Map<string, number>();
+      data.payments.forEach(payment => {
+        const paymentDate = new Date(payment.paymentDate || payment.dueDate);
+        const monthKey = `${paymentDate.getFullYear()}-${String(paymentDate.getMonth() + 1).padStart(2, '0')}`;
         const amount = payment.paidAmount || payment.contractRentAmount || payment.rentAmount || 0;
-        console.log(`  💰 Paiement de ${payment.property}: ${amount}€`);
-        return sum + amount;
-      }, 0);
+        
+        if (!monthlyRevenues.has(monthKey)) {
+          monthlyRevenues.set(monthKey, 0);
+        }
+        monthlyRevenues.set(monthKey, monthlyRevenues.get(monthKey)! + amount);
+        
+        console.log(`  💰 ${payment.property} (${monthKey}): +${amount}€`);
+      });
 
-      // Calculer les charges annuelles (somme de toutes les charges)
-      const annualCharges = data.charges.reduce((sum, charge) => {
-        console.log(`  💸 Charges de ${charge.propertyName}: ${charge.total}€`);
-        return sum + charge.total;
-      }, 0);
+      // Calculer les charges des 12 derniers mois
+      const monthlyChargesMap = new Map<string, number>();
+      data.charges.forEach(charge => {
+        const monthKey = charge.month;
+        monthlyChargesMap.set(monthKey, (monthlyChargesMap.get(monthKey) || 0) + charge.total);
+        console.log(`  💸 ${charge.propertyName} (${monthKey}): +${charge.total}€`);
+      });
 
-      const monthlyRevenue = annualRevenue / 12;
-      const monthlyCharges = annualCharges / 12;
+      // Calcul des totaux
+      const annualRevenue = Array.from(monthlyRevenues.values()).reduce((sum, amount) => sum + amount, 0);
+      const annualCharges = Array.from(monthlyChargesMap.values()).reduce((sum, amount) => sum + amount, 0);
+      
+      // Moyennes mensuelles basées sur les mois où il y a eu des données
+      const monthsWithRevenue = monthlyRevenues.size || 1;
+      const monthsWithCharges = monthlyChargesMap.size || 1;
+      
+      const monthlyRevenue = annualRevenue / 12; // Ramené sur 12 mois pour comparaison
+      const monthlyCharges = annualCharges / 12; // Ramené sur 12 mois pour comparaison
+      
       const monthlyProfit = monthlyRevenue - monthlyCharges;
       const annualProfit = annualRevenue - annualCharges;
       const profitMargin = annualRevenue > 0 ? (annualProfit / annualRevenue) * 100 : 0;
       
-      // ROI approximation basé sur la valeur estimée de l'appartement complet
-      const estimatedPropertyValue = monthlyRevenue * 120; // Plus conservateur pour un appartement entier
+      // ROI basé sur une estimation plus conservative
+      const estimatedPropertyValue = monthlyRevenue * 120;
       const roi = estimatedPropertyValue > 0 ? (annualProfit / estimatedPropertyValue) * 100 : 0;
 
-      console.log(`📊 Résultats pour ${propertyName}:`);
-      console.log(`  Revenus annuels: ${annualRevenue}€`);
-      console.log(`  Charges annuelles: ${annualCharges}€`);
-      console.log(`  Profit mensuel: ${monthlyProfit}€`);
-      console.log(`  Marge: ${profitMargin.toFixed(1)}%`);
-      console.log(`  ROI: ${roi.toFixed(1)}%`);
+      console.log(`📊 === Résultats pour ${propertyName} ===`);
+      console.log(`  📅 Mois avec revenus: ${monthsWithRevenue}, avec charges: ${monthsWithCharges}`);
+      console.log(`  💰 Revenus annuels: ${annualRevenue.toLocaleString()}€`);
+      console.log(`  💸 Charges annuelles: ${annualCharges.toLocaleString()}€`);
+      console.log(`  📈 Revenus mensuels moyens: ${monthlyRevenue.toLocaleString()}€`);
+      console.log(`  📉 Charges mensuelles moyennes: ${monthlyCharges.toLocaleString()}€`);
+      console.log(`  💚 Profit mensuel: ${monthlyProfit.toLocaleString()}€`);
+      console.log(`  📊 Marge: ${profitMargin.toFixed(1)}%`);
+      console.log(`  🎯 ROI: ${roi.toFixed(1)}%`);
 
       return {
         propertyName,
