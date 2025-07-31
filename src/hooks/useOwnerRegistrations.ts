@@ -60,8 +60,8 @@ export const useOwnerRegistrations = () => {
         });
       }
 
-      // Mettre à jour le statut de la demande
-      await ownerRegistrationService.updateRequestStatus(request.id, firebaseUser.uid, password);
+      // Supprimer la demande après approbation au lieu de juste mettre à jour le statut
+      await ownerRegistrationService.deleteRequest(request.id);
 
       fetchRequests();
     } catch (error: any) {
