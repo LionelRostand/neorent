@@ -27,15 +27,21 @@ export const useFirebaseCharges = () => {
   const fetchCharges = async () => {
     try {
       setLoading(true);
+      console.log('🔍 Tentative de récupération des charges depuis Firebase...');
       const querySnapshot = await getDocs(collection(db, 'Rent_Charges'));
-      const chargesData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as ChargeData[];
+      console.log('📊 Snapshot reçu, nombre de documents:', querySnapshot.size);
+      
+      const chargesData = querySnapshot.docs.map(doc => {
+        const data = { id: doc.id, ...doc.data() };
+        console.log('📄 Document charge:', data);
+        return data;
+      }) as ChargeData[];
+      
+      console.log('💾 Charges finales récupérées:', chargesData);
       setCharges(chargesData);
       setError(null);
     } catch (err) {
-      console.error('Error fetching charges:', err);
+      console.error('❌ Erreur lors de la récupération des charges:', err);
       setError('Erreur lors du chargement des charges');
     } finally {
       setLoading(false);
