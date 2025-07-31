@@ -183,6 +183,9 @@ const PropertyAnalyzer: React.FC<PropertyAnalyzerProps> = ({ propertiesData }) =
                     {selectedPropertyData.annualRevenue.toLocaleString()}€
                   </div>
                   <div className="text-sm text-gray-600">Revenus annuels</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    ({selectedPropertyData.monthlyRevenue.toLocaleString()}€ × 12 mois)
+                  </div>
                 </CardContent>
               </Card>
               
@@ -192,6 +195,9 @@ const PropertyAnalyzer: React.FC<PropertyAnalyzerProps> = ({ propertiesData }) =
                     {selectedPropertyData.annualCharges.toLocaleString()}€
                   </div>
                   <div className="text-sm text-gray-600">Charges annuelles</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    ({selectedPropertyData.monthlyCharges.toLocaleString()}€ × 12 mois)
+                  </div>
                 </CardContent>
               </Card>
               
@@ -201,6 +207,9 @@ const PropertyAnalyzer: React.FC<PropertyAnalyzerProps> = ({ propertiesData }) =
                     {selectedPropertyData.annualProfit >= 0 ? '+' : ''}{selectedPropertyData.annualProfit.toLocaleString()}€
                   </div>
                   <div className="text-sm text-gray-600">Bénéfice annuel</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    ({selectedPropertyData.monthlyProfit.toLocaleString()}€ × 12 mois)
+                  </div>
                 </CardContent>
               </Card>
             </div>
