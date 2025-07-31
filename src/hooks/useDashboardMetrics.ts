@@ -89,33 +89,49 @@ export const useDashboardMetrics = () => {
     // Calcul du taux d'occupation
     const occupancyRate = totalProperties > 0 ? (occupiedProperties / totalProperties) * 100 : 0;
 
-    // Calcul du rendement moyen basé sur les revenus annuels et la valeur des propriétés
+    // Calcul du rendement moyen basé sur les revenus réels et la valeur des propriétés
     const annualRevenue = monthlyRevenue * 12;
+    
+    // Calculer la valeur totale des propriétés de manière plus précise
     const totalPropertyValue = properties.reduce((sum, property) => {
       let propertyValue = 0;
       
-      // Si creditImmobilier existe et est réaliste (> 50000€), l'utiliser
-      if (property.creditImmobilier && parseFloat(property.creditImmobilier.toString()) > 50000) {
-        propertyValue = parseFloat(property.creditImmobilier.toString());
+      // 1. Priorité au creditImmobilier si valeur réaliste (entre 50k et 2M€)
+      const creditValue = parseFloat(property.creditImmobilier?.toString() || '0');
+      if (creditValue >= 50000 && creditValue <= 2000000) {
+        propertyValue = creditValue;
       } else {
-        // Sinon, estimer la valeur à 200x le loyer mensuel (plus réaliste que 15x annuel)
+        // 2. Estimation basée sur le loyer mensuel réel avec multiplicateur régional
         const monthlyRent = parseFloat(property.rent || '0');
-        propertyValue = monthlyRent * 200; // Estimation réaliste: 200x le loyer mensuel
+        if (monthlyRent > 0) {
+          // Multiplicateur selon le type de bien et région (plus réaliste)
+          const multiplier = property.locationType === 'Colocation' ? 180 : 200;
+          propertyValue = monthlyRent * multiplier;
+        } else {
+          // 3. Valeur par défaut conservative si pas de données
+          propertyValue = 150000; // Valeur moyenne d'un bien locatif
+        }
       }
       
       return sum + propertyValue;
     }, 0);
 
-    // Rendement plafonné à 15% maximum pour éviter les valeurs aberrantes
-    const calculatedYield = totalPropertyValue > 0 ? (annualRevenue / totalPropertyValue) * 100 : 0;
-    const averageYield = Math.min(calculatedYield, 15); // Maximum 15% de rendement
+    // Calcul du rendement avec protection contre les valeurs aberrantes
+    let calculatedYield = 0;
+    if (totalPropertyValue > 0 && annualRevenue > 0) {
+      calculatedYield = (annualRevenue / totalPropertyValue) * 100;
+      // Plafonner entre 0.5% et 12% (fourchette réaliste immobilier)
+      calculatedYield = Math.max(0.5, Math.min(calculatedYield, 12));
+    }
+
+    const averageYield = Math.round(calculatedYield * 100) / 100; // Arrondir à 2 décimales
 
     return {
       monthlyRevenue,
       totalProperties,
       totalActiveTenants,
       occupancyRate,
-      averageYield: Math.round(averageYield * 100) / 100, // Arrondir à 2 décimales
+      averageYield,
       // Nouvelles métriques pour les types de paiements
       advancePayments,
       securityDeposits,

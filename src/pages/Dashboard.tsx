@@ -77,16 +77,36 @@ const Dashboard = () => {
       const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
       const annualRevenue = monthlyRevenue * 12;
       
-      // Estimer la valeur des propriétés du propriétaire
+      // Calculer la valeur des propriétés du propriétaire de manière réaliste
       const totalPropertyValue = ownerData.properties.reduce((sum, property) => {
-        // Utiliser creditImmobilier ou estimation basée sur le loyer
-        const propertyValue = property.creditImmobilier 
-          ? parseFloat(property.creditImmobilier.toString()) 
-          : parseFloat(property.rent || '0') * 12 * 15; // 15x le loyer annuel comme estimation
-        return sum + (propertyValue || 0);
+        let propertyValue = 0;
+        
+        // Priorité au creditImmobilier si valeur réaliste
+        const creditValue = parseFloat(property.creditImmobilier?.toString() || '0');
+        if (creditValue >= 50000 && creditValue <= 2000000) {
+          propertyValue = creditValue;
+        } else {
+          // Estimation basée sur le loyer mensuel réel
+          const monthlyRent = parseFloat(property.rent || '0');
+          if (monthlyRent > 0) {
+            const multiplier = property.locationType === 'Colocation' ? 180 : 200;
+            propertyValue = monthlyRent * multiplier;
+          } else {
+            propertyValue = 150000; // Valeur par défaut
+          }
+        }
+        
+        return sum + propertyValue;
       }, 0);
       
-      return totalPropertyValue > 0 ? Math.round(((annualRevenue / totalPropertyValue) * 100) * 100) / 100 : 0;
+      // Calcul du rendement avec protection
+      let calculatedYield = 0;
+      if (totalPropertyValue > 0 && annualRevenue > 0) {
+        calculatedYield = (annualRevenue / totalPropertyValue) * 100;
+        calculatedYield = Math.max(0.5, Math.min(calculatedYield, 12));
+      }
+      
+      return Math.round(calculatedYield * 100) / 100;
     })()
   } : globalMetrics; // Pour l'admin, utiliser les métriques globales
   
