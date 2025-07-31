@@ -44,15 +44,23 @@ const Messages = () => {
     // Ajouter les colocataires actifs
     roommates.forEach(roommate => {
       if (roommate.status === 'Actif' && roommate.email && roommate.name) {
+        // Créer un Timestamp Firebase pour éviter l'erreur .toDate()
+        const now = new Date();
+        const timestamp = {
+          toDate: () => now,
+          seconds: Math.floor(now.getTime() / 1000),
+          nanoseconds: 0
+        };
+        
         potentialConversations.push({
           id: `roommate-${roommate.id}`,
           clientName: roommate.name,
           clientEmail: roommate.email,
           lastMessage: '',
-          lastMessageTime: new Date() as any,
+          lastMessageTime: timestamp as any,
           unreadCount: 0,
           status: 'offline' as const,
-          createdAt: new Date() as any,
+          createdAt: timestamp as any,
         });
       }
     });
@@ -60,15 +68,23 @@ const Messages = () => {
     // Ajouter les locataires actifs
     tenants.forEach(tenant => {
       if (tenant.status === 'Actif' && tenant.email && tenant.name) {
+        // Créer un Timestamp Firebase pour éviter l'erreur .toDate()
+        const now = new Date();
+        const timestamp = {
+          toDate: () => now,
+          seconds: Math.floor(now.getTime() / 1000),
+          nanoseconds: 0
+        };
+        
         potentialConversations.push({
           id: `tenant-${tenant.id}`,
           clientName: tenant.name,
           clientEmail: tenant.email,
           lastMessage: '',
-          lastMessageTime: new Date() as any,
+          lastMessageTime: timestamp as any,
           unreadCount: 0,
           status: 'offline' as const,
-          createdAt: new Date() as any,
+          createdAt: timestamp as any,
         });
       }
     });
