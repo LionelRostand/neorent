@@ -81,6 +81,10 @@
     "cash": "Espèces",
     "creditCard": "Carte Bancaire",
     "automaticDebit": "Prélèvement Automatique",
-    "roommate": "Colocataire"
+    "roommate": "Colocataire",
+    "previousMonthsRents": "Loyers Payés des Mois Précédents",
+    "nextMonthsRents": "Loyers Payés des Mois Suivants",
+    "currentMonthRents": "Loyers Payés du Mois en Cours",
+    "selectedMonthRents": "Loyers Payés du Mois Sélectionné"
   }
 }

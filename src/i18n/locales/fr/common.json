@@ -300,7 +300,10 @@
     "config": "Configuration",
     "footer": "Pied de page",
     "defined": "Défini",
-    "notDefined": "Non défini"
+    "notDefined": "Non défini",
+    "success": "Succès",
+    "error": "Erreur",
+    "notSpecified": "Non spécifié"
   },
   "cookies": {
     "title": "Nous utilisons des cookies",
