@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MainLayout from '@/components/Layout/MainLayout';
+import { AdminLayout } from '@/components/Layout/AdminLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   FileText, 
@@ -48,7 +48,7 @@ const Website = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+    <AdminLayout>
       <div className="space-y-4 md:space-y-6">
         <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
           <div className="flex items-center space-x-3">
@@ -138,7 +138,7 @@ const Website = () => {
           display: none;
         }
       `}</style>
-    </div>
+    </AdminLayout>
   );
 };
 
