@@ -10,17 +10,19 @@ interface ChatWindowProps {
   conversation: Conversation;
   messages: ChatMessage[];
   onSendMessage: (message: string) => void;
+  onDeleteMessage?: (messageId: string) => void;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
   conversation,
   messages,
-  onSendMessage
+  onSendMessage,
+  onDeleteMessage
 }) => {
   return (
     <Card className="h-full flex flex-col">
       <ChatHeader conversation={conversation} />
-      <MessageList messages={messages} />
+      <MessageList messages={messages} onDeleteMessage={onDeleteMessage} />
       <MessageInput onSendMessage={onSendMessage} />
     </Card>
   );

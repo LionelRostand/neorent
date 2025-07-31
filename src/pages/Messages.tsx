@@ -243,6 +243,16 @@ const Messages = () => {
     }
   };
 
+  const handleDeleteMessage = async (messageId: string) => {
+    try {
+      console.log('📨 Messages page: Suppression du message:', messageId);
+      await messageService.deleteMessage(messageId);
+      console.log('📨 Messages page: Message supprimé avec succès');
+    } catch (error) {
+      console.error('📨 Messages page: Error deleting message:', error);
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="h-full flex flex-col">
@@ -270,6 +280,7 @@ const Messages = () => {
                 conversation={selectedConversation}
                 messages={messages}
                 onSendMessage={handleSendMessage}
+                onDeleteMessage={handleDeleteMessage}
               />
             ) : (
               <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
