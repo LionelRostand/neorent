@@ -13,17 +13,34 @@ const YearSelector: React.FC<YearSelectorProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  // Générer les options d'années dynamiquement
+  const generateYearOptions = () => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    
+    // Ajouter l'année prochaine, l'année actuelle et 3 années précédentes
+    for (let i = 1; i >= -3; i--) {
+      years.push(currentYear + i);
+    }
+    
+    return years;
+  };
+
+  const yearOptions = generateYearOptions();
+
   return (
     <div className="flex items-center space-x-4">
       <label className="text-sm font-medium text-gray-700">{t('rentalCharges.filterByYear')}</label>
       <select 
         value={selectedYear} 
         onChange={(e) => onYearChange(e.target.value)}
-        className="border border-gray-300 rounded-md px-3 py-1 text-sm"
+        className="border border-gray-300 rounded-md px-3 py-1 text-sm bg-white"
       >
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
+        {yearOptions.map((year) => (
+          <option key={year} value={year.toString()}>
+            {year}
+          </option>
+        ))}
       </select>
     </div>
   );
