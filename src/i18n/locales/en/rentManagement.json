@@ -81,6 +81,10 @@
     "cash": "Cash",
     "creditCard": "Credit Card",
     "automaticDebit": "Automatic Debit",
-    "roommate": "Roommate"
+    "roommate": "Roommate",
+    "previousMonthsRents": "Previous Months' Paid Rents",
+    "nextMonthsRents": "Next Months' Paid Rents",
+    "currentMonthRents": "Current Month's Paid Rents",
+    "selectedMonthRents": "Selected Month's Paid Rents"
   }
 }

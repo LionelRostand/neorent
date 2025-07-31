@@ -23,13 +23,15 @@ interface PaidRentsDisplayProps {
   selectedMonth: Date;
   title: string;
   showPreviousMonths?: boolean;
+  showNextMonths?: boolean;
 }
 
 const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
   payments,
   selectedMonth,
   title,
-  showPreviousMonths = false
+  showPreviousMonths = false,
+  showNextMonths = false
 }) => {
   const { t } = useTranslation();
 
@@ -38,14 +40,18 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
     if (payment.status !== 'Payé' || !payment.paymentDate) return false;
     
     const paymentDate = new Date(payment.paymentDate);
+    const selectedMonthStart = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
+    const selectedMonthEnd = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
     
     if (showPreviousMonths) {
       // Afficher les paiements des mois précédents au mois sélectionné
-      return paymentDate < new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
+      return paymentDate < selectedMonthStart;
+    } else if (showNextMonths) {
+      // Afficher les paiements des mois suivants au mois sélectionné
+      return paymentDate > selectedMonthEnd;
     } else {
       // Afficher les paiements du mois sélectionné
-      return paymentDate.getMonth() === selectedMonth.getMonth() && 
-             paymentDate.getFullYear() === selectedMonth.getFullYear();
+      return paymentDate >= selectedMonthStart && paymentDate <= selectedMonthEnd;
     }
   });
 
@@ -59,13 +65,13 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
 
   const getPaymentMethodBadge = (method: string | null) => {
     const methodMap: Record<string, { label: string; variant: any }> = {
-      'Virement': { label: 'Virement', variant: 'default' },
-      'Chèque': { label: 'Chèque', variant: 'secondary' },
-      'Espèces': { label: 'Espèces', variant: 'outline' },
-      'Prélèvement': { label: 'Prélèvement', variant: 'default' }
+      'Virement': { label: t('rentManagement.bankTransfer'), variant: 'default' },
+      'Chèque': { label: t('rentManagement.check'), variant: 'secondary' },
+      'Espèces': { label: t('rentManagement.cash'), variant: 'outline' },
+      'Prélèvement': { label: t('rentManagement.automaticDebit'), variant: 'default' }
     };
 
-    const paymentMethod = methodMap[method || ''] || { label: method || 'Non spécifié', variant: 'outline' };
+    const paymentMethod = methodMap[method || ''] || { label: method || t('common.notSpecified'), variant: 'outline' };
     
     return (
       <Badge variant={paymentMethod.variant} className="text-xs">
@@ -84,11 +90,11 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
         <div className="flex items-center gap-4 text-sm text-gray-600">
           <span className="flex items-center gap-2">
             <DollarSign className="h-4 w-4" />
-            Total: {totalPaidAmount.toLocaleString()}€
+            {t('rentManagement.totalReceived')}: {totalPaidAmount.toLocaleString()}€
           </span>
           <span className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
-            {filteredPaidPayments.length} paiement(s)
+            {filteredPaidPayments.length} {t('rentManagement.paidPayments').toLowerCase()}
           </span>
         </div>
       </CardHeader>
@@ -97,10 +103,15 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
           <div className="text-center py-8">
             <CheckCircle className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-4 text-lg font-medium text-gray-900">
-              Aucun loyer payé
+              {t('rentManagement.noPayments')}
             </h3>
             <p className="mt-2 text-gray-500">
-              Aucun paiement enregistré pour ce mois.
+              {showPreviousMonths 
+                ? "Aucun paiement trouvé pour les mois précédents."
+                : showNextMonths 
+                  ? "Aucun paiement trouvé pour les mois suivants."
+                  : t('rentManagement.noPaymentsDescription')
+              }
             </p>
           </div>
         ) : (
@@ -125,21 +136,21 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
                     
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Montant payé:</span>
+                        <span className="text-sm text-gray-600">{t('rentManagement.amountPaid')}:</span>
                         <span className="font-semibold text-green-600">
                           {(payment.paidAmount || payment.contractRentAmount || payment.rentAmount)?.toLocaleString()}€
                         </span>
                       </div>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Date de paiement:</span>
+                        <span className="text-sm text-gray-600">{t('rentManagement.paymentDate')}:</span>
                         <span className="text-sm text-gray-900">
-                          {payment.paymentDate ? formatDate(payment.paymentDate) : 'Non spécifiée'}
+                          {payment.paymentDate ? formatDate(payment.paymentDate) : t('common.notSpecified')}
                         </span>
                       </div>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Méthode:</span>
+                        <span className="text-sm text-gray-600">{t('rentManagement.paymentMethod')}:</span>
                         {getPaymentMethodBadge(payment.paymentMethod)}
                       </div>
                     </div>

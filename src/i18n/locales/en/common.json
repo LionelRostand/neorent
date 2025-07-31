@@ -40,6 +40,9 @@
     "footer": "Footer",
     "map": "Map",
     "analytics": "Analytics",
-    "config": "Configuration"
+    "config": "Configuration",
+    "success": "Success",
+    "error": "Error",
+    "notSpecified": "Not specified"
   }
 }

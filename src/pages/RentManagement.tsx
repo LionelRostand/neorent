@@ -126,16 +126,14 @@ const RentManagement = () => {
 
         <NewRentMetrics payments={currentMonthPayments} />
 
-        {/* Affichage des loyers payés selon le type de mois */}
+        {/* Affichage des loyers payés du mois sélectionné */}
         <PaidRentsDisplay
           payments={payments}
           selectedMonth={selectedMonth}
           title={
             isCurrentMonth 
-              ? "Loyers payés du mois en cours"
-              : isFutureMonth 
-                ? "Loyers payés des mois prochains"
-                : "Loyers payés du mois sélectionné"
+              ? t('rentManagement.currentMonthRents')
+              : t('rentManagement.selectedMonthRents')
           }
         />
 
@@ -143,8 +141,16 @@ const RentManagement = () => {
         <PaidRentsDisplay
           payments={payments}
           selectedMonth={selectedMonth}
-          title="Loyers payés des mois précédents"
+          title={t('rentManagement.previousMonthsRents')}
           showPreviousMonths={true}
+        />
+
+        {/* Affichage des loyers payés des mois suivants */}
+        <PaidRentsDisplay
+          payments={payments}
+          selectedMonth={selectedMonth}
+          title={t('rentManagement.nextMonthsRents')}
+          showNextMonths={true}
         />
 
         <NewRentPaymentsList
