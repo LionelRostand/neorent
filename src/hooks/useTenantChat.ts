@@ -43,6 +43,8 @@ export const useTenantChat = (currentUserId: string) => {
   const [loading, setLoading] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
 
+  console.log('🗨️ useTenantChat - Hook initialisé avec currentUserId:', currentUserId);
+
   // Écouter les conversations (tenant_conversations + rent_conversations pour unifier admin et tenant)
   useEffect(() => {
     if (!currentUserId) return;
@@ -73,10 +75,18 @@ export const useTenantChat = (currentUserId: string) => {
             .map(doc => ({ id: doc.id, ...doc.data() } as Conversation))
             .filter((conv: Conversation) => {
               // Filtrer les conversations qui concernent l'utilisateur actuel
-              // Chercher par email ou par ID selon le type d'utilisateur
-              const currentUserEmail = currentUserId; // Parfois c'est l'email qui est passé
-              return conv.clientEmail === currentUserEmail || 
-                     conv.clientName?.toLowerCase().includes(currentUserId.toLowerCase());
+              // Essayer plusieurs méthodes de correspondance
+              console.log('🗨️ useTenantChat - Vérification conversation admin:', {
+                convId: conv.id,
+                clientEmail: conv.clientEmail,
+                clientName: conv.clientName,
+                currentUserId: currentUserId
+              });
+              
+              return conv.clientEmail === currentUserId || 
+                     conv.clientName === currentUserId ||
+                     conv.clientEmail?.toLowerCase() === currentUserId.toLowerCase() ||
+                     conv.clientName?.toLowerCase() === currentUserId.toLowerCase();
             })
             .map((conv: Conversation) => ({
               // Adapter le format admin vers le format tenant
