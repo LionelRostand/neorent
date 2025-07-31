@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -15,16 +14,33 @@ import PropertySelector from '@/components/RentalCharges/PropertySelector';
 import ChargeInputs from '@/components/RentalCharges/ChargeInputs';
 import ChargeSummary from '@/components/RentalCharges/ChargeSummary';
 
-interface RentalChargeFormProps {
+interface ChargeData {
+  id: string;
+  propertyName: string;
+  propertyType: string;
+  month: string;
+  electricity: number;
+  water: number;
+  heating: number;
+  maintenance: number;
+  insurance: number;
+  garbage: number;
+  internet: number;
+  total: number;
+  tenant: string;
+}
+
+interface RentalChargeEditFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  editingCharge: ChargeData | null;
 }
 
-const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) => {
+const RentalChargeEditForm = ({ isOpen, onClose, onSubmit, editingCharge }: RentalChargeEditFormProps) => {
   const { t } = useTranslation();
   const [selectedProperty, setSelectedProperty] = useState('');
-  const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
+  const [month, setMonth] = useState('');
   const [charges, setCharges] = useState({
     electricity: '',
     water: '',
@@ -38,11 +54,30 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
   const { properties } = useFirebaseProperties();
   const { interventions, requests, loading: maintenanceLoading } = useFirebaseMaintenances();
 
+  // Charger les données de la charge à éditer
+  useEffect(() => {
+    if (editingCharge && isOpen) {
+      // Trouver la propriété correspondante
+      const property = properties.find(p => p.title === editingCharge.propertyName);
+      setSelectedProperty(property?.id || '');
+      setMonth(editingCharge.month);
+      setCharges({
+        electricity: editingCharge.electricity.toString(),
+        water: editingCharge.water.toString(),
+        heating: editingCharge.heating.toString(),
+        maintenance: editingCharge.maintenance.toString(),
+        insurance: editingCharge.insurance.toString(),
+        garbage: editingCharge.garbage.toString(),
+        internet: editingCharge.internet.toString()
+      });
+    }
+  }, [editingCharge, isOpen, properties]);
+
   const selectedPropertyData = properties.find(p => p.id === selectedProperty);
 
-  // Appliquer automatiquement les charges de copropriété quand une propriété est sélectionnée
+  // Appliquer automatiquement les charges de copropriété quand une propriété est sélectionnée (seulement pour nouvelles charges)
   React.useEffect(() => {
-    if (selectedPropertyData) {
+    if (selectedPropertyData && !editingCharge) {
       const config = getPropertyChargesConfig(selectedPropertyData.title);
       if (config) {
         const monthlyCharges = getMonthlyChargesFromQuarterly(config.quarterlyCharges);
@@ -55,7 +90,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
         }));
       }
     }
-  }, [selectedPropertyData]);
+  }, [selectedPropertyData, editingCharge]);
 
   useMaintenanceCostCalculator({
     selectedProperty,
@@ -64,11 +99,11 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     interventions,
     requests,
     onCostCalculated: (cost) => {
-      // Ne pas écraser si la charge est gérée par la copropriété
+      // Ne pas écraser si la charge est gérée par la copropriété ou si on édite
       const config = selectedPropertyData ? getPropertyChargesConfig(selectedPropertyData.title) : null;
       const isMaintenanceManaged = config?.managedByCopropriete.includes('maintenance');
       
-      if (!isMaintenanceManaged) {
+      if (!isMaintenanceManaged && !editingCharge) {
         setCharges(prev => ({
           ...prev,
           maintenance: cost
@@ -106,6 +141,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     if (!property) return;
 
     const chargeData = {
+      id: editingCharge?.id, // Inclure l'ID pour la mise à jour
       propertyName: property.title,
       propertyType: property.locationType,
       tenant: property.tenant,
@@ -123,8 +159,8 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     onSubmit(chargeData);
     
     toast({
-      title: t('rentalCharges.addSuccess'),
-      description: `${t('rentalCharges.chargesForMonth')} ${property.title} ${t('rentalCharges.addSuccess').toLowerCase()}.`,
+      title: t('common.success'),
+      description: editingCharge ? t('rentalCharges.updateSuccess') : t('rentalCharges.addSuccess'),
     });
 
     // Reset form
@@ -147,7 +183,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Calculator className="h-5 w-5" />
-            {t('rentalCharges.addCharge')}
+            {editingCharge ? 'Modifier la charge' : t('rentalCharges.addCharge')}
           </DialogTitle>
         </DialogHeader>
 
@@ -183,7 +219,7 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
             </Button>
             <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
               <DollarSign className="mr-2 h-4 w-4" />
-              {t('rentalCharges.recordCharges')}
+              {editingCharge ? 'Mettre à jour' : t('rentalCharges.recordCharges')}
             </Button>
           </div>
         </form>
@@ -192,4 +228,4 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
   );
 };
 
-export default RentalChargeForm;
+export default RentalChargeEditForm;

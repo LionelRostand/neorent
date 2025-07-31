@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import MainLayout from '@/components/Layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import RentalChargeForm from '@/components/RentalChargeForm';
+import RentalChargeEditForm from '@/components/RentalCharges/RentalChargeEditForm';
 import ChargeMetrics from '@/components/RentalCharges/ChargeMetrics';
 import MonthSelector from '@/components/RentalCharges/MonthSelector';
 import YearSelector from '@/components/RentalCharges/YearSelector';
@@ -16,8 +16,9 @@ import { useToast } from '@/hooks/use-toast';
 
 const RentalCharges = () => {
   const { t } = useTranslation();
-  const { charges, loading, error, addCharge, deleteCharge } = useFirebaseCharges();
+  const { charges, loading, error, addCharge, updateCharge, deleteCharge } = useFirebaseCharges();
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingCharge, setEditingCharge] = useState<any>(null);
   const [selectedMonth, setSelectedMonth] = useState(() => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -73,20 +74,40 @@ const RentalCharges = () => {
 
   const handleAddCharge = async (data: any) => {
     try {
-      await addCharge(data);
-      toast({
-        title: t('common.success'),
-        description: t('rentalCharges.addSuccess'),
-      });
-      console.log('Charge ajoutée à la collection Rent_Charges:', data);
+      if (data.id) {
+        // Mode édition
+        await updateCharge(data.id, data);
+        toast({
+          title: t('common.success'),
+          description: t('rentalCharges.updateSuccess'),
+        });
+      } else {
+        // Mode création
+        await addCharge(data);
+        toast({
+          title: t('common.success'),
+          description: t('rentalCharges.addSuccess'),
+        });
+      }
+      console.log('Charge traitée:', data);
     } catch (err) {
-      console.error('Erreur lors de l\'ajout de la charge:', err);
+      console.error('Erreur lors du traitement de la charge:', err);
       toast({
         title: t('common.error'),
-        description: t('rentalCharges.addError'),
+        description: editingCharge ? t('rentalCharges.updateError') : t('rentalCharges.addError'),
         variant: "destructive",
       });
     }
+  };
+  
+  const handleEditCharge = (charge: any) => {
+    setEditingCharge(charge);
+    setIsFormOpen(true);
+  };
+  
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+    setEditingCharge(null);
   };
   
   // Si aucune charge n'est trouvée et qu'il n'y a pas de charges du tout, créer une charge de test
@@ -207,6 +228,7 @@ const RentalCharges = () => {
             charges={filteredCharges}
             selectedMonth={selectedMonth}
             onDeleteCharge={handleDeleteCharge}
+            onEditCharge={handleEditCharge}
           />
         ) : (
           <AnnualChargesList
@@ -215,10 +237,11 @@ const RentalCharges = () => {
           />
         )}
 
-        <RentalChargeForm
+        <RentalChargeEditForm
           isOpen={isFormOpen}
-          onClose={() => setIsFormOpen(false)}
+          onClose={handleCloseForm}
           onSubmit={handleAddCharge}
+          editingCharge={editingCharge}
         />
       </div>
     </MainLayout>

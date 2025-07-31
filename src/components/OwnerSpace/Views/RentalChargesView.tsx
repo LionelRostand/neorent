@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Plus, Calculator, Euro, FileText, Clock } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import RentalChargeForm from '@/components/RentalChargeForm';
+import RentalChargeEditForm from '@/components/RentalCharges/RentalChargeEditForm';
 
 interface RentalChargesViewProps {
   currentProfile: any;
@@ -95,13 +95,14 @@ const RentalChargesView: React.FC<RentalChargesViewProps> = ({ currentProfile, o
             <DialogHeader>
               <DialogTitle>New Rental Charge</DialogTitle>
             </DialogHeader>
-            <RentalChargeForm
+            <RentalChargeEditForm
               isOpen={true}
               onClose={() => setIsNewChargeDialogOpen(false)}
               onSubmit={(data) => {
                 console.log('Charge data:', data);
                 setIsNewChargeDialogOpen(false);
               }}
+              editingCharge={null}
             />
           </DialogContent>
         </Dialog>

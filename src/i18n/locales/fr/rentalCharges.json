@@ -77,6 +77,8 @@
     "october2024": "Octobre 2024",
     "forProperty": "Pour {count} bien",
     "forProperties": "Pour {count} biens",
-    "thisMonth": "ce mois"
+    "thisMonth": "ce mois",
+    "editCharge": "Modifier la Charge",
+    "updateCharge": "Mettre à jour la Charge"
   }
 }

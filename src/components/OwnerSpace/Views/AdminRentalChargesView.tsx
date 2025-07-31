@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useOwnerData } from '@/hooks/useOwnerData';
 import { useAuth } from '@/hooks/useAuth';
-import RentalChargeForm from '@/components/RentalChargeForm';
+import RentalChargeEditForm from '@/components/RentalCharges/RentalChargeEditForm';
 
 interface AdminRentalChargesViewProps {
   currentProfile: any;
@@ -161,10 +161,11 @@ const AdminRentalChargesView: React.FC<AdminRentalChargesViewProps> = ({ current
           <DialogHeader>
             <DialogTitle>Nouvelle Charge</DialogTitle>
           </DialogHeader>
-          <RentalChargeForm
+          <RentalChargeEditForm
             isOpen={true}
             onClose={() => setShowChargeForm(false)}
             onSubmit={handleChargeSubmit}
+            editingCharge={null}
           />
         </DialogContent>
       </Dialog>

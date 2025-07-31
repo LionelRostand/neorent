@@ -77,6 +77,8 @@
     "october2024": "October 2024",
     "forProperty": "For {count} property",
     "forProperties": "For {count} properties",
-    "thisMonth": "this month"
+    "thisMonth": "this month",
+    "editCharge": "Edit Charge",
+    "updateCharge": "Update Charge"
   }
 }

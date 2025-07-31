@@ -24,12 +24,14 @@ interface ChargesListProps {
   charges: ChargeData[];
   selectedMonth: string;
   onDeleteCharge: (id: string) => void;
+  onEditCharge: (charge: ChargeData) => void; // Nouvelle prop
 }
 
 const ChargesList: React.FC<ChargesListProps> = ({
   charges,
   selectedMonth,
-  onDeleteCharge
+  onDeleteCharge,
+  onEditCharge
 }) => {
   const { t } = useTranslation();
 
@@ -50,6 +52,7 @@ const ChargesList: React.FC<ChargesListProps> = ({
             key={charge.id}
             charge={charge}
             onDelete={onDeleteCharge}
+            onEdit={onEditCharge}
           />
         ))}
       </div>
