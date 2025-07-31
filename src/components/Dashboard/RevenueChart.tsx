@@ -6,10 +6,20 @@ import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useTranslation } from 'react-i18next';
 
-const RevenueChart = () => {
+interface RevenueChartProps {
+  payments?: any[];
+  properties?: any[];
+}
+
+const RevenueChart: React.FC<RevenueChartProps> = ({ payments, properties }) => {
   const { t } = useTranslation();
-  const { payments } = useFirebasePayments();
-  const { properties } = useFirebaseProperties();
+  
+  // Utiliser les données passées en props ou les hooks globaux par défaut
+  const { payments: globalPayments } = useFirebasePayments();
+  const { properties: globalProperties } = useFirebaseProperties();
+  
+  const finalPayments = payments || globalPayments;
+  const finalProperties = properties || globalProperties;
 
   const chartData = useMemo(() => {
     const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
@@ -29,7 +39,7 @@ const RevenueChart = () => {
 
     // Calculer les revenus pour chaque mois
     return last6Months.map(({ month, year, monthIndex }) => {
-      const monthlyPayments = payments.filter(payment => {
+      const monthlyPayments = finalPayments.filter(payment => {
         if (!payment.paymentDate || payment.status !== 'Payé') return false;
         const paymentDate = new Date(payment.paymentDate);
         return paymentDate.getMonth() === monthIndex && 
@@ -41,7 +51,7 @@ const RevenueChart = () => {
       let colocatifRevenue = 0;
 
       monthlyPayments.forEach(payment => {
-        const property = properties.find(p => 
+        const property = finalProperties.find(p => 
           p.address === payment.property || 
           p.title === payment.property ||
           p.address.includes(payment.property) ||
@@ -76,7 +86,7 @@ const RevenueChart = () => {
         colocatifs: colocatifRevenue
       };
     });
-  }, [payments, properties]);
+  }, [finalPayments, finalProperties]);
 
   return (
     <Card>

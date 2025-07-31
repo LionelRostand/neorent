@@ -168,8 +168,15 @@ const Dashboard = () => {
 
         {/* Graphiques et activité */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <RevenueChart />
-          <RecentActivity />
+          <RevenueChart 
+            payments={isOwner ? ownerData.payments : undefined}
+            properties={isOwner ? ownerData.properties : undefined}
+          />
+          <RecentActivity 
+            payments={isOwner ? ownerData.payments : undefined}
+            tenants={isOwner ? ownerData.tenants : undefined}
+            inspections={isOwner ? ownerData.inspections : undefined}
+          />
         </div>
       </div>
     </MainLayout>

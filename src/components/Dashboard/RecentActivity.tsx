@@ -5,9 +5,15 @@ import { Badge } from '@/components/ui/badge';
 import { useRecentActivityData } from './RecentActivityData';
 import { useTranslation } from 'react-i18next';
 
-const RecentActivity = () => {
+interface RecentActivityProps {
+  payments?: any[];
+  tenants?: any[];
+  inspections?: any[];
+}
+
+const RecentActivity: React.FC<RecentActivityProps> = ({ payments, tenants, inspections }) => {
   const { t } = useTranslation();
-  const activities = useRecentActivityData();
+  const activities = useRecentActivityData(payments, tenants, inspections);
 
   return (
     <Card>

@@ -6,17 +6,23 @@ import { useFirebaseInspections } from '@/hooks/useFirebaseInspections';
 import { DollarSign, User, Home, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export const useRecentActivityData = () => {
+export const useRecentActivityData = (payments?: any[], tenants?: any[], inspections?: any[]) => {
   const { t } = useTranslation();
-  const { payments } = useFirebasePayments();
-  const { tenants } = useFirebaseTenants();
-  const { inspections } = useFirebaseInspections();
+  
+  // Utiliser les données passées en props ou les hooks globaux par défaut
+  const { payments: globalPayments } = useFirebasePayments();
+  const { tenants: globalTenants } = useFirebaseTenants();
+  const { inspections: globalInspections } = useFirebaseInspections();
+  
+  const finalPayments = payments || globalPayments;
+  const finalTenants = tenants || globalTenants;
+  const finalInspections = inspections || globalInspections;
 
   const activities = useMemo(() => {
     const activityList = [];
 
     // Paiements récents
-    const recentPayments = payments
+    const recentPayments = finalPayments
       .filter(p => p.paymentDate && p.status === 'Payé')
       .sort((a, b) => new Date(b.paymentDate!).getTime() - new Date(a.paymentDate!).getTime())
       .slice(0, 2);
@@ -34,7 +40,7 @@ export const useRecentActivityData = () => {
     });
 
     // Nouveaux locataires récents
-    const recentTenants = tenants
+    const recentTenants = finalTenants
       .filter(t => t.leaseStart)
       .sort((a, b) => new Date(b.leaseStart).getTime() - new Date(a.leaseStart).getTime())
       .slice(0, 1);
@@ -51,7 +57,7 @@ export const useRecentActivityData = () => {
     });
 
     // Inspections récentes
-    const recentInspections = inspections
+    const recentInspections = finalInspections
       .filter(i => i.date)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 1);
@@ -68,7 +74,7 @@ export const useRecentActivityData = () => {
     });
 
     // Paiements en retard
-    const latePayments = payments
+    const latePayments = finalPayments
       .filter(p => p.status === 'En retard')
       .slice(0, 1);
 
@@ -87,7 +93,7 @@ export const useRecentActivityData = () => {
     return activityList
       .sort((a, b) => getTimeValue(b.time) - getTimeValue(a.time))
       .slice(0, 4);
-  }, [payments, tenants, inspections, t]);
+  }, [finalPayments, finalTenants, finalInspections, t]);
 
   return activities;
 };
