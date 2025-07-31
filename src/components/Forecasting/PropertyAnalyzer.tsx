@@ -24,13 +24,8 @@ interface PropertyAnalyzerProps {
 const PropertyAnalyzer: React.FC<PropertyAnalyzerProps> = ({ propertiesData }) => {
   const [selectedProperty, setSelectedProperty] = useState<string>('');
   
-  // Filtrer pour ne garder que les appartements principaux (pas les chambres)
-  const mainProperties = propertiesData.filter(property => {
-    // Exclure les propriétés qui contiennent "Chambre" dans leur nom
-    return !property.propertyName.toLowerCase().includes('chambre');
-  });
-  
-  const selectedPropertyData = mainProperties.find(p => p.propertyName === selectedProperty);
+  // Afficher toutes les propriétés (qui sont maintenant déjà agrégées au niveau appartement)
+  const selectedPropertyData = propertiesData.find(p => p.propertyName === selectedProperty);
 
   const getRentabilityStatus = (profitMargin: number, monthlyProfit: number) => {
     if (monthlyProfit > 0 && profitMargin >= 20) {
@@ -113,7 +108,7 @@ const PropertyAnalyzer: React.FC<PropertyAnalyzerProps> = ({ propertiesData }) =
               <SelectValue placeholder="Choisir une propriété..." />
             </SelectTrigger>
             <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-              {mainProperties.map((property) => (
+              {propertiesData.map((property) => (
                 <SelectItem key={property.propertyName} value={property.propertyName}>
                   {property.propertyName}
                 </SelectItem>
@@ -246,10 +241,8 @@ const PropertyAnalyzer: React.FC<PropertyAnalyzerProps> = ({ propertiesData }) =
         ) : (
           <div className="text-center py-8 text-gray-500">
             <Building className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-            <p>Sélectionnez un appartement pour voir son analyse de rentabilité détaillée</p>
-            {mainProperties.length === 0 && (
-              <p className="text-sm mt-2">Aucun appartement principal trouvé dans vos données</p>
-            )}
+            <p>Sélectionnez un appartement pour voir son analyse de rentabilité globale</p>
+            <p className="text-sm mt-2">Les revenus incluent toutes les chambres de l'appartement</p>
           </div>
         )}
       </CardContent>

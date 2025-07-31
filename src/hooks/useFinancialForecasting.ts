@@ -38,7 +38,7 @@ export const useFinancialForecasting = () => {
   const { payments } = useFirebasePayments();
   const { charges } = useFirebaseCharges();
 
-  // Calculer les données financières par propriété
+  // Calculer les données financières par propriété avec agrégation des chambres
   const propertyFinancials = useMemo<PropertyFinancials[]>(() => {
     // Grouper les paiements par propriété (12 derniers mois)
     const now = new Date();
@@ -53,35 +53,51 @@ export const useFinancialForecasting = () => {
       return chargeDate >= lastYear;
     });
 
-    // Grouper par propriété
-    const propertiesMap = new Map<string, {
+    // Fonction pour extraire le nom de l'appartement principal
+    const getMainPropertyName = (propertyName: string): string => {
+      // Extraire "Appartement X" du nom complet
+      const match = propertyName.match(/^(Appartement\s+\d+)/i);
+      return match ? match[1] : propertyName;
+    };
+
+    // Grouper par appartement principal (en agrégeant les chambres)
+    const aggregatedData = new Map<string, {
       payments: typeof recentPayments;
       charges: typeof recentCharges;
     }>();
 
+    // Agréger les paiements par appartement principal
     recentPayments.forEach(payment => {
-      const key = payment.property;
-      if (!propertiesMap.has(key)) {
-        propertiesMap.set(key, { payments: [], charges: [] });
+      const mainPropertyKey = getMainPropertyName(payment.property);
+      if (!aggregatedData.has(mainPropertyKey)) {
+        aggregatedData.set(mainPropertyKey, { payments: [], charges: [] });
       }
-      propertiesMap.get(key)!.payments.push(payment);
+      aggregatedData.get(mainPropertyKey)!.payments.push(payment);
     });
 
+    // Agréger les charges par appartement principal
     recentCharges.forEach(charge => {
-      const key = charge.propertyName;
-      if (!propertiesMap.has(key)) {
-        propertiesMap.set(key, { payments: [], charges: [] });
+      const mainPropertyKey = getMainPropertyName(charge.propertyName);
+      if (!aggregatedData.has(mainPropertyKey)) {
+        aggregatedData.set(mainPropertyKey, { payments: [], charges: [] });
       }
-      propertiesMap.get(key)!.charges.push(charge);
+      aggregatedData.get(mainPropertyKey)!.charges.push(charge);
     });
 
-    // Calculer les métriques pour chaque propriété
-    return Array.from(propertiesMap.entries()).map(([propertyName, data]) => {
+    // Calculer les métriques pour chaque appartement principal
+    return Array.from(aggregatedData.entries()).map(([propertyName, data]) => {
+      console.log(`🏠 Calcul pour ${propertyName}:`);
+      
+      // Calculer les revenus annuels (somme de tous les paiements des chambres)
       const annualRevenue = data.payments.reduce((sum, payment) => {
-        return sum + (payment.paidAmount || payment.contractRentAmount || payment.rentAmount || 0);
+        const amount = payment.paidAmount || payment.contractRentAmount || payment.rentAmount || 0;
+        console.log(`  💰 Paiement de ${payment.property}: ${amount}€`);
+        return sum + amount;
       }, 0);
 
+      // Calculer les charges annuelles (somme de toutes les charges)
       const annualCharges = data.charges.reduce((sum, charge) => {
+        console.log(`  💸 Charges de ${charge.propertyName}: ${charge.total}€`);
         return sum + charge.total;
       }, 0);
 
@@ -91,10 +107,16 @@ export const useFinancialForecasting = () => {
       const annualProfit = annualRevenue - annualCharges;
       const profitMargin = annualRevenue > 0 ? (annualProfit / annualRevenue) * 100 : 0;
       
-      // ROI approximation (profit / hypothetical property value)
-      // On estime la valeur du bien à 150x le loyer mensuel
-      const estimatedPropertyValue = monthlyRevenue * 150;
+      // ROI approximation basé sur la valeur estimée de l'appartement complet
+      const estimatedPropertyValue = monthlyRevenue * 120; // Plus conservateur pour un appartement entier
       const roi = estimatedPropertyValue > 0 ? (annualProfit / estimatedPropertyValue) * 100 : 0;
+
+      console.log(`📊 Résultats pour ${propertyName}:`);
+      console.log(`  Revenus annuels: ${annualRevenue}€`);
+      console.log(`  Charges annuelles: ${annualCharges}€`);
+      console.log(`  Profit mensuel: ${monthlyProfit}€`);
+      console.log(`  Marge: ${profitMargin.toFixed(1)}%`);
+      console.log(`  ROI: ${roi.toFixed(1)}%`);
 
       return {
         propertyName,
