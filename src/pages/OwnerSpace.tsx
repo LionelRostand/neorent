@@ -52,7 +52,7 @@ const OwnerSpace = () => {
   }
 
   // Pages that should be completely full-screen without any sidebar, header, or NeoRent branding
-  const fullScreenPages = ['messages', 'forecasting'];
+  const fullScreenPages = ['forecasting'];
   const isFullScreenPage = fullScreenPages.includes(activeView);
 
   // If it's a full-screen page, render only the view content with no interface elements
