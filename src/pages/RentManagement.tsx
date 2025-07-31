@@ -96,6 +96,25 @@ const RentManagement = () => {
     }
   };
 
+  const handleCleanEmadPayments = async () => {
+    if (window.confirm('Voulez-vous supprimer TOUS les paiements incorrects d\'EMAD ADAM visibles sur la page ?')) {
+      try {
+        await cleanEmadDuplicates();
+        toast({
+          title: t('common.success'),
+          description: "Tous les paiements incorrects d'EMAD ADAM ont été supprimés.",
+        });
+      } catch (err) {
+        console.error('Erreur lors de la suppression:', err);
+        toast({
+          title: t('common.error'),
+          description: "Erreur lors de la suppression des paiements.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   if (loading) {
     return (
       <MainLayout>
@@ -145,6 +164,13 @@ const RentManagement = () => {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <Button 
+              onClick={handleCleanEmadPayments}
+              variant="outline"
+              className="text-red-600 border-red-600 hover:bg-red-50"
+            >
+              Supprimer paiements EMAD
+            </Button>
             <Button 
               onClick={handleGenerateEmadPayments}
               variant="outline"
