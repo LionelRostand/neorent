@@ -106,7 +106,6 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     {
       title: getLocalizedText('propertiesManaged'),
       value: ownerData.properties.length.toString(),
-      change: `+2 ${getLocalizedText('thisMonth')}`,
       icon: Home,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
@@ -115,7 +114,6 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     {
       title: getLocalizedText('activeTenants'),
       value: activeTenants.length.toString(),
-      change: `+3 ${getLocalizedText('thisMonth')}`,
       icon: Users,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
@@ -124,7 +122,6 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     {
       title: getLocalizedText('contracts'),
       value: ownerData.contracts.length.toString(),
-      change: `+1 ${getLocalizedText('thisMonth')}`,
       icon: Calendar,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
@@ -133,7 +130,6 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     {
       title: getLocalizedText('monthlyRevenue'),
       value: `${monthlyRevenue.toLocaleString()}€`,
-      change: `+8.2% ${getLocalizedText('thisMonth')}`,
       icon: DollarSign,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
@@ -152,8 +148,8 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
                   <p className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</p>
-                  <p className="text-xs text-green-600 font-medium">
-                    {stat.change}
+                  <p className="text-xs text-gray-500 font-medium">
+                    {stat.description}
                   </p>
                 </div>
                 <div className={`p-2 rounded-lg ${stat.bgColor}`}>
