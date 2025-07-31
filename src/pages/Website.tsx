@@ -63,20 +63,22 @@ const Website = () => {
           </div>
         </div>
 
-        {/* Content Area with Mobile Bottom Tabs */}
-        <div className="flex-1 flex flex-col md:block">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col md:block">
-            {/* Desktop Tabs - Top */}
-            <div className="hidden md:block px-6 mb-4">
-              <TabsList className="inline-flex h-auto w-max p-1 bg-muted rounded-lg">
+        {/* Content Area */}
+        <div className="flex-1 flex flex-col">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
+            {/* Tabs - Always at Top */}
+            <div className="px-4 md:px-6 mb-4 overflow-x-auto">
+              <TabsList className="inline-flex h-auto w-max min-w-full p-1 bg-muted rounded-lg">
                 {tabs.map((tab) => (
                   <TabsTrigger 
                     key={tab.id} 
                     value={tab.id}
-                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all"
+                    className="flex flex-col md:flex-row items-center gap-1 md:gap-2 px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm font-medium whitespace-nowrap min-w-[60px] md:min-w-auto data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all"
                   >
-                    <tab.icon className="h-4 w-4" />
-                    <span>{tab.label}</span>
+                    <tab.icon className="h-4 w-4 md:h-4 md:w-4" />
+                    <span className="text-[10px] md:text-sm leading-tight text-center">
+                      {tab.label}
+                    </span>
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -128,28 +130,6 @@ const Website = () => {
                 <TabsContent value="config" className="m-0 h-full">
                   <ConfigTab />
                 </TabsContent>
-              </div>
-            </div>
-
-            {/* Mobile Tabs - Bottom */}
-            <div className="md:hidden bg-background border-t p-2 flex-shrink-0">
-              <div className="flex justify-around items-center">
-                {tabs.slice(0, 4).map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px] ${
-                      activeTab === tab.id 
-                        ? 'bg-primary/10 text-primary' 
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                    }`}
-                  >
-                    <tab.icon className="h-5 w-5" />
-                    <span className="text-xs font-medium text-center leading-tight">
-                      {tab.label}
-                    </span>
-                  </button>
-                ))}
               </div>
             </div>
           </Tabs>
