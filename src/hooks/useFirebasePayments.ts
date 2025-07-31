@@ -191,6 +191,27 @@ export const useFirebasePayments = () => {
     }
   };
 
+  // Fonction pour nettoyer les paiements dupliqués d'EMAD ADAM
+  const cleanEmadDuplicates = async () => {
+    try {
+      const emadPayments = payments.filter(p => 
+        p.tenantName === 'Emad ADAM' && 
+        p.notes === 'Paiement généré automatiquement'
+      );
+      
+      console.log('🧹 NETTOYAGE DES DOUBLONS D\'EMAD:', emadPayments);
+      
+      // Supprimer tous les paiements générés automatiquement
+      await Promise.all(
+        emadPayments.map(payment => deletePayment(payment.id))
+      );
+      
+      await fetchPayments();
+    } catch (err) {
+      console.error('❌ ERREUR lors du nettoyage:', err);
+    }
+  };
+
   // Fonction pour créer automatiquement les paiements manquants d'EMAD ADAM
   const generateEmadPayments = async () => {
     try {
@@ -232,7 +253,7 @@ export const useFirebasePayments = () => {
         
         if (!existingPayment) {
           const dueDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-          const paymentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 5); // Payé le 5 de chaque mois
+          const paymentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 4); // Payé le 4 de chaque mois
           
           paymentsToCreate.push({
             tenantName: 'Emad ADAM',
@@ -289,6 +310,7 @@ export const useFirebasePayments = () => {
     updatePayment,
     deletePayment,
     refetch: fetchPayments,
-    generateEmadPayments
+    generateEmadPayments,
+    cleanEmadDuplicates
   };
 };

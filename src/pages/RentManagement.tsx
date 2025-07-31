@@ -13,7 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const RentManagement = () => {
   const { t } = useTranslation();
-  const { payments, loading, error, updatePayment, deletePayment, refetch, generateEmadPayments } = useFirebasePayments();
+  const { payments, loading, error, updatePayment, deletePayment, refetch, generateEmadPayments, cleanEmadDuplicates } = useFirebasePayments();
   const { toast } = useToast();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
 
@@ -73,12 +73,17 @@ const RentManagement = () => {
   };
 
   const handleGenerateEmadPayments = async () => {
-    if (window.confirm('Voulez-vous générer automatiquement tous les paiements manquants d\'EMAD ADAM depuis le début de son contrat ?')) {
+    if (window.confirm('Voulez-vous nettoyer et régénérer tous les paiements d\'EMAD ADAM depuis le début de son contrat (mars 2025) ?')) {
       try {
+        // D'abord nettoyer les doublons
+        await cleanEmadDuplicates();
+        
+        // Puis générer les paiements corrects
         const createdPayments = await generateEmadPayments();
+        
         toast({
           title: t('common.success'),
-          description: `${createdPayments.length} paiements générés pour EMAD ADAM.`,
+          description: `Paiements nettoyés et ${createdPayments.length} nouveaux paiements générés pour EMAD ADAM.`,
         });
       } catch (err) {
         console.error('Erreur lors de la génération:', err);
@@ -145,7 +150,7 @@ const RentManagement = () => {
               variant="outline"
               className="text-blue-600 border-blue-600 hover:bg-blue-50"
             >
-              Générer paiements EMAD
+              Corriger paiements EMAD
             </Button>
             <RentPaymentForm />
           </div>
