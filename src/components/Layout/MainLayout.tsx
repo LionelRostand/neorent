@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { MessageToast } from '@/components/Messages/MessageToast';
@@ -14,9 +15,13 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, userType } = useAuth();
+  const location = useLocation();
 
-  // Vérifier si l'utilisateur doit voir la sidebar
-  const shouldShowSidebar = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
+  // Ne pas afficher la sidebar NEORENT dans l'espace propriétaire
+  const isOwnerSpace = location.pathname.startsWith('/owner-space');
+  
+  // Vérifier si l'utilisateur doit voir la sidebar (mais pas dans l'espace propriétaire)
+  const shouldShowSidebar = (userType === 'admin' || user?.email === 'admin@neotech-consulting.com') && !isOwnerSpace;
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
