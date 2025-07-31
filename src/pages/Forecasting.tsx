@@ -1,105 +1,81 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, Calculator, Building } from 'lucide-react';
 import MainLayout from '@/components/Layout/MainLayout';
-import { useForecastingCalculations } from '@/hooks/useForecastingCalculations';
-import CurrentRevenueCard from '@/components/Forecasting/CurrentRevenueCard';
-import SimulationForm from '@/components/Forecasting/SimulationForm';
-import SimulationResults from '@/components/Forecasting/SimulationResults';
+import { useFinancialForecasting } from '@/hooks/useFinancialForecasting';
+import FinancialMetrics from '@/components/Forecasting/FinancialMetrics';
+import PropertyProfitability from '@/components/Forecasting/PropertyProfitability';
+import InvestmentCapacity from '@/components/Forecasting/InvestmentCapacity';
 
 const Forecasting = () => {
   const { t } = useTranslation();
   const {
-    targetPropertyPrice,
-    setTargetPropertyPrice,
-    targetPropertyRent,
-    setTargetPropertyRent,
-    downPaymentPercent,
-    setDownPaymentPercent,
-    loanRate,
-    setLoanRate,
-    loanDuration,
-    setLoanDuration,
-    monthlySavingsGoal,
-    setMonthlySavingsGoal,
-    timeframe,
-    setTimeframe,
-    propertyType,
-    setPropertyType,
-    notes,
-    setNotes,
-    currentMonthlyRevenue,
-    projectedSavings,
-    requiredDownPayment,
-    monthlyLoanPayment,
-    profitability,
-    canAffordProperty,
-    monthsToSave
-  } = useForecastingCalculations();
+    financialSummary,
+    investmentCapacity,
+    loading,
+    error
+  } = useFinancialForecasting();
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Calcul des prévisions financières...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-red-600">Erreur: {error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="space-y-6">
+        {/* En-tête */}
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-              <TrendingUp className="h-8 w-8 text-green-600" />
-              {t('forecasting.title')}
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
+              Prévisions Financières
             </h1>
-            <p className="text-gray-600 mt-2">
-              {t('forecasting.subtitle')}
+            <p className="text-sm sm:text-base text-gray-600 mt-2">
+              Analyse de rentabilité et capacité d'investissement basée sur vos données réelles
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Revenus actuels */}
-          <div className="lg:col-span-1">
-            <CurrentRevenueCard currentMonthlyRevenue={currentMonthlyRevenue} />
-          </div>
+        {/* Métriques financières globales */}
+        <FinancialMetrics
+          totalMonthlyRevenue={financialSummary.totalMonthlyRevenue}
+          totalMonthlyProfit={financialSummary.totalMonthlyProfit}
+          averageProfitMargin={financialSummary.averageProfitMargin}
+          totalAnnualProfit={financialSummary.totalAnnualProfit}
+          riskLevel={investmentCapacity.riskLevel}
+        />
 
-          {/* Formulaire de prévision */}
-          <div className="lg:col-span-2">
-            <SimulationForm
-              targetPropertyPrice={targetPropertyPrice}
-              setTargetPropertyPrice={setTargetPropertyPrice}
-              targetPropertyRent={targetPropertyRent}
-              setTargetPropertyRent={setTargetPropertyRent}
-              downPaymentPercent={downPaymentPercent}
-              setDownPaymentPercent={setDownPaymentPercent}
-              loanRate={loanRate}
-              setLoanRate={setLoanRate}
-              loanDuration={loanDuration}
-              setLoanDuration={setLoanDuration}
-              propertyType={propertyType}
-              setPropertyType={setPropertyType}
-              monthlySavingsGoal={monthlySavingsGoal}
-              setMonthlySavingsGoal={setMonthlySavingsGoal}
-              timeframe={timeframe}
-              setTimeframe={setTimeframe}
-              notes={notes}
-              setNotes={setNotes}
-            />
-          </div>
+        {/* Analyse de rentabilité par propriété */}
+        <PropertyProfitability 
+          propertiesData={financialSummary.propertiesData}
+        />
 
-          {/* Résultats de la simulation */}
-          <div className="lg:col-span-3">
-            <SimulationResults
-              requiredDownPayment={requiredDownPayment}
-              projectedSavings={projectedSavings}
-              monthlyLoanPayment={monthlyLoanPayment}
-              profitability={profitability}
-              downPaymentPercent={downPaymentPercent}
-              timeframe={timeframe}
-              loanDuration={loanDuration}
-              loanRate={loanRate}
-              canAffordProperty={canAffordProperty}
-              monthsToSave={monthsToSave}
-              currentMonthlyRevenue={currentMonthlyRevenue}
-            />
-          </div>
-        </div>
+        {/* Capacité d'investissement */}
+        <InvestmentCapacity
+          availableForInvestment={investmentCapacity.availableForInvestment}
+          maxPropertyPrice={investmentCapacity.maxPropertyPrice}
+          recommendedDownPayment={investmentCapacity.recommendedDownPayment}
+          monthlyBudgetForLoan={investmentCapacity.monthlyBudgetForLoan}
+          riskLevel={investmentCapacity.riskLevel}
+          recommendations={investmentCapacity.recommendations}
+        />
       </div>
     </MainLayout>
   );
