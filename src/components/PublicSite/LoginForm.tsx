@@ -31,13 +31,15 @@ const LoginForm = () => {
     setIsLoading(true);
 
     try {
-      console.log('🔐 Tentative de connexion pour:', email);
+      // Nettoyer l'email des espaces en début/fin
+      const cleanEmail = email.trim().toLowerCase();
+      console.log('🔐 Tentative de connexion pour:', cleanEmail);
       
       // Cas spécial pour l'admin
-      if (email === 'admin@neotech-consulting.com') {
+      if (cleanEmail === 'admin@neotech-consulting.com') {
         try {
           // Essayer d'abord de se connecter normalement
-          await signInWithEmailAndPassword(auth, email, password);
+          await signInWithEmailAndPassword(auth, cleanEmail, password);
           console.log('✅ Admin connecté directement');
         } catch (loginError: any) {
           console.log('⚠️ Erreur de connexion admin:', loginError.code);
@@ -46,7 +48,7 @@ const LoginForm = () => {
           if (loginError.code === 'auth/user-not-found' || loginError.code === 'auth/invalid-credential') {
             console.log('🔧 Création du compte admin...');
             try {
-              await createUserWithEmailAndPassword(auth, email, password);
+              await createUserWithEmailAndPassword(auth, cleanEmail, password);
               console.log('✅ Compte admin créé avec succès');
             } catch (createError: any) {
               if (createError.code === 'auth/email-already-in-use') {
@@ -147,8 +149,8 @@ const LoginForm = () => {
       }
       
       // Pour les autres utilisateurs
-      await login(email, password);
-      console.log('✅ Connexion Firebase réussie pour:', email);
+      await login(cleanEmail, password);
+      console.log('✅ Connexion Firebase réussie pour:', cleanEmail);
       
       // Attendre que les données se chargent
       setTimeout(() => {
@@ -238,7 +240,7 @@ const LoginForm = () => {
                 type="email"
                 placeholder={t('publicSite.login.emailPlaceholder')}
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.trim())}
                 className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                 required
                 disabled={isLoading}
