@@ -180,24 +180,42 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   }, [selectedContact, conversations, currentProfile]);
 
   const handleStartConversation = async (contact: any) => {
-    console.log('Sélection du contact:', contact);
+    console.log('🗨️ Sélection du contact:', contact);
     try {
       // Sélectionner directement le contact pour commencer la conversation
       setSelectedContact(contact);
       
       // Vérifier s'il existe déjà une conversation
-      const existingConversation = conversations.find(conv => 
-        (conv.participant1Id === currentProfile.id && conv.participant2Id === contact.id) ||
-        (conv.participant1Id === contact.id && conv.participant2Id === currentProfile.id)
-      );
+      let existingConversation;
+      
+      if (contact.type === 'owner') {
+        // Pour les propriétaires/admins, chercher dans les conversations admin
+        existingConversation = conversations.find(conv => 
+          conv.participant1Id === 'admin' && conv.participant2Id === currentProfile.id
+        );
+        
+        console.log('🗨️ Conversation admin existante:', existingConversation);
+        
+        if (!existingConversation) {
+          // Créer une conversation admin via messageService
+          console.log('🗨️ Création d\'une nouvelle conversation admin...');
+          // Ici on ne crée pas automatiquement, on attend que l'utilisateur envoie un message
+        }
+      } else {
+        // Pour les autres locataires/colocataires
+        existingConversation = conversations.find(conv => 
+          (conv.participant1Id === currentProfile.id && conv.participant2Id === contact.id) ||
+          (conv.participant1Id === contact.id && conv.participant2Id === currentProfile.id)
+        );
+        
+        console.log('🗨️ Conversation tenant existante:', existingConversation);
 
-      console.log('Conversation existante:', existingConversation);
-
-      if (!existingConversation) {
-        // Créer une nouvelle conversation si elle n'existe pas
-        console.log('Création d\'une nouvelle conversation...');
-        const conversationId = await createConversation(contact.id, contact.name, contact.email);
-        console.log('Nouvelle conversation créée:', conversationId);
+        if (!existingConversation) {
+          // Créer une nouvelle conversation si elle n'existe pas
+          console.log('🗨️ Création d\'une nouvelle conversation tenant...');
+          const conversationId = await createConversation(contact.id, contact.name, contact.email);
+          console.log('🗨️ Nouvelle conversation créée:', conversationId);
+        }
       }
     } catch (error) {
       console.error('Erreur lors de la sélection du contact:', error);

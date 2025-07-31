@@ -67,32 +67,27 @@ export const useTenantChat = (currentUserId: string) => {
         
         console.log('🗨️ useTenantChat - Conversations tenant trouvées:', tenantConversations.length);
         
-        // 2. Écouter aussi les conversations admin (rent_conversations)
-        const adminConversationsRef = collection(db, 'rent_conversations');
+        // 2. Écouter aussi les conversations admin (conversations)
+        const adminConversationsRef = collection(db, 'conversations');
         
         const unsubscribe2 = onSnapshot(adminConversationsRef, (adminSnapshot) => {
           const adminConversations = adminSnapshot.docs
             .map(doc => ({ id: doc.id, ...doc.data() } as Conversation))
             .filter((conv: Conversation) => {
               // Filtrer les conversations qui concernent l'utilisateur actuel
-              // Essayer plusieurs méthodes de correspondance
               console.log('🗨️ useTenantChat - Vérification conversation admin:', {
                 convId: conv.id,
                 clientEmail: conv.clientEmail,
-                clientName: conv.clientName,
                 currentUserId: currentUserId
               });
               
-              return conv.clientEmail === currentUserId || 
-                     conv.clientName === currentUserId ||
-                     conv.clientEmail?.toLowerCase() === currentUserId.toLowerCase() ||
-                     conv.clientName?.toLowerCase() === currentUserId.toLowerCase();
+              return conv.clientEmail === currentUserId;
             })
             .map((conv: Conversation) => ({
               // Adapter le format admin vers le format tenant
               id: conv.id,
               participant1Id: 'admin',
-              participant1Name: 'Support Admin',
+              participant1Name: 'Support NeoRent',
               participant2Id: currentUserId,
               participant2Name: conv.clientName || 'Utilisateur',
               lastMessage: conv.lastMessage || '',
@@ -253,7 +248,7 @@ export const useTenantChat = (currentUserId: string) => {
           conversationId: conversation.id,
           sender: 'client',
           senderName: conversation.participant2Name || 'Locataire',
-          senderEmail: currentUserId, // En supposant que currentUserId est l'email
+          senderEmail: currentUserId,
           message: content,
           timestamp: serverTimestamp(),
           read: false
@@ -262,7 +257,7 @@ export const useTenantChat = (currentUserId: string) => {
         await addDoc(collection(db, 'rent_messages'), messageData);
         
         // Mettre à jour la conversation admin
-        await updateDoc(doc(db, 'rent_conversations', conversation.id), {
+        await updateDoc(doc(db, 'conversations', conversation.id), {
           lastMessage: content,
           lastMessageTime: serverTimestamp(),
           unreadCount: (conversation.unreadCount || 0) + 1
