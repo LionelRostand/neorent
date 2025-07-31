@@ -115,22 +115,28 @@ export const useFirebasePresence = (currentUser: any) => {
 
   // Fonction pour obtenir le statut d'un utilisateur 
   const getUserStatus = (userId: string) => {
-    // Statuts dynamiques basés sur les vrais IDs et emails
+    console.log('🔍 getUserStatus appelé avec userId:', userId);
+    
+    // Forcer Lionel DJOSSA à être en ligne
+    if (userId.includes('admin') || 
+        userId.includes('lionel') || 
+        userId.includes('djossa') || 
+        userId.includes('owner') ||
+        userId === 'admin-default' ||
+        userId === 'owner_admin-default') {
+      console.log('✅ Admin détecté - statut: En ligne');
+      return { isOnline: true, lastSeen: 'En ligne' };
+    }
+    
+    // Pour les autres utilisateurs
     const now = new Date();
     const hour = now.getHours();
-    
-    // Logique de statut intelligent basée sur l'heure et l'activité
     const isBusinessHours = hour >= 8 && hour <= 20;
-    
-    // IDs d'administrateurs qui sont toujours en ligne pendant les heures ouvrables
-    const adminIds = ['admin-default', 'admin@neotech-consulting.com', 'owner_admin-default'];
-    const isAdmin = adminIds.some(id => userId.includes(id) || userId.includes('admin'));
     
     // IDs de locataires actifs
     const activeUserIds = [
       '1752971742587', 'ruthmegha35@gmail.com', 'ruth',
-      '1752971742586', 'entrepreneurpro19@gmail.com', 'emad',
-      'lionel', 'djossa', 'proprietaire'
+      '1752971742586', 'entrepreneurpro19@gmail.com', 'emad'
     ];
     
     const isActiveUser = activeUserIds.some(id => 
@@ -138,22 +144,17 @@ export const useFirebasePresence = (currentUser: any) => {
       userId.includes(id)
     );
 
-    if (isAdmin) {
-      return { 
-        isOnline: isBusinessHours, 
-        lastSeen: isBusinessHours ? 'En ligne' : 'Hors ligne' 
-      };
-    }
-    
     if (isActiveUser) {
       // Simuler une activité variable pour les utilisateurs
-      const isOnline = isBusinessHours && Math.random() > 0.3;
+      const isOnline = isBusinessHours && Math.random() > 0.5;
+      console.log(`👤 Utilisateur actif ${userId} - statut:`, isOnline ? 'En ligne' : 'Hors ligne');
       return { 
         isOnline, 
         lastSeen: isOnline ? 'En ligne' : `Vu il y a ${Math.floor(Math.random() * 120 + 5)} min` 
       };
     }
     
+    console.log(`👤 Utilisateur inconnu ${userId} - statut: Hors ligne`);
     return { isOnline: false, lastSeen: 'Hors ligne' };
   };
 
