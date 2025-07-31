@@ -48,16 +48,26 @@ export const useOwnerData = (ownerProfile: any) => {
       };
     }
 
-    // Pour les propriétaires, filtrer seulement leurs données
-    const ownerProperties = properties.filter(property => 
-      property.owner === ownerProfile.name || 
-      property.owner === ownerProfile.email
-    );
+    // Pour les propriétaires, filtrer seulement leurs données avec vérifications strictes
+    const ownerProperties = properties.filter(property => {
+      const isOwnerByName = property.owner === ownerProfile.name;
+      const isOwnerByEmail = property.owner === ownerProfile.email;
+      
+      console.log('Property filter check:', {
+        propertyTitle: property.title,
+        propertyOwner: property.owner,
+        profileName: ownerProfile.name,
+        profileEmail: ownerProfile.email,
+        matches: { isOwnerByName, isOwnerByEmail }
+      });
+      
+      return isOwnerByName || isOwnerByEmail;
+    });
 
     // Obtenir les titres des propriétés pour filtrer les autres données
     const propertyTitles = ownerProperties.map(p => p.title);
 
-    // Filtrer toutes les données selon les propriétés du propriétaire
+    // Filtrer toutes les données selon les propriétés du propriétaire strictement
     const ownerRoommates = roommates.filter(roommate => 
       propertyTitles.includes(roommate.property)
     );
