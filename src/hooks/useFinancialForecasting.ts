@@ -79,9 +79,11 @@ export const useFinancialForecasting = () => {
       aggregatedData.get(mainPropertyKey)!.payments.push(payment);
     });
 
-    // Agréger les charges par appartement principal
+    // Agréger les charges par appartement principal avec recherche flexible
     recentCharges.forEach(charge => {
       const mainPropertyKey = getMainPropertyName(charge.propertyName);
+      console.log(`🔍 Charge trouvée: "${charge.propertyName}" -> mappée vers "${mainPropertyKey}"`);
+      
       if (!aggregatedData.has(mainPropertyKey)) {
         aggregatedData.set(mainPropertyKey, { payments: [], charges: [] });
       }
@@ -89,7 +91,14 @@ export const useFinancialForecasting = () => {
     });
 
     console.log(`🏢 Propriétés agrégées: ${Array.from(aggregatedData.keys()).join(', ')}`);
-
+    
+    // Debug: Afficher le contenu des charges pour chaque propriété
+    aggregatedData.forEach((data, propertyName) => {
+      console.log(`📋 ${propertyName}: ${data.payments.length} paiements, ${data.charges.length} charges`);
+      data.charges.forEach(charge => {
+        console.log(`  📄 Charge disponible: "${charge.propertyName}" (${charge.month}): ${charge.total}€`);
+      });
+    });
     // Calculer les métriques pour chaque appartement principal
     return Array.from(aggregatedData.entries()).map(([propertyName, data]) => {
       console.log(`\n🏠 === Analyse pour ${propertyName} ===`);
@@ -116,6 +125,11 @@ export const useFinancialForecasting = () => {
         monthlyChargesMap.set(monthKey, (monthlyChargesMap.get(monthKey) || 0) + charge.total);
         console.log(`  💸 ${charge.propertyName} (${monthKey}): +${charge.total}€`);
       });
+      
+      // Afficher un message si aucune charge n'est trouvée
+      if (data.charges.length === 0) {
+        console.log(`  ⚠️ Aucune charge trouvée pour ${propertyName}`);
+      }
 
       // Calcul des totaux
       const annualRevenue = Array.from(monthlyRevenues.values()).reduce((sum, amount) => sum + amount, 0);
