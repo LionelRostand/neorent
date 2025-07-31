@@ -408,30 +408,45 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                     ) : (
                       messages.map((message) => {
                         const isMyMessage = message.senderId === currentProfile.id;
+                        console.log('🗨️ Affichage message:', {
+                          messageId: message.id,
+                          senderId: message.senderId,
+                          currentProfileId: currentProfile.id,
+                          isMyMessage,
+                          content: message.content
+                        });
+                        
                         return (
                           <div
                             key={message.id}
                             className={`flex ${isMyMessage ? 'justify-end' : 'justify-start'}`}
                           >
-                            <div
-                              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                                isMyMessage
-                                  ? 'bg-blue-600 text-white'
-                                  : 'bg-gray-100 text-gray-900'
-                              }`}
-                            >
-                              <p className="text-sm">{message.content}</p>
-                              <p className={`text-xs mt-1 ${
-                                isMyMessage ? 'text-blue-100' : 'text-gray-500'
-                              }`}>
-                                {message.timestamp && formatDistanceToNow(
-                                  message.timestamp.toDate(), 
-                                  { 
-                                    addSuffix: true, 
-                                    locale: i18n.language === 'fr' ? fr : undefined 
-                                  }
-                                )}
-                              </p>
+                            <div className="flex flex-col max-w-xs lg:max-w-md">
+                              {!isMyMessage && (
+                                <span className="text-xs text-gray-500 mb-1 px-1">
+                                  {selectedContact.name}
+                                </span>
+                              )}
+                              <div
+                                className={`px-4 py-2 rounded-lg ${
+                                  isMyMessage
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-100 text-gray-900'
+                                }`}
+                              >
+                                <p className="text-sm">{message.content}</p>
+                                <p className={`text-xs mt-1 ${
+                                  isMyMessage ? 'text-blue-100' : 'text-gray-500'
+                                }`}>
+                                  {message.timestamp && formatDistanceToNow(
+                                    message.timestamp.toDate(), 
+                                    { 
+                                      addSuffix: true, 
+                                      locale: i18n.language === 'fr' ? fr : undefined 
+                                    }
+                                  )}
+                                </p>
+                              </div>
                             </div>
                           </div>
                         );
