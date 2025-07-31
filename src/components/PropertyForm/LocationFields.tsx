@@ -15,8 +15,10 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
   
   // Composant mis à jour avec champs d'adresse séparés
   return (
-    <>
-      <div className="grid grid-cols-2 gap-4">
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Localisation</h3>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <Label htmlFor="streetNumber">Numéro *</Label>
           <Input
@@ -39,7 +41,7 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
         </div>
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <Label htmlFor="city">Ville *</Label>
           <Input
@@ -85,7 +87,7 @@ const LocationFields = ({ formData, onInputChange }: LocationFieldsProps) => {
           }}
         />
       </div>
-    </>
+    </div>
   );
 };
 

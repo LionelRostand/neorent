@@ -50,8 +50,8 @@ const PropertyForm = ({ onClose, onSubmit, isInDialog = true, initialType, butto
     <>
       <PropertyFormHeader isInDialog={isInDialog} />
       
-      <form onSubmit={handleFormSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form onSubmit={handleFormSubmit} className="space-y-6">
+        <div className="space-y-6">
           <BasicPropertyFields
             formData={formData}
             onInputChange={handleInputChange}
@@ -75,7 +75,7 @@ const PropertyForm = ({ onClose, onSubmit, isInDialog = true, initialType, butto
 
   if (isInDialog) {
     return (
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto p-4 md:p-6">
         {formContent}
       </DialogContent>
     );

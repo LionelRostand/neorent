@@ -13,28 +13,32 @@ const PropertyDetailsFields = ({ formData, onInputChange }: PropertyDetailsField
   const { t } = useTranslation();
 
   return (
-    <>
-      <div>
-        <Label htmlFor="rent">{t('properties.rent')}</Label>
-        <Input
-          id="rent"
-          type="number"
-          value={formData.rent}
-          onChange={(e) => onInputChange('rent', e.target.value)}
-          placeholder="€"
-        />
-      </div>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Détails</h3>
       
-      <div>
-        <Label htmlFor="totalRooms">{t('properties.totalRooms')}</Label>
-        <Input
-          id="totalRooms"
-          type="number"
-          value={formData.totalRooms}
-          onChange={(e) => onInputChange('totalRooms', e.target.value)}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="rent">{t('properties.rent')}</Label>
+          <Input
+            id="rent"
+            type="number"
+            value={formData.rent}
+            onChange={(e) => onInputChange('rent', e.target.value)}
+            placeholder="€"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="totalRooms">{t('properties.totalRooms')}</Label>
+          <Input
+            id="totalRooms"
+            type="number"
+            value={formData.totalRooms}
+            onChange={(e) => onInputChange('totalRooms', e.target.value)}
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
