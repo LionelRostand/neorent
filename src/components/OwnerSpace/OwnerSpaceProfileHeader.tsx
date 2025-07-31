@@ -65,23 +65,25 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
     user?.email || 'admin@neotech-consulting.com' : 
     (currentProfile?.email || 'Non spécifié');
   
-  // Display role - ensure admin shows correctly
+  // Display role - distinguer entre vrai admin et propriétaire
   const getRoleTranslation = (role: string, type: string) => {
-    // Si c'est un admin autorisé, toujours afficher "Administrateur"
-    if (isAuthorizedAdmin || type === 'admin' || role === 'admin') {
+    // Seul le vrai admin (admin@neotech-consulting.com) doit être affiché comme "Administrateur"
+    if (user?.email === 'admin@neotech-consulting.com') {
       return t('profile.administrator');
     }
-    if (role === 'employee' || role === 'owner') return t('profile.owner');
+    // Pour tous les autres, y compris les propriétaires
+    if (role === 'owner' || type === 'owner') return t('profile.owner');
+    if (role === 'employee') return t('profile.owner');
     if (role === 'tenant' || role === 'locataire') return t('profile.tenant');
     if (role === 'roommate' || role === 'colocataire') return t('profile.roommate');
-    return t('profile.owner'); // default to owner
+    return t('profile.owner'); // default to owner pour les propriétaires
   };
   
-  const displayRole = getRoleTranslation(currentProfile?.role || 'admin', currentProfile?.type || userType);
+  const displayRole = getRoleTranslation(currentProfile?.role || 'owner', currentProfile?.type || userType);
 
-  // Afficher un badge spécial pour les admins avec pleins droits
+  // Afficher un badge spécial SEULEMENT pour le vrai admin
   const getAdminBadge = () => {
-    if (isAuthorizedAdmin || userType === 'admin') {
+    if (user?.email === 'admin@neotech-consulting.com') {
       return (
         <p className="text-xs text-green-600 mt-1 font-semibold">
           {i18n.language === 'fr' ? '• Pleins droits administrateur' : '• Full admin rights'}
@@ -91,9 +93,9 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
     return null;
   };
 
-  // Afficher les informations du propriétaire si l'admin accède à l'espace
+  // Afficher les informations du propriétaire SEULEMENT si c'est le vrai admin qui accède
   const getOwnerInfo = () => {
-    if (isAdminAccessingOwnerSpace && currentProfile) {
+    if (user?.email === 'admin@neotech-consulting.com' && currentProfile) {
       return (
         <div className="mt-2 p-2 bg-blue-50 rounded-md border-l-4 border-blue-400">
           <p className="text-xs text-blue-800 font-medium">
