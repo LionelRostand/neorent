@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Building, Users, FileText, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useOwnerData } from '@/hooks/useOwnerData';
-import { useFirebasePayments } from '@/hooks/useFirebasePayments';
-import { useDashboardMetrics } from '@/hooks/useDashboardMetrics';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface AdminDashboardViewProps {
@@ -14,9 +12,18 @@ interface AdminDashboardViewProps {
 
 const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile }) => {
   const { i18n } = useTranslation();
-  const { properties, tenants, roommates, contracts } = useOwnerData(currentProfile);
-  const { payments } = useFirebasePayments(); // Utilisation directe pour éviter les erreurs
-  const { monthlyRevenue, totalActiveTenants, occupancyRate } = useDashboardMetrics();
+  const ownerData = useOwnerData(currentProfile);
+  const { properties, tenants, roommates, contracts, payments } = ownerData;
+  
+  console.log('=== AdminDashboardView Debug ===');
+  console.log('Current profile:', currentProfile?.name);
+  console.log('Filtered owner data:', {
+    properties: properties.length,
+    tenants: tenants.length,
+    roommates: roommates.length,
+    payments: payments.length
+  });
+  console.log('================================');
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -60,11 +67,33 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
+  // Calculs basés sur les données filtrées du propriétaire
   const totalProperties = properties.length;
-  const totalTenants = totalActiveTenants; // Utilise les données du hook useDashboardMetrics
+  const activeTenants = tenants.filter(t => t.status === 'Actif').length;
+  const activeRoommates = roommates.filter(r => r.status === 'Actif').length;
+  const totalActiveTenants = activeTenants + activeRoommates;
   const totalContracts = contracts.length;
+  
+  // Calcul des revenus mensuels filtré
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  const monthlyPayments = payments.filter(payment => {
+    const paymentDate = new Date(payment.paymentDate || payment.dueDate);
+    return paymentDate.getMonth() === currentMonth && 
+           paymentDate.getFullYear() === currentYear &&
+           payment.status === 'Payé';
+  });
+  const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
+  
+  // Calcul du taux d'occupation pour ce propriétaire
+  const occupiedProperties = properties.filter(property => {
+    const propertyTenants = tenants.filter(t => t.property === property.title && t.status === 'Actif');
+    const propertyRoommates = roommates.filter(r => r.property === property.title && r.status === 'Actif');
+    return propertyTenants.length > 0 || propertyRoommates.length > 0;
+  }).length;
+  const occupancyRate = totalProperties > 0 ? (occupiedProperties / totalProperties) * 100 : 0;
 
-  // Données réelles des revenus mensuels basées sur les paiements
+  // Données réelles des revenus mensuels basées sur les paiements filtrés
   const chartData = useMemo(() => {
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
     const last6Months = [];
@@ -134,7 +163,7 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('tenants')}</p>
-                <p className="text-2xl font-bold text-gray-900 mb-1">{totalTenants}</p>
+                <p className="text-2xl font-bold text-gray-900 mb-1">{totalActiveTenants}</p>
                 <p className="text-xs text-green-600 font-medium">
                   +3 {getLocalizedText('thisMonth')}
                 </p>

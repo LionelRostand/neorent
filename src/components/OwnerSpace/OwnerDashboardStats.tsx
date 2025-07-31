@@ -62,6 +62,15 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
   // Calculer les revenus mensuels
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
+  
+  console.log('=== Dashboard Stats Debug for:', ownerProfile?.name, '===');
+  console.log('Owner data received:', {
+    properties: ownerData.properties.length,
+    roommates: ownerData.roommates.length,
+    tenants: ownerData.tenants.length,
+    payments: ownerData.payments.length
+  });
+  
   const monthlyPayments = ownerData.payments.filter(payment => {
     const paymentDate = new Date(payment.paymentDate || payment.dueDate);
     return paymentDate.getMonth() === currentMonth && 
@@ -69,6 +78,9 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
   });
 
   const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
+  
+  console.log('Monthly payments for current month:', monthlyPayments);
+  console.log('Calculated monthly revenue:', monthlyRevenue);
 
   // Calculer le taux d'occupation
   const activeTenants = [...ownerData.roommates, ...ownerData.tenants].filter(t => t.status === 'Actif');
@@ -81,6 +93,14 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
 
   const occupiedRooms = activeTenants.length;
   const occupancyRate = totalRooms > 0 ? Math.round((occupiedRooms / totalRooms) * 100) : 0;
+  
+  console.log('Occupancy calculation:', {
+    activeTenants: activeTenants.length,
+    totalRooms,
+    occupiedRooms,
+    occupancyRate
+  });
+  console.log('=== End Dashboard Stats Debug ===');
 
   const stats = [
     {

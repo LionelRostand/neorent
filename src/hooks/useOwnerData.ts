@@ -99,8 +99,12 @@ export const useOwnerData = (ownerProfile: any) => {
       payments: ownerPayments.length,
       contracts: ownerContracts.length,
       inspections: ownerInspections.length,
-      charges: ownerCharges.length
+      charges: ownerCharges.length,
+      propertyTitles: propertyTitles
     });
+
+    console.log('Owner properties details:', ownerProperties.map(p => ({ title: p.title, owner: p.owner })));
+    console.log('Owner payments details:', ownerPayments.map(p => ({ property: p.property, amount: p.rentAmount, date: p.paymentDate })));
 
     return {
       properties: ownerProperties,
