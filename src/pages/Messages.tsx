@@ -10,6 +10,7 @@ import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 import { AuthContext } from '@/contexts/AuthContext';
+import { createInitialConversations } from '@/utils/migrateToUnifiedChat';
 import type { UnifiedConversation, UnifiedMessage } from '@/types/unifiedChat';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
@@ -68,28 +69,23 @@ const Messages = () => {
     read: msg.readBy.includes(userProfile?.email || '')
   }));
 
-  // Créer une conversation de test si aucune n'existe
+  // Créer les conversations initiales si aucune n'existe
   useEffect(() => {
-    const createTestConversation = async () => {
+    const initializeConversations = async () => {
       if (conversations.length === 0 && userProfile?.email === 'admin@neotech-consulting.com') {
-        console.log('🧪 Création d\'une conversation de test avec Ruth...');
+        console.log('🔄 Initialisation des conversations...');
         try {
-          await sendMessage(
-            'ruthmegha35@gmail.com',
-            'Bonjour Ruth! Comment allez-vous? Ceci est un message de test.',
-            'Lionel DJOSSA',
-            'Ruth MEGHA'
-          );
+          await createInitialConversations();
         } catch (error) {
-          console.error('❌ Erreur création conversation test:', error);
+          console.error('❌ Erreur lors de l\'initialisation des conversations:', error);
         }
       }
     };
 
     // Délai pour laisser le temps aux conversations de se charger
-    const timer = setTimeout(createTestConversation, 2000);
+    const timer = setTimeout(initializeConversations, 1000);
     return () => clearTimeout(timer);
-  }, [conversations.length, userProfile?.email, sendMessage]);
+  }, [conversations.length, userProfile?.email]);
 
   // Auto-sélection de la première conversation
   useEffect(() => {
