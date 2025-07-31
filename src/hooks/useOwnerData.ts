@@ -40,9 +40,10 @@ export const useOwnerData = (ownerProfile: any) => {
       };
     }
 
-    // Si c'est l'admin, retourner toutes les données
-    if (userType === 'admin') {
+    // Si c'est l'admin ET qu'aucun profil spécifique n'est sélectionné, retourner toutes les données
+    if (userType === 'admin' && (!ownerProfile || ownerProfile.email === 'admin@neotech-consulting.com')) {
       const propertyTitles = properties.map(p => p.title);
+      console.log('Admin viewing all data (no specific profile selected)');
       return {
         properties: properties,
         roommates: roommates,
