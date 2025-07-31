@@ -5,7 +5,6 @@ import { TrendingUp, Calculator, Building } from 'lucide-react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { useFinancialForecasting } from '@/hooks/useFinancialForecasting';
 import FinancialMetrics from '@/components/Forecasting/FinancialMetrics';
-import PropertyProfitability from '@/components/Forecasting/PropertyProfitability';
 import PropertyAnalyzer from '@/components/Forecasting/PropertyAnalyzer';
 import InvestmentCapacity from '@/components/Forecasting/InvestmentCapacity';
 
@@ -65,11 +64,6 @@ const Forecasting = () => {
 
         {/* Analyseur de propriété individuelle */}
         <PropertyAnalyzer 
-          propertiesData={financialSummary.propertiesData}
-        />
-
-        {/* Analyse de rentabilité par propriété */}
-        <PropertyProfitability 
           propertiesData={financialSummary.propertiesData}
         />
 
