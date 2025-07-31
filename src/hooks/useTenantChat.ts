@@ -47,14 +47,14 @@ export const useTenantChat = (currentUserId: string) => {
 
   console.log('🗨️ useTenantChat - Hook initialisé avec currentUserId:', currentUserId);
 
-  // Écouter les conversations (tenant_conversations + rent_conversations pour unifier admin et tenant)
+  // Écouter les conversations - système unifié pour tous les utilisateurs
   useEffect(() => {
     if (!currentUserId) return;
 
-    console.log('🗨️ useTenantChat - Écoute des conversations pour userId:', currentUserId);
+    console.log('🗨️ useTenantChat - Écoute unifié des conversations pour userId:', currentUserId);
     
     try {
-      // 1. Écouter les conversations tenant normales
+      // 1. Écouter toutes les conversations tenant_conversations où l'utilisateur participe
       const conversationsRef = collection(db, 'tenant_conversations');
       const conversationsQuery = query(
         conversationsRef,
@@ -69,22 +69,16 @@ export const useTenantChat = (currentUserId: string) => {
         
         console.log('🗨️ useTenantChat - Conversations tenant trouvées:', tenantConversations.length);
         
-        // 2. Écouter aussi les conversations admin (conversations)
+        // 2. Écouter aussi les conversations admin spécifiques à cet utilisateur
         const adminConversationsRef = collection(db, 'conversations');
+        const adminQuery = query(
+          adminConversationsRef,
+          where('clientEmail', '==', currentUserId)
+        );
         
-        const unsubscribe2 = onSnapshot(adminConversationsRef, (adminSnapshot) => {
+        const unsubscribe2 = onSnapshot(adminQuery, (adminSnapshot) => {
           const adminConversations = adminSnapshot.docs
             .map(doc => ({ id: doc.id, ...doc.data() } as Conversation))
-            .filter((conv: Conversation) => {
-              // Filtrer les conversations qui concernent l'utilisateur actuel
-              console.log('🗨️ useTenantChat - Vérification conversation admin:', {
-                convId: conv.id,
-                clientEmail: conv.clientEmail,
-                currentUserId: currentUserId
-              });
-              
-              return conv.clientEmail === currentUserId;
-            })
             .map((conv: Conversation) => ({
               // Adapter le format admin vers le format tenant
               id: conv.id,
@@ -112,7 +106,9 @@ export const useTenantChat = (currentUserId: string) => {
           setConversations(allConversations);
         });
         
-        return unsubscribe2;
+        return () => {
+          unsubscribe2();
+        };
       });
 
       return () => {
@@ -189,7 +185,7 @@ export const useTenantChat = (currentUserId: string) => {
     }
   };
 
-  // Créer une nouvelle conversation
+  // Créer une nouvelle conversation partagée
   const createConversation = async (otherUserId: string, otherUserName: string, otherUserEmail: string) => {
     try {
       setLoading(true);
@@ -204,19 +200,22 @@ export const useTenantChat = (currentUserId: string) => {
         return existingConversation.id;
       }
 
+      // Créer une conversation visible par les deux participants
       const conversationData = {
         participant1Id: currentUserId,
-        participant1Name: 'Moi', // Sera mis à jour avec le vrai nom
+        participant1Name: currentUserId, // Sera mis à jour avec le vrai nom
         participant2Id: otherUserId,
         participant2Name: otherUserName,
-        participants: [currentUserId, otherUserId],
+        participants: [currentUserId, otherUserId], // Important: tableau pour les requêtes array-contains
         lastMessage: '',
         lastMessageTime: serverTimestamp(),
         unreadCount: 0,
         createdAt: serverTimestamp()
       };
 
+      console.log('🗨️ useTenantChat - Création conversation avec participants:', [currentUserId, otherUserId]);
       const docRef = await addDoc(collection(db, 'tenant_conversations'), conversationData);
+      console.log('🗨️ useTenantChat - Conversation créée avec ID:', docRef.id);
       return docRef.id;
     } catch (error) {
       console.error('Erreur lors de la création de la conversation:', error);

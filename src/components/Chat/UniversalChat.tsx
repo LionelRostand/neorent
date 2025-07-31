@@ -38,7 +38,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     loading,
     loadingMessages,
     subscribeToMessages
-  } = useTenantChat(currentProfile?.id);
+  } = useTenantChat(currentProfile?.email || currentProfile?.id);
 
   console.log('UniversalChat - Présence loading:', presenceLoading);
 
@@ -168,9 +168,14 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
   useEffect(() => {
     if (!selectedContact || !currentProfile) return;
 
+    const userId = currentProfile?.email || currentProfile?.id;
+    const contactId = selectedContact.email || selectedContact.id;
+
     const conversation = conversations.find(conv => 
-      (conv.participant1Id === currentProfile.id && conv.participant2Id === selectedContact.id) ||
-      (conv.participant1Id === selectedContact.id && conv.participant2Id === currentProfile.id)
+      (conv.participant1Id === userId && conv.participant2Id === contactId) ||
+      (conv.participant1Id === contactId && conv.participant2Id === userId) ||
+      (conv.participant1Id === 'admin' && conv.participant2Id === userId) ||
+      (conv.participant2Id === 'admin' && conv.participant1Id === userId)
     );
 
     if (conversation?.id) {
@@ -226,13 +231,16 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     if (!messageText.trim() || !selectedContact) return;
 
     try {
+      const userId = currentProfile?.email || currentProfile?.id;
+      const contactId = selectedContact.email || selectedContact.id;
+      
       console.log('📤 Envoi du message:', {
-        contactId: selectedContact.id,
-        message: messageText.trim(),
-        currentUserId: currentProfile.id
+        userId: userId,
+        contactId: contactId,
+        message: messageText.trim()
       });
       
-      await sendMessage(selectedContact.id, messageText.trim());
+      await sendMessage(contactId, messageText.trim());
       setMessageText('');
       console.log('✅ Message envoyé avec succès');
     } catch (error) {
