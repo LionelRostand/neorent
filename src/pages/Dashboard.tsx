@@ -27,8 +27,8 @@ const Dashboard = () => {
   const globalMetrics = useDashboardMetrics();
   
   // Déterminer quelles données utiliser selon le type d'utilisateur  
-  // Admin consulte toujours les données globales SAUF s'il a sélectionné un profil propriétaire spécifique
-  const isOwner = userType === 'owner' || (currentProfile?.role === 'owner' && currentProfile?.email !== 'admin@neotech-consulting.com');
+  // Admin consulte TOUJOURS les données globales, propriétaire consulte ses données filtrées
+  const isOwner = userType === 'owner';
   
   console.log('=== Dashboard Debug ===');
   console.log('User type:', userType);
