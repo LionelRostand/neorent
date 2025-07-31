@@ -147,8 +147,8 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('properties')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{totalProperties}</p>
-                <p className="text-xs text-green-600 font-medium">
-                  +2 {getLocalizedText('thisMonth')}
+                <p className="text-xs text-gray-500 font-medium">
+                  Biens immobiliers
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-blue-50">
@@ -164,8 +164,8 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('tenants')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{totalActiveTenants}</p>
-                <p className="text-xs text-green-600 font-medium">
-                  +3 {getLocalizedText('thisMonth')}
+                <p className="text-xs text-gray-500 font-medium">
+                  Locataires actifs
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-green-50">
@@ -181,8 +181,8 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('contracts')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{totalContracts}</p>
-                <p className="text-xs text-green-600 font-medium">
-                  +1 {getLocalizedText('thisMonth')}
+                <p className="text-xs text-gray-500 font-medium">
+                  Contrats actifs
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-orange-50">
@@ -198,8 +198,8 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('monthlyRevenue')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{monthlyRevenue}€</p>
-                <p className="text-xs text-green-600 font-medium">
-                  +8.2% {getLocalizedText('thisMonth')}
+                <p className="text-xs text-gray-500 font-medium">
+                  Revenus mensuels totaux
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-purple-50">
