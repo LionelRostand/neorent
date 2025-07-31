@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
 import MainLayout from '@/components/Layout/MainLayout';
 import RentPaymentForm from '@/components/RentPaymentForm';
 import NewRentMetrics from '@/components/RentManagement/NewRentMetrics';
@@ -12,7 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const RentManagement = () => {
   const { t } = useTranslation();
-  const { payments, loading, error, updatePayment, deletePayment, refetch } = useFirebasePayments();
+  const { payments, loading, error, updatePayment, deletePayment, refetch, generateEmadPayments } = useFirebasePayments();
   const { toast } = useToast();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
 
@@ -71,6 +72,25 @@ const RentManagement = () => {
     }
   };
 
+  const handleGenerateEmadPayments = async () => {
+    if (window.confirm('Voulez-vous générer automatiquement tous les paiements manquants d\'EMAD ADAM depuis le début de son contrat ?')) {
+      try {
+        const createdPayments = await generateEmadPayments();
+        toast({
+          title: t('common.success'),
+          description: `${createdPayments.length} paiements générés pour EMAD ADAM.`,
+        });
+      } catch (err) {
+        console.error('Erreur lors de la génération:', err);
+        toast({
+          title: t('common.error'),
+          description: "Erreur lors de la génération des paiements.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   if (loading) {
     return (
       <MainLayout>
@@ -119,7 +139,14 @@ const RentManagement = () => {
               Basé sur les Contrats de Bail
             </p>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <Button 
+              onClick={handleGenerateEmadPayments}
+              variant="outline"
+              className="text-blue-600 border-blue-600 hover:bg-blue-50"
+            >
+              Générer paiements EMAD
+            </Button>
             <RentPaymentForm />
           </div>
         </div>

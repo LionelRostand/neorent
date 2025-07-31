@@ -191,6 +191,92 @@ export const useFirebasePayments = () => {
     }
   };
 
+  // Fonction pour créer automatiquement les paiements manquants d'EMAD ADAM
+  const generateEmadPayments = async () => {
+    try {
+      setLoading(true);
+      
+      // Récupérer le contrat d'EMAD ADAM
+      const contractsSnapshot = await getDocs(collection(db, 'Rent_contracts'));
+      const contractsData = contractsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Contract[];
+      
+      const emadContract = contractsData.find(c => c.tenant === 'EMAD ADAM');
+      
+      if (!emadContract) {
+        throw new Error('Contrat d\'EMAD ADAM non trouvé');
+      }
+      
+      console.log('📄 CONTRAT D\'EMAD TROUVÉ:', emadContract);
+      
+      // Extraire le montant du contrat (enlever le € et convertir en nombre)
+      const contractAmount = parseFloat(emadContract.amount.replace(/[^\d.,]/g, '').replace(',', '.'));
+      
+      // Date de début du contrat (supposons janvier 2025 si pas spécifié)
+      const contractStartDate = new Date('2025-01-01');
+      const currentDate = new Date();
+      
+      // Générer les paiements pour chaque mois depuis le début du contrat
+      const paymentsToCreate = [];
+      const currentMonth = new Date(contractStartDate);
+      
+      while (currentMonth <= currentDate) {
+        // Vérifier si un paiement existe déjà pour ce mois
+        const existingPayment = payments.find(p => 
+          p.tenantName === 'Emad ADAM' && 
+          new Date(p.dueDate).getMonth() === currentMonth.getMonth() &&
+          new Date(p.dueDate).getFullYear() === currentMonth.getFullYear()
+        );
+        
+        if (!existingPayment) {
+          const dueDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+          const paymentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 5); // Payé le 5 de chaque mois
+          
+          paymentsToCreate.push({
+            tenantName: 'Emad ADAM',
+            tenantType: 'Colocataire',
+            property: 'Appartement 13 - Chambre Chambre 1',
+            rentAmount: contractAmount,
+            contractRentAmount: contractAmount,
+            paidAmount: contractAmount,
+            dueDate: dueDate.toISOString().split('T')[0],
+            paymentDate: paymentDate.toISOString().split('T')[0],
+            status: 'Payé',
+            paymentMethod: 'Especes',
+            notes: 'Paiement généré automatiquement'
+          });
+        }
+        
+        // Passer au mois suivant
+        currentMonth.setMonth(currentMonth.getMonth() + 1);
+      }
+      
+      console.log(`💰 CRÉATION DE ${paymentsToCreate.length} PAIEMENTS POUR EMAD:`, paymentsToCreate);
+      
+      // Créer tous les paiements en parallèle
+      const createdPayments = await Promise.all(
+        paymentsToCreate.map(async (paymentData) => {
+          const docRef = await addDoc(collection(db, 'Rent_Payments'), paymentData);
+          return { id: docRef.id, ...paymentData };
+        })
+      );
+      
+      // Actualiser la liste des paiements
+      await fetchPayments();
+      
+      return createdPayments;
+      
+    } catch (err) {
+      console.error('❌ ERREUR lors de la génération des paiements:', err);
+      setError('Erreur lors de la génération des paiements');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchPayments();
   }, []);
@@ -202,6 +288,7 @@ export const useFirebasePayments = () => {
     addPayment,
     updatePayment,
     deletePayment,
-    refetch: fetchPayments
+    refetch: fetchPayments,
+    generateEmadPayments
   };
 };
