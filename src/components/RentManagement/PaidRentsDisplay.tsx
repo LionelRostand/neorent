@@ -56,6 +56,21 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
     }
   });
 
+  // Grouper les paiements par mois si on affiche les mois précédents
+  const groupedPayments = showPreviousMonths 
+    ? filteredPaidPayments.reduce((groups: Record<string, Payment[]>, payment) => {
+        const dueDate = new Date(payment.dueDate);
+        const monthKey = `${dueDate.getFullYear()}-${String(dueDate.getMonth() + 1).padStart(2, '0')}`;
+        const monthLabel = dueDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+        
+        if (!groups[monthKey]) {
+          groups[monthKey] = [];
+        }
+        groups[monthKey].push(payment);
+        return groups;
+      }, {})
+    : { 'current': filteredPaidPayments };
+
   const totalPaidAmount = filteredPaidPayments.reduce((sum, payment) => {
     return sum + (payment.paidAmount || payment.contractRentAmount || payment.rentAmount || 0);
   }, 0);
@@ -80,6 +95,49 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
       </Badge>
     );
   };
+
+  const renderPaymentCard = (payment: Payment) => (
+    <Card key={payment.id} className="border-l-4 border-l-green-500">
+      <CardContent className="p-4">
+        <div className="space-y-3">
+          <div className="flex justify-between items-start">
+            <div>
+              <h4 className="font-semibold text-gray-900">
+                {payment.tenantName}
+              </h4>
+              <p className="text-sm text-gray-600">
+                {payment.property}
+              </p>
+            </div>
+            <Badge variant="secondary" className="bg-green-100 text-green-800">
+              {payment.tenantType}
+            </Badge>
+          </div>
+          
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">{t('rentManagement.amountPaid')}:</span>
+              <span className="font-semibold text-green-600">
+                {(payment.paidAmount || payment.contractRentAmount || payment.rentAmount)?.toLocaleString()}€
+              </span>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">{t('rentManagement.paymentDate')}:</span>
+              <span className="text-sm text-gray-900">
+                {payment.paymentDate ? formatDate(payment.paymentDate) : t('common.notSpecified')}
+              </span>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">{t('rentManagement.paymentMethod')}:</span>
+              {getPaymentMethodBadge(payment.paymentMethod)}
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <Card className="mb-6">
@@ -115,50 +173,45 @@ const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
               }
             </p>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredPaidPayments.map((payment) => (
-              <Card key={payment.id} className="border-l-4 border-l-green-500">
-                <CardContent className="p-4">
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-semibold text-gray-900">
-                          {payment.tenantName}
-                        </h4>
-                        <p className="text-sm text-gray-600">
-                          {payment.property}
-                        </p>
-                      </div>
-                      <Badge variant="secondary" className="bg-green-100 text-green-800">
-                        {payment.tenantType}
-                      </Badge>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">{t('rentManagement.amountPaid')}:</span>
+        ) : showPreviousMonths ? (
+          // Affichage groupé par mois pour les mois précédents
+          <div className="space-y-6">
+            {Object.entries(groupedPayments)
+              .sort(([keyA], [keyB]) => keyB.localeCompare(keyA)) // Tri décroissant par date
+              .map(([monthKey, monthPayments]) => {
+                const monthDate = new Date(monthKey + '-01');
+                const monthLabel = monthDate.toLocaleDateString('fr-FR', { 
+                  month: 'long', 
+                  year: 'numeric' 
+                });
+                const monthTotal = monthPayments.reduce((sum, payment) => 
+                  sum + (payment.paidAmount || payment.contractRentAmount || payment.rentAmount || 0), 0
+                );
+
+                return (
+                  <div key={monthKey} className="space-y-4">
+                    <div className="flex items-center justify-between border-b border-gray-200 pb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 capitalize">
+                        {monthLabel}
+                      </h3>
+                      <div className="flex items-center gap-4 text-sm text-gray-600">
+                        <span>{monthPayments.length} paiement(s)</span>
                         <span className="font-semibold text-green-600">
-                          {(payment.paidAmount || payment.contractRentAmount || payment.rentAmount)?.toLocaleString()}€
+                          {monthTotal.toLocaleString()}€
                         </span>
                       </div>
-                      
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">{t('rentManagement.paymentDate')}:</span>
-                        <span className="text-sm text-gray-900">
-                          {payment.paymentDate ? formatDate(payment.paymentDate) : t('common.notSpecified')}
-                        </span>
-                      </div>
-                      
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">{t('rentManagement.paymentMethod')}:</span>
-                        {getPaymentMethodBadge(payment.paymentMethod)}
-                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {monthPayments.map(renderPaymentCard)}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                );
+              })}
+          </div>
+        ) : (
+          // Affichage normal pour le mois sélectionné
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredPaidPayments.map(renderPaymentCard)}
           </div>
         )}
       </CardContent>
