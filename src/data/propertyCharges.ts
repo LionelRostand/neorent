@@ -18,12 +18,13 @@ export const PROPERTY_CHARGES_CONFIG: Record<string, PropertyChargeConfig> = {
     propertyId: 'appartement-13',
     propertyName: 'Appartement 13 - Colocation',
     quarterlyCharges: {
-      maintenance: 180,    // 60€/mois × 3 mois
-      insurance: 90,       // 30€/mois × 3 mois
-      garbage: 75,         // 25€/mois × 3 mois
-      heating: 150,        // 50€/mois × 3 mois (chauffage central)
+      maintenance: 0,      // Non géré par copropriété
+      insurance: 0,        // Non géré par copropriété
+      garbage: 300,        // Collecte des ordures - 100€/mois × 3 mois
+      heating: 450,        // Chauffage - 150€/mois × 3 mois
+      water: 250,          // Eau - 83.33€/mois × 3 mois
     },
-    managedByCopropriete: ['maintenance', 'insurance', 'garbage', 'heating']
+    managedByCopropriete: ['heating', 'garbage', 'water'] // Total: 1000€/trimestre
   },
   // Ajouter d'autres appartements ici
   'appartement-12': {
