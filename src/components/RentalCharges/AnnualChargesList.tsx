@@ -48,7 +48,7 @@ const AnnualChargesList: React.FC<AnnualChargesListProps> = ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-gray-900">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
         Charges Annuelles - {selectedYear}
       </h2>
       
@@ -56,65 +56,73 @@ const AnnualChargesList: React.FC<AnnualChargesListProps> = ({
         {propertyEntries.map((entry) => (
           <Card key={entry.property.propertyName} className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Building2 className="h-5 w-5" />
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
+                <div className="flex-1">
+                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                    <Building2 className="h-4 w-4 sm:h-5 sm:w-5" />
                     {entry.property.propertyName}
                   </CardTitle>
-                  <div className="flex items-center gap-4 mt-2">
-                    <Badge variant="outline">{entry.property.propertyType}</Badge>
-                    <span className="text-sm text-gray-600">Locataire: {entry.property.tenant}</span>
-                    <span className="text-sm text-gray-600">{entry.charges.length} mois de données</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2">
+                    <Badge variant="outline" className="text-xs sm:text-sm w-fit">
+                      {entry.property.propertyType}
+                    </Badge>
+                    <span className="text-xs sm:text-sm text-gray-600">
+                      Locataire: {entry.property.tenant}
+                    </span>
+                    <span className="text-xs sm:text-sm text-gray-600">
+                      {entry.charges.length} mois de données
+                    </span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-3xl font-bold text-blue-600">{entry.total.toFixed(2)}€</span>
-                  <p className="text-sm text-gray-600">Total annuel</p>
+                <div className="text-center lg:text-right">
+                  <span className="text-2xl sm:text-3xl font-bold text-blue-600">
+                    {entry.total.toFixed(2)}€
+                  </span>
+                  <p className="text-xs sm:text-sm text-gray-600">Total annuel</p>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">Électricité</p>
-                  <p className="font-semibold">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Électricité</p>
+                  <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.electricity, 0).toFixed(2)}€
                   </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">Eau</p>
-                  <p className="font-semibold">
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Eau</p>
+                  <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.water, 0).toFixed(2)}€
                   </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">Chauffage</p>
-                  <p className="font-semibold">
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Chauffage</p>
+                  <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.heating, 0).toFixed(2)}€
                   </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">Entretien</p>
-                  <p className="font-semibold">
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Entretien</p>
+                  <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.maintenance, 0).toFixed(2)}€
                   </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">Assurance</p>
-                  <p className="font-semibold">
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Assurance</p>
+                  <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.insurance, 0).toFixed(2)}€
                   </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">Ordures</p>
-                  <p className="font-semibold">
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Ordures</p>
+                  <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.garbage, 0).toFixed(2)}€
                   </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-600">Internet</p>
-                  <p className="font-semibold">
+                <div className="text-center p-2 sm:p-0">
+                  <p className="text-xs sm:text-sm text-gray-600">Internet</p>
+                  <p className="text-sm sm:text-base font-semibold">
                     {entry.charges.reduce((sum, c) => sum + c.internet, 0).toFixed(2)}€
                   </p>
                 </div>
