@@ -49,9 +49,9 @@ const Website = () => {
 
   return (
     <AdminLayout>
-      <div className="h-screen flex flex-col">
+      <div className="h-full flex flex-col p-2 sm:p-4 md:p-6">
         {/* Header Section */}
-        <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4 md:p-6 m-2 sm:m-4 md:m-6 flex-shrink-0">
+        <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4 md:p-6 flex-shrink-0 mb-4">
           <div className="flex items-start space-x-2 sm:space-x-3">
             <Settings className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-primary flex-shrink-0 mt-0.5 sm:mt-1" />
             <div className="min-w-0 flex-1">
@@ -69,7 +69,7 @@ const Website = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
             {/* Tabs - Responsive */}
-            <div className="w-full overflow-x-auto scrollbar-hide px-2 sm:px-4 md:px-6 mb-2 sm:mb-3 md:mb-4">
+            <div className="w-full overflow-x-auto scrollbar-hide mb-2 sm:mb-3 md:mb-4">
               <TabsList className="inline-flex h-auto w-max p-0.5 sm:p-1 bg-muted rounded-lg">
                 {tabs.map((tab) => (
                   <TabsTrigger 
@@ -87,7 +87,7 @@ const Website = () => {
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-hidden px-2 sm:px-4 md:px-6 pb-2 sm:pb-4 md:pb-6">
+            <div className="flex-1 overflow-hidden">
               <div className="h-full overflow-y-auto">
                 <TabsContent value="pages" className="m-0 h-full">
                   <PagesTab />
