@@ -208,13 +208,6 @@ const RentManagement = () => {
           showPreviousMonths={true}
         />
 
-        {/* Affichage des loyers payés des mois suivants */}
-        <PaidRentsDisplay
-          payments={payments}
-          selectedMonth={selectedMonth}
-          title={t('rentManagement.nextMonthsRents')}
-          showNextMonths={true}
-        />
 
         <NewRentPaymentsList
           payments={currentMonthPayments}
