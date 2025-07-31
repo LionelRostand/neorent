@@ -49,95 +49,89 @@ const Website = () => {
 
   return (
     <AdminLayout>
-      <div className="w-full max-w-full overflow-hidden space-y-4 md:space-y-6">
-        <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-          <div className="flex items-start space-x-3">
-            <Settings className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 flex-shrink-0 mt-1" />
-            <div className="min-w-0 flex-1">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-words">{t('website.title')}</h1>
-              <p className="text-gray-600 mt-1 text-sm sm:text-base break-words">
-                {t('website.description')}
-              </p>
+      <div className="w-full h-full overflow-hidden">
+        <div className="h-full flex flex-col space-y-3 md:space-y-4">
+          <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4 md:p-6 flex-shrink-0">
+            <div className="flex items-start space-x-3">
+              <Settings className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-primary flex-shrink-0 mt-1" />
+              <div className="min-w-0 flex-1">
+                <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground break-words">{t('website.title')}</h1>
+                <p className="text-muted-foreground mt-1 text-xs sm:text-sm md:text-base break-words">
+                  {t('website.description')}
+                </p>
+              </div>
             </div>
           </div>
+
+          <div className="flex-1 overflow-hidden">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
+              {/* Mobile responsive tabs with horizontal scroll */}
+              <div className="w-full overflow-x-auto scrollbar-hide flex-shrink-0">
+                <TabsList className="inline-flex h-auto w-max min-w-full p-1 bg-muted rounded-lg mb-3 md:mb-4">
+                  {tabs.map((tab) => (
+                    <TabsTrigger 
+                      key={tab.id} 
+                      value={tab.id}
+                      className="flex flex-col items-center gap-1 px-1.5 sm:px-2 md:px-3 py-1.5 sm:py-2 md:py-3 text-xs font-medium whitespace-nowrap min-w-[60px] sm:min-w-[70px] md:min-w-[90px] lg:min-w-[100px] data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all"
+                    >
+                      <tab.icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 flex-shrink-0" />
+                      <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs leading-tight text-center">
+                        {tab.label}
+                      </span>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+
+              <div className="flex-1 overflow-hidden">
+                <TabsContent value="pages" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <PagesTab />
+                </TabsContent>
+
+                <TabsContent value="immo" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <ImmoTab />
+                </TabsContent>
+
+                <TabsContent value="content" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <ContentTab />
+                </TabsContent>
+
+                <TabsContent value="medias" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <MediasTab />
+                </TabsContent>
+
+                <TabsContent value="theme" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <ThemeTab />
+                </TabsContent>
+
+                <TabsContent value="footer" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <FooterTab />
+                </TabsContent>
+
+                <TabsContent value="legal" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <LegalPagesTab />
+                </TabsContent>
+
+                <TabsContent value="cookies" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <CookiesTab />
+                </TabsContent>
+
+                <TabsContent value="carte" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <MapTab />
+                </TabsContent>
+
+                <TabsContent value="analytics" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <AnalyticsTab />
+                </TabsContent>
+
+                <TabsContent value="config" className="h-full overflow-y-auto scrollbar-hide p-2 md:p-4">
+                  <ConfigTab />
+                </TabsContent>
+              </div>
+            </Tabs>
+          </div>
         </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          {/* Mobile responsive tabs with horizontal scroll */}
-          <div className="w-full overflow-x-auto scrollbar-hide">
-            <TabsList className="inline-flex h-auto w-max min-w-full p-1 bg-gray-100 rounded-lg mb-4 md:mb-6">
-              {tabs.map((tab) => (
-                <TabsTrigger 
-                  key={tab.id} 
-                  value={tab.id}
-                  className="flex flex-col items-center gap-1 px-2 sm:px-3 py-2 sm:py-3 text-xs font-medium whitespace-nowrap min-w-[70px] sm:min-w-[90px] md:min-w-[100px] data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md transition-all"
-                >
-                  <tab.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                  <span className="text-[9px] sm:text-[10px] md:text-xs leading-tight text-center">
-                    {tab.label}
-                  </span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-
-          <div className="w-full min-h-[400px] sm:min-h-[500px] lg:min-h-[600px]">
-            <TabsContent value="pages" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <PagesTab />
-            </TabsContent>
-
-            <TabsContent value="immo" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <ImmoTab />
-            </TabsContent>
-
-            <TabsContent value="content" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <ContentTab />
-            </TabsContent>
-
-            <TabsContent value="medias" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <MediasTab />
-            </TabsContent>
-
-            <TabsContent value="theme" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <ThemeTab />
-            </TabsContent>
-
-            <TabsContent value="footer" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <FooterTab />
-            </TabsContent>
-
-            <TabsContent value="legal" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <LegalPagesTab />
-            </TabsContent>
-
-            <TabsContent value="cookies" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <CookiesTab />
-            </TabsContent>
-
-            <TabsContent value="carte" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <MapTab />
-            </TabsContent>
-
-            <TabsContent value="analytics" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <AnalyticsTab />
-            </TabsContent>
-
-            <TabsContent value="config" className="space-y-4 md:space-y-6 mt-0 w-full">
-              <ConfigTab />
-            </TabsContent>
-          </div>
-        </Tabs>
       </div>
-
-      <style>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </AdminLayout>
   );
 };
