@@ -19,24 +19,13 @@ export interface QuickActionConfig {
 
 export const defaultQuickActions: QuickActionConfig[] = [
   {
-    id: 'dashboard',
-    title: { fr: 'Tableau de bord', en: 'Dashboard' },
-    description: { fr: 'Vue d\'ensemble', en: 'Overview' },
-    icon: 'LayoutDashboard',
-    color: 'bg-slate-500',
-    enabled: true,
-    order: 1,
-    action: 'dialog',
-    actionValue: 'dashboard'
-  },
-  {
     id: 'property',
     title: { fr: 'Nouvelle propriété', en: 'New Property' },
     description: { fr: 'Ajouter un bien', en: 'Add a property' },
     icon: 'Plus',
     color: 'bg-blue-500',
     enabled: true,
-    order: 2,
+    order: 1,
     action: 'dialog',
     actionValue: 'property'
   },
@@ -47,7 +36,7 @@ export const defaultQuickActions: QuickActionConfig[] = [
     icon: 'FileText',
     color: 'bg-yellow-500',
     enabled: true,
-    order: 3,
+    order: 2,
     action: 'dialog',
     actionValue: 'contract'
   },
@@ -58,7 +47,7 @@ export const defaultQuickActions: QuickActionConfig[] = [
     icon: 'Users',
     color: 'bg-purple-500',
     enabled: true,
-    order: 4,
+    order: 3,
     action: 'dialog',
     actionValue: 'roommate'
   },
@@ -69,7 +58,7 @@ export const defaultQuickActions: QuickActionConfig[] = [
     icon: 'MessageSquare',
     color: 'bg-green-500',
     enabled: true,
-    order: 5,
+    order: 4,
     action: 'navigate',
     actionValue: 'chat'
   }

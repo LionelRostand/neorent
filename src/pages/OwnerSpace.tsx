@@ -18,7 +18,7 @@ const OwnerSpace = () => {
   const { getCurrentProfile, isAuthorizedAdmin } = useAdminTenantAccess();
   const { canAccessOwnerSpace } = useOwnerPermissions();
   const [activeView, setActiveView] = useState('properties');
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  
 
   // Get current profile (logged user or profile selected by admin)
   const currentProfile = getCurrentProfile();
@@ -66,26 +66,13 @@ const OwnerSpace = () => {
   // Regular layout for other pages (dashboard, properties, etc.)
   return (
     <div className="h-screen flex w-full bg-gray-50 relative">
-      {/* Mobile sidebar overlay */}
-      {isMobileSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setIsMobileSidebarOpen(false)}
-        />
-      )}
 
-      {/* Quick actions sidebar - responsive with same height as main content */}
-      <div className={`
-        ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} 
-        transition-transform duration-300 ease-in-out
-        fixed md:static inset-y-0 left-0 z-50 md:z-auto
-        flex-shrink-0 h-full
-      `}>
+      {/* Quick actions sidebar */}
+      <div className="flex-shrink-0 h-full">
         <OwnerSpaceQuickActionsSidebar 
           ownerProfile={currentProfile} 
           activeView={activeView}
           setActiveView={setActiveView}
-          onMobileClose={() => setIsMobileSidebarOpen(false)}
         />
       </div>
       
