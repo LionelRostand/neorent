@@ -18,13 +18,18 @@ export const useUserProfileManager = (user: User | null) => {
 
   useEffect(() => {
     const loadUserProfile = async () => {
-      console.log('🔄 useUserProfileManager - User changed:', user?.email);
-      
-      // Clear any old data first
-      sessionStorage.removeItem('adminSelectedProfile');
-      
-      // Force refresh profile data on every load
-      if (user) {
+      try {
+        console.log('🔄 useUserProfileManager - User changed:', user?.email);
+        
+        // Clear any old data first
+        sessionStorage.removeItem('adminSelectedProfile');
+        
+        if (!user) {
+          setSelectedProfile(null);
+          setUserType('locataire');
+          return;
+        }
+        
         // Check if admin is impersonating
         const adminProfile = sessionStorage.getItem('adminSelectedProfile');
         console.log('🔍 Admin profile in storage:', adminProfile);
@@ -39,8 +44,10 @@ export const useUserProfileManager = (user: User | null) => {
             return; // Exit early for admin impersonation
           } catch (error) {
             console.error('Error parsing admin profile:', error);
+            sessionStorage.removeItem('adminSelectedProfile');
           }
         }
+        
         // Regular user profile - check specific cases
         const isAdmin = user.email === 'admin@neotech-consulting.com';
         const isEmadAdam = user.email === 'entrepreneurpro19@gmail.com';
@@ -141,6 +148,23 @@ export const useUserProfileManager = (user: User | null) => {
         
         console.log('🔄 Setting user profile for:', user.email, profile);
         console.log('🔄 Setting user type:', profile.type);
+      } catch (error) {
+        console.error('❌ Critical error in useUserProfileManager:', error);
+        // Fallback pour éviter que l'app plante
+        if (user) {
+          const fallbackProfile = {
+            id: user.uid,
+            name: user.displayName || user.email || '',
+            email: user.email || '',
+            role: 'locataire',
+            type: 'locataire' as const
+          };
+          setSelectedProfile(fallbackProfile);
+          setUserType('locataire');
+        } else {
+          setSelectedProfile(null);
+          setUserType('locataire');
+        }
       }
     };
 
