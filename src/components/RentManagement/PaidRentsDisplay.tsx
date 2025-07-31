@@ -22,22 +22,31 @@ interface PaidRentsDisplayProps {
   payments: Payment[];
   selectedMonth: Date;
   title: string;
+  showPreviousMonths?: boolean;
 }
 
 const PaidRentsDisplay: React.FC<PaidRentsDisplayProps> = ({
   payments,
   selectedMonth,
-  title
+  title,
+  showPreviousMonths = false
 }) => {
   const { t } = useTranslation();
 
-  // Filtrer les paiements payés pour le mois sélectionné
+  // Filtrer les paiements payés selon le type d'affichage
   const filteredPaidPayments = payments.filter(payment => {
     if (payment.status !== 'Payé' || !payment.paymentDate) return false;
     
     const paymentDate = new Date(payment.paymentDate);
-    return paymentDate.getMonth() === selectedMonth.getMonth() && 
-           paymentDate.getFullYear() === selectedMonth.getFullYear();
+    
+    if (showPreviousMonths) {
+      // Afficher les paiements des mois précédents au mois sélectionné
+      return paymentDate < new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
+    } else {
+      // Afficher les paiements du mois sélectionné
+      return paymentDate.getMonth() === selectedMonth.getMonth() && 
+             paymentDate.getFullYear() === selectedMonth.getFullYear();
+    }
   });
 
   const totalPaidAmount = filteredPaidPayments.reduce((sum, payment) => {

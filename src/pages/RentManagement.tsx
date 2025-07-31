@@ -139,6 +139,14 @@ const RentManagement = () => {
           }
         />
 
+        {/* Affichage des loyers payés des mois précédents */}
+        <PaidRentsDisplay
+          payments={payments}
+          selectedMonth={selectedMonth}
+          title="Loyers payés des mois précédents"
+          showPreviousMonths={true}
+        />
+
         <NewRentPaymentsList
           payments={currentMonthPayments}
           onMarkAsPaid={handleMarkAsPaid}
