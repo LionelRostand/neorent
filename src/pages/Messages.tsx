@@ -5,128 +5,73 @@ import { AdminLayout } from '@/components/Layout/AdminLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
 import { ContactList } from '@/components/Messages/ContactList';
 import { ChatWindow } from '@/components/Messages/ChatWindow';
-import { messageService } from '@/services/messageService';
+import { useUnifiedChat } from '@/hooks/useUnifiedChat';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 import { AuthContext } from '@/contexts/AuthContext';
+import type { UnifiedConversation, UnifiedMessage } from '@/types/unifiedChat';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
 const Messages = () => {
   const { t } = useTranslation();
   const { userProfile } = useContext(AuthContext);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedConversation, setSelectedConversation] = useState<UnifiedConversation | null>(null);
+
+  // Utiliser le système de chat unifié
+  const {
+    conversations,
+    messages,
+    sendMessage,
+    subscribeToMessages,
+    markAsRead,
+    loading,
+    loadingMessages
+  } = useUnifiedChat(userProfile?.email || '');
 
   // Récupérer les données des utilisateurs réels
   const { roommates, loading: roommatesLoading } = useFirebaseRoommates();
   const { tenants, loading: tenantsLoading } = useFirebaseTenants();
   const { owners, loading: ownersLoading } = useFirebaseOwners();
 
-  console.log('📨 Messages page: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
-  console.log('📨 Messages page: Conversation sélectionnée:', selectedConversation?.id);
-  console.log('📨 Messages page: Profil utilisateur:', userProfile);
-  console.log('📨 Users data:', { roommates: roommates.length, tenants: tenants.length, owners: owners.length });
+  console.log('📨 Messages page UNIFIED: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
+  console.log('📨 Messages page UNIFIED: Conversation sélectionnée:', selectedConversation?.id);
+  console.log('📨 Messages page UNIFIED: Profil utilisateur:', userProfile);
 
-  // Créer des conversations basées sur les vrais utilisateurs
-  useEffect(() => {
-    // Attendre que toutes les données soient chargées
-    if (roommatesLoading || tenantsLoading || ownersLoading) {
-      return;
-    }
-
-    console.log('📨 Messages page: Initialisation avec colocataires et locataires...');
-    console.log('📨 Roommates trouvés:', roommates.length);
-    console.log('📨 Tenants trouvés:', tenants.length);
+  // Convertir les conversations unifiées vers l'ancien format pour la compatibilité
+  const adaptedConversations: Conversation[] = conversations.map(conv => {
+    const participants = conv.participants;
+    const otherParticipant = participants.find(p => p !== userProfile?.email) || participants[0];
+    const participantName = conv.participantNames[otherParticipant] || otherParticipant;
     
-    // Créer des conversations potentielles pour tous les utilisateurs actifs
-    const potentialConversations: Conversation[] = [];
-    
-    // Ajouter les colocataires actifs
-    roommates.forEach(roommate => {
-      if (roommate.status === 'Actif' && roommate.email && roommate.name) {
-        // Créer un Timestamp Firebase pour éviter l'erreur .toDate()
-        const now = new Date();
-        const timestamp = {
-          toDate: () => now,
-          seconds: Math.floor(now.getTime() / 1000),
-          nanoseconds: 0
-        };
-        
-        potentialConversations.push({
-          id: `roommate-${roommate.id}`,
-          clientName: roommate.name,
-          clientEmail: roommate.email,
-          lastMessage: '',
-          lastMessageTime: timestamp as any,
-          unreadCount: 0,
-          status: 'offline' as const,
-          createdAt: timestamp as any,
-        });
-      }
-    });
+    return {
+      id: conv.id,
+      clientName: participantName,
+      clientEmail: otherParticipant,
+      lastMessage: conv.lastMessage,
+      lastMessageTime: conv.lastMessageTime,
+      unreadCount: conv.unreadCount[userProfile?.email || ''] || 0,
+      status: 'online' as const,
+      createdAt: conv.createdAt
+    };
+  });
 
-    // Ajouter les locataires actifs
-    tenants.forEach(tenant => {
-      if (tenant.status === 'Actif' && tenant.email && tenant.name) {
-        // Créer un Timestamp Firebase pour éviter l'erreur .toDate()
-        const now = new Date();
-        const timestamp = {
-          toDate: () => now,
-          seconds: Math.floor(now.getTime() / 1000),
-          nanoseconds: 0
-        };
-        
-        potentialConversations.push({
-          id: `tenant-${tenant.id}`,
-          clientName: tenant.name,
-          clientEmail: tenant.email,
-          lastMessage: '',
-          lastMessageTime: timestamp as any,
-          unreadCount: 0,
-          status: 'offline' as const,
-          createdAt: timestamp as any,
-        });
-      }
-    });
-
-    console.log('📨 Messages page: Conversations potentielles créées:', potentialConversations.length);
-    setConversations(potentialConversations);
-    setLoading(false);
-
-    // Écouter les vraies conversations Firebase pour mettre à jour les données
-    const unsubscribe = messageService.subscribeToConversations((firebaseConversations) => {
-      console.log('📨 Messages page: Conversations Firebase reçues:', firebaseConversations.length);
-      
-      // Fusionner les conversations potentielles avec les vraies conversations Firebase
-      const mergedConversations = [...potentialConversations];
-      
-      firebaseConversations.forEach(firebaseConv => {
-        const existingIndex = mergedConversations.findIndex(conv => 
-          conv.clientEmail === firebaseConv.clientEmail
-        );
-        
-        if (existingIndex >= 0) {
-          // Remplacer la conversation potentielle par la vraie
-          mergedConversations[existingIndex] = firebaseConv;
-        } else {
-          // Ajouter une nouvelle conversation qui n'était pas dans les potentielles
-          mergedConversations.push(firebaseConv);
-        }
-      });
-      
-      setConversations(mergedConversations);
-    });
-
-    return unsubscribe;
-  }, [roommates, tenants, owners, roommatesLoading, tenantsLoading, ownersLoading]);
+  // Convertir les messages unifiés vers l'ancien format
+  const adaptedMessages: ChatMessage[] = messages.map(msg => ({
+    id: msg.id,
+    conversationId: msg.conversationId,
+    sender: msg.senderEmail === userProfile?.email ? 'staff' : 'client',
+    senderName: msg.senderName,
+    senderEmail: msg.senderEmail,
+    message: msg.content,
+    timestamp: msg.timestamp,
+    read: msg.readBy.includes(userProfile?.email || '')
+  }));
 
   // Auto-sélection de la première conversation
   useEffect(() => {
     if (!selectedConversation && conversations.length > 0) {
-      console.log('📨 Messages page: Auto-sélection de la première conversation:', conversations[0].id);
+      console.log('📨 Messages page UNIFIED: Auto-sélection de la première conversation:', conversations[0].id);
       setSelectedConversation(conversations[0]);
     }
   }, [conversations, selectedConversation]);
@@ -134,123 +79,64 @@ const Messages = () => {
   // Abonnement aux messages de la conversation sélectionnée
   useEffect(() => {
     if (!selectedConversation) {
-      console.log('📨 Messages page: Pas de conversation sélectionnée, reset des messages');
-      setMessages([]);
+      console.log('📨 Messages page UNIFIED: Pas de conversation sélectionnée');
       return;
     }
 
-    console.log('📨 Messages page: Souscription aux messages pour conversation:', selectedConversation.id);
-    const unsubscribe = messageService.subscribeToMessages(
-      selectedConversation.id,
-      (newMessages) => {
-        console.log('📨 Messages page: Callback messages reçu pour conversation', selectedConversation.id);
-        console.log('📨 Messages page: Nombre de messages reçus:', newMessages.length);
-        newMessages.forEach((msg, index) => {
-          console.log(`📨 Message ${index}:`, {
-            id: msg.id,
-            sender: msg.sender,
-            senderName: msg.senderName,
-            message: msg.message.substring(0, 50) + '...',
-            timestamp: msg.timestamp
-          });
-        });
-        setMessages(newMessages);
-      }
-    );
+    console.log('📨 Messages page UNIFIED: Souscription aux messages pour conversation:', selectedConversation.id);
+    const unsubscribe = subscribeToMessages(selectedConversation.id);
+    
+    // Marquer comme lu
+    markAsRead(selectedConversation.id);
 
     return unsubscribe;
-  }, [selectedConversation]);
-
-  // Marquer les messages comme lus quand on sélectionne une conversation
-  useEffect(() => {
-    if (selectedConversation && selectedConversation.unreadCount > 0) {
-      console.log('📨 Messages page: Marquage des messages comme lus pour conversation:', selectedConversation.id);
-      messageService.markMessagesAsRead(selectedConversation.id);
-    }
-  }, [selectedConversation]);
+  }, [selectedConversation, subscribeToMessages, markAsRead]);
 
   const handleConversationSelect = (conversation: Conversation) => {
-    console.log('📨 Messages page: Sélection de la conversation:', conversation.id);
-    setSelectedConversation(conversation);
+    console.log('📨 Messages page UNIFIED: Sélection de la conversation:', conversation.id);
+    // Trouver la conversation unifiée correspondante
+    const unifiedConv = conversations.find(c => c.id === conversation.id);
+    if (unifiedConv) {
+      setSelectedConversation(unifiedConv);
+    }
   };
 
   const handleConversationDelete = async (conversationId: string) => {
-    try {
-      console.log('📨 Messages page: Suppression de la conversation:', conversationId);
-      await messageService.deleteConversation(conversationId);
-      if (selectedConversation?.id === conversationId) {
-        setSelectedConversation(null);
-      }
-    } catch (error) {
-      console.error('📨 Messages page: Error deleting conversation:', error);
-    }
+    // Pour l'instant, on ne supporte pas la suppression dans le système unifié
+    console.log('📨 Messages page UNIFIED: Suppression non supportée pour:', conversationId);
   };
 
   const handleSendMessage = async (message: string) => {
     if (!selectedConversation || !userProfile) return;
 
     try {
-      console.log('📨 Messages page: Envoi du message:', message, 'pour conversation:', selectedConversation.id);
-      console.log('📨 Messages page: Profil expéditeur:', userProfile);
+      console.log('📨 Messages page UNIFIED: Envoi du message:', message, 'pour conversation:', selectedConversation.id);
       
-      // Utiliser les informations du profil utilisateur connecté
-      const senderName = userProfile.name || 'Utilisateur';
-      const senderEmail = userProfile.email || 'utilisateur@neorent.fr';
+      // Trouver l'autre participant (pas l'admin)
+      const otherParticipant = selectedConversation.participants.find(p => p !== userProfile.email);
       
-      // Vérifier si c'est une conversation potentielle (pas encore créée dans Firebase)
-      const isPotentialConversation = selectedConversation.id.startsWith('roommate-') || selectedConversation.id.startsWith('tenant-');
-      
-      if (isPotentialConversation) {
-        console.log('📨 Messages page: Création d\'une nouvelle conversation Firebase pour:', selectedConversation.clientEmail);
-        
-        // Créer une vraie conversation Firebase
-        const realConversationId = await messageService.createConversation({
-          clientName: selectedConversation.clientName,
-          clientEmail: selectedConversation.clientEmail
-        });
-        
-        console.log('📨 Messages page: Nouvelle conversation créée avec ID:', realConversationId);
-        
-        // Envoyer le message à la vraie conversation
-        await messageService.sendMessage({
-          conversationId: realConversationId,
-          sender: 'staff',
-          senderName: senderName,
-          senderEmail: senderEmail,
-          message
-        });
-        
-        // Mettre à jour la conversation sélectionnée avec le vrai ID
-        setSelectedConversation(prev => prev ? {
-          ...prev,
-          id: realConversationId
-        } : null);
-        
-      } else {
-        // Conversation existante, envoyer le message normalement
-        await messageService.sendMessage({
-          conversationId: selectedConversation.id,
-          sender: 'staff',
-          senderName: senderName,
-          senderEmail: senderEmail,
-          message
-        });
+      if (!otherParticipant) {
+        console.error('📨 Messages page UNIFIED: Aucun autre participant trouvé');
+        return;
       }
+
+      // Utiliser le système unifié pour envoyer le message
+      await sendMessage(
+        otherParticipant,
+        message,
+        userProfile.name || 'Admin',
+        selectedConversation.participantNames[otherParticipant] || 'Utilisateur'
+      );
       
-      console.log('📨 Messages page: Message envoyé avec succès par:', senderName);
+      console.log('📨 Messages page UNIFIED: Message envoyé avec succès');
     } catch (error) {
-      console.error('📨 Messages page: Error sending message:', error);
+      console.error('📨 Messages page UNIFIED: Error sending message:', error);
     }
   };
 
   const handleDeleteMessage = async (messageId: string) => {
-    try {
-      console.log('📨 Messages page: Suppression du message:', messageId);
-      await messageService.deleteMessage(messageId);
-      console.log('📨 Messages page: Message supprimé avec succès');
-    } catch (error) {
-      console.error('📨 Messages page: Error deleting message:', error);
-    }
+    // Pour l'instant, on ne supporte pas la suppression dans le système unifié
+    console.log('📨 Messages page UNIFIED: Suppression de message non supportée pour:', messageId);
   };
 
   return (
@@ -261,13 +147,13 @@ const Messages = () => {
           <p className="text-gray-600">{t('messages.subtitle')}</p>
         </div>
 
-        <MessageStats conversations={conversations} />
+         <MessageStats conversations={adaptedConversations} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 mt-6">
           <div className="lg:col-span-1">
             <ContactList
-              conversations={conversations}
-              selectedConversation={selectedConversation}
+              conversations={adaptedConversations}
+              selectedConversation={adaptedConversations.find(c => c.id === selectedConversation?.id) || null}
               onConversationSelect={handleConversationSelect}
               onConversationDelete={handleConversationDelete}
               loading={loading}
@@ -277,8 +163,8 @@ const Messages = () => {
           <div className="lg:col-span-2 h-full">
             {selectedConversation ? (
               <ChatWindow
-                conversation={selectedConversation}
-                messages={messages}
+                conversation={adaptedConversations.find(c => c.id === selectedConversation?.id) || adaptedConversations[0]}
+                messages={adaptedMessages}
                 onSendMessage={handleSendMessage}
                 onDeleteMessage={handleDeleteMessage}
               />
