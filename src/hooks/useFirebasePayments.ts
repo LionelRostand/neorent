@@ -191,15 +191,14 @@ export const useFirebasePayments = () => {
     }
   };
 
-  // Fonction pour nettoyer les paiements dupliqués d'EMAD ADAM
+  // Fonction pour nettoyer TOUS les paiements d'EMAD ADAM
   const cleanEmadDuplicates = async () => {
     try {
       const emadPayments = payments.filter(p => 
-        p.tenantName === 'Emad ADAM' && 
-        p.notes === 'Paiement généré automatiquement'
+        p.tenantName === 'Emad ADAM'
       );
       
-      console.log('🧹 NETTOYAGE DES DOUBLONS D\'EMAD:', emadPayments);
+      console.log('🧹 SUPPRESSION DE TOUS LES PAIEMENTS D\'EMAD:', emadPayments);
       
       // Supprimer tous les paiements générés automatiquement
       await Promise.all(
