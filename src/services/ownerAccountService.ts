@@ -26,7 +26,9 @@ export const ownerAccountService = {
       ...userData,
       role: 'owner' as const,
       userType: 'owner' as const,
+      type: 'owner' as const,
       name: request.name,
+      email: request.email,
       phone: request.phone || userData.phone || '',
       company: request.company || userData.company || '',
       address: request.address || userData.address || '',
@@ -34,9 +36,11 @@ export const ownerAccountService = {
       isPropertyOwner: true,
       firebaseUid: firebaseUid,
       hasPassword: true,
+      password: request.password,
       temporaryPassword: temporaryPassword,
       updatedAt: new Date().toISOString(),
-      permissions: ['read', 'write', 'manage']
+      permissions: ['read', 'write', 'manage'],
+      status: 'active'
     };
 
     await updateDoc(doc(db, 'user_roles', existingUserId), updatedProfile);
@@ -46,6 +50,7 @@ export const ownerAccountService = {
     const ownerProfile = {
       role: 'owner' as const,
       userType: 'owner' as const,
+      type: 'owner' as const,
       email: request.email,
       name: request.name,
       createdAt: new Date().toISOString(),
@@ -57,8 +62,10 @@ export const ownerAccountService = {
       company: request.company || '',
       address: request.address || '',
       firebaseUid: firebaseUid,
+      password: request.password,
       temporaryPassword: temporaryPassword,
-      fromRegistrationRequest: true
+      fromRegistrationRequest: true,
+      status: 'active'
     };
 
     await setDoc(doc(db, 'user_roles', firebaseUid), ownerProfile);

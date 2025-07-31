@@ -60,7 +60,7 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">{t('publicSite.ownerRegistration.password')} *</Label>
+        <Label htmlFor="password">Mot de passe *</Label>
         <Input
           id="password"
           name="password"
@@ -69,8 +69,10 @@ const PersonalInfoFields: React.FC<PersonalInfoFieldsProps> = ({
           onChange={onChange}
           required
           disabled={isLoading}
-          placeholder="Entrez votre mot de passe"
+          placeholder="Entrez votre mot de passe (minimum 6 caractères)"
+          className="w-full"
         />
+        <p className="text-sm text-muted-foreground">Le mot de passe doit contenir au moins 6 caractères</p>
       </div>
     </>
   );

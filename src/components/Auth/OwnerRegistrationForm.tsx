@@ -68,7 +68,7 @@ const OwnerRegistrationForm: React.FC<OwnerRegistrationFormProps> = ({ onSuccess
 
       <Button 
         type="submit" 
-        className="w-full" 
+        className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 rounded-md transition-colors" 
         disabled={isLoading || !!emailError || !formData.name || !formData.email || !formData.password}
       >
         {isLoading ? t('publicSite.ownerRegistration.sending') : t('publicSite.ownerRegistration.sendRequest')}
