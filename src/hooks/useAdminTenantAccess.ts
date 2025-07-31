@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 
 export const useAdminTenantAccess = () => {
   const { user, userProfile } = useAuth();
   const { tenants } = useFirebaseTenants();
   const { roommates } = useFirebaseRoommates();
+  const { owners } = useFirebaseOwners();
   const [selectedTenantProfile, setSelectedTenantProfile] = useState(() => {
     // Restore from sessionStorage on initialization
     const stored = sessionStorage.getItem('adminSelectedProfile');
@@ -50,6 +52,50 @@ export const useAdminTenantAccess = () => {
     ];
     console.log('Available tenant profiles:', allProfiles);
     return allProfiles;
+  };
+
+  const getAllOwnerProfiles = () => {
+    const allOwners = owners
+      .filter(owner => owner.email !== 'admin@neotech-consulting.com') // Exclure l'admin de la liste
+      .map(owner => ({
+        ...owner,
+        type: 'owner',
+        address: (owner as any).address || "Adresse non spécifiée",
+        company: (owner as any).company || owner.companyId || "Société non spécifiée"
+      }));
+    console.log('Available owner profiles:', allOwners);
+    return allOwners;
+  };
+
+  const switchToOwnerProfile = (ownerProfile: any) => {
+    if (!isAuthorizedAdmin()) {
+      console.error('Accès non autorisé - utilisateur non admin');
+      return false;
+    }
+    
+    console.log('Switching to owner profile:', ownerProfile);
+    
+    // Enrichir le profil propriétaire avec toutes les données nécessaires
+    const enrichedProfile = {
+      ...ownerProfile,
+      id: ownerProfile.id,
+      name: ownerProfile.name,
+      email: ownerProfile.email,
+      type: 'owner',
+      role: 'owner',
+      userType: 'owner',
+      isOwner: true,
+      isPropertyOwner: true,
+      phone: ownerProfile.phone || "Non spécifié",
+      company: ownerProfile.company || "Société non spécifiée",
+      address: ownerProfile.address || "Adresse non spécifiée",
+      status: ownerProfile.status || "Actif",
+      permissions: ownerProfile.permissions || ['read', 'write', 'manage']
+    };
+    
+    console.log('Setting enriched owner profile:', enrichedProfile);
+    setSelectedTenantProfile(enrichedProfile);
+    return true;
   };
 
   const switchToTenantProfile = (tenantProfile: any) => {
@@ -142,11 +188,14 @@ export const useAdminTenantAccess = () => {
   return {
     isAuthorizedAdmin: isAuthorizedAdmin(),
     getAllTenantProfiles,
+    getAllOwnerProfiles,
     switchToTenantProfile,
+    switchToOwnerProfile,
     switchBackToAdmin,
     getCurrentProfile,
     getCurrentUserType,
     selectedTenantProfile,
-    isImpersonating: !!selectedTenantProfile
+    isImpersonating: !!selectedTenantProfile,
+    isImpersonatingOwner: !!(selectedTenantProfile && selectedTenantProfile.type === 'owner')
   };
 };

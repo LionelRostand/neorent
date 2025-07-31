@@ -16,11 +16,15 @@ interface OwnerSpaceProfileHeaderProps {
 const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ currentProfile }) => {
   const navigate = useNavigate();
   const { userType, logout, user } = useAuth();
-  const { isAuthorizedAdmin } = useAdminTenantAccess();
+  const { isAuthorizedAdmin, switchBackToAdmin, isImpersonatingOwner } = useAdminTenantAccess();
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
   
   const handleBackToAdmin = () => {
+    // Si l'admin est en train d'impersonifier un propriétaire, revenir au profil admin
+    if (isImpersonatingOwner) {
+      switchBackToAdmin();
+    }
     navigate('/admin/dashboard');
   };
 
@@ -45,6 +49,7 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   console.log('OwnerSpaceProfileHeader - currentProfile:', currentProfile);
   console.log('OwnerSpaceProfileHeader - userType:', userType);
   console.log('OwnerSpaceProfileHeader - isAuthorizedAdmin:', isAuthorizedAdmin);
+  console.log('OwnerSpaceProfileHeader - isImpersonatingOwner:', isImpersonatingOwner);
 
   // Déterminer si c'est un admin qui accède à l'espace propriétaire
   const isAdminAccessingOwnerSpace = isAuthorizedAdmin || userType === 'admin';
@@ -56,12 +61,12 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
   // Nom du propriétaire de l'espace
   const ownerName = currentProfile?.name || t('profile.owner');
   
-  // Affichage du nom principal
-  const displayName = isAdminAccessingOwnerSpace ? 
+  // Affichage du nom principal - si admin impersonne un propriétaire
+  const displayName = (isAdminAccessingOwnerSpace && isImpersonatingOwner) ? 
     `${adminName} → ${ownerName}` : ownerName;
   
   // Email à afficher
-  const displayEmail = isAdminAccessingOwnerSpace ? 
+  const displayEmail = (isAdminAccessingOwnerSpace && isImpersonatingOwner) ? 
     user?.email || 'admin@neotech-consulting.com' : 
     (currentProfile?.email || 'Non spécifié');
   
@@ -93,13 +98,13 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
     return null;
   };
 
-  // Afficher les informations du propriétaire SEULEMENT si c'est le vrai admin qui accède
+  // Afficher les informations du propriétaire SEULEMENT si c'est le vrai admin qui impersonne
   const getOwnerInfo = () => {
-    if (user?.email === 'admin@neotech-consulting.com' && currentProfile) {
+    if (user?.email === 'admin@neotech-consulting.com' && isImpersonatingOwner && currentProfile) {
       return (
         <div className="mt-2 p-2 bg-blue-50 rounded-md border-l-4 border-blue-400">
           <p className="text-xs text-blue-800 font-medium">
-            {i18n.language === 'fr' ? 'Espace propriétaire :' : 'Owner space:'}
+            {i18n.language === 'fr' ? 'Consultation de l\'espace propriétaire :' : 'Viewing owner space:'}
           </p>
           <p className="text-xs text-blue-700">
             {currentProfile.name} - {currentProfile.email}
@@ -144,7 +149,12 @@ const OwnerSpaceProfileHeader: React.FC<OwnerSpaceProfileHeaderProps> = ({ curre
               className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
             >
               <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">{t('settings.backToAdmin')}</span>
+              <span className="hidden sm:inline">
+                {isImpersonatingOwner 
+                  ? (i18n.language === 'fr' ? 'Retour Admin' : 'Back to Admin')
+                  : t('settings.backToAdmin')
+                }
+              </span>
               <span className="sm:hidden">Admin</span>
             </Button>
           )}

@@ -24,6 +24,7 @@ import EmployeeManagement from '@/components/Settings/EmployeeManagement';
 import EmployeePermissionsTab from '@/components/Settings/EmployeePermissionsTab';
 import CompanyManagement from '@/components/Settings/CompanyManagement';
 import AdminTenantAccess from '@/components/AdminTenantAccess';
+import OwnerImpersonationPanel from '@/components/AdminSpace/OwnerImpersonationPanel';
 import { useAuth } from '@/hooks/useAuth';
 
 const Settings = () => {
@@ -41,7 +42,10 @@ const Settings = () => {
     { id: 'email', label: t('settings.tabs.email'), icon: Mail },
     { id: 'security', label: t('settings.tabs.security'), icon: Shield },
     { id: 'payment', label: t('settings.tabs.payment'), icon: CreditCard },
-    ...(isAdmin ? [{ id: 'admin-access', label: t('settings.tabs.adminAccess'), icon: UserCog }] : [])
+    ...(isAdmin ? [
+      { id: 'admin-access', label: t('settings.tabs.adminAccess'), icon: UserCog },
+      { id: 'owner-spaces', label: 'Espaces Propriétaires', icon: Building }
+    ] : [])
   ];
 
   return (
@@ -61,7 +65,7 @@ const Settings = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="overflow-x-auto">
-            <TabsList className="grid w-full min-w-[800px] grid-cols-9 mb-4 md:mb-6 mx-1">
+            <TabsList className="grid w-full min-w-[800px] grid-cols-10 mb-4 md:mb-6 mx-1">
               {tabs.map((tab) => (
                 <TabsTrigger 
                   key={tab.id} 
@@ -123,6 +127,14 @@ const Settings = () => {
                     <AdminTenantAccess />
                   </CardContent>
                 </Card>
+              </div>
+            </TabsContent>
+          )}
+
+          {isAdmin && (
+            <TabsContent value="owner-spaces" className="space-y-4 md:space-y-6">
+              <div className="space-y-6">
+                <OwnerImpersonationPanel />
               </div>
             </TabsContent>
           )}
