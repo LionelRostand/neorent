@@ -16,9 +16,19 @@ export const MessageStats: React.FC<MessageStatsProps> = ({ conversations }) => 
   const totalUnread = conversations.reduce((sum, conv) => sum + conv.unreadCount, 0);
   const onlineClients = conversations.filter(conv => conv.status === 'online').length;
   const recentConversations = conversations.filter(conv => {
-    const lastMessageTime = conv.lastMessageTime.toDate();
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-    return lastMessageTime > oneHourAgo;
+    // Vérifier que lastMessageTime existe et a une méthode toDate
+    if (!conv.lastMessageTime || typeof conv.lastMessageTime.toDate !== 'function') {
+      return false;
+    }
+    
+    try {
+      const lastMessageTime = conv.lastMessageTime.toDate();
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+      return lastMessageTime > oneHourAgo;
+    } catch (error) {
+      console.warn('Erreur lors de la conversion de timestamp:', error);
+      return false;
+    }
   }).length;
 
   const stats = [
