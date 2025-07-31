@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Building, X, Wrench, TrendingUp, Globe, Settings, HelpCircle } from 'lucide-react';
+import { Building, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import OwnerQuickActions from './OwnerQuickActions';
 
@@ -47,7 +47,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
           <Building className="h-6 w-6 text-white mr-2" />
           <div>
             <h1 className="text-sm font-bold text-white">{getLocalizedText('ownerSpace')}</h1>
-            <p className="text-xs text-green-200">{ownerProfile?.email || 'test@yahoo.com'}</p>
+            <p className="text-xs text-green-200">{ownerProfile?.name || getLocalizedText('owner')}</p>
           </div>
         </div>
         {onMobileClose && (
@@ -60,95 +60,19 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
         )}
       </div>
       
-      {/* Menu Items */}
+      {/* Content - takes remaining space */}
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full [&>div>div[style]]:!pr-0">
-          <div className="p-0">
-            
-            {/* Interventions */}
-            <div 
-              onClick={() => setActiveView('admin-maintenance')}
-              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'admin-maintenance' ? 'bg-white/10' : 'hover:bg-white/5'
-              }`}
-            >
-              <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Wrench className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-white font-medium">Interventions</div>
-                <div className="text-green-200 text-sm">Demandes ouvertes</div>
-              </div>
+          <div className="p-4">
+            <div className="mb-4">
+              <h2 className="text-white text-lg font-semibold flex items-center gap-2">
+                <span>+</span> Actions rapides
+              </h2>
             </div>
-
-            {/* Prévisions */}
-            <div 
-              onClick={() => setActiveView('admin-forecasting')}
-              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'admin-forecasting' ? 'bg-white/10' : 'hover:bg-white/5'
-              }`}
-            >
-              <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-white font-medium">Prévisions</div>
-                <div className="text-green-200 text-sm">Analyse financière</div>
-                <div className="text-green-200 text-sm">Projections revenus</div>
-              </div>
-            </div>
-
-            {/* Site web */}
-            <div 
-              onClick={() => setActiveView('admin-website')}
-              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'admin-website' ? 'bg-white/10' : 'hover:bg-white/5'
-              }`}
-            >
-              <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Globe className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-white font-medium">Site web</div>
-                <div className="text-green-200 text-sm">Gestion site</div>
-                <div className="text-green-200 text-sm">Configuration</div>
-              </div>
-            </div>
-
-            {/* Paramètres */}
-            <div 
-              onClick={() => setActiveView('admin-settings')}
-              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'admin-settings' ? 'bg-white/10' : 'hover:bg-white/5'
-              }`}
-            >
-              <div className="w-10 h-10 bg-gray-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Settings className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-white font-medium">Paramètres</div>
-                <div className="text-green-200 text-sm">Configuration</div>
-                <div className="text-green-200 text-sm">Système</div>
-              </div>
-            </div>
-
-            {/* Aide */}
-            <div 
-              onClick={() => setActiveView('admin-help')}
-              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
-                activeView === 'admin-help' ? 'bg-white/10' : 'hover:bg-white/5'
-              }`}
-            >
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                <HelpCircle className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-white font-medium">Aide</div>
-                <div className="text-green-200 text-sm">Support</div>
-                <div className="text-green-200 text-sm">Documentation</div>
-              </div>
-            </div>
-
+            <OwnerQuickActions 
+              ownerProfile={ownerProfile} 
+              setActiveView={setActiveView}
+            />
           </div>
         </ScrollArea>
       </div>
@@ -156,7 +80,7 @@ const OwnerSpaceQuickActionsSidebar: React.FC<OwnerSpaceQuickActionsSidebarProps
       {/* Footer */}
       <div className="p-4 border-t border-green-500/30 flex-shrink-0">
         <div className="text-center">
-          <div className="text-white text-sm font-medium">
+          <div className="text-white text-sm font-medium animate-pulse">
             NEOTECH-CONSULTING
           </div>
           <div className="text-green-200 text-xs mt-1">
