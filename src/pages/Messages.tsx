@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AdminLayout } from '@/components/Layout/AdminLayout';
 import { MessageStats } from '@/components/Messages/MessageStats';
@@ -9,10 +9,12 @@ import { messageService } from '@/services/messageService';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { useFirebaseTenants } from '@/hooks/useFirebaseTenants';
 import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
+import { AuthContext } from '@/contexts/AuthContext';
 import type { Conversation, ChatMessage } from '@/types/chat';
 
 const Messages = () => {
   const { t } = useTranslation();
+  const { userProfile } = useContext(AuthContext);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -25,6 +27,7 @@ const Messages = () => {
 
   console.log('📨 Messages page: Rendu avec', conversations.length, 'conversations et', messages.length, 'messages');
   console.log('📨 Messages page: Conversation sélectionnée:', selectedConversation?.id);
+  console.log('📨 Messages page: Profil utilisateur:', userProfile);
   console.log('📨 Users data:', { roommates: roommates.length, tenants: tenants.length, owners: owners.length });
 
   // Créer des conversations basées sur les vrais utilisateurs
@@ -184,10 +187,15 @@ const Messages = () => {
   };
 
   const handleSendMessage = async (message: string) => {
-    if (!selectedConversation) return;
+    if (!selectedConversation || !userProfile) return;
 
     try {
       console.log('📨 Messages page: Envoi du message:', message, 'pour conversation:', selectedConversation.id);
+      console.log('📨 Messages page: Profil expéditeur:', userProfile);
+      
+      // Utiliser les informations du profil utilisateur connecté
+      const senderName = userProfile.name || 'Utilisateur';
+      const senderEmail = userProfile.email || 'utilisateur@neorent.fr';
       
       // Vérifier si c'est une conversation potentielle (pas encore créée dans Firebase)
       const isPotentialConversation = selectedConversation.id.startsWith('roommate-') || selectedConversation.id.startsWith('tenant-');
@@ -207,8 +215,8 @@ const Messages = () => {
         await messageService.sendMessage({
           conversationId: realConversationId,
           sender: 'staff',
-          senderName: 'Support NeoRent',
-          senderEmail: 'support@neorent.fr',
+          senderName: senderName,
+          senderEmail: senderEmail,
           message
         });
         
@@ -223,13 +231,13 @@ const Messages = () => {
         await messageService.sendMessage({
           conversationId: selectedConversation.id,
           sender: 'staff',
-          senderName: 'Support NeoRent',
-          senderEmail: 'support@neorent.fr',
+          senderName: senderName,
+          senderEmail: senderEmail,
           message
         });
       }
       
-      console.log('📨 Messages page: Message envoyé avec succès');
+      console.log('📨 Messages page: Message envoyé avec succès par:', senderName);
     } catch (error) {
       console.error('📨 Messages page: Error sending message:', error);
     }
