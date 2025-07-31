@@ -10,7 +10,7 @@ import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseOwners } from '@/hooks/useFirebaseOwners';
 import { useFirebasePresence } from '@/hooks/useFirebasePresence';
 import { useOwnerData } from '@/hooks/useOwnerData';
-import { useTenantChat } from '@/hooks/useTenantChat';
+import { useUnifiedChat } from '@/hooks/useUnifiedChat';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -34,11 +34,11 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     conversations,
     messages,
     sendMessage,
-    createConversation,
     loading,
     loadingMessages,
-    subscribeToMessages
-  } = useTenantChat(currentProfile?.email || currentProfile?.id);
+    subscribeToMessages,
+    markAsRead
+  } = useUnifiedChat(currentProfile?.email || currentProfile?.id);
 
   console.log('UniversalChat - Présence loading:', presenceLoading);
 
@@ -171,60 +171,22 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     const userId = currentProfile?.email || currentProfile?.id;
     const contactId = selectedContact.email || selectedContact.id;
 
+    // Chercher la conversation unifiée
     const conversation = conversations.find(conv => 
-      (conv.participant1Id === userId && conv.participant2Id === contactId) ||
-      (conv.participant1Id === contactId && conv.participant2Id === userId) ||
-      (conv.participant1Id === 'admin' && conv.participant2Id === userId) ||
-      (conv.participant2Id === 'admin' && conv.participant1Id === userId)
+      conv.participants.includes(userId) && conv.participants.includes(contactId)
     );
 
     if (conversation?.id) {
-      console.log('🔄 Souscription aux messages pour conversation:', conversation.id);
+      console.log('🔄 Souscription aux messages pour conversation unifiée:', conversation.id);
       subscribeToMessages(conversation.id);
+      // Marquer comme lu quand on ouvre la conversation
+      markAsRead(conversation.id);
     }
-  }, [selectedContact, conversations, currentProfile]);
+  }, [selectedContact, conversations, currentProfile, subscribeToMessages, markAsRead]);
 
   const handleStartConversation = async (contact: any) => {
     console.log('🗨️ Sélection du contact:', contact);
-    try {
-      // Sélectionner directement le contact pour commencer la conversation
-      setSelectedContact(contact);
-      
-      // Vérifier s'il existe déjà une conversation
-      let existingConversation;
-      
-      if (contact.type === 'owner') {
-        // Pour les propriétaires/admins, chercher dans les conversations admin
-        existingConversation = conversations.find(conv => 
-          conv.participant1Id === 'admin' && conv.participant2Id === currentProfile.id
-        );
-        
-        console.log('🗨️ Conversation admin existante:', existingConversation);
-        
-        if (!existingConversation) {
-          // Créer une conversation admin via messageService
-          console.log('🗨️ Création d\'une nouvelle conversation admin...');
-          // Ici on ne crée pas automatiquement, on attend que l'utilisateur envoie un message
-        }
-      } else {
-        // Pour les autres locataires/colocataires
-        existingConversation = conversations.find(conv => 
-          (conv.participant1Id === currentProfile.id && conv.participant2Id === contact.id) ||
-          (conv.participant1Id === contact.id && conv.participant2Id === currentProfile.id)
-        );
-        
-        console.log('🗨️ Conversation tenant existante:', existingConversation);
-
-        if (!existingConversation) {
-          // Créer une nouvelle conversation si elle n'existe pas
-          console.log('🗨️ Création d\'une nouvelle conversation tenant...');
-          const conversationId = await createConversation(contact.id, contact.name, contact.email);
-          console.log('🗨️ Nouvelle conversation créée:', conversationId);
-        }
-      }
-    } catch (error) {
-      console.error('Erreur lors de la sélection du contact:', error);
-    }
+    setSelectedContact(contact);
   };
 
   const handleSendMessage = async () => {
@@ -233,14 +195,16 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
     try {
       const userId = currentProfile?.email || currentProfile?.id;
       const contactId = selectedContact.email || selectedContact.id;
+      const userName = currentProfile?.name || userId;
+      const contactName = selectedContact.name || contactId;
       
-      console.log('📤 Envoi du message:', {
+      console.log('📤 Envoi du message unifié:', {
         userId: userId,
         contactId: contactId,
         message: messageText.trim()
       });
       
-      await sendMessage(contactId, messageText.trim());
+      await sendMessage(contactId, messageText.trim(), userName, contactName);
       setMessageText('');
       console.log('✅ Message envoyé avec succès');
     } catch (error) {
@@ -293,7 +257,10 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {conversations.reduce((sum, conv) => sum + (conv.unreadCount || 0), 0)}
+              {conversations.reduce((sum, conv) => {
+                const userId = currentProfile?.email || currentProfile?.id;
+                return sum + (conv.unreadCount?.[userId] || 0);
+              }, 0)}
             </div>
             <p className="text-xs text-muted-foreground">À lire</p>
           </CardContent>
@@ -320,10 +287,11 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                   </div>
                  ) : (
                    availableContacts.map((contact) => {
-                     const conversation = conversations.find(conv => 
-                       (conv.participant1Id === currentProfile.id && conv.participant2Id === contact.id) ||
-                       (conv.participant1Id === contact.id && conv.participant2Id === currentProfile.id)
-                     );
+                      const userId = currentProfile?.email || currentProfile?.id;
+                      const contactId = contact.email || contact.id;
+                      const conversation = conversations.find(conv => 
+                        conv.participants.includes(userId) && conv.participants.includes(contactId)
+                      );
                      
                      return (
                        <div
@@ -371,11 +339,12 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                                </p>
                              )}
                            </div>
-                           {conversation && conversation.unreadCount && conversation.unreadCount > 0 && (
-                             <Badge variant="destructive" className="text-xs">
-                               {conversation.unreadCount}
-                             </Badge>
-                           )}
+                            {conversation && conversation.unreadCount && 
+                             conversation.unreadCount[currentProfile?.email || currentProfile?.id] > 0 && (
+                              <Badge variant="destructive" className="text-xs">
+                                {conversation.unreadCount[currentProfile?.email || currentProfile?.id]}
+                              </Badge>
+                            )}
                            {selectedContact?.id === contact.id && (
                              <div className="w-2 h-2 bg-blue-600 rounded-full ml-2"></div>
                            )}
@@ -428,7 +397,7 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
 
                 {/* Messages */}
                 <CardContent className="flex-1 p-0 flex flex-col">
-                  <div className="flex-1 p-4 overflow-y-auto space-y-4 max-h-[400px]">
+                  <div className="flex-1 max-h-[400px] overflow-y-auto p-4 space-y-3">
                     {loadingMessages ? (
                       <div className="flex justify-center items-center h-32">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -436,48 +405,35 @@ const UniversalChat: React.FC<UniversalChatProps> = ({ currentProfile, userType 
                     ) : messages.length === 0 ? (
                       <div className="text-center text-gray-500 py-8">
                         <MessageSquare className="h-8 w-8 mx-auto mb-2 text-gray-400" />
-                        <p className="text-sm">Commencez votre conversation</p>
+                        <p className="text-sm">Aucun message dans cette conversation</p>
+                        <p className="text-xs text-gray-400 mt-1">Envoyez un message pour commencer</p>
                       </div>
                     ) : (
-                      messages.map((message) => {
-                        const isMyMessage = message.senderId === currentProfile.id;
-                        console.log('🗨️ Affichage message:', {
-                          messageId: message.id,
-                          senderId: message.senderId,
-                          currentProfileId: currentProfile.id,
-                          isMyMessage,
-                          content: message.content
-                        });
+                      messages.map((message, index) => {
+                        const isCurrentUser = message.senderEmail === (currentProfile?.email || currentProfile?.id);
+                        const showSenderName = !isCurrentUser && (index === 0 || messages[index - 1].senderEmail !== message.senderEmail);
                         
                         return (
-                          <div
-                            key={message.id}
-                            className={`flex ${isMyMessage ? 'justify-end' : 'justify-start'}`}
-                          >
-                            <div className="flex flex-col max-w-xs lg:max-w-md">
-                              {!isMyMessage && (
-                                <span className="text-xs text-gray-500 mb-1 px-1">
-                                  {selectedContact.name}
-                                </span>
+                          <div key={message.id} className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}>
+                            <div className={`max-w-[70%] ${isCurrentUser ? 'order-1' : 'order-2'}`}>
+                              {showSenderName && (
+                                <p className="text-xs text-gray-500 mb-1 px-3">
+                                  {message.senderName}
+                                </p>
                               )}
-                              <div
-                                className={`px-4 py-2 rounded-lg ${
-                                  isMyMessage
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-gray-100 text-gray-900'
-                                }`}
-                              >
+                              <div className={`px-4 py-2 rounded-lg ${
+                                isCurrentUser 
+                                  ? 'bg-blue-600 text-white rounded-br-sm' 
+                                  : 'bg-gray-100 text-gray-900 rounded-bl-sm'
+                              }`}>
                                 <p className="text-sm">{message.content}</p>
                                 <p className={`text-xs mt-1 ${
-                                  isMyMessage ? 'text-blue-100' : 'text-gray-500'
+                                  isCurrentUser ? 'text-blue-100' : 'text-gray-500'
                                 }`}>
-                                  {message.timestamp && formatDistanceToNow(
-                                    message.timestamp.toDate(), 
-                                    { 
-                                      addSuffix: true, 
-                                      locale: i18n.language === 'fr' ? fr : undefined 
-                                    }
-                                  )}
+                                  {message.timestamp && formatDistanceToNow(message.timestamp.toDate(), { 
+                                    addSuffix: true, 
+                                    locale: i18n.language === 'fr' ? fr : undefined 
+                                  })}
                                 </p>
                               </div>
                             </div>
