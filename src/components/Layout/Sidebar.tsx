@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import SidebarHeader from './SidebarComponents/SidebarHeader';
@@ -16,9 +17,13 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onMobileClose }) => {
   const { user, userType } = useAuth();
+  const location = useLocation();
 
-  // Afficher la sidebar pour les admins ou si l'utilisateur est admin@neotech-consulting.com
-  const shouldShowSidebar = userType === 'admin' || user?.email === 'admin@neotech-consulting.com';
+  // Ne pas afficher la sidebar NEORENT dans l'espace propriétaire
+  const isOwnerSpace = location.pathname.startsWith('/owner-space');
+  
+  // Afficher la sidebar pour les admins ou si l'utilisateur est admin@neotech-consulting.com, mais pas dans l'espace propriétaire
+  const shouldShowSidebar = (userType === 'admin' || user?.email === 'admin@neotech-consulting.com') && !isOwnerSpace;
 
   if (!shouldShowSidebar) {
     return null;
