@@ -24,7 +24,7 @@ export const defaultQuickActions: QuickActionConfig[] = [
     description: { fr: 'Vue d\'ensemble', en: 'Overview' },
     icon: 'LayoutDashboard',
     color: 'bg-slate-500',
-    enabled: false,
+    enabled: true,
     order: 1,
     action: 'dialog',
     actionValue: 'dashboard'
