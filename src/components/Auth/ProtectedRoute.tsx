@@ -95,6 +95,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     }
   }
 
+  // Redirection automatique des propriétaires vers leur espace
+  if (userType === 'owner' && location.pathname === '/tenant-space') {
+    console.log('🔐 Propriétaire redirigé vers owner-space depuis tenant-space');
+    return <Navigate to="/owner-space" replace />;
+  }
+
+  // Redirection automatique des locataires/colocataires vers leur espace  
+  if ((userType === 'locataire' || userType === 'colocataire') && location.pathname === '/owner-space') {
+    console.log('🔐 Locataire/Colocataire redirigé vers tenant-space depuis owner-space');
+    return <Navigate to="/tenant-space" replace />;
+  }
+
   // Rendre les enfants seulement si tout est OK et que le loading est terminé
   if (!loading && user) {
     console.log('🔐 Accès autorisé pour:', user.email);

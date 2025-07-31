@@ -30,6 +30,7 @@ import NotFound from '@/pages/NotFound';
 import LegalNotice from '@/pages/PublicSite/LegalNotice';
 import PrivacyPolicy from '@/pages/PublicSite/PrivacyPolicy';
 import CookiePolicy from '@/pages/PublicSite/CookiePolicy';
+import AutoRedirect from '@/components/Auth/AutoRedirect';
 
 export const AppRoutes = () => {
   return (
@@ -63,12 +64,22 @@ export const AppRoutes = () => {
         } 
       />
       
+      {/* Route de redirection automatique pour les utilisateurs connectés */}
+      <Route 
+        path="/dashboard" 
+        element={
+          <ProtectedRoute>
+            <AutoRedirect />
+          </ProtectedRoute>
+        } 
+      />
+      
       {/* Admin Routes - Simplifié pour corriger le problème */}
       <Route 
         path="/admin" 
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <AutoRedirect />
           </ProtectedRoute>
         } 
       />

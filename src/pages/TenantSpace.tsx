@@ -32,6 +32,14 @@ const TenantSpace = () => {
 
   if (!currentProfile) {
     console.error('No current profile found');
+    
+    // Si c'est un propriétaire, rediriger vers owner-space
+    if (currentType === 'owner' || isAuthorizedAdmin) {
+      console.log('Redirecting owner to owner-space');
+      navigate('/owner-space');
+      return null;
+    }
+    
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-64">
