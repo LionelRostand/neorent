@@ -122,6 +122,15 @@ export const useFirebasePayments = () => {
       });
 
       console.log('🎯 TOUS LES PAIEMENTS ENRICHIS:', enrichedPayments);
+      
+      // Debug spécifique pour Emad ADAM
+      const emadPayments = enrichedPayments.filter(p => 
+        p.tenantName && p.tenantName.toLowerCase().includes('emad') || 
+        p.tenantName && p.tenantName.toLowerCase().includes('adam')
+      );
+      console.log('🔍 PAIEMENTS D\'EMAD ADAM TROUVÉS:', emadPayments.length);
+      console.log('📋 DÉTAILS DES PAIEMENTS D\'EMAD:', emadPayments);
+      
       setPayments(enrichedPayments);
       setError(null);
     } catch (err) {
