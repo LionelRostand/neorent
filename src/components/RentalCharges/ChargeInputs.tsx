@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Wrench } from 'lucide-react';
+import { Wrench, Building2, Info } from 'lucide-react';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { getPropertyChargesConfig, isChargeManagedbyCopropriete } from '@/data/propertyCharges';
 
 interface ChargesData {
   electricity: string;
@@ -25,6 +27,61 @@ interface ChargeInputsProps {
 
 const ChargeInputs = ({ charges, onChargeChange, selectedProperty, maintenanceLoading }: ChargeInputsProps) => {
   const { t } = useTranslation();
+  const { properties } = useFirebaseProperties();
+  
+  const selectedPropertyData = properties.find(p => p.id === selectedProperty);
+  const propertyConfig = selectedPropertyData ? getPropertyChargesConfig(selectedPropertyData.title) : null;
+  
+  const renderChargeField = (
+    id: string,
+    labelKey: string,
+    value: string,
+    icon?: React.ReactNode,
+    isSpecial = false
+  ) => {
+    const isManagedByCopropriete = selectedPropertyData ? 
+      isChargeManagedbyCopropriete(selectedPropertyData.title, id) : false;
+    
+    return (
+      <div className="space-y-2">
+        <Label htmlFor={id}>
+          <div className="flex items-center gap-2">
+            {t(`rentalCharges.${labelKey}`)} (€)
+            {icon}
+            {isManagedByCopropriete && (
+              <div className="flex items-center gap-1 text-xs">
+                <Building2 className="h-3 w-3 text-green-600" />
+                <span className="text-green-600">Copropriété</span>
+              </div>
+            )}
+            {isSpecial && maintenanceLoading && <span className="text-xs text-gray-500">({t('rentalCharges.calculating')})</span>}
+          </div>
+        </Label>
+        <Input
+          id={id}
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder={t('rentalCharges.enterAmount')}
+          value={value}
+          onChange={(e) => onChargeChange(id, e.target.value)}
+          className={isManagedByCopropriete ? "border-green-200 bg-green-50" : ""}
+          readOnly={isManagedByCopropriete}
+        />
+        {isManagedByCopropriete && propertyConfig && (
+          <p className="text-xs text-green-600 flex items-center gap-1">
+            <Info className="h-3 w-3" />
+            Montant défini par la copropriété (€{(propertyConfig.quarterlyCharges[id as keyof typeof propertyConfig.quarterlyCharges] || 0) / 3}/mois)
+          </p>
+        )}
+        {isSpecial && selectedProperty && value && parseFloat(value) > 0 && !isManagedByCopropriete && (
+          <p className="text-xs text-blue-600">
+            {t('rentalCharges.maintenanceCosts')}
+          </p>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Card>
@@ -32,101 +89,27 @@ const ChargeInputs = ({ charges, onChargeChange, selectedProperty, maintenanceLo
         <CardTitle className="text-lg">{t('rentalCharges.chargeType')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        {propertyConfig && (
+          <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+            <p className="text-sm text-blue-800 font-medium mb-1">
+              Configuration automatique des charges de copropriété
+            </p>
+            <p className="text-xs text-blue-600">
+              Les charges marquées "Copropriété" sont automatiquement calculées (montants trimestriels divisés par 3)
+            </p>
+          </div>
+        )}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="electricity">{t('rentalCharges.electricity')} (€)</Label>
-            <Input
-              id="electricity"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t('rentalCharges.enterAmount')}
-              value={charges.electricity}
-              onChange={(e) => onChargeChange('electricity', e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="water">{t('rentalCharges.water')} (€)</Label>
-            <Input
-              id="water"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t('rentalCharges.enterAmount')}
-              value={charges.water}
-              onChange={(e) => onChargeChange('water', e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="heating">{t('rentalCharges.heating')} (€)</Label>
-            <Input
-              id="heating"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t('rentalCharges.enterAmount')}
-              value={charges.heating}
-              onChange={(e) => onChargeChange('heating', e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="maintenance">
-              <div className="flex items-center gap-2">
-                {t('rentalCharges.maintenance')} (€)
-                <Wrench className="h-3 w-3 text-blue-500" />
-                {maintenanceLoading && <span className="text-xs text-gray-500">({t('rentalCharges.calculating')})</span>}
-              </div>
-            </Label>
-            <Input
-              id="maintenance"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t('rentalCharges.enterAmount')}
-              value={charges.maintenance}
-              onChange={(e) => onChargeChange('maintenance', e.target.value)}
-            />
-            {selectedProperty && charges.maintenance && parseFloat(charges.maintenance) > 0 && (
-              <p className="text-xs text-blue-600">
-                {t('rentalCharges.maintenanceCosts')}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="insurance">{t('rentalCharges.insurance')} (€)</Label>
-            <Input
-              id="insurance"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t('rentalCharges.enterAmount')}
-              value={charges.insurance}
-              onChange={(e) => onChargeChange('insurance', e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="garbage">{t('rentalCharges.garbage')} (€)</Label>
-            <Input
-              id="garbage"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t('rentalCharges.enterAmount')}
-              value={charges.garbage}
-              onChange={(e) => onChargeChange('garbage', e.target.value)}
-            />
-          </div>
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="internet">{t('rentalCharges.internet')}/TV (€)</Label>
-            <Input
-              id="internet"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t('rentalCharges.enterAmount')}
-              value={charges.internet}
-              onChange={(e) => onChargeChange('internet', e.target.value)}
-            />
+          {renderChargeField('electricity', 'electricity', charges.electricity)}
+          {renderChargeField('water', 'water', charges.water)}
+          {renderChargeField('heating', 'heating', charges.heating)}
+          {renderChargeField('maintenance', 'maintenance', charges.maintenance, <Wrench className="h-3 w-3 text-blue-500" />, true)}
+          {renderChargeField('insurance', 'insurance', charges.insurance)}
+          {renderChargeField('garbage', 'garbage', charges.garbage)}
+          
+          <div className="md:col-span-2">
+            {renderChargeField('internet', 'internet', charges.internet)}
           </div>
         </div>
       </CardContent>

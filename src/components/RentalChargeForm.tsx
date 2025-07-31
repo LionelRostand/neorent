@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useMaintenanceCostCalculator } from '@/hooks/useMaintenanceCostCalculator';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseMaintenances } from '@/hooks/useFirebaseMaintenances';
+import { getPropertyChargesConfig, getMonthlyChargesFromQuarterly } from '@/data/propertyCharges';
 import PropertySelector from '@/components/RentalCharges/PropertySelector';
 import ChargeInputs from '@/components/RentalCharges/ChargeInputs';
 import ChargeSummary from '@/components/RentalCharges/ChargeSummary';
@@ -39,6 +40,23 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
 
   const selectedPropertyData = properties.find(p => p.id === selectedProperty);
 
+  // Appliquer automatiquement les charges de copropriété quand une propriété est sélectionnée
+  React.useEffect(() => {
+    if (selectedPropertyData) {
+      const config = getPropertyChargesConfig(selectedPropertyData.title);
+      if (config) {
+        const monthlyCharges = getMonthlyChargesFromQuarterly(config.quarterlyCharges);
+        
+        setCharges(prev => ({
+          ...prev,
+          ...Object.fromEntries(
+            Object.entries(monthlyCharges).map(([key, value]) => [key, value.toString()])
+          )
+        }));
+      }
+    }
+  }, [selectedPropertyData]);
+
   useMaintenanceCostCalculator({
     selectedProperty,
     month,
@@ -46,10 +64,16 @@ const RentalChargeForm = ({ isOpen, onClose, onSubmit }: RentalChargeFormProps) 
     interventions,
     requests,
     onCostCalculated: (cost) => {
-      setCharges(prev => ({
-        ...prev,
-        maintenance: cost
-      }));
+      // Ne pas écraser si la charge est gérée par la copropriété
+      const config = selectedPropertyData ? getPropertyChargesConfig(selectedPropertyData.title) : null;
+      const isMaintenanceManaged = config?.managedByCopropriete.includes('maintenance');
+      
+      if (!isMaintenanceManaged) {
+        setCharges(prev => ({
+          ...prev,
+          maintenance: cost
+        }));
+      }
     }
   });
 
