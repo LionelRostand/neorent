@@ -67,16 +67,16 @@ const Website = () => {
         <div className="flex-1 flex flex-col">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
             {/* Tabs - Always at Top */}
-            <div className="px-4 md:px-6 mb-4 overflow-x-auto">
-              <TabsList className="inline-flex h-auto w-max min-w-full p-1 bg-muted rounded-lg">
+            <div className="w-full overflow-x-auto scrollbar-hide px-4 md:px-6 mb-4">
+              <TabsList className="inline-flex h-auto w-max p-1 bg-muted rounded-lg">
                 {tabs.map((tab) => (
                   <TabsTrigger 
                     key={tab.id} 
                     value={tab.id}
-                    className="flex flex-col md:flex-row items-center gap-1 md:gap-2 px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm font-medium whitespace-nowrap min-w-[60px] md:min-w-auto data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all"
+                    className="flex flex-col items-center gap-1 px-2 sm:px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm font-medium whitespace-nowrap min-w-[70px] sm:min-w-[80px] md:min-w-auto data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm rounded-md transition-all"
                   >
-                    <tab.icon className="h-4 w-4 md:h-4 md:w-4" />
-                    <span className="text-[10px] md:text-sm leading-tight text-center">
+                    <tab.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-4 md:w-4 flex-shrink-0" />
+                    <span className="text-[9px] sm:text-[10px] md:text-sm leading-tight text-center break-words">
                       {tab.label}
                     </span>
                   </TabsTrigger>
