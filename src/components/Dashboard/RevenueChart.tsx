@@ -77,7 +77,8 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ payments, properties }) => 
       console.log(`📊 Revenus réels pour ${month}:`, {
         locatifs: locatifRevenue,
         colocatifs: colocatifRevenue,
-        totalPayments: monthlyPayments.length
+        totalPayments: monthlyPayments.length,
+        total: locatifRevenue + colocatifRevenue
       });
 
       return {

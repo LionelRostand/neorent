@@ -37,7 +37,10 @@ export const useDashboardMetrics = () => {
         
         return isCurrentMonth && isPaid && isRegularPayment;
       })
-      .reduce((sum, payment) => sum + payment.rentAmount, 0);
+      .reduce((sum, payment) => {
+        console.log(`💰 Paiement inclus: ${payment.tenantName} - ${payment.rentAmount}€ - Type: ${payment.tenantType || 'N/A'}`);
+        return sum + (payment.rentAmount || 0);
+      }, 0);
 
     // Calcul des avances et cautions (pour information)
     const advancePayments = payments
