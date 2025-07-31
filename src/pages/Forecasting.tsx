@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { TrendingUp, Calculator, Building } from 'lucide-react';
 import MainLayout from '@/components/Layout/MainLayout';
 import { useFinancialForecasting } from '@/hooks/useFinancialForecasting';
-import FinancialMetrics from '@/components/Forecasting/FinancialMetrics';
 import PropertyAnalyzer from '@/components/Forecasting/PropertyAnalyzer';
 import InvestmentCapacity from '@/components/Forecasting/InvestmentCapacity';
 
@@ -52,15 +51,6 @@ const Forecasting = () => {
             </p>
           </div>
         </div>
-
-        {/* Métriques financières globales */}
-        <FinancialMetrics
-          totalMonthlyRevenue={financialSummary.totalMonthlyRevenue}
-          totalMonthlyProfit={financialSummary.totalMonthlyProfit}
-          averageProfitMargin={financialSummary.averageProfitMargin}
-          totalAnnualProfit={financialSummary.totalAnnualProfit}
-          riskLevel={investmentCapacity.riskLevel}
-        />
 
         {/* Analyseur de propriété individuelle */}
         <PropertyAnalyzer 
