@@ -12,6 +12,7 @@ import {
   Timestamp
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import type { Conversation } from '@/types/chat';
 
 interface TenantConversation {
   id: string;
@@ -42,62 +43,143 @@ export const useTenantChat = (currentUserId: string) => {
   const [loading, setLoading] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
 
-  // Écouter les conversations
+  // Écouter les conversations (tenant_conversations + rent_conversations pour unifier admin et tenant)
   useEffect(() => {
     if (!currentUserId) return;
 
+    console.log('🗨️ useTenantChat - Écoute des conversations pour userId:', currentUserId);
+    
     try {
+      // 1. Écouter les conversations tenant normales
       const conversationsRef = collection(db, 'tenant_conversations');
       const conversationsQuery = query(
         conversationsRef,
         where('participants', 'array-contains', currentUserId)
       );
 
-      const unsubscribe = onSnapshot(conversationsQuery, (snapshot) => {
-        const conversationsList = snapshot.docs.map(doc => ({
+      const unsubscribe1 = onSnapshot(conversationsQuery, (snapshot) => {
+        const tenantConversations = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         })) as TenantConversation[];
         
-        // Trier par date de dernier message
-        conversationsList.sort((a, b) => {
-          const timeA = a.lastMessageTime?.toMillis() || 0;
-          const timeB = b.lastMessageTime?.toMillis() || 0;
-          return timeB - timeA;
+        console.log('🗨️ useTenantChat - Conversations tenant trouvées:', tenantConversations.length);
+        
+        // 2. Écouter aussi les conversations admin (rent_conversations)
+        const adminConversationsRef = collection(db, 'rent_conversations');
+        
+        const unsubscribe2 = onSnapshot(adminConversationsRef, (adminSnapshot) => {
+          const adminConversations = adminSnapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as Conversation))
+            .filter((conv: Conversation) => {
+              // Filtrer les conversations qui concernent l'utilisateur actuel
+              // Chercher par email ou par ID selon le type d'utilisateur
+              const currentUserEmail = currentUserId; // Parfois c'est l'email qui est passé
+              return conv.clientEmail === currentUserEmail || 
+                     conv.clientName?.toLowerCase().includes(currentUserId.toLowerCase());
+            })
+            .map((conv: Conversation) => ({
+              // Adapter le format admin vers le format tenant
+              id: conv.id,
+              participant1Id: 'admin',
+              participant1Name: 'Support Admin',
+              participant2Id: currentUserId,
+              participant2Name: conv.clientName || 'Utilisateur',
+              lastMessage: conv.lastMessage || '',
+              lastMessageTime: conv.lastMessageTime,
+              unreadCount: conv.unreadCount || 0,
+              createdAt: conv.createdAt
+            })) as TenantConversation[];
+            
+          console.log('🗨️ useTenantChat - Conversations admin trouvées:', adminConversations.length);
+          
+          // Fusionner et trier toutes les conversations
+          const allConversations = [...tenantConversations, ...adminConversations];
+          allConversations.sort((a, b) => {
+            const timeA = a.lastMessageTime?.toMillis() || 0;
+            const timeB = b.lastMessageTime?.toMillis() || 0;
+            return timeB - timeA;
+          });
+          
+          console.log('🗨️ useTenantChat - Total conversations:', allConversations.length);
+          setConversations(allConversations);
         });
         
-        setConversations(conversationsList);
+        return unsubscribe2;
       });
 
-      return () => unsubscribe();
+      return () => {
+        unsubscribe1();
+      };
     } catch (error) {
       console.error('Erreur lors de l\'écoute des conversations:', error);
     }
   }, [currentUserId]);
 
-  // Écouter les messages d'une conversation
+  // Écouter les messages d'une conversation (tenant + admin)
   const subscribeToMessages = (conversationId: string) => {
     if (!conversationId) return;
 
+    console.log('🗨️ useTenantChat - Souscription aux messages pour conversation:', conversationId);
     setLoadingMessages(true);
     
-    const messagesQuery = query(
-      collection(db, 'tenant_messages'),
-      where('conversationId', '==', conversationId),
-      orderBy('timestamp', 'asc')
+    // Vérifier si c'est une conversation admin ou tenant
+    const isAdminConversation = conversations.find(conv => 
+      conv.id === conversationId && conv.participant1Id === 'admin'
     );
+    
+    if (isAdminConversation) {
+      console.log('🗨️ useTenantChat - Écoute des messages admin (rent_messages)');
+      // Écouter les messages admin
+      const adminMessagesQuery = query(
+        collection(db, 'rent_messages'),
+        where('conversationId', '==', conversationId),
+        orderBy('timestamp', 'asc')
+      );
 
-    const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-      const messagesList = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as TenantMessage[];
-      
-      setMessages(messagesList);
-      setLoadingMessages(false);
-    });
+      const unsubscribe = onSnapshot(adminMessagesQuery, (snapshot) => {
+        const adminMessages = snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            conversationId: data.conversationId,
+            senderId: data.sender === 'staff' ? 'admin' : data.senderEmail,
+            senderName: data.senderName,
+            senderType: data.sender === 'staff' ? 'admin' : 'tenant',
+            content: data.message,
+            timestamp: data.timestamp,
+            read: data.read
+          };
+        }) as TenantMessage[];
+        
+        console.log('🗨️ useTenantChat - Messages admin reçus:', adminMessages.length);
+        setMessages(adminMessages);
+        setLoadingMessages(false);
+      });
 
-    return unsubscribe;
+      return unsubscribe;
+    } else {
+      console.log('🗨️ useTenantChat - Écoute des messages tenant (tenant_messages)');
+      // Écouter les messages tenant normaux
+      const messagesQuery = query(
+        collection(db, 'tenant_messages'),
+        where('conversationId', '==', conversationId),
+        orderBy('timestamp', 'asc')
+      );
+
+      const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+        const messagesList = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as TenantMessage[];
+        
+        console.log('🗨️ useTenantChat - Messages tenant reçus:', messagesList.length);
+        setMessages(messagesList);
+        setLoadingMessages(false);
+      });
+
+      return unsubscribe;
+    }
   };
 
   // Créer une nouvelle conversation
