@@ -52,8 +52,9 @@ export const useUserProfileManager = (user: User | null) => {
         const isAdmin = user.email === 'admin@neotech-consulting.com';
         const isEmadAdam = user.email === 'entrepreneurpro19@gmail.com';
         const isRuthMegha = user.email === 'ruthmegha35@gmail.com';
+        const isRostandOwner = user.email === 'rostandlionel@yahoo.fr';
         
-        console.log('🔍 User type checks:', { isAdmin, isEmadAdam, isRuthMegha, email: user.email });
+        console.log('🔍 User type checks:', { isAdmin, isEmadAdam, isRuthMegha, isRostandOwner, email: user.email });
         
         let profile: UserProfile;
         
@@ -85,6 +86,16 @@ export const useUserProfileManager = (user: User | null) => {
             type: 'colocataire' as const
           };
           console.log('✅ Profile Ruth MEGHA créé:', profile);
+        } else if (isRostandOwner) {
+          // Profile spécifique pour ROSTAND comme propriétaire
+          profile = {
+            id: user.uid,
+            name: 'ROSTAND',
+            email: user.email || '',
+            role: 'owner',
+            type: 'owner' as const
+          };
+          console.log('✅ Profile ROSTAND (propriétaire) créé:', profile);
         } else {
           // Pour les autres utilisateurs, récupérer le profil depuis Firebase
           try {

@@ -18,12 +18,15 @@ export const useTenantSpaceData = () => {
   const { roommateProfile } = useRoommateData(user?.email || null);
 
   // Utiliser le profil colocataire s'il existe et correspond à l'utilisateur connecté
-  const currentProfile = (roommateProfile && roommateProfile.email === user?.email) 
+  // MAIS exclure les propriétaires de l'espace locataire
+  const isOwnerUser = user?.email === 'rostandlionel@yahoo.fr';
+  
+  const currentProfile = (roommateProfile && roommateProfile.email === user?.email && !isOwnerUser) 
     ? roommateProfile 
-    : getCurrentProfile();
-  const currentType = (roommateProfile && roommateProfile.email === user?.email) 
+    : (!isOwnerUser ? getCurrentProfile() : null);
+  const currentType = (roommateProfile && roommateProfile.email === user?.email && !isOwnerUser) 
     ? 'colocataire' 
-    : getCurrentUserType();
+    : (!isOwnerUser ? getCurrentUserType() : null);
 
   // Trouver le contrat signé pour le locataire/colocataire actuel
   console.log('=== Contract Search Debug ===');
