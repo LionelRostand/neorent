@@ -24,6 +24,7 @@ import AdminForecastingView from './AdminForecastingView';
 import AdminMaintenanceView from './AdminMaintenanceView';
 import AdminTaxManagementView from './AdminTaxManagementView';
 import AdminSettingsView from './AdminSettingsView';
+import MessagesView from './MessagesView';
 
 interface AdminViewRendererProps {
   activeView: string;
@@ -59,7 +60,7 @@ const AdminViewRenderer: React.FC<AdminViewRendererProps> = ({
     case 'admin-maintenance':
       return <AdminMaintenanceView currentProfile={currentProfile} />;
     case 'admin-messages':
-      return <Messages />;
+      return <MessagesView currentProfile={currentProfile} />;
     case 'admin-taxes':
       return <AdminTaxManagementView currentProfile={currentProfile} />;
     case 'admin-website':
