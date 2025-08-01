@@ -115,8 +115,16 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return property.status === 'Libre' ? 1 : 0;
   };
 
-  // Filtrer les propriétés selon le terme de recherche
+  // Filtrer les propriétés selon le terme de recherche ET exclure les propriétés occupées
   const filteredProperties = finalProperties.filter(property => {
+    // Vérifier d'abord si la propriété est disponible (pas complètement occupée)
+    const realStatus = getRealStatus(property);
+    const isAvailable = realStatus.status === 'Libre' || realStatus.status === 'Partiellement occupé';
+    
+    // Si la propriété n'est pas disponible, l'exclure
+    if (!isAvailable) return false;
+    
+    // Ensuite, appliquer le filtre de recherche
     if (!searchFilter.trim()) return true;
     
     const searchLower = searchFilter.toLowerCase();
