@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { useMongoProperties, useMongoOwnerProperties, useWebsiteSettings, useSaveWebsiteSettings } from '@/hooks/useMongoProperties';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PropertiesList } from './PropertiesList';
@@ -11,22 +11,16 @@ import { RoommatePropertyAssociation } from '@/components/RoommatePropertyAssoci
 
 const PropertiesTab = () => {
   const { userProfile } = useAuth();
-  const { data: ownerProperties = [], isLoading: loadingOwnerProperties } = useMongoOwnerProperties(userProfile?.id);
-  const { data: allProperties = [], isLoading: loadingAllProperties } = useMongoProperties();
-  const { data: websiteSettings = [], isLoading: loadingSettings } = useWebsiteSettings();
-  const saveWebsiteSettingsMutation = useSaveWebsiteSettings();
+  const { properties: allProperties, loading: loadingProperties } = useFirebaseProperties();
   
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
-  // Combiner toutes les propriétés disponibles (owner + admin)
-  const allAvailableProperties = [
-    ...ownerProperties,
-    ...allProperties
-  ];
+  // Pour Firebase, utiliser toutes les propriétés (pas de séparation owner/admin)
+  const uniqueProperties = allProperties || [];
 
-  // Supprimer les doublons basés sur l'ID MongoDB (_id)
-  const uniqueProperties = allAvailableProperties.filter((property, index, self) =>
-    index === self.findIndex((p) => p._id === property._id)
+  // Supprimer les doublons basés sur l'ID Firebase (id)
+  const deduplicatedProperties = uniqueProperties.filter((property, index, self) =>
+    index === self.findIndex((p) => p.id === property.id)
   );
 
   // États pour gérer la visibilité et les descriptions des propriétés sur le site
@@ -36,32 +30,29 @@ const PropertiesTab = () => {
     featured: boolean;
   }}>({});
 
-  // Charger les paramètres depuis l'API MongoDB
+  // Charger les paramètres depuis localStorage au démarrage
   useEffect(() => {
-    if (websiteSettings.length > 0) {
-      const settingsMap: any = {};
-      websiteSettings.forEach((setting) => {
-        settingsMap[setting.propertyId] = {
-          visible: setting.visible,
-          description: setting.description,
-          featured: setting.featured
-        };
-      });
-      setPropertySettings(settingsMap);
+    const savedSettings = localStorage.getItem('propertySettings');
+    if (savedSettings) {
+      try {
+        setPropertySettings(JSON.parse(savedSettings));
+      } catch (error) {
+        console.error('Error loading settings from localStorage:', error);
+      }
     }
-  }, [websiteSettings]);
+  }, []);
 
   // Initialiser les paramètres des propriétés avec visibilité activée par défaut
   useEffect(() => {
-    if (uniqueProperties.length > 0) {
+    if (deduplicatedProperties.length > 0) {
       setPropertySettings(prevSettings => {
         const newSettings = { ...prevSettings };
         let hasNewProperties = false;
         
-        uniqueProperties.forEach((property) => {
-          // Utiliser _id au lieu de id pour MongoDB
-          if (!newSettings[property._id]) {
-            newSettings[property._id] = {
+        deduplicatedProperties.forEach((property) => {
+          // Utiliser id pour Firebase
+          if (!newSettings[property.id]) {
+            newSettings[property.id] = {
               visible: true,
               description: '',
               featured: false
@@ -77,19 +68,12 @@ const PropertiesTab = () => {
         return newSettings;
       });
     }
-  }, [uniqueProperties.length]);
+  }, [deduplicatedProperties.length]);
 
   const handleSaveWebsiteSettings = async () => {
     try {
-      // Convertir les paramètres en format pour l'API
-      const settingsArray = Object.entries(propertySettings).map(([propertyId, settings]) => ({
-        propertyId,
-        visible: settings.visible,
-        description: settings.description,
-        featured: settings.featured
-      }));
-
-      await saveWebsiteSettingsMutation.mutateAsync(settingsArray);
+      // Pour Firebase, sauvegarder dans localStorage temporairement
+      localStorage.setItem('propertySettings', JSON.stringify(propertySettings));
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       
@@ -97,7 +81,7 @@ const PropertiesTab = () => {
         description: `${visibleCount} propriété(s) sera(ont) affichée(s) sur votre site web public`
       });
       
-      console.log('Settings saved to MongoDB:', propertySettings);
+      console.log('Settings saved to localStorage:', propertySettings);
     } catch (error) {
       console.error('Error saving settings:', error);
       toast.error('Erreur lors de la sauvegarde', {
@@ -153,17 +137,17 @@ const PropertiesTab = () => {
   };
 
   // Filtrer les propriétés visibles pour les statistiques
-  const visibleProperties = uniqueProperties?.filter(p => propertySettings[p._id]?.visible) || [];
-  const featuredProperties = uniqueProperties?.filter(p => propertySettings[p._id]?.featured) || [];
+  const visibleProperties = deduplicatedProperties?.filter(p => propertySettings[p.id]?.visible) || [];
+  const featuredProperties = deduplicatedProperties?.filter(p => propertySettings[p.id]?.featured) || [];
 
   // Afficher un état de chargement si nécessaire
-  const isLoading = loadingOwnerProperties || loadingAllProperties || loadingSettings;
+  const isLoading = loadingProperties;
   
   if (isLoading) {
     return (
       <div className="space-y-4 md:space-y-6">
         <div className="text-center py-8">
-          <p>Chargement des propriétés depuis MongoDB...</p>
+          <p>Chargement des propriétés depuis Firebase...</p>
         </div>
       </div>
     );
@@ -173,12 +157,12 @@ const PropertiesTab = () => {
     <div className="space-y-4 md:space-y-6">
       {/* En-tête avec statistiques */}
       <PropertyStatsCards
-        uniqueProperties={uniqueProperties}
-        ownerProperties={ownerProperties}
-        allAdminProperties={allProperties}
+        uniqueProperties={deduplicatedProperties}
+        ownerProperties={deduplicatedProperties}
+        allAdminProperties={deduplicatedProperties}
         visibleProperties={visibleProperties}
         featuredProperties={featuredProperties}
-        isSaving={saveWebsiteSettingsMutation.isPending}
+        isSaving={false}
         onSave={handleSaveWebsiteSettings}
       />
 
@@ -193,7 +177,7 @@ const PropertiesTab = () => {
             {/* Liste des propriétés */}
             <div className="xl:col-span-2">
               <PropertiesList
-                properties={uniqueProperties}
+                properties={deduplicatedProperties}
                 propertySettings={propertySettings}
                 onToggleVisibility={togglePropertyVisibility}
                 onToggleFeatured={togglePropertyFeatured}

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useUpdateProperty } from '@/hooks/useMongoProperties';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { toast } from 'sonner';
 import { 
   Eye, 
@@ -36,10 +36,10 @@ export const PropertyCard = ({
   getStatusBadgeVariant
 }: PropertyCardProps) => {
   const { roommates } = useFirebaseRoommates();
-  const updatePropertyMutation = useUpdateProperty();
+  const { updateProperty } = useFirebaseProperties();
   
-  // Utiliser _id pour MongoDB au lieu de id
-  const propertyId = property._id || property.id;
+  // Utiliser id pour Firebase au lieu de _id
+  const propertyId = property.id;
   const settings = propertySettings[propertyId] || { visible: false, featured: false };
 
   // Utiliser le statut de la propriété (permettre modification manuelle)
@@ -47,10 +47,7 @@ export const PropertyCard = ({
 
   const handleStatusChange = async (newStatus: string) => {
     try {
-      await updatePropertyMutation.mutateAsync({
-        id: propertyId,
-        updates: { status: newStatus }
-      });
+      await updateProperty(propertyId, { status: newStatus });
       toast.success('Statut mis à jour');
     } catch (error) {
       toast.error('Erreur lors de la mise à jour du statut');
