@@ -1,0 +1,19 @@
+{
+  "employees": {
+    "updatePassword": "Update Property Owner Password",
+    "setPasswordTitle": "Set Property Owner Password",
+    "employeeLabel": "Property Owner",
+    "information": "Information",
+    "emailExistsInfo": "This property owner already has an account with this email address",
+    "newPassword": "New Password",
+    "passwordPlaceholder": "Enter new password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm new password",
+    "update": "Update",
+    "cancel": "Cancel",
+    "passwordUpdated": "Password updated successfully",
+    "passwordUpdateError": "Error updating password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 6 characters long"
+  }
+}
