@@ -28,7 +28,6 @@ import ConfigTab from '@/components/Website/ConfigTab';
 import CookiesTab from '@/components/Website/CookiesTab';
 import ImmoTab from '@/components/Website/ImmoTab';
 import LegalPagesTab from '@/components/Website/LegalPagesTab';
-import MenuTab from '@/components/Website/MenuTab';
 
 const Website = () => {
   const { t } = useTranslation();
@@ -36,7 +35,6 @@ const Website = () => {
 
   const tabs = [
     { id: 'pages', label: t('website.managePages'), icon: FileText },
-    { id: 'menu', label: 'Menus', icon: Settings },
     { id: 'immo', label: 'Immo', icon: Home },
     { id: 'content', label: t('website.editContent'), icon: File },
     { id: 'medias', label: t('website.photoGallery'), icon: Image },
@@ -93,10 +91,6 @@ const Website = () => {
               <div className="h-full overflow-y-auto bg-white rounded-lg shadow-sm border p-4">
                 <TabsContent value="pages" className="m-0 h-full">
                   <PagesTab />
-                </TabsContent>
-
-                <TabsContent value="menu" className="m-0 h-full">
-                  <MenuTab />
                 </TabsContent>
 
                 <TabsContent value="immo" className="m-0 h-full">
