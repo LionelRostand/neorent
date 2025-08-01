@@ -15,26 +15,105 @@ export const useFirebaseProperties = () => {
       console.log('🔧 Configuration db:', db);
       setLoading(true);
       
-      // Test de connexion à Firebase
+      // Test de connexion à Firebase avec collection Rent_properties
       console.log('📡 Test connexion Firebase avec collection Rent_properties...');
       const querySnapshot = await getDocs(collection(db, 'Rent_properties'));
       console.log(`📊 Firebase response: ${querySnapshot.docs.length} documents trouvés`);
-      console.log('📋 QuerySnapshot:', querySnapshot);
       
       if (querySnapshot.empty) {
-        console.log('❌ Collection Rent_properties est VIDE ou n\'EXISTE PAS');
+        console.log('❌ Collection Rent_properties est VIDE - Création d\'exemples de propriétés...');
         
-        // Test avec d'autres noms de collection possibles
-        const testCollections = ['properties', 'Properties', 'rent_properties', 'rentProperties'];
-        for (const collectionName of testCollections) {
+        // Création de quelques propriétés d'exemple si la collection est vide
+        const sampleProperties = [
+          {
+            title: "Appartement moderne - Centre ville",
+            address: "15 Rue de la République, Paris 75001",
+            type: "Appartement",
+            surface: "65 m²",
+            rent: "1800",
+            status: "Libre",
+            tenant: null,
+            image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+            locationType: "Location",
+            totalRooms: 3,
+            availableRooms: 3,
+            creditImmobilier: "",
+            owner: "Propriétaire 1",
+            charges: {
+              electricity: 50,
+              water: 30,
+              maintenance: 100
+            },
+            floor: "3ème étage"
+          },
+          {
+            title: "Studio lumineux - Quartier étudiant",
+            address: "42 Avenue des Étudiants, Lyon 69007",
+            type: "Studio",
+            surface: "25 m²",
+            rent: "650",
+            status: "Libre",
+            tenant: null,
+            image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
+            locationType: "Location",
+            totalRooms: 1,
+            availableRooms: 1,
+            creditImmobilier: "",
+            owner: "Propriétaire 2",
+            charges: {
+              electricity: 30,
+              water: 20,
+              maintenance: 50
+            },
+            floor: "2ème étage"
+          },
+          {
+            title: "Colocation 4 chambres - Proche métro",
+            address: "8 Boulevard du Métro, Marseille 13001",
+            type: "Maison",
+            surface: "120 m²",
+            rent: "2400",
+            status: "Partiellement occupé",
+            tenant: null,
+            image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+            locationType: "Colocation",
+            totalRooms: 4,
+            availableRooms: 2,
+            creditImmobilier: "",
+            owner: "Propriétaire 1",
+            charges: {
+              electricity: 80,
+              water: 60,
+              maintenance: 150
+            },
+            floor: "Rez-de-chaussée"
+          }
+        ];
+
+        // Ajouter les propriétés d'exemple à Firebase
+        for (const property of sampleProperties) {
           try {
-            console.log(`🔍 Test collection: ${collectionName}`);
-            const testSnapshot = await getDocs(collection(db, collectionName));
-            console.log(`📊 ${collectionName}: ${testSnapshot.docs.length} documents`);
-          } catch (testErr) {
-            console.log(`❌ Erreur test ${collectionName}:`, testErr);
+            await addDoc(collection(db, 'Rent_properties'), property);
+            console.log(`✅ Propriété ajoutée: ${property.title}`);
+          } catch (addErr) {
+            console.error(`❌ Erreur ajout propriété ${property.title}:`, addErr);
           }
         }
+
+        // Relancer la récupération après ajout
+        const newQuerySnapshot = await getDocs(collection(db, 'Rent_properties'));
+        console.log(`📊 Nouvelles propriétés: ${newQuerySnapshot.docs.length} documents`);
+        
+        const propertiesData = newQuerySnapshot.docs.map(doc => {
+          return {
+            id: doc.id,
+            ...doc.data()
+          };
+        }) as Property[];
+        
+        setProperties(propertiesData);
+        setError(null);
+        return;
       }
       
       const propertiesData = querySnapshot.docs.map(doc => {
