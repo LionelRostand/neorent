@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Save, Home, Users, Phone } from 'lucide-react';
+import { Save, Home, Users, Phone, Building } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const MenuTab = () => {
@@ -29,6 +29,16 @@ const MenuTab = () => {
     mission: "Notre mission est de simplifier la gestion immobilière en offrant des outils innovants et intuitifs.",
     vision: "Devenir la référence en matière de gestion immobilière digitale.",
     values: "Transparence, Innovation, Confiance"
+  });
+
+  // État pour le contenu de la page propriétés
+  const [propertiesContent, setPropertiesContent] = useState({
+    title: "Nos Propriétés",
+    subtitle: "Découvrez notre sélection de biens immobiliers",
+    description: "Explorez notre catalogue de propriétés soigneusement sélectionnées pour répondre à tous vos besoins.",
+    searchPlaceholder: "Rechercher par ville, quartier ou type de bien...",
+    filtersLabel: "Filtres de recherche",
+    noResultsText: "Aucune propriété trouvée"
   });
 
   // État pour le contenu de la page contact
@@ -78,7 +88,7 @@ const MenuTab = () => {
       </div>
 
       <Tabs defaultValue="accueil" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="accueil" className="gap-2">
             <Home className="h-4 w-4" />
             Accueil
@@ -86,6 +96,10 @@ const MenuTab = () => {
           <TabsTrigger value="apropos" className="gap-2">
             <Users className="h-4 w-4" />
             À Propos
+          </TabsTrigger>
+          <TabsTrigger value="proprietes" className="gap-2">
+            <Building className="h-4 w-4" />
+            Propriétés
           </TabsTrigger>
           <TabsTrigger value="contact" className="gap-2">
             <Phone className="h-4 w-4" />
@@ -207,6 +221,82 @@ const MenuTab = () => {
                   onChange={(e) => setAboutContent({...aboutContent, values: e.target.value})}
                   placeholder="Vos valeurs (séparées par des virgules)"
                 />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Page Propriétés */}
+        <TabsContent value="proprietes">
+          <Card>
+            <CardHeader>
+              <CardTitle>Page Propriétés</CardTitle>
+              <CardDescription>
+                Modifiez le contenu de votre page propriétés
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="properties-title">Titre</Label>
+                <Input
+                  id="properties-title"
+                  value={propertiesContent.title}
+                  onChange={(e) => setPropertiesContent({...propertiesContent, title: e.target.value})}
+                  placeholder="Titre de la page propriétés"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="properties-subtitle">Sous-titre</Label>
+                <Input
+                  id="properties-subtitle"
+                  value={propertiesContent.subtitle}
+                  onChange={(e) => setPropertiesContent({...propertiesContent, subtitle: e.target.value})}
+                  placeholder="Sous-titre de la page propriétés"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="properties-description">Description</Label>
+                <Textarea
+                  id="properties-description"
+                  value={propertiesContent.description}
+                  onChange={(e) => setPropertiesContent({...propertiesContent, description: e.target.value})}
+                  placeholder="Description de votre catalogue de propriétés"
+                  rows={3}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="properties-search">Texte de recherche</Label>
+                <Input
+                  id="properties-search"
+                  value={propertiesContent.searchPlaceholder}
+                  onChange={(e) => setPropertiesContent({...propertiesContent, searchPlaceholder: e.target.value})}
+                  placeholder="Placeholder pour la barre de recherche"
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="properties-filters">Label des filtres</Label>
+                  <Input
+                    id="properties-filters"
+                    value={propertiesContent.filtersLabel}
+                    onChange={(e) => setPropertiesContent({...propertiesContent, filtersLabel: e.target.value})}
+                    placeholder="Texte pour les filtres"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="properties-noresults">Message aucun résultat</Label>
+                  <Input
+                    id="properties-noresults"
+                    value={propertiesContent.noResultsText}
+                    onChange={(e) => setPropertiesContent({...propertiesContent, noResultsText: e.target.value})}
+                    placeholder="Message quand aucune propriété n'est trouvée"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
