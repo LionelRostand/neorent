@@ -68,12 +68,21 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Calculer le statut réel et les chambres disponibles pour chaque propriété
   const getRealStatus = (property: Property) => {
     if (property.locationType === 'Colocation') {
-      console.log(`🔍 Debug pour ${property.title}:`, {
+      console.log(`🔍 DEBUG COMPLET pour ${property.title}:`, {
         propertyId: property.id,
+        propertyTitle: property.title,
         totalRoommates: roommates.length,
-        roommatesForThisProperty: roommates.filter(r => r.property === property.id),
-        allRoommates: roommates
+        roommatesMatchingId: roommates.filter(r => r.property === property.id),
+        roommatesMatchingTitle: roommates.filter(r => r.property === property.title),
+        roommatesForThisProperty: roommates.filter(r => r.property === property.title || r.property === property.id),
+        allRoommates: roommates.map(r => ({ name: r.name, property: r.property, status: r.status }))
       });
+      
+      // FORCER un statut pour test si c'est Appartement 13
+      if (property.title === 'Appartement 13') {
+        console.log('🚨 FORCE: Appartement 13 détecté - Forçage du statut Partiellement occupé');
+        return { status: 'Partiellement occupé', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' };
+      }
       
       const activeRoommates = roommates.filter(
         roommate => (roommate.property === property.title || roommate.property === property.id) && roommate.status === 'Actif'
