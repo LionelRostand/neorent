@@ -43,8 +43,13 @@ export const useFirebaseRoommates = () => {
 
   const fetchRoommates = async () => {
     try {
+      console.log('🔄 Début récupération colocataires Firebase...');
       setLoading(true);
+      
+      console.log('📡 Récupération des colocataires depuis Rent_colocataires...');
       const querySnapshot = await getDocs(collection(db, 'Rent_colocataires'));
+      console.log(`📊 Firebase response: ${querySnapshot.docs.length} documents trouvés`);
+      
       const roommatesData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
