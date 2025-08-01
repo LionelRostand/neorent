@@ -88,7 +88,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
   // Calculer le statut réel basé sur les occupants
   const getRealStatus = () => {
     const activeRoommates = roommates.filter(roommate => 
-      roommate.property === property.title && roommate.status === 'Actif'
+      (roommate.property === property.title || roommate.property === property.id) && roommate.status === 'Actif'
     );
 
     if (property.locationType === 'Colocation') {
@@ -113,7 +113,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
   const getRealAvailableRooms = () => {
     if (property.locationType === 'Colocation') {
       const activeRoommates = roommates.filter(roommate => 
-        roommate.property === property.title && roommate.status === 'Actif'
+        (roommate.property === property.title || roommate.property === property.id) && roommate.status === 'Actif'
       );
       const totalRooms = property.totalRooms || 0;
       const occupiedRooms = activeRoommates.length;
