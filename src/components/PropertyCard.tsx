@@ -87,25 +87,40 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
 
   // Calculer le statut réel basé sur les occupants
   const getRealStatus = () => {
-    const activeRoommates = roommates.filter(roommate => 
-      (roommate.property === property.title || roommate.property === property.id) && roommate.status === 'Actif'
-    );
-
     if (property.locationType === 'Colocation') {
-      const totalRooms = property.totalRooms || 0;
-      const occupiedRooms = activeRoommates.length;
-      const availableRooms = Math.max(0, totalRooms - occupiedRooms);
+      console.log(`🔍 Debug pour ${property.title}:`, {
+        propertyId: property.id,
+        totalRoommates: roommates.length,
+        roommatesForThisProperty: roommates.filter(r => r.property === property.title || r.property === property.id),
+        allRoommates: roommates
+      });
       
-      if (availableRooms > 0) {
-        return t('properties.partiallyOccupied');
-      } else if (occupiedRooms > 0) {
-        return t('properties.fullyOccupied');
+      const activeRoommates = roommates.filter(roommate => 
+        (roommate.property === property.title || roommate.property === property.id) && roommate.status === 'Actif'
+      ).length;
+
+      const totalRooms = property.totalRooms || 1;
+      const availableRooms = totalRooms - activeRoommates;
+      
+      console.log(`🏠 ${property.title}: ${activeRoommates} colocataires actifs / ${totalRooms} chambres = ${availableRooms} disponibles`);
+      
+      // Logique corrigée : si toutes les chambres sont libres = Libre
+      if (availableRooms === totalRooms) {
+        console.log(`✅ Statut admin: Libre (${availableRooms}/${totalRooms})`);
+        return 'Libre';
+      } else if (availableRooms > 0) {
+        console.log(`⚠️ Statut admin: Partiellement occupé (${availableRooms}/${totalRooms})`);
+        return 'Partiellement occupé';
       } else {
-        return t('properties.vacant');
+        console.log(`❌ Statut admin: Occupé (${availableRooms}/${totalRooms})`);
+        return 'Occupé';
       }
     } else {
       // Location classique
-      return activeRoommates.length > 0 ? t('properties.occupied') : t('properties.vacant');
+      const activeRoommates = roommates.filter(roommate => 
+        (roommate.property === property.title || roommate.property === property.id) && roommate.status === 'Actif'
+      ).length;
+      return activeRoommates > 0 ? 'Occupé' : 'Libre';
     }
   };
 
@@ -126,14 +141,14 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, onEdit, 
   const realAvailableRooms = getRealAvailableRooms();
 
   const getStatusBadgeColor = (status: string) => {
-    if (status === t('properties.vacant')) {
-      return 'bg-gray-100 text-gray-800';
-    } else if (status === t('properties.occupied') || status === t('properties.fullyOccupied')) {
-      return 'bg-green-100 text-green-800';
-    } else if (status === t('properties.partiallyOccupied')) {
-      return 'bg-yellow-100 text-yellow-800';
+    if (status === 'Libre') {
+      return 'bg-green-100 text-green-800 border-green-200';
+    } else if (status === 'Occupé') {
+      return 'bg-red-100 text-red-800 border-red-200';
+    } else if (status === 'Partiellement occupé') {
+      return 'bg-yellow-100 text-yellow-800 border-yellow-200';
     } else {
-      return 'bg-gray-100 text-gray-800';
+      return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
