@@ -45,11 +45,21 @@ export const PropertyCard = ({
   // Utiliser le statut de la propriété (permettre modification manuelle)
   const currentStatus = property.status;
 
+  console.log('🔍 PropertyCard Debug:', {
+    propertyTitle: property.title,
+    currentStatus,
+    propertyId,
+    settings,
+    hasUpdateProperty: typeof updateProperty === 'function'
+  });
+
   const handleStatusChange = async (newStatus: string) => {
+    console.log('🔄 Status change:', { from: currentStatus, to: newStatus, propertyId });
     try {
       await updateProperty(propertyId, { status: newStatus });
       toast.success('Statut mis à jour');
     } catch (error) {
+      console.error('❌ Error updating status:', error);
       toast.error('Erreur lors de la mise à jour du statut');
     }
   };
