@@ -115,16 +115,22 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return property.status === 'Libre' ? 1 : 0;
   };
 
-  // Filtrer les propriétés selon le terme de recherche ET exclure les propriétés occupées
+  // Filtrer les propriétés selon le terme de recherche ET exclure les propriétés occupées ET vérifier la visibilité
   const filteredProperties = finalProperties.filter(property => {
-    // Vérifier d'abord si la propriété est disponible (pas complètement occupée)
+    // 1. Vérifier la visibilité depuis les paramètres MongoDB
+    const settings = propertySettings[property.id];
+    const isVisible = settings?.visible !== false; // Par défaut visible si pas de paramètres
+    
+    if (!isVisible) return false;
+    
+    // 2. Vérifier si la propriété est disponible (pas complètement occupée)
     const realStatus = getRealStatus(property);
     const isAvailable = realStatus.status === 'Libre' || realStatus.status === 'Partiellement occupé';
     
     // Si la propriété n'est pas disponible, l'exclure
     if (!isAvailable) return false;
     
-    // Ensuite, appliquer le filtre de recherche
+    // 3. Ensuite, appliquer le filtre de recherche
     if (!searchFilter.trim()) return true;
     
     const searchLower = searchFilter.toLowerCase();
