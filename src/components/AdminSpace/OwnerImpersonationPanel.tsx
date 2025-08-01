@@ -24,14 +24,16 @@ const OwnerImpersonationPanel: React.FC = () => {
       return;
     }
 
-    console.log('Admin viewing owner space for:', ownerProfile.name);
+    console.log('Admin viewing owner space for:', ownerProfile.name, ownerProfile);
     
     // Basculer vers le profil du propriétaire
     const success = switchToOwnerProfile(ownerProfile);
     
     if (success) {
-      // Naviguer vers l'espace propriétaire
+      console.log('✅ Navigation vers owner-space avec profil:', ownerProfile.name);
       navigate('/owner-space');
+    } else {
+      console.error('❌ Échec du changement de profil vers:', ownerProfile.name);
     }
   };
 

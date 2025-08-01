@@ -12,18 +12,18 @@ export const useAdminTenantAccess = () => {
   const { owners } = useFirebaseOwners();
   const [selectedTenantProfile, setSelectedTenantProfile] = useState(() => {
     // Restore from sessionStorage on initialization
-    const stored = sessionStorage.getItem('adminSelectedProfile');
+    const stored = sessionStorage.getItem('selectedTenantProfile');
     return stored ? JSON.parse(stored) : null;
   });
 
   // Persist selected profile to sessionStorage
   useEffect(() => {
     if (selectedTenantProfile) {
-      sessionStorage.setItem('adminSelectedProfile', JSON.stringify(selectedTenantProfile));
-      console.log('Persisted selected profile to storage:', selectedTenantProfile);
+      sessionStorage.setItem('selectedTenantProfile', JSON.stringify(selectedTenantProfile));
+      console.log('✅ Persisted selected profile to storage:', selectedTenantProfile);
     } else {
-      sessionStorage.removeItem('adminSelectedProfile');
-      console.log('Removed selected profile from storage');
+      sessionStorage.removeItem('selectedTenantProfile');
+      console.log('🗑️ Removed selected profile from storage');
     }
   }, [selectedTenantProfile]);
 
@@ -73,7 +73,10 @@ export const useAdminTenantAccess = () => {
       return false;
     }
     
-    console.log('Switching to owner profile:', ownerProfile);
+    console.log('🔄 Switching to owner profile:', ownerProfile);
+    
+    // Vider le sessionStorage avant de définir le nouveau profil
+    sessionStorage.removeItem('selectedTenantProfile');
     
     // Enrichir le profil propriétaire avec toutes les données nécessaires
     const enrichedProfile = {
@@ -90,11 +93,24 @@ export const useAdminTenantAccess = () => {
       company: ownerProfile.company || "Société non spécifiée",
       address: ownerProfile.address || "Adresse non spécifiée",
       status: ownerProfile.status || "Actif",
-      permissions: ownerProfile.permissions || ['read', 'write', 'manage']
+      permissions: ownerProfile.permissions || ['read', 'write', 'manage'],
+      // Timestamp pour forcer la mise à jour
+      switchedAt: Date.now()
     };
     
-    console.log('Setting enriched owner profile:', enrichedProfile);
+    console.log('✅ Setting enriched owner profile:', enrichedProfile);
+    
+    // Mise à jour du state et du sessionStorage
     setSelectedTenantProfile(enrichedProfile);
+    
+    // Forcer la sauvegarde dans sessionStorage
+    try {
+      sessionStorage.setItem('selectedTenantProfile', JSON.stringify(enrichedProfile));
+      console.log('✅ Profile saved to sessionStorage');
+    } catch (error) {
+      console.error('❌ Error saving to sessionStorage:', error);
+    }
+    
     return true;
   };
 
