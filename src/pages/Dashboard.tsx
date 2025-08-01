@@ -27,18 +27,21 @@ const Dashboard = () => {
   const globalMetrics = useDashboardMetrics();
   
   // Déterminer quelles données utiliser selon le type d'utilisateur  
-  // Admin consulte TOUJOURS les données globales, propriétaire consulte ses données filtrées
+  // Admin consulte TOUJOURS les données globales, sauf s'il consulte l'espace d'un propriétaire spécifique
   const isOwner = userType === 'owner';
+  const isViewingOwnerSpace = currentProfile && currentProfile.id; // Admin consultant l'espace d'un propriétaire
+  const shouldUseOwnerData = isOwner || isViewingOwnerSpace;
   
   console.log('=== Dashboard Debug ===');
   console.log('User type:', userType);
   console.log('Current profile:', currentProfile);
   console.log('Is owner:', isOwner);
-  console.log('Using owner data:', isOwner);
+  console.log('Is viewing owner space:', isViewingOwnerSpace);
+  console.log('Using owner data:', shouldUseOwnerData);
   console.log('=======================');
   
   // Calculer les métriques selon le type d'utilisateur avec comparaisons dynamiques
-  const metrics = isOwner ? {
+  const metrics = shouldUseOwnerData ? {
     // Métriques calculées pour le propriétaire
     monthlyRevenue: (() => {
       const currentMonth = new Date().getMonth();
@@ -111,7 +114,7 @@ const Dashboard = () => {
   } : globalMetrics; // Pour l'admin, utiliser les métriques globales
 
   // Calculer les comparaisons dynamiques
-  const dynamicComparisons = isOwner ? {
+  const dynamicComparisons = shouldUseOwnerData ? {
     revenueChange: (() => {
       const currentMonth = new Date().getMonth();
       const currentYear = new Date().getFullYear();
@@ -188,9 +191,9 @@ const Dashboard = () => {
   const { inspections } = useFirebaseInspections();
 
   // Alertes importantes - filtrer selon le type d'utilisateur
-  const relevantPayments = isOwner ? ownerData.payments : payments;
-  const relevantContracts = isOwner ? ownerData.contracts : contracts;
-  const relevantInspections = isOwner ? ownerData.inspections : inspections;
+  const relevantPayments = shouldUseOwnerData ? ownerData.payments : payments;
+  const relevantContracts = shouldUseOwnerData ? ownerData.contracts : contracts;
+  const relevantInspections = shouldUseOwnerData ? ownerData.inspections : inspections;
   
   const latePayments = relevantPayments.filter(p => p.status === 'En retard');
   const expiringContracts = relevantContracts.filter(c => {
@@ -286,13 +289,13 @@ const Dashboard = () => {
         {/* Graphiques et activité */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <RevenueChart 
-            payments={isOwner ? ownerData.payments : undefined}
-            properties={isOwner ? ownerData.properties : undefined}
+            payments={shouldUseOwnerData ? ownerData.payments : undefined}
+            properties={shouldUseOwnerData ? ownerData.properties : undefined}
           />
           <RecentActivity 
-            payments={isOwner ? ownerData.payments : undefined}
-            tenants={isOwner ? ownerData.tenants : undefined}
-            inspections={isOwner ? ownerData.inspections : undefined}
+            payments={shouldUseOwnerData ? ownerData.payments : undefined}
+            tenants={shouldUseOwnerData ? ownerData.tenants : undefined}
+            inspections={shouldUseOwnerData ? ownerData.inspections : undefined}
           />
         </div>
       </div>
