@@ -43,6 +43,8 @@
     "heating": "Heating",
     "garbage": "Garbage Collection",
     "internet": "Internet",
+    "taxeHabitation": "Housing Tax",
+    "taxeFonciere": "Property Tax",
     "total": "Total",
     "property": "Property",
     "tenant": "Tenant",

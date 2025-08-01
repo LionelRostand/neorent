@@ -43,6 +43,8 @@
     "heating": "Chauffage",
     "garbage": "Collecte des Ordures",
     "internet": "Internet",
+    "taxeHabitation": "Taxe d'Habitation",
+    "taxeFonciere": "Taxe Foncière",
     "total": "Total",
     "property": "Propriété",
     "tenant": "Locataire",
