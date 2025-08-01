@@ -29,7 +29,7 @@ export const PropertiesList = ({
   };
 
   // Compter les propriétés visibles pour l'affichage dans le titre
-  const visiblePropertiesCount = properties?.filter(p => propertySettings[p.id]?.visible)?.length || 0;
+  const visiblePropertiesCount = properties?.filter(p => propertySettings[p._id || p.id]?.visible)?.length || 0;
 
   return (
     <Card>
@@ -50,7 +50,7 @@ export const PropertiesList = ({
           {properties && properties.length > 0 ? (
             properties.map((property) => (
               <PropertyCard
-                key={property.id}
+                key={property._id || property.id}
                 property={property}
                 propertySettings={propertySettings}
                 onToggleVisibility={onToggleVisibility}
