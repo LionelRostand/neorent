@@ -150,12 +150,20 @@ export const useFirebaseProperties = () => {
       console.log(`✅ Propriétés récupérées:`, propertiesData);
       setProperties(propertiesData);
       setError(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error('❌ Erreur Firebase détaillée:', err);
       console.error('❌ Type d\'erreur:', typeof err);
-      console.error('❌ Message:', (err as any)?.message);
-      console.error('❌ Code:', (err as any)?.code);
-      setError('Erreur lors du chargement des biens');
+      console.error('❌ Message:', err?.message);
+      console.error('❌ Code:', err?.code);
+      
+      // Gestion spécifique des erreurs de permissions
+      if (err?.code === 'permission-denied') {
+        console.error('🔒 ERREUR DE PERMISSIONS FIRESTORE');
+        console.error('🔧 Vérifiez les règles Firestore pour la collection Rent_properties');
+        setError('Erreur de permissions - Vérifiez la configuration Firestore');
+      } else {
+        setError('Erreur lors du chargement des biens');
+      }
     } finally {
       setLoading(false);
     }
