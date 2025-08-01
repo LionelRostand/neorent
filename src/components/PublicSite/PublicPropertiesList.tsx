@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -15,7 +14,6 @@ import {
   Bath, 
   Square, 
   Building,
-  Star,
   Image as ImageIcon,
   Map as MapIcon
 } from 'lucide-react';
@@ -44,7 +42,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   
   // Récupérer les colocataires pour calculer l'occupation
   const { roommates } = useFirebaseRoommates();
-  
 
   // Calculer le statut réel et les chambres disponibles pour chaque propriété
   const getRealStatus = (property: Property) => {
@@ -251,7 +248,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {sortedProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
-              // const settings = {}; // Plus besoin des paramètres MongoDB
               const mainImage = getPropertyMainImage(property);
               const realStatus = getRealStatus(property);
               const availableRooms = getAvailableRoomsCount(property);
@@ -278,7 +274,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                       )}
                     </div>
 
-                    {/* Badges de statut et mise en avant */}
+                    {/* Badge de statut */}
                     <div className="absolute top-3 left-3 flex flex-col gap-2">
                       <Badge className={`${realStatus.color} border font-medium`}>
                         {realStatus.status}
