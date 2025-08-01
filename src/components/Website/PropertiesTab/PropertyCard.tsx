@@ -90,20 +90,18 @@ export const PropertyCard = ({
                 <Square className="h-3 w-3 mr-1" />
                 {property.surface}m²
               </div>
-              <div className="flex items-center mt-2">
-                <Select value={currentStatus || 'Libre'} onValueChange={handleStatusChange}>
-                  <SelectTrigger className="w-32 h-7 text-xs bg-white border">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white z-[200]">
-                    {statusOptions.map(status => (
-                      <SelectItem key={status} value={status} className="text-xs">
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select value={currentStatus || 'Libre'} onValueChange={handleStatusChange}>
+                <SelectTrigger className="w-24 h-6 text-xs bg-blue-500 text-white border-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white border z-[200]">
+                  {statusOptions.map(status => (
+                    <SelectItem key={status} value={status} className="text-xs">
+                      {status}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex flex-col items-end gap-2 ml-3">
