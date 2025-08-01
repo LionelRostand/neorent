@@ -13,6 +13,8 @@ export const useFirebaseProperties = () => {
     try {
       console.log('🔄 Début récupération propriétés Firebase...');
       console.log('🔧 Configuration db:', db);
+      console.log('🔧 App:', db.app);
+      console.log('🔧 Project ID:', db.app.options.projectId);
       setLoading(true);
       
       // Test de connexion à Firebase avec collection Rent_properties
