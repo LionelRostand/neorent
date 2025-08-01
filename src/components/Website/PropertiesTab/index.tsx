@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { useFirebasePropertySettings } from '@/hooks/useFirebasePropertySettings';
 import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PropertiesList } from './PropertiesList';
@@ -12,6 +13,12 @@ import { RoommatePropertyAssociation } from '@/components/RoommatePropertyAssoci
 const PropertiesTab = () => {
   const { userProfile } = useAuth();
   const { properties: allProperties, loading: loadingProperties } = useFirebaseProperties();
+  const { 
+    propertySettings, 
+    loading: loadingSettings, 
+    saveSettings, 
+    updatePropertySetting 
+  } = useFirebasePropertySettings();
   
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
@@ -23,57 +30,35 @@ const PropertiesTab = () => {
     index === self.findIndex((p) => p.id === property.id)
   );
 
-  // États pour gérer la visibilité et les descriptions des propriétés sur le site
-  const [propertySettings, setPropertySettings] = useState<{[key: string]: {
-    visible: boolean;
-    description: string;
-    featured: boolean;
-  }}>({});
-
-  // Charger les paramètres depuis localStorage au démarrage
-  useEffect(() => {
-    const savedSettings = localStorage.getItem('propertySettings');
-    if (savedSettings) {
-      try {
-        setPropertySettings(JSON.parse(savedSettings));
-      } catch (error) {
-        console.error('Error loading settings from localStorage:', error);
-      }
-    }
-  }, []);
-
   // Initialiser les paramètres des propriétés avec visibilité activée par défaut
   useEffect(() => {
-    if (deduplicatedProperties.length > 0) {
-      setPropertySettings(prevSettings => {
-        const newSettings = { ...prevSettings };
+    if (deduplicatedProperties.length > 0 && !loadingSettings) {
+      const initializeNewProperties = async () => {
         let hasNewProperties = false;
         
-        deduplicatedProperties.forEach((property) => {
-          // Utiliser id pour Firebase
-          if (!newSettings[property.id]) {
-            newSettings[property.id] = {
+        for (const property of deduplicatedProperties) {
+          if (!propertySettings[property.id]) {
+            await updatePropertySetting(property.id, {
               visible: true,
               description: '',
               featured: false
-            };
+            });
             hasNewProperties = true;
           }
-        });
-        
-        if (hasNewProperties) {
-          console.log('Initialized new properties:', newSettings);
         }
         
-        return newSettings;
-      });
+        if (hasNewProperties) {
+          console.log('Initialized new properties in Firebase');
+        }
+      };
+      
+      initializeNewProperties();
     }
-  }, [deduplicatedProperties.length]);
+  }, [deduplicatedProperties.length, loadingSettings, propertySettings, updatePropertySetting]);
 
   const handleSaveWebsiteSettings = async () => {
     try {
-      // Pour Firebase, sauvegarder dans localStorage temporairement
-      localStorage.setItem('propertySettings', JSON.stringify(propertySettings));
+      await saveSettings(propertySettings);
       
       const visibleCount = Object.values(propertySettings).filter(s => s.visible).length;
       
@@ -81,7 +66,7 @@ const PropertiesTab = () => {
         description: `${visibleCount} propriété(s) sera(ont) affichée(s) sur votre site web public`
       });
       
-      console.log('Settings saved to localStorage:', propertySettings);
+      console.log('Settings saved to Firebase:', propertySettings);
     } catch (error) {
       console.error('Error saving settings:', error);
       toast.error('Erreur lors de la sauvegarde', {
@@ -90,37 +75,34 @@ const PropertiesTab = () => {
     }
   };
 
-  const togglePropertyVisibility = (propertyId: string) => {
-    setPropertySettings(prev => {
-      const newSettings = {
-        ...prev,
-        [propertyId]: {
-          ...prev[propertyId],
-          visible: !prev[propertyId]?.visible
-        }
-      };
-      return newSettings;
-    });
+  const togglePropertyVisibility = async (propertyId: string) => {
+    try {
+      const currentSetting = propertySettings[propertyId];
+      await updatePropertySetting(propertyId, {
+        visible: !currentSetting?.visible
+      });
+    } catch (error) {
+      toast.error('Erreur lors de la mise à jour');
+    }
   };
 
-  const togglePropertyFeatured = (propertyId: string) => {
-    setPropertySettings(prev => ({
-      ...prev,
-      [propertyId]: {
-        ...prev[propertyId],
-        featured: !prev[propertyId]?.featured
-      }
-    }));
+  const togglePropertyFeatured = async (propertyId: string) => {
+    try {
+      const currentSetting = propertySettings[propertyId];
+      await updatePropertySetting(propertyId, {
+        featured: !currentSetting?.featured
+      });
+    } catch (error) {
+      toast.error('Erreur lors de la mise à jour');
+    }
   };
 
-  const updatePropertyDescription = (propertyId: string, description: string) => {
-    setPropertySettings(prev => ({
-      ...prev,
-      [propertyId]: {
-        ...prev[propertyId],
-        description
-      }
-    }));
+  const updatePropertyDescription = async (propertyId: string, description: string) => {
+    try {
+      await updatePropertySetting(propertyId, { description });
+    } catch (error) {
+      toast.error('Erreur lors de la mise à jour');
+    }
   };
 
   const getStatusBadgeVariant = (status: string): "default" | "destructive" | "outline" | "secondary" | "success" => {
@@ -141,7 +123,7 @@ const PropertiesTab = () => {
   const featuredProperties = deduplicatedProperties?.filter(p => propertySettings[p.id]?.featured) || [];
 
   // Afficher un état de chargement si nécessaire
-  const isLoading = loadingProperties;
+  const isLoading = loadingProperties || loadingSettings;
   
   if (isLoading) {
     return (
