@@ -90,28 +90,23 @@ export const PropertyCard = ({
                 <Square className="h-3 w-3 mr-1" />
                 {property.surface}m²
               </div>
+              <div className="flex items-center mt-2">
+                <Select value={currentStatus || 'Libre'} onValueChange={handleStatusChange}>
+                  <SelectTrigger className="w-32 h-7 text-xs bg-white border">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white z-[200]">
+                    {statusOptions.map(status => (
+                      <SelectItem key={status} value={status} className="text-xs">
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
           <div className="flex flex-col items-end gap-2 ml-3">
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-gray-600">Statut</label>
-              <Select value={currentStatus || 'Libre'} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-36 h-8 text-xs bg-white border border-gray-300 shadow-sm">
-                  <SelectValue placeholder="Choisir un statut" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 shadow-lg z-[100]">
-                  {statusOptions.map(status => (
-                    <SelectItem 
-                      key={status} 
-                      value={status} 
-                      className="text-xs hover:bg-gray-100 bg-white cursor-pointer"
-                    >
-                      {status}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
             {settings.featured && (
               <Badge variant="outline" className="text-xs bg-yellow-50 text-yellow-700 border-yellow-200">
                 <Star className="h-3 w-3 mr-1" />
