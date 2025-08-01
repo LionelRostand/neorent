@@ -147,7 +147,7 @@ const RentalChargeEditForm = ({ isOpen, onClose, onSubmit, editingCharge }: Rent
     if (!property) return;
 
     const chargeData = {
-      id: editingCharge?.id, // Inclure l'ID pour la mise à jour
+      ...(editingCharge?.id && { id: editingCharge.id }), // Inclure l'ID seulement si il existe
       propertyName: property.title,
       propertyType: property.locationType,
       tenant: property.tenant,
