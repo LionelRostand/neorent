@@ -1,10 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useUpdateProperty } from '@/hooks/useMongoProperties';
+import { toast } from 'sonner';
 import { 
   Eye, 
   EyeOff, 
@@ -33,32 +36,33 @@ export const PropertyCard = ({
   getStatusBadgeVariant
 }: PropertyCardProps) => {
   const { roommates } = useFirebaseRoommates();
+  const updatePropertyMutation = useUpdateProperty();
   
   // Utiliser _id pour MongoDB au lieu de id
   const propertyId = property._id || property.id;
   const settings = propertySettings[propertyId] || { visible: false, featured: false };
 
-  // Calculer le statut réel basé sur les colocataires
-  const getRealStatus = () => {
-    if (property.locationType === 'Colocation') {
-      const activeRoommates = roommates.filter(
-        roommate => roommate.property === property.title && roommate.status === 'Actif'
-      );
-      
-      if (activeRoommates.length === 0) {
-        return 'Libre';
-      } else if (activeRoommates.length < property.totalRooms) {
-        return 'Partiellement occupé';
-      } else {
-        return 'Occupé';
-      }
+  // Utiliser le statut de la propriété (permettre modification manuelle)
+  const currentStatus = property.status;
+
+  const handleStatusChange = async (newStatus: string) => {
+    try {
+      await updatePropertyMutation.mutateAsync({
+        id: propertyId,
+        updates: { status: newStatus }
+      });
+      toast.success('Statut mis à jour');
+    } catch (error) {
+      toast.error('Erreur lors de la mise à jour du statut');
     }
-    
-    // Pour les appartements normaux, utiliser le statut défini
-    return property.status;
   };
 
-  const realStatus = getRealStatus();
+  const statusOptions = [
+    'Libre',
+    'Occupé',
+    'Partiellement occupé',
+    'En maintenance'
+  ];
 
   return (
     <Card className={`transition-all ${settings.visible ? 'ring-2 ring-green-200 bg-green-50' : ''}`}>
@@ -82,9 +86,20 @@ export const PropertyCard = ({
             </div>
           </div>
           <div className="flex flex-col items-end gap-2 ml-3">
-            <Badge variant={getStatusBadgeVariant(realStatus)} className="text-xs">
-              {realStatus}
-            </Badge>
+            <div className="flex flex-col gap-1">
+              <Select value={currentStatus} onValueChange={handleStatusChange}>
+                <SelectTrigger className="w-32 h-7 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.map(status => (
+                    <SelectItem key={status} value={status} className="text-xs">
+                      {status}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             {settings.featured && (
               <Badge variant="outline" className="text-xs bg-yellow-50 text-yellow-700 border-yellow-200">
                 <Star className="h-3 w-3 mr-1" />
