@@ -119,11 +119,32 @@ export const useFirebaseProperties = () => {
       }
       
       const propertiesData = querySnapshot.docs.map(doc => {
-        console.log(`📄 Document ${doc.id}:`, doc.data());
-        return {
+        const data = doc.data();
+        console.log(`📄 Document ${doc.id}:`, data);
+        
+        // Mapper les données Firebase vers le format Property attendu
+        const mappedProperty = {
           id: doc.id,
-          ...doc.data()
+          title: data.title || 'Propriété sans titre',
+          address: `${data.streetNumber || ''} ${data.street || ''}, ${data.postalCode || ''}`.trim(),
+          type: data.type || 'Non spécifié',
+          surface: data.surface ? `${data.surface}` : '0',
+          rent: data.rent ? `${data.rent}` : '0',
+          status: data.status || 'Non spécifié',
+          tenant: data.tenant || null,
+          image: data.image || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800',
+          images: data.images || [],
+          locationType: data.locationType || 'Location',
+          totalRooms: data.totalRooms || 1,
+          availableRooms: data.availableRooms || 1,
+          creditImmobilier: data.creditImmobilier || '',
+          owner: data.owner || '',
+          charges: data.charges || {},
+          floor: data.floor || ''
         };
+        
+        console.log(`✅ Propriété mappée:`, mappedProperty);
+        return mappedProperty;
       }) as Property[];
       
       console.log(`✅ Propriétés récupérées:`, propertiesData);
