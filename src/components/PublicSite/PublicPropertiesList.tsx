@@ -28,17 +28,39 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   const [showMap, setShowMap] = useState(false);
   
   // Utiliser les vraies propriétés depuis Firebase
-  const { properties: allProperties, loading } = useFirebaseProperties();
+  const { properties: allProperties, loading, error } = useFirebaseProperties();
+  
+  // Log d'erreur Firebase si elle existe
+  React.useEffect(() => {
+    if (error) {
+      console.error('🚨 ERREUR FIREBASE:', error);
+    }
+  }, [error]);
   
   // Utiliser uniquement les vraies propriétés Firebase
   const finalProperties = allProperties || [];
   
-  // Debug: log des propriétés récupérées
+  // Debug: log des propriétés récupérées avec plus de détails
   React.useEffect(() => {
     console.log('🔥 Firebase Properties loaded:', allProperties?.length || 0, allProperties);
     console.log('📋 Final properties used:', finalProperties?.length || 0, finalProperties);
     console.log('🎯 Using only Firebase data (no test data)');
-  }, [allProperties, finalProperties]);
+    console.log('⏳ Loading state:', loading);
+    
+    // Log détaillé de chaque propriété pour debugging
+    if (allProperties && allProperties.length > 0) {
+      allProperties.forEach((prop, index) => {
+        console.log(`🏠 Propriété ${index + 1}:`, {
+          id: prop.id,
+          title: prop.title,
+          status: prop.status,
+          locationType: prop.locationType,
+          totalRooms: prop.totalRooms,
+          availableRooms: prop.availableRooms
+        });
+      });
+    }
+  }, [allProperties, finalProperties, loading]);
   
   // Récupérer les colocataires pour calculer l'occupation
   const { roommates } = useFirebaseRoommates();
