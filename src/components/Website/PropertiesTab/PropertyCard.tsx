@@ -87,13 +87,18 @@ export const PropertyCard = ({
           </div>
           <div className="flex flex-col items-end gap-2 ml-3">
             <div className="flex flex-col gap-1">
+              <label className="text-xs font-medium text-gray-600">Statut</label>
               <Select value={currentStatus} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-32 h-7 text-xs">
+                <SelectTrigger className="w-36 h-8 text-xs bg-white border-gray-300">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
                   {statusOptions.map(status => (
-                    <SelectItem key={status} value={status} className="text-xs">
+                    <SelectItem 
+                      key={status} 
+                      value={status} 
+                      className="text-xs hover:bg-gray-100 bg-white"
+                    >
                       {status}
                     </SelectItem>
                   ))}
