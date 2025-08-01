@@ -7,7 +7,6 @@ import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
-import { useWebsiteSettings } from '@/hooks/useMongoProperties';
 import { Property } from '@/types/property';
 import { 
   MapPin, 
@@ -46,21 +45,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   // Récupérer les colocataires pour calculer l'occupation
   const { roommates } = useFirebaseRoommates();
   
-  // Récupérer les paramètres de visibilité depuis MongoDB
-  const { data: websiteSettings, isLoading: settingsLoading, error: settingsError } = useWebsiteSettings();
-  
-  // Convertir les paramètres en format objet pour faciliter l'accès
-  const propertySettings = websiteSettings?.reduce((acc, setting) => {
-    acc[setting.propertyId] = setting;
-    return acc;
-  }, {} as Record<string, any>) || {};
-
-  // Log des erreurs pour déboguer
-  React.useEffect(() => {
-    if (settingsError) {
-      console.log('🔧 Erreur MongoDB détectée, mode fallback activé:', settingsError);
-    }
-  }, [settingsError]);
 
   // Calculer le statut réel et les chambres disponibles pour chaque propriété
   const getRealStatus = (property: Property) => {
@@ -115,22 +99,16 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     return property.status === 'Libre' ? 1 : 0;
   };
 
-  // Filtrer les propriétés selon le terme de recherche ET exclure les propriétés occupées ET vérifier la visibilité
+  // Filtrer les propriétés selon le terme de recherche ET exclure les propriétés occupées
   const filteredProperties = finalProperties.filter(property => {
-    // 1. Vérifier la visibilité depuis les paramètres MongoDB
-    const settings = propertySettings[property.id];
-    const isVisible = settings?.visible !== false; // Par défaut visible si pas de paramètres
-    
-    if (!isVisible) return false;
-    
-    // 2. Vérifier si la propriété est disponible (pas complètement occupée)
+    // Vérifier si la propriété est disponible (pas complètement occupée)
     const realStatus = getRealStatus(property);
     const isAvailable = realStatus.status === 'Libre' || realStatus.status === 'Partiellement occupé';
     
     // Si la propriété n'est pas disponible, l'exclure
     if (!isAvailable) return false;
     
-    // 3. Ensuite, appliquer le filtre de recherche
+    // Ensuite, appliquer le filtre de recherche
     if (!searchFilter.trim()) return true;
     
     const searchLower = searchFilter.toLowerCase();
@@ -214,9 +192,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     console.log('❌ Aucune propriété à afficher:', {
       allProperties: allProperties?.length || 0,
       filteredProperties: filteredProperties.length,
-      loading,
-      settingsError: !!settingsError,
-      websiteSettings: !!websiteSettings
+      loading
     });
     
     return (
@@ -275,7 +251,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {sortedProperties.map((property) => {
               const roomInfo = getRoomInfo(property);
-              const settings = propertySettings[property.id] || {};
+              // const settings = {}; // Plus besoin des paramètres MongoDB
               const mainImage = getPropertyMainImage(property);
               const realStatus = getRealStatus(property);
               const availableRooms = getAvailableRoomsCount(property);
@@ -307,12 +283,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                       <Badge className={`${realStatus.color} border font-medium`}>
                         {realStatus.status}
                       </Badge>
-                      {settings.featured && (
-                        <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 font-medium">
-                          <Star className="h-3 w-3 mr-1" />
-                          Coup de cœur
-                        </Badge>
-                      )}
                     </div>
 
                     {/* Image count indicator */}
