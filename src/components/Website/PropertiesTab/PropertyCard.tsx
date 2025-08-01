@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { 
   Eye, 
   EyeOff, 
@@ -31,9 +32,33 @@ export const PropertyCard = ({
   onEdit,
   getStatusBadgeVariant
 }: PropertyCardProps) => {
+  const { roommates } = useFirebaseRoommates();
+  
   // Utiliser _id pour MongoDB au lieu de id
   const propertyId = property._id || property.id;
   const settings = propertySettings[propertyId] || { visible: false, featured: false };
+
+  // Calculer le statut réel basé sur les colocataires
+  const getRealStatus = () => {
+    if (property.locationType === 'Colocation') {
+      const activeRoommates = roommates.filter(
+        roommate => roommate.property === property.title && roommate.status === 'Actif'
+      );
+      
+      if (activeRoommates.length === 0) {
+        return 'Libre';
+      } else if (activeRoommates.length < property.totalRooms) {
+        return 'Partiellement occupé';
+      } else {
+        return 'Occupé';
+      }
+    }
+    
+    // Pour les appartements normaux, utiliser le statut défini
+    return property.status;
+  };
+
+  const realStatus = getRealStatus();
 
   return (
     <Card className={`transition-all ${settings.visible ? 'ring-2 ring-green-200 bg-green-50' : ''}`}>
@@ -57,8 +82,8 @@ export const PropertyCard = ({
             </div>
           </div>
           <div className="flex flex-col items-end gap-2 ml-3">
-            <Badge variant={getStatusBadgeVariant(property.status)} className="text-xs">
-              {property.status}
+            <Badge variant={getStatusBadgeVariant(realStatus)} className="text-xs">
+              {realStatus}
             </Badge>
             {settings.featured && (
               <Badge variant="outline" className="text-xs bg-yellow-50 text-yellow-700 border-yellow-200">
