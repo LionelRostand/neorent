@@ -6,6 +6,7 @@ import { PropertyDetailsModal } from './PropertyDetailsModal';
 import { PropertyMap } from './PropertyMap';
 import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebasePropertySettings } from '@/hooks/useFirebasePropertySettings';
 import { Property } from '@/types/property';
 import { 
   MapPin, 
@@ -15,7 +16,8 @@ import {
   Square, 
   Building,
   Image as ImageIcon,
-  Map as MapIcon
+  Map as MapIcon,
+  Star
 } from 'lucide-react';
 
 interface PublicPropertiesListProps {
@@ -29,6 +31,7 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
   
   // Utiliser les vraies propriétés depuis Firebase
   const { properties: allProperties, loading, error } = useFirebaseProperties();
+  const { propertySettings } = useFirebasePropertySettings();
   
   // Log d'erreur Firebase si elle existe
   React.useEffect(() => {
@@ -37,8 +40,11 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
     }
   }, [error]);
   
-  // Utiliser uniquement les vraies propriétés Firebase
-  const finalProperties = allProperties || [];
+  // Utiliser uniquement les vraies propriétés Firebase et filtrer seulement les visibles
+  const finalProperties = (allProperties || []).filter(property => {
+    const settings = propertySettings[property.id] || { visible: false };
+    return settings.visible;
+  });
   
   // Debug: log des propriétés récupérées avec plus de détails
   React.useEffect(() => {
@@ -304,6 +310,13 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
                       <Badge className={`${realStatus.color} border font-medium`}>
                         {realStatus.status}
                       </Badge>
+                      {/* Badge mise en avant */}
+                      {propertySettings[property.id]?.featured && (
+                        <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 border font-medium">
+                          <Star className="h-3 w-3 mr-1" />
+                          Mise en avant
+                        </Badge>
+                      )}
                     </div>
 
                     {/* Image count indicator */}
