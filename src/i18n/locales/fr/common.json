@@ -303,7 +303,10 @@
     "notDefined": "Non défini",
     "success": "Succès",
     "error": "Erreur",
-    "notSpecified": "Non spécifié"
+    "notSpecified": "Non spécifié",
+    "password": "Mot de passe",
+    "passwordSet": "Définir le mot de passe",
+    "changePassword": "Modifier le mot de passe"
   },
   "cookies": {
     "title": "Nous utilisons des cookies",
