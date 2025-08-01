@@ -59,9 +59,10 @@ export const useFirebaseCharges = () => {
         throw new Error('Propriété et mois requis');
       }
       
-      // S'assurer que les champs numériques sont bien des nombres
+      // Retirer le champ id s'il existe et s'assurer que les champs numériques sont bien des nombres
+      const { id, ...dataWithoutId } = chargeData as any;
       const sanitizedData = {
-        ...chargeData,
+        ...dataWithoutId,
         electricity: Number(chargeData.electricity) || 0,
         water: Number(chargeData.water) || 0,
         heating: Number(chargeData.heating) || 0,
@@ -74,6 +75,13 @@ export const useFirebaseCharges = () => {
         total: Number(chargeData.total) || 0,
         createdAt: new Date().toISOString()
       };
+      
+      // Supprimer tous les champs undefined
+      Object.keys(sanitizedData).forEach(key => {
+        if (sanitizedData[key] === undefined) {
+          delete sanitizedData[key];
+        }
+      });
       
       console.log('📊 Données sanitisées:', sanitizedData);
       
