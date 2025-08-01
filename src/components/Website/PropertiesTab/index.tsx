@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useMongoProperties, useMongoOwnerProperties, useWebsiteSettings, useSaveWebsiteSettings } from '@/hooks/useMongoProperties';
 import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PropertiesList } from './PropertiesList';
 import { PropertyStatsCards } from './PropertyStatsCards';
 import { PropertyEditPanel } from './PropertyEditPanel';
+import { RoommatePropertyAssociation } from '@/components/RoommatePropertyAssociation';
 
 const PropertiesTab = () => {
   const { userProfile } = useAuth();
@@ -180,30 +182,43 @@ const PropertiesTab = () => {
         onSave={handleSaveWebsiteSettings}
       />
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {/* Liste des propriétés */}
-        <div className="xl:col-span-2">
-          <PropertiesList
-            properties={uniqueProperties}
-            propertySettings={propertySettings}
-            onToggleVisibility={togglePropertyVisibility}
-            onToggleFeatured={togglePropertyFeatured}
-            onEditProperty={setSelectedProperty}
-            getStatusBadgeVariant={getStatusBadgeVariant}
-          />
-        </div>
+      <Tabs defaultValue="properties" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="properties">Gestion des propriétés</TabsTrigger>
+          <TabsTrigger value="roommates">Association colocataires</TabsTrigger>
+        </TabsList>
 
-        {/* Panneau de modification */}
-        <div className="xl:col-span-1">
-          <PropertyEditPanel
-            selectedProperty={selectedProperty}
-            propertySettings={propertySettings}
-            visibleProperties={visibleProperties}
-            onCloseEdit={() => setSelectedProperty(null)}
-            onUpdateDescription={updatePropertyDescription}
-          />
-        </div>
-      </div>
+        <TabsContent value="properties" className="space-y-6">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            {/* Liste des propriétés */}
+            <div className="xl:col-span-2">
+              <PropertiesList
+                properties={uniqueProperties}
+                propertySettings={propertySettings}
+                onToggleVisibility={togglePropertyVisibility}
+                onToggleFeatured={togglePropertyFeatured}
+                onEditProperty={setSelectedProperty}
+                getStatusBadgeVariant={getStatusBadgeVariant}
+              />
+            </div>
+
+            {/* Panneau de modification */}
+            <div className="xl:col-span-1">
+              <PropertyEditPanel
+                selectedProperty={selectedProperty}
+                propertySettings={propertySettings}
+                visibleProperties={visibleProperties}
+                onCloseEdit={() => setSelectedProperty(null)}
+                onUpdateDescription={updatePropertyDescription}
+              />
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="roommates">
+          <RoommatePropertyAssociation />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

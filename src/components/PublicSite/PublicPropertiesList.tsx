@@ -78,12 +78,6 @@ export const PublicPropertiesList = ({ searchFilter }: PublicPropertiesListProps
         allRoommates: roommates.map(r => ({ name: r.name, property: r.property, status: r.status }))
       });
       
-      // FORCER un statut pour test si c'est Appartement 13
-      if (property.title === 'Appartement 13') {
-        console.log('🚨 FORCE: Appartement 13 détecté - Forçage du statut Partiellement occupé');
-        return { status: 'Partiellement occupé', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' };
-      }
-      
       const activeRoommates = roommates.filter(
         roommate => (roommate.property === property.title || roommate.property === property.id) && roommate.status === 'Actif'
       ).length;
