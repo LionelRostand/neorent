@@ -52,13 +52,42 @@ export const useFirebaseCharges = () => {
 
   const addCharge = async (chargeData: Omit<ChargeData, 'id'>) => {
     try {
-      const docRef = await addDoc(collection(db, 'Rent_Charges'), chargeData);
-      const newCharge = { id: docRef.id, ...chargeData };
+      console.log('🔍 Tentative d\'ajout de charge:', chargeData);
+      
+      // Vérifier que toutes les données requises sont présentes
+      if (!chargeData.propertyName || !chargeData.month) {
+        throw new Error('Propriété et mois requis');
+      }
+      
+      // S'assurer que les champs numériques sont bien des nombres
+      const sanitizedData = {
+        ...chargeData,
+        electricity: Number(chargeData.electricity) || 0,
+        water: Number(chargeData.water) || 0,
+        heating: Number(chargeData.heating) || 0,
+        maintenance: Number(chargeData.maintenance) || 0,
+        insurance: Number(chargeData.insurance) || 0,
+        garbage: Number(chargeData.garbage) || 0,
+        internet: Number(chargeData.internet) || 0,
+        taxeHabitation: Number(chargeData.taxeHabitation) || 0,
+        taxeFonciere: Number(chargeData.taxeFonciere) || 0,
+        total: Number(chargeData.total) || 0,
+        createdAt: new Date().toISOString()
+      };
+      
+      console.log('📊 Données sanitisées:', sanitizedData);
+      
+      const docRef = await addDoc(collection(db, 'Rent_Charges'), sanitizedData);
+      console.log('✅ Charge ajoutée avec succès, ID:', docRef.id);
+      
+      const newCharge = { id: docRef.id, ...sanitizedData };
       setCharges(prev => [...prev, newCharge]);
+      setError(null);
       return newCharge;
     } catch (err) {
-      console.error('Error adding charge:', err);
-      setError('Erreur lors de l\'ajout de la charge');
+      console.error('❌ Erreur détaillée lors de l\'ajout de la charge:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Erreur lors de l\'ajout de la charge';
+      setError(errorMessage);
       throw err;
     }
   };
