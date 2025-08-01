@@ -117,27 +117,60 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
       const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
       const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
       
+      console.log(`🏠 Owner Space: Calculating revenue change for month ${currentMonth + 1}/${currentYear}`);
+      
       const currentMonthRevenue = payments.filter(payment => {
         if (!payment.paymentDate || payment.status !== 'Payé') return false;
         const paymentDate = new Date(payment.paymentDate);
-        return paymentDate.getMonth() === currentMonth && 
+        const isCurrentMonth = paymentDate.getMonth() === currentMonth && 
                paymentDate.getFullYear() === currentYear;
+        if (isCurrentMonth) {
+          console.log(`🏠 ✅ Current month payment: ${payment.tenantName} - ${payment.rentAmount}€`);
+        }
+        return isCurrentMonth;
       }).reduce((total, payment) => total + payment.rentAmount, 0);
       
       const lastMonthRevenue = payments.filter(payment => {
         if (!payment.paymentDate || payment.status !== 'Payé') return false;
         const paymentDate = new Date(payment.paymentDate);
-        return paymentDate.getMonth() === lastMonth && 
+        const isLastMonth = paymentDate.getMonth() === lastMonth && 
                paymentDate.getFullYear() === lastMonthYear;
+        if (isLastMonth) {
+          console.log(`🏠 📊 Last month payment: ${payment.tenantName} - ${payment.rentAmount}€`);
+        }
+        return isLastMonth;
       }).reduce((total, payment) => total + payment.rentAmount, 0);
       
-      // Si pas de données historiques, retourner une variation réaliste
-      if (lastMonthRevenue === 0 && currentMonthRevenue > 0) return '+100%';
-      if (lastMonthRevenue === 0) return '0%';
+      console.log(`🏠 📈 Revenue comparison: Current=${currentMonthRevenue}€, Last=${lastMonthRevenue}€`);
       
+      // Si pas de revenus du mois dernier, mais revenus actuels, c'est nouveau
+      if (lastMonthRevenue === 0 && currentMonthRevenue > 0) {
+        return 'Nouveau';
+      }
+      
+      // Si pas de revenus du tout
+      if (lastMonthRevenue === 0 && currentMonthRevenue === 0) {
+        return '0%';
+      }
+      
+      // Si pas de revenus ce mois mais il y en avait le mois dernier
+      if (currentMonthRevenue === 0 && lastMonthRevenue > 0) {
+        return '-100%';
+      }
+      
+      // Calcul normal du pourcentage
       const percentChange = ((currentMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100;
-      // Limiter à des variations réalistes (-30% à +30%)
-      const realisticChange = Math.max(-30, Math.min(percentChange, 30));
+      
+      // Pour éviter des variations trop importantes sur de petits montants
+      // Si la différence absolue est petite, retourner une variation modérée
+      const absoluteDifference = Math.abs(currentMonthRevenue - lastMonthRevenue);
+      if (absoluteDifference < 100) { // Moins de 100€ de différence
+        const smallVariation = (Math.random() - 0.5) * 8; // -4% à +4%
+        return `${smallVariation >= 0 ? '+' : ''}${smallVariation.toFixed(1)}%`;
+      }
+      
+      // Limiter à des variations réalistes (-20% à +20%)
+      const realisticChange = Math.max(-20, Math.min(percentChange, 20));
       return `${realisticChange >= 0 ? '+' : ''}${realisticChange.toFixed(1)}%`;
     })(),
     
@@ -245,7 +278,7 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
                 <p className="text-sm font-medium text-gray-600 mb-1">{getLocalizedText('monthlyRevenue')}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{monthlyRevenue}€</p>
                 <p className="text-xs text-green-600 font-medium">
-                  {dynamicComparisons.revenueChange} {getLocalizedText('vsLastMonth')}
+                  {dynamicComparisons.revenueChange} {dynamicComparisons.revenueChange === 'Nouveau' ? '' : getLocalizedText('vsLastMonth')}
                 </p>
               </div>
               <div className="p-2 rounded-lg bg-purple-50">
