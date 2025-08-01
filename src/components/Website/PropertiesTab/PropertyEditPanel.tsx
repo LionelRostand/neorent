@@ -6,6 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useFirebaseProperties } from '@/hooks/useFirebaseProperties';
+import { toast } from 'sonner';
 import { 
   X, 
   Edit, 
@@ -35,8 +38,27 @@ export const PropertyEditPanel = ({
   onCloseEdit,
   onUpdateDescription
 }: PropertyEditPanelProps) => {
+  const { updateProperty } = useFirebaseProperties();
   const [localImages, setLocalImages] = React.useState<string[]>([]);
   const [newImageUrl, setNewImageUrl] = React.useState('');
+
+  const statusOptions = [
+    'Libre',
+    'Occupé', 
+    'Partiellement occupé',
+    'En maintenance'
+  ];
+
+  const handleStatusChange = async (newStatus: string) => {
+    try {
+      const propertyId = selectedProperty.id;
+      await updateProperty(propertyId, { status: newStatus });
+      toast.success('Statut mis à jour avec succès');
+    } catch (error) {
+      console.error('Error updating status:', error);
+      toast.error('Erreur lors de la mise à jour du statut');
+    }
+  };
 
   React.useEffect(() => {
     if (selectedProperty) {
@@ -126,6 +148,30 @@ export const PropertyEditPanel = ({
               </Badge>
             )}
           </div>
+        </div>
+
+        {/* Status Selector */}
+        <div className="space-y-2">
+          <Label htmlFor="status">Statut de la propriété</Label>
+          <Select value={selectedProperty.status || 'Libre'} onValueChange={handleStatusChange}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Choisir un statut" />
+            </SelectTrigger>
+            <SelectContent className="bg-white border border-gray-200 shadow-lg z-[100]">
+              {statusOptions.map(status => (
+                <SelectItem 
+                  key={status} 
+                  value={status} 
+                  className="cursor-pointer hover:bg-gray-100"
+                >
+                  {status}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-gray-500">
+            Le statut affiché sur votre site web et dans la gestion
+          </p>
         </div>
 
         {/* Images Section */}
