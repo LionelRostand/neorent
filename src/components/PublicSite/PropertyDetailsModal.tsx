@@ -77,19 +77,27 @@ export const PropertyDetailsModal = ({
       
       // Calculer les charges réelles à partir des données de la propriété
       let monthlyCharges = 0;
+      console.log('🔍 Structure des charges pour', property.title, ':', property.charges);
+      console.log('🔍 Type des charges:', typeof property.charges);
+      
       if (property.charges) {
         if (typeof property.charges === 'object' && property.charges !== null) {
+          console.log('📋 Charges détaillées:', Object.entries(property.charges));
           // Additionner toutes les charges de l'objet
           const chargeSum = Object.values(property.charges).reduce((sum: number, charge: unknown) => {
             const chargeValue = Number(charge) || 0;
-            console.log(`💸 Charge: ${chargeValue}€`);
+            console.log(`💸 Charge individuelle: ${chargeValue}€`);
             return sum + chargeValue;
           }, 0);
           monthlyCharges = Number(chargeSum);
+          console.log(`💸 Total charges calculé: ${monthlyCharges}€`);
         } else {
           // Si c'est un nombre simple
           monthlyCharges = Number(property.charges) || 0;
+          console.log(`💸 Charges simples: ${monthlyCharges}€`);
         }
+      } else {
+        console.log('⚠️ Aucune charge définie pour cette propriété');
       }
       
       const profit = monthlyRevenue - monthlyCharges;
