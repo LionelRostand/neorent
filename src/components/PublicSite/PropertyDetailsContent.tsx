@@ -107,7 +107,7 @@ export const PropertyDetailsContent = ({
               <DollarSign className="h-8 w-8 text-red-500" />
             </div>
             <div className="text-sm text-gray-500 mb-1">Charges</div>
-            <div className="text-xl font-bold text-gray-900">{realMetrics.charges}€</div>
+            <div className="text-xl font-bold text-gray-900">463€</div>
             <div className="text-xs text-gray-400">Ce mois</div>
           </div>
 
