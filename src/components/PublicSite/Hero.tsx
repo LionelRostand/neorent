@@ -9,9 +9,9 @@ const Hero: React.FC = () => {
   
   // État pour stocker les données de la page d'accueil depuis l'admin
   const [homeData, setHomeData] = useState({
-    title: 'Gestion immobilière simplifiée',
-    subtitle: 'Votre plateforme tout-en-un pour gérer vos biens immobiliers',
-    description: 'Découvrez notre solution complète de gestion immobilière qui simplifie la relation entre propriétaires et locataires.'
+    title: 'Gestion immobilière',
+    subtitle: 'simplifiée',
+    description: 'Gérez vos biens immobiliers en toute simplicité'
   });
 
   // Charger les données depuis le localStorage si elles existent
