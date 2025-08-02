@@ -158,23 +158,33 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
     return sum + activeRoommates.length;
   }, 0);
   
-  // Calculate monthly revenue - forcer 1030€ pour Appartement 13
-  let monthlyRevenue = 0;
-  
-  // Si on a l'Appartement 13, utiliser les vraies valeurs
-  const hasAppartement13 = properties.some(prop => prop.title === 'Appartement 13');
-  
-  if (hasAppartement13) {
-    monthlyRevenue = 1030; // Revenus réels de l'Appartement 13
-  } else {
-    // Calcul normal pour les autres propriétés
-    monthlyRevenue = roommates.reduce((sum, roommate) => {
-      if (roommate.status === 'Actif') {
-        return sum + (parseFloat(roommate.rentAmount?.toString() || '0') || 0);
-      }
-      return sum;
+  // Calculate monthly revenue correctly per property
+  const monthlyRevenue = properties.reduce((total, property) => {
+    console.log(`\n🏠 Calcul revenus pour: ${property.title}`);
+    
+    // Get active roommates for this specific property
+    const propertyRoommates = roommates.filter(roommate => 
+      roommate.property === property.title && roommate.status === 'Actif'
+    );
+    
+    console.log(`   Colocataires actifs trouvés:`, propertyRoommates.map(r => ({
+      name: r.name,
+      rentAmount: r.rentAmount,
+      type: typeof r.rentAmount
+    })));
+    
+    // Calculate revenue for this property
+    const propertyRevenue = propertyRoommates.reduce((sum, roommate) => {
+      const rentAmount = parseFloat(roommate.rentAmount?.toString() || '0') || 0;
+      console.log(`   ${roommate.name}: ${rentAmount}€`);
+      return sum + rentAmount;
     }, 0);
-  }
+    
+    console.log(`   💰 Revenus totaux pour ${property.title}: ${propertyRevenue}€`);
+    return total + propertyRevenue;
+  }, 0);
+  
+  console.log(`\n📊 REVENUS MENSUELS TOTAUX: ${monthlyRevenue}€`);
 
   return (
     <div className="min-h-screen">
