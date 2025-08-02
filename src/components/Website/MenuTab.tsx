@@ -54,6 +54,12 @@ const MenuTab = () => {
   const handleSave = async () => {
     setIsSaving(true);
     try {
+      // Sauvegarder les données dans le localStorage
+      localStorage.setItem('homeContent', JSON.stringify(homeContent));
+      localStorage.setItem('aboutContent', JSON.stringify(aboutContent));
+      localStorage.setItem('propertiesContent', JSON.stringify(propertiesContent));
+      localStorage.setItem('contactContent', JSON.stringify(contactContent));
+      
       // Simulation de sauvegarde
       await new Promise(resolve => setTimeout(resolve, 1000));
       

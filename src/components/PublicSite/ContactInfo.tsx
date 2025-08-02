@@ -1,43 +1,66 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 export const ContactInfo: React.FC = () => {
   const { t } = useTranslation();
+  
+  // État pour stocker les informations de contact depuis l'admin
+  const [contactData, setContactData] = useState({
+    title: 'Nous Contacter',
+    subtitle: 'Parlons de vos projets immobiliers',
+    address: '123 Rue de la République, 75001 Paris',
+    phone: '+33 1 23 45 67 89',
+    email: 'contact@immobilier.fr',
+    hours: 'Lun-Ven: 9h-18h, Sam: 9h-12h'
+  });
+
+  // Charger les données depuis le localStorage si elles existent
+  useEffect(() => {
+    const savedContactData = localStorage.getItem('contactContent');
+    if (savedContactData) {
+      try {
+        const parsedData = JSON.parse(savedContactData);
+        setContactData(parsedData);
+      } catch (error) {
+        console.error('Erreur lors du chargement des données de contact:', error);
+      }
+    }
+  }, []);
 
   const contactInfo = [
     {
       icon: Mail,
-      title: t('publicSite.contact.info.email.title'),
-      content: t('publicSite.contact.info.email.content'),
-      description: t('publicSite.contact.info.email.description')
+      title: 'Email',
+      content: contactData.email,
+      description: 'Envoyez-nous un email à tout moment'
     },
     {
       icon: Phone,
-      title: t('publicSite.contact.info.phone.title'),
-      content: t('publicSite.contact.info.phone.content'),
-      description: t('publicSite.contact.info.phone.description')
+      title: 'Téléphone',
+      content: contactData.phone,
+      description: 'Appelez-nous pendant les heures d\'ouverture'
     },
     {
       icon: MapPin,
-      title: t('publicSite.contact.info.address.title'),
-      content: t('publicSite.contact.info.address.content'),
-      description: t('publicSite.contact.info.address.description')
+      title: 'Adresse',
+      content: contactData.address,
+      description: 'Visitez notre bureau'
     },
     {
       icon: Clock,
-      title: t('publicSite.contact.info.hours.title'),
-      content: t('publicSite.contact.info.hours.content'),
-      description: t('publicSite.contact.info.hours.description')
+      title: 'Heures d\'Ouverture',
+      content: contactData.hours,
+      description: 'Nous sommes là pour vous aider'
     }
   ];
 
   return (
     <div>
       <h2 className="text-3xl font-bold text-gray-900 mb-6">
-        {t('publicSite.contact.info.title')}
+        Informations de Contact
       </h2>
       <div className="space-y-6">
         {contactInfo.map((info, index) => (
