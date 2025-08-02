@@ -9,9 +9,9 @@ const Hero: React.FC = () => {
   
   // État pour stocker les données de la page d'accueil depuis l'admin
   const [homeData, setHomeData] = useState({
-    title: 'Gestion immobilière',
-    subtitle: 'simplifiée',
-    description: 'Plateforme tout-en-un'
+    title: t('public.hero.title'),
+    subtitle: t('public.hero.subtitle'),
+    description: t('public.hero.description')
   });
 
   // Charger les données depuis le localStorage si elles existent
@@ -24,8 +24,15 @@ const Hero: React.FC = () => {
       } catch (error) {
         console.error('Erreur lors du chargement des données de la page d\'accueil:', error);
       }
+    } else {
+      // Si pas de données sauvegardées, utiliser les traductions par défaut
+      setHomeData({
+        title: t('public.hero.title'),
+        subtitle: t('public.hero.subtitle'),
+        description: t('public.hero.description')
+      });
     }
-  }, []);
+  }, [t]);
 
   return (
     <section className="bg-gradient-to-br from-green-50 to-green-100 py-20">
@@ -41,7 +48,7 @@ const Hero: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
               <Button variant="outline" className="border-green-600 text-green-600 hover:bg-green-50 px-6 py-2 text-base">
-                {t('publicSite.hero.contactUs')}
+                {t('public.hero.contactUs')}
               </Button>
             </Link>
           </div>

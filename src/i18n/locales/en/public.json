@@ -1,6 +1,12 @@
 
 {
   "public": {
+    "hero": {
+      "title": "Simplified property",
+      "subtitle": "management",
+      "description": "All-in-one platform",
+      "contactUs": "Contact Us"
+    },
     "about": {
       "title": "About Us",
       "subtitle": "Your trusted partner in real estate",
@@ -19,6 +25,11 @@
       "phone": "Phone",
       "email": "Email",
       "hours": "Opening hours",
+      "contactInfo": "Contact Information",
+      "emailDesc": "Send us an email anytime",
+      "phoneDesc": "Call us during business hours",
+      "addressDesc": "Visit our office",
+      "hoursDesc": "We're here to help you",
       "form": {
         "name": "Full name",
         "email": "Email address",

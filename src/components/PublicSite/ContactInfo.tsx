@@ -9,8 +9,8 @@ export const ContactInfo: React.FC = () => {
   
   // État pour stocker les informations de contact depuis l'admin
   const [contactData, setContactData] = useState({
-    title: 'Nous Contacter',
-    subtitle: 'Parlons de vos projets immobiliers',
+    title: t('public.contact.title'),
+    subtitle: t('public.contact.subtitle'),
     address: '123 Rue de la République, 75001 Paris',
     phone: '+33 1 23 45 67 89',
     email: 'contact@immobilier.fr',
@@ -33,34 +33,34 @@ export const ContactInfo: React.FC = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email',
+      title: t('public.contact.email'),
       content: contactData.email,
-      description: 'Envoyez-nous un email à tout moment'
+      description: t('public.contact.emailDesc')
     },
     {
       icon: Phone,
-      title: 'Téléphone',
+      title: t('public.contact.phone'),
       content: contactData.phone,
-      description: 'Appelez-nous pendant les heures d\'ouverture'
+      description: t('public.contact.phoneDesc')
     },
     {
       icon: MapPin,
-      title: 'Adresse',
+      title: t('public.contact.address'),
       content: contactData.address,
-      description: 'Visitez notre bureau'
+      description: t('public.contact.addressDesc')
     },
     {
       icon: Clock,
-      title: 'Heures d\'Ouverture',
+      title: t('public.contact.hours'),
       content: contactData.hours,
-      description: 'Nous sommes là pour vous aider'
+      description: t('public.contact.hoursDesc')
     }
   ];
 
   return (
     <div>
       <h2 className="text-3xl font-bold text-gray-900 mb-6">
-        Informations de Contact
+        {t('public.contact.contactInfo')}
       </h2>
       <div className="space-y-6">
         {contactInfo.map((info, index) => (

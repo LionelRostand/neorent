@@ -1,6 +1,12 @@
 
 {
   "public": {
+    "hero": {
+      "title": "Gestion immobilière",
+      "subtitle": "simplifiée", 
+      "description": "Plateforme tout-en-un",
+      "contactUs": "Nous Contacter"
+    },
     "about": {
       "title": "À Propos de Nous",
       "subtitle": "Votre partenaire de confiance en immobilier",
@@ -16,9 +22,14 @@
       "title": "Nous Contacter",
       "subtitle": "Parlons de vos projets immobiliers",
       "address": "Adresse",
-      "phone": "Téléphone",
+      "phone": "Téléphone", 
       "email": "Email",
       "hours": "Horaires d'ouverture",
+      "contactInfo": "Informations de Contact",
+      "emailDesc": "Envoyez-nous un email à tout moment",
+      "phoneDesc": "Appelez-nous pendant les heures d'ouverture",
+      "addressDesc": "Visitez notre bureau",
+      "hoursDesc": "Nous sommes là pour vous aider",
       "form": {
         "name": "Nom complet",
         "email": "Adresse email",
