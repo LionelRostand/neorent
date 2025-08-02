@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { PropertyDetailsContent } from './PropertyDetailsContent';
 import { VisitSchedulingForm } from './VisitSchedulingForm';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 
 interface PropertyDetailsModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export const PropertyDetailsModal = ({
 }: PropertyDetailsModalProps) => {
   const [showVisitForm, setShowVisitForm] = useState(false);
   const { roommates } = useFirebaseRoommates();
+  const { payments } = useFirebasePayments();
 
   if (!property) return null;
 
@@ -60,54 +62,62 @@ export const PropertyDetailsModal = ({
     }
   };
 
-  // Calculs financiers dynamiques basés sur les données réelles
+  // Calculs financiers dynamiques basés sur les paiements réels du mois en cours
   const getFinancialMetrics = () => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth(); // 0-11
+    const currentYear = currentDate.getFullYear();
+    
+    // Filtrer les paiements pour cette propriété et le mois en cours
+    const currentMonthPayments = payments.filter(payment => {
+      const paymentDate = new Date(payment.paymentDate || payment.dueDate);
+      const paymentMonth = paymentDate.getMonth();
+      const paymentYear = paymentDate.getFullYear();
+      
+      // Vérifier si c'est le bon mois/année et la bonne propriété
+      return paymentMonth === currentMonth && 
+             paymentYear === currentYear &&
+             payment.property === property.title &&
+             payment.status === 'Payé';
+    });
+    
+    console.log(`📅 Mois en cours: ${currentMonth + 1}/${currentYear}`);
+    console.log(`🏠 Propriété: ${property.title}`);
+    console.log(`💳 Paiements trouvés pour ce mois:`, currentMonthPayments.length);
+    
     if (property.locationType === 'Colocation') {
-      // Filtrer les colocataires actifs pour cette propriété
+      // Calculer les revenus réels à partir des paiements du mois
+      const monthlyRevenue = currentMonthPayments.reduce((sum, payment) => {
+        if (payment.paymentType === 'loyer') {
+          const amount = Number(payment.paidAmount || payment.rentAmount) || 0;
+          console.log(`💰 Paiement loyer de ${payment.tenantName}: ${amount}€`);
+          return sum + amount;
+        }
+        return sum;
+      }, 0);
+      
+      // Calculer les charges réelles payées ce mois
+      const monthlyCharges = currentMonthPayments.reduce((sum, payment) => {
+        if (payment.paymentType === 'charges') {
+          const amount = Number(payment.paidAmount || payment.rentAmount) || 0;
+          console.log(`💸 Paiement charges de ${payment.tenantName}: ${amount}€`);
+          return sum + amount;
+        }
+        return sum;
+      }, 0);
+      
+      const profit = monthlyRevenue - monthlyCharges;
+      
+      // Calcul du taux d'occupation basé sur les colocataires actifs
       const activeRoommates = roommates.filter(
         roommate => roommate.property === property.title && roommate.status === 'Actif'
       );
-      
-      // Calculer les revenus réels à partir des loyers des colocataires actifs
-      const monthlyRevenue = activeRoommates.reduce((sum, roommate) => {
-        const rent = Number(roommate.rentAmount || 0);
-        console.log(`💰 Colocataire ${roommate.name}: ${rent}€`);
-        return sum + rent;
-      }, 0);
-      
-      // Calculer les charges réelles à partir des données de la propriété
-      let monthlyCharges = 0;
-      console.log('🔍 Structure des charges pour', property.title, ':', property.charges);
-      console.log('🔍 Type des charges:', typeof property.charges);
-      
-      if (property.charges) {
-        if (typeof property.charges === 'object' && property.charges !== null) {
-          console.log('📋 Charges détaillées:', Object.entries(property.charges));
-          // Additionner toutes les charges de l'objet
-          const chargeSum = Object.values(property.charges).reduce((sum: number, charge: unknown) => {
-            const chargeValue = Number(charge) || 0;
-            console.log(`💸 Charge individuelle: ${chargeValue}€`);
-            return sum + chargeValue;
-          }, 0);
-          monthlyCharges = Number(chargeSum);
-          console.log(`💸 Total charges calculé: ${monthlyCharges}€`);
-        } else {
-          // Si c'est un nombre simple
-          monthlyCharges = Number(property.charges) || 0;
-          console.log(`💸 Charges simples: ${monthlyCharges}€`);
-        }
-      } else {
-        console.log('⚠️ Aucune charge définie pour cette propriété');
-      }
-      
-      const profit = monthlyRevenue - monthlyCharges;
       const totalRooms = property.totalRooms || 1;
       const occupancyRate = Math.round((activeRoommates.length / totalRooms) * 100);
       
-      console.log(`📊 Propriété: ${property.title}`);
-      console.log(`💰 Revenus totaux: ${monthlyRevenue}€`);
-      console.log(`💸 Charges totales: ${monthlyCharges}€`);
-      console.log(`📈 Bénéfice net: ${profit}€`);
+      console.log(`📊 Revenus réels du mois: ${monthlyRevenue}€`);
+      console.log(`💸 Charges réelles du mois: ${monthlyCharges}€`);
+      console.log(`📈 Bénéfice net réel: ${profit}€`);
       console.log(`🏠 Occupation: ${activeRoommates.length}/${totalRooms} (${occupancyRate}%)`);
       
       return {
@@ -120,19 +130,13 @@ export const PropertyDetailsModal = ({
       };
     } else {
       // Pour les propriétés non-colocation
-      const monthlyRevenue = Number(property.rent) || 0;
+      const monthlyRevenue = currentMonthPayments
+        .filter(p => p.paymentType === 'loyer')
+        .reduce((sum, payment) => sum + (Number(payment.paidAmount || payment.rentAmount) || 0), 0);
       
-      let monthlyCharges = 0;
-      if (property.charges) {
-        if (typeof property.charges === 'object' && property.charges !== null) {
-          const chargeSum = Object.values(property.charges).reduce((sum: number, charge: unknown) => {
-            return sum + (Number(charge) || 0);
-          }, 0);
-          monthlyCharges = Number(chargeSum);
-        } else {
-          monthlyCharges = Number(property.charges) || 0;
-        }
-      }
+      const monthlyCharges = currentMonthPayments
+        .filter(p => p.paymentType === 'charges')
+        .reduce((sum, payment) => sum + (Number(payment.paidAmount || payment.rentAmount) || 0), 0);
       
       const profit = monthlyRevenue - monthlyCharges;
       const occupancyRate = property.status === 'Occupé' ? 100 : 0;
