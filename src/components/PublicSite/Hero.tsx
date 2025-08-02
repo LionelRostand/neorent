@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
   const [homeData, setHomeData] = useState({
     title: 'Gestion immobilière',
     subtitle: 'simplifiée',
-    description: 'Votre plateforme tout-en-un'
+    description: 'Plateforme tout-en-un'
   });
 
   // Charger les données depuis le localStorage si elles existent
