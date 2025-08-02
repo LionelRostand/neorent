@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone, TrendingUp, TrendingDown } from 'lucide-react';
+import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone, TrendingUp, TrendingDown, Calculator } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
+import { usePropertyCharges } from '@/hooks/usePropertyCharges';
 
 interface Property {
   id: string;
@@ -53,6 +54,7 @@ interface PropertyDetailsModalProps {
 const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, isOpen, onClose }) => {
   const { t } = useTranslation();
   const { roommates } = useFirebaseRoommates();
+  const { calculateProfitability, getPropertyChargesDetail } = usePropertyCharges(null);
 
   if (!property) return null;
 
@@ -119,21 +121,13 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
     }, 0);
   };
 
-  // Calculer les charges totales à partir des données de la propriété
-  const calculateTotalCharges = () => {
-    if (!property.charges) return 0;
-    
-    const total = Object.values(property.charges).reduce((sum, value) => {
-      const numValue = typeof value === 'number' ? value : parseFloat(String(value)) || 0;
-      return sum + numValue;
-    }, 0);
-    
-    return isNaN(total) ? 0 : total;
-  };
+  // Utiliser les vraies données de charges depuis la base de données
+  const profitabilityData = calculateProfitability(property.title);
+  const chargesDetail = getPropertyChargesDetail(property.title);
 
-  const totalRevenue = calculateTotalRevenue();
-  const totalCharges = calculateTotalCharges();
-  const profit = totalRevenue - totalCharges;
+  const totalRevenue = profitabilityData.monthlyRevenue;
+  const totalCharges = profitabilityData.monthlyCharges;
+  const profit = profitabilityData.monthlyProfit;
 
   // Fonction pour calculer le taux d'occupation en pourcentage
   const calculateOccupancyRate = () => {
@@ -300,6 +294,76 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
               </Card>
             </div>
           </div>
+
+          {/* Détail des charges locatives */}
+          {chargesDetail.hasCharges && (
+            <div>
+              <h3 className="text-xl font-semibold mb-4 flex items-center">
+                <Calculator className="mr-2 h-5 w-5" />
+                Détail des charges locatives
+              </h3>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                      <div className="text-center">
+                        <div className="font-medium text-gray-700">Charges actuelles</div>
+                        <div className="text-lg font-bold text-blue-600">{chargesDetail.lastMonthCharges}€</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-medium text-gray-700">Moyenne mensuelle</div>
+                        <div className="text-lg font-bold text-gray-600">{Math.round(chargesDetail.averageMonthlyCharges)}€</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-medium text-gray-700">% des revenus</div>
+                        <div className="text-lg font-bold text-orange-600">{profitabilityData.chargesPercentage.toFixed(1)}%</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-medium text-gray-700">Rentabilité</div>
+                        <div className={`text-lg font-bold ${profitabilityData.profitabilityPercentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {profitabilityData.profitabilityPercentage.toFixed(1)}%
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {chargesDetail.monthlyCharges.length > 0 && (
+                      <div>
+                        <h4 className="font-medium text-gray-700 mb-2">Historique récent</h4>
+                        <div className="max-h-32 overflow-y-auto">
+                          <div className="space-y-2">
+                            {chargesDetail.monthlyCharges.slice(0, 3).map((charge, index) => (
+                              <div key={index} className="flex justify-between items-center text-sm bg-gray-50 p-2 rounded">
+                                <span>{charge.month}</span>
+                                <span className="font-medium">{charge.total}€</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {!chargesDetail.hasCharges && (
+            <div>
+              <h3 className="text-xl font-semibold mb-4 flex items-center">
+                <Calculator className="mr-2 h-5 w-5" />
+                Charges locatives
+              </h3>
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <Calculator className="h-12 w-12 mx-auto mb-3 text-gray-400" />
+                  <p className="text-gray-600">Aucune charge enregistrée</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Ajoutez les charges dans le menu "Charges Locatives" pour voir le détail de rentabilité
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
           {/* Configuration du bien */}
           <div>

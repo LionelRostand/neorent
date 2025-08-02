@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Building, Home, Users, DollarSign, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, Building, Home, Users, DollarSign, Edit, Trash2, Eye, TrendingUp, Calculator } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import PropertyForm from '@/components/PropertyForm';
+import PropertyDetailsModal from '@/components/PropertyDetailsModal';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { usePropertyCharges } from '@/hooks/usePropertyCharges';
 
 interface PropertyViewProps {
   currentProfile: any;
@@ -17,7 +19,9 @@ interface PropertyViewProps {
 const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChange }) => {
   const { i18n } = useTranslation();
   const [isNewPropertyDialogOpen, setIsNewPropertyDialogOpen] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const { properties, roommates } = useOwnerData(currentProfile);
+  const { getGlobalSummary } = usePropertyCharges(currentProfile);
 
   // Get texts based on current language
   const getLocalizedText = (key: string) => {
@@ -80,13 +84,25 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
         fr: 'Revenus Mensuels',
         en: 'Monthly Revenue'
       },
-      monthlyRevenueDesc: {
-        fr: 'Revenus mensuels totaux',
-        en: 'Total monthly revenue'
+      monthlyCharges: {
+        fr: 'Charges Mensuelles',
+        en: 'Monthly Charges'
       },
-      realRevenue: {
-        fr: 'Revenus réels perçus',
-        en: 'Actual received revenue'
+      monthlyProfit: {
+        fr: 'Bénéfice Mensuel',
+        en: 'Monthly Profit'
+      },
+      monthlyRevenueDesc: {
+        fr: 'Revenus totaux',
+        en: 'Total revenue'
+      },
+      monthlyChargesDesc: {
+        fr: 'Charges totales',
+        en: 'Total charges'
+      },
+      monthlyProfitDesc: {
+        fr: 'Bénéfice réel',
+        en: 'Actual profit'
       },
       propertiesList: {
         fr: 'Liste des Propriétés',
@@ -137,15 +153,10 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
-  // Calculate metrics
+  // Calculate metrics using charges integration
+  const globalSummary = getGlobalSummary();
   const totalProperties = properties.length;
-  const occupiedProperties = properties.filter(prop => {
-    const hasActiveRoommates = roommates.some(roommate => 
-      roommate.property === prop.title && roommate.status === 'Actif'
-    );
-    return hasActiveRoommates;
-  }).length;
-  
+  const occupiedProperties = globalSummary.propertiesWithData.length;
   const occupancyRate = totalProperties > 0 ? Math.round((occupiedProperties / totalProperties) * 100) : 0;
   
   // Calculate shared housing rooms
@@ -158,13 +169,10 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
     return sum + activeRoommates.length;
   }, 0);
   
-  // Calculate monthly revenue - harmonisé avec AdminPropertiesView
-  const monthlyRevenue = roommates
-    .filter(r => r.status === 'Actif')
-    .reduce((sum, r) => {
-      const rent = parseFloat(r.rentAmount?.toString() || '0') || 0;
-      return sum + rent;
-    }, 0);
+  // Use calculated profitability data
+  const monthlyRevenue = globalSummary.totalRevenue;
+  const monthlyCharges = globalSummary.totalCharges;
+  const monthlyProfit = globalSummary.totalProfit;
 
   return (
     <div className="min-h-screen">
@@ -194,8 +202,8 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
           </div>
         </div>
 
-        {/* Metrics Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+        {/* Metrics Grid avec nouvelles cartes pour charges et bénéfices */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-6 md:mb-8">
           <Card className="border-l-4 border-l-slate-500 hover:shadow-lg transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('totalProperties')}</CardTitle>
@@ -224,27 +232,42 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
 
           <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('occupancyRate')}</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('monthlyRevenue')}</CardTitle>
               <div className="p-2 bg-blue-100 rounded-lg">
-                <Home className="h-4 w-4 text-blue-600" />
+                <DollarSign className="h-4 w-4 text-blue-600" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{occupancyRate}%</div>
-              <p className="text-xs text-gray-500 mt-1">{occupancyRate}% {getLocalizedText('occupancyRateDesc')}</p>
+              <div className="text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
+              <p className="text-xs text-gray-500 mt-1">{getLocalizedText('monthlyRevenueDesc')}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-l-4 border-l-red-500 hover:shadow-lg transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('monthlyCharges')}</CardTitle>
+              <div className="p-2 bg-red-100 rounded-lg">
+                <Calculator className="h-4 w-4 text-red-600" />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900">{monthlyCharges}€</div>
+              <p className="text-xs text-gray-500 mt-1">{getLocalizedText('monthlyChargesDesc')}</p>
             </CardContent>
           </Card>
 
           <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('monthlyRevenue')}</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">{getLocalizedText('monthlyProfit')}</CardTitle>
               <div className="p-2 bg-purple-100 rounded-lg">
-                <DollarSign className="h-4 w-4 text-purple-600" />
+                <TrendingUp className="h-4 w-4 text-purple-600" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
-              <p className="text-xs text-gray-500 mt-1">{getLocalizedText('realRevenue')}</p>
+              <div className={`text-2xl font-bold ${monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {monthlyProfit >= 0 ? '+' : ''}{monthlyProfit}€
+              </div>
+              <p className="text-xs text-gray-500 mt-1">{getLocalizedText('monthlyProfitDesc')}</p>
             </CardContent>
           </Card>
         </div>
@@ -329,7 +352,12 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
                         </div>
 
                         <div className="flex space-x-2">
-                          <Button variant="ghost" size="sm" className="flex-1">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="flex-1"
+                            onClick={() => setSelectedProperty(property)}
+                          >
                             <Eye className="h-4 w-4 mr-1" />
                             {getLocalizedText('view')}
                           </Button>
@@ -348,6 +376,13 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
             )}
           </CardContent>
         </Card>
+
+        {/* Modal de détails de propriété */}
+        <PropertyDetailsModal
+          property={selectedProperty}
+          isOpen={!!selectedProperty}
+          onClose={() => setSelectedProperty(null)}
+        />
       </div>
     </div>
   );
