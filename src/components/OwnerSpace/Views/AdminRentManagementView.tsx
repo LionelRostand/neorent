@@ -30,9 +30,8 @@ const AdminRentManagementView: React.FC<AdminRentManagementViewProps> = ({ curre
   const paidPayments = payments.filter(p => p.status === 'Payé').length;
   const latePayments = payments.filter(p => p.status === 'En retard').length;
   const pendingValidationsCount = pendingValidations.length;
-  const monthlyRevenue = payments
-    .filter(p => p.status === 'Payé')
-    .reduce((sum, p) => sum + (parseFloat(p.rentAmount?.toString() || '0') || 0), 0);
+  const { roommates } = useOwnerData(currentProfile);
+  const monthlyRevenue = roommates?.filter(r => r.status === 'Actif').reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0) || 0;
 
   const handlePaymentSubmit = async (paymentData: any) => {
     console.log('Payment data:', paymentData);

@@ -12,8 +12,7 @@ const AdminForecastingView: React.FC<AdminForecastingViewProps> = ({ currentProf
   const { t } = useTranslation();
   const { properties, tenants, roommates } = useOwnerData(currentProfile);
   
-  const currentMonthlyRevenue = [...tenants, ...roommates]
-    .reduce((sum, item) => sum + (parseFloat(item.rentAmount) || 0), 0);
+  const currentMonthlyRevenue = roommates?.filter(r => r.status === 'Actif').reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0) || 0;
 
   return (
     <div className="min-h-screen bg-gray-50">

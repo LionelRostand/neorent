@@ -22,7 +22,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
   const profile = currentProfile || userProfile;
   const { handleContractSubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
-  const { contracts, tenants } = useOwnerData(profile);
+  const { contracts, roommates } = useOwnerData(profile);
   const [showContractForm, setShowContractForm] = useState(false);
 
   const contractButtonConfig = getButtonConfig('contract');
@@ -137,7 +137,7 @@ const AdminContractsView: React.FC<AdminContractsViewProps> = ({ currentProfile 
     const threeMonthsFromNow = new Date(now.getTime() + (90 * 24 * 60 * 60 * 1000));
     return endDate <= threeMonthsFromNow && endDate > now;
   }).length || 0;
-  const monthlyRevenue = tenants?.reduce((sum, t) => sum + (parseFloat(t.rentAmount) || 0), 0) || 0;
+  const monthlyRevenue = roommates?.filter(r => r.status === 'Actif').reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0) || 0;
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
