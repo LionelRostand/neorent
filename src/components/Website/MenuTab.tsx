@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -50,6 +50,46 @@ const MenuTab = () => {
     email: "contact@immobilier.fr",
     hours: "Lun-Ven: 9h-18h, Sam: 9h-12h"
   });
+
+  // Charger les données depuis le localStorage au démarrage
+  useEffect(() => {
+    const savedHomeContent = localStorage.getItem('homeContent');
+    const savedAboutContent = localStorage.getItem('aboutContent');
+    const savedPropertiesContent = localStorage.getItem('propertiesContent');
+    const savedContactContent = localStorage.getItem('contactContent');
+
+    if (savedHomeContent) {
+      try {
+        setHomeContent(JSON.parse(savedHomeContent));
+      } catch (error) {
+        console.error('Erreur lors du chargement des données d\'accueil:', error);
+      }
+    }
+
+    if (savedAboutContent) {
+      try {
+        setAboutContent(JSON.parse(savedAboutContent));
+      } catch (error) {
+        console.error('Erreur lors du chargement des données à propos:', error);
+      }
+    }
+
+    if (savedPropertiesContent) {
+      try {
+        setPropertiesContent(JSON.parse(savedPropertiesContent));
+      } catch (error) {
+        console.error('Erreur lors du chargement des données propriétés:', error);
+      }
+    }
+
+    if (savedContactContent) {
+      try {
+        setContactContent(JSON.parse(savedContactContent));
+      } catch (error) {
+        console.error('Erreur lors du chargement des données de contact:', error);
+      }
+    }
+  }, []);
 
   const handleSave = async () => {
     setIsSaving(true);
