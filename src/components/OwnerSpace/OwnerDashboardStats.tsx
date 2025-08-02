@@ -59,10 +59,7 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     return texts[key]?.[currentLang] || texts[key]?.['fr'] || key;
   };
 
-  // Calculer les revenus mensuels
-  const currentMonth = new Date().getMonth();
-  const currentYear = new Date().getFullYear();
-  
+  // Calculer les revenus mensuels harmonisé avec AdminPropertiesView et PropertyView
   console.log('=== Dashboard Stats Debug for:', ownerProfile?.name, '===');
   console.log('Owner data received:', {
     properties: ownerData.properties.length,
@@ -71,16 +68,15 @@ const OwnerDashboardStats: React.FC<OwnerDashboardStatsProps> = ({ ownerProfile 
     payments: ownerData.payments.length
   });
   
-  const monthlyPayments = ownerData.payments.filter(payment => {
-    const paymentDate = new Date(payment.paymentDate || payment.dueDate);
-    return paymentDate.getMonth() === currentMonth && 
-           paymentDate.getFullYear() === currentYear;
-  });
-
-  const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
+  // Calcul harmonisé basé sur les colocataires actifs (comme les autres vues)
+  const monthlyRevenue = ownerData.roommates
+    .filter(r => r.status === 'Actif')
+    .reduce((sum, r) => {
+      const rent = parseFloat(r.rentAmount?.toString() || '0') || 0;
+      return sum + rent;
+    }, 0);
   
-  console.log('Monthly payments for current month:', monthlyPayments);
-  console.log('Calculated monthly revenue:', monthlyRevenue);
+  console.log('Harmonized monthly revenue calculation:', monthlyRevenue);
 
   // Calculer le taux d'occupation
   const activeTenants = [...ownerData.roommates, ...ownerData.tenants].filter(t => t.status === 'Actif');
