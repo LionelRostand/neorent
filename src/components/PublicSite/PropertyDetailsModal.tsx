@@ -73,8 +73,11 @@ export const PropertyDetailsModal = ({
     // Format du mois pour correspondre à la base de données des charges (ex: "2025-08")
     const currentMonthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
     
-    console.log(`📅 Recherche des charges pour: ${currentMonthKey}`);
-    console.log(`🏠 Propriété: ${property.title}`);
+    console.log('🚨 DEBUG CHARGES - Début du calcul');
+    console.log('🚨 DEBUG CHARGES - Propriété:', property.title);
+    console.log('🚨 DEBUG CHARGES - Mois recherché:', currentMonthKey);
+    console.log('🚨 DEBUG CHARGES - Toutes les charges disponibles:', charges);
+    console.log('🚨 DEBUG CHARGES - Nombre de charges:', charges.length);
     
     // Trouver les charges du mois en cours pour cette propriété
     const currentMonthCharges = charges.find(charge => 
