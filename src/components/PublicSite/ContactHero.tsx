@@ -7,8 +7,8 @@ export const ContactHero: React.FC = () => {
   
   // État pour stocker les informations de contact depuis l'admin
   const [contactData, setContactData] = useState({
-    title: t('public.contact.title'),
-    subtitle: t('public.contact.subtitle'),
+    title: t('publicSite.contact.hero.title'),
+    subtitle: t('publicSite.contact.hero.subtitle'),
     address: '123 Rue de la République, 75001 Paris',
     phone: '+33 1 23 45 67 89',
     email: 'contact@immobilier.fr',

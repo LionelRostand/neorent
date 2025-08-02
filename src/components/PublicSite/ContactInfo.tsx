@@ -34,34 +34,34 @@ export const ContactInfo: React.FC = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: t('public.contact.email'),
+      title: t('publicSite.contact.info.email.title'),
       content: contactData.email,
-      description: t('public.contact.emailDesc')
+      description: t('publicSite.contact.info.email.description')
     },
     {
       icon: Phone,
-      title: t('public.contact.phone'),
+      title: t('publicSite.contact.info.phone.title'),
       content: contactData.phone,
-      description: t('public.contact.phoneDesc')
+      description: t('publicSite.contact.info.phone.description')
     },
     {
       icon: MapPin,
-      title: t('public.contact.address'),
+      title: t('publicSite.contact.info.address.title'),
       content: contactData.address,
-      description: t('public.contact.addressDesc')
+      description: t('publicSite.contact.info.address.description')
     },
     {
       icon: Clock,
-      title: t('public.contact.hours'),
+      title: t('publicSite.contact.info.hours.title'),
       content: contactData.hours,
-      description: t('public.contact.hoursDesc')
+      description: t('publicSite.contact.info.hours.description')
     }
   ];
 
   return (
     <div>
       <h2 className="text-3xl font-bold text-gray-900 mb-6">
-        {t('public.contact.contactInfo')}
+        {t('publicSite.contact.info.title')}
       </h2>
       <div className="space-y-6">
         {contactInfo.map((info, index) => (
