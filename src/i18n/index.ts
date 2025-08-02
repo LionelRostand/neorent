@@ -25,7 +25,7 @@ import enTaxes from './locales/en/taxes.json';
 import enWebsite from './locales/en/website.json';
 import enSettings from './locales/en/settings.json';
 import enHelp from './locales/en/help.json';
-import enPublicSite from './locales/en/publicSite.json';
+import enPublic from './locales/en/public.json';
 import enTenantSpace from './locales/en/tenantSpace.json';
 import enTenantOverview from './locales/en/tenantOverview.json';
 import enTenantPayments from './locales/en/tenantPayments.json';
@@ -59,7 +59,7 @@ import frMessages from './locales/fr/messages.json';
 import frTaxes from './locales/fr/taxes.json';
 import frWebsite from './locales/fr/website.json';
 import frHelp from './locales/fr/help.json';
-import frPublicSite from './locales/fr/publicSite.json';
+import frPublic from './locales/fr/public.json';
 import frTenantSpace from './locales/fr/tenantSpace.json';
 import frTenantOverview from './locales/fr/tenantOverview.json';
 import frTenantHistory from './locales/fr/tenantHistory.json';
@@ -124,7 +124,7 @@ const resources = {
       ...enWebsite,
       ...enSettings,
       ...enHelp,
-      ...enPublicSite,
+      ...enPublic,
       ...enTenantSpace,
       ...enTenantOverview,
       ...enTenantPayments,
@@ -161,7 +161,7 @@ const resources = {
       ...frWebsite,
       ...frSettings,
       ...frHelp,
-      ...frPublicSite,
+      ...frPublic,
       ...frTenantSpace,
       ...frTenantOverview,
       ...frTenantHistory,
