@@ -67,11 +67,19 @@ export const PropertyDetailsModal = ({
         roommate => roommate.property === property.title && roommate.status === 'Actif'
       );
       
-      const monthlyRevenue = activeRoommates.reduce((sum, roommate) => sum + Number(roommate.rentAmount || 0), 0);
+      const monthlyRevenue = activeRoommates.reduce((sum, roommate) => {
+        return sum + Number(roommate.rentAmount || 0);
+      }, 0);
       const monthlyCharges = Number(property.charges) || 0;
       const profit = monthlyRevenue - monthlyCharges;
       const totalRooms = property.totalRooms || 1;
       const occupancyRate = Math.round((activeRoommates.length / totalRooms) * 100);
+      
+      console.log('🧮 Calculs financiers pour:', property.title);
+      console.log('📊 Colocataires actifs:', activeRoommates.map(r => ({ name: r.name, rent: r.rentAmount })));
+      console.log('💰 Revenus calculés:', monthlyRevenue);
+      console.log('💸 Charges:', monthlyCharges);
+      console.log('📈 Profit:', profit);
       
       return {
         revenue: monthlyRevenue,
