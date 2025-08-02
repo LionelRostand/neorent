@@ -60,6 +60,46 @@ export const PropertyDetailsModal = ({
     }
   };
 
+  // Calculs financiers dynamiques
+  const getFinancialMetrics = () => {
+    if (property.locationType === 'Colocation') {
+      const activeRoommates = roommates.filter(
+        roommate => roommate.property === property.title && roommate.status === 'Actif'
+      );
+      
+      const monthlyRevenue = activeRoommates.reduce((sum, roommate) => sum + Number(roommate.rentAmount || 0), 0);
+      const monthlyCharges = Number(property.charges) || 0;
+      const profit = monthlyRevenue - monthlyCharges;
+      const totalRooms = property.totalRooms || 1;
+      const occupancyRate = Math.round((activeRoommates.length / totalRooms) * 100);
+      
+      return {
+        revenue: monthlyRevenue,
+        charges: monthlyCharges,
+        profit,
+        occupancyRate,
+        occupiedRooms: activeRoommates.length,
+        totalRooms
+      };
+    } else {
+      const monthlyRevenue = Number(property.rent) || 0;
+      const monthlyCharges = Number(property.charges) || 0;
+      const profit = monthlyRevenue - monthlyCharges;
+      const occupancyRate = property.status === 'Occupé' ? 100 : 0;
+      
+      return {
+        revenue: monthlyRevenue,
+        charges: monthlyCharges,
+        profit,
+        occupancyRate,
+        occupiedRooms: property.status === 'Occupé' ? 1 : 0,
+        totalRooms: 1
+      };
+    }
+  };
+
+  const financialMetrics = getFinancialMetrics();
+
   const handleScheduleVisit = () => {
     setShowVisitForm(true);
   };
@@ -83,6 +123,7 @@ export const PropertyDetailsModal = ({
         {!showVisitForm ? (
           <PropertyDetailsContent 
             property={property}
+            financialMetrics={financialMetrics}
             onScheduleVisit={handleScheduleVisit}
             onClose={onClose}
           />

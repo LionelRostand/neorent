@@ -4,15 +4,25 @@ import { Button } from '@/components/ui/button';
 import { PropertyImageGallery } from './PropertyImageGallery';
 import { PropertyInfoSection } from './PropertyInfoSection';
 import { PropertyContactSection } from './PropertyContactSection';
+import { DollarSign, TrendingUp, Users, Bed } from 'lucide-react';
 
 interface PropertyDetailsContentProps {
   property: any;
+  financialMetrics?: {
+    revenue: number;
+    charges: number;
+    profit: number;
+    occupancyRate: number;
+    occupiedRooms: number;
+    totalRooms: number;
+  };
   onScheduleVisit: () => void;
   onClose: () => void;
 }
 
 export const PropertyDetailsContent = ({ 
   property, 
+  financialMetrics,
   onScheduleVisit, 
   onClose 
 }: PropertyDetailsContentProps) => {
@@ -40,6 +50,68 @@ export const PropertyDetailsContent = ({
         <PropertyInfoSection property={property} />
         <PropertyContactSection property={property} onScheduleVisit={onScheduleVisit} />
       </div>
+
+      {/* Room availability for colocation */}
+      {property.locationType === 'Colocation' && financialMetrics && (
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <Bed className="h-5 w-5 text-blue-600" />
+            <span className="font-medium text-blue-900">
+              {financialMetrics.totalRooms - financialMetrics.occupiedRooms} chambres disponibles / {financialMetrics.totalRooms} total
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Rentabilité du bien - Financial Metrics */}
+      {financialMetrics && (
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Rentabilité du bien
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Revenus */}
+            <div className="bg-white p-4 rounded-lg border border-gray-200 text-center">
+              <div className="flex justify-center mb-2">
+                <DollarSign className="h-8 w-8 text-green-500" />
+              </div>
+              <div className="text-sm text-gray-500 mb-1">Revenus</div>
+              <div className="text-xl font-bold text-gray-900">{financialMetrics.revenue}€</div>
+              <div className="text-xs text-gray-400">Ce mois</div>
+            </div>
+
+            {/* Charges */}
+            <div className="bg-white p-4 rounded-lg border border-gray-200 text-center">
+              <div className="flex justify-center mb-2">
+                <DollarSign className="h-8 w-8 text-red-500" />
+              </div>
+              <div className="text-sm text-gray-500 mb-1">Charges</div>
+              <div className="text-xl font-bold text-gray-900">{financialMetrics.charges}€</div>
+              <div className="text-xs text-gray-400">Ce mois</div>
+            </div>
+
+            {/* Bénéfice */}
+            <div className="bg-white p-4 rounded-lg border border-gray-200 text-center">
+              <div className="flex justify-center mb-2">
+                <TrendingUp className="h-8 w-8 text-green-600" />
+              </div>
+              <div className="text-sm text-gray-500 mb-1">Bénéfice</div>
+              <div className="text-xl font-bold text-gray-900">{financialMetrics.profit}€</div>
+              <div className="text-xs text-gray-400">Ce mois</div>
+            </div>
+
+            {/* Taux d'Occupation */}
+            <div className="bg-white p-4 rounded-lg border border-gray-200 text-center">
+              <div className="flex justify-center mb-2">
+                <Users className="h-8 w-8 text-blue-500" />
+              </div>
+              <div className="text-sm text-gray-500 mb-1">Taux d'Occupation</div>
+              <div className="text-xl font-bold text-gray-900">{financialMetrics.occupancyRate}%</div>
+              <div className="text-xs text-gray-400">{financialMetrics.occupiedRooms} occupant(s)</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Description */}
       <div>
