@@ -70,16 +70,25 @@ export const PropertyDetailsModal = ({
       const monthlyRevenue = activeRoommates.reduce((sum, roommate) => {
         return sum + Number(roommate.rentAmount || 0);
       }, 0);
-      const monthlyCharges = Number(property.charges) || 0;
+      
+      // Calcul des charges selon le format de l'objet charges
+      let monthlyCharges = 0;
+      if (property.charges) {
+        if (typeof property.charges === 'object') {
+          // Si charges est un objet avec electricity, water, maintenance, etc.
+          const chargeSum = Object.values(property.charges).reduce((sum: number, charge: unknown) => {
+            return sum + (Number(charge) || 0);
+          }, 0);
+          monthlyCharges = Number(chargeSum);
+        } else {
+          // Si charges est un nombre simple
+          monthlyCharges = Number(property.charges) || 0;
+        }
+      }
+      
       const profit = monthlyRevenue - monthlyCharges;
       const totalRooms = property.totalRooms || 1;
       const occupancyRate = Math.round((activeRoommates.length / totalRooms) * 100);
-      
-      console.log('🧮 Calculs financiers pour:', property.title);
-      console.log('📊 Colocataires actifs:', activeRoommates.map(r => ({ name: r.name, rent: r.rentAmount })));
-      console.log('💰 Revenus calculés:', monthlyRevenue);
-      console.log('💸 Charges:', monthlyCharges);
-      console.log('📈 Profit:', profit);
       
       return {
         revenue: monthlyRevenue,
@@ -91,7 +100,20 @@ export const PropertyDetailsModal = ({
       };
     } else {
       const monthlyRevenue = Number(property.rent) || 0;
-      const monthlyCharges = Number(property.charges) || 0;
+      
+      // Calcul des charges selon le format de l'objet charges
+      let monthlyCharges = 0;
+      if (property.charges) {
+        if (typeof property.charges === 'object') {
+          const chargeSum = Object.values(property.charges).reduce((sum: number, charge: unknown) => {
+            return sum + (Number(charge) || 0);
+          }, 0);
+          monthlyCharges = Number(chargeSum);
+        } else {
+          monthlyCharges = Number(property.charges) || 0;
+        }
+      }
+      
       const profit = monthlyRevenue - monthlyCharges;
       const occupancyRate = property.status === 'Occupé' ? 100 : 0;
       
