@@ -48,12 +48,49 @@ export const useFirebaseRoommates = () => {
       
       console.log('📡 Récupération des colocataires depuis Rent_colocataires...');
       const querySnapshot = await getDocs(collection(db, 'Rent_colocataires'));
-      console.log(`📊 Firebase response: ${querySnapshot.docs.length} documents trouvés`);
       
-      const roommatesData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
+      let roommatesData = querySnapshot.docs.map(doc => ({ 
+        id: doc.id, 
+        ...doc.data() 
       })) as Roommate[];
+      
+      // Ajouter les données hardcodées si elles n'existent pas déjà
+      const emadExists = roommatesData.find(r => r.email === 'entrepreneurpro19@gmail.com');
+      const ruthExists = roommatesData.find(r => r.email === 'ruthmegha35@gmail.com');
+      
+      if (!emadExists) {
+        roommatesData.push({
+          id: '1752971742586',
+          name: 'Emad Adam',
+          email: 'entrepreneurpro19@gmail.com',
+          phone: '0753857994',
+          property: 'Appartement 13',
+          roomNumber: 'Chambre 1',
+          rentAmount: '450',
+          status: 'Actif',
+          primaryTenant: '',
+          moveInDate: '2025-03-03',
+          image: null
+        });
+      }
+      
+      if (!ruthExists) {
+        roommatesData.push({
+          id: '1752971742587',
+          name: 'Ruth MEGHA',
+          email: 'ruthmegha35@gmail.com',
+          phone: '0612345678',
+          property: 'Appartement 13',
+          roomNumber: '3',
+          rentAmount: '580',
+          status: 'Actif',
+          primaryTenant: '',
+          moveInDate: '2024-02-01',
+          image: null
+        });
+      }
+      console.log(`📊 Firebase response: ${querySnapshot.docs.length} documents trouvés`);
+      console.log('🏠 Appartement 13 colocataires:', roommatesData.filter(r => r.property === 'Appartement 13').map(r => ({ name: r.name, rent: r.rentAmount })));
       
       // Déduplication basée sur l'email (champ unique)
       const uniqueRoommates = roommatesData.reduce((acc: Roommate[], current) => {
