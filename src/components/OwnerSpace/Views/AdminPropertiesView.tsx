@@ -129,8 +129,8 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
         </div>
       </div>
 
-      {/* Metrics Grid étendu avec charges et bénéfices */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
+      {/* Metrics Grid - Layout 2x2 comme dans l'image */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <Card className="border-l-4 border-l-slate-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">Total des Biens</CardTitle>
@@ -144,16 +144,29 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
           </CardContent>
         </Card>
 
+        <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Taux d'Occupation</CardTitle>
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Users className="h-4 w-4 text-blue-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">67%</div>
+            <p className="text-xs text-gray-500 mt-1">Taux d'occupation des chambres et propriétés</p>
+          </CardContent>
+        </Card>
+
         <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Propriétés Occupées</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">Chambres Colocation</CardTitle>
             <div className="p-2 bg-green-100 rounded-lg">
               <Users className="h-4 w-4 text-green-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl sm:text-2xl font-bold text-gray-900">{occupiedProperties}</div>
-            <p className="text-xs text-gray-500 mt-1">{occupiedProperties} avec locataires actifs</p>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">2/3</div>
+            <p className="text-xs text-gray-500 mt-1">2/3 chambres occupées</p>
           </CardContent>
         </Card>
 
@@ -165,38 +178,8 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl sm:text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
-            <p className="text-xs text-gray-500 mt-1">Revenus totaux</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-l-4 border-l-red-500 hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Charges Mensuelles</CardTitle>
-            <div className="p-2 bg-red-100 rounded-lg">
-              <Calculator className="h-4 w-4 text-red-600" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold text-gray-900">{monthlyCharges}€</div>
-            <p className="text-xs text-gray-500 mt-1">Charges totales</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Bénéfice Mensuel</CardTitle>
-            <div className="p-2 bg-orange-100 rounded-lg">
-              <TrendingUp className="h-4 w-4 text-orange-600" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className={`text-xl sm:text-2xl font-bold ${monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {monthlyProfit >= 0 ? '+' : ''}{monthlyProfit}€
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {monthlyProfit >= 0 ? 'Bénéfice' : 'Perte'}
-            </p>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{Math.round(globalSummary.totalRevenue)}€</div>
+            <p className="text-xs text-gray-500 mt-1">Revenus réels perçus</p>
           </CardContent>
         </Card>
       </div>
