@@ -9,8 +9,6 @@ export const ContactInfo: React.FC = () => {
   
   // État pour stocker les informations de contact depuis l'admin
   const [contactData, setContactData] = useState({
-    title: t('public.contact.title'),
-    subtitle: t('public.contact.subtitle'),
     address: '123 Rue de la République, 75001 Paris',
     phone: '+33 1 23 45 67 89',
     email: 'contact@immobilier.fr',
@@ -23,7 +21,10 @@ export const ContactInfo: React.FC = () => {
     if (savedContactData) {
       try {
         const parsedData = JSON.parse(savedContactData);
-        setContactData(parsedData);
+        setContactData(prevData => ({
+          ...prevData,
+          ...parsedData
+        }));
       } catch (error) {
         console.error('Erreur lors du chargement des données de contact:', error);
       }
