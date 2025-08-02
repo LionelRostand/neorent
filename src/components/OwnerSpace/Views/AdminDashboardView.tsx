@@ -99,7 +99,10 @@ const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ currentProfile 
            paymentDate.getFullYear() === currentYear &&
            payment.status === 'Payé';
   });
-  const monthlyRevenue = monthlyPayments.reduce((total, payment) => total + payment.rentAmount, 0);
+  // CORRECTION: Calcul basé sur les colocataires actifs, pas les payments
+  const monthlyRevenue = roommates.filter(r => r.status === 'Actif').reduce((total, roommate) => {
+    return total + (parseFloat(roommate.rentAmount?.toString() || '0') || 0);
+  }, 0);
   
   // Calcul du taux d'occupation pour ce propriétaire
   const occupiedProperties = properties.filter(property => {
