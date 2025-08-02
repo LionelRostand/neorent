@@ -29,9 +29,23 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
   const propertyButtonConfig = getButtonConfig('property');
 
   const totalProperties = properties?.length || 0;
-  const occupiedProperties = properties?.filter(p => p.tenant).length || 0;
-  const totalTenants = tenants?.length || 0;
-  const monthlyRevenue = tenants?.reduce((sum, t) => sum + (parseFloat(t.rentAmount) || 0), 0) || 0;
+  
+  // Calcul harmonisé basé sur les colocataires actifs
+  const occupiedProperties = properties?.filter(property => {
+    const hasActiveRoommates = roommates?.some(roommate => 
+      roommate.property === property.title && roommate.status === 'Actif'
+    );
+    return hasActiveRoommates;
+  }).length || 0;
+  
+  const totalTenants = roommates?.filter(r => r.status === 'Actif').length || 0;
+  
+  // Revenus harmonisés : calcul basé sur les colocataires actifs
+  const monthlyRevenue = roommates?.filter(r => r.status === 'Actif')
+    .reduce((sum, r) => {
+      const rent = parseFloat(r.rentAmount?.toString() || '0') || 0;
+      return sum + rent;
+    }, 0) || 0;
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {

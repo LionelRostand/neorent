@@ -158,19 +158,13 @@ const PropertyView: React.FC<PropertyViewProps> = ({ currentProfile, onViewChang
     return sum + activeRoommates.length;
   }, 0);
   
-  // Calculate monthly revenue
-  console.log('🔍 DEBUG PropertyView - Properties:', properties.map(p => p.title));
-  console.log('🔍 DEBUG PropertyView - Roommates:', roommates);
-  
+  // Calculate monthly revenue - harmonisé avec AdminPropertiesView
   const monthlyRevenue = roommates
     .filter(r => r.status === 'Actif')
     .reduce((sum, r) => {
       const rent = parseFloat(r.rentAmount?.toString() || '0') || 0;
-      console.log(`💰 ${r.name} (${r.property}): ${rent}€`);
       return sum + rent;
     }, 0);
-    
-  console.log(`💰 TOTAL PropertyView: ${monthlyRevenue}€`);
 
   return (
     <div className="min-h-screen">
