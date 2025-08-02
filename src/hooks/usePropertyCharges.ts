@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 
 /**
  * Hook pour calculer les charges par propriété et les métriques de rentabilité
  */
 export const usePropertyCharges = (ownerProfile: any) => {
   const { charges, roommates } = useOwnerData(ownerProfile);
+  const { payments } = useFirebasePayments();
 
   const propertyChargesData = useMemo(() => {
     // Créer un map pour regrouper les charges par propriété
@@ -54,14 +56,30 @@ export const usePropertyCharges = (ownerProfile: any) => {
    * Calculer les métriques de rentabilité pour une propriété donnée
    */
   const calculateProfitability = (propertyName: string) => {
-    // Revenus : somme des loyers des colocataires actifs de cette propriété
-    const propertyRoommates = roommates.filter(r => 
-      r.property === propertyName && r.status === 'Actif'
-    );
+    // Revenus : utiliser les paiements effectivement reçus (statut "Payé") au lieu des montants attendus
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
     
-    const monthlyRevenue = propertyRoommates.reduce((sum, roommate) => 
-      sum + (parseFloat(roommate.rentAmount) || 0), 0
-    );
+    const actualRevenue = payments
+      .filter(payment => {
+        if (!payment.paymentDate || payment.status !== 'Payé') return false;
+        const paymentDate = new Date(payment.paymentDate);
+        const isCurrentMonth = paymentDate.getMonth() === currentMonth && 
+               paymentDate.getFullYear() === currentYear;
+        
+        // Filtrer par propriété si spécifiée
+        const matchesProperty = propertyName ? payment.property.includes(propertyName.split(' - ')[0]) : true;
+        
+        return isCurrentMonth && matchesProperty;
+      })
+      .reduce((sum, payment) => sum + (payment.paidAmount || payment.rentAmount || 0), 0);
+
+    // Fallback: si pas de paiements reçus, utiliser les montants attendus des colocataires actifs
+    const expectedRevenue = roommates
+      .filter(r => r.property === propertyName && r.status === 'Actif')
+      .reduce((sum, roommate) => sum + (parseFloat(roommate.rentAmount) || 0), 0);
+    
+    const monthlyRevenue = actualRevenue > 0 ? actualRevenue : expectedRevenue;
 
     // Charges : dernières charges de la propriété
     const propertyCharges = propertyChargesData.get(propertyName);
@@ -92,7 +110,7 @@ export const usePropertyCharges = (ownerProfile: any) => {
       annualProfit,
       profitabilityPercentage,
       chargesPercentage,
-      roommates: propertyRoommates
+      roommates: roommates.filter(r => r.property === propertyName && r.status === 'Actif')
     };
   };
 
@@ -125,20 +143,48 @@ export const usePropertyCharges = (ownerProfile: any) => {
    * Obtenir un résumé global de toutes les propriétés
    */
   const getGlobalSummary = () => {
-    let totalRevenue = 0;
-    let totalCharges = 0;
-    let totalProfit = 0;
-    const propertiesWithData = [];
+    // Calculer les revenus globaux basés sur les paiements reçus (statut "Payé")
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    const totalActualRevenue = payments
+      .filter(payment => {
+        if (!payment.paymentDate || payment.status !== 'Payé') return false;
+        const paymentDate = new Date(payment.paymentDate);
+        return paymentDate.getMonth() === currentMonth && 
+               paymentDate.getFullYear() === currentYear;
+      })
+      .reduce((sum, payment) => sum + (payment.paidAmount || payment.rentAmount || 0), 0);
 
-    // Parcourir toutes les propriétés qui ont des colocataires
-    const uniqueProperties = [...new Set(roommates.map(r => r.property))];
+    // Fallback si pas de paiements: utiliser les montants attendus
+    const totalExpectedRevenue = roommates
+      .filter(r => r.status === 'Actif')
+      .reduce((sum, roommate) => sum + (parseFloat(roommate.rentAmount) || 0), 0);
+    
+    const totalRevenue = totalActualRevenue > 0 ? totalActualRevenue : totalExpectedRevenue;
+
+    // Debug pour comprendre le calcul
+    console.log('🔍 Calcul des revenus globaux:', {
+      actualRevenue: totalActualRevenue,
+      expectedRevenue: totalExpectedRevenue,
+      finalRevenue: totalRevenue,
+      paymentsCount: payments.filter(p => p.status === 'Payé').length,
+      roommatesCount: roommates.filter(r => r.status === 'Actif').length
+    });
+
+    // Calculer les charges globales
+    let totalCharges = 0;
+    const propertiesWithData = [];
+    
+    // Parcourir toutes les propriétés qui ont des colocataires ou des paiements
+    const uniqueProperties = [...new Set([
+      ...roommates.map(r => r.property),
+      ...payments.map(p => p.property)
+    ])];
     
     uniqueProperties.forEach(propertyName => {
       const profitability = calculateProfitability(propertyName);
-      
-      totalRevenue += profitability.monthlyRevenue;
       totalCharges += profitability.monthlyCharges;
-      totalProfit += profitability.monthlyProfit;
       
       if (profitability.monthlyRevenue > 0) {
         propertiesWithData.push({
@@ -147,6 +193,8 @@ export const usePropertyCharges = (ownerProfile: any) => {
         });
       }
     });
+
+    const totalProfit = totalRevenue - totalCharges;
 
     const globalProfitabilityPercentage = totalRevenue > 0 
       ? (totalProfit / totalRevenue) * 100 
