@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Home, DollarSign, Users, Bed, User, UserCheck, Mail, Phone, TrendingUp, TrendingDown, Calculator } from 'lucide-react';
 import { useFirebaseRoommates } from '@/hooks/useFirebaseRoommates';
 import { usePropertyCharges } from '@/hooks/usePropertyCharges';
+import { useFirebasePayments } from '@/hooks/useFirebasePayments';
 
 interface Property {
   id: string;
@@ -54,6 +55,7 @@ interface PropertyDetailsModalProps {
 const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, isOpen, onClose }) => {
   const { t } = useTranslation();
   const { roommates } = useFirebaseRoommates();
+  const { payments } = useFirebasePayments();
   const { calculateProfitability, getPropertyChargesDetail } = usePropertyCharges(null);
 
   if (!property) return null;
@@ -121,13 +123,30 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, i
     }, 0);
   };
 
-  // Utiliser les vraies données de charges depuis la base de données
+  // Utiliser les vrais loyers perçus depuis les paiements (statut "Payé")
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  
+  const actualRevenue = payments
+    .filter(payment => {
+      if (!payment.paymentDate || payment.status !== 'Payé') return false;
+      const paymentDate = new Date(payment.paymentDate);
+      const isCurrentMonth = paymentDate.getMonth() === currentMonth && 
+             paymentDate.getFullYear() === currentYear;
+      
+      // Filtrer par propriété (correspondance flexible)
+      const matchesProperty = payment.property.includes(property.title.split(' - ')[0]);
+      
+      return isCurrentMonth && matchesProperty;
+    })
+    .reduce((sum, payment) => sum + (payment.paidAmount || payment.rentAmount || 0), 0);
+
   const profitabilityData = calculateProfitability(property.title);
   const chargesDetail = getPropertyChargesDetail(property.title);
 
-  const totalRevenue = profitabilityData.monthlyRevenue;
+  const totalRevenue = actualRevenue; // Utiliser les revenus réellement perçus
   const totalCharges = profitabilityData.monthlyCharges;
-  const profit = profitabilityData.monthlyProfit;
+  const profit = totalRevenue - totalCharges;
 
   // Fonction pour calculer le taux d'occupation en pourcentage
   const calculateOccupancyRate = () => {
