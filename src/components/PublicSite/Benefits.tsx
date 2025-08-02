@@ -8,7 +8,15 @@ import { Button } from '@/components/ui/button';
 const Benefits: React.FC = () => {
   const { t } = useTranslation();
 
-  const benefits = t('publicSite.benefits.list', { returnObjects: true }) as string[];
+  // Données par défaut en attendant les traductions
+  const defaultBenefits = [
+    "Gestion simplifiée de vos propriétés",
+    "Suivi automatique des paiements",
+    "Interface intuitive et moderne",
+    "Support client réactif"
+  ];
+
+  const benefits = defaultBenefits;
 
   return (
     <section className="py-20 bg-gray-50">
@@ -16,10 +24,10 @@ const Benefits: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              {t('publicSite.benefits.title')}
+              Pourquoi nous choisir ?
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              {t('publicSite.benefits.description')}
+              Découvrez tous les avantages de notre plateforme
             </p>
             <ul className="space-y-4 mb-8">
               {benefits.map((benefit, index) => (
@@ -31,7 +39,7 @@ const Benefits: React.FC = () => {
             </ul>
             <Link to="/contact">
               <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3">
-                {t('publicSite.benefits.contactTitle')}
+                Nous contacter
               </Button>
             </Link>
           </div>
