@@ -1,17 +1,19 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, Home, Users, AlertCircle, DollarSign, Edit, Trash2, Eye } from 'lucide-react';
+import { Building, Plus, TrendingUp, DollarSign, Users, Eye, Edit, Trash2, Calculator, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Dialog } from '@/components/ui/dialog';
 import PropertyForm from '@/components/PropertyForm';
+import PropertyDetailsModal from '@/components/PropertyDetailsModal';
 import { useOwnerQuickActions } from '@/hooks/useOwnerQuickActions';
 import { useAuth } from '@/hooks/useAuth';
 import { useFormButtonConfig } from '@/hooks/useFormButtonConfig';
 import { useOwnerData } from '@/hooks/useOwnerData';
+import { usePropertyCharges } from '@/hooks/usePropertyCharges';
 
 interface AdminPropertiesViewProps {
   currentProfile?: any;
@@ -23,29 +25,21 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
   const profile = currentProfile || userProfile;
   const { handlePropertySubmit } = useOwnerQuickActions(profile);
   const { getButtonConfig } = useFormButtonConfig();
-  const { properties, tenants, roommates, payments } = useOwnerData(profile);
+  const { properties, roommates } = useOwnerData(profile);
+  const { getGlobalSummary } = usePropertyCharges(profile);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
   const propertyButtonConfig = getButtonConfig('property');
+  const globalSummary = getGlobalSummary();
 
+  // Calculs des métriques avec intégration des charges
   const totalProperties = properties?.length || 0;
-  
-  // Calcul harmonisé basé sur les colocataires actifs
-  const occupiedProperties = properties?.filter(property => {
-    const hasActiveRoommates = roommates?.some(roommate => 
-      roommate.property === property.title && roommate.status === 'Actif'
-    );
-    return hasActiveRoommates;
-  }).length || 0;
-  
+  const occupiedProperties = globalSummary.propertiesWithData.length;
   const totalTenants = roommates?.filter(r => r.status === 'Actif').length || 0;
-  
-  // Revenus harmonisés : calcul basé sur les colocataires actifs
-  const monthlyRevenue = roommates?.filter(r => r.status === 'Actif')
-    .reduce((sum, r) => {
-      const rent = parseFloat(r.rentAmount?.toString() || '0') || 0;
-      return sum + rent;
-    }, 0) || 0;
+  const monthlyRevenue = globalSummary.totalRevenue;
+  const monthlyCharges = globalSummary.totalCharges;
+  const monthlyProfit = globalSummary.totalProfit;
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
@@ -135,18 +129,18 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
         </div>
       </div>
 
-      {/* Metrics Grid responsive */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      {/* Metrics Grid étendu avec charges et bénéfices */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
         <Card className="border-l-4 border-l-slate-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Propriétés</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">Total des Biens</CardTitle>
             <div className="p-2 bg-slate-100 rounded-lg">
-              <Home className="h-4 w-4 text-slate-600" />
+              <Building className="h-4 w-4 text-slate-600" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold text-gray-900">{totalProperties}</div>
-            <p className="text-xs text-gray-500 mt-1">{totalProperties} propriétés enregistrées</p>
+            <p className="text-xs text-gray-500 mt-1">{totalProperties} propriétés dans votre portefeuille</p>
           </CardContent>
         </Card>
 
@@ -159,20 +153,7 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold text-gray-900">{occupiedProperties}</div>
-            <p className="text-xs text-gray-500 mt-1">{occupiedProperties} propriétés avec locataires</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Locataires</CardTitle>
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Users className="h-4 w-4 text-blue-600" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold text-gray-900">{totalTenants}</div>
-            <p className="text-xs text-gray-500 mt-1">{totalTenants} locataires actifs</p>
+            <p className="text-xs text-gray-500 mt-1">{occupiedProperties} avec locataires actifs</p>
           </CardContent>
         </Card>
 
@@ -185,7 +166,37 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold text-gray-900">{monthlyRevenue}€</div>
-            <p className="text-xs text-gray-500 mt-1">Revenus mensuels totaux</p>
+            <p className="text-xs text-gray-500 mt-1">Revenus totaux</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-red-500 hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Charges Mensuelles</CardTitle>
+            <div className="p-2 bg-red-100 rounded-lg">
+              <Calculator className="h-4 w-4 text-red-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{monthlyCharges}€</div>
+            <p className="text-xs text-gray-500 mt-1">Charges totales</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Bénéfice Mensuel</CardTitle>
+            <div className="p-2 bg-orange-100 rounded-lg">
+              <TrendingUp className="h-4 w-4 text-orange-600" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className={`text-xl sm:text-2xl font-bold ${monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {monthlyProfit >= 0 ? '+' : ''}{monthlyProfit}€
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              {monthlyProfit >= 0 ? 'Bénéfice' : 'Perte'}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -227,7 +238,12 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end space-x-1">
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0"
+                            onClick={() => setSelectedProperty(property)}
+                          >
                             <Eye className="h-3 w-3" />
                           </Button>
                           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -266,6 +282,13 @@ const AdminPropertiesView: React.FC<AdminPropertiesViewProps> = ({ currentProfil
           buttonConfig={propertyButtonConfig}
         />
       </Dialog>
+
+      {/* Modal de détails de propriété */}
+      <PropertyDetailsModal
+        property={selectedProperty}
+        isOpen={!!selectedProperty}
+        onClose={() => setSelectedProperty(null)}
+      />
     </div>
   );
 };
