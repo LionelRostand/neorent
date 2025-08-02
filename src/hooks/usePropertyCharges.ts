@@ -147,14 +147,31 @@ export const usePropertyCharges = (ownerProfile: any) => {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     
-    const totalActualRevenue = payments
-      .filter(payment => {
-        if (!payment.paymentDate || payment.status !== 'Payé') return false;
-        const paymentDate = new Date(payment.paymentDate);
-        return paymentDate.getMonth() === currentMonth && 
-               paymentDate.getFullYear() === currentYear;
-      })
+    console.log('🔍 DEBUG: Calcul des revenus - Mois actuel:', currentMonth + 1, 'Année:', currentYear);
+    
+    const allPayments = payments.filter(payment => {
+      if (!payment.paymentDate || payment.status !== 'Payé') return false;
+      const paymentDate = new Date(payment.paymentDate);
+      const isCurrentMonth = paymentDate.getMonth() === currentMonth && 
+             paymentDate.getFullYear() === currentYear;
+      
+      console.log('💰 Paiement analysé:', {
+        tenant: payment.tenantName,
+        amount: payment.paidAmount || payment.rentAmount,
+        date: payment.paymentDate,
+        status: payment.status,
+        currentMonth: isCurrentMonth
+      });
+      
+      return isCurrentMonth;
+    });
+
+    console.log('💰 PAIEMENTS RETENUS POUR CE MOIS:', allPayments);
+    
+    const totalActualRevenue = allPayments
       .reduce((sum, payment) => sum + (payment.paidAmount || payment.rentAmount || 0), 0);
+
+    console.log('💰 TOTAL REVENUS CALCULÉ:', totalActualRevenue);
 
     // Fallback si pas de paiements: utiliser les montants attendus
     const totalExpectedRevenue = roommates
