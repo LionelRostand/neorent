@@ -60,28 +60,34 @@ export const PropertyDetailsModal = ({
     }
   };
 
-  // Calculs financiers dynamiques
+  // Calculs financiers dynamiques basés sur les données réelles
   const getFinancialMetrics = () => {
     if (property.locationType === 'Colocation') {
+      // Filtrer les colocataires actifs pour cette propriété
       const activeRoommates = roommates.filter(
         roommate => roommate.property === property.title && roommate.status === 'Actif'
       );
       
+      // Calculer les revenus réels à partir des loyers des colocataires actifs
       const monthlyRevenue = activeRoommates.reduce((sum, roommate) => {
-        return sum + Number(roommate.rentAmount || 0);
+        const rent = Number(roommate.rentAmount || 0);
+        console.log(`💰 Colocataire ${roommate.name}: ${rent}€`);
+        return sum + rent;
       }, 0);
       
-      // Calcul des charges selon le format de l'objet charges
+      // Calculer les charges réelles à partir des données de la propriété
       let monthlyCharges = 0;
       if (property.charges) {
-        if (typeof property.charges === 'object') {
-          // Si charges est un objet avec electricity, water, maintenance, etc.
+        if (typeof property.charges === 'object' && property.charges !== null) {
+          // Additionner toutes les charges de l'objet
           const chargeSum = Object.values(property.charges).reduce((sum: number, charge: unknown) => {
-            return sum + (Number(charge) || 0);
+            const chargeValue = Number(charge) || 0;
+            console.log(`💸 Charge: ${chargeValue}€`);
+            return sum + chargeValue;
           }, 0);
           monthlyCharges = Number(chargeSum);
         } else {
-          // Si charges est un nombre simple
+          // Si c'est un nombre simple
           monthlyCharges = Number(property.charges) || 0;
         }
       }
@@ -89,6 +95,12 @@ export const PropertyDetailsModal = ({
       const profit = monthlyRevenue - monthlyCharges;
       const totalRooms = property.totalRooms || 1;
       const occupancyRate = Math.round((activeRoommates.length / totalRooms) * 100);
+      
+      console.log(`📊 Propriété: ${property.title}`);
+      console.log(`💰 Revenus totaux: ${monthlyRevenue}€`);
+      console.log(`💸 Charges totales: ${monthlyCharges}€`);
+      console.log(`📈 Bénéfice net: ${profit}€`);
+      console.log(`🏠 Occupation: ${activeRoommates.length}/${totalRooms} (${occupancyRate}%)`);
       
       return {
         revenue: monthlyRevenue,
@@ -99,12 +111,12 @@ export const PropertyDetailsModal = ({
         totalRooms
       };
     } else {
+      // Pour les propriétés non-colocation
       const monthlyRevenue = Number(property.rent) || 0;
       
-      // Calcul des charges selon le format de l'objet charges
       let monthlyCharges = 0;
       if (property.charges) {
-        if (typeof property.charges === 'object') {
+        if (typeof property.charges === 'object' && property.charges !== null) {
           const chargeSum = Object.values(property.charges).reduce((sum: number, charge: unknown) => {
             return sum + (Number(charge) || 0);
           }, 0);
