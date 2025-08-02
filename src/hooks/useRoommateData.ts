@@ -35,12 +35,12 @@ export const useRoommateData = (email: string | null) => {
     if (email === 'ruthmegha35@gmail.com') {
       const profile = {
         id: '1752971742587',
-        property: 'Appartement 15',
+        property: 'Appartement 13', // CORRIGER: était "Appartement 15" 
         moveInDate: '2024-02-01',
         name: 'Ruth MEGHA',
         image: null,
         phone: '0612345678',
-        rentAmount: 480,
+        rentAmount: 580, // CORRIGER: était 480€, maintenant 580€ comme attendu
         status: 'Actif',
         roomNumber: '3',
         primaryTenant: null,
