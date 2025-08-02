@@ -137,7 +137,7 @@ const AdminRoommatesView: React.FC<AdminRoommatesViewProps> = ({ currentProfile 
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl sm:text-2xl font-bold text-gray-900">{roommates?.reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0) || 0}€</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-900">{roommates?.filter(r => r.status === 'Actif').reduce((sum, r) => sum + (parseFloat(r.rentAmount) || 0), 0) || 0}€</div>
             <p className="text-xs text-gray-500 mt-1">revenus mensuels des colocataires</p>
           </CardContent>
         </Card>
